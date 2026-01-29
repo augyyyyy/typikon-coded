@@ -37,12 +37,27 @@ The **Liturgical Intelligence Engine** is a Python-based system designed to dyna
     ```
 
 ### Usage
+The engine can be used via the command line or as a Python library.
 
-The core engine can be invoked via the `ruthenian_engine.py` script or through specific generation scripts.
+#### CLI Generation
+The repository includes a robust generation script `generate_my_service.py` that accepts arguments for date, version, and external assets.
 
-#### generating a Service
+```bash
+# Interactive Mode
+python generate_my_service.py
 
-To generate a specific service (e.g., Vespers for a specific date):
+# Auto-Generate for a specific date
+python generate_my_service.py --date 2026-01-11
+
+# Test a different recension logic
+python generate_my_service.py --version other_tradition_2025
+
+# Load private assets (Plugin Architecture)
+python generate_my_service.py --date 2026-01-06 --external "C:/MyPrivateAssets"
+```
+
+#### Python Library Usage
+To generate a specific service programmatically:
 
 ```python
 from ruthenian_engine import RuthenianEngine
