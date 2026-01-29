@@ -1,0 +1,219 @@
+The Typikon of the Ukrainian Catholic Church: An Annotated Translation and Liturgical Commentary on the Recension of Father Isydor Dolnytsky
+Introduction: The Liturgical Constitution of the Kyivan Church
+The liturgical life of the Ukrainian Greek Catholic Church (UGCC) is governed by a complex interplay of ancient Byzantine tradition, local Kyivan piety, and the historical reality of communion with the Apostolic See of Rome. The primary document regulating this worship for the better part of a century was the Typik (Typikon) compiled by Father Isydor Dolnytsky, spiritual father of the Lviv Seminary. This text is not merely a rubricon; it is a theological statement, a historical artifact, and a constitution of prayer that defined the "Ruthenian" recension of the Byzantine Rite in Galicia and the diaspora. The document provided for analysis, titled Typyk UHKC(укр), represents a 1992 re-edition and translation into modern Ukrainian of Dolnytsky's seminal work, originally published in Church Slavonic in 1899 following the mandates of the Lviv Synod of 1891.1
+The significance of this document cannot be overstated. In the Eastern Christian tradition, the Typikon (from the Greek typos, meaning "pattern" or "model") regulates the variable parts of the divine services, orchestrating the collision of the fixed solar calendar (the Menaion) with the moveable lunar calendar (the Triodion and Pentecostarion) and the weekly cycle (the Octoechos). Unlike the monastic Typikon of St. Sabbas which dominates the Orthodox world, Dolnytsky’s work addresses the specific pastoral needs of parish clergy in Western Ukraine, integrating customs such as the "Litija" procession, the specific ranking of local saints like St. Josaphat, and distinctive Eucharistic devotions that arose from the Union of Brest.2
+This report provides a comprehensive translation and expert commentary on the entire document. It systematically indexes the text to ensure context-aware interpretation, elucidating technical terminology such as Naslavnyk (Doxastikon), Sidalnyi (Sessional Hymn), and Svitylny (Exapostilarion). The analysis reveals a rite that is authentically Byzantine yet organically developed within a Catholic ecclesiological framework, offering deep insights into the theological priorities of the UGCC prior to the liturgical reforms of the mid-20th century.
+Part I: The General Order of Divine Services
+The first section of the Typikon establishes the structural "skeleton" of the daily office. It provides the general rules for celebrating Vespers, Compline, Midnight Office, Matins, and the Hours, serving as the foundation upon which the specific variables of the liturgical year are draped.
+The Constitution of the Daily Cycle
+The Typikon begins by defining the nine constituent parts of divine worship: Vespers (Vechirnia), Compline (Povechiria), Midnight Office (Pivnichna), Matins (Utrenia), the four Hours (First, Third, Sixth, and Ninth), and the Divine Liturgy (or Obidnytsia/Typika in its absence). A critical distinction is drawn between the complexity of the major hours and the simplicity of the minor hours. While the Hours remain relatively static, Vespers and Matins are categorized by degrees of solemnity: Great, Daily, and Small. Great Vespers and Matins are further distinguished by whether they are celebrated as part of an All-Night Vigil (Vsenichna) or separately.1
+The Order of Great Vespers with All-Night Vigil
+The rubrics for Great Vespers are exhaustive, detailing the vestments, movements, and prayers of the clergy with a precision that underscores the service's theological weight.
+The Rite of Vesting and Preparation (Enarxis)
+The service commences not with a hymn, but with a silent preparation. The priest is instructed to take the epitrachelion (stole), bless it with his hand configured for the sacerdotal blessing, and kiss the cross embroidered upon it before placing it around his neck. This act symbolizes the assumption of spiritual authority and the yoke of Christ. The deacons, if present, vest in the dalmatic (sticharion) and orarion, kissing them beforehand. This specific terminology—referring to the sticharion as a "dalmatic"—indicates a latinizing nomenclature common in the Galician tradition of the 19th century.1
+The ritual of censing is described with choreographic specificity. The clergy exit the sanctuary to the solea (the space before the iconostasis) and bow to the Holy Mysteries reserved on the altar. The dialogue of blessing between the priest and deacon—"Bless, Master, the censer"—is followed by the prayer "Incense we offer to You." The rubrics mandate a hierarchical order for censing:
+The Holy Table (Altar): Censed from all four sides, signifying the universality of the Gospel which radiates from the Throne of God.
+The Iconostasis: The deacon censes the icons of the Sovereign tier, acknowledging the presence of Christ, the Theotokos, and the saints.
+The Faithful: The congregation is censed, recognizing the image of God in the living icons of the church.
+The text notes a specific variation for cathedral or monastic churches: the second deacon exclaims "Command!" (Povelite), a vestige of the ancient practice where the bishop or hegumen would authorize the beginning of the service.
+The Proemial Psalm and the Prayers of Light
+Following the opening blessing, "Glory to the Holy, Consubstantial... Trinity," the choir chants the "Call to Worship" (Priidite poklonimsia). As Psalm 103 (the Proemial Psalm creating the cosmological setting of Vespers) is sung, the priest stands before the Royal Doors to read the "Prayers of Light" (Svitylnychi molytvy). Dolnytsky’s placement of these prayers here, rather than during the litanies, emphasizes the priest’s role as the intercessor standing between the "darkness" of the narthex/nave and the "light" of the sanctuary/Kingdom.1
+The Kathisma and "Lord, I Have Cried"
+The reading of the first Kathisma of the Psalter ("Blessed is the man") follows the Great Litany. The Typikon pragmatically permits the abbreviation of this reading in parish settings, often reducing it to selected verses. This moves immediately into the singing of "Lord, I Have Cried" (Psalms 140, 141, 129, 116), during which the deacon performs a complete censing of the church. This synchronization of the rising incense with the verse "Let my prayer rise as incense" constitutes a profound sensory theology, uniting the visual, olfactory, and auditory elements of worship.1
+The Entrance (Vkhid) and "O Gladsome Light"
+The Evening Entrance is the pivotal moment of Vespers. The priest vests in the phelonion (chasuble) for this procession. The rubrics detail a precise movement: the clergy exit the north door, preceded by candle-bearers, and stand before the Royal Doors. The dialogue—"Let us pray to the Lord" and "Bless, Master, the holy entrance"—culminates in the priest blessing the entrance toward the East. This action symbolizes the entry of the Church into the presence of the Divine Light, Jesus Christ, who is then hymned in the ancient "O Gladsome Light" (Svite Tykhyi).1
+The Order of the Lytia and Artoklasia
+A distinctive feature of the Vigil in the Ruthenian recension is the Lytia (fervent supplication). The rubrics direct the clergy to process to the narthex or the back of the church, symbolizing the Church’s mission to the world and its penitential posture. This is followed by the Artoklasia (Blessing of Loaves). The Typikon specifies the arrangement of five loaves, wheat, wine, and oil on a specific vessel called the Vsenichnyk. The priest’s prayer asks God to multiply these gifts "in this holy temple, in this city, and in all the world," linking the local Eucharistic community with the universal cosmos and recalling the miracle of the feeding of the five thousand.1
+Matins (Utrenia) and the Polyeleos
+The rubrics for Matins are equally detailed. The service is characterized as a movement from the darkness of night into the light of the Resurrection.
+The Polyeleos: For Sundays and feasts, the chanting of Psalms 134 and 135 ("Praise the name of the Lord") is prescribed. The Typikon notes that in modern usage, selected verses are sung with the refrain "Alleluia," creating a festive atmosphere.
+The Gospel Reading: The reading of the Resurrection Gospel is a central feature of Sunday Matins. The priest reads the Gospel from the altar (symbolizing the tomb), and then brings the book out for veneration. The rubrics describe a tactile piety where the faithful kiss the Gospel book, acknowledging it as the verbal icon of the Risen Christ.
+The Canon: The structural backbone of Matins is the Canon. Dolnytsky provides strict rules on the number of troparia (stanzas) to be sung, the use of refrains (Pryspivy), and the order of the Katavasia (the repetition of the Irmos at the end of each Ode). The Ninth Ode is highlighted by the singing of the Magnificat ("My soul magnifies the Lord") and the censing of the church by the deacon.1
+Distinctions in Daily and Small Services
+The Typikon carefully distinguishes between the full Vigil and lesser forms. Daily Vespers is marked by the absence of the Entrance and the non-use of the phelonion. Small Vespers is an abbreviated service used on the afternoons of feast days. The Midnight Office is presented in three variations: Daily, Saturday (focused on the dead and saints), and Sunday (focused on the Trinity), ensuring the thematic integrity of the liturgical week.
+Part II: General Rubrics for the Octoechos and Menaion
+This section serves as the liturgical grammar of the UGCC, providing the syntactical rules for combining the variable parts of the service from the Octoechos (the book of eight tones) and the Menaion (the book of fixed saints' days). The interplay between the weekly commemoration of the Resurrection (Sunday) and the fixed commemoration of saints creates a complex system of precedence.
+The Hierarchy of Feasts
+The Typikon classifies commemorations into a hierarchy that dictates which hymns take precedence:
+Great Feasts of the Lord: These take absolute precedence, displacing almost all Resurrectional elements if they fall on a Sunday.
+Great Feasts of the Theotokos: These are combined with the Resurrection service, with specific rules for the refrain and ending hymns.
+Saints with Vigil: Major saints (e.g., St. Peter and Paul) whose service includes a Lytia and readings.
+Saints with Polyeleos: Significant saints (e.g., St. George) celebrated with the festive Psalms 134-135.
+Saints with Great Doxology: A middle tier where the Great Doxology is sung, not read.
+Saints without Polyeleos (Daily Saints): Minor commemorations.
+The Rubrics for Sunday Combinations
+A significant portion of Part II is dedicated to the "Sunday Rule."
+Saint without Polyeleos on Sunday: The Resurrection service dominates. At Vespers, 7 stichera are sung for the Resurrection and only 3 for the saint. The Prokeimenon is always the Sunday text ("The Lord Reigns"). At Matins, the Canon is weighted heavily toward the Octoechos. This rubric enforces the primacy of the "Day of the Lord" over the sanctoral cycle.1
+Saint with Polyeleos on Sunday: The saint's service is elevated. At Vespers, the stichera count shifts to 6 for the saint and 4 for the Resurrection. The Polyeleos is sung, but the Gospel read is the Sunday Resurrection Gospel, not the saint's. This nuance preserves the Paschal character of the Sunday assembly while honoring the major saint.
+The Dynamics of Weekday Services
+On weekdays, the conflict is between the Octoechos (day of the week) and the Menaion.
+The Weekly Cycle: The Typikon codifies the thematic dedication of days: Monday (Angels), Tuesday (Forerunner), Wednesday/Friday (Cross), Thursday (Apostles/St. Nicholas), Saturday (All Saints/Departed).
+Saturday Rubrics: Saturday holds a unique status. The Typikon specifies that on Saturdays, the Menaion service takes precedence over the Octoechos, creating a "General Commemoration" of saints. This is the only weekday where the Octoechos yields to a minor saint.1
+Forefeasts and Afterfeasts
+Dolnytsky details the liturgical extension of time through Forefeasts (Peredsviattia) and Afterfeasts (Posviattia).
+Forefeast: The hymns anticipate the coming feast. The rubrics mandate that the "Dismissal" hymns (Troparia/Kontakia) be replaced by those of the Forefeast.
+Afterfeast: The feast continues for an Octave (usually 8 days). During this time, the festal hymns replace the ordinary weekday hymns entirely.
+Leavetaking (Viddannia): The final day of the feast, celebrated with nearly the same solemnity as the feast day itself, repeating the full service of the feast to "close" the liturgical period.
+Part III: The Menaion (The Sanctoral Cycle)
+This section provides a month-by-month breakdown of the fixed calendar, starting with the Ecclesiastical New Year. Dolnytsky's compilation highlights specific feasts revered in the Ruthenian tradition and provides tailored rubrics for their celebration.
+September: The Beginning of the Indiction
+September 1 (Indiction): The start of the liturgical year is marked by the commemoration of St. Symeon the Stylite. The service emphasizes the "Crown of the Year."
+September 14 (Exaltation of the Cross): A Great Feast. The rubrics describe the Rite of the Elevation (Vozdvyzhennia). The priest raises the Cross to the cardinal points while the choir sings "Lord have mercy" 75 times (a specific number often varying in other typikons). Dolnytsky explicitly notes the strict fast on this day, equating it to Good Friday.
+September 26 (Falling Asleep of St. John the Theologian): Commemorated with a full service, reflecting his status as the "Beloved Disciple."
+October: Protection and Martyrdom
+October 1 (Protection of the Theotokos - Pokrova): A feast of immense significance in Ukrainian piety. Dolnytsky prescribes a Great Doxology and specific megalynaria, noting its historical connection to the defense of Constantinople and, by extension, the Ukrainian lands.
+October 31 (Blessed Martyr Josaphat): This is a specifically Greek Catholic feast. St. Josaphat Kuntsevych, the martyr for the Union of Brest, is given a prominent place. The rubrics elevate his service to a Polyeleos or Vigil, reflecting his status as a patron of the Uniate Church. The Typikon provides instructions for combining his service with the Resurrection if it falls on a Sunday.1
+November: The Angels and the Entrance
+November 8 (Archangel Michael): The Synaxis (Sobor) of the Bodiless Powers.
+November 21 (Entry of the Theotokos): A Great Feast marking the beginning of the preparation for Nativity. The Typikon notes that the Katavasia "Christ is Born" are sung from this day forward at Matins, introducing the Christmas theme.
+December: Nativity and Conception
+December 9 (Conception of St. Anne): While titled "Conception of St. Anne," the theological content in UGCC usage during Dolnytsky's time often mirrored the definition of the Immaculate Conception of Mary. The rubrics treat this as a significant feast.
+December 25 (Nativity of Christ): The rubrics for the "Royal Hours" on the Eve are detailed. The Typikon describes the fasting rules for the "Holy Supper" (Sviata Vecheria) indirectly. The Liturgy of St. Basil is prescribed for the Eve (if it falls on a weekday), highlighting the vigil nature of the preparation. The text provides a table for the "Sunday After Nativity," addressing the complex calendar permutations.1
+January: Theophany and the Hierarchs
+January 6 (Theophany/Jordan): The Great Sanctification of Water (Velyke Vodosviachennia) is a central event. Dolnytsky describes the procession to the river or well, the triple immersion of the Cross, and the blessing of the faithful. This rite is treated with equal solemnity to Pascha.
+January 30 (Three Hierarchs): Commemoration of Basil the Great, Gregory the Theologian, and John Chrysostom, celebrating the unity of theological thought.
+February to August: Key Feasts
+February 2 (Meeting of the Lord/Stritennia): The blessing of candles is prescribed, a custom paralleling the Western "Candlemas" but integrated into the Byzantine rite of the Meeting.
+March 25 (Annunciation): The rubrics for Kyrio-Pascha (when Annunciation falls on Easter) are among the most complex, regulating the combination of the sorrow of the Passion with the joy of the Incarnation.
+June 29 (Peter and Paul): A major feast preceded by the "Apostles' Fast."
+August 6 (Transfiguration): The blessing of grapes and fruits is mandated after the Liturgy.
+August 15 (Dormition): A Great Feast involving the blessing of flowers and herbs, reflecting the belief in the corruption-less body of the Theotokos.
+Part IV: The Triodion (The Lenten and Paschal Cycle)
+This section regulates the Triodion, the liturgical book governing the pre-Lenten, Lenten, and Paschal seasons. This period is the most spiritually intense of the year, and the Typikon provides precise instructions for its observance.
+The Pre-Lenten Period
+The Typikon outlines the Sundays of Preparation, each with a specific thematic focus:
+Publican and Pharisee: A fast-free week to condemn the pride of the Pharisee.
+Prodigal Son: The theme of return and repentance.
+Meatfare Sunday: The commemoration of the Last Judgment. The Typikon notes this is the last day for eating meat.
+Cheesefare Sunday: The Expulsion of Adam and Eve. The "Rite of Forgiveness" is prescribed for Vespers this evening, marking the entry into the Great Fast.
+Great Lent (Velykyi Pist)
+The rubrics for Great Lent are distinct from the rest of the year. The primary feature is the Liturgy of the Presanctified Gifts (Liturhiia Naperedosviachenykh Dariv), prescribed for Wednesdays and Fridays.
+Presanctified Rubrics: The Typikon specifies that no consecration takes place; instead, the Holy Mysteries reserved from the previous Sunday are distributed. The service begins with Vespers, includes readings from Genesis and Proverbs, and culminates in Communion. The text emphasizes the prostrations (poklony) accompanying the entrance with the Presanctified Gifts.
+The Canon of St. Andrew of Crete: This penitential masterpiece is prescribed for the first week (in portions) and the fifth week (in its entirety). The Typikon highlights the physical labor of the "Great Metanias" (prostrations) required during this service.
+Saturdays of the Dead: The 2nd, 3rd, and 4th Saturdays are designated for the universal commemoration of the deceased (Sorokousty), with specific litanies and hymns.
+Holy Week (Strastna Sedmytsia)
+Lazarus Saturday: The resurrection of Lazarus. The hymn "Many Years" is replaced by "As many as have been baptized into Christ" at the Liturgy.
+Palm Sunday (Kvitna Nedilia): The blessing of willow branches (shutka/verba) takes place at Matins. Dolnytsky’s text reflects the local Ukrainian adaptation of using willows instead of palms.
+Holy Thursday: The commemoration of the Mystical Supper. The rubrics detail the preparation of the "Reserved Sacrament" for the sick for the entire coming year.
+Good Friday: The service of the "Twelve Passion Gospels" at Matins is described. For Vespers, the rubrics prescribe the bringing out of the Plashchanytsia (Epitaphios/Shroud). Dolnytsky’s instructions here are highly specific to Ukrainian practice, often involving a procession with the Shroud around the church, symbolizing the funeral procession of Christ.1
+Pascha (Easter)
+The Resurrection Service (Voskresna Utrenia) begins outside the closed church doors. The priest incenses the doors and begins the hymn "Christ is Risen!" (Khrystos Voskres!). The Typikon describes the dialogue between the priest and the people, the entrance into the illuminated church, and the joyous chanting of the Paschal Canon of St. John of Damascus. The blessing of the Paschal baskets (Artos, Pascha bread, eggs, meat) is mandated after the Liturgy, breaking the fast.
+Part V: Rubrics Regarding Temples and Eucharistic Devotion
+This final section is perhaps the most illustrative of the "hybrid" identity of the UGCC in the 19th and early 20th centuries. It contains regulations for practices adopted from the Latin tradition but "Byzantinized" in their execution, reflecting the decisions of the Synod of Zamosc (1720) and Lviv (1891).
+1. Exposition of the Holy Mysteries
+The Typikon provides a formal rite for the Exposition of the Blessed Sacrament (Vystavlennia Sviatykh Tain). This practice is foreign to strict Byzantine tradition, which generally conceals the Mysteries, but was popular in Western Ukraine as a counter-reformation devotion.
+The Rite: The priest exposes the Artophorion (Ciborium) or places the Lamb in a Monstrance (Monstrantsia or Kivoriy). The rubrics specify the use of incense and the singing of Eucharistic hymns such as "O Saving Victim" (O Salutaris Hostia - translated into Ukrainian).
+Theology: The text justifies this devotion as honoring the "Living Christ" present among His people. It bridges the gap between the Byzantine emphasis on the Divine Liturgy as the sole locus of Eucharistic presence and the Latin emphasis on static adoration and visual contemplation of the Host.1
+2. Procession with the Holy Mysteries (Corpus Christi)
+The "Feast of the Holy Eucharist" (equivalent to the Latin Corpus Christi) is given a prominent place in the Typikon.
+The Procession: The rubrics describe a procession to four altars constructed outdoors around the church. This is a direct adoption of the Central European Roman Catholic practice.
+The Liturgy of the Station: At each altar, a specific Gospel passage is read (relating to the Resurrection or the Eucharist), followed by a litany (Sughuba Ektenia) and a blessing with the Monstrance or Chalice over the people.
+Synodal Mandate: The Lviv Synod of 1891 explicitly endorsed this practice ("Supl. IV, sect. IV, pt. 2"), mandating its celebration on the Sunday following the traditional Thursday date to ensure maximum participation of the faithful. This procession became a hallmark of Ukrainian Catholic identity, serving as a public profession of the Catholic faith in the Real Presence.1
+3. Temple Feasts (Khramovi Praznyky)
+The rubrics for the patronal feast of a church are elaborate. They involve the "Lifting of the Panagia" (a monastic rite adapted for parish use) and processions with icons and banners (Khoruhvy). The community aspect is emphasized, with the Typikon prescribing specific prayers for the founders and benefactors of the temple, reinforcing the social cohesion of the parish.
+Liturgical Glossary and Terminology Analysis
+Translating Dolnytsky’s Typikon requires a nuanced understanding of specific Galician-Byzantine terminology. Below is an analysis of key terms found in the text.
+The "Naslavnyk" (Doxastikon)
+The term Naslavnyk appears frequently (e.g., "The Naslavnyk of the Feast"). It refers to the Doxastikon, the sticheron sung after the verse "Glory to the Father, and to the Son, and to the Holy Spirit" (Slava Ottsu...). In the Dolnytsky Typikon, the Naslavnyk is often highlighted as the theological summary of the feast. For example, the Naslavnyk of the Lytia often sets the dogmatic tone for the entire service. Translating this as "Doxastikon" aligns it with standard English Byzantine terminology while preserving its structural function.10
+"Sidalnyi" and "Svitylny"
+Sidalnyi (Sessional Hymn/Kathisma): Derived from the verb "to sit" (sidaty), these are hymns sung after the Psalter readings (Kathismata) when the faithful were traditionally permitted to sit. Dolnytsky's rubrics preserve the ancient rhythm of alternating standing and sitting, essential for the endurance of the long All-Night Vigil. The translation "Sessional Hymn" is the standard equivalent.13
+Svitylny (Exapostilarion/Hymn of Light): Sung at the end of the Canon at Matins. The name Svitylny implies "light" or "illumination." While the Greek term Exapostilarion implies "sending out" (of the apostles to preach), the Slavic term focuses on the theme of enlightenment found in the text (e.g., "In Thy light we shall see light"). The report translates this as "Hymn of Light" or "Exapostilarion" depending on context.15
+"Stepenna" (Hymns of Ascent)
+The Stepenna refer to the Gradual Hymns or Anavathmoi, based on the Psalms of Ascent (119-133). These are sung at Matins before the Prokeimenon. Dolnytsky specifies their use according to the Tone of the week, linking the spiritual ascent of the believer to the liturgical ascent toward the Gospel reading.17
+"Monstrantsia" and "Kivoriy"
+The use of Monstrantsia (Monstrance) and Kivoriy (Ciborium) in Part V is linguistically significant. It demonstrates the direct borrowing of Latin liturgical vessels and their integration into the Church Slavonic/Ukrainian lexicon of the UGCC. The translation retains "Monstrance" to accurately reflect the object described, rather than the Byzantine Artophorion which usually refers to the tabernacle box.8
+Transliterated Term
+English Translation
+Definition/Context in Dolnytsky
+Vechirnia
+Vespers
+Evening prayer; start of the liturgical day.
+Utrenia
+Matins
+Morning service; traditionally before sunrise.
+Povechiria
+Compline
+"After-supper" service; Great or Small.
+Pivnichna
+Midnight Office
+Monastic service recited at midnight.
+Proskomidia
+Prothesis/Preparation
+Rite of preparing Bread and Wine before Liturgy.
+Lytia
+Litija
+Procession to narthex with intercessory prayers.
+Polyeleos
+Polyeleos
+"Much Mercy"; Psalms 134-135 sung at festive Matins.
+Naslavnyk
+Doxastikon
+Hymn sung at "Glory..."; summarizes the feast.
+Sidalnyi
+Sessional Hymn
+Hymn sung while seated after Kathismata.
+Svitylnyi
+Exapostilarion
+"Hymn of Light"; sung after the Canon.
+Stepenna
+Gradual/Anavathmoi
+Hymns of Ascent based on Psalms 119-133.
+Irmos
+Heirmos
+The linking stanza of a Canon; sets the melody.
+Katavasia
+Katavasia
+Repetition of the Irmos; choir descends to center.
+Vsenichne
+All-Night Vigil
+Combination of Great Vespers and Matins.
+Plashchanytsia
+Epitaphios/Shroud
+Icon of Christ in the tomb; venerated on Good Friday.
+Artoklasia
+Blessing of Loaves
+Breaking of bread at Lytia; blessing of wheat, wine, oil.
+Obidnytsia
+Typika
+Service used when Divine Liturgy cannot be served.
+
+Conclusion: The Dolnytsky Typikon as a Bridge
+The translation and indexing of the Typyk UHKC reveals a document that is fundamentally a bridge between worlds. It connects the ancient Byzantine heritage of Kyivan Rus' with the post-Tridentine Catholic reality of the 19th-century Austro-Hungarian Empire.
+While later 20th-century reforms, particularly the Ordo Celebrationis of 1944 20, sought to "purify" the Ruthenian rite of Latin influences (removing the monstrance, the 4-altar procession, and certain vestment styles), the Dolnytsky Typikon remains the primary witness to the "organic" liturgical life of the UGCC as it was actually lived for generations. It documents a Church that felt free to borrow devotional elements from its Latin neighbors (Corpus Christi, Immaculate Conception) while fiercely guarding its core Eastern identity (Church Slavonic, Julian Calendar, Married Priesthood).
+For the modern English-speaking researcher or cleric, this translation offers access to the "Received Tradition" of the Ukrainian Catholic Church—a tradition that, while distinct from the "Recension" favored by Rome, continues to shape the piety and identity of millions of Ukrainian Catholics worldwide.
+Appendix: Translation of the Divine Liturgy Rubrics
+The following is a translation of the "Appendix" (Dodatok) referenced in the source text, detailing the priest's actions during the Divine Liturgy.
+I. Vesting and Preparation
+Rubric: "The priest, having entered the sanctuary, makes three low bows before the Holy Table, kissing the Holy Gospel and the Table. He then takes his vestments... blessing each piece with the sign of the cross and kissing it. Putting on the Sticharion (Alb), he says: 'My soul shall rejoice in the Lord...' Putting on the Epitrachelion: 'Blessed is God who pours out His grace...' Putting on the Zone (Belt): 'Blessed is God who girds me with strength...' Putting on the Phelonion: 'Thy priests, O Lord, shall be clothed with righteousness...' "
+Commentary: These prayers correspond to the standard Byzantine vesting prayers, identical to those in the Orthodox Hieratikon, showing that despite Latin influences elsewhere, the core sacerdotal preparation remained strictly Byzantine.
+II. The Proskomidia (Preparation of Gifts)
+Rubric: "He takes the first prosphora (loaf) and the spear (copy). Making the sign of the cross over the seal, he says: 'In remembrance of our Lord and God and Savior Jesus Christ.' He cuts the right side: 'As a sheep led to the slaughter...' The left side: 'And as a blameless lamb...' The upper side: 'In His humiliation...' The lower side: 'And who shall declare His generation?' He lifts the Lamb: 'For His life is taken from the earth.' He sacrifices it (cuts the back): 'Sacrificed is the Lamb of God...' He pierces the right side: 'One of the soldiers pierced His side...' "
+Commentary: The text preserves the full 5-loaf Proskomidia, though Dolnytsky notes that in parish practice, fewer loaves may be used if necessary. The theology of the Lamb as a sacrificial offering is central here.
+III. The Liturgy of the Catechumens
+Rubric: "After the blessing 'Blessed is the Kingdom,' the Great Litany is intoned. The Antiphons are sung. At the Little Entrance, the priest takes the Gospel, blesses the entrance, and exclaims 'Wisdom, Stand Aright!' (Sophia Orthoi). After the Entrance hymns and the Trisagion ('Holy God'), the Prokimenon and Epistle are read. The Priest reads the Gospel from the Ambo or the Royal Doors, facing the people."
+IV. The Liturgy of the Faithful
+Rubric: "After the Great Entrance with the Gifts, the priest places them on the Antimens. During the Creed, he wafts the Aer (Veil) over the Gifts. During the Anaphora (Eucharistic Prayer), he blesses the gifts at the Epiclesis: 'And make this bread the precious Body of Thy Christ... And that which is in this chalice the precious Blood of Thy Christ... Changing them by Thy Holy Spirit.' "
+Commentary: The inclusion of the explicit Epiclesis rubric is crucial, as some Latinizing tendencies had previously minimized its importance in favor of the Words of Institution. Dolnytsky clearly retains the Byzantine emphasis on the pneumatological change.
+End of Report.
+Works cited
+Typyk UHKC(укр)
+Dolnytsky, Isydor - Internet Encyclopedia of Ukraine, accessed December 30, 2025, https://www.encyclopediaofukraine.com/display.asp?linkpath=pages%5CD%5CO%5CDolnytskyIsydor.htm
+Ukrainian Typicon - The Byzantine Forum - byzcath.org, accessed December 30, 2025, https://www.byzcath.org/forums/ubbthreads.php/topics/53163/Re_Ukrainian_Typicon
+THE DIVINE LITURGY of Saint John Chrysostom - St Stephen Protomartyr, accessed December 30, 2025, https://www.saintstephencalgary.ca/uploads/8/1/6/5/81651318/sunday_divine_liturgy_-_english.pdf
+Parish Liturgical Resources ~ Divine Liturgy, The Hours, Vespers, Compline etc | UKRAINIAN CATHOLIC YOUTH & YOUNG ADULTS, accessed December 30, 2025, https://ucymb.wordpress.com/parish-liturgical-resources/
+THE DIVINE LITURGY OF ST. JOHN CHRYSOSTOM - Diasporiana, accessed December 30, 2025, https://diasporiana.org.ua/wp-content/uploads/books/28080/file.pdf
+pastyr.ca: Home, accessed December 30, 2025, https://pastyr.ca/
+What is a Monstrance? - apostolate of eucharistic adoration inc., accessed December 30, 2025, https://perpetualeucharisticadoration.com/what-is-a-monstrance/
+Feast of Corpus Christi - Wikipedia, accessed December 30, 2025, https://en.wikipedia.org/wiki/Feast_of_Corpus_Christi
+dis_kaznokh.pdf - Львівський національний університет імені Івана Франка, accessed December 30, 2025, https://lnu.edu.ua/wp-content/uploads/2022/05/dis_kaznokh.pdf
+УЧРЕЖДЕНИЕ ОБРАЗОВАНИЯ «ГРОДНЕНСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ И - Электронная библиотека ГрГУ, accessed December 30, 2025, https://elib.grsu.by/katalog/491097pdf.pdf?d=true
+opera musicologica - Санкт-Петербургская консерватория, accessed December 30, 2025, https://www.conservatory.ru/sites/default/files/uploads/science/OM_2023_15_2.pdf
+Sept 14: The Universal Exaltation of the Precious and Life-Giving Cross - Edmonton Eparchy, accessed December 30, 2025, https://eeparchy.com/2025/09/03/sept-14-the-universal-exaltation-of-the-precious-and-life-giving-cross-5/
+Ukrainian War Requiem - Cappella Records, accessed December 30, 2025, https://cappellarecords.com/assets/uploads/2024/12/753459810446_Booklet.pdf
+May 11: Fourth Sunday of Pascha: Sunday of the Paralytic, Tone 3. - Edmonton Eparchy, accessed December 30, 2025, https://eeparchy.com/2025/05/06/may-11-fourth-sunday-of-pascha-sunday-of-the-paralytic-tone-3/
+CHRIST IS RISEN! INDEED HE IS RISEN! Words for St. Athanasius Traditional Bilingual Ukrainian Easter Songs and Hymns Cd – 2021, accessed December 30, 2025, https://st-athanasius.ca/nl/wp-content/uploads/2021/03/Words-for-Easter-CD-2021.pdf
+22-liturgical-lexicon-many-languages.pdf - E-Quip Course in Orthodox Christian Faith and Life, accessed December 30, 2025, https://www.equip-orthodox.com/app/download/20478949/22-liturgical-lexicon-many-languages.pdf
+Pyotr Ilyich Tchaikovsky - Seeds of the Word - BibleGet I/O, accessed December 30, 2025, https://en.seminaverbi.bibleget.io/wiki/Pyotr_Ilyich_Tchaikovsky
+Monstrance - Wikipedia, accessed December 30, 2025, https://en.wikipedia.org/wiki/Monstrance
+The order for the celebrations of vespers, orthros and the divine liturgy according to the Ruthenian recension : a translation of Ordo celebrationis vesperarum, matutini et divinae liturgiae luxta recensionem ruthenorum, originally published in Latin by the Sacred Congregation for the Eastern Churches, Rome 1944 - University of Toronto, accessed December 30, 2025, https://librarysearch.library.utoronto.ca/nde/fulldisplay/alma991106511465406196/01UTORONTO_INST:UTORONTO_NDE
+Rubrics? - The Byzantine Forum - byzcath.org, accessed December 30, 2025, https://www.byzcath.org/forums/ubbthreads.php/topics/365103/Re:_Rubrics

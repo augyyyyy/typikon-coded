@@ -1,0 +1,322 @@
+{
+  "file_metadata": {
+    "filename": "01g_struct_midnight.json",
+    "version": "2.0 (Holy Saturday Patch)",
+    "last_updated": "2025-01-30",
+    "authority": "Dolnytsky Typikon Parts I & IV",
+    "scope": "Midnight Office (All Variants)",
+    "description": "Defines the structure of the Midnight Office. Updated to include the unique Holy Saturday variant, featuring the Tomb Canon and the Shroud removal rite."
+  },
+  "structures": {
+    "midnight_daily": {
+      "title_key": "titles.midnight_daily",
+      "source_ref": "dolnytsky_part1_midnight_daily",
+      "sequence": [
+        {
+          "id": "opening_blessing",
+          "section_key": "sections.beginning",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.blessing_common"
+          }
+        },
+        {
+          "id": "trisagion_prayers",
+          "section_key": "sections.beginning",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_block"
+          }
+        },
+        {
+          "id": "psalm_50",
+          "section_key": "sections.psalmody",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "psalm_50"
+          }
+        },
+        {
+          "id": "kathisma_17",
+          "section_key": "sections.psalmody",
+          "rubric": {
+            "key": "rubrics.midnight.kathisma_17_rule",
+            "variables": {
+              "part": "entire"
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "psalm_118_blameless"
+          }
+        },
+        {
+          "id": "creed",
+          "section_key": "sections.creed",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.creed"
+          }
+        },
+        {
+          "id": "trisagion_prayers_2",
+          "section_key": "sections.trisagion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_block"
+          }
+        },
+        {
+          "id": "troparia_block",
+          "section_key": "sections.troparia",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_midnight_troparia",
+              "args": {
+                "type": "daily"
+              }
+            },
+            "fallback_ref": "horologion.troparia_midnight_bridegroom_block"
+          }
+        },
+        {
+          "id": "prayer_hours_thou_who",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.prayer_hours_thou_who"
+          }
+        },
+        {
+          "id": "closing_prayer",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_midnight_prayer"
+            }
+          }
+        },
+        {
+          "id": "part_ii_block",
+          "section_key": "sections.part_ii_repose",
+          "sequence": [
+            {
+              "id": "part_ii_intro",
+              "content": {
+                "type": "fixed_ref",
+                "ref_key": "horologion.invitatory_3x"
+              }
+            },
+            {
+              "id": "psalms_ascent",
+              "content": {
+                "type": "fixed_group",
+                "ref_keys": [
+                  "psalm_120",
+                  "psalm_133"
+                ]
+              }
+            },
+            {
+              "id": "trisagion_part_ii",
+              "content": {
+                "type": "fixed_ref",
+                "ref_key": "horologion.trisagion_block"
+              }
+            },
+            {
+              "id": "troparia_repose",
+              "content": {
+                "type": "fixed_group",
+                "ref_keys": [
+                  "horologion.trop_repose_remember_o_lord",
+                  "horologion.trop_repose_mother_holy"
+                ]
+              }
+            },
+            {
+              "id": "prayer_dead",
+              "content": {
+                "type": "fixed_ref",
+                "ref_key": "horologion.prayer_remember_fathers_brethren"
+              }
+            },
+            {
+              "id": "absolution_dead",
+              "content": {
+                "type": "fixed_ref",
+                "ref_key": "horologion.prayer_absolution_dead"
+              }
+            }
+          ]
+        },
+        {
+          "id": "prayer_st_ephrem",
+          "section_key": "sections.conclusion",
+          "condition": "if_lenten",
+          "rubric": {
+            "key": "rubrics.lenten.prayer_ephrem_16",
+            "variables": {
+              "count": 16
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.prayer_st_ephrem"
+          }
+        },
+        {
+          "id": "dismissal",
+          "section_key": "sections.dismissal",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.dismissal_small_with_litany"
+          }
+        }
+      ]
+    },
+    "midnight_saturday": {
+      "title_key": "titles.midnight_saturday",
+      "source_ref": "dolnytsky_part1_midnight_saturday",
+      "inherits_from": "midnight_daily",
+      "overrides": [
+        {
+          "target_id": "kathisma_17",
+          "action": "replace",
+          "new_component": {
+            "id": "kathisma_9",
+            "section_key": "sections.psalmody",
+            "content": {
+              "type": "fixed_ref",
+              "ref_key": "kathisma_9"
+            }
+          }
+        },
+        {
+          "target_id": "troparia_block",
+          "action": "modify",
+          "logic_args": {
+            "type": "saturday"
+          }
+        },
+        {
+          "target_id": "part_ii_block",
+          "action": "delete"
+        }
+      ]
+    },
+    "midnight_sunday": {
+      "title_key": "titles.midnight_sunday",
+      "source_ref": "dolnytsky_part1_midnight_sunday",
+      "inherits_from": "midnight_daily",
+      "overrides": [
+        {
+          "target_id": "kathisma_17",
+          "action": "replace",
+          "new_component": {
+            "id": "triadic_canon",
+            "section_key": "sections.canon",
+            "rubric": {
+              "key": "rubrics.midnight.triadic_canon_tone"
+            },
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_triadic_canon"
+              }
+            }
+          }
+        },
+        {
+          "target_id": "troparia_block",
+          "action": "modify",
+          "logic_args": {
+            "type": "sunday"
+          }
+        },
+        {
+          "target_id": "part_ii_block",
+          "action": "delete"
+        }
+      ]
+    },
+    "midnight_holy_saturday": {
+      "title_key": "titles.midnight_holy_saturday",
+      "source_ref": "dolnytsky_part4_great_saturday_midnight",
+      "sequence": [
+        {
+          "id": "opening_blessing",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.blessing_common"
+          }
+        },
+        {
+          "id": "trisagion_prayers",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_block"
+          }
+        },
+        {
+          "id": "psalm_50",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "psalm_50"
+          }
+        },
+        {
+          "id": "tomb_canon",
+          "section_key": "sections.canon",
+          "source_ref": "dolnytsky_part4_great_saturday_midnight_para2",
+          "rubric": {
+            "key": "rubrics.passion.canon_tomb_standing"
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.canon_tomb_complete"
+          }
+        },
+        {
+          "id": "shroud_removal_rite",
+          "section_key": "sections.shroud",
+          "source_ref": "dolnytsky_part4_great_saturday_midnight_para5",
+          "rubric": {
+            "key": "rubrics.passion.shroud_transfer_to_altar"
+          },
+          "content": {
+            "type": "sequence",
+            "components": [
+              {
+                "id": "trisagion_final",
+                "type": "fixed_ref",
+                "ref_key": "horologion.trisagion_block"
+              },
+              {
+                "id": "troparion_descend",
+                "type": "fixed_ref",
+                "ref_key": "triodion.troparion_when_thou_didst_descend"
+              },
+              {
+                "id": "shroud_action",
+                "type": "fixed_action",
+                "action": "bishop_hangs_shroud_over_high_place"
+              }
+            ]
+          }
+        },
+        {
+          "id": "dismissal_holy_saturday",
+          "section_key": "sections.dismissal",
+          "rubric": {
+            "key": "rubrics.passion.vesting_in_bright"
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.dismissal_great_saturday"
+          }
+        }
+      ]
+    }
+  }
+}

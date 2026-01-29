@@ -1,0 +1,427 @@
+{
+  "file_metadata": {
+    "filename": "01j_struct_liturgy.json",
+    "version": "3.0 (Dolnytsky Role Injection)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part I, II & IV",
+    "scope": "Divine Liturgy Matrix",
+    "description": "Defines the structural matrix for the Divine Liturgy with role-based rubrics derived directly from Dolnytsky."
+  },
+  "structures": {
+    "liturgy_chrysostom": {
+      "title_key": "titles.liturgy_chrysostom",
+      "source_ref": "Dolnytsky I: Appendix V",
+      "sequence": [
+        {
+          "id": "prothesis",
+          "section_key": "sections.prothesis",
+          "rubric": {
+            "title": "The Prothesis (Preparation)",
+            "source_ref": "Dolnytsky IV:385",
+            "roles": {
+              "priest": "Prepare the Lamb. On Sundays and Feasts, cut the Lamb for the communicants. On Holy Thursday, prepare two Lambs (one for Presanctified).",
+              "deacon": "Pour wine and water into the Chalice. Cover the Gifts."
+            }
+          },
+          "content": {
+            "type": "component_ref",
+            "ref_key": "components.prothesis_rite"
+          }
+        },
+        {
+          "id": "opening_blessing",
+          "section_key": "sections.beginning",
+          "state_change": {
+            "doors": "open",
+            "curtain": "open"
+          },
+          "rubric": {
+            "title": "The Opening",
+            "roles": {
+              "deacon": "Exclaim 'Bless, Master!'",
+              "priest": "Lift the Gospel Book. Make the sign of the Cross over the Antimension. Exclaim 'Blessed is the Kingdom...'"
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "liturgikon.blessing_kingdom"
+          }
+        },
+        {
+          "id": "great_litany",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_great"
+          }
+        },
+        {
+          "id": "antiphons_block",
+          "section_key": "sections.hymns",
+          "rubric": {
+            "title": "The Antiphons",
+            "source_ref": "Dolnytsky II:102",
+            "roles": {
+              "choir": "Sing the First Antiphon (or Typical Psalms).",
+              "deacon": "Stand at the usual place. Exclaim the Small Litany between Antiphons."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_liturgy_antiphons"
+            }
+          }
+        },
+        {
+          "id": "little_entrance",
+          "section_key": "sections.entrance",
+          "rubric": {
+            "title": "The Little Entrance",
+            "roles": {
+              "priest": "Recite the Prayer of the Entrance silently. Bless the Entrance.",
+              "deacon": "Carry the Gospel Book. Exclaim 'Wisdom, Upright!'",
+              "subdeacon": "Precede the Gospel with candles."
+            }
+          },
+          "content": {
+            "type": "component_ref",
+            "ref_key": "components.little_entrance_rite"
+          }
+        },
+        {
+          "id": "troparia_kontakia_block",
+          "rubric": {
+            "title": "Troparia and Kontakia",
+            "note": "Sung according to the order of precedence (Temple, Day, Patron)."
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_liturgy_hymns"
+            }
+          }
+        },
+        {
+          "id": "trisagion_module",
+          "section_key": "sections.trisagion",
+          "rubric": {
+            "title": "The Trisagion",
+            "roles": {
+              "priest": "Recite the Prayer of the Trisagion silently."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_trisagion_type"
+            },
+            "fallback_ref": "horologion.trisagion"
+          }
+        },
+        {
+          "id": "readings_block",
+          "section_key": "sections.readings",
+          "rubric": {
+            "title": "The Readings",
+            "roles": {
+              "reader": "Intone the Prokeimenon. Read the Epistle.",
+              "deacon": "Cense the Altar and People during the Alleluia. Read the Gospel from the Ambo.",
+              "priest": "Sit during the Epistle. Stand for the Gospel."
+            }
+          },
+          "sequence": [
+            {
+              "id": "prokeimenon",
+              "type": "slot_variable",
+              "slot_id": "liturgy_prokeimenon"
+            },
+            {
+              "id": "epistle",
+              "type": "slot_variable",
+              "slot_id": "liturgy_epistle"
+            },
+            {
+              "id": "alleluia",
+              "type": "slot_variable",
+              "slot_id": "liturgy_alleluia"
+            },
+            {
+              "id": "gospel",
+              "type": "slot_variable",
+              "slot_id": "liturgy_gospel"
+            }
+          ]
+        },
+        {
+          "id": "litanies_catechumens",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "liturgikon.litanies_catechumens"
+          }
+        },
+        {
+          "id": "cherubic_hymn_block",
+          "section_key": "sections.great_entrance",
+          "rubric": {
+            "title": "Cherubic Hymn",
+            "roles": {
+              "priest": "Recite the Prayer of the Cherubic Hymn silently.",
+              "deacon": "Cense the Altar, Icons, and People (Psalm 50)."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_cherubic_hymn"
+            },
+            "fallback_ref": "liturgikon.cherubic_hymn_standard"
+          }
+        },
+        {
+          "id": "great_entrance",
+          "rubric": {
+            "title": "The Great Entrance",
+            "roles": {
+              "deacon": "Carry the Diskos (on head or in hands). Exclaim commemorations.",
+              "priest": "Carry the Chalice. Exclaim commemorations.",
+              "subdeacon": "Hold the Aer and censer."
+            }
+          },
+          "content": {
+            "type": "component_ref",
+            "ref_key": "components.great_entrance_rite"
+          }
+        },
+        {
+          "id": "anaphora_block",
+          "section_key": "sections.anaphora",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "liturgikon.anaphora_chrysostom"
+          }
+        },
+        {
+          "id": "megalynarion_block",
+          "section_key": "sections.hymns",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_liturgy_megalynarion"
+            },
+            "fallback_ref": "horologion.axion_estin"
+          }
+        },
+        {
+          "id": "lords_prayer",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.our_father"
+          }
+        },
+        {
+          "id": "communion_module",
+          "section_key": "sections.communion",
+          "rubric": {
+            "title": "Communion",
+            "roles": {
+              "priest": "Break the Lamb. Commune himself and the Deacon.",
+              "deacon": "Exclaim 'With fear of God...'",
+              "choir": "Sing 'Receive the Body of Christ'."
+            }
+          },
+          "sequence": [
+            {
+              "id": "communion_hymn",
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_communion_hymn"
+              }
+            },
+            {
+              "id": "communion_distribution",
+              "type": "component_ref",
+              "ref_key": "components.communion_rite"
+            }
+          ]
+        },
+        {
+          "id": "post_communion",
+          "sequence": [
+            {
+              "id": "we_have_seen_light",
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_post_communion_hymn"
+              }
+            },
+            {
+              "id": "ambo_prayer",
+              "type": "fixed_ref",
+              "ref_key": "liturgikon.ambo_prayer"
+            }
+          ]
+        },
+        {
+          "id": "dismissal",
+          "rubric": {
+            "title": "The Dismissal",
+            "source_ref": "Dolnytsky II:102",
+            "roles": {
+              "priest": "Bless the people with the Hand Cross (if Sunday/Feast) or hand (Weekday).",
+              "choir": "Sing 'Amen' and 'Eis polla eti despota'."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_liturgy_dismissal"
+            }
+          }
+        }
+      ]
+    },
+    "liturgy_basil": {
+      "title_key": "titles.liturgy_basil",
+      "source_ref": "Dolnytsky I: Appendix V",
+      "inherits_from": "liturgy_chrysostom",
+      "overrides": [
+        {
+          "target_id": "anaphora_block",
+          "action": "replace",
+          "new_component": {
+            "id": "basil_anaphora",
+            "rubric": {
+              "title": "Anaphora of St. Basil",
+              "note": "Prayers are longer. Choir must sing responses slowly."
+            },
+            "content": {
+              "type": "fixed_ref",
+              "ref_key": "liturgikon.anaphora_basil"
+            }
+          }
+        },
+        {
+          "target_id": "megalynarion_block",
+          "action": "replace",
+          "new_component": {
+            "id": "in_thee_rejoiceth",
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_basil_megalynarion"
+              },
+              "fallback_ref": "horologion.in_thee_rejoiceth"
+            }
+          }
+        }
+      ]
+    },
+    "liturgy_presanctified": {
+      "title_key": "titles.liturgy_presanctified",
+      "source_ref": "Dolnytsky IV: Lenten Presanctified",
+      "sequence": [
+        {
+          "id": "vespers_portion",
+          "type": "link",
+          "target_file": "01h_struct_vespers.json",
+          "target_id": "presanctified_vespers"
+        },
+        {
+          "id": "litany_fervent",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_fervent"
+          }
+        },
+        {
+          "id": "litanies_catechumens_photizomenoi",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_photizomenoi_litany"
+            }
+          }
+        },
+        {
+          "id": "great_entrance_presanctified",
+          "rubric": {
+            "title": "Great Entrance (Presanctified)",
+            "source_ref": "Dolnytsky IV:349",
+            "roles": {
+              "choir": "Sing 'Now the Powers of Heaven'.",
+              "all": "Prostrate in silence as the Gifts are transferred.",
+              "priest": "Carry the Gifts (already consecrated) in silence or with specific prayer."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.now_the_powers_of_heaven"
+          }
+        },
+        {
+          "id": "lords_prayer",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.our_father"
+          }
+        },
+        {
+          "id": "communion_presanctified",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.communion_hymn_taste_and_see"
+          }
+        },
+        {
+          "id": "dismissal_presanctified",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.dismissal_presanctified"
+          }
+        }
+      ]
+    },
+    "vesperal_merge_logic": {
+      "title_key": "titles.vesperal_basil",
+      "source_ref": "Dolnytsky III: Christmas Eve",
+      "description": "Structural bridge for Christmas Eve, Theophany Eve, Holy Thursday, and Holy Saturday.",
+      "sequence": [
+        {
+          "id": "vespers_start",
+          "type": "link",
+          "target_file": "01h_struct_vespers.json",
+          "target_id": "great_vespers_vigil"
+        },
+        {
+          "id": "vesperal_readings_extended",
+          "rubric": {
+            "key": "rubrics.vespers.extended_readings_count"
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_vesperal_liturgy_readings"
+            }
+          }
+        },
+        {
+          "id": "small_litany_merge",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_small"
+          }
+        },
+        {
+          "id": "liturgy_transition",
+          "rubric": {
+            "key": "rubrics.vesperal.transition_to_liturgy"
+          },
+          "type": "link",
+          "target_file": "01j_struct_liturgy.json",
+          "target_id": "liturgy_basil",
+          "start_at_component": "trisagion_module"
+        }
+      ]
+    }
+  }
+}

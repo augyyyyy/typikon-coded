@@ -1,0 +1,114 @@
+{
+  "file_metadata": {
+    "filename": "02b_12_august.json",
+    "version": "1.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (August)",
+    "scope": "Fixed Feast Logic for August",
+    "description": "Logic definitions for the Transfiguration, Dormition, and Beheading of John the Baptist. Includes logic for the Blessing of Fruit/Flowers and the Lviv Synod's transfer rule for Aug 29."
+  },
+  "month_settings": {
+    "month_id": 8,
+    "days": {
+      "01": {
+        "title_key": "menaion.aug_01.procession_cross_maccabees",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_aug_1",
+        "base_template": "CASE_05",
+        "system_flags": { "fast_period_start": "dormition", "fast_level": "simple" },
+        "variables": {
+          "vespers_readings": ["isaiah_11_10_16", "wisdom_3_1_9", "wisdom_5_15_6_3"],
+          "troparia_sequence": "cross_maccabees_stacking",
+          "liturgy_readings": ["1_corinthians_1_18_24", "john_19_6_11_13_20_25_28_30_35"],
+          "communion_hymn": "light_of_your_countenance"
+        }
+      },
+      "06": {
+        "title_key": "menaion.aug_06.transfiguration",
+        "rank": "rank_vigil_lord",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_aug_6",
+        "system_flags": { "suppress_octoechos": true, "fast_level": "wine_oil_fish" },
+        "base_template": "CASE_12",
+        "variables": {
+          "vespers_readings": ["exodus_24_12_18", "exodus_33_11_23", "1_kings_19_3_9_11_13_15_16"],
+          "litiya_stichera": "transfiguration_litiya",
+          "matins_gospel": "luke_9_28_36",
+          "liturgy_antiphons": "festal_transfiguration_antiphons",
+          "entrance_hymn": "tabor_entrance_verse",
+          "troparia_sequence": "feast_glory_bn_kont_feast",
+          "liturgy_readings": ["2_peter_1_10_19", "matthew_17_1_9"],
+          "megalynarion": "magnify_o_my_soul_transfigured",
+          "communion_hymn": "we_will_walk_in_light",
+          "post_liturgy_action": {
+             "type": "inject_component",
+             "component_id": "blessing_grapes_fruit",
+             "trigger": "after_amvon_prayer"
+          }
+        }
+      },
+      "15": {
+        "title_key": "menaion.aug_15.dormition_theotokos",
+        "rank": "rank_vigil_theotokos",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_aug_15",
+        "system_flags": { "suppress_octoechos": false, "fast_level": "no_fast" },
+        "base_template": "CASE_14",
+        "variants": [ { "condition": { "day_of_week": [0] }, "base_template": "CASE_13" } ],
+        "variables": {
+          "vespers_readings": ["genesis_28_10_17", "ezekiel_43_27_44_4", "proverbs_9_1_11"],
+          "litiya_stichera": "dormition_litiya",
+          "matins_gospel": "luke_1_39_49_56",
+          "liturgy_antiphons": "typical_psalms_refrain_theotokos",
+          "entrance_hymn": "come_let_us_worship_sunday",
+          "troparia_sequence": "feast_glory_bn_kont_feast",
+          "liturgy_readings": ["philippians_2_5_11", "luke_10_38_42_11_27_28"],
+          "megalynarion": "all_generations_bless_you",
+          "communion_hymn": "cup_of_salvation",
+          "post_liturgy_action": {
+             "type": "inject_component",
+             "component_id": "blessing_flowers_herbs",
+             "trigger": "after_amvon_prayer"
+          }
+        }
+      },
+      "23": {
+        "title_key": "menaion.aug_23.apodosis_dormition",
+        "rank": "rank_doxology",
+        "period": "apodosis",
+        "source_ref": "dolnytsky_part3_aug_23",
+        "base_template": "CASE_20"
+      },
+      "29": {
+        "title_key": "menaion.aug_29.beheading_baptist",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_aug_29",
+        "system_flags": { "fast_level": "strict" },
+        "base_template": "CASE_06",
+        "variants": [
+          {
+            "condition": { "day_of_week": [1,2,3,4,5,6] },
+            "action": { 
+              "type": "transfer_feast", 
+              "target_date": "next_sunday",
+              "comment": "Dolnytsky mandates transferring the SERVICE to Sunday, but keeping the FAST on the 29th." 
+            }
+          }
+        ],
+        "variables": {
+          "vespers_readings": ["isaiah_40_1_3_9", "malachi_3_1_3_5_24", "wisdom_4_7_15"],
+          "litiya_stichera": "beheading_litiya",
+          "matins_gospel": "matthew_14_1_13",
+          "liturgy_readings": ["acts_13_25_32", "mark_6_14_30"],
+          "communion_hymn": "righteous_memory"
+        }
+      },
+      "31": {
+        "title_key": "menaion.aug_31.deposition_sash",
+        "rank": "rank_doxology",
+        "source_ref": "dolnytsky_part3_aug_31",
+        "base_template": "CASE_02"
+      }
+    }
+  }
+}

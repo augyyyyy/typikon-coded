@@ -1,0 +1,236 @@
+DATE: 2025-08-15
+FEAST: menaion.aug_15.dormition_theotokos
+
+
+--- VESPERS (great_vespers_vigil) ---
+[vesting_rite] 
+   >>> RUBRIC: Vesting and Censing <<<
+   (Source): Dolnytsky I:1
+   [PRIEST]: Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.
+   [DEACON]: Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing.
+   [SUBDEACON]: Light the candles on the Holy Table.
+
+[opening_vigil] 
+   >>> RUBRIC: The Opening <<<
+   (Source): Dolnytsky I:2
+   [DEACON]: Stand before the Holy Doors. Exclaim 'Bless, Master!'
+   [PRIEST]: Make the sign of the Cross with the censer before the Holy Table. Sing 'Glory to the Holy, Consubstantial...'
+
+   horologion.blessing_vigil
+[psalm_103_vigil] 
+   >>> RUBRIC: The Proemial Psalm <<<
+   (Source): Dolnytsky I:2
+   [PRIEST]: Exit Sanctuary via North Door. Read the Prayers of Light silently.
+   [DEACON]: Close Holy Doors. Stand before them with a candle.
+   [CANTOR]: Sing 'Come let us worship' and Psalm 103.
+
+   psalm_103
+[great_litany]    horologion.litany_great
+[kathisma_vigil]    psalm_1_selected
+[small_litany]    horologion.litany_small
+[lord_i_have_cried_10] 
+[entrance_great] 
+[prokeimenon_readings]    Logic: resolve_vespers_readings_logic (Args: {})
+[litanies_fervent_supplication]    Group: horologion.litany_fervent, horologion.vouchsafe_o_lord, horologion.litany_supplication
+[litiya_rite] 
+[aposticha]    Logic: resolve_aposticha (Args: {})
+[nunc_dimittis_trisagion]    Group: horologion.nunc_dimittis, horologion.trisagion_block
+[artoklasia_rite] 
+[dismissal_vigil]    horologion.dismissal_vigil_sequence
+
+--- COMPLINE (small_compline) ---
+[opening_blessing]    horologion.blessing_common
+[introductory_prayers]    horologion.trisagion_block
+[invitatory]    horologion.invitatory_3x
+[psalms_compline]    Group: psalm_50, psalm_69, psalm_142
+[doxology_small]    horologion.doxology_small_read
+[creed]    horologion.creed
+[canon_slot]    Logic: resolve_compline_canon (Args: {})
+[axion_estin]    horologion.axion_estin
+[trisagion_2]    horologion.trisagion_block
+[troparia_slot]    Logic: resolve_compline_troparia (Args: {'rank': 'small'})
+[lord_have_mercy_40]    horologion.lord_have_mercy_40
+[prayer_hours]    horologion.prayer_hours_thou_who
+[prayers_final]    Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
+[dismissal_sequence]    Sequence:
+      - {'id': 'dismiss_prayers', 'type': 'fixed_ref', 'ref_key': 'horologion.dismissal_small_prayers'}
+      - {'id': 'lit_final', 'type': 'fixed_ref', 'ref_key': 'horologion.litany_final_compline'}
+
+--- MIDNIGHT OFFICE (midnight_daily) ---
+[opening_blessing]    horologion.blessing_common
+[trisagion_prayers]    horologion.trisagion_block
+[psalm_50]    psalm_50
+[kathisma_17] 
+   >>> RUBRIC:  <<<
+
+   psalm_118_blameless
+[creed]    horologion.creed
+[trisagion_prayers_2]    horologion.trisagion_block
+[troparia_block]    Logic: resolve_midnight_troparia (Args: {'type': 'daily'})
+[prayer_hours_thou_who]    horologion.prayer_hours_thou_who
+[closing_prayer]    Logic: resolve_midnight_prayer (Args: {})
+[part_ii_block] 
+[prayer_st_ephrem] 
+   >>> RUBRIC:  <<<
+
+   triodion.prayer_st_ephrem
+[dismissal]    horologion.dismissal_small_with_litany
+
+--- MATINS (great_matins) ---
+[matins_opening] 
+[great_litany]    horologion.litany_great
+[god_is_the_lord] 
+   >>> RUBRIC: God is the Lord <<<
+   [DEACON]: Intone verses before the Icon of Christ.
+   [CHOIR]: Sing the Troparion of the Feast/Saint.
+
+   Logic: resolve_god_is_the_lord_troparia (Args: {})
+[kathismata_block] 
+   >>> RUBRIC: The Kathismata <<<
+
+   Sequence:
+      - {'id': 'kath_1', 'type': 'variable_logic', 'logic': {'function': 'resolve_kathisma', 'args': {'num': 1}}}
+      - {'id': 'sess_1', 'type': 'variable_logic', 'logic': {'function': 'resolve_sessional', 'args': {'num': 1}}}
+      - {'id': 'kath_2', 'type': 'variable_logic', 'logic': {'function': 'resolve_kathisma', 'args': {'num': 2}}}
+      - {'id': 'sess_2', 'type': 'variable_logic', 'logic': {'function': 'resolve_sessional', 'args': {'num': 2}}}
+[polyeleos_rite] 
+   >>> RUBRIC: The Polyeleos <<<
+   (Source): Dolnytsky I: Matins
+   [PRIEST]: Open Holy Doors. Perform Great Censing of the whole church.
+   [CHOIR]: Sing Psalms 134-135 and Megalynaria.
+
+[gospel_rite] 
+   >>> RUBRIC: The Gospel <<<
+   (Source): Dolnytsky I: Matins
+   [DEACON]: Exclaim 'Let us pray to the Lord'.
+   [PRIEST]: Read the Gospel from the Holy Doors (or carry to Tetrapod on Sundays).
+   [PEOPLE]: Venerate the Gospel after the reading.
+
+[canon_block] 
+   >>> RUBRIC: The Canon <<<
+   [PRIEST]: Anoint the faithful with blessed oil during the Canon.
+
+[praises]    Logic: resolve_praises_stichera (Args: {})
+[great_doxology] 
+   >>> RUBRIC: Great Doxology <<<
+   [PRIEST]: Raise hands and exclaim 'Glory to You who have shown us the Light!'
+
+   horologion.doxology_great
+[post_doxology_event] 
+   >>> RUBRIC: Post-Doxology Rite <<<
+
+   Logic: resolve_post_doxology_event (Args: {})
+[conclusion] 
+
+--- FIRST HOUR (structure_standard) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: psalm_5, psalm_89, psalm_100
+[troparia_block] 
+[verses_fixed]    horologion.verses_hour_1_order_my_steps
+[trisagion_prayers]    horologion.trisagion_block
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_1_christ_true_light
+[dismissal_slot]    horologion.dismissal_small
+
+--- THIRD HOUR (structure_standard) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: psalm_16, psalm_24, psalm_50
+[troparia_block] 
+[verses_fixed]    horologion.verses_hour_3_blessed_is_the_lord
+[trisagion_prayers]    horologion.trisagion_block
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_3_mardari
+[dismissal_slot]    horologion.dismissal_small
+
+--- SIXTH HOUR (structure_standard) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: psalm_53, psalm_54, psalm_90
+[troparia_block] 
+[verses_fixed]    horologion.verses_hour_6_compassions_quickly
+[trisagion_prayers]    horologion.trisagion_block
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_6_god_and_lord_of_hosts
+[dismissal_slot]    horologion.dismissal_small
+
+--- NINTH HOUR (structure_standard) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: psalm_83, psalm_84, psalm_85
+[troparia_block] 
+[verses_fixed]    horologion.verses_hour_9_forsake_not
+[trisagion_prayers]    horologion.trisagion_block
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
+[dismissal_slot]    horologion.dismissal_small
+
+--- DIVINE LITURGY (liturgy_chrysostom) ---
+[prothesis] 
+   >>> RUBRIC: The Prothesis (Preparation) <<<
+   (Source): Dolnytsky IV:385
+   [PRIEST]: Prepare the Lamb. On Sundays and Feasts, cut the Lamb for the communicants. On Holy Thursday, prepare two Lambs (one for Presanctified).
+   [DEACON]: Pour wine and water into the Chalice. Cover the Gifts.
+
+[opening_blessing] 
+   >>> RUBRIC: The Opening <<<
+   [DEACON]: Exclaim 'Bless, Master!'
+   [PRIEST]: Lift the Gospel Book. Make the sign of the Cross over the Antimension. Exclaim 'Blessed is the Kingdom...'
+
+   liturgikon.blessing_kingdom
+[great_litany]    horologion.litany_great
+[antiphons_block] 
+   >>> RUBRIC: The Antiphons <<<
+   (Source): Dolnytsky II:102
+   [CHOIR]: Sing the First Antiphon (or Typical Psalms).
+   [DEACON]: Stand at the usual place. Exclaim the Small Litany between Antiphons.
+
+   Logic: resolve_liturgy_antiphons (Args: {})
+[little_entrance] 
+   >>> RUBRIC: The Little Entrance <<<
+   [PRIEST]: Recite the Prayer of the Entrance silently. Bless the Entrance.
+   [DEACON]: Carry the Gospel Book. Exclaim 'Wisdom, Upright!'
+   [SUBDEACON]: Precede the Gospel with candles.
+
+[troparia_kontakia_block] 
+   >>> RUBRIC: Troparia and Kontakia <<<
+
+   Logic: resolve_liturgy_hymns (Args: {})
+[trisagion_module] 
+   >>> RUBRIC: The Trisagion <<<
+   [PRIEST]: Recite the Prayer of the Trisagion silently.
+
+   Logic: resolve_trisagion_type (Args: {})
+[readings_block] 
+   >>> RUBRIC: The Readings <<<
+   [READER]: Intone the Prokeimenon. Read the Epistle.
+   [DEACON]: Cense the Altar and People during the Alleluia. Read the Gospel from the Ambo.
+   [PRIEST]: Sit during the Epistle. Stand for the Gospel.
+
+[litanies_catechumens]    liturgikon.litanies_catechumens
+[cherubic_hymn_block] 
+   >>> RUBRIC: Cherubic Hymn <<<
+   [PRIEST]: Recite the Prayer of the Cherubic Hymn silently.
+   [DEACON]: Cense the Altar, Icons, and People (Psalm 50).
+
+   Logic: resolve_cherubic_hymn (Args: {})
+[great_entrance] 
+   >>> RUBRIC: The Great Entrance <<<
+   [DEACON]: Carry the Diskos (on head or in hands). Exclaim commemorations.
+   [PRIEST]: Carry the Chalice. Exclaim commemorations.
+   [SUBDEACON]: Hold the Aer and censer.
+
+[anaphora_block]    liturgikon.anaphora_chrysostom
+[megalynarion_block]    Logic: resolve_liturgy_megalynarion (Args: {})
+[lords_prayer]    horologion.our_father
+[communion_module] 
+   >>> RUBRIC: Communion <<<
+   [PRIEST]: Break the Lamb. Commune himself and the Deacon.
+   [DEACON]: Exclaim 'With fear of God...'
+   [CHOIR]: Sing 'Receive the Body of Christ'.
+
+[post_communion] 
+[dismissal] 
+   >>> RUBRIC: The Dismissal <<<
+   (Source): Dolnytsky II:102
+   [PRIEST]: Bless the people with the Hand Cross (if Sunday/Feast) or hand (Weekday).
+   [CHOIR]: Sing 'Amen' and 'Eis polla eti despota'.
+
+   Logic: resolve_liturgy_dismissal (Args: {})

@@ -1,0 +1,145 @@
+{
+    "file_metadata": {
+        "filename": "01k_struct_vigil.json",
+        "version": "1.0",
+        "authority": "Dolnytsky Typikon Part I",
+        "scope": "The All-Night Vigil (Composite Structure)"
+    },
+    "structures": {
+        "all_night_vigil": {
+            "title_key": "titles.all_night_vigil",
+            "source_ref": "Dolnytsky I: Order of Vigil",
+            "sequence": [
+                {
+                    "id": "opening_vigil",
+                    "rubric": {
+                        "title": "The Opening",
+                        "roles": {
+                            "priest": "Cense Altar with Open Doors. Exclaim 'Glory to the Holy, Consubstantial...'"
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vigil_opening"
+                        }
+                    }
+                },
+                {
+                    "id": "vespers_module",
+                    "type": "link",
+                    "target_file": "01h_struct_vespers.json",
+                    "target_id": "great_vespers_vigil",
+                    "overrides": [
+                        {
+                            "target_id": "opening_vigil",
+                            "action": "delete"
+                        },
+                        {
+                            "target_id": "dismissal_vigil",
+                            "action": "delete"
+                        }
+                    ]
+                },
+                {
+                    "id": "litya_module",
+                    "rubric": {
+                        "title": "The Litya",
+                        "note": "Procession to Narthex."
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_litya_content"
+                        }
+                    }
+                },
+                {
+                    "id": "artoklasia_module",
+                    "rubric": {
+                        "title": "Blessing of Loaves"
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_artoklasia"
+                        }
+                    }
+                },
+                {
+                    "id": "vigil_transition_bridge",
+                    "rubric": {
+                        "title": "The Transition (Seam)",
+                        "roles": {
+                            "priest": "The blessing of the Lord be upon you...",
+                            "all": "Amen."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vigil_bridge_blessing"
+                    }
+                },
+                {
+                    "id": "matins_module",
+                    "type": "link",
+                    "target_file": "01i_struct_matins.json",
+                    "target_id": "daily_matins",
+                    "overrides": [
+                        {
+                            "target_id": "opening_matins",
+                            "action": "delete"
+                        },
+                        {
+                            "target_id": "royal_office",
+                            "action": "delete"
+                        },
+                        {
+                            "target_id": "god_is_the_lord",
+                            "action": "modify",
+                            "rubric": {
+                                "note": "Polyeleos is assumed for Vigil."
+                            }
+                        },
+                        {
+                            "target_id": "kathismata_daily",
+                            "action": "replace",
+                            "new_component": {
+                                "id": "polyeleos_module",
+                                "content": {
+                                    "type": "variable_logic",
+                                    "logic": {
+                                        "function": "resolve_vigil_polyeleos"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "target_id": "dismissal_daily",
+                            "action": "delete"
+                        }
+                    ]
+                },
+                {
+                    "id": "hour_1_module",
+                    "type": "link",
+                    "target_file": "01a_struct_hour_1.json",
+                    "target_id": "structure_standard",
+                    "overrides": [
+                        {
+                            "target_id": "opening_prayers",
+                            "action": "delete"
+                        },
+                        {
+                            "target_id": "dismissal_slot",
+                            "action": "modify",
+                            "rubric": {
+                                "title": "Final Dismissal of Vigil"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

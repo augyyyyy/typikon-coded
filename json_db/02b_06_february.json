@@ -1,0 +1,63 @@
+{
+  "file_metadata": {
+    "filename": "02b_06_february.json",
+    "version": "2.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (February)",
+    "scope": "Fixed Feast Logic for February"
+  },
+  "month_settings": {
+    "month_id": 2,
+    "leap_year_rule": "standard_shift_24_to_23",
+    "days": {
+      "02": {
+        "title_key": "menaion.feb_02.meeting_of_lord",
+        "rank": "rank_vigil_lord",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_feb_2",
+        "system_flags": { "suppress_octoechos": true, "fast_level": "no_fast" },
+        "base_template": "CASE_12",
+        "variants": [
+          {
+            "condition": { "triodion_period": ["meatfare_sunday", "cheesefare_sunday"] },
+            "action": { 
+                "combine_rank": "rank_vigil_lord_sunday",
+                "variables": { "suppress_resurrection_hymns": false }
+            }
+          },
+          {
+            "condition": { "triodion_period": ["lent_monday_1"] },
+            "action": { "type": "vesperal_liturgy_basil", "fast_level": "strict" }
+          }
+        ],
+        "variables": {
+          "vespers_readings": ["exodus_12_13_15_22_40", "isaiah_6", "isaiah_19"],
+          "litiya_stichera": "meeting_litiya",
+          "matins_gospel": "luke_2_25_32",
+          "liturgy_antiphons": "festal_meeting_antiphons",
+          "entrance_hymn": "the_lord_has_made_known_salvation",
+          "troparia_sequence": "feast_glory_bn_kont_feast",
+          "liturgy_readings": ["hebrews_7_7_17", "luke_2_22_40"],
+          "megalynarion": "virgin_mother_good",
+          "communion_hymn": "cup_of_salvation"
+        }
+      },
+      "24": {
+        "title_key": "menaion.feb_24.finding_head_baptist",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_feb_24",
+        "base_template": "CASE_05",
+        "variants": [
+          {
+             "condition": { "is_leap_year": true },
+             "action": { "shift_date_to": 23, "comment": "Moves to Feb 23 in Leap Years." }
+          }
+        ],
+        "variables": {
+          "matins_gospel": "luke_7_17_30",
+          "liturgy_readings": ["2_corinthians_4_6_15", "matthew_11_2_15"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+   "file_metadata": {
+      "filename": "04_logic_vespers.json",
+      "version": "1.1",
+      "description": "Rules engine for Vespers logic: Stichera Ratios, Entrances, Kathismata, and Precedence.",
+      "authority": "Dolnytsky Typikon Part I"
+   },
+   "kathisma_schedule": [
+      {
+         "id": "kathisma_18_autumn",
+         "date_range": [
+            "09-22",
+            "12-19"
+         ],
+         "service_type": "vespers_sunday",
+         "action": "psalm_1"
+      },
+      {
+         "id": "kathisma_18_winter",
+         "date_range": [
+            "01-14",
+            "cheesefare"
+         ],
+         "service_type": "vespers_sunday",
+         "action": "polyeleos_excerpts"
+      },
+      {
+         "id": "kathisma_standard",
+         "priority": 0,
+         "action": "psalm_1"
+      }
+   ],
+   "entrance_triggers": {
+      "rules": [
+         {
+            "condition": "rank >= 3",
+            "result": true,
+            "note": "Polyeleos or higher always Entrance"
+         },
+         {
+            "condition": "is_vigil",
+            "result": true
+         },
+         {
+            "condition": "day_of_week == 1",
+            "result": true,
+            "note": "Saturday evening always Entrance in parish practice (User Note)"
+         }
+      ]
+   },
+   "stichera_ratios": {
+      "sunday_rank_3": {
+         "description": "Sunday + Polyeleos Saint",
+         "total": 10,
+         "distribution": {
+            "resurrection": 6,
+            "saint": 4
+         },
+         "glory": "saint",
+         "both_now": "dogmatikon_tone_week"
+      },
+      "sunday_rank_2": {
+         "description": "Sunday + Vigil Saint",
+         "total": 10,
+         "distribution": {
+            "resurrection": 4,
+            "saint": 6
+         },
+         "glory": "saint",
+         "both_now": "dogmatikon_tone_week"
+      },
+      "sunday_post_feast": {
+         "description": "Sunday in Post-Feast",
+         "total": 10,
+         "distribution": {
+            "resurrection": 4,
+            "feast": 3,
+            "saint": 3
+         },
+         "glory": "saint",
+         "both_now": "dogmatikon_tone_week"
+      },
+      "daily_vespers": {
+         "total": 6,
+         "distribution": {
+            "octoechos": 3,
+            "saint": 3
+         },
+         "glory": "saint",
+         "both_now": "theotokion_daily"
+      },
+      "small_vespers": {
+         "total": 4,
+         "distribution": {
+            "resurrection": 4
+         },
+         "glory": "theotokion",
+         "both_now": "theotokion"
+      },
+      "lenten_sunday": {
+         "total": 10,
+         "distribution": {
+            "octoechos": 6,
+            "triodion": 4
+         },
+         "glory": "triodion",
+         "both_now": "dogmatikon_tone_week"
+      },
+      "lenten_weekday": {
+         "total": 6,
+         "distribution": {
+            "triodion": 3,
+            "menaion": 3
+         },
+         "glory": "theotokion",
+         "both_now": "theotokion"
+      }
+   }
+}

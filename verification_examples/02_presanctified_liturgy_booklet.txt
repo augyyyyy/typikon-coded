@@ -1,0 +1,252 @@
+DATE: 2025-03-26
+FEAST: Lenten Weekday
+
+
+--- VESPERS (great_vespers_vigil) ---
+[vesting_rite] 
+   >>> RUBRIC: Vesting and Censing <<<
+   (Source): Dolnytsky I:1
+   [PRIEST]: Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.
+   [DEACON]: Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing.
+   [SUBDEACON]: Light the candles on the Holy Table.
+
+[opening_vigil] 
+   >>> RUBRIC: The Opening <<<
+   (Source): Dolnytsky I:2
+   [DEACON]: Stand before the Holy Doors. Exclaim 'Bless, Master!'
+   [PRIEST]: Make the sign of the Cross with the censer before the Holy Table. Sing 'Glory to the Holy, Consubstantial...'
+
+   horologion.blessing_vigil
+[psalm_103_vigil] 
+   >>> RUBRIC: The Proemial Psalm <<<
+   (Source): Dolnytsky I:2
+   [PRIEST]: Exit Sanctuary via North Door. Read the Prayers of Light silently.
+   [DEACON]: Close Holy Doors. Stand before them with a candle.
+   [CANTOR]: Sing 'Come let us worship' and Psalm 103.
+
+   psalm_103
+[great_litany]    horologion.litany_great
+[kathisma_vigil]    psalm_1_selected
+[small_litany]    horologion.litany_small
+[lord_i_have_cried_10] 
+[entrance_great] 
+[prokeimenon_readings]    Logic: resolve_vespers_readings_logic (Args: {})
+[litanies_fervent_supplication]    Group: horologion.litany_fervent, horologion.vouchsafe_o_lord, horologion.litany_supplication
+[litiya_rite] 
+[aposticha]    Logic: resolve_aposticha (Args: {})
+[nunc_dimittis_trisagion]    Group: horologion.nunc_dimittis, horologion.trisagion_block
+[artoklasia_rite] 
+[dismissal_vigil]    horologion.dismissal_vigil_sequence
+
+--- COMPLINE (small_compline) ---
+[opening_blessing]    horologion.blessing_common
+[introductory_prayers]    horologion.trisagion_block
+[invitatory]    horologion.invitatory_3x
+[psalms_compline]    Group: psalm_50, psalm_69, psalm_142
+[doxology_small]    horologion.doxology_small_read
+[creed]    horologion.creed
+[canon_slot]    Logic: resolve_compline_canon (Args: {})
+[axion_estin]    horologion.axion_estin
+[trisagion_2]    horologion.trisagion_block
+[troparia_slot]    Logic: resolve_compline_troparia (Args: {'rank': 'small'})
+[lord_have_mercy_40]    horologion.lord_have_mercy_40
+[prayer_hours]    horologion.prayer_hours_thou_who
+[prayers_final]    Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
+[dismissal_sequence]    Sequence:
+      - {'id': 'dismiss_prayers', 'type': 'fixed_ref', 'ref_key': 'horologion.dismissal_small_prayers'}
+      - {'id': 'lit_final', 'type': 'fixed_ref', 'ref_key': 'horologion.litany_final_compline'}
+
+--- MIDNIGHT OFFICE (midnight_daily) ---
+[opening_blessing]    horologion.blessing_common
+[trisagion_prayers]    horologion.trisagion_block
+[psalm_50]    psalm_50
+[kathisma_17] 
+   >>> RUBRIC:  <<<
+
+   psalm_118_blameless
+[creed]    horologion.creed
+[trisagion_prayers_2]    horologion.trisagion_block
+[troparia_block]    Logic: resolve_midnight_troparia (Args: {'type': 'daily'})
+[prayer_hours_thou_who]    horologion.prayer_hours_thou_who
+[closing_prayer]    Logic: resolve_midnight_prayer (Args: {})
+[part_ii_block] 
+[prayer_st_ephrem] 
+   >>> RUBRIC:  <<<
+
+   triodion.prayer_st_ephrem
+[dismissal]    horologion.dismissal_small_with_litany
+
+--- MATINS (lenten_matins_weekday) ---
+[opening_daily]    Group: horologion.blessing_common, horologion.trisagion_block, psalm_19, psalm_20, horologion.six_psalms
+[great_litany]    horologion.litany_great
+[alleluia_module] 
+   >>> RUBRIC: The Alleluia & Trinity Hymns <<<
+   [PRIEST]: Intone 'Alleluia' in the Tone of the Week.
+   [CHOIR]: Sing Alleluia (4x) and the Trinity Hymns.
+
+   Logic: resolve_alleluia_vs_god_is_lord (Args: {})
+[kathismata_lenten] 
+   >>> RUBRIC: Three Kathismata <<<
+
+   Sequence:
+      - {'type': 'variable_logic', 'logic': {'function': 'resolve_kathisma', 'args': {'num': 1}}}
+      - {'type': 'variable_logic', 'logic': {'function': 'resolve_kathisma', 'args': {'num': 2}}}
+      - {'type': 'variable_logic', 'logic': {'function': 'resolve_kathisma', 'args': {'num': 3}}}
+[psalm_50]    psalm_50
+[canon_lenten] 
+   >>> RUBRIC: Lenten Canon <<<
+
+   Logic: resolve_lenten_canon_odes (Args: {})
+[praises_read] 
+   >>> RUBRIC:  <<<
+   [READER]: Read Psalms 148-150. Do not sing Stichera unless prescribed.
+
+   horologion.praises_psalms
+[small_doxology] 
+   >>> RUBRIC:  <<<
+   [PRIEST]: Exclaim 'To You belongs glory'.
+   [READER]: Read the Doxology.
+
+   horologion.doxology_small_read
+[litany_supplication]    horologion.litany_supplication
+[aposticha]    Logic: resolve_aposticha (Args: {})
+[standing_in_temple]    triodion.standing_in_the_temple
+[prayer_st_ephrem] 
+   >>> RUBRIC: Prayer of St. Ephrem <<<
+   [ALL]: Make 3 great prostrations.
+
+   triodion.prayer_st_ephrem
+[dismissal_daily]    horologion.dismissal_small
+
+--- FIRST HOUR (structure_lenten) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: psalm_5, psalm_89, psalm_100
+[kathisma_slot] 
+   >>> RUBRIC:  <<<
+   [READER]: Read the appointed Kathisma.
+
+   Logic: resolve_kathisma (Args: {})
+[lenten_troparia_1] 
+   >>> RUBRIC:  <<<
+   [ALL]: Make a prostration at each singing of the troparion.
+
+   triodion.hour_1_lenten_troparia_verses
+[verses_fixed]    horologion.verses_hour_1_order_my_steps
+[trisagion_prayers]    horologion.trisagion_block
+[lenten_kontakia_set]    triodion.lenten_kontakia_hours
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_1_christ_true_light
+[prayer_ephrem] 
+   >>> RUBRIC:  <<<
+   [ALL]: Make 16 prostrations.
+
+   triodion.prayer_st_ephrem
+[dismissal_slot]    horologion.dismissal_small
+
+--- THIRD HOUR (structure_lenten) ---
+[opening_prayers] 
+   >>> RUBRIC:  <<<
+   [ALL]: Make 3 small prostrations at 'O come, let us worship'.
+
+   Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: psalm_16, psalm_24, psalm_50
+[kathisma_slot] 
+   >>> RUBRIC:  <<<
+   [READER]: Read the appointed Kathisma.
+
+   Logic: resolve_kathisma (Args: {})
+[lenten_troparia_3] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky IV:349
+   [ALL]: At each singing of the troparion, bend the knees to the ground.
+
+   triodion.hour_3_lenten_troparia_verses
+[verses_fixed]    horologion.verses_hour_3_blessed_is_the_lord
+[trisagion_prayers]    horologion.trisagion_block
+[lenten_kontakia_set]    triodion.lenten_kontakia_hours
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_3_mardari
+[prayer_ephrem] 
+   >>> RUBRIC:  <<<
+   [ALL]: Make 16 prostrations (4 great, 12 small).
+
+   triodion.prayer_st_ephrem
+[dismissal_slot]    horologion.dismissal_small
+
+--- SIXTH HOUR (structure_lenten) ---
+[opening_prayers] 
+   >>> RUBRIC:  <<<
+   [ALL]: Make 3 small prostrations at 'O come, let us worship'.
+
+   Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: psalm_53, psalm_54, psalm_90
+[kathisma_slot] 
+   >>> RUBRIC:  <<<
+   [READER]: Read the appointed Kathisma.
+
+   Logic: resolve_kathisma (Args: {})
+[lenten_troparia_6] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky IV:349
+   [ALL]: At each singing of the troparion, bend the knees to the ground.
+
+   triodion.hour_6_lenten_troparia_verses
+[prophecy_module] 
+   >>> RUBRIC: Prophecy of the Sixth Hour <<<
+
+   Sequence:
+      - {'id': 'prokeimenon_1', 'type': 'variable_logic', 'logic': {'function': 'resolve_prophecy_prok_1'}}
+      - {'id': 'reading_isaiah', 'type': 'variable_logic', 'logic': {'function': 'resolve_prophecy_reading'}}
+      - {'id': 'prokeimenon_2', 'type': 'variable_logic', 'logic': {'function': 'resolve_prophecy_prok_2'}}
+[verses_fixed]    horologion.verses_hour_6_compassions_quickly
+[trisagion_prayers]    horologion.trisagion_block
+[lenten_kontakia_set]    triodion.lenten_kontakia_hours
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_6_god_and_lord_of_hosts
+[prayer_ephrem] 
+   >>> RUBRIC:  <<<
+   [ALL]: Make 16 prostrations (4 great, 12 small).
+
+   triodion.prayer_st_ephrem
+[dismissal_slot]    horologion.dismissal_small
+
+--- NINTH HOUR (structure_lenten) ---
+[opening_prayers] 
+   >>> RUBRIC:  <<<
+   [ALL]: Make 3 small prostrations at 'O come, let us worship'.
+
+   Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: psalm_83, psalm_84, psalm_85
+[kathisma_slot] 
+   >>> RUBRIC:  <<<
+   [READER]: Read the appointed Kathisma.
+
+   Logic: resolve_kathisma (Args: {})
+[lenten_troparia_9] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky IV:349
+   [ALL]: At each singing of the troparion, bend the knees to the ground.
+
+   triodion.hour_9_lenten_troparia_verses
+[verses_fixed]    horologion.verses_hour_9_forsake_not
+[trisagion_prayers]    horologion.trisagion_block
+[lenten_kontakia_set]    triodion.lenten_kontakia_hours
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
+[typika_transition] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky IV:351
+   [ALL]: Proceed immediately to the Typika service.
+
+
+--- DIVINE LITURGY (liturgy_presanctified) ---
+[vespers_portion] 
+[litany_fervent]    horologion.litany_fervent
+[litanies_catechumens_photizomenoi]    Logic: resolve_photizomenoi_litany (Args: {})
+[great_entrance_presanctified] 
+   >>> RUBRIC: Great Entrance (Presanctified) <<<
+   (Source): Dolnytsky IV:349
+   [CHOIR]: Sing 'Now the Powers of Heaven'.
+   [ALL]: Prostrate in silence as the Gifts are transferred.
+   [PRIEST]: Carry the Gifts (already consecrated) in silence or with specific prayer.
+
+   triodion.now_the_powers_of_heaven
+[lords_prayer]    horologion.our_father
+[communion_presanctified]    triodion.communion_hymn_taste_and_see
+[dismissal_presanctified]    triodion.dismissal_presanctified

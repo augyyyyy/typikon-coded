@@ -1,0 +1,103 @@
+{
+  "file_metadata": {
+    "filename": "02b_11_july.json",
+    "version": "1.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (July)",
+    "scope": "Fixed Feast Logic for July",
+    "description": "Logic definitions for St. Anthony of the Caves, St. Vladimir, and Prophet Elijah. Includes conflict resolution for the Sunday of the Fathers of the Six Councils."
+  },
+  "month_settings": {
+    "month_id": 7,
+    "floating_rules": {
+      "sunday_fathers_six_councils": {
+        "date_range": { "start": 13, "end": 19 },
+        "triggers": { "day_of_week": [0] },
+        "rank_override": "rank_polyeleos",
+        "title_key": "menaion.floating.sunday_fathers_six_councils",
+        "source_ref": "dolnytsky_part3_july_sunday_fathers",
+        "variables": {
+          "vespers_stichera_distribution": "fathers_councils_logic",
+          "matins_gospel": "matthew_28_16_20",
+          "liturgy_readings": ["hebrews_13_7_16", "john_17_1_13"]
+        }
+      }
+    },
+    "days": {
+      "05": {
+        "title_key": "menaion.jul_05.athanasius_athos",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_jul_5",
+        "base_template": "CASE_05"
+      },
+      "10": {
+        "title_key": "menaion.jul_10.anthony_caves",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_jul_10",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["wisdom_5_15_6_3", "wisdom_3_1_9", "wisdom_4_7_15"],
+          "litiya_stichera": "anthony_caves_litiya",
+          "matins_gospel": "matthew_11_27_30",
+          "liturgy_readings": ["galatians_5_22_6_2", "luke_6_17_23"],
+          "communion_hymn": "righteous_memory"
+        }
+      },
+      "11": {
+        "title_key": "menaion.jul_11.olga_princess",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_jul_11",
+        "base_template": "CASE_05"
+      },
+      "15": {
+        "title_key": "menaion.jul_15.vladimir_great",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_jul_15",
+        "base_template": "CASE_06",
+        "variants": [
+          {
+            "condition": { "day_of_week": [0] },
+            "action": { "combine_rank": "rank_vigil_saint_sunday_fathers_councils" }
+          }
+        ],
+        "variables": {
+          "vespers_readings": ["1_kings_8_22_23_27_30", "isaiah_61_10_62_5", "isaiah_60_1_16"],
+          "matins_gospel": "john_10_9_16",
+          "liturgy_readings": ["romans_6_18_23", "matthew_13_24_30_36_43"],
+          "communion_hymn": "righteous_memory"
+        }
+      },
+      "20": {
+        "title_key": "menaion.jul_20.elijah_prophet",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_jul_20",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["1_kings_17", "1_kings_18", "1_kings_19"],
+          "litiya_stichera": "elijah_litiya",
+          "matins_gospel": "luke_4_22_30",
+          "liturgy_readings": ["james_5_10_20", "luke_4_22_30"],
+          "communion_hymn": "praise_the_lord"
+        }
+      },
+      "24": {
+        "title_key": "menaion.jul_24.boris_and_gleb",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_jul_24",
+        "base_template": "CASE_05"
+      },
+      "25": {
+        "title_key": "menaion.jul_25.dormition_st_anna",
+        "rank": "rank_doxology",
+        "source_ref": "dolnytsky_part3_jul_25",
+        "base_template": "CASE_02"
+      },
+      "27": {
+        "title_key": "menaion.jul_27.panteleimon_healer",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_jul_27",
+        "base_template": "CASE_05"
+      }
+    }
+  }
+}

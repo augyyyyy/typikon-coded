@@ -1,0 +1,120 @@
+Based on the **Dolnytsky Typikon** (Part 1: General Order of Services), here is the fully unabridged structural outline for **Daily Vespers (Vechirnya shoddenna)**.
+
+This structure is used on standard weekdays (Sunday evening through Friday evening) when there is no Great Feast or Vigil prescribed. It differs significantly from Great Vespers by the **absence of the Entrance** and the reduction of hymnody.
+
+### **I. The Enarxis (Opening)**
+
+* **The Blessing:** "Blessed is our God..."
+* **The Usual Beginning:**
+* "Glory to Thee... O Heavenly King... Trisagion... O Come Let Us Worship..."
+
+
+* **Psalm 103 (The Proemial Psalm):**
+* **Rubric:** Read (Recited) or sung simply (Daily Melody). It is **not** chanted with the solemnity of Great Vespers.
+
+
+* **The Great Litany:** "In peace let us pray to the Lord..."
+
+### **II. The Kathisma (The Psalter)**
+
+* **Logic Gate (Day of the Week):**
+* **Resolve Case A (Sunday Evening):** No Kathisma is read (in many parish practices), or strict monastic rule prescribes the 1st Kathisma.
+* **Resolve Case B (Monday Evening):** 4th Kathisma.
+* **Resolve Case C (Tue-Fri Evening):** Sequential reading (e.g., 7th, 10th, 13th, 18th).
+* **Resolve Case D (Feast):** If a significant Saint falls on a weekday, the Kathisma of the day is retained unless explicitly suppressed.
+
+
+
+### **III. "Lord, I Have Cried" (The Stichera)**
+
+* **The Psalms (140, 141, 129, 116):** Sung in the **Tone of the Week** (Octoechos) or the **Tone of the Saint** (Menaion).
+* **The Stichera "On Count" Logic:**
+* **Standard Weekday:** **6 Stichera** total.
+* **Ratio:** 3 from Octoechos + 3 from Menaion (Saint).
+* **Conflict:** If two Saints, 3 Saint A + 3 Saint B (Octoechos is suppressed).
+
+
+* **Forefeast/Afterfeast:** 3 Feast + 3 Saint.
+
+
+* **The "Glory" Slot:**
+* **Resolve:** Insert **Doxastikon of the Saint** (Menaion) if appointed. If none, say "Glory... Both now..." together.
+
+
+* **The "Both Now" Slot:**
+* **Resolve Case A (Tue/Thu Nights):** **Theotokion of the Cross** (Stavrotheotokion) from the Octoechos (Dogmatika are reserved for Great Vespers).
+* **Resolve Case B (Mon/Wed/Fri Nights):** **Theotokion** from the Menaion or Octoechos.
+* **Resolve Case C (Forefeast):** Theotokion of the Feast.
+
+
+
+### **IV. The Entrance (The Void)**
+
+* **Logic Gate:**
+* **Standard Daily Vespers:** **NO ENTRANCE.** The Priest remains before the Royal Doors. The censer is **not** used (unless serving a Polyeleos service within a Daily framework, which is rare).
+
+
+* **The Hymn:** "O Gladsome Light" (Svite Tyhiy) is read or sung simply.
+
+### **V. The Prokeimenon (Daily)**
+
+* **Resolve Case (Day of Week):**
+* **Sunday Evening:** "Behold now, bless the Lord" (Tone 8).
+* **Monday Evening:** "The Lord hears me when I call to Him" (Tone 4).
+* **Tuesday Evening:** "Thy mercy, O Lord, shall follow me" (Tone 1).
+* **Wednesday Evening:** "O God, in Thy name save me" (Tone 5).
+* **Thursday Evening:** "My help cometh from the Lord" (Tone 6).
+* **Friday Evening:** "O God, my helper art Thou" (Tone 7).
+
+
+
+### **VI. The Litanies & Vouchsafe**
+
+* **Litany of Fervent Supplication:** "Let us say with all our soul..."
+* **Vouchsafe, O Lord:** Read (Recited).
+* **Litany of Supplication:** "Let us complete our evening prayer..."
+
+### **VII. The Aposticha**
+
+* **The Hymn Slot:**
+* **Source:** **Octoechos** (Stichera of the Aposticha for the specific day).
+* **Conflict:** If a Forefeast/Afterfeast, use **Menaion** Stichera instead.
+
+
+* **The "Glory... Both Now..." Logic:**
+* **Glory:** Saint (Menaion) or "Glory... Both now..." if none.
+* **Both Now:** Theotokion (or Stavrotheotokion on Tue/Thu).
+
+
+
+### **VIII. The Troparia (The Conclusion)**
+
+* **Song of Simeon:** "Now Thou lettest Thy servant depart..." (Read).
+* **Trisagion Prayers:** Standard.
+* **The Troparia Stack (Part 5 - Temple Rules):**
+* **Scenario 1: Standard Weekday (Single Saint):**
+* Troparion of the Saint.
+* Glory... Both now...
+* Theotokion (Dismissal Theotokion) in the Tone of the Saint.
+
+
+* **Scenario 2: Double Saint:**
+* Troparion Saint A.
+* Glory... Troparion Saint B.
+* Both now... Theotokion.
+
+
+* **Scenario 3: Lenten Weekday (Alleluia):**
+* Replaced by "Theotokos Virgin Rejoice" (Prostrations).
+
+
+
+
+
+### **IX. The Dismissal**
+
+* **Litany:** "Have mercy on us, O God..." (Short Litany).
+* **The Dismissal Proper:**
+* **Type:** **Small Dismissal**.
+* **Formula:** "Christ our True God, through the prayers of His Most Pure Mother, of the holy, glorious and all-praiseworthy Apostles, of Saint [Name] whom we commemorate today..."
+* **Lenten Check:** If Friday of Lent, append prostrations/St. Ephrem if prescribed.

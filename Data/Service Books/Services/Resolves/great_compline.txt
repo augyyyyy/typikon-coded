@@ -1,0 +1,142 @@
+Based on the **Dolnytsky Typikon** (Parts I, III, and IV), here is the fully unabridged structural outline for **Great Compline (Pavechirnya velyka)**.
+
+This service is structurally distinct because it is divided into **three separate parts**, each with its own specific Logic Gates depending on whether the service is **Lenten** (Penitential) or **Festal** (Vigil).
+
+### **Service Selector Logic**
+
+* **Trigger Condition A (Lenten Standard):** Monday, Tuesday, Wednesday, Thursday of Great Lent.
+* **Trigger Condition B (Festal Vigil):** Eves of Nativity, Theophany, and Annunciation.
+
+---
+
+### **PART I: The Dogmatic Section**
+
+* **The Blessing:** "Blessed is our God...".
+* **The Opening:** "Glory to Thee... Heavenly King... Trisagion... Psalms 4, 6, 12, 24, 30, 90."
+* **The Hymn "God is With Us" (Isaiah 8:8-18):**
+* **Resolve Case A (Lenten):** Sung in Tone 6 with the Lenten melody.
+* **Resolve Case B (Vigil):** Sung with the Solemn (Festal) melody.
+
+
+* **The Reader's Response:**
+* "The day is passed, I thank Thee, O Lord...".
+
+
+* **The Creed:** Recited.
+* **The Prayer:** "O All-holy Lady, Theotokos..."
+* **The Trisagion:** Standard sequence.
+* **The Troparia of Part I:**
+* **Resolve Case A (Lenten):** "The bodiless nature of the Cherubim..." (Sung with prostrations).
+* **Resolve Case B (Vigil):**
+* **Action:** Suppress "Bodiless Nature."
+* **Insert:** **Troparion of the Feast** (Menaion).
+
+
+
+
+* **The Conclusion of Part I:**
+* Kyrie (40 times).
+* "More honorable than the Cherubim..."
+* **Prayer of St. Basil:** "O Lord, Lord, who deliverest us..."
+
+
+
+---
+
+### **PART II: The Penitential Section**
+
+* **The Opening:** "O Come, Let us Worship..."
+* **The Psalms:**
+* Psalm 50 ("Have mercy on me...").
+* Psalm 101 ("O Lord, hear my prayer...").
+
+
+* **The Prayer of Manasseh:** "O Lord Almighty, God of our Fathers...".
+* **The Trisagion:** Standard sequence.
+* **The Troparia of Part II:**
+* **Resolve Case A (Lenten):** "Have mercy on us, O Lord..." (Troparia of Repentance).
+* **Resolve Case B (Vigil):**
+* **Action:** Often suppressed or recited quickly without prostrations (Dolnytsky is less explicit on the suppression here compared to Part I, but standard Vigil practice minimizes the penitential character).
+
+
+
+
+* **The Conclusion of Part II:**
+* Kyrie (40 times).
+* "More honorable..."
+* **Prayer of St. Mardarius:** "O God and Master, Father Almighty..."
+
+
+
+---
+
+### **PART III: The Canon & Praises (The Primary Variable)**
+
+* **The Opening:** "O Come, Let us Worship..."
+* **The Psalms:**
+* Psalm 69 ("O God, make haste...").
+* Psalm 142 ("O Lord, hear my prayer...").
+
+
+* **The Small Doxology:** Read (Recited).
+* **The Canon Slot (Logic Gate from Part 4):**
+* **Resolve Case A (Lenten Standard):**
+* **Action:** Insert **Canon of the Saint of the Day** (moved from Matins).
+
+
+* **Resolve Case B (Clean Week - Mon/Tue/Wed/Thu):**
+* **Action:** Insert **Great Canon of St. Andrew of Crete** (Divided into 4 parts).
+
+
+* **Resolve Case C (Vigil):**
+* **Action:** Insert **Canon of the Feast** (Menaion).
+
+
+
+
+* **The Axion Estin:** "It is truly proper..."
+* **The Trisagion:** Standard sequence.
+* **The "Lord of Hosts" Slot (Hymnody Variable):**
+* **Resolve Case A (Lenten):**
+* **Insert:** **"O Lord of Hosts, be with us"** (Tone 6) with verses from Psalm 150.
+
+
+* **Resolve Case B (Vigil):**
+* **Action:** Suppress "O Lord of Hosts."
+* **Insert:** **Kontakion of the Feast** (Menaion).
+
+
+
+
+* **The Conclusion of Part III:**
+* Kyrie (40 times).
+* **Prayer:** "O Lord, who at all times..."
+* **Prayer:** "O Lord, God of our Fathers..." (If Lenten).
+
+
+
+---
+
+### **IV. The Dismissal Sequence**
+
+* **The Prostrations (Logic Gate):**
+* **Resolve Case A (Lenten):**
+* **Action:** Insert **Prayer of St. Ephrem** (4 or 16 prostrations depending on the week).
+
+
+* **Resolve Case B (Vigil):**
+* **Action:** Omit St. Ephrem.
+
+
+
+
+* **The Final Dismissal:**
+* **Resolve Case A (Lenten):**
+* **Prayer:** "O Immaculate, Undefiled..." (Prayer to the Theotokos).
+* **Prayer:** "And give us, O Master..." (Prayer to Christ).
+* **Rite of Forgiveness:** "Bless, holy fathers and brethren, and forgive me..." (Mutual prostrations).
+
+
+* **Resolve Case B (Vigil):**
+* **Transition:** If a Vigil, the service may transition directly into the **Litia** (Blessing of Bread/Wheat/Wine/Oil) and then into Matins.
+* **Action:** `[TRIGGER: LITIA_TRANSITION]`

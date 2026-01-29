@@ -1,0 +1,430 @@
+{
+  "file_metadata": {
+    "filename": "01f_struct_compline.json",
+    "version": "4.0 (Great Canon Patch)",
+    "last_updated": "2025-01-30",
+    "authority": "Dolnytsky Typikon Parts I & IV",
+    "scope": "Small Compline & Great Compline (All Variants)",
+    "description": "Defines the structure of Compline. Updated to include specific logic for the Great Canon of St. Andrew (1st Week of Lent) and corrected the Part 1 sequence."
+  },
+  "structures": {
+    "small_compline": {
+      "title_key": "titles.compline_small",
+      "source_ref": "dolnytsky_part1_compline_small",
+      "rubric": {
+        "key": "rubrics.compline.vesting_epitrakhelion"
+      },
+      "sequence": [
+        {
+          "id": "opening_blessing",
+          "section_key": "sections.beginning",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.blessing_common"
+          }
+        },
+        {
+          "id": "introductory_prayers",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_block"
+          }
+        },
+        {
+          "id": "invitatory",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.invitatory_3x"
+          }
+        },
+        {
+          "id": "psalms_compline",
+          "section_key": "sections.psalmody",
+          "content": {
+            "type": "fixed_group",
+            "ref_keys": [
+              "psalm_50",
+              "psalm_69",
+              "psalm_142"
+            ]
+          }
+        },
+        {
+          "id": "doxology_small",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.doxology_small_read"
+          }
+        },
+        {
+          "id": "creed",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.creed"
+          }
+        },
+        {
+          "id": "canon_slot",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_compline_canon"
+            }
+          }
+        },
+        {
+          "id": "axion_estin",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.axion_estin"
+          }
+        },
+        {
+          "id": "trisagion_2",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_block"
+          }
+        },
+        {
+          "id": "troparia_slot",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_compline_troparia",
+              "args": {
+                "rank": "small"
+              }
+            }
+          }
+        },
+        {
+          "id": "lord_have_mercy_40",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.lord_have_mercy_40"
+          }
+        },
+        {
+          "id": "prayer_hours",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.prayer_hours_thou_who"
+          }
+        },
+        {
+          "id": "prayers_final",
+          "content": {
+            "type": "fixed_group",
+            "ref_keys": [
+              "horologion.prayer_compline_spotless",
+              "horologion.prayer_compline_grant_us"
+            ]
+          }
+        },
+        {
+          "id": "dismissal_sequence",
+          "content": {
+            "type": "sequence",
+            "components": [
+              {
+                "id": "dismiss_prayers",
+                "type": "fixed_ref",
+                "ref_key": "horologion.dismissal_small_prayers"
+              },
+              {
+                "id": "lit_final",
+                "type": "fixed_ref",
+                "ref_key": "horologion.litany_final_compline"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "great_compline_lenten": {
+      "title_key": "titles.compline_great_lenten",
+      "source_ref": "dolnytsky_part1_compline_great",
+      "sequence": [
+        {
+          "id": "opening_blessing",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.blessing_common"
+          }
+        },
+        {
+          "id": "trisagion_init",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_block"
+          }
+        },
+        {
+          "id": "invitatory",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.invitatory_3x"
+          }
+        },
+        {
+          "id": "great_canon_insertion",
+          "source_ref": "dolnytsky_part4_lent_week1_compline",
+          "rubric": {
+            "key": "rubrics.lenten.great_canon_divided"
+          },
+          "content": {
+            "type": "conditional_block",
+            "logic": {
+              "function": "check_day_range",
+              "args": {
+                "week": 1,
+                "days": [
+                  "Mon",
+                  "Tue",
+                  "Wed",
+                  "Thu"
+                ]
+              }
+            },
+            "true_content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "id": "psalm_69",
+                  "type": "fixed_ref",
+                  "ref_key": "psalm_69"
+                },
+                {
+                  "id": "canon_portion",
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_great_canon_portion"
+                  }
+                }
+              ]
+            },
+            "false_content": null
+          }
+        },
+        {
+          "id": "part_1",
+          "sequence": [
+            {
+              "id": "psalms_part1",
+              "type": "fixed_group",
+              "ref_keys": [
+                "psalm_4",
+                "psalm_6",
+                "psalm_12",
+                "psalm_24",
+                "psalm_30",
+                "psalm_90"
+              ]
+            },
+            {
+              "id": "god_is_with_us",
+              "content": {
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_god_is_with_us"
+                }
+              }
+            },
+            {
+              "id": "troparia_part1",
+              "type": "fixed_ref",
+              "ref_key": "horologion.troparia_compline_day_passed"
+            },
+            {
+              "id": "creed",
+              "type": "fixed_ref",
+              "ref_key": "horologion.creed"
+            },
+            {
+              "id": "supplication_theotokos",
+              "content": {
+                "type": "fixed_ref",
+                "ref_key": "horologion.supplication_all_holy_lady"
+              }
+            },
+            {
+              "id": "trisagion_1",
+              "type": "fixed_ref",
+              "ref_key": "horologion.trisagion_block"
+            },
+            {
+              "id": "troparia_lenten_1",
+              "type": "fixed_group",
+              "ref_keys": [
+                "horologion.troparion_illumine_my_eyes",
+                "horologion.have_mercy_on_us_lord"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_2",
+          "sequence": [
+            {
+              "id": "psalms_part2",
+              "type": "fixed_group",
+              "ref_keys": [
+                "psalm_50",
+                "psalm_101",
+                "prayer_manasses"
+              ]
+            },
+            {
+              "id": "trisagion_2",
+              "type": "fixed_ref",
+              "ref_key": "horologion.trisagion_block"
+            },
+            {
+              "id": "kontakion_lenten",
+              "content": {
+                "type": "fixed_ref",
+                "ref_key": "horologion.kontakion_have_mercy_on_us"
+              }
+            }
+          ]
+        },
+        {
+          "id": "part_3",
+          "sequence": [
+            {
+              "id": "psalms_part3",
+              "type": "fixed_group",
+              "ref_keys": [
+                "psalm_69",
+                "psalm_142",
+                "doxology_small_read"
+              ]
+            },
+            {
+              "id": "canon_lenten",
+              "content": {
+                "type": "fixed_ref",
+                "ref_key": "octoechos.canon_theotokos_current_tone"
+              }
+            },
+            {
+              "id": "trisagion_3",
+              "type": "fixed_ref",
+              "ref_key": "horologion.trisagion_block"
+            },
+            {
+              "id": "lord_of_hosts",
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_compline_lord_of_hosts"
+              }
+            },
+            {
+              "id": "prayer_st_ephrem",
+              "rubric": {
+                "key": "rubrics.lenten.prayer_ephrem_16"
+              },
+              "content": {
+                "type": "fixed_ref",
+                "ref_key": "triodion.prayer_st_ephrem"
+              }
+            },
+            {
+              "id": "dismissal",
+              "type": "fixed_ref",
+              "ref_key": "horologion.dismissal_great_compline_standard"
+            }
+          ]
+        }
+      ]
+    },
+    "great_compline_vigil": {
+      "title_key": "titles.compline_great_vigil",
+      "source_ref": "dolnytsky_part1_compline_vigil",
+      "inherits_from": "great_compline_lenten",
+      "overrides": [
+        {
+          "target_id": "opening_blessing",
+          "action": "insert_before",
+          "new_component": {
+            "id": "censing_vigil",
+            "state_change": {
+              "doors": "open"
+            },
+            "content": {
+              "type": "fixed_action",
+              "action": "censing_table_iconostasis_people"
+            }
+          }
+        },
+        {
+          "target_id": "opening_blessing",
+          "action": "insert_after",
+          "new_component": {
+            "id": "close_doors",
+            "state_change": {
+              "doors": "closed"
+            }
+          }
+        },
+        {
+          "target_id": "troparia_lenten_1",
+          "action": "replace",
+          "new_component": {
+            "id": "trop_feast",
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_vigil_troparion"
+              }
+            }
+          }
+        },
+        {
+          "target_id": "kontakion_lenten",
+          "action": "replace",
+          "new_component": {
+            "id": "kont_feast",
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_vigil_kontakion"
+              }
+            }
+          }
+        },
+        {
+          "target_id": "part_3",
+          "action": "replace",
+          "new_component": {
+            "id": "vigil_tail",
+            "sequence": [
+              {
+                "id": "litiya",
+                "content": {
+                  "type": "component_ref",
+                  "ref_key": "components.litiya_procession"
+                }
+              },
+              {
+                "id": "artoklasia",
+                "content": {
+                  "type": "component_ref",
+                  "ref_key": "components.artoklasia"
+                }
+              },
+              {
+                "id": "dismissal_vigil",
+                "content": {
+                  "type": "fixed_ref",
+                  "ref_key": "horologion.dismissal_vigil_sequence"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

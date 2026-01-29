@@ -1,0 +1,131 @@
+{
+  "file_metadata": {
+    "filename": "02d_logic_temple.json",
+    "version": "2.0 (Expanded with Part V Specifics)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part V",
+    "scope": "Patronal Feast Logic",
+    "description": "Logic overrides for the Parish Patronal Feast. Includes the 31 Specific Cases for Triodion/Pentecostarion collisions and the Eucharistic Procession rubric."
+  },
+  "system_settings": {
+    "trigger_condition": "is_temple_feast",
+    "default_rank_override": "rank_vigil_patronal",
+    "vestment_color": "gold_or_patron_color",
+    "apodosis_rule": {
+      "description": "The Apodosis (Leave-taking) of a Temple Feast takes place on the evening of the feast day itself (Vespers for the following day).",
+      "rubric_ref": "dolnytsky_part5_para2",
+      "action": "append_apodosis_to_vespers_evening"
+    },
+    "procession_rule": {
+      "description": "Ruthenian custom of Eucharistic Procession around the church on the Patronal Feast.",
+      "rubric_ref": "dolnytsky_part5_chap1_procession",
+      "action": "insert_eucharistic_procession_after_vespers_or_liturgy"
+    }
+  },
+  "transfer_logic": {
+    "description": "Rules for moving the Temple Feast if it falls on a forbidden day (Part V, Case 18).",
+    "rules": [
+      {
+        "conflict_period": "holy_week_monday_to_thursday",
+        "action": "transfer_to_palm_sunday",
+        "rubric_ref": "dolnytsky_part5_case18_passion"
+      },
+      {
+        "conflict_period": "holy_friday_to_pascha",
+        "action": "transfer_to_bright_monday_or_tuesday",
+        "rubric_ref": "dolnytsky_part5_case18_triduum"
+      },
+      {
+        "conflict_period": "first_week_lent_monday",
+        "action": "transfer_to_cheesefare_sunday",
+        "rubric_ref": "dolnytsky_part5_case5"
+      },
+      {
+        "conflict_period": "first_week_lent_tue_to_fri",
+        "action": "transfer_to_first_saturday_lent",
+        "rubric_ref": "dolnytsky_part5_case6"
+      }
+    ]
+  },
+  "liturgical_overrides": {
+    "general_cases": {
+      "sunday_collision": {
+        "description": "Patronal Feast falls on a Sunday (Part V, Para 2).",
+        "logic_action": {
+          "rank": "rank_vigil_sunday_combined",
+          "matins_pre_gospel": {
+            "prokimenon": "temple",
+            "gospel": "temple",
+            "sticheron": "temple"
+          },
+          "praises": "glory_temple_bothnow_most_blessed",
+          "liturgy": "sunday_and_temple_combined"
+        }
+      }
+    },
+    "triodion_specifics": {
+      "meatfare_saturday": {
+        "description": "Case 2: Temple on Meatfare Saturday.",
+        "action": "celebrate_temple_saturday_transfer_dead_to_thursday"
+      },
+      "cheesefare_week": {
+        "description": "Case 3: Temple on Cheesefare Weekdays.",
+        "action": "lenten_form_with_prostrations_doxastikon_temple"
+      },
+      "lent_saturdays_2_3_4": {
+        "description": "Case 10: Temple on Memorial Saturdays.",
+        "action": "combine_temple_with_dead_liturgy_temple_only"
+      },
+      "lent_sundays_2_4_5": {
+        "description": "Case 11: Temple on Lenten Sundays.",
+        "action": "combine_sunday_triodion_temple_vigil"
+      },
+      "lent_weekdays_2_to_6": {
+        "description": "Case 9: Temple on Lenten Weekday.",
+        "action": {
+          "type": "presanctified_liturgy_vigil",
+          "rubric_ref": "dolnytsky_part5_case9",
+          "vespers_structure": "finding_head_logic"
+        }
+      },
+      "akathist_saturday": {
+        "description": "Case 15: Temple on Akathist Saturday.",
+        "action": "combine_akathist_and_temple"
+      },
+      "lazarus_saturday": {
+        "description": "Case 16: Temple on Lazarus Saturday.",
+        "action": "combine_lazarus_and_temple"
+      },
+      "palm_sunday": {
+        "description": "Case 17: Temple on Palm Sunday.",
+        "action": "combine_palm_and_temple_no_resurrection_hymns"
+      }
+    },
+    "pentecostarion_specifics": {
+      "bright_week": {
+        "description": "Case 19: Temple in Bright Week.",
+        "action": "st_george_bright_week_logic"
+      },
+      "mid_pentecost": {
+        "description": "Case 20-21: Temple with Mid-Pentecost.",
+        "action": "john_theologian_logic"
+      },
+      "ascension": {
+        "description": "Case 22: Temple on Ascension.",
+        "action": "combine_ascension_and_temple"
+      },
+      "pentecost": {
+        "description": "Case 26: Temple on Pentecost.",
+        "action": "combine_pentecost_and_temple_no_resurrection"
+      },
+      "holy_spirit_monday": {
+        "description": "Case 27: Temple on Holy Spirit Monday.",
+        "action": "combine_holy_spirit_and_temple"
+      },
+      "all_saints_sunday": {
+        "description": "Case 29: Temple on All Saints.",
+        "action": "combine_all_saints_and_temple"
+      }
+    }
+  }
+}

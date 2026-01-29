@@ -1,0 +1,79 @@
+{
+  "file_metadata": {
+    "filename": "02b_09_may.json",
+    "version": "1.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (May)",
+    "scope": "Fixed Feast Logic for May",
+    "description": "Logic definitions for St. John the Theologian, St. Nicholas (Translation), and Sts. Cyril and Methodius. Includes conflict resolution for Ascension and Mid-Pentecost."
+  },
+  "month_settings": {
+    "month_id": 5,
+    "days": {
+      "08": {
+        "title_key": "menaion.may_08.john_theologian",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_may_8",
+        "base_template": "CASE_06",
+        "variants": [
+          {
+            "condition": { "triodion_period": ["ascension"] },
+            "action": { 
+              "type": "standard_liturgy_chrysostom",
+              "variables": {
+                  "liturgy_antiphons": "festal_ascension_antiphons",
+                  "troparia_sequence": "ascension_john_glory_kont_john_bn_kont_ascension",
+                  "liturgy_readings": ["1_john_1_1_7", "john_19_25_27_21_24_25"]
+              }
+            }
+          },
+          {
+            "condition": { "triodion_period": ["mid_pentecost"] },
+            "action": { "combine_rank": "rank_vigil_saint_mid_pentecost" }
+          }
+        ],
+        "variables": {
+          "vespers_readings": ["1_john_3_21_4_6", "1_john_4_11_16", "1_john_4_20_5_5"],
+          "litiya_stichera": "john_theologian_litiya",
+          "matins_gospel": "john_21_15_25",
+          "liturgy_readings": ["1_john_1_1_7", "john_19_25_27_21_24_25"],
+          "communion_hymn": "their_sound_has_gone_forth"
+        }
+      },
+      "09": {
+        "title_key": "menaion.may_09.nicholas_translation",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_may_9",
+        "base_template": "CASE_05",
+        "variables": {
+          "matins_gospel": "john_10_9_16",
+          "liturgy_readings": ["hebrews_13_17_21", "luke_6_17_23"],
+          "communion_hymn": "righteous_memory"
+        }
+      },
+      "11": {
+        "title_key": "menaion.may_11.cyril_and_methodius",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_may_11",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["wisdom_5_15_6_3", "wisdom_4_7_15", "wisdom_3_1_9"],
+          "matins_gospel": "john_10_1_9",
+          "liturgy_readings": ["hebrews_7_26_8_2", "matthew_5_14_19"],
+          "communion_hymn": "their_sound_has_gone_forth"
+        }
+      },
+      "21": {
+        "title_key": "menaion.may_21.constantine_and_helen",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_may_21",
+        "base_template": "CASE_05",
+        "variables": {
+          "matins_gospel": "john_10_9_16",
+          "liturgy_readings": ["acts_26_1_5_12_20", "john_10_1_9"],
+          "troparia_sequence": "saint_constantine_stacking"
+        }
+      }
+    }
+  }
+}

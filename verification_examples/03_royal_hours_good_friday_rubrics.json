@@ -1,0 +1,15 @@
+{
+  "title": "Great and Holy Friday",
+  "variables": {
+    "hours_type": "structure_royal",
+    "vespers_type": "passion_burial_vespers",
+    "matins_type": "tomb_matins",
+    "liturgy_type": "no_liturgy"
+  },
+  "overrides": {
+    "hours_type": "structure_royal",
+    "vespers_type": "passion_burial_vespers",
+    "matins_type": "tomb_matins",
+    "liturgy_type": "no_liturgy"
+  }
+}

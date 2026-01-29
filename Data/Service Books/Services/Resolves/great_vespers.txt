@@ -1,0 +1,149 @@
+Based on the **Dolnytsky Typikon** (Parts 1–5), here is the fully unabridged structural outline for **Great Vespers (Vechirnya velyka)**.
+
+This outline is the "Master Blueprint" for Saturday evenings, Great Feasts, and Vigils. It contains the logic gates necessary to resolve the variables from the Octoechos, Menaion, and Triodion.
+
+### **Service Selector Logic**
+
+* **Trigger Condition A (Sunday Vigil):** Saturday Evening.
+* **Trigger Condition B (Festal Vigil):** Eve of a Rank 3 (Polyeleos), Rank 4 (Vigil), or Rank 5 (Great Feast) celebration.
+* **Trigger Condition C (Lenten Sunday):** Sunday Evenings of Great Lent (often served with specific Prokeimena/Entrance).
+
+---
+
+### **I. The Enarxis (Opening)**
+
+* **The Blessing:**
+* **Resolve Case A (Vigil):** If connected to Matins (All-Night Vigil), "Glory to the Holy, Consubstantial...".
+* **Resolve Case B (Separate):** If served separately, "Blessed is our God..."
+
+
+* **The Usual Beginning:**
+* "O Come, let us worship..." (Omitted if Vigil preceded by Great Compline/Litya).
+
+
+* **The Proemial Psalm (Psalm 103):**
+* **Rubric:** "Bless the Lord, O my soul."
+* **Resolve Case A (Vigil):** Sung with slow, solemn melody (verses selected).
+* **Resolve Case B (Simple Great Vespers):** Read (Recited) or sung simply.
+
+
+* **The Great Litany:** "In peace let us pray to the Lord...".
+
+---
+
+### **II. The Kathisma (The Psalter)**
+
+* **The Logic Gate (Part 1 & 2):**
+* **Resolve Case A (Saturday Evening):** **1st Kathisma** ("Blessed is the man") is sung in full or abbreviated.
+* **Resolve Case B (Sunday Evening - Lenten):** No Kathisma (unless specified).
+* **Resolve Case C (Feast Eve falling on Sun/Mon):** **1st Kathisma** is sung.
+* **Resolve Case D (Feast Eve on Tue-Fri):** Usually **No Kathisma**, unless the Typikon explicitly prescribes the Kathisma of the day (rare in parish practice, but Dolnytsky notes specific monastic rules).
+
+
+
+---
+
+### **III. "Lord, I Have Cried" (The Stichera)**
+
+* **The Psalms (140, 141, 129, 116):** Sung in the **Tone of the Week** (if Sunday) or **Tone of the Feast**.
+* **The Stichera "On Count" Logic (Part 1):**
+* **Saturday Evening:** **10 Stichera** (Typically: 7 Resurrectional + 3 Saint OR 6 Res + 4 Saint).
+* **Great Feast:** **8 or 10 Stichera** (All Festal).
+* **Pre-Feast/Post-Feast:** Mixed Logic (e.g., 6 Feast + 4 Saint).
+
+
+* **The "Glory" Slot:**
+* **Resolve:** Insert **Doxastikon of the Saint** (Menaion) if applicable.
+
+
+* **The "Both Now" Slot (The Dogmatikon):**
+* **Resolve Case A (Saturday Evening):** Insert **Dogmatikon of the Tone** (Octoechos).
+* **Resolve Case B (Feast):** Insert **Festal Theotokion** (Menaion).
+
+
+
+---
+
+### **IV. The Entrance & Readings**
+
+* **The Entrance:**
+* **Rubric:** **Entrance with the Censer** is mandatory for Great Vespers.
+* **Hymn:** "O Gladsome Light" (Svite Tyhiy).
+
+
+* **The Prokeimenon Slot:**
+* **Resolve Case A (Saturday Evening):** "The Lord is King" (Tone 6).
+* **Resolve Case B (Feast Day):** Prokeimenon of the Day (e.g., "Who is so great a God").
+* **Resolve Case C (Lenten Sunday):** Great Prokeimenon ("Turn not away Thy face").
+
+
+* **The Readings (Paremias) Slot (Part 3):**
+* **Logic:** If Rank 3 (Polyeleos) or higher.
+* **Action:** Insert **Old Testament Readings** (usually 3).
+* **Pointer:** `[REF: Menaion_Readings_Group_ID]`.
+
+
+
+---
+
+### **V. The Litya (Optional Module)**
+
+* **Trigger (Part 1):** Rank 4 (Vigil) or Rank 5 (Great Feast).
+* **Structure:**
+* Procession to the Narthex.
+* **Stichera of Litya:** From Menaion (Feast) or Temple (Patron).
+* **Litany of Litya:** "O God, save Thy people..."
+* **Return:** "O Sovereign Lady..." (during return to nave).
+
+
+
+---
+
+### **VI. The Aposticha**
+
+* **The Hymn Slot:**
+* **Resolve Case A (Saturday Evening):** **Resurrectional Aposticha** (Octoechos).
+* **Resolve Case B (Feast):** **Festal Aposticha** (Menaion).
+
+
+* **The "Glory... Both Now..." Logic:**
+* **Saturday:** Glory (Saint) -> Both Now (Theotokion of Saint's Tone **OR** Resurrectional if Saint has none).
+* **Feast:** Glory (Feast) -> Both Now (Feast).
+
+
+
+---
+
+### **VII. The Troparia (The Conclusion)**
+
+* **Song of Simeon:** "Now Thou lettest Thy servant depart..." (Read or Sung).
+* **Trisagion Prayers:** Standard.
+* **The Troparia Stack (Part 5 - Temple Rules):**
+* **Scenario 1: Saturday Evening (Vigil):**
+* "Rejoice, O Virgin Theotokos" (3 times) **IF** Litya was served.
+* **OR:** Resurrectional Troparion -> Glory -> Saint -> Both Now -> Theotokion.
+
+
+* **Scenario 2: Great Feast:**
+* Troparion of the Feast (3 times).
+
+
+
+
+* **The Artoklasia (Blessing of Loaves):**
+* **Logic:** If Litya was served, the **Blessing of Bread, Wheat, Wine, and Oil** occurs here.
+
+
+
+---
+
+### **VIII. The Dismissal**
+
+* **The Ending:**
+* "Blessed be the Name of the Lord" (3 times).
+* Psalm 33 (Read or Sung).
+
+
+* **The Dismissal Proper:**
+* **Type:** **Great Dismissal** ("May Christ our True God...").
+* **Logic:** Mention the Resurrection (if Sunday), the Feast, the Temple Patron, and the Saint of the Day.

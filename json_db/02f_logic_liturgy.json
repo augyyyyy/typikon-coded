@@ -1,0 +1,213 @@
+{
+    "file_metadata": {
+        "filename": "02f_logic_liturgy.json",
+        "version": "1.0",
+        "authority": "Dolnytsky Typikon",
+        "description": "Logic rules for Divine Liturgy variable parts."
+    },
+    "antiphon_logic": [
+        {
+            "condition": "rank >= 1",
+            "strategy": "festal_antiphons",
+            "note": "Feasts of the Lord take precedence"
+        },
+        {
+            "condition": "day_of_week == 0",
+            "strategy": "typical_psalms",
+            "note": "Sundays use Typical Psalms (Beatitudes)"
+        },
+        {
+            "condition": "default",
+            "strategy": "weekday_antiphons",
+            "note": "Simple weekday antiphons (Psalm 91, 92, 94)"
+        }
+    ],
+    "communion_hymns": {
+        "sunday": "praise_the_lord",
+        "mid_week_map": {
+            "1": "who_makest_spirits",
+            "2": "in_everlasting_remembrance",
+            "3": "i_will_take_the_cup",
+            "4": "their_sound_hath_gone_forth",
+            "5": "thou_hast_wrought_salvation",
+            "6": "blessed_are_they",
+            "0": "praise_the_lord"
+        }
+    },
+    "hymn_ordering_templates": {
+        "sunday_saint_temple": {
+            "description": "Sunday + Saint Temple (Rank 3-)",
+            "order": [
+                {
+                    "type": "troparion",
+                    "source": "resurrection_tone"
+                },
+                {
+                    "type": "troparion",
+                    "source": "temple"
+                },
+                {
+                    "type": "troparion",
+                    "source": "menaion_saint"
+                },
+                {
+                    "type": "kontakion",
+                    "source": "resurrection_tone"
+                },
+                {
+                    "type": "kontakion",
+                    "source": "temple"
+                },
+                {
+                    "type": "kontakion",
+                    "source": "menaion_saint",
+                    "glory": true
+                },
+                {
+                    "type": "kontakion",
+                    "source": "steadfast_protectress",
+                    "both_now": true,
+                    "condition": "not is_afterfeast"
+                }
+            ]
+        },
+        "sunday_theotokos_temple": {
+            "description": "Sunday + Theotokos Temple",
+            "order": [
+                {
+                    "type": "troparion",
+                    "source": "resurrection_tone"
+                },
+                {
+                    "type": "troparion",
+                    "source": "temple"
+                },
+                {
+                    "type": "troparion",
+                    "source": "menaion_saint"
+                },
+                {
+                    "type": "kontakion",
+                    "source": "resurrection_tone"
+                },
+                {
+                    "type": "kontakion",
+                    "source": "menaion_saint",
+                    "glory": true
+                },
+                {
+                    "type": "kontakion",
+                    "source": "steadfast_protectress",
+                    "both_now": true,
+                    "condition": "not is_afterfeast"
+                }
+            ]
+        },
+        "sunday_standard": {
+            "description": "Sunday + Saint (Rank 3-)",
+            "order": [
+                {
+                    "type": "troparion",
+                    "source": "resurrection_tone"
+                },
+                {
+                    "type": "troparion",
+                    "source": "temple"
+                },
+                {
+                    "type": "troparion",
+                    "source": "menaion_saint"
+                },
+                {
+                    "type": "kontakion",
+                    "source": "resurrection_tone"
+                },
+                {
+                    "type": "kontakion",
+                    "source": "temple",
+                    "glory": true
+                },
+                {
+                    "type": "kontakion",
+                    "source": "fixed_theotokion",
+                    "key": "steadfast_protectress",
+                    "both_now": true
+                }
+            ]
+        },
+        "weekday_standard": {
+            "description": "Simple Weekday + Saint",
+            "order": [
+                {
+                    "type": "troparion",
+                    "source": "menaion_saint"
+                },
+                {
+                    "type": "troparion",
+                    "source": "temple"
+                },
+                {
+                    "type": "kontakion",
+                    "source": "temple",
+                    "glory": true
+                },
+                {
+                    "type": "kontakion",
+                    "source": "menaion_saint",
+                    "both_now": true
+                }
+            ]
+        }
+    },
+    "dismissal_preambles": {
+        "theophany": "Who for our salvation was baptized by John in the Jordan",
+        "nativity": "Who was born in a cavern and lay in a manger for our salvation",
+        "pascha": "Who rose from the dead, by death trampling down death"
+    },
+    "trisagion_logic": [
+        {
+            "condition": "date in ['01-06', '12-25'] or context.get('is_pentecost') or context.get('is_palm_sunday') is False and context.get('is_lazarus_saturday')",
+            "replacement": "baptismal_trisagion",
+            "note": "As many as have been baptized (Theophany, Nativity, Lazarus, Great Saturday, Pentecost)"
+        },
+        {
+            "condition": "context.get('is_cross_veneration')",
+            "replacement": "cross_trisagion",
+            "note": "We bow to Your Cross"
+        }
+    ],
+    "cherubic_logic": [
+        {
+            "condition": "context.get('is_great_thursday')",
+            "replacement": "joy_of_the_mystical_supper",
+            "note": "Receive me today (Great Thursday)"
+        },
+        {
+            "condition": "context.get('is_great_saturday')",
+            "replacement": "let_all_mortal_flesh",
+            "note": "Let all mortal flesh keep silence (Great Saturday)"
+        }
+    ],
+    "megalynarion_logic": [
+        {
+            "condition": "context.get('liturgy_type') == 'basil'",
+            "replacement": "in_thee_rejoiceth",
+            "note": "Default for Basil Liturgy (unless Feast)"
+        },
+        {
+            "condition": "rank == 1",
+            "replacement": "festal_zadostoinyk",
+            "note": "Megalynarion of the Feast (9th Ode Heirmos)"
+        }
+    ],
+    "dismissal_logic": [
+        {
+            "condition": "day_of_week == 0",
+            "template": "sunday_dismissal"
+        },
+        {
+            "condition": "default",
+            "template": "daily_dismissal"
+        }
+    ]
+}

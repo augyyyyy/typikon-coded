@@ -1,0 +1,82 @@
+{
+  "file_metadata": {
+    "filename": "02b_08_april.json",
+    "version": "1.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (April)",
+    "scope": "Fixed Feast Logic for April",
+    "description": "Logic definitions for St. George. Includes critical logic for transferring the feast if it collides with Holy Week or Pascha."
+  },
+  "month_settings": {
+    "month_id": 4,
+    "days": {
+      "01": {
+        "title_key": "menaion.apr_01.mary_egypt",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_apr_1",
+        "base_template": "CASE_05",
+        "variants": [
+          {
+            "condition": { "triodion_period": ["lent_weekday"] },
+            "action": { 
+                "type": "presanctified_liturgy_polyeleos", 
+                "variables": { "liturgy_gospel": "luke_7_36_50" }
+            }
+          }
+        ]
+      },
+      "23": {
+        "title_key": "menaion.apr_23.george_great_martyr",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_apr_23",
+        "base_template": "CASE_06",
+        "variants": [
+          {
+            "condition": { "triodion_period": ["great_friday", "great_saturday", "pascha"] },
+            "action": { 
+              "type": "transfer_date", 
+              "target": "bright_monday",
+              "comment": "Dolnytsky prescribes transferring St. George to Bright Monday if it falls on the Triduum or Pascha."
+            }
+          },
+          {
+            "condition": { "triodion_period": ["bright_week"] },
+            "action": { 
+              "type": "merge_template",
+              "template_id": "bright_week_saint_template",
+              "note": "Combined service: Paschal beat + Saint's hymns." 
+            }
+          }
+        ],
+        "variables": {
+          "vespers_readings": ["isaiah_43_9_14", "wisdom_3_1_9", "wisdom_4_7_15"],
+          "litiya_stichera": "george_litiya",
+          "matins_gospel": "luke_21_12_19",
+          "liturgy_readings": ["acts_12_1_11", "john_15_17_16_2"],
+          "communion_hymn": "righteous_memory"
+        }
+      },
+      "25": {
+        "title_key": "menaion.apr_25.mark_evangelist",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_apr_25",
+        "base_template": "CASE_05",
+        "variants": [
+           {
+            "condition": { "triodion_period": ["bright_week"] },
+            "action": { 
+                "type": "merge_template", 
+                "template_id": "bright_week_saint_template" 
+            }
+           }
+        ]
+      },
+      "30": {
+        "title_key": "menaion.apr_30.james_brother_john",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_apr_30",
+        "base_template": "CASE_05"
+      }
+    }
+  }
+}

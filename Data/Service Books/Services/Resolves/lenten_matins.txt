@@ -1,0 +1,183 @@
+Based on the **Dolnytsky Typikon** (specifically **Part 4: Triodion** and **Part 1: General Order**), here is the fully unabridged structural outline for **Lenten Matins (Utrenya postova)**.
+
+This structure is used exclusively on **Weekdays (Monday–Friday) of Great Lent**.
+
+**Critical Distinction:** Unlike Daily Matins, Lenten Matins features the **Alleluia** (replacing "God is the Lord"), the **Hymns to the Trinity** (Troichni), and the **Prayer of St. Ephrem**. Furthermore, the structural order of the Ending is unique.
+
+### **Service Selector Logic**
+
+* **Trigger:** Monday, Tuesday, Wednesday, Thursday, Friday of Great Lent.
+* **Exclusion:** Saturday of Lent (All Souls / Akathist) -> Load `struct_matins_festal` (God is the Lord is restored).
+* **Exclusion:** Sunday of Lent -> Load `struct_matins_festal`.
+
+---
+
+### **I. The Royal Office (The Enarxis)**
+
+* **Logic Gate (Connection to Nocturns):**
+* **Monastic Rule:** If Nocturns was just served, the Royal Office is omitted.
+* **Parish Rule:** Begin with "Blessed is our God..."
+
+
+* **The Royal Psalms (19 & 20):** Read.
+* **The Troparia:** "O Lord, save Thy people..."
+* **The Censing:** The whole church.
+
+---
+
+### **II. The Six Psalms (Hexapsalmos)**
+
+* **The Opening:** "Glory to God in the highest..." (3 times).
+* **The Reading:** Psalms 3, 37, 62, 87, 102, 142.
+* **The Great Litany:** "In peace let us pray to the Lord..."
+
+---
+
+### **III. The Alleluia & Trinity Hymns (The Lenten Marker)**
+
+* **The Proclamation:**
+* **Action:** **REPLACE** "God is the Lord" with **"Alleluia"**.
+* **Rubric:** Sung in the **Tone of the Week**.
+* **Verses:** Used with the funeral/lenten verses ("My spirit seeks Thee early in the morning...").
+
+
+* **The Troparia Slot (The Troichni):**
+* **Action:** **REPLACE** the Saint's Troparion with the **Hymns to the Trinity (Troichni)** in the Tone of the Week.
+* **Structure:**
+1. Hymn to the Father.
+2. Hymn to the Son.
+3. Hymn to the Spirit.
+
+
+* **Theotokion:** The concluding Hymn to the Theotokos.
+
+
+
+---
+
+### **IV. The Psalter (Kathismata)**
+
+* **Logic Gate (Lenten Quantity):**
+* **Standard Daily:** 2 Kathismata.
+* **Lenten Rule:** **3 Kathismata** are appointed (to cover the Psalter twice a week).
+* **Sequence (Part 4):**
+* **Monday:** Kathisma 4, 5, 6.
+* **Tuesday:** Kathisma 7, 8, 9.
+* **Wednesday:** Kathisma 10, 11, 12.
+* **Thursday:** Kathisma 13, 14, 15.
+* **Friday:** Kathisma 18, 19, 20.
+
+
+
+
+* **The Sessional Hymns (Sedalni):**
+* Read after each Kathisma.
+* **Source:** **Triodion** (Joseph/Theodore/Apostles) takes precedence, or the **Octoechos** (Penitential/Martyria).
+
+
+* **Psalm 50:** Read.
+
+---
+
+### **V. The Canon (The Triodion Variable)**
+
+* **Structure:** This is the most complex logic gate. The **Triodion** contains only **3 Odes** (hence the name "Three-Odes"), which disrupt the standard 9-Ode structure.
+* **Biblical Canticles:**
+* **Rubric:** The Scriptural Odes (Moses, Anna, Habakkuk, etc.) are **SUNG** in full, which is rare in non-Lenten services.
+
+
+* **The Composition Logic:**
+* **If Triodion has Ode X:** The Menaion/Octoechos for that Ode are **Omitted** or combined, and the **Triodion** takes the main slot.
+* **If Triodion is absent for Ode X:** Read Menaion/Octoechos.
+
+
+* **The Katavasia:**
+* **Standard:** "I shall open my mouth..." (or Lenten equivalent).
+
+
+* **The Inter-Ode Hymns:**
+* **After Ode 3:** Little Litany + Sessional Hymn (Menaion/Triodion).
+* **After Ode 6:** Little Litany + Kontakion (Saint/Triodion).
+
+
+* **The Magnificat (Ode 9):** Sung.
+
+---
+
+### **VI. The Praises (Lauds)**
+
+* **The Psalms (148-150):**
+* **Rubric:** Read (Recited), not sung. "Praise the Lord from the heavens..."
+
+
+* **The Stichera on the Praises:**
+* **Action:** Usually **Omitted** on Lenten Weekdays unless a specific Feast coincides.
+* **Replacement:** Often proceeded directly to the Doxology.
+
+
+
+---
+
+### **VII. The Doxology & Litany (Lenten Order Swap)**
+
+* **Critical Structural Change:** In Lenten Matins, the Doxology comes **BEFORE** the Litany and Aposticha.
+* **The Doxology:**
+* **Type:** **Small Doxology** (Read). "To Thee belongs glory..."
+
+
+* **The Litany of Supplication:**
+* "Let us complete our morning prayer..."
+
+
+
+---
+
+### **VIII. The Aposticha (The Displacement)**
+
+* **Position:** Occurs here (End of Service).
+* **Source:** **Triodion** (Idiomelon of the Day) takes precedence.
+* **Structure:** Hymn -> Verse -> Hymn -> Verse -> Hymn -> Glory -> Both Now.
+
+
+* **The "It is Good" Hymn:**
+* **Action:** "It is good to give praise to the Lord..." (Psalm 91:1) is read **TWICE**.
+
+
+* **The Trisagion:** "Holy God..."
+
+---
+
+### **IX. The Conclusion (The Lenten Ending)**
+
+* **The Troparia:**
+* **Action:** The standard Troparia are replaced by the **"Standing in the Temple"** sequence.
+* 1. "Standing in the temple of thy glory..."
+
+
+* 2. "Lord, have mercy" (40 times).
+
+
+* 3. "Glory... Both Now..."
+
+
+* 4. "More Honorable than the Cherubim..."
+
+
+* 5. "In the name of the Lord, Father, bless."
+
+
+
+
+* **The Priest's Blessing:** "Christ our God, the Existing One..."
+* **The Prayer of St. Ephrem:**
+* **Logic Gate (Part 4):**
+* **Standard:** Recited with **3 Prostrations**.
+* **Clean Week:** Recited with **16 Prostrations** (4 large, 12 small).
+
+
+
+
+* **The Dismissal:**
+* **Omitted:** There is usually **NO Dismissal** here.
+* **Transition:** The **First Hour** is attached immediately. "Come, let us worship..." begins the First Hour.
+* *(Note: The actual Dismissal occurs at the end of the First Hour in Lenten practice).*

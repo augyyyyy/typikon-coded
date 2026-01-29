@@ -1,0 +1,51 @@
+{
+  "file_metadata": {
+    "filename": "02b_logic_menaion_index.json",
+    "version": "2.0 (With Conflict Registry)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III",
+    "scope": "Index of Fixed Feast Logic Modules",
+    "description": "The central router for the Menaion. Defines the approved vocabulary for conflict resolution triggers."
+  },
+  "system_settings": {
+    "year_start": { "month": 9, "day": 1, "event": "Indiction" },
+    "year_end": { "month": 8, "day": 31, "event": "Deposition of the Sash" },
+    "leap_year_logic": "feb_29_handled_in_module_06"
+  },
+  "conflict_registry": {
+    "description": "Approved keys for the 'triodion_period' and 'condition' logic blocks.",
+    "valid_triggers": [
+      "meatfare_sunday",
+      "cheesefare_sunday",
+      "lent_monday_1",
+      "lent_weekday",
+      "lent_saturday",
+      "palm_sunday",
+      "holy_thursday",
+      "great_friday",
+      "great_saturday",
+      "pascha",
+      "bright_week",
+      "bright_monday",
+      "ascension",
+      "mid_pentecost",
+      "pentecost",
+      "apostles_fast",
+      "dormition_fast"
+    ]
+  },
+  "module_map": {
+    "01": { "month": "September", "file": "02b_01_september.json", "primary_feasts": ["Indiction", "Nativity Theotokos", "Exaltation"] },
+    "02": { "month": "October", "file": "02b_02_october.json", "primary_feasts": ["Protection"] },
+    "03": { "month": "November", "file": "02b_03_november.json", "primary_feasts": ["Entrance Theotokos", "Michael"] },
+    "04": { "month": "December", "file": "02b_04_december.json", "primary_feasts": ["Nativity", "Nicholas", "Conception Anna"] },
+    "05": { "month": "January", "file": "02b_05_january.json", "primary_feasts": ["Theophany", "Three Hierarchs"] },
+    "06": { "month": "February", "file": "02b_06_february.json", "primary_feasts": ["Meeting of Lord"] },
+    "07": { "month": "March", "file": "02b_07_march.json", "primary_feasts": ["Annunciation", "40 Martyrs"] },
+    "08": { "month": "April", "file": "02b_08_april.json", "primary_feasts": ["St. George"] },
+    "09": { "month": "May", "file": "02b_09_may.json", "primary_feasts": ["John Theologian", "Cyril & Methodius"] },
+    "10": { "month": "June", "file": "02b_10_june.json", "primary_feasts": ["Nativity Baptist", "Peter & Paul"] },
+    "11": { "month": "July", "file": "02b_11_july.json", "primary_feasts": ["Vladimir", "Elijah"] },
+    "12": { "month": "August", "file": "02b_12_august.json", "primary_feasts": ["Transfiguration", "Dormition", "Beheading"] }
+  }
+}

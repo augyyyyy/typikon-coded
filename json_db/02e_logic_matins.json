@@ -1,0 +1,65 @@
+{
+    "file_metadata": {
+        "filename": "02e_logic_matins.json",
+        "version": "1.0",
+        "description": "Rules engine for Matins: Hymn Stacking, Canon Insertions, and Lookahead.",
+        "authority": "Dolnytsky Typikon Part I & III"
+    },
+    "hymn_stacking": {
+        "sidalen_1": [
+            {
+                "condition": "day_of_week == 0 && rank >= 3",
+                "action": "stack",
+                "components": [
+                    "octoechos_sidalen_1",
+                    "menaion_sidalen_1"
+                ],
+                "note": "Sunday + Polyeleos Saint: Stack Resurrectional and Saint Sidalens"
+            },
+            {
+                "condition": "day_of_week != 0 && rank >= 3",
+                "action": "replace",
+                "target": "menaion_sidalen_1",
+                "note": "Weekday Feasts: Menaion replaces Octoechos"
+            },
+            {
+                "condition": "default",
+                "action": "use_octoechos"
+            }
+        ]
+    },
+    "canon_insertions": {
+        "after_3rd": [
+            {
+                "condition": "rank >= 3",
+                "sequence": [
+                    "kontakion_saint",
+                    "ikos_saint",
+                    "sidalen_saint",
+                    "theotokion_saint"
+                ],
+                "note": "Polyeleos/Vigil: Full sequence after Ode 3"
+            }
+        ],
+        "after_6th": [
+            {
+                "condition": "rank >= 3",
+                "sequence": [
+                    "kontakion_feast",
+                    "ikos_feast"
+                ],
+                "note": "Polyeleos/Vigil: Feast/Season Kontakion moves to Ode 6"
+            }
+        ]
+    },
+    "sat_matins_lookahead": {
+        "rules": [
+            {
+                "condition": "day_of_week == 6 && rank >= 3",
+                "target_slot": "praises_both_now",
+                "action": "use_resurrectional_theotokion_next_tone",
+                "note": "Saturday Matins with Polyeleos: 'Both Now' is NOT from Menaion, but next Sunday's Tone."
+            }
+        ]
+    }
+}

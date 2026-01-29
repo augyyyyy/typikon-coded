@@ -1,0 +1,134 @@
+{
+  "file_metadata": {
+    "filename": "02b_01_september.json",
+    "version": "2.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (September)",
+    "scope": "Fixed Feast Logic for September",
+    "description": "Logic definitions for the Indiction, Nativity of the Theotokos, and Exaltation of the Cross. Patched with executable conditional inheritance."
+  },
+  "month_settings": {
+    "month_id": 9,
+    "days": {
+      "01": {
+        "title_key": "menaion.sept_01.indiction",
+        "rank": "rank_doxology",
+        "source_ref": "dolnytsky_part3_sept_1_para2",
+        "variables": {
+          "vespers_type": "great_vespers",
+          "vespers_stichera_distribution": { "indiction": 3, "saint_simeon": 3, "glory": "saint_simeon", "both_now": "indiction" },
+          "vespers_readings": ["indiction_isaiah", "indiction_leviticus", "saint_wisdom"],
+          "matins_type": "great_matins",
+          "matins_suppress_component": ["royal_office"],
+          "matins_instruction": "Begin with Trisagion (Small Matins style). Sing Great Doxology at end.",
+          "matins_polyeleos": false,
+          "matins_gospel": false,
+          "matins_canon_stacking": ["indiction_4", "saint_simeon_4", "40_martyrs_4"],
+          "matins_katavasia": "cross_canon_september",
+          "matins_doxology": "great_sung",
+          "liturgy_antiphons": "typical_psalms",
+          "troparia_sequence": "indiction_simeon_glory_kont_simeon_bn_kont_indiction",
+          "liturgy_readings": ["indiction_colossians", "indiction_luke", "saint_colossians_end"]
+        }
+      },
+      "06": {
+        "title_key": "menaion.sept_06.miracle_archangel_michael",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_sept_6",
+        "base_template": "CASE_05", 
+        "variables": { "matins_gospel": "saint_archangel", "liturgy_readings": "saint_hebrews" }
+      },
+      "07": {
+        "title_key": "menaion.sept_07.forefeast_nativity",
+        "rank": "rank_simple_6",
+        "period": "forefeast",
+        "linked_feast_id": "09-08",
+        "source_ref": "dolnytsky_part3_sept_7",
+        "base_template": "CASE_08"
+      },
+      "08": {
+        "title_key": "menaion.sept_08.nativity_theotokos",
+        "rank": "rank_vigil_theotokos",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_sept_8",
+        "base_template": "CASE_14",
+        "variants": [ { "condition": { "day_of_week": [0] }, "base_template": "CASE_13" } ],
+        "variables": {
+          "vespers_readings": ["genesis_28", "ezekiel_43", "proverbs_9"],
+          "litiya_stichera": "nativity_theotokos_litiya",
+          "matins_gospel": "luke_1_39_49_56",
+          "liturgy_antiphons": "typical_psalms_refrain_theotokos",
+          "liturgy_entrance": "come_let_us_worship_sunday",
+          "megalynarion": "magnify_o_my_soul_virginity"
+        }
+      },
+      "09": {
+        "title_key": "menaion.sept_09.joachim_and_anna",
+        "rank": "rank_simple_6",
+        "period": "afterfeast",
+        "linked_feast_id": "09-08",
+        "source_ref": "dolnytsky_part3_sept_9",
+        "base_template": "CASE_09"
+      },
+      "12": {
+        "title_key": "menaion.sept_12.apodosis_nativity",
+        "rank": "rank_doxology",
+        "period": "apodosis",
+        "source_ref": "dolnytsky_part3_sept_12",
+        "base_template": "CASE_20"
+      },
+      "13": {
+        "title_key": "menaion.sept_13.forefeast_cross",
+        "rank": "rank_simple_6",
+        "period": "forefeast",
+        "source_ref": "dolnytsky_part3_sept_13_saturday_before",
+        "variables": { "liturgy_readings": ["saturday_before_exaltation", "day_current"] }
+      },
+      "14": {
+        "title_key": "menaion.sept_14.exaltation_cross",
+        "rank": "rank_vigil_lord",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_sept_14",
+        "system_flags": { "fast_level": "strict", "kneeling_prohibited": true },
+        "variants": [ { "condition": { "day_of_week": [0] }, "variables": { "suppress_resurrection_hymns": true }, "base_template": "CASE_12" } ],
+        "variables": {
+          "vespers_type": "great_vespers",
+          "vespers_readings": ["exodus_15", "proverbs_3", "isaiah_60"],
+          "matins_type": "great_matins",
+          "matins_gospel": "john_12_28_36",
+          "matins_post_doxology_action": {
+            "type": "inject_component",
+            "component_id": "exaltation_of_cross_stations",
+            "trigger": "after_trisagion_sung"
+          },
+          "matins_veneration_hymn": "we_bow_to_your_cross",
+          "liturgy_antiphons": "festal_cross_antiphons",
+          "liturgy_entrance": "exaltation_entrance_verse",
+          "liturgy_trisagion": "cross_trisagion_replacement",
+          "liturgy_readings": ["1_corinthians_1_18_24", "john_19_6_11_13_20_25_28_30_35"],
+          "megalynarion": "magnify_o_my_soul_cross",
+          "communion_hymn": "light_of_your_countenance"
+        }
+      },
+      "21": {
+        "title_key": "menaion.sept_21.apodosis_cross",
+        "rank": "rank_doxology",
+        "period": "apodosis",
+        "source_ref": "dolnytsky_part3_sept_21",
+        "base_template": "CASE_20"
+      },
+      "23": {
+        "title_key": "menaion.sept_23.conception_baptist",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_sept_23",
+        "base_template": "CASE_05"
+      },
+      "26": {
+        "title_key": "menaion.sept_26.falling_asleep_john_theologian",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_sept_26",
+        "base_template": "CASE_05" 
+      }
+    }
+  }
+}

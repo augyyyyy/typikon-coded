@@ -1,0 +1,141 @@
+Based on the **Dolnytsky Typikon** (specifically Part 4: Triodion), here is the fully unabridged structural outline for **Lenten Vespers (Vechirnya postova)**.
+
+This structure is distinct because of its penitential character, the inclusion of Old Testament readings (Genesis and Proverbs), and the specific "Lenten Ending" with prostrations.
+
+### **Service Selector Logic**
+
+* **Trigger Condition A (Sunday Evening):** Served on Sunday evenings of Great Lent (e.g., Forgiveness Sunday). Features the **Great Prokeimenon**.
+* **Trigger Condition B (Weekday):** Served on Monday through Friday of Great Lent. Features **Genesis and Proverbs** readings.
+* **Trigger Condition C (Presanctified Connection):** If the Liturgy of the Presanctified Gifts follows (Wed/Fri), the service morphs after the readings. *This outline covers the Vespers portion up to that divergence.*
+
+---
+
+### **I. The Enarxis (Opening)**
+
+* **The Blessing:** "Blessed is our God..."
+* **The Usual Beginning:**
+* "Glory to Thee... O Heavenly King... Trisagion... O Come Let Us Worship..."
+
+
+* **Psalm 103:** Read (Recited) or sung simply.
+* **The Great Litany:** "In peace let us pray to the Lord..."
+
+---
+
+### **II. The Kathisma (The Psalter)**
+
+* **Logic Gate (Part 4 - Triodion):**
+* **Resolve Case A (Sunday Evening):** No Kathisma is read (standard parish practice) or 1st Kathisma (monastic).
+* **Resolve Case B (Weekday):** The **18th Kathisma** ("To the Lord in my distress") is appointed for Lenten weekdays.
+* **Resolve Case C (Friday Evening):** The 18th Kathisma is read (if not read at Matins), or sometimes no Kathisma if Vigil follows.
+
+
+
+---
+
+### **III. "Lord, I Have Cried" (The Stichera)**
+
+* **The Psalms (140, 141, 129, 116):** Sung in the Tone of the Week or the Tone of the Triodion idiomela.
+* **The Stichera "On Count" Logic:**
+* **Sunday Evening:** **10 Stichera** (4 Octoechos + 3 Triodion + 3 Menaion).
+* **Weekday:** **6 Stichera** (3 Triodion + 3 Menaion).
+* *Note:* The Triodion (Part 4) usually supplies specific "Idiomela" (Unique Melodies) for the day.
+
+
+
+
+* **The "Glory" Slot:**
+* **Sunday:** Glory... Both now... (Theotokion).
+* **Weekday:** Glory... Both now... (Theotokion of the Triodion or Menaion).
+
+
+* **The Entrance Logic:**
+* **Sunday Evening:** **Great Prokeimenon Entrance** (Censer used).
+* **Weekday:** **No Entrance** (Priest stands at the Royal Doors).
+* *Exception:* If serving Presanctified, the Entrance with the Censer (or Gospel) occurs *after* the Stichera.
+
+
+
+
+
+---
+
+### **IV. The Readings & Prokeimena (Part 4)**
+
+* **The "Gladsome Light":** Read (Weekday) or Sung (Sunday).
+* **The Prokeimenon Slot 1:**
+* **Sunday Evening:** **The Great Prokeimenon** (e.g., "Turn not away Thy face"). *Stop readings here.*
+* **Weekday:** Prokeimenon from the **Triodion** (Psalm verse).
+
+
+* **The Reading Slot 1 (Weekday Only):**
+* **Source:** **Book of Genesis** (Sequential reading).
+* **Pointer:** `[REF: Triodion_Genesis_Reading_Day_X]`.
+
+
+* **The Prokeimenon Slot 2 (Weekday Only):**
+* **Source:** Second Prokeimenon from the Triodion.
+
+
+* **The Reading Slot 2 (Weekday Only):**
+* **Source:** **Book of Proverbs** (Sequential reading).
+* **Pointer:** `[REF: Triodion_Proverbs_Reading_Day_X]`.
+
+
+* **Presanctified Divergence:**
+* *If Presanctified:* "Let my prayer be set forth..." is sung here.
+* *If Vespers Only:* Continue below.
+
+
+
+---
+
+### **V. The Post-Readings Sequence**
+
+* **Vouchsafe, O Lord:** Read.
+* **Litany of Supplication:** "Let us complete our evening prayer..."
+
+---
+
+### **VI. The Aposticha**
+
+* **The Hymn Slot:**
+* **Source:** **Triodion** (Idiomelon of the Day).
+* **Structure:** Hymn -> Verse 1 -> Hymn (Martyrs) -> Verse 2 -> Hymn -> Glory/Both Now.
+
+
+* **The "Glory... Both Now..." Logic:**
+* **Resolve:** Triodion text takes precedence over Octoechos on weekdays.
+
+
+
+---
+
+### **VII. The Lenten Ending (The "Rejoice" Triad)**
+
+* **Logic Gate:** This section replaces the standard Troparia on Lenten Weekdays and Sunday Evenings (if indicated).
+* **Song of Simeon:** "Now Thou lettest Thy servant depart..."
+* **The Lenten Troparia (Sung with Prostrations):**
+1. "Rejoice, O Virgin Theotokos, Mary full of grace..." (Prostration).
+2. "O Baptizer of Christ, remember us..." (Prostration).
+3. "Plead for us, O Holy Apostles..." (Prostration).
+4. "Beneath thy compassion we take refuge..." (No Prostration).
+
+
+* *Note:* On Sunday Evenings, the prostrations may be suspended depending on the specific week, but the hymns remain.
+
+
+
+---
+
+### **VIII. The Dismissal**
+
+* **Kyrie:** "Lord, have mercy" (40 times).
+* **Prayer:** "More honorable than the Cherubim..."
+* **The Prayer of St. Ephrem (Part 4):**
+* **Logic:** Recited with **3 or 16 prostrations** depending on the degree of fasting for the week.
+
+
+* **The Dismissal Proper:**
+* **Type:** **Lenten Dismissal**.
+* **Formula:** "Christ our True God, through the prayers of His Most Pure Mother... and of all the Saints..."

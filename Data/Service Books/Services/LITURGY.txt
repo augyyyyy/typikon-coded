@@ -1,0 +1,65 @@
+Below is the full structural outline of the Divine Liturgy with the logic gates required for each "Resolve Case."
+
+---
+
+## I. Enarxis (The Opening)
+
+* **Liturgy Type Selector:**
+* **Logic:** The engine resolves whether to serve **St. John Chrysostom** (standard), **St. Basil the Great** (10 specific dates per year), or the **Presanctified Liturgy** (Lenten weekdays).
+
+
+* **The Antiphons:**
+* **Resolve Case:** The engine chooses between **Daily Antiphons** (Psalms 91, 92, 94), **Typical Antiphons** (Psalms 102, 145, and the Beatitudes for Sundays/Ranks 3-5), or **Festal Antiphons** (for Great Feasts of the Lord).
+
+
+* **The Little Entrance:**
+* **Entrance Verse:** Resolves the standard "Come let us worship" vs. a specific "Festal Entrance Verse" prescribed by the Typikon.
+* **Troparia/Kontakia Stack:** The engine calculates the hierarchical order: Resurrection -> Temple -> Day -> Saint -> "Glory" -> Saint/Day -> "Both Now" -> Temple/Theotokion.
+
+
+
+---
+
+## II. Liturgy of the Word
+
+* **The Trisagion:**
+* **Resolve Case:** Toggles between "Holy God," "All you who have been baptized" (Feasts of the Lord), or "We bow to Your Cross" (Cross-veneration days).
+
+
+* **The Prokeimenon:**
+* **Logic:** Resolves the count (1 vs. 2) and precedence. A Great Feast may suppress the Sunday Prokeimenon.
+
+
+* **Epistle & Gospel Pericopes:**
+* **Logic:** Automates the retrieval of exact chapter and verse based on the **Paschal Offset** and the **Menaion** date.
+
+
+* **Alleluia Verses:**
+* **Resolve Case:** Identifies the specific verses and checks for Lenten suppression logic (e.g., Holy Saturday).
+
+
+
+---
+
+## III. Liturgy of the Faithful
+
+* **The Cherubic Hymn:**
+* **Resolve Case:** Replaces the standard hymn with "At Your mystical supper" (Great Thursday) or "Let all mortal flesh keep silence" (Great Saturday).
+
+
+* **The Anaphora (Eucharistic Prayer):**
+* **Logic:** Resolves the selection of the St. Basil vs. St. John Chrysostom prayers and displays the corresponding "Silent Prayers".
+
+
+* **The Zadostoinyk (Axion Estin Replacement):**
+* **Logic:** Replaces "It is truly proper" with the specific Megalynarion and Irmos of Ode 9 for all Great Feasts.
+
+
+* **The Koinonikon (Communion Hymn):**
+* **Resolve Case:** Determines the priority between the standard "Praise the Lord" and specific hymns for the Saint, the Season, or the Dead (Soul Saturdays).
+
+
+* **The Ambo Prayer:**
+* **Resolve Case:** Checks if a specific "Festal Ambo Prayer" (e.g., for the Blessing of Fruit or Palms) is required.
+
+

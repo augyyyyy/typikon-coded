@@ -1,0 +1,127 @@
+Based on the **Dolnytsky Typikon** (Parts 1, 2, and 4), here is the fully unabridged structural outline for **Daily Nocturns (Polunoschnitsa povsyakdenna)**.
+
+This outline covers **Monday through Saturday**. Note that while Monday–Friday are identical, **Saturday** introduces a major structural deviation (The "Saturday Branch") which is handled within this single outline via Logic Gates.
+
+### **Service Selector Logic**
+
+* **Trigger:** Monday, Tuesday, Wednesday, Thursday, Friday, or Saturday morning.
+* **Exclusion:** Sunday Morning (Use `struct_nocturn_sunday`).
+* **Exclusion:** Pascha/Bright Week (Use `struct_nocturn_paschal`).
+
+---
+
+### **I. The Enarxis (Opening)**
+
+* **The Blessing:** "Blessed is our God..."
+* **The Usual Beginning:**
+* **Resolve Case A (Standard):** "Glory to Thee... O Heavenly King... Trisagion... O Come Let Us Worship..."
+* **Resolve Case B (Ascension to Pentecost):** Omit "O Heavenly King."
+
+
+* **Psalm 50:** "Have mercy on me, O God."
+
+---
+
+### **II. The Kathisma Block (The Primary Fork)**
+
+* **Logic Gate (Day of Week):**
+* **Resolve Case A (Mon/Tue/Wed/Thu/Fri):**
+* **Action:** Insert **Kathisma 17 (Psalm 118)** "Blessed are the blameless in the way."
+* **Structure:** Divided into 3 Stases (Glory to the Father... occurs twice in the middle).
+
+
+* **Resolve Case B (Saturday Only):**
+* **Action:** Insert **Kathisma 9 (Psalms 64–69)**.
+* **Reason:** Saturday is the day of Creation's rest; the lengthy Psalm 118 is reserved for Matins on Saturdays.
+
+
+
+
+
+---
+
+### **III. The Creed & Trisagion**
+
+* **The Nicene Creed:** Recited.
+* **The Trisagion:** Standard sequence ("Holy God... All-Holy Trinity... Our Father...").
+
+---
+
+### **IV. The Troparia of the First Part**
+
+* **Logic Gate (Day of Week):**
+* **Resolve Case A (Mon-Fri - Penitential):**
+* **Troparion 1:** "Behold, the Bridegroom comes at midnight..."
+* **Troparion 2:** "Thinking of that terrible day..."
+* **Theotokion:** "Thee, the impregnable wall..."
+
+
+* **Resolve Case B (Saturday - Martyrs/Dead):**
+* **Troparion 1:** "To Thee, O Lord, the Author of creation..." (Uncreated Nature).
+* **Troparion 2:** "Rest with the Saints..." (Kontakion of the Dead).
+* **Theotokion:** "We have thee as a fortress..."
+
+
+* **Resolve Case C (Leavetaking of Mid-Pentecost - Part 2 Exception):**
+* **Action:** Replace standard Troparia with **Troparion of the Feast**.
+
+
+
+
+
+---
+
+### **V. The Prayers of the First Part**
+
+* **Kyrie:** "Lord, have mercy" (40 times).
+* **The Prayer of the Hours:** "Thou Who at all times..."
+* **The Closing Prayer of Part I:**
+* **Resolve Case A (Mon-Fri):** **Prayer of St. Mardarius** ("O God and Master, Father Almighty, O Lord, the Only-begotten Son...").
+* **Resolve Case B (Saturday):** **Prayer of St. Eustratius** ("Magnifying I magnify Thee, O Lord...").
+
+
+
+---
+
+### **VI. The Second Part (The "Repose" Module)**
+
+* **STRUCTURAL BRANCH:**
+* **IF SATURDAY:** **SKIP** this entire section. Go directly to **VII (Dismissal)**.
+* **IF MON-FRI:** Proceed below.
+
+
+* **The Opening:** "O Come, Let us Worship..."
+* **The Psalms of Ascent:**
+* Psalm 120 ("I have lifted up my eyes...").
+* Psalm 133 ("Behold now, bless the Lord...").
+
+
+* **The Trisagion:** Standard sequence.
+* **The Troparia of Repose:**
+* **Troparion:** "Remember, O Lord, as Thou art good..."
+* **Theotokion:** "O Mother holy and ineffable..."
+
+
+* **The Prayer:** "Remember, O Lord, our fathers and brethren..." (Prayer for the Dead).
+* **The Absolution:** "O Lord, Lover of Mankind, forgive those who hate and wrong us..." (The long list of intercessions).
+
+---
+
+### **VII. The Dismissal**
+
+* **Logic Gate (Lent - Part 4):**
+* **Resolve Case A (Standard):** Proceed to Dismissal.
+* **Resolve Case B (Lenten Weekday):** Insert **Prayer of St. Ephrem** (with prostrations).
+
+
+* **The Dismissal Proper:**
+* **Type:** Small Dismissal.
+* **Formula:** "Christ our True God, through the prayers of His Most Pure Mother, of our Reverend and God-bearing Fathers, and of all the Saints..."
+
+
+* **The Final Litany (Saturday Only):**
+* **Logic:** If Saturday, often a **Litany for the Dead** ("Have mercy on us, O God...") is inserted here before the final "Amen" in parish practice, though Dolnytsky places the emphasis on the Prayer of St. Eustratius.
+
+
+* **The Community Forgiveness (Monastic):**
+* "Bless, holy fathers, and forgive me a sinner..."

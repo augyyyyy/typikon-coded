@@ -1,0 +1,83 @@
+{
+  "file_metadata": {
+    "filename": "02b_07_march.json",
+    "version": "3.2 (Holy Friday Fix)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (March)",
+    "scope": "Fixed Feast Logic for March"
+  },
+  "month_settings": {
+    "month_id": 3,
+    "days": {
+      "09": {
+        "title_key": "menaion.mar_09.forty_martyrs",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_mar_9",
+        "base_template": "CASE_05",
+        "variants": [
+          {
+            "condition": { "triodion_period": ["lent_weekday"] },
+            "action": {
+              "type": "presanctified_liturgy_polyeleos",
+              "variables": {
+                  "liturgy_gospel": "matthew_20_1_16",
+                  "vespers_readings": ["isaiah_43", "isaiah_49", "martyrs_readings_3"]
+              }
+            }
+          }
+        ]
+      },
+      "25": {
+        "title_key": "menaion.mar_25.annunciation",
+        "rank": "rank_vigil_theotokos",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_mar_25",
+        "system_flags": { "suppress_octoechos": true, "fast_level": "wine_oil_fish" },
+        "base_template": "CASE_14",
+        "variants": [
+          {
+            "condition": { "triodion_period": ["lent_weekday"] },
+            "action": {
+              "type": "vesperal_liturgy_chrysostom",
+              "variables": { "readings": "annunciation_readings_vesperal" }
+            }
+          },
+          {
+            "condition": { "triodion_period": ["holy_friday"] },
+            "action": {
+              "type": "vesperal_liturgy_chrysostom_passion",
+              "variables": {
+                  "liturgy_type": "vesperal_merge_logic",
+                  "vespers_type": "passion_burial_vespers",
+                  "hours_type": "structure_royal",
+                  "note": "Serve Vespers of Great Friday combined with Liturgy of Annunciation."
+              }
+            }
+          },
+          {
+            "condition": { "triodion_period": ["pascha"] },
+            "action": { "type": "kyrio_pascha_template" }
+          },
+          {
+            "condition": { "triodion_period": ["bright_week"] },
+            "action": { 
+                "type": "standard_liturgy_chrysostom", 
+                "variables": { "liturgy_antiphons": "festal_annunciation_antiphons" }
+            }
+          }
+        ],
+        "variables": {
+          "vespers_readings": ["exodus_3_1_8", "proverbs_8_22_30", "genesis_28_10_17"],
+          "litiya_stichera": "annunciation_litiya",
+          "matins_gospel": "luke_1_39_49_56",
+          "liturgy_antiphons": "typical_psalms_refrain_theotokos",
+          "entrance_hymn": "proclaim_from_day_to_day",
+          "troparia_sequence": "feast_glory_bn_kont_feast",
+          "liturgy_readings": ["hebrews_2_11_18", "luke_1_24_38"],
+          "megalynarion": "receive_o_earth_glad_tidings",
+          "communion_hymn": "the_lord_has_chosen_zion"
+        }
+      }
+    }
+  }
+}

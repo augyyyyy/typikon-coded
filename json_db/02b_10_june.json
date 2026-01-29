@@ -1,0 +1,78 @@
+{
+  "file_metadata": {
+    "filename": "02b_10_june.json",
+    "version": "1.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (June)",
+    "scope": "Fixed Feast Logic for June",
+    "description": "Logic definitions for the Nativity of John the Baptist and Sts. Peter and Paul. Includes Apostles' Fast and Pentecostarion collision logic."
+  },
+  "month_settings": {
+    "month_id": 6,
+    "days": {
+      "11": {
+        "title_key": "menaion.jun_11.bartholomew_barnabas",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_jun_11",
+        "base_template": "CASE_05",
+        "variants": [
+           {
+             "condition": { "triodion_period": ["pentecostarion_period"] },
+             "action": { "combine_rank": "rank_polyeleos_pentecostarion" }
+           }
+        ]
+      },
+      "19": {
+        "title_key": "menaion.jun_19.jude_apostle",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_jun_19",
+        "base_template": "CASE_05"
+      },
+      "24": {
+        "title_key": "menaion.jun_24.nativity_john_baptist",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_jun_24",
+        "system_flags": { "fast_level": "wine_oil_fish" },
+        "base_template": "CASE_06",
+        "variants": [
+           {
+             "condition": { "triodion_period": ["apostles_fast"] },
+             "action": { "note": "Feast takes precedence; Fast is relaxed to Wine/Oil/Fish." }
+           }
+        ],
+        "variables": {
+          "vespers_readings": ["genesis_17_15_19", "judges_13_2_25", "isaiah_40_1_5"],
+          "litiya_stichera": "nativity_baptist_litiya",
+          "matins_gospel": "luke_1_24_25_57_68",
+          "liturgy_readings": ["romans_13_11_14_4", "luke_1_1_25_57_68_80"],
+          "communion_hymn": "righteous_memory"
+        }
+      },
+      "29": {
+        "title_key": "menaion.jun_29.peter_and_paul",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_jun_29",
+        "base_template": "CASE_06",
+        "variants": [
+          {
+            "condition": { "day_of_week": [0] },
+            "action": { "combine_rank": "rank_vigil_saint_sunday_high_priority" }
+          }
+        ],
+        "variables": {
+          "vespers_readings": ["1_peter_1_3_9", "1_peter_1_13_19", "1_peter_2_11_24"],
+          "litiya_stichera": "peter_paul_litiya",
+          "matins_gospel": "john_21_15_25",
+          "liturgy_readings": ["2_corinthians_11_21_12_9", "matthew_16_13_19"],
+          "communion_hymn": "their_sound_has_gone_forth"
+        }
+      },
+      "30": {
+        "title_key": "menaion.jun_30.synaxis_12_apostles",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_jun_30",
+        "base_template": "CASE_05"
+      }
+    }
+  }
+}

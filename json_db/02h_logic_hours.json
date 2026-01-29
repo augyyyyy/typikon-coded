@@ -1,0 +1,117 @@
+{
+    "file_metadata": {
+        "filename": "02h_logic_hours.json",
+        "description": "Logic maps for Minor Hours (Psalms, Rotation, Theotokia)."
+    },
+    "psalm_map": {
+        "1": [
+            "psalm_5",
+            "psalm_89",
+            "psalm_100"
+        ],
+        "3": [
+            "psalm_16",
+            "psalm_24",
+            "psalm_50"
+        ],
+        "6": [
+            "psalm_53",
+            "psalm_54",
+            "psalm_90"
+        ],
+        "9": [
+            "psalm_83",
+            "psalm_84",
+            "psalm_85"
+        ]
+    },
+    "royal_psalms": {
+        "good_friday": {
+            "1": [
+                "psalm_5",
+                "psalm_2",
+                "psalm_21"
+            ],
+            "3": [
+                "psalm_34",
+                "psalm_108",
+                "psalm_50"
+            ],
+            "6": [
+                "psalm_53",
+                "psalm_139",
+                "psalm_90"
+            ],
+            "9": [
+                "psalm_68",
+                "psalm_69",
+                "psalm_85"
+            ]
+        },
+        "nativity": {
+            "1": [
+                "psalm_5",
+                "psalm_44",
+                "psalm_45"
+            ],
+            "3": [
+                "psalm_66",
+                "psalm_86",
+                "psalm_50"
+            ],
+            "6": [
+                "psalm_71",
+                "psalm_131",
+                "psalm_90"
+            ],
+            "9": [
+                "psalm_109",
+                "psalm_110",
+                "psalm_85"
+            ]
+        },
+        "theophany": {
+            "1": [
+                "psalm_5",
+                "psalm_22",
+                "psalm_26"
+            ],
+            "3": [
+                "psalm_28",
+                "psalm_41",
+                "psalm_50"
+            ],
+            "6": [
+                "psalm_73",
+                "psalm_76",
+                "psalm_90"
+            ],
+            "9": [
+                "psalm_92",
+                "psalm_113",
+                "psalm_85"
+            ]
+        }
+    },
+    "theotokion_map": {
+        "1": "horologion.what_shall_we_call_thee",
+        "3": "horologion.o_theotokos_thou_art_the_true_vine",
+        "6": "horologion.seeing_that_we_have_no_boldness",
+        "9": "horologion.who_was_born_of_a_virgin"
+    },
+    "prayer_map": {
+        "1": "prayer_christ_true_light",
+        "3": "prayer_mardarius",
+        "6": "prayer_basil_god_of_powers",
+        "9": "prayer_basil_master_lord_jesus"
+    },
+    "rotation_logic": {
+        "sunday_collision": {
+            "1": "resurrection",
+            "3": "saint_or_feast",
+            "6": "resurrection",
+            "9": "saint_or_feast"
+        },
+        "default": "saint_or_feast"
+    }
+}

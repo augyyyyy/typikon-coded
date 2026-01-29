@@ -1,0 +1,250 @@
+{
+  "file_metadata": {
+    "filename": "01e_struct_typika.json",
+    "version": "2.0 (Finalized)",
+    "last_updated": "2025-01-30",
+    "authority": "Dolnytsky Typikon Parts I & IV",
+    "scope": "The Typika (Obidnytsia) - Standard & Lenten",
+    "description": "Defines the structure of the Typika, including Lenten integration with the 9th Hour and Vesperal merges."
+  },
+  "structures": {
+    "structure_standard": {
+      "title_key": "titles.typika_standard",
+      "description_key": "descriptions.typika_standard",
+      "source_ref": "dolnytsky_part1_typika_para1",
+      "sequence": [
+        {
+          "id": "opening_blessing",
+          "section_key": "sections.beginning",
+          "content": {
+            "type": "conditional_block",
+            "logic": {
+              "function": "check_service_continuity",
+              "args": { "check": "is_preceding_service_connected" }
+            },
+            "true_content": null,
+            "false_content": {
+              "type": "fixed_ref",
+              "ref_key": "horologion.blessing_common"
+            }
+          }
+        },
+        {
+          "id": "psalm_102",
+          "section_key": "sections.psalmody",
+          "source_ref": "dolnytsky_part1_typika_para2",
+          "rubric": {
+            "key": "rubrics.common.read_plainly",
+            "variables": { "actor": "role.reader" }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "psalm_102_bless_the_lord"
+          }
+        },
+        {
+          "id": "psalm_145",
+          "section_key": "sections.psalmody",
+          "source_ref": "dolnytsky_part1_typika_para2",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "psalm_145_praise_the_lord"
+          }
+        },
+        {
+          "id": "only_begotten",
+          "section_key": "sections.hymns",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.only_begotten"
+          }
+        },
+        {
+          "id": "beatitudes_block",
+          "section_key": "sections.beatitudes",
+          "source_ref": "dolnytsky_part1_typika_para3",
+          "rubric": {
+            "key": "rubrics.typika.beatitudes_singing",
+            "variables": { "stichera": "variable_if_octoechos" }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_beatitudes",
+              "args": { "day_type": "standard" }
+            },
+            "render_hint": "beatitudes_with_stichera"
+          }
+        },
+        {
+          "id": "readings_module",
+          "section_key": "sections.readings",
+          "rubric": {
+            "key": "rubrics.typika.readings_if_no_liturgy",
+            "style": "red_italic"
+          },
+          "content": {
+            "type": "sequence",
+            "components": [
+              { "id": "prokeimenon", "type": "slot_variable" },
+              { "id": "epistle", "type": "slot_variable" },
+              { "id": "alleluia", "type": "slot_variable" },
+              { "id": "gospel", "type": "slot_variable" }
+            ]
+          }
+        },
+        {
+          "id": "communion_module",
+          "section_key": "sections.communion",
+          "source_ref": "dolnytsky_part1_typika_para5",
+          "sequence": [
+            { "id": "remember_us", "type": "fixed_ref", "ref_key": "horologion.remember_us_o_lord" },
+            { "id": "heavenly_choir", "type": "fixed_ref", "ref_key": "horologion.heavenly_choir" },
+            { "id": "creed", "type": "fixed_ref", "ref_key": "horologion.creed" },
+            { "id": "remit_pardon", "type": "fixed_ref", "ref_key": "horologion.remit_pardon" },
+            { "id": "our_father", "type": "fixed_ref", "ref_key": "horologion.our_father" }
+          ]
+        },
+        {
+          "id": "kontakion_block",
+          "section_key": "sections.kontakion",
+          "source_ref": "dolnytsky_part1_typika_para_kontakia",
+          "rubric": {
+            "key": "rubrics.typika.kontakion_order",
+            "variables": { "order": "temple_day_saint" }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_typika_kontakia",
+              "args": { "rank": "standard" }
+            }
+          }
+        },
+        {
+          "id": "theotokion_typika",
+          "section_key": "sections.kontakion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.protection_christians"
+          }
+        },
+        {
+          "id": "conclusion_standard",
+          "section_key": "sections.conclusion",
+          "source_ref": "dolnytsky_part1_typika_para6",
+          "sequence": [
+            { "id": "lord_have_mercy_3x", "type": "fixed_ref", "ref_key": "horologion.lord_have_mercy_3x" },
+            { "id": "blessed_be_name", "type": "fixed_ref", "ref_key": "horologion.blessed_be_name_3x" },
+            { "id": "psalm_33", "type": "fixed_ref", "ref_key": "psalm_33" },
+            { "id": "dismissal", "type": "fixed_ref", "ref_key": "horologion.dismissal_full" }
+          ]
+        }
+      ]
+    },
+    "structure_lenten": {
+      "title_key": "titles.typika_lenten",
+      "source_ref": "dolnytsky_part4_typika_lenten",
+      "rubric": {
+        "key": "rubrics.lenten.typika_general",
+        "variables": { "vesting": "vestment.violet" }
+      },
+      "sequence": [
+        {
+          "id": "beatitudes_lenten",
+          "section_key": "sections.beginning",
+          "source_ref": "dolnytsky_part4_typika_para1",
+          "rubric": {
+            "key": "rubrics.lenten.beatitudes_sung_fast",
+            "variables": { "posture": "posture.metania_per_verse" }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.beatitudes_lenten"
+          }
+        },
+        {
+          "id": "remember_us_solemn",
+          "section_key": "sections.hymns",
+          "rubric": {
+            "key": "rubrics.lenten.remember_us_prostration",
+            "variables": { "count": 3, "posture": "posture.prostration_great" }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.remember_us_solemn"
+          }
+        },
+        {
+          "id": "creed_lenten",
+          "section_key": "sections.creed",
+          "content": {
+            "type": "sequence",
+            "components": [
+              { "id": "heavenly_choir", "type": "fixed_ref", "ref_key": "horologion.heavenly_choir" },
+              { "id": "creed", "type": "fixed_ref", "ref_key": "horologion.creed" },
+              { "id": "remit_pardon", "type": "fixed_ref", "ref_key": "horologion.remit_pardon" },
+              { "id": "our_father", "type": "fixed_ref", "ref_key": "horologion.our_father" }
+            ]
+          }
+        },
+        {
+          "id": "kontakia_lenten",
+          "section_key": "sections.kontakion",
+          "source_ref": "dolnytsky_part4_typika_para4",
+          "rubric": {
+            "key": "rubrics.lenten.kontakia_reading",
+            "style": "red"
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_typika_kontakia",
+              "args": { "rank": "lenten" }
+            }
+          }
+        },
+        {
+          "id": "lord_have_mercy_40",
+          "section_key": "sections.conclusion",
+          "content": { "type": "fixed_ref", "ref_key": "horologion.lord_have_mercy_40" }
+        },
+        {
+          "id": "prayer_st_ephrem",
+          "section_key": "sections.conclusion",
+          "source_ref": "dolnytsky_part4_typika_para5",
+          "rubric": {
+            "key": "rubrics.lenten.prayer_ephrem_16",
+            "variables": { "count": 16, "big": 4, "small": 12, "posture": "posture.prostration" }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.prayer_st_ephrem"
+          }
+        },
+        {
+          "id": "final_prayer_block",
+          "section_key": "sections.conclusion",
+          "source_ref": "dolnytsky_part4_typika_para6",
+          "rubric": {
+            "key": "rubrics.lenten.prayer_9th_hour_moved",
+            "style": "red_italic"
+          },
+          "content": {
+            "type": "sequence",
+            "components": [
+              { "id": "trisagion_lenten", "type": "fixed_ref", "ref_key": "horologion.trisagion_block" },
+              { "id": "lord_have_mercy_12", "type": "fixed_ref", "ref_key": "horologion.lord_have_mercy_12" },
+              { "id": "prayer_9th_hour", "type": "fixed_ref", "ref_key": "horologion.prayer_hour_9_master_lord" }
+            ]
+          }
+        },
+        {
+          "id": "dismissal_lenten",
+          "section_key": "sections.dismissal",
+          "content": { "type": "fixed_ref", "ref_key": "horologion.dismissal_lenten" }
+        }
+      ]
+    }
+  }
+}

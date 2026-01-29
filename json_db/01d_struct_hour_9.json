@@ -1,0 +1,74 @@
+{
+  "file_metadata": {
+    "filename": "01d_struct_hour_9.json",
+    "version": "12.0 (Final Patch)",
+    "last_updated": "2026-01-27",
+    "authority": "Dolnytsky Typikon Part I & IV",
+    "scope": "The Ninth Hour (All Variants)",
+    "description": "Final structure with Dolnytsky-compliant Lenten and Paschal variants."
+  },
+  "structures": {
+    "structure_standard": {
+      "title_key": "titles.hour_9_standard",
+      "source_ref": "dolnytsky_part1_hours_para1",
+      "sequence": [
+        { "id": "opening_prayers", "content": { "type": "fixed_group", "ref_keys": ["horologion.blessing_common", "horologion.trisagion_block", "horologion.invitatory_3x"] } },
+        { "id": "psalms_fixed", "content": { "type": "fixed_group", "ref_keys": ["psalm_83", "psalm_84", "psalm_85"] } },
+        { "id": "troparia_block", "content": { "type": "generator", "generator_method": "generate_hour_troparia", "args": { "hour": 9 } } },
+        { "id": "verses_fixed", "content": { "type": "fixed_ref", "ref_key": "horologion.verses_hour_9_forsake_not" } },
+        { "id": "trisagion_prayers", "content": { "type": "fixed_ref", "ref_key": "horologion.trisagion_block" } },
+        { "id": "kontakion_block", "content": { "type": "slot_variable", "slot_id": "hour_9_kontakion" } },
+        { "id": "conclusion", "content": { "type": "fixed_group", "ref_keys": ["horologion.lord_have_mercy_40", "horologion.prayer_hours_thou_who", "horologion.prayer_hour_9_master_lord"] } },
+        { "id": "dismissal_slot", "content": { "type": "fixed_ref", "ref_key": "horologion.dismissal_small" } }
+      ]
+    },
+    "structure_lenten": {
+      "title_key": "titles.hour_9_lenten",
+      "source_ref": "Dolnytsky IV: AT THE HOURS",
+      "inherits_from": "structure_standard",
+      "overrides": [
+        { "target_id": "opening_prayers", "action": "modify", "rubric": { "roles": { "all": "Make 3 small prostrations at 'O come, let us worship'." } } },
+        { "target_id": "psalms_fixed", "action": "insert_after", "new_component": { "id": "kathisma_slot", "rubric": { "roles": { "reader": "Read the appointed Kathisma." }}, "content": { "type": "variable_logic", "logic": { "function": "resolve_kathisma" } } } },
+        { "target_id": "troparia_block", "action": "replace", "new_component": {
+            "id": "lenten_troparia_9",
+            "rubric": { "source_ref": "Dolnytsky IV:349", "roles": { "all": "At each singing of the troparion, bend the knees to the ground." } },
+            "content": { "type": "fixed_ref", "ref_key": "triodion.hour_9_lenten_troparia_verses" }
+        }},
+        { "target_id": "kontakion_block", "action": "replace", "new_component": { "id": "lenten_kontakia_set", "content": { "type": "fixed_ref", "ref_key": "triodion.lenten_kontakia_hours" } }},
+        { "target_id": "dismissal_slot", "action": "replace", "new_component": {
+            "id": "typika_transition",
+            "rubric": { "source_ref": "Dolnytsky IV:351", "roles": { "all": "Proceed immediately to the Typika service." } },
+            "content": { "type": "link", "target_file": "01e_struct_typika.json", "target_id": "structure_lenten" }
+        }}
+      ]
+    },
+    "structure_royal": {
+      "title_key": "titles.hour_9_royal",
+      "source_ref": "dolnytsky_part3_royal_hours",
+      "sequence": [
+        { "id": "opening_blessing", "content": { "type": "fixed_ref", "ref_key": "horologion.blessing_common" } },
+        { "id": "invitatory_prayers", "content": { "type": "fixed_ref", "ref_key": "horologion.invitatory_3x" } },
+        { "id": "psalms_royal", "content": { "type": "variable_logic", "logic": { "function": "resolve_royal_psalms", "args": { "hour": 9 } } } },
+        { "id": "royal_troparia", "content": { "type": "variable_logic", "logic": { "function": "resolve_royal_troparia", "args": { "hour": 9 } } } },
+        { "id": "prokeimenon", "content": { "type": "variable_logic", "logic": { "function": "resolve_prokeimenon", "args": { "service": "royal_9" } } } },
+        { "id": "old_testament", "content": { "type": "variable_logic", "logic": { "function": "resolve_reading_ot", "args": { "service": "royal_9" } } } },
+        { "id": "epistle", "content": { "type": "variable_logic", "logic": { "function": "resolve_reading_epistle", "args": { "service": "royal_9" } } } },
+        { "id": "gospel_royal", "content": { "type": "variable_logic", "logic": { "function": "resolve_reading_gospel", "args": { "service": "royal_9" } } } },
+        { "id": "royal_kontakion", "content": { "type": "variable_logic", "logic": { "function": "resolve_royal_kontakion" } } },
+        { "id": "prayer_final", "content": { "type": "fixed_ref", "ref_key": "horologion.prayer_hour_9_master_lord" } }
+      ]
+    },
+    "structure_paschal": {
+      "title_key": "titles.hour_9_paschal",
+      "source_ref": "Dolnytsky IV: Resurrection Hours",
+      "sequence": [
+        { "id": "christ_is_risen_3x", "content": { "type": "fixed_ref", "ref_key": "pentecostarion.christ_is_risen_3x" } },
+        { "id": "having_beheld_resurrection_3x", "content": { "type": "fixed_ref", "ref_key": "pentecostarion.having_beheld_resurrection_3x" } },
+        { "id": "hypakoe_pascha", "content": { "type": "fixed_ref", "ref_key": "pentecostarion.hypakoe_pascha" } },
+        { "id": "kontakion_pascha", "content": { "type": "fixed_ref", "ref_key": "pentecostarion.kontakion_pascha" } },
+        { "id": "paschal_troparia", "content": { "type": "fixed_ref", "ref_key": "pentecostarion.troparia_paschal_hours" } },
+        { "id": "conclusion", "content": { "type": "fixed_group", "ref_keys": ["horologion.lord_have_mercy_40", "pentecostarion.dismissal_paschal_hours"] } }
+      ]
+    }
+  }
+}

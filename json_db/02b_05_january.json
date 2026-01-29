@@ -1,0 +1,102 @@
+{
+  "file_metadata": {
+    "filename": "02b_05_january.json",
+    "version": "2.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (January)",
+    "scope": "Fixed Feast Logic for January"
+  },
+  "month_settings": {
+    "month_id": 1,
+    "days": {
+      "01": {
+        "title_key": "menaion.jan_01.circumcision_basil",
+        "rank": "rank_vigil_lord",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_jan_1",
+        "base_template": "CASE_12",
+        "variants": [
+          { 
+             "condition": { "day_of_week": [0] }, 
+             "variables": { "suppress_resurrection_hymns": false },
+             "base_template": "CASE_12_SUNDAY_VARIANT" 
+          }
+        ],
+        "variables": {
+          "vespers_readings": ["genesis_17", "proverbs_8", "proverbs_10"],
+          "litiya_stichera": "circumcision_basil_litiya",
+          "matins_gospel": "john_10_9_16",
+          "liturgy_antiphons": "typical_psalms",
+          "liturgy_entrance": "come_let_us_worship_fall_down",
+          "troparia_sequence": "circumcision_basil_glory_kont_basil_bn_kont_circumcision",
+          "liturgy_readings": ["colossians_2_8_12", "luke_2_20_21_40_52"],
+          "megalynarion": "in_you_o_woman_full_of_grace",
+          "communion_hymn": ["praise_the_lord", "righteous_memory"]
+        }
+      },
+      "05": {
+        "title_key": "menaion.jan_05.theophany_eve",
+        "rank": "rank_simple_6",
+        "period": "forefeast",
+        "source_ref": "dolnytsky_part3_jan_5",
+        "system_flags": { "fast_level": "strict" },
+        "variables": {
+          "special_rule": "eve_of_theophany_logic",
+          "hours_logic_switch": {
+              "if_day": ["Saturday", "Sunday"],
+              "then": "standard_hours_forefeast",
+              "else": "royal_hours_theophany"
+          },
+          "vespers_liturgy_logic_switch": {
+              "if_day": ["Saturday", "Sunday"],
+              "then": {
+                "type": "standard_liturgy_chrysostom",
+                "vespers": "separate_great_vespers_for_feast" 
+              },
+              "else": {
+                "type": "vesperal_liturgy_basil",
+                "merge_logic": "vesperal_merge_logic",
+                "readings": "theophany_paramony_13_readings"
+              }
+          },
+          "post_liturgy_action": {
+             "type": "inject_component",
+             "component_id": "great_sanctification_water",
+             "trigger": "after_amvon_prayer"
+          }
+        }
+      },
+      "06": {
+        "title_key": "menaion.jan_06.theophany_lord",
+        "rank": "rank_vigil_lord",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_jan_6",
+        "system_flags": { "suppress_octoechos": true, "fast_level": "no_fast" },
+        "base_template": "CASE_12",
+        "variables": {
+          "vespers_stichera_distribution": "theophany_stichera",
+          "matins_gospel": "mark_1_9_11",
+          "liturgy_antiphons": "festal_theophany_antiphons",
+          "entrance_hymn": "blessed_is_he_that_comes",
+          "liturgy_trisagion": "all_baptized",
+          "liturgy_readings": ["titus_2_11_14_3_4_7", "matthew_3_13_17"],
+          "megalynarion": "magnify_o_my_soul_baptized",
+          "communion_hymn": "grace_of_god_has_appeared"
+        }
+      },
+      "30": {
+        "title_key": "menaion.jan_30.three_hierarchs",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_jan_30",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["deuteronomy_1_8", "deuteronomy_10", "wisdom_3"],
+          "litiya_stichera": "three_hierarchs_litiya",
+          "matins_gospel": "john_10_9_16",
+          "liturgy_readings": ["hebrews_13_7_16", "matthew_5_14_19"],
+          "communion_hymn": "their_sound_has_gone_forth"
+        }
+      }
+    }
+  }
+}

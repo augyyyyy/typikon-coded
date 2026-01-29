@@ -1,0 +1,135 @@
+To fulfill the "Study-Encyclopedia" requirement, the engine must treat **Small Compline (Pavechirnya mala)** not as a static text, but as a dynamic framework that synthesizes rules from all five parts of the **Dolnytsky Typikon**.
+
+Below is the **Unabridged Structural Outline** with specific **Logic Gates** linking strictly to the Typikon's constituent parts.
+
+---
+
+### **I. The Enarxis (Opening)**
+
+* **The Blessing:** "Blessed is our God..."
+* **The Usual Beginning:**
+* **Logic Gate (Part 4 - Triodion/Pentecostarion):**
+* **Standard:** Recite "Glory to Thee... O Heavenly King... Trisagion... O Come Let Us Worship...".
+* **Pascha to Ascension:** Omit "O Heavenly King."
+* **Bright Week:** **STOP.** Redirect to `struct_compline_paschal` (Paschal Hours).
+
+
+
+
+* **The Fixed Psalms:**
+* **Psalm 50:** "Have mercy on me, O God".
+* **Psalm 69:** "O God, make haste to help me".
+* **Psalm 142:** "O Lord, hear my prayer".
+
+
+
+---
+
+### **II. The Doxology & Creed (Part 1 Base)**
+
+* **The Small Doxology:**
+* **Rubric:** Read (Recited), not sung.
+
+
+* **The Nicene Creed:**
+* **Rubric:** Read.
+
+
+
+---
+
+### **III. The Canon Slot (The Multi-Part Variable)**
+
+This slot is the primary collision point for the Octoechos, Menaion, and Triodion.
+
+* **Logic Gate A: The Default (Part 1 & 2):**
+* **Condition:** Standard Weekday (Mon-Thu outside Lent) or Friday Evening (outside Lent).
+* **Action:** Insert **Canon to the Theotokos** (Octoechos). Dolnytsky typically prescribes the *Supplicatory Canon* in the Tone of the Week.
+
+
+* **Logic Gate B: The Feast (Part 3 - Menaion):**
+* **Condition:** Rank 2 (Forefeast) or Rank 3 (Afterfeast).
+* **Action:** Insert **Canon of the Feast** from the Menaion.
+* **Precedence:** Menaion supersedes Octoechos.
+
+
+* **Logic Gate C: The Lenten Friday (Part 4 - Triodion):**
+* **Condition:** Friday Evening of Great Lent.
+* **Action:** Insert **Canon of the Akathist to the Theotokos**.
+
+
+* **Logic Gate D: Pre-Sanctified Night (Part 4 - Triodion):**
+* **Condition:** Evenings of Clean Week or Holy Week (if Small Compline is used by exception).
+* **Action:** Insert the **Three-Canted Canon (Theodion)** appointed for the day.
+
+
+
+---
+
+### **IV. The Axion & Trisagion**
+
+* **Axion Estin:** "It is truly proper to glorify thee...".
+* **The Trisagion Prayers:** "Holy God... All-Holy Trinity... Our Father...".
+
+---
+
+### **V. The Troparia Stack (The Temple & Rank Variable)**
+
+This section requires the most complex logic, pulling specifically from **Part 5 (Temple Rubrics)**.
+
+#### **Scenario 1: Saturday Evening (Sunday Cycle)**
+
+* **Logic (Part 1/2):** Sunday supersedes all others.
+* **Slot:** **Kontakion of the Resurrection** (Tone of the Week).
+
+#### **Scenario 2: Standard Weekday (Mon/Tue/Thu)**
+
+* **Slot 1 (Temple - Part 5):** Troparion of the **Temple** (Church Dedication).
+* **Slot 2 (Day - Part 1):** Troparion of the **Day of the Week**.
+* *Mon:* Angels / *Tue:* Baptist / *Thu:* Apostles & St. Nicholas.
+
+
+* **Slot 3 (Saint - Part 3):** Troparion of the **Saint of the Day** (Menaion).
+* **Glory:** Kontakion of the **Saint** (Menaion).
+* *Exception:* If the Saint has no Kontakion, use Kontakion of the Temple.
+
+
+* **Both Now:** Kontakion of the **Day** (Octoechos).
+* *Tue:* "To thee, O Lord..." / *Thu:* "To thee, O Lord..."
+
+
+
+#### **Scenario 3: Great Feast Period (Part 3)**
+
+* **Condition:** Forefeast or Afterfeast.
+* **Slot 1:** Troparion of the **Feast**.
+* **Glory/Both Now:** Kontakion of the **Feast**.
+
+#### **Scenario 4: Lenten Friday (Part 4)**
+
+* **Condition:** Akathist served.
+* **Slot 1:** **Kontakion of the Akathist** ("To thee, the Champion Leader").
+
+---
+
+### **VI. The Prayers & Dismissal**
+
+* **The Kyrie:** "Lord, have mercy" (40 times).
+* **Fixed Prayer 1:** "Thou Who at all times..." (Prayer of the Hours).
+* **Fixed Prayer 2:** "O Spotless, Undefiled..." (Paul the Monk).
+* **Fixed Prayer 3:** "And give us, O Master..." (Antiochus).
+* **The Intercession:** "Most glorious Ever-Virgin...".
+* **The Dismissal Proper:**
+* **Logic Gate (Part 4 - Lent):**
+* **Standard:** "Christ our true God..."
+* **Lenten:** Extended dismissal invoking the Saint of the Day and the Patron of the Temple.
+
+
+
+
+* **The Lenten Conclusion (Part 4):**
+* **Condition:** If rubrics prescribe (e.g., certain Lenten Fridays or Monastic use).
+* **Action:** Append **Prayer of St. Ephrem** (with prostrations) and the **Mutual Forgiveness** ("Bless, holy fathers...").
+
+
+* **Final Litany:** "Let us pray for the Ecumenical Pontiff...".

@@ -1,0 +1,101 @@
+
+========================================
+    CANTOR PROTOTYPE: LENTEN WEEKDAY    
+========================================
+
+Date: 2025-03-26
+Tone: N/A
+
+========================================
+             GREAT VESPERS              
+========================================
+
+
+Vesting and Censing
+-------------------
+   (Source: Dolnytsky I:1)
+
+   [PRIEST]: Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.
+
+   [DEACON]: Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing.
+
+   [SUBDEACON]: Light the candles on the Holy Table.
+
+The Opening
+-----------
+   (Source: Dolnytsky I:2)
+
+   [DEACON]: Stand before the Holy Doors. Exclaim 'Bless, Master!'
+
+   [PRIEST]: Make the sign of the Cross with the censer before the Holy Table. Sing 'Glory to the Holy, Consubstantial...'
+
++----------------------------------------------------------+
+| STANDARD / LENT                                          |
++----------------------------------------------------------+
+| Glory to the Holy, Consubstantial...                     |
+| Come, let us worship (3x)                                |
++----------------------------------------------------------+
+
+The Proemial Psalm
+------------------
+   (Source: Dolnytsky I:2)
+
+   [PRIEST]: Exit Sanctuary via North Door. Read the Prayers of Light silently.
+
+   [DEACON]: Close Holy Doors. Stand before them with a candle.
+
+   [CANTOR]: Sing 'Come let us worship' and Psalm 103.
+
+   [MISSING TEXT: psalm_103] (Not found in Horologion)
+
+   [MISSING TEXT: horologion.litany_great] (Not found in Horologion)
+
+   [MISSING TEXT: psalm_1_selected] (Not found in Horologion)
+
+   [MISSING TEXT: horologion.litany_small] (Not found in Horologion)
+
+Lord, I Call (Tone ?)
+---------------------
+
+   [!] RUBRIC: The Deacon performs the Great Censing.
+
+10. Bring my soul out of prison...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+9.  The righteous are waiting for me...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+8.  Out of the depths I cry to You...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+7.  Let Your ears be attentive...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+6.  If You, O Lord, should take note...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+5.  For Your name's sake, O Lord...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+4.  From the morning watch until night...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+3.  For with the Lord there is mercy...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+2.  Praise the Lord all you nations...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+1.  For great is His mercy to us...
+    > [VARIABLE PROPERS]: Stichera Resurrection (Missing)
+
+Glory... Now...
+    > Doxastikon & Theotokion
+
+   [VARIABLE PROPERS: resolve_vespers_readings_logic]
+   (Text not yet integrated or Missing from Octoechos)
+
+   [VARIABLE PROPERS: resolve_aposticha]
+   (Text not yet integrated or Missing from Octoechos)
+
+   [MISSING TEXT: horologion.dismissal_vigil_sequence] (Not found in Horologion)

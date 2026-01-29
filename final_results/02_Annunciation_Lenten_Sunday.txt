@@ -1,0 +1,51 @@
+DATE: 2029-03-25
+FEAST: PATRONAL FEAST: menaion.mar_25.annunciation
+
+
+--- VESPERS ---
+NOTE: Vespers is combined with the Divine Liturgy below.
+
+--- MATINS (great_matins) ---
+[matins_opening] 
+[great_litany]    [FIXED]: horologion.litany_great
+[god_is_the_lord] 
+   >>> RUBRIC: God is the Lord <<<
+   [DEACON]: Intone verses before the Icon of Christ.
+   [CHOIR]: Sing the Troparion of the Feast/Saint.
+
+[kathismata_block] 
+   >>> RUBRIC: The Kathismata <<<
+
+[polyeleos_rite] 
+   >>> RUBRIC: The Polyeleos <<<
+   (Source): Dolnytsky I: Matins
+   [PRIEST]: Open Holy Doors. Perform Great Censing of the whole church.
+   [CHOIR]: Sing Psalms 134-135 and Megalynaria.
+
+[gospel_rite] 
+   >>> RUBRIC: The Gospel <<<
+   (Source): Dolnytsky I: Matins
+   [DEACON]: Exclaim 'Let us pray to the Lord'.
+   [PRIEST]: Read the Gospel from the Holy Doors (or carry to Tetrapod on Sundays).
+   [PEOPLE]: Venerate the Gospel after the reading.
+
+[canon_block] 
+   >>> RUBRIC: The Canon <<<
+   [PRIEST]: Anoint the faithful with blessed oil during the Canon.
+
+[praises] 
+[great_doxology] 
+   >>> RUBRIC: Great Doxology <<<
+   [PRIEST]: Raise hands and exclaim 'Glory to You who have shown us the Light!'
+
+   [FIXED]: horologion.doxology_great
+[conclusion] 
+
+--- LITURGY (vesperal_merge_logic) ---
+[vespers_start] 
+[vesperal_readings_extended] 
+   >>> RUBRIC:  <<<
+
+[small_litany_merge]    [FIXED]: horologion.litany_small
+[liturgy_transition] 
+   >>> RUBRIC:  <<<

@@ -1,0 +1,155 @@
+DATE: 2025-06-29
+FEAST: PATRONAL FEAST: menaion.jun_29.peter_and_paul
+
+
+--- VESPERS (great_vespers_vigil) ---
+[vesting_rite] 
+   >>> RUBRIC: Vesting and Censing <<<
+   (Source): Dolnytsky I:1
+   [PRIEST]: Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.
+   [DEACON]: Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing of the Altar and the whole church.
+   [SUBDEACON]: Light the candles on the Holy Table.
+
+[opening_vigil] 
+   >>> RUBRIC: The Opening <<<
+   (Source): Dolnytsky I:2
+   [DEACON]: Stand before the Holy Doors. Exclaim 'Bless, Master!'
+   [PRIEST]: Make the sign of the Cross with the censer before the Holy Table. Sing 'Glory to the Holy, Consubstantial...'
+
+   [FIXED]: horologion.blessing_vigil
+[psalm_103_vigil] 
+   >>> RUBRIC: The Proemial Psalm <<<
+   (Source): Dolnytsky I:2
+   [PRIEST]: Exit Sanctuary via North Door. Stand before closed Holy Doors, head uncovered. Read the Prayers of Light silently.
+   [DEACON]: Close Holy Doors. Stand before them with a candle providing light for the Priest.
+   [CANTOR]: Sing 'Come let us worship' and Psalm 103.
+
+   [FIXED]: psalm_103
+[great_litany]    [FIXED]: horologion.litany_great
+[kathisma_vigil]    [FIXED]: psalm_1_selected
+[small_litany]    [FIXED]: horologion.litany_small
+[lord_i_have_cried_10] 
+   >>> RUBRIC: Lord I Have Cried (10 Stichera) <<<
+   (Source): Dolnytsky I:2
+   [DEACON]: Perform Small Censing.
+   [CANTOR]: Sing 10 Stichera (Octoechos + Menaion).
+
+[entrance_great] 
+   >>> RUBRIC: The Entrance <<<
+   (Source): Dolnytsky I:3
+   [PRIEST]: Vest in Phelonion. Bless the Entrance. Exclaim 'Peace be unto all' at the Solea.
+   [DEACON]: Exit North Door with Censer. Exclaim 'Wisdom, Aright!'
+
+[prokeimenon_readings] 
+   >>> RUBRIC:  <<<
+   [PRIEST]: Sit on the right side behind the Holy Table during readings.
+
+[litanies_fervent_supplication] 
+[litiya_rite] 
+[aposticha] 
+[nunc_dimittis_trisagion] 
+[artoklasia_rite] 
+[dismissal_vigil]    [FIXED]: horologion.dismissal_vigil_sequence
+
+--- MATINS (great_matins) ---
+[matins_opening] 
+[great_litany]    [FIXED]: horologion.litany_great
+[god_is_the_lord] 
+   >>> RUBRIC: God is the Lord <<<
+   [DEACON]: Intone verses before the Icon of Christ.
+   [CHOIR]: Sing the Troparion of the Feast/Saint.
+
+[kathismata_block] 
+   >>> RUBRIC: The Kathismata <<<
+
+[polyeleos_rite] 
+   >>> RUBRIC: The Polyeleos <<<
+   (Source): Dolnytsky I: Matins
+   [PRIEST]: Open Holy Doors. Perform Great Censing of the whole church.
+   [CHOIR]: Sing Psalms 134-135 and Megalynaria.
+
+[gospel_rite] 
+   >>> RUBRIC: The Gospel <<<
+   (Source): Dolnytsky I: Matins
+   [DEACON]: Exclaim 'Let us pray to the Lord'.
+   [PRIEST]: Read the Gospel from the Holy Doors (or carry to Tetrapod on Sundays).
+   [PEOPLE]: Venerate the Gospel after the reading.
+
+[canon_block] 
+   >>> RUBRIC: The Canon <<<
+   [PRIEST]: Anoint the faithful with blessed oil during the Canon.
+
+[praises] 
+[great_doxology] 
+   >>> RUBRIC: Great Doxology <<<
+   [PRIEST]: Raise hands and exclaim 'Glory to You who have shown us the Light!'
+
+   [FIXED]: horologion.doxology_great
+[conclusion] 
+
+--- LITURGY (liturgy_chrysostom) ---
+[prothesis] 
+   >>> RUBRIC: The Prothesis (Preparation) <<<
+   (Source): Dolnytsky IV:385
+   [PRIEST]: Prepare the Lamb. On Sundays and Feasts, cut the Lamb for the communicants. On Holy Thursday, prepare two Lambs (one for Presanctified).
+   [DEACON]: Pour wine and water into the Chalice. Cover the Gifts.
+
+[opening_blessing] 
+   >>> RUBRIC: The Opening <<<
+   [DEACON]: Exclaim 'Bless, Master!'
+   [PRIEST]: Lift the Gospel Book. Make the sign of the Cross over the Antimension. Exclaim 'Blessed is the Kingdom...'
+
+   [FIXED]: liturgikon.blessing_kingdom
+[great_litany]    [FIXED]: horologion.litany_great
+[antiphons_block] 
+   >>> RUBRIC: The Antiphons <<<
+   (Source): Dolnytsky II:102
+   [CHOIR]: Sing the First Antiphon (or Typical Psalms).
+   [DEACON]: Stand at the usual place. Exclaim the Small Litany between Antiphons.
+
+[little_entrance] 
+   >>> RUBRIC: The Little Entrance <<<
+   [PRIEST]: Recite the Prayer of the Entrance silently. Bless the Entrance.
+   [DEACON]: Carry the Gospel Book. Exclaim 'Wisdom, Upright!'
+   [SUBDEACON]: Precede the Gospel with candles.
+
+[troparia_kontakia_block] 
+   >>> RUBRIC: Troparia and Kontakia <<<
+
+[trisagion_module] 
+   >>> RUBRIC: The Trisagion <<<
+   [PRIEST]: Recite the Prayer of the Trisagion silently.
+
+[readings_block] 
+   >>> RUBRIC: The Readings <<<
+   [READER]: Intone the Prokeimenon. Read the Epistle.
+   [DEACON]: Cense the Altar and People during the Alleluia. Read the Gospel from the Ambo.
+   [PRIEST]: Sit during the Epistle. Stand for the Gospel.
+
+[litanies_catechumens]    [FIXED]: liturgikon.litanies_catechumens
+[cherubic_hymn_block] 
+   >>> RUBRIC: Cherubic Hymn <<<
+   [PRIEST]: Recite the Prayer of the Cherubic Hymn silently.
+   [DEACON]: Cense the Altar, Icons, and People (Psalm 50).
+
+[great_entrance] 
+   >>> RUBRIC: The Great Entrance <<<
+   [DEACON]: Carry the Diskos (on head or in hands). Exclaim commemorations.
+   [PRIEST]: Carry the Chalice. Exclaim commemorations.
+   [SUBDEACON]: Hold the Aer and censer.
+
+[anaphora_block]    [FIXED]: liturgikon.anaphora_chrysostom
+[megalynarion_block] 
+[lords_prayer]    [FIXED]: horologion.our_father
+[communion_module] 
+   >>> RUBRIC: Communion <<<
+   [PRIEST]: Break the Lamb. Commune himself and the Deacon.
+   [DEACON]: Exclaim 'With fear of God...'
+   [CHOIR]: Sing 'Receive the Body of Christ'.
+
+[post_communion] 
+[dismissal] 
+   >>> RUBRIC: The Dismissal <<<
+   (Source): Dolnytsky II:102
+   [PRIEST]: Bless the people with the Hand Cross (if Sunday/Feast) or hand (Weekday).
+   [CHOIR]: Sing 'Amen' and 'Eis polla eti despota'.

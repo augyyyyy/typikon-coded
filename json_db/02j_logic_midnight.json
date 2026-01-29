@@ -1,0 +1,63 @@
+{
+    "file_metadata": {
+        "filename": "02j_logic_midnight.json",
+        "description": "Logic maps for Midnight Office (Canons, Troparia, Prayers)."
+    },
+    "troparia_schemata": {
+        "daily": [
+            {
+                "type": "troparion",
+                "ref_key": "horologion.trop_behold_the_bridegroom"
+            },
+            {
+                "type": "troparion",
+                "ref_key": "horologion.trop_thinking_of_that_terrible_day"
+            },
+            {
+                "type": "troparion",
+                "ref_key": "horologion.trop_glory_tears_i_shed"
+            },
+            {
+                "type": "troparion",
+                "ref_key": "horologion.trop_both_now_impregnable_wall"
+            }
+        ],
+        "saturday": [
+            {
+                "type": "troparion",
+                "ref_key": "horologion.trop_sat_uncreated_nature"
+            },
+            {
+                "type": "troparion",
+                "ref_key": "horologion.kont_sat_rest_with_the_saints",
+                "glory": true
+            },
+            {
+                "type": "troparion",
+                "ref_key": "horologion.theotokion_we_have_thee",
+                "both_now": true
+            }
+        ],
+        "sunday": [
+            {
+                "type": "hypakoe",
+                "source": "octoechos_tone"
+            }
+        ]
+    },
+    "triadic_canons": {
+        "1": "octoechos.canon_trinity_tone_1",
+        "2": "octoechos.canon_trinity_tone_2",
+        "3": "octoechos.canon_trinity_tone_3",
+        "4": "octoechos.canon_trinity_tone_4",
+        "5": "octoechos.canon_trinity_tone_5",
+        "6": "octoechos.canon_trinity_tone_6",
+        "7": "octoechos.canon_trinity_tone_7",
+        "8": "octoechos.canon_trinity_tone_8"
+    },
+    "prayer_map": {
+        "daily": "horologion.prayer_mardarius",
+        "saturday": "horologion.prayer_eustratius",
+        "sunday": "horologion.prayer_holy_trinity_all_creating"
+    }
+}

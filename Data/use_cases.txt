@@ -1,0 +1,136 @@
+This expanded roadmap transforms your foundational re-analysis into a rigorous testing suite. Each question is designed to "break" the AI’s logic, forcing it to account for the specific depth of the **Dolnytsky Typikon**.
+
+---
+
+## I. The Cantor: The "Guardian of the Text"
+
+**Core Logic:** The intersection of the Octoechos, Triodion/Pentecostarion, and Menaion.
+
+1. **The Ratio Test:** On a Saturday evening during a Post-feast, does the app correctly split the 10 *Lord I Have Cried* stichera into 4 Resurrection, 3 Feast, and 3 Saint?
+2. **The Sunday Dogmatikon:** If a Rank 2 Feast falls on a Sunday, does the app swap the Dogmatikon from the Tone of the Week to the Tone of the Feast as per Dolnytsky Part III?
+3. **Podoben Identification:** Does the program explicitly display the melody "O House of Ephratha" for the Aposticha instead of just the text?
+4. **The Glory Collision:** When a Polyeleos Saint falls on a Sunday, does the app give the "Glory" to the Saint and the "Both now" to the Resurrectional Theotokion of the Tone?
+5. **Seasonal Katavasia:** Does the app automatically switch from "I Shall Open My Mouth" to the "Katavasia of the Cross" on August 1st?
+6. **Hierarchical Entrance:** After the Little Entrance in a Temple of the Theotokos, is the Temple Troparion placed correctly before or after the Saint of the Day?
+7. **Great Prokeimenon Suppression:** Does the app correctly suppress the daily Prokeimenon on Sunday evening if a Great Feast occurs on Monday?
+8. **Lenten Triode Logic:** On Clean Monday, does the app generate exactly Odes 1, 8, and 9 for the Canon, omitting the rest?
+9. **Irmos Retrieval:** Can the app display the full text of the obscure Lenten Irmoi from the Triodion that aren't in standard parish books?
+10. **Magnificat Toggle:** On the Feast of the Nativity, does the app hide "My soul magnifies the Lord" and instead display the Megalynarion refrains?
+11. **Eothinon Gospel Connection:** If the Matins Gospel is Eothinon 4, does the app automatically pull the corresponding Exaposteilarion and Theotokion?
+12. **Lenten Photogogikon:** Does the app calculate the weekday Photogogikon (Hymn of Light) based on the Tone of the Week during Lent?
+13. **Resurrectional Dismissal:** On a Friday evening Vespers, does the app provide the "Resurrectional Dismissal Theotokion" in the proper Tone?
+14. **The "On" Count Logic:** For a Six-Stichera service, does the app prevent the "Resurrection" stichera from appearing if it's a weekday?
+15. **Idiomelon Flagging:** Does the program distinguish between a *Samohlasen* (Idiomelon) and a standard *Samopodoben*?
+16. **Matins Praises Logic:** Does the app correctly calculate if "The Praises" (Lauds) are read or sung based on the Rank of the day?
+17. **Saturday Matins Shift:** Does the app apply the specific Saturday "Theotokion of the Tone" rubrics at the end of the Canon?
+18. **The Troparion "Both Now":** In the Dismissal sequence, does the app provide the specific "Theotokion of the Sunday" instead of the daily one?
+19. **The Sunday Matins "Glory":** Does the app correctly identify when the "Glory" at the Praises belongs to the Gospel Sticheron (Eothinon)?
+20. **Prokeimenon Text:** Does the app provide the full, unabridged text for the Prokeimenon Verses so the cantor never has to flip to a different page?
+
+---
+
+## II. The Master of Ceremonies (MC): The "Architect of the Rite"
+
+**Core Logic:** Structure, Precedence, and Traffic Control.
+
+1. **Rank Assignment:** Does the app assign an integer (1-5) to every day based on the Menaion and display it as the "Class" of the service?
+2. **The "Annunciation/Great Friday" Conflict:** If Annunciation falls on Great Friday, does the "Conflict Resolution" report move the Lenten service to Compline?
+3. **Kathisma 18 Schedule:** Does the app correctly switch to the seasonal schedule for Kathisma 18 at Vespers during the winter months?
+4. **Matins Kathisma Exception:** On Lenten weekdays, does the app correctly move Kathisma 18 to Matins when prescribed by Dolnytsky?
+5. **Polyeleos Trigger:** Does the app automatically add the Polyeleos (Psalms 134/135) to the Matins structure for a Rank 3 Feast?
+6. **Great Doxology Toggle:** If a day is Rank 4, does the app instruct the choir to sing the Great Doxology rather than reading it?
+7. **Little Entrance Logic:** Does the app trigger a "Little Entrance" with the censer during Vespers only if there is a Doxastikon or a Vigil?
+8. **Litany of Fervent Supplication:** Does the app omit the Litany of Fervent Supplication at Vespers on mornings when the Presanctified Liturgy was served?
+9. **Censing Map Generation:** Does the app generate a "Great Censing" instruction for the start of a Vigil and a "Small Censing" for the Magnificat?
+10. **Litia Rubric Printing:** If a Vigil is triggered, does the app print the full processing rubrics and prayers for the Artoklasia (Blessing of Loaves)?
+11. **The Kneeling Rule:** Does the app display a "No Prostrations" alert on all Sundays and the entire Pentecostarion period?
+12. **St. Ephrem Frequency:** On Lenten weekdays, does the app specify whether to perform 4 or 16 prostrations based on the specific Hour being served?
+13. **Long Dismissal Names:** Does the app dynamically insert the "Saints of the Day" into the final dismissal formula?
+14. **Royal Doors (Matins):** Does the app instruct the MC to open the Royal Doors for the *Polyeleos* and close them immediately after the Gospel?
+15. **Precedence Ranking:** If two Rank 3 saints fall on the same day, does the app's logic prioritize the one with the "Older" service or the one specified in the Typikon?
+16. **Alleluia vs. God is the Lord:** Does the app correctly swap "God is the Lord" for "Alleluia" at the start of Lenten Matins?
+17. **The Matins Gospel Position:** Does the app place the Gospel reading before the Canon (Vigil) or after the 6th Ode (Daily/Polyeleos)?
+18. **The Litany of the Catechumens:** Does the app hide the Litany of the Catechumens during the Presanctified Liturgy on specific Lenten days?
+19. **Aposticha Logic:** Does the app correctly calculate if the Aposticha verses are from the Octoechos or the Menaion?
+20. **The Vigil Structure:** Does the app merge Vespers and Matins into a single "Vigil" script with the Six Psalms starting immediately after the Litia?
+
+---
+
+## III. The Clergy: The "Celebrants of the Mystery"
+
+**Core Logic:** Sacramental formulae, Silent Prayers, and Liturgical distinctives.
+
+1. **Liturgy of St. Basil Selector:** Does the app automatically select the Basil Liturgy for the five Sundays of Great Lent and the Eve of Theophany?
+2. **Soul Saturday Particles:** On a Soul Saturday, does the app list the specific "Names of the Dead" rubrics for the Proskomedia?
+3. **The 10th Hour Start:** Does the app provide a "Traditional Time" note for Vespers at 4 PM (10th Hour) as per Dolnytsky?
+4. **Silent Entrance Prayer:** Does the app display the "Prayer of the Entrance" text at the Little Entrance, tailored for either Vespers or Liturgy?
+5. **Pericope "Under One Start":** If there are two Epistle/Gospel readings, does the app define if they are read consecutively or separately?
+6. **Presanctified Great Entrance:** Does the app replace the Cherubic Hymn with "Now the Powers of Heaven" during Lenten Wednesdays/Fridays?
+7. **Anaphora Type Alert:** Does the app flag the longer, different theological emphasis of the St. Basil Anaphora when it is in use?
+8. **Zadostoinyk Replacement:** On Pascha, does the app swap "It is truly proper" for "The Angel Cried" (the Axion Estin replacement)?
+9. **Ambo Prayer Variation:** Does the app provide the specific "Prayer for the Blessing of Fruit" to follow the Ambo Prayer on the Transfiguration?
+10. **Dismissal of the Dead:** Does the app change the final dismissal formula to include "The deceased servants of God..." on Soul Saturdays?
+11. **Gospel Book Handing:** Does the app specify if the Priest or the Deacon carries the Gospel Book based on the presence of a Deacon?
+12. **The "Megaphone" Cues:** Does the app bold the parts of the Anaphora that the Priest must say "aloud" versus the "silent" prayers?
+13. **Proskomedia "Lamb" Instructions:** Does the app provide the diagram and instructions for cutting the Lamb (Host) for a Great Feast?
+14. **The Liturgy of the Presanctified Gifts:** Does the app correctly provide the rubrics for the transfer of the Gifts from the Altar to the Offertory table?
+15. **Epitrachelion-Only Rule:** Does the app instruct the priest to wear only the Epitrachelion for a "Simple" Weekday Matins?
+16. **The Liturgy of the Word:** Does the app provide the text for the "Prayer of the Trisagion" during the singing of the Holy God?
+17. **Royal Doors (Communion):** Does the app instruct the priest exactly when to open the doors for "With the fear of God..."?
+18. **The "Great" Dismissal:** On Great Feasts, does the app generate the unique festal introductory phrase (e.g., "He who was born in a cave...")?
+19. **Silent Prayers of the Faithful:** Does the app provide the two Prayers of the Faithful that occur after the Litany of the Catechumens?
+20. **The Communion Prayer:** Does the app supply the "I believe, O Lord, and I confess..." text for the priest and people to recite together?
+
+---
+
+## IV. The Subdeacon: The "Hands of the Service"
+
+**Core Logic:** Vesting, Lights, Books, and Objects.
+
+1. **Vesting Protocol:** Does the app instruct the Priest to wear the Full Phelonion only if a Little Entrance is scheduled?
+2. **Lenten Light Plan:** During the "Alleluia" of Matins in Lent, does the app tell the Subdeacon to extinguish the sanctuary lights?
+3. **Censer Timing:** Does the app signal the Subdeacon to prepare the charcoal exactly before "Lord, I Have Cried"?
+4. **Royal Doors Binary:** Does the app provide a "Map" of every moment the Royal Doors must be opened (e.g., "Open at 'Wisdom, Aright!'")?
+5. **The Aer Wave:** During the Creed, does the app instruct the Subdeacon to assist the Priest in waving the Aer over the Gifts?
+6. **Bishop’s Lavabo:** Does the app adjust the "Hand Washing" rubric to the specific timing required when a Bishop is presiding?
+7. **Reader's Prokeimenon:** Does the app supply the Prokeimenon verses specifically for the Subdeacon to intone before the Epistle?
+8. **Orarion Signal:** Does the app specify that the Subdeacon wears the Orarion "crossed" only if no Deacon is serving?
+9. **Communion Particle Protection:** Does the app provide the rubric for holding the Communion Cloth to protect the Chalice from falling particles?
+10. **The Processional Kit:** Does the app specify "Censer only" for Vespers but "Gospel and Candles" for the Liturgy Entrance?
+11. **The Shroud (Epitaphios):** On Holy Friday, does the app trigger the instructions for carrying the Shroud in the procession?
+12. **The Epistle Book Prep:** Does the app tell the Subdeacon which bookmark to set in the *Apostol* based on the day's readings?
+13. **South Door Entrance:** Does the app remind the Subdeacon to enter the Altar via the South Door and never the Royal Doors?
+14. **Candle Lighting (Polyeleos):** Does the app signal to light the central chandelier (Polycandelon) at the start of the Polyeleos?
+15. **The Veil Management:** Does the app provide the instruction for when to move the veils from the Offertory table to the High Place?
+16. **The Lavabo Water:** Does the app specify that the Subdeacon must bring the water for hand-washing after the Great Entrance?
+17. **Incense Grain Logic:** Does the app specify if the Priest should add three grains of incense for a specific blessing?
+18. **The Dykirion/Trikirion:** If a Bishop is present, does the app generate the "Candle Bearer" rubrics for the Trikirion and Dykirion?
+19. **The Altar Cover:** Does the app instruct when to change the Altar frontal to the Lenten (purple) or Festal (white) color?
+20. **The Ending Cleanup:** Does the app provide instructions for the consumption of the remaining Gifts (Ablutions) if the Subdeacon is assisting?
+
+---
+
+## V. Theorized Use Cases (5 New Roles)
+
+1. **The Sacristan (Altar Guild):** Focus on the "Physical Environment."
+* *Question:* Does the app generate a "Vestment Color Report" for the week so the sacristan knows when to change the Altar cloths?
+
+
+2. **The Layperson (Pew-Side):** Focus on "Active Participation."
+* *Question:* Can the app hide the "Silent Prayers" and "Rubrics" to provide a clean, readable text for someone just following the service?
+
+
+3. **The Choirmaster (Technical Music):** Focus on "Sheet Music and Tones."
+* *Question:* Does the app link to the specific musical notation or PDF for the Tone of the week for every hymn?
+
+
+4. **The Catechist (Educational):** Focus on "Theological Explanation."
+* *Question:* Does the app provide a "Why are we doing this?" sidebar that explains the history of a specific rubric as the user scrolls?
+
+
+5. **The Bell-Ringer (Typikon of Bells):** Focus on "The Call to Prayer."
+* *Question:* Does the app specify the "Blahovist" (slow tolling) vs. "Tretehny" (ringing of all bells) based on the Rank of the day?
+
+
+
+Would you like me to help you draft the **JSON Data Schema** for the "Conflict Resolution" logic mentioned in Use Case II?

@@ -1,0 +1,186 @@
+{
+  "file_metadata": {
+    "filename": "00_components.json",
+    "version": "2.1 (Patched with Doxology Variants)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Parts I, III, IV",
+    "scope": "Reusable Liturgical Components",
+    "description": "Defines detailed structures for common and complex rituals. Updated to include Encomia, Exaltation of the Cross, Kneeling Prayers, Shroud Procession, and Doxology variants."
+  },
+  "system_definitions": {
+	"rank_taxonomy": {
+		"rank_vigil_lord": { "description": "Great Feast of Lord", "symbol": "cross_circle_red" },
+		"rank_vigil_theotokos": { "description": "Great Feast of Theotokos", "symbol": "cross_circle_blue" },
+		"rank_vigil_saint": { "description": "Vigil Rank Saint", "symbol": "cross_semicircle" },
+		"rank_polyeleos": { "description": "Polyeleos Rank", "symbol": "cross_red" },
+		"rank_doxology": { "description": "Great Doxology Rank", "symbol": "three_dots_red" },
+		"rank_simple_6": { "description": "Six Stichera Rank", "symbol": "three_dots_black" },
+		"rank_simple_4": { "description": "Simple Rank", "symbol": "none" }
+	}
+  },
+  "components": {
+    "litiya_procession": {
+      "title_key": "titles.component_litiya",
+      "source_ref": "dolnytsky_part1_vespers_vigil_para6",
+      "rubric": { "key": "rubrics.vigil.litiya_description" },
+      "sequence": [
+        {
+          "id": "litiya_preparation",
+          "rubric": { "key": "rubrics.vigil.litiya_preparation", "variables": { "actor": "role.deacon", "asset": "asset.vigil_vessel" } },
+          "content": { "type": "fixed_action", "action": "clergy_prepare_for_procession" }
+        },
+        {
+          "id": "litiya_procession",
+          "rubric": { "key": "rubrics.vigil.litiya_procession_to_narthex", "variables": { "actor": "role.priest", "asset": "asset.cross" } },
+          "content": { "type": "fixed_action", "action": "procession_to_narthex" }
+        },
+        {
+          "id": "litiya_censing",
+          "rubric": { "key": "rubrics.vigil.litiya_censing", "variables": { "actor": "role.deacon", "asset": "asset.censer" } },
+          "content": { "type": "fixed_action", "action": "censing_clergy_choirs_people" }
+        },
+        {
+          "id": "litiya_stichera",
+          "content": { "type": "variable_logic", "logic": { "function": "resolve_litiya_stichera", "args": { "feast_id": "current_feast" } } }
+        },
+        {
+          "id": "litany_save_o_god",
+          "rubric": { "key": "rubrics.vigil.litiya_litany" },
+          "content": { "type": "fixed_ref", "ref_key": "horologion.litany_save_o_god" }
+        },
+        {
+          "id": "prayer_with_bowed_heads",
+          "rubric": { "key": "rubrics.common.prayer_bowed_heads", "variables": { "actor": "role.priest", "posture": "posture.bowed_head" } },
+          "content": { "type": "fixed_ref", "ref_key": "horologion.prayer_litiya_master_plenteous" }
+        }
+      ]
+    },
+    "artoklasia": {
+      "title_key": "titles.component_artoklasia",
+      "source_ref": "dolnytsky_part1_vespers_vigil_para8",
+      "sequence": [
+        {
+          "id": "artoklasia_censing",
+          "rubric": { "key": "rubrics.vigil.artoklasia_censing", "variables": { "actor": "role.priest", "asset": "asset.censer", "location": "location.tetrapod" } },
+          "content": { "type": "fixed_action", "action": "priest_censes_vigil_vessel_4_sides" }
+        },
+        {
+          "id": "artoklasia_prayer",
+          "rubric": { "key": "rubrics.vigil.artoklasia_prayer", "variables": { "actor": "role.priest", "action": "blesses_each_element" } },
+          "content": { "type": "fixed_ref", "ref_key": "horologion.artoklasia_prayer" }
+        }
+      ]
+    },
+    "polyeleos": {
+      "title_key": "titles.component_polyeleos",
+      "source_ref": "dolnytsky_part1_matins_great_para3",
+      "sequence": [
+        { "id": "polyeleos_psalms", "content": { "type": "fixed_ref", "ref_key": "horologion.polyeleos_selected_verses" } },
+        { "id": "megalynaria", "content": { "type": "variable_logic", "logic": { "function": "resolve_megalynaria" } } },
+        { "id": "angelic_council", "condition": "if_sunday", "content": { "type": "fixed_ref", "ref_key": "octoechos.angelic_council" } },
+        { "id": "small_litany_polyeleos", "content": { "type": "fixed_ref", "ref_key": "horologion.litany_small" } },
+        { "id": "hypakoe_or_sessional", "content": { "type": "variable_logic", "logic": { "function": "resolve_post_polyeleos_hymn" } } }
+      ]
+    },
+    "matins_gospel_rite": {
+      "title_key": "titles.component_gospel_rite",
+      "source_ref": "dolnytsky_part1_matins_great_para4",
+      "sequence": [
+        { "id": "gradual_antiphons", "content": { "type": "variable_logic", "logic": { "function": "resolve_gradual" } } },
+        { "id": "prokeimenon_matins", "state_change": { "doors": "open" }, "content": { "type": "variable_logic", "logic": { "function": "resolve_matins_prokeimenon" } } },
+        { "id": "let_everything_that_hath_breath", "content": { "type": "fixed_ref", "ref_key": "horologion.let_everything_breath" } },
+        { "id": "gospel_reading", "content": { "type": "variable_logic", "logic": { "function": "resolve_matins_gospel" } } },
+        { "id": "gospel_veneration_sequence", "content": { "type": "sequence", "components": [
+            { "id": "having_beheld_resurrection", "condition": "if_sunday", "content": { "type": "fixed_ref", "ref_key": "horologion.having_beheld_resurrection" } },
+            { "id": "psalm_50", "content": { "type": "fixed_ref", "ref_key": "psalm_50" } },
+            { "id": "stichera_post_gospel", "content": { "type": "variable_logic", "logic": { "function": "resolve_post_gospel_stichera" } } }
+        ] } },
+        { "id": "litany_save_o_god_matins", "content": { "type": "fixed_ref", "ref_key": "horologion.litany_save_o_god_short" } }
+      ]
+    },
+    "tomb_encomia_stations": {
+      "title_key": "titles.component_encomia",
+      "source_ref": "dolnytsky_part4_great_saturday_matins_para3",
+      "sequence": [
+        { "id": "station_1", "rubric": { "key": "rubrics.matins.tomb_censing" }, "content": { "type": "sequence", "components": [
+            { "id": "psalm_118_st1", "type": "fixed_ref", "ref_key": "psalm_118_st1" },
+            { "id": "encomia_st1", "type": "fixed_ref", "ref_key": "triodion.encomia_st1" },
+            { "id": "litany_small_st1", "type": "fixed_ref", "ref_key": "horologion.litany_small" }
+        ] } },
+        { "id": "station_2", "rubric": { "key": "rubrics.matins.tomb_censing" }, "content": { "type": "sequence", "components": [
+            { "id": "psalm_118_st2", "type": "fixed_ref", "ref_key": "psalm_118_st2" },
+            { "id": "encomia_st2", "type": "fixed_ref", "ref_key": "triodion.encomia_st2" },
+            { "id": "litany_small_st2", "type": "fixed_ref", "ref_key": "horologion.litany_small" }
+        ] } },
+        { "id": "station_3", "rubric": { "key": "rubrics.matins.tomb_censing" }, "content": { "type": "sequence", "components": [
+            { "id": "psalm_118_st3", "type": "fixed_ref", "ref_key": "psalm_118_st3" },
+            { "id": "encomia_st3", "type": "fixed_ref", "ref_key": "triodion.encomia_st3" },
+            { "id": "resurrectional_evlogitaria", "type": "fixed_ref", "ref_key": "octoechos.resurrectional_evlogitaria" },
+            { "id": "litany_small_st3", "type": "fixed_ref", "ref_key": "horologion.litany_small" }
+        ] } }
+      ]
+    },
+    "exaltation_of_cross_stations": {
+      "title_key": "titles.component_exaltation",
+      "source_ref": "dolnytsky_part3_sept_14_exaltation",
+      "sequence": [
+        { "id": "direction_east_1", "rubric": { "key": "rubrics.common.kyrie_eleison_rep", "variables": { "count": 24 } }, "content": { "type": "fixed_action", "action": "priest_signs_cross_bows_east" } },
+        { "id": "direction_south", "rubric": { "key": "rubrics.common.kyrie_eleison_rep", "variables": { "count": 24 } }, "content": { "type": "fixed_action", "action": "priest_signs_cross_bows_south" } },
+        { "id": "direction_west", "rubric": { "key": "rubrics.common.kyrie_eleison_rep", "variables": { "count": 24 } }, "content": { "type": "fixed_action", "action": "priest_signs_cross_bows_west" } },
+        { "id": "direction_north", "rubric": { "key": "rubrics.common.kyrie_eleison_rep", "variables": { "count": 24 } }, "content": { "type": "fixed_action", "action": "priest_signs_cross_bows_north" } },
+        { "id": "direction_east_2", "rubric": { "key": "rubrics.common.kyrie_eleison_rep", "variables": { "count": 24 } }, "content": { "type": "fixed_action", "action": "priest_signs_cross_bows_east_final" } }
+      ]
+    },
+    "kneeling_prayers_pentecost": {
+      "title_key": "titles.component_kneeling_prayers",
+      "source_ref": "dolnytsky_part4_pentecost_monday_vespers",
+      "sequence": [
+        { "id": "station_1", "content": { "type": "sequence", "components": [
+            { "id": "litany_call_to_kneel", "type": "fixed_text", "content_key": "triodion.litany_kneeling_call" },
+            { "id": "prayers_set_1", "type": "fixed_ref", "ref_key": "triodion.pentecost_kneeling_1_2" },
+            { "id": "litany_conclusion_1", "type": "fixed_ref", "ref_key": "horologion.litany_small_pentecost_1" }
+        ] } },
+        { "id": "station_2", "content": { "type": "sequence", "components": [
+            { "id": "litany_call_to_kneel_2", "type": "fixed_text", "content_key": "triodion.litany_kneeling_call" },
+            { "id": "prayers_set_2", "type": "fixed_ref", "ref_key": "triodion.pentecost_kneeling_3_4" },
+            { "id": "litany_conclusion_2", "type": "fixed_ref", "ref_key": "horologion.litany_small_pentecost_2" }
+        ] } },
+        { "id": "station_3", "content": { "type": "sequence", "components": [
+            { "id": "litany_call_to_kneel_3", "type": "fixed_text", "content_key": "triodion.litany_kneeling_call" },
+            { "id": "prayers_set_3", "type": "fixed_ref", "ref_key": "triodion.pentecost_kneeling_5_6" },
+            { "id": "litany_conclusion_3", "type": "fixed_ref", "ref_key": "horologion.litany_small_pentecost_3" }
+        ] } }
+      ]
+    },
+    "shroud_procession_and_burial": {
+      "title_key": "titles.component_shroud_procession",
+      "source_ref": "dolnytsky_part4_great_friday_vespers_para5",
+      "sequence": [
+        { "id": "shroud_lifting", "rubric": { "key": "rubrics.passion.shroud_procession_formation" }, "content": { "type": "fixed_action", "action": "bishop_carries_monstrance_canons_carry_shroud" } },
+        { "id": "shroud_circuit", "rubric": { "key": "rubrics.passion.shroud_circuit_count", "variables": { "count": 1 } }, "content": { "type": "fixed_action", "action": "procession_around_church" } },
+        { "id": "shroud_placement", "rubric": { "key": "rubrics.passion.shroud_placement_tomb" }, "content": { "type": "fixed_action", "action": "placing_shroud_in_tomb" } },
+        { "id": "veneration_noble_joseph", "rubric": { "key": "rubrics.passion.veneration_prostrations" }, "content": { "type": "fixed_ref", "ref_key": "triodion.troparion_noble_joseph_veneration" } }
+      ]
+    },
+    "doxology_great_sung": {
+      "title_key": "titles.component_doxology_great",
+      "source_ref": "dolnytsky_part1_matins_great_para12",
+      "sequence": [
+        { "id": "glory_to_you_who_shown", "content": { "type": "fixed_text", "content_key": "horologion.glory_to_you_who_shown_light" } },
+        { "id": "great_doxology_text", "content": { "type": "fixed_ref", "ref_key": "horologion.great_doxology_sung_mode" } },
+        { "id": "trisagion_sung", "content": { "type": "fixed_ref", "ref_key": "horologion.trisagion_sung" } },
+        { "id": "troparion_dismissal", "content": { "type": "variable_logic", "logic": { "function": "resolve_dismissal_troparion" } } }
+      ]
+    },
+    "doxology_small_read": {
+      "title_key": "titles.component_doxology_small",
+      "source_ref": "dolnytsky_part1_matins_daily_para8",
+      "sequence": [
+        { "id": "to_you_glory_belongs", "content": { "type": "fixed_text", "content_key": "horologion.to_you_glory_belongs" } },
+        { "id": "glory_to_you_who_shown_read", "content": { "type": "fixed_text", "content_key": "horologion.glory_to_you_who_shown_light_read" } },
+        { "id": "small_doxology_text", "content": { "type": "fixed_ref", "ref_key": "horologion.small_doxology_read" } },
+        { "id": "litany_morning_supplication", "content": { "type": "fixed_ref", "ref_key": "horologion.litany_supplication_morning" } }
+      ]
+    }
+  }
+}

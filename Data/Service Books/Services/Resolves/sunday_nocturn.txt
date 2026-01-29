@@ -1,0 +1,94 @@
+Based on the **Dolnytsky Typikon** (Parts 1 and 2), here is the fully unabridged structural outline for **Sunday Nocturns (Polunoschnitsa nedilna)**.
+
+This structure is used exclusively on **Sunday Mornings**. Its defining characteristic is the **omission of the Psalter (Psalm 118)** and its replacement by the **Canon to the Holy Trinity**, emphasizing the Resurrectional character of the day.
+
+### **Service Selector Logic**
+
+* **Trigger:** Sunday Morning.
+* **Condition:** Used only if an **All-Night Vigil was NOT served**. (If a Vigil was served, Nocturns is omitted in church use, though often read privately by the clergy).
+* **Exclusion:** Bright Sunday (Pascha) through Thomas Sunday (Use `struct_nocturn_paschal`).
+
+---
+
+### **I. The Enarxis (Opening)**
+
+* **The Blessing:** "Blessed is our God..."
+* **The Usual Beginning:**
+* **Resolve Case A (Standard):** "Glory to Thee... O Heavenly King... Trisagion... O Come Let Us Worship..."
+* **Resolve Case B (Ascension to Pentecost):** Omit "O Heavenly King."
+
+
+* **Psalm 50:** "Have mercy on me, O God."
+
+---
+
+### **II. The Canon to the Trinity (The Sunday Variable)**
+
+* **Logic Gate (Octoechos Part 2):** Unlike Daily Nocturns, which uses the fixed Psalm 118, Sunday Nocturns requires a variable Canon.
+* **The Canon:**
+* **Action:** Insert **Canon to the Holy Trinity** in the **Tone of the Week** (1–8).
+* **Source:** **Octoechos** (Sunday Office).
+* **Structure:**
+* Ode 1, Ode 3.
+* **Sessional Hymns (Sedalni):** "We Thy servants..." (Fixed Text).
+* Ode 4, Ode 5, Ode 6.
+* **Kontakion & Oikos:** "Thou has shown, O Three in One..." (Fixed Text).
+* Ode 7, Ode 8, Ode 9.
+
+
+
+
+* **The Megalynaria (It's truly proper):**
+* **Resolve Case:** "It is truly proper to glorify thee, the Word of God..." (Special Trinity Megalynaria found in the Horologion/Octoechos).
+
+
+
+---
+
+### **III. The Trisagion & Hymnody**
+
+* **The Trisagion:** Standard sequence ("Holy God... All-Holy Trinity... Our Father...").
+* **The Troparion Slot (The Hypakoe):**
+* **Resolve Case (Tone of the Week):**
+* **Action:** Insert the **Hypakoe** of the Resurrectional Tone.
+* **Source:** **Octoechos** (Sunday Matins materials).
+* *Note:* The standard penitential Troparia of Daily Nocturns ("Behold the Bridegroom") are **suppressed**.
+
+
+
+
+
+---
+
+### **IV. The Prayers of the Holy Trinity**
+
+* **Kyrie:** "Lord, have mercy" (40 times).
+* **The Prayer of the Hours:** "Thou Who at all times..."
+* **The Closing Prayer:**
+* **Action:** Insert the **Prayer to the Holy Trinity** ("O All-Creating and Life-Giving Trinity...").
+* *Note:* This replaces the Prayer of St. Mardarius found in Daily Nocturns.
+
+
+
+---
+
+### **V. The Second Part (OMITTED)**
+
+* **Logic Gate:**
+* **Instruction:** **STOP.**
+* **Reason:** Sunday Nocturns has **NO Second Part** (The Prayer for the Dead). The commemoration of the dead is structurally incompatible with the Resurrectional joy of Sunday.
+
+
+
+---
+
+### **VI. The Dismissal**
+
+* **The Dismissal Proper:**
+* **Type:** **Small Dismissal**.
+* **Formula:** "May **Christ our True God, risen from the dead**, through the prayers of His Most Pure Mother..." (Resurrectional Preamble is mandatory).
+
+
+* **The Litany:**
+* "Let us pray for the Ecumenical Pontiff..." (Standard closing litany).
+* *Note:* The Litany for the Dead ("Have mercy on us, O God...") is **strictly omitted**.

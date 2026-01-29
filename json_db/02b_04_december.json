@@ -1,0 +1,154 @@
+{
+  "file_metadata": {
+    "filename": "02b_04_december.json",
+    "version": "2.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (December)",
+    "scope": "Fixed Feast Logic for December"
+  },
+  "month_settings": {
+    "month_id": 12,
+    "floating_rules": {
+      "sunday_forefathers": {
+        "date_range": { "start": 11, "end": 17 },
+        "triggers": { "day_of_week": [0] },
+        "priority": "high",
+        "rank_override": "rank_polyeleos",
+        "title_key": "menaion.floating.sunday_forefathers",
+        "source_ref": "dolnytsky_part3_sunday_forefathers",
+        "variables": {
+          "vespers_stichera_distribution": "forefathers_logic",
+          "liturgy_readings": ["colossians_3_4_11", "luke_14_16_24"]
+        }
+      },
+      "sunday_ancestors": {
+        "date_range": { "start": 18, "end": 24 },
+        "triggers": { "day_of_week": [0] },
+        "priority": "high",
+        "rank_override": "rank_polyeleos",
+        "title_key": "menaion.floating.sunday_ancestors",
+        "source_ref": "dolnytsky_part3_sunday_before_nativity",
+        "variables": {
+          "vespers_stichera_distribution": "ancestors_logic",
+          "liturgy_readings": ["hebrews_11_9_10_17_23_32_40", "matthew_1_1_25"]
+        }
+      }
+    },
+    "days": {
+      "04": {
+        "title_key": "menaion.dec_04.barbara_great_martyr",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_dec_4",
+        "base_template": "CASE_05",
+        "variables": {
+           "matins_gospel": "matthew_25_1_13",
+           "liturgy_readings": ["galatians_3_23_29", "mark_5_24_34"]
+        }
+      },
+      "05": {
+        "title_key": "menaion.dec_05.sabbas_sanctified",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_dec_5",
+        "base_template": "CASE_05"
+      },
+      "06": {
+        "title_key": "menaion.dec_06.nicholas_wonderworker",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_dec_6",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["proverbs_10", "proverbs_10_b", "wisdom_4"],
+          "litiya_stichera": "nicholas_litiya",
+          "matins_gospel": "john_10_9_16",
+          "liturgy_readings": ["hebrews_13_17_21", "luke_6_17_23"],
+          "communion_hymn": "righteous_memory"
+        }
+      },
+      "09": {
+        "title_key": "menaion.dec_09.conception_st_anna",
+        "rank": "rank_vigil_theotokos",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_dec_9",
+        "base_template": "CASE_14",
+        "variables": {
+          "liturgy_antiphons": "typical_psalms_refrain_theotokos",
+          "megalynarion": "magnify_o_my_soul_conception"
+        }
+      },
+      "12": {
+        "title_key": "menaion.dec_12.spyridon_trimythous",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_dec_12",
+        "base_template": "CASE_05"
+      },
+      "24": {
+        "title_key": "menaion.dec_24.nativity_paramony",
+        "rank": "rank_simple_6",
+        "period": "forefeast",
+        "source_ref": "dolnytsky_part3_dec_24",
+        "variables": {
+          "special_rule": "eve_of_nativity_logic",
+          "hours_logic_switch": {
+              "if_day": ["Saturday", "Sunday"],
+              "then": "standard_hours_forefeast",
+              "else": "royal_hours_nativity"
+          },
+          "vespers_liturgy_logic_switch": {
+              "if_day": ["Saturday", "Sunday"],
+              "then": {
+                "type": "standard_liturgy_chrysostom",
+                "vespers": "separate_great_vespers_for_feast" 
+              },
+              "else": {
+                "type": "vesperal_liturgy_basil",
+                "merge_logic": "vesperal_merge_logic",
+                "readings": "nativity_paramony_8_readings"
+              }
+            }
+        }
+      },
+      "25": {
+        "title_key": "menaion.dec_25.nativity_of_lord",
+        "rank": "rank_vigil_lord",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_dec_25",
+        "system_flags": { "suppress_octoechos": true, "fast_level": "no_fast" },
+        "base_template": "CASE_12",
+        "variables": {
+          "vespers_stichera_distribution": "nativity_stichera",
+          "matins_gospel": "matthew_1_18_25",
+          "liturgy_antiphons": "festal_nativity_antiphons",
+          "entrance_hymn": "from_the_womb_before_morning_star",
+          "liturgy_trisagion": "all_baptized",
+          "liturgy_readings": ["galatians_4_4_7", "matthew_2_1_12"],
+          "megalynarion": "magnify_o_my_soul_christ_king",
+          "communion_hymn": "the_lord_sent_redemption"
+        }
+      },
+      "26": {
+        "title_key": "menaion.dec_26.synaxis_theotokos",
+        "rank": "rank_vigil_theotokos",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_dec_26",
+        "base_template": "CASE_14",
+        "variables": {
+          "liturgy_antiphons": "typical_psalms_refrain_son_of_god",
+          "entrance_hymn": "come_let_us_worship_nativity",
+          "troparia_sequence": "nativity_synaxis_stacking",
+          "megalynarion": "magnify_o_my_soul_christ_king",
+          "communion_hymn": "the_lord_sent_redemption"
+        }
+      },
+      "27": {
+        "title_key": "menaion.dec_27.stephen_protomartyr",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_dec_27",
+        "base_template": "CASE_05",
+        "variables": {
+          "liturgy_readings": ["acts_6_8_7_5_47", "matthew_21_33_42"],
+          "troparia_sequence": "nativity_stephen_stacking"
+        }
+      }
+    }
+  }
+}

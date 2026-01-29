@@ -1,0 +1,432 @@
+{
+  "file_metadata": {
+    "filename": "02c_logic_triodion.json",
+    "version": "3.3 (Final ID Alignment)",
+    "last_updated": "2026-01-27",
+    "authority": "Dolnytsky Typikon Part IV",
+    "scope": "Moveable Cycle Logic",
+    "description": "Final version with all structure IDs aligned to the 01 series files."
+  },
+  "system_settings": {
+    "cycle_start_offset": -70,
+    "cycle_end_offset": 68,
+    "priority_levels": {
+      "highest": 100,
+      "triduum": 95,
+      "bright_week": 90,
+      "major_sunday": 80,
+      "mid_feast": 70,
+      "lenten_sunday": 60,
+      "lenten_weekday": 40,
+      "standard_moveable": 30
+    }
+  },
+  "logic_map": {
+    "sunday_publican_pharisee": {
+      "triggers": {
+        "pascha_offset": -70
+      },
+      "priority": 60,
+      "title": "Sunday of the Publican and the Pharisee",
+      "variables": {
+        "matins_praises_stichera_triodion": 4,
+        "liturgy_kontakion": "triodion"
+      }
+    },
+    "sunday_prodigal_son": {
+      "triggers": {
+        "pascha_offset": -63
+      },
+      "priority": 60,
+      "title": "Sunday of the Prodigal Son",
+      "variables": {
+        "matins_polyeleos_add": "psalm_136_waters_of_babylon"
+      }
+    },
+    "saturday_meatfare": {
+      "triggers": {
+        "pascha_offset": -57
+      },
+      "priority": 50,
+      "title": "Saturday of Souls (Meatfare)",
+      "base_template": "soul_saturday_template"
+    },
+    "sunday_meatfare": {
+      "triggers": {
+        "pascha_offset": -56
+      },
+      "priority": 65,
+      "title": "Sunday of Meatfare (Last Judgment)"
+    },
+    "cheesefare_week_general": {
+      "triggers": {
+        "pascha_offset_range": [
+          -55,
+          -50
+        ]
+      },
+      "priority": 30,
+      "system_flags": {
+        "fast_level": "cheesefare"
+      }
+    },
+    "sunday_cheesefare": {
+      "triggers": {
+        "pascha_offset": -49
+      },
+      "priority": 70,
+      "title": "Sunday of Cheesefare (Forgiveness)",
+      "variables": {
+        "vespers_evening_type": "forgiveness_vespers"
+      }
+    },
+    "great_lent_clean_week": {
+      "triggers": {
+        "pascha_offset_range": [
+          -48,
+          -43
+        ]
+      },
+      "priority": 50,
+      "title": "Clean Week",
+      "variables": {
+        "compline_type": "great_compline_lenten"
+      }
+    },
+    "lent_general_weekday": {
+      "triggers": {
+        "season_id": "triodion",
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "priority": 40,
+      "title": "Lenten Weekday",
+      "variables": {
+        "matins_type": "lenten_matins_weekday",
+        "hours_type": "structure_lenten",
+        "liturgy_type": "liturgy_presanctified"
+      }
+    },
+    "saturday_lent_1": {
+      "triggers": {
+        "pascha_offset": -43
+      },
+      "priority": 60,
+      "title": "Saturday of St. Theodore the Recruit",
+      "variables": {
+        "liturgy_readings": [
+          "saint_theodore"
+        ]
+      }
+    },
+    "sunday_lent_1": {
+      "triggers": {
+        "pascha_offset": -42
+      },
+      "priority": 80,
+      "title": "Sunday of Orthodoxy",
+      "variables": {
+        "liturgy_prokeimenon": "song_of_fathers"
+      }
+    },
+    "saturday_lent_2_3_4": {
+      "triggers": {
+        "pascha_offset": [
+          -36,
+          -29,
+          -22
+        ]
+      },
+      "priority": 50,
+      "title": "Memorial Saturday of Lent",
+      "base_template": "soul_saturday_template"
+    },
+    "sunday_lent_2": {
+      "triggers": {
+        "pascha_offset": -35
+      },
+      "priority": 80,
+      "title": "Sunday of St. Gregory Palamas",
+      "variables": {
+        "liturgy_type": "liturgy_basil"
+      }
+    },
+    "sunday_lent_3": {
+      "triggers": {
+        "pascha_offset": -28
+      },
+      "priority": 85,
+      "title": "Sunday of the Veneration of the Cross",
+      "variables": {
+        "matins_great_doxology_end": "procession_cross_veneration",
+        "liturgy_type": "liturgy_basil",
+        "liturgy_trisagion_replace": "before_thy_cross"
+      }
+    },
+    "sunday_lent_4": {
+      "triggers": {
+        "pascha_offset": -21
+      },
+      "priority": 80,
+      "title": "Sunday of St. John Climacus",
+      "variables": {
+        "liturgy_type": "liturgy_basil"
+      }
+    },
+    "sunday_lent_5": {
+      "triggers": {
+        "pascha_offset": -14
+      },
+      "priority": 80,
+      "title": "Sunday of St. Mary of Egypt",
+      "variables": {
+        "liturgy_type": "liturgy_basil"
+      }
+    },
+    "thursday_great_canon": {
+      "triggers": {
+        "pascha_offset": -17
+      },
+      "priority": 60,
+      "title": "Thursday of the Great Canon",
+      "variables": {
+        "matins_canon": "great_canon_andrew_crete_full"
+      }
+    },
+    "saturday_akathist": {
+      "triggers": {
+        "pascha_offset": -15
+      },
+      "priority": 60,
+      "title": "Saturday of the Akathist",
+      "variables": {
+        "matins_insert_akathist_sections": true
+      }
+    },
+    "saturday_lazarus": {
+      "triggers": {
+        "pascha_offset": -8
+      },
+      "priority": 90,
+      "title": "Saturday of Lazarus",
+      "variables": {
+        "liturgy_trisagion_replace": "all_baptized"
+      }
+    },
+    "sunday_palm": {
+      "triggers": {
+        "pascha_offset": -7
+      },
+      "priority": 95,
+      "title": "Palm Sunday",
+      "variables": {
+        "matins_post_gospel_action": "blessing_palms",
+        "liturgy_antiphons": "festal_palm"
+      }
+    },
+    "holy_monday_tuesday_wednesday": {
+      "triggers": {
+        "pascha_offset_range": [
+          -6,
+          -4
+        ]
+      },
+      "priority": 95,
+      "variables": {
+        "matins_type": "passion_matins",
+        "hours_type": "structure_lenten",
+        "liturgy_type": "liturgy_presanctified"
+      }
+    },
+    "holy_thursday": {
+      "triggers": {
+        "pascha_offset": -3
+      },
+      "priority": 98,
+      "title": "Great and Holy Thursday",
+      "variables": {
+        "liturgy_type": "vesperal_merge_logic",
+        "cherubic_hymn_replace": "of_thy_mystical_supper"
+      }
+    },
+    "holy_friday": {
+      "triggers": {
+        "pascha_offset": -2
+      },
+      "priority": 100,
+      "title": "Great and Holy Friday",
+      "variables": {
+        "hours_type": "structure_royal",
+        "vespers_type": "passion_burial_vespers",
+        "matins_type": "tomb_matins",
+        "liturgy_type": "no_liturgy"
+      }
+    },
+    "holy_saturday": {
+      "triggers": {
+        "pascha_offset": -1
+      },
+      "priority": 100,
+      "title": "Great and Holy Saturday",
+      "variables": {
+        "liturgy_type": "vesperal_merge_logic",
+        "cherubic_hymn_replace": "let_all_mortal_flesh"
+      }
+    },
+    "pascha": {
+      "triggers": {
+        "pascha_offset": 0
+      },
+      "priority": 100,
+      "title": "The Resurrection of Our Lord (Pascha)",
+      "variables": {
+        "vespers_type": "paschal_vespers",
+        "matins_type": "bright_matins",
+        "hours_type": "structure_paschal",
+        "liturgy_trisagion_replace": "all_baptized"
+      }
+    },
+    "bright_week": {
+      "triggers": {
+        "pascha_offset_range": [
+          1,
+          6
+        ]
+      },
+      "priority": 90,
+      "title": "Bright Week",
+      "variables": {
+        "hours_type": "structure_paschal",
+        "matins_type": "bright_matins"
+      }
+    },
+    "sunday_thomas": {
+      "triggers": {
+        "pascha_offset": 7
+      },
+      "priority": 80,
+      "title": "Sunday of St. Thomas",
+      "variables": {
+        "matins_magnification": "thomas_magnification"
+      }
+    },
+    "pentecostarion_general_weekday": {
+      "triggers": {
+        "pascha_offset_range": [
+          8,
+          38
+        ]
+      },
+      "priority": 30,
+      "title": "Pentecostarion Weekday"
+    },
+    "mid_pentecost": {
+      "triggers": {
+        "pascha_offset": 24
+      },
+      "priority": 85,
+      "title": "Mid-Pentecost",
+      "variables": {
+        "liturgy_antiphons": "festal_mid_pentecost"
+      }
+    },
+    "ascension": {
+      "triggers": {
+        "pascha_offset": 39
+      },
+      "priority": 100,
+      "title": "Ascension of Our Lord",
+      "variables": {
+        "liturgy_antiphons": "festal_ascension"
+      }
+    },
+    "sunday_fathers_1st_council": {
+      "triggers": {
+        "pascha_offset": 42
+      },
+      "priority": 80,
+      "title": "Sunday of the Holy Fathers of the 1st Council"
+    },
+    "saturday_soul_pentecost": {
+      "triggers": {
+        "pascha_offset": 48
+      },
+      "priority": 70,
+      "title": "Saturday of Souls (Pentecost)",
+      "base_template": "soul_saturday_template"
+    },
+    "pentecost": {
+      "triggers": {
+        "pascha_offset": 49
+      },
+      "priority": 100,
+      "title": "Pentecost",
+      "variables": {
+        "vespers_type": "pentecost_kneeling_vespers",
+        "liturgy_trisagion_replace": "all_baptized"
+      }
+    },
+    "monday_holy_spirit": {
+      "triggers": {
+        "pascha_offset": 50
+      },
+      "priority": 95,
+      "title": "Monday of the Holy Spirit"
+    },
+    "sunday_all_saints": {
+      "triggers": {
+        "pascha_offset": 56
+      },
+      "priority": 80,
+      "title": "Sunday of All Saints"
+    }
+  },
+  "lenten_logic_maps": {
+    "ode_schedule": {
+      "1": [
+        1,
+        8,
+        9
+      ],
+      "2": [
+        2,
+        8,
+        9
+      ],
+      "3": [
+        3,
+        8,
+        9
+      ],
+      "4": [
+        4,
+        8,
+        9
+      ],
+      "5": [
+        5,
+        8,
+        9
+      ],
+      "6": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "trinity_hymns_map": {
+      "structure": [
+        "hymn_1",
+        "hymn_2",
+        "hymn_3"
+      ],
+      "ref_template": "triodion.trinity_hymn_tone_{tone}_{num}"
+    }
+  }
+}

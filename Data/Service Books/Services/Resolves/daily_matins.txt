@@ -1,0 +1,196 @@
+Based on the **Dolnytsky Typikon** (Parts 1–5), here is the fully unabridged structural outline for **Daily Matins (Utrenya shodenna)**.
+
+This structure covers standard weekdays (**Monday–Saturday**) when no Great Feast or Polyeleos Rank Saint occurs.
+
+**Crucial Logic Note:** The defining characteristic of Daily Matins in Dolnytsky is that the **Doxology is Read** (not sung) and the **Aposticha** are moved to the *end* of the service (after the Litany).
+
+### **Service Selector Logic**
+
+* **Trigger:** Monday, Tuesday, Wednesday, Thursday, Friday, or Saturday.
+* **Condition:** Saint Rank is 0 (Simple), 1 (Six Stichera), or 2 (Doxology).
+* **Exclusion:** If Rank 3 (Polyeleos) or higher, load `struct_matins_festal`.
+* **Exclusion:** If Lenten Weekday (Alleluia), load `struct_matins_lenten`.
+
+---
+
+### **I. The Royal Office (The Enarxis)**
+
+* **The Blessing:** "Blessed is our God..."
+* **The Royal Psalms (19 & 20):**
+* **Logic:** Read daily unless Matins is served immediately after Nocturns (monastic practice), in which case they are omitted.
+
+
+* **The Troparia:** "O Lord, save Thy people..."
+* **The Censing:** Priest censes the Holy Table and the whole church.
+
+### **II. The Six Psalms (Hexapsalmos)**
+
+* **The Opening:** "Glory to God in the highest..." (3 times).
+* **The Reading:** Psalms 3, 37, 62, 87, 102, 142.
+* *Rubric:* Read with compunction; no movement or making the sign of the cross.
+
+
+* **The Great Litany:** "In peace let us pray to the Lord..."
+
+---
+
+### **III. "God is the Lord" & Troparia**
+
+* **The Proclamation:**
+* **Resolve Case A (Standard):** "God is the Lord..." sung in the **Tone of the Saint** (Menaion) or **Tone of the Week** (Octoechos).
+* **Resolve Case B (Saturday):** Sung in Tone 2 (usually) for the Apostles/Martyrs/Dead.
+
+
+* **The Troparia Stack:**
+* **Scenario A (Mon-Fri):**
+* Troparion of the Saint (Menaion) x2.
+* Glory... Both now...
+* Theotokion of the Tone (from the Menaion or Octoechos).
+
+
+* **Scenario B (Saturday - The Memorial):**
+* "Apostles, Martyrs, and Prophets..." (Tone 2).
+* Glory... "Remember, O Lord, as Thou art good..." (Troparion of the Dead).
+* Both now... "O Holy Mother of the Ineffable Light..."
+
+
+* **Scenario C (Forefeast):**
+* Troparion of the Forefeast x2.
+
+
+
+
+
+---
+
+### **IV. The Psalter (Kathismata)**
+
+* **Logic Gate (Part 1 - Day of Week):**
+* **Monday:** Kathisma 4 & 5.
+* **Tuesday:** Kathisma 6 & 7.
+* **Wednesday:** Kathisma 8 & 9.
+* **Thursday:** Kathisma 10 & 11.
+* **Friday:** Kathisma 13 & 14.
+* **Saturday:** Kathisma 16 & 17 (*Note: Kathisma 17 is "The Amomos" - Psalm 118*).
+
+
+* **The Sessional Hymns (Sedalni):**
+* Read after each Kathisma.
+* **Source:** Octoechos (Days of the week) or Menaion (if specifically appointed).
+
+
+
+---
+
+### **V. Psalm 50**
+
+* **Rubric:** Read.
+
+---
+
+### **VI. The Canon (The Hymnography)**
+
+* **Logic Gate (Part 2 - Composition):**
+* **Standard Rule:** 3 Canons are typically read.
+* **Mon-Thu:**
+1. Canon of Repentance (Octoechos).
+2. Canon of the Day (Octoechos - e.g., Angels on Mon).
+3. Canon of the Saint (Menaion).
+
+
+* **Saturday:**
+1. Canon of the Prophets/Martyrs (Octoechos).
+2. Canon of the Dead (Octoechos).
+3. Canon of the Saint (Menaion).
+
+
+* **Forefeast:** Canon of the Feast usually replaces Octoechos Canons.
+
+
+* **Biblical Odes:** The Canticles of Moses are usually sung on weekdays.
+* **Katavasia:**
+* **Daily:** Usually **Omitted** (Irmos of the last Canon is repeated).
+* **Feast Period:** Katavasia of the Season may be appointed.
+
+
+* **The Inter-Ode Hymns:**
+* **After Ode 3:** Small Litany + Sessional Hymn (Menaion).
+* **After Ode 6:** Small Litany + Kontakion/Ikos (Saint).
+
+
+* **The Magnificat (Ode 9):**
+* "My soul magnifies the Lord" is sung.
+
+
+
+---
+
+### **VII. The Praises (Lauds)**
+
+* **The Psalms (148-150):**
+* **Resolve Case A (Mon-Fri):** Read (Recited) simply. "Praise the Lord from the heavens..."
+* **Resolve Case B (Saturday):** SUNG.
+
+
+* **The Stichera on the Praises:**
+* **Mon-Fri:** Usually **Omitted** in Daily Matins.
+* **Saturday:** **Stichera of the Praises** (Octoechos - Martyrs/Apostles) are sung.
+
+
+* **The Doxology Logic (The Daily Marker):**
+* **Resolve Case A (Mon-Fri):** **Small Doxology** (Read). "To Thee belongs glory... Glory to God in the highest..."
+* **Resolve Case B (Saturday):** **Small Doxology** (Read).
+* *Exception:* If the Saint is Rank 2 (Doxology Rank), the **Great Doxology** is Sung, and the service morphs into a hybrid Festal structure.
+
+
+
+
+
+---
+
+### **VIII. The Litany of Supplication**
+
+* **Text:** "Let us complete our morning prayer..."
+* *Note:* In Daily Matins, this Litany occurs *before* the Aposticha.
+
+---
+
+### **IX. The Aposticha (The Displacement)**
+
+* **Logic:** In Daily Matins, the Aposticha are moved to this position (End of Service).
+* **Source:**
+* **Mon-Fri:** **Stichera of the Day** (Octoechos).
+* **Saturday:** **Stichera of the Dead** (The Nekrosima from Octoechos).
+* **Forefeast:** Stichera of the Feast (Menaion).
+
+
+* **The "Glory... Both Now...":**
+* Glory: Saint (if available) or Octoechos.
+* Both Now: Theotokion.
+
+
+
+---
+
+### **X. The Dismissal Sequence**
+
+* **The "It is good" Hymn:** "It is good to give praise to the Lord..." (Psalm 91:1).
+* **The Trisagion:** "Holy God..."
+* **The Final Troparia:**
+* **Mon-Fri:** Troparion of the Saint -> Glory... Both Now... Theotokion.
+* **Saturday:**
+* "Apostles, Martyrs, and Prophets..."
+* Glory... "Remember, O Lord, as Thou art good..."
+* Both Now... "O Holy Mother..."
+
+
+
+
+* **Litany of Fervent Supplication:** "Have mercy on us, O God..."
+* **The Dismissal Proper:**
+* **Type:** **Small Dismissal**.
+* **Formula:** "Christ our True God... through the prayers of the Saint of the Day..."
+* **Saturday Addition:** Includes commemoration of the Dead ("...and establish the souls of Your servants...").
+
+
+* **The First Hour:** Read immediately.

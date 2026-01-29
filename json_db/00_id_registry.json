@@ -1,0 +1,58 @@
+{
+  "file_metadata": {
+    "filename": "00_id_registry.json",
+    "version": "1.0 (Master Unified)",
+    "authority": "Unified Taxonomy for Ruthenian Encyclopedic Liturgikon",
+    "description": "Master Authority for all ID Taxonomy. This file ensures zero-edit lookups between structural skeletons and festal logic."
+  },
+  "registry": {
+    "structural_hooks": {
+      "description": "Slots defined in 01a-01j that request variable content.",
+      "ids": [
+        "opening_blessing",
+        "invitatory_3x",
+        "psalms_fixed",
+        "kathisma_slot",
+        "readings_block",
+        "troparia_block",
+        "kontakion_block",
+        "trisagion_module",
+        "antiphons_block",
+        "little_entrance",
+        "troparia_kontakia_block",
+        "cherubic_hymn_block",
+        "megalynarion_block",
+        "communion_module",
+        "dismissal_slot"
+      ]
+    },
+    "ritual_components": {
+      "description": "Logical sequences in 00_components.json called via component_ref.",
+      "ids": [
+        "litiya_procession",
+        "artoklasia",
+        "polyeleos",
+        "matins_gospel_rite",
+        "doxology_great_sung",
+        "doxology_small_read",
+        "exaltation_of_cross_stations",
+        "tomb_encomia_stations",
+        "shroud_procession_and_burial",
+        "kneeling_prayers_pentecost"
+      ]
+    },
+    "logic_resolver_functions": {
+      "description": "The 20 General Cases and specific Resolver hooks used in the .py engine.",
+      "ids": [
+        "CASE_01_TO_CASE_20",
+        "resolve_kathisma",
+        "resolve_hour_troparia",
+        "resolve_hour_kontakion",
+        "resolve_lenten_prophecy",
+        "resolve_vespers_stichera",
+        "resolve_matins_canon",
+        "check_service_continuity"
+      ]
+    }
+  }
+}

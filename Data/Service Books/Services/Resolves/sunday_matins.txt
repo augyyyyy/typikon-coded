@@ -1,0 +1,224 @@
+Sunday/Festal Matins
+
+Based on the **Dolnytsky Typikon** (Parts 1–5), here is the fully unabridged structural outline for **Sunday & Festal Great Matins (Utrenya Velyka)**.
+
+This is the most complex service in the Byzantine Rite. This outline serves **Sundays**, **Great Feasts**, and **Saints with Polyeleos/Vigil** (Rank 3+).
+
+### **Service Selector Logic**
+
+* **Trigger A:** Sunday Morning.
+* **Trigger B:** Feast of Rank 3 (Polyeleos), Rank 4 (Vigil), or Rank 5 (Great Feast).
+* **Trigger C:** Bright Week? **STOP.** Load `struct_matins_paschal`.
+
+---
+
+### **I. The Royal Office (The Enarxis)**
+
+* **Logic Gate (Vigil Connection):**
+* **Resolve Case A (Vigil Served):** If Matins follows Great Vespers/Litya immediately:
+* **Action:** **SKIP** the Royal Office.
+* **Start:** "Glory to God in the highest..." -> Hexapsalmos.
+
+
+* **Resolve Case B (Separate Service):**
+* **Action:** Begin with "Blessed is our God..."
+* **Royal Psalms:** Psalms 19 & 20.
+* **Troparia:** "O Lord, save Thy people..."
+* **Censing:** The Priest censes the entire church during the reading.
+
+
+
+
+
+---
+
+### **II. The Six Psalms (Hexapsalmos)**
+
+* **The Reading:** Psalms 3, 37, 62, 87, 102, 142.
+* *Rubric:* Read with compunction; no movement in the church.
+
+
+* **The Morning Prayers:** Read silently by the Priest in front of the Holy Doors.
+* **The Great Litany:** "In peace let us pray to the Lord..."
+
+---
+
+### **III. "God is the Lord" & Troparia**
+
+* **The Proclamations:**
+* "God is the Lord and hath appeared unto us..." (Sung in the Tone of the Troparion).
+
+
+* **The Troparia Stack (Part 2 & 5):**
+* **Scenario A (Sunday + Saint Rank 5):**
+* Troparion Resurrection (2x) -> Glory -> Saint -> Both Now -> Theotokion.
+
+
+* **Scenario B (Great Feast):**
+* Troparion of the Feast (3x).
+
+
+* **Scenario C (Sunday + Saint Rank 3/4):**
+* Troparion Resurrection (2x) -> Glory -> Saint -> Both Now -> Theotokion.
+
+
+
+
+
+---
+
+### **IV. The Psalter (Kathismata)**
+
+* **Logic Gate (Day of Week):**
+* **Resolve Case A (Sunday):**
+* **Kathisma 1:** Read -> Sessional Hymns (Resurrectional).
+* **Kathisma 2:** Read -> Sessional Hymns (Resurrectional).
+
+
+* **Resolve Case B (Feast on Weekday):**
+* **Kathisma:** Usually the Kathisma of the Day (e.g., Monday = Kathisma 4) or specific Festal antiphons if prescribed.
+
+
+
+
+
+---
+
+### **V. The Polyeleos (The High Point)**
+
+* **The Polyeleos Psalms:**
+* Psalms 134 ("Praise the Name of the Lord") and 135 ("O give thanks") are SUNG.
+
+
+* **The Megalynarion (Velychannya) Logic:**
+* **Resolve Case A (Sunday - Standard):** **OMITTED**. (Sunday focus is Evlogitaria).
+* **Resolve Case B (Feast / Saint Rank 3+):** **INSERT** the Megalynarion of the Feast/Saint with selected Psalm verses.
+
+
+* **The Evlogitaria (Resurrectional Hymns):**
+* **Resolve Case A (Sunday):** **INSERT** "Blessed art Thou, O Lord... The assembly of angels...".
+* **Resolve Case B (Feast on Weekday):** **OMITTED** (Unless Lazarus Saturday).
+
+
+* **Small Litany & Hypakoe:**
+* Hypakoe of the Tone (Sunday) or Feast.
+
+
+* **Hymns of Ascent (Anavathmoi):**
+* **Sunday:** Antiphons of the current Tone.
+* **Feast (Weekday):** Usually Antiphon 1 of Tone 4 ("From my youth").
+
+
+
+---
+
+### **VI. The Gospel Cycle**
+
+* **The Prokeimenon:**
+* **Sunday:** Resurrectional Prokeimenon of the Tone.
+* **Feast:** Festal Prokeimenon.
+
+
+* **The Matins Gospel:**
+* **Sunday:** One of the **11 Eothina Gospels** (cycling).
+* **Feast:** Specific Gospel of the Feast.
+
+
+* **The Hymn of Resurrection:**
+* "In that we have beheld the Resurrection of Christ..."
+* *Rubric:* Sung on Sundays; Read or Omitted on some Weekday Feasts (though often sung on Great Feasts).
+
+
+* **Psalm 50:** Read.
+* **The Post-Gospel Troparia (The "Glory" Slot):**
+* **Resolve Case A (Sunday):**
+* Glory: "Through the prayers of the **Apostles**..."
+* Both Now: "Through the prayers of the **Theotokos**..."
+* Sticheron: "Jesus, having risen from the tomb..."
+
+
+* **Resolve Case B (Feast/Saint):**
+* Glory: "Through the prayers of **[Saint's Name]**..."
+* Both Now: "Through the prayers of the **Theotokos**..."
+* Sticheron: Specific Sticheron of the Feast (Menaion).
+
+
+
+
+
+---
+
+### **VII. The Canon (The Hymnography)**
+
+* **Structure:** Odes 1, 3, 4, 5, 6, 7, 8, 9. (Ode 2 is omitted outside Lent).
+* **Content Logic (Part 2):**
+* **Sunday:**
+1. Canon of Resurrection (Octoechos).
+2. Canon of the Cross-Resurrection (Octoechos).
+3. Canon of the Theotokos (Octoechos).
+4. Canon of the Saint (Menaion).
+
+
+* **Feast:**
+1. Canon of the Feast (First).
+2. Canon of the Feast (Second) - if applicable.
+
+
+
+
+* **The Katavasia (Logic Gate):**
+* **Resolve:** Depends on the Calendar Period (e.g., "I shall open my mouth" vs. "Christ is Born").
+
+
+* **Small Litanies:** After Odes 3 and 6.
+* **Kontakion/Ikos:** After Ode 6.
+* **The Magnificat (Ode 9):**
+* **Resolve Case A (Sunday/Standard):** Sing "My soul magnifies the Lord" with "More Honorable."
+* **Resolve Case B (Great Feast):** **OMIT** Magnificat. Sing the **Festal Megalynarion (Refrain)** and Ode 9 Irmos.
+
+
+
+---
+
+### **VIII. The Praises (Lauds) & Doxology**
+
+* **The Holy is the Lord:** Sung in the Tone of the Week (Sunday) or Feast.
+* **The Psalms of Praise:** Psalms 148, 149, 150.
+* **The Stichera on the Praises:**
+* **Count:** usually 8 (Sunday) or 4/6 (Feast).
+* **Logic:** 4 Octoechos + 4 Menaion (if Saint Rank 3+).
+
+
+* **The Doxastikon (Glory):**
+* **Sunday:** **Gospel Sticheron** (Corresponding to the Eothinon Gospel read earlier).
+* **Feast:** Glory of the Feast.
+
+
+* **The Theotokion (Both Now):**
+* **Sunday:** "Most Blessed art Thou, O Virgin..." (Fixed Text).
+* **Feast:** Festal Theotokion.
+
+
+* **The Great Doxology:**
+* **Rubric:** **SUNG** (Solemn Melody). This is the defining mark of Festal Matins.
+
+
+* **The Post-Doxology Troparion:**
+* **Sunday (Odd Tones):** "Today salvation has come..."
+* **Sunday (Even Tones):** "Having risen from the tomb..."
+* **Feast:** Troparion of the Feast.
+
+
+
+---
+
+### **IX. The Dismissal**
+
+* **Litanies:** "Have mercy on us..." and "Let us complete our morning prayer..."
+* **The Dismissal Proper:**
+* **Sunday:** "May **Christ our True God, risen from the dead**..."
+* **Feast (Weekday):** "May **Christ our True God**..." (No Resurrectional phrase).
+* **Mentions:** Saint of the Day, Patron of Temple, Saint of the Feast.
+
+
+* **The First Hour:** Usually read immediately following Matins.

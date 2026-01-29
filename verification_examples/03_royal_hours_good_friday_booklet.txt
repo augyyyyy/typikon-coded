@@ -1,0 +1,149 @@
+DATE: 2025-04-18
+FEAST: Great and Holy Friday
+
+
+--- VESPERS (passion_burial_vespers) ---
+[opening]    horologion.blessing_common
+[entrance_gospel] 
+   >>> RUBRIC:  <<<
+   [PRIEST]: Enter with the Gospel Book.
+
+[readings_passion]    Logic: resolve_passion_vespers_readings (Args: {})
+[shroud_procession] 
+
+--- COMPLINE (small_compline) ---
+[opening_blessing]    horologion.blessing_common
+[introductory_prayers]    horologion.trisagion_block
+[invitatory]    horologion.invitatory_3x
+[psalms_compline]    Group: psalm_50, psalm_69, psalm_142
+[doxology_small]    horologion.doxology_small_read
+[creed]    horologion.creed
+[canon_slot]    Logic: resolve_compline_canon (Args: {})
+[axion_estin]    horologion.axion_estin
+[trisagion_2]    horologion.trisagion_block
+[troparia_slot]    Logic: resolve_compline_troparia (Args: {'rank': 'small'})
+[lord_have_mercy_40]    horologion.lord_have_mercy_40
+[prayer_hours]    horologion.prayer_hours_thou_who
+[prayers_final]    Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
+[dismissal_sequence]    Sequence:
+      - {'id': 'dismiss_prayers', 'type': 'fixed_ref', 'ref_key': 'horologion.dismissal_small_prayers'}
+      - {'id': 'lit_final', 'type': 'fixed_ref', 'ref_key': 'horologion.litany_final_compline'}
+
+--- MIDNIGHT OFFICE (midnight_daily) ---
+[opening_blessing]    horologion.blessing_common
+[trisagion_prayers]    horologion.trisagion_block
+[psalm_50]    psalm_50
+[kathisma_17] 
+   >>> RUBRIC:  <<<
+
+   psalm_118_blameless
+[creed]    horologion.creed
+[trisagion_prayers_2]    horologion.trisagion_block
+[troparia_block]    Logic: resolve_midnight_troparia (Args: {'type': 'daily'})
+[prayer_hours_thou_who]    horologion.prayer_hours_thou_who
+[closing_prayer]    Logic: resolve_midnight_prayer (Args: {})
+[part_ii_block] 
+[prayer_st_ephrem] 
+   >>> RUBRIC:  <<<
+
+   triodion.prayer_st_ephrem
+[dismissal]    horologion.dismissal_small_with_litany
+
+--- MATINS (tomb_matins) ---
+[matins_opening] 
+[great_litany]    horologion.litany_great
+[god_is_the_lord] 
+   >>> RUBRIC: God is the Lord <<<
+   [DEACON]: Intone verses before the Icon of Christ.
+   [CHOIR]: Sing the Troparion of the Feast/Saint.
+
+   Logic: resolve_god_is_the_lord_troparia (Args: {})
+[encomia_rite] 
+[polyeleos_rite] 
+   >>> RUBRIC: The Polyeleos <<<
+   (Source): Dolnytsky I: Matins
+   [PRIEST]: Open Holy Doors. Perform Great Censing of the whole church.
+   [CHOIR]: Sing Psalms 134-135 and Megalynaria.
+
+[gospel_rite] 
+   >>> RUBRIC: The Gospel <<<
+   (Source): Dolnytsky I: Matins
+   [DEACON]: Exclaim 'Let us pray to the Lord'.
+   [PRIEST]: Read the Gospel from the Holy Doors (or carry to Tetrapod on Sundays).
+   [PEOPLE]: Venerate the Gospel after the reading.
+
+[canon_block] 
+   >>> RUBRIC: The Canon <<<
+   [PRIEST]: Anoint the faithful with blessed oil during the Canon.
+
+[praises]    Logic: resolve_praises_stichera (Args: {})
+[great_doxology] 
+   >>> RUBRIC: Great Doxology <<<
+   [PRIEST]: Raise hands and exclaim 'Glory to You who have shown us the Light!'
+
+   horologion.doxology_great
+[shroud_procession] 
+[post_doxology_event] 
+   >>> RUBRIC: Post-Doxology Rite <<<
+
+   Logic: resolve_post_doxology_event (Args: {})
+[conclusion] 
+
+--- FIRST HOUR (structure_royal) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_royal]    Logic: resolve_royal_psalms (Args: {'hour': 1})
+[stichera_royal] 
+   >>> RUBRIC: Royal Stichera <<<
+
+   Logic: resolve_royal_stichera (Args: {'hour': 1})
+[readings_royal] 
+   >>> RUBRIC: Scripture Readings <<<
+   [READER]: Prokeimenon, Paremia, Epistle.
+   [DEACON]: Gospel.
+
+   Logic: resolve_royal_readings (Args: {'hour': 1})
+[verses_fixed]    horologion.verses_hour_1_order_my_steps
+[trisagion_prayers]    horologion.trisagion_block
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_1_christ_true_light
+
+--- THIRD HOUR (structure_royal) ---
+[opening_blessing]    horologion.blessing_common
+[invitatory_prayers]    horologion.invitatory_3x
+[psalms_royal]    Logic: resolve_royal_psalms (Args: {'hour': 3})
+[royal_troparia]    Logic: resolve_royal_troparia (Args: {'hour': 3})
+[prokeimenon]    Logic: resolve_prokeimenon (Args: {'service': 'royal_3'})
+[old_testament]    Logic: resolve_reading_ot (Args: {'service': 'royal_3'})
+[epistle]    Logic: resolve_reading_epistle (Args: {'service': 'royal_3'})
+[gospel_royal]    Logic: resolve_reading_gospel (Args: {'service': 'royal_3'})
+[trisagion_block]    horologion.trisagion_block
+[royal_kontakion]    Logic: resolve_royal_kontakion (Args: {})
+[lord_have_mercy_40]    horologion.lord_have_mercy_40
+[prayer_final]    horologion.prayer_hour_3_mardari
+
+--- SIXTH HOUR (structure_royal) ---
+[opening_blessing]    horologion.blessing_common
+[invitatory_prayers]    horologion.invitatory_3x
+[psalms_royal]    Logic: resolve_royal_psalms (Args: {'hour': 6})
+[royal_troparia]    Logic: resolve_royal_troparia (Args: {'hour': 6})
+[prokeimenon]    Logic: resolve_prokeimenon (Args: {'service': 'royal_6'})
+[old_testament]    Logic: resolve_reading_ot (Args: {'service': 'royal_6'})
+[epistle]    Logic: resolve_reading_epistle (Args: {'service': 'royal_6'})
+[gospel_royal]    Logic: resolve_reading_gospel (Args: {'service': 'royal_6'})
+[royal_kontakion]    Logic: resolve_royal_kontakion (Args: {})
+[prayer_final]    horologion.prayer_hour_6_god_and_lord_of_hosts
+
+--- NINTH HOUR (structure_royal) ---
+[opening_blessing]    horologion.blessing_common
+[invitatory_prayers]    horologion.invitatory_3x
+[psalms_royal]    Logic: resolve_royal_psalms (Args: {'hour': 9})
+[royal_troparia]    Logic: resolve_royal_troparia (Args: {'hour': 9})
+[prokeimenon]    Logic: resolve_prokeimenon (Args: {'service': 'royal_9'})
+[old_testament]    Logic: resolve_reading_ot (Args: {'service': 'royal_9'})
+[epistle]    Logic: resolve_reading_epistle (Args: {'service': 'royal_9'})
+[gospel_royal]    Logic: resolve_reading_gospel (Args: {'service': 'royal_9'})
+[royal_kontakion]    Logic: resolve_royal_kontakion (Args: {})
+[prayer_final]    horologion.prayer_hour_9_master_lord
+
+--- DIVINE LITURGY (no_liturgy) ---
+ERROR: Structure 'no_liturgy' not found in 01j_struct_liturgy.json

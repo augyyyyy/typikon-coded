@@ -1,0 +1,191 @@
+{
+  "file_metadata": {
+    "filename": "03_assets_map.json",
+    "version": "2.0 (Standardized Registry)",
+    "last_updated": "2026-01-26",
+    "authority": "Ruthenian Recension Database Schema",
+    "scope": "Master Registry of Liturgical Assets",
+    "description": "Maps logical IDs to physical file paths. Keys correspond to 'variables' values in Logic files."
+  },
+  "asset_domains": {
+    
+    "horologion": {
+      "base_path": "assets/horologion/",
+      "map": {
+        "blessing_kingdom": "liturgy/blessing_kingdom.json",
+        "blessing_common": "common/blessing_priest.json",
+        "trisagion_block": "common/trisagion_prayers.json",
+        "come_let_us_worship_3x": "common/invitatory.json",
+        "litany_great": "litanies/litany_peace.json",
+        "litany_small": "litanies/litany_small.json",
+        "litany_fervent": "litanies/litany_fervent.json",
+        "litany_supplication": "litanies/litany_supplication.json",
+        "litany_catechumens": "litanies/litany_catechumens.json",
+        "our_father": "common/lords_prayer.json",
+        "creed": "liturgy/creed.json",
+        "prayer_hours_thou_who": "hours/prayer_thou_who_at_all_times.json",
+        "psalm_50": "psalms/psalm_50.json",
+        "psalm_103": "vespers/psalm_103.json",
+        "gladsome_light": "vespers/phos_hilaron.json",
+        "nunc_dimittis": "vespers/nunc_dimittis.json",
+        "vouchsafe_o_lord": "vespers/vouchsafe.json",
+        "hexapsalmos": "matins/six_psalms.json",
+        "doxology_great": "matins/doxology_great.json",
+        "doxology_small_read": "matins/doxology_small.json",
+        "dismissal_small": "common/dismissal_small.json",
+        "dismissal_great": "common/dismissal_great.json"
+      }
+    },
+
+    "liturgy": {
+      "description": "Variable parts of the Divine Liturgy referenced by Logic files.",
+      "base_path": "assets/liturgy/",
+      "map": {
+        "typical_psalms": "antiphons/typical_psalms.json",
+        "typical_psalms_beatitudes": "antiphons/typical_with_beatitudes.json",
+        "typical_psalms_refrain_theotokos": "antiphons/typical_refrain_theotokos.json",
+        "typical_psalms_refrain_son_of_god": "antiphons/typical_refrain_son_of_god.json",
+        
+        "festal_antiphons": "antiphons/festal_generic.json",
+        "festal_cross_antiphons": "antiphons/festal_exaltation.json",
+        "festal_theophany_antiphons": "antiphons/festal_theophany.json",
+        "festal_transfiguration_antiphons": "antiphons/festal_transfiguration.json",
+        "festal_nativity_antiphons": "antiphons/festal_nativity.json",
+        "festal_meeting_antiphons": "antiphons/festal_meeting.json",
+        "festal_palm": "antiphons/festal_palm_sunday.json",
+        "festal_pascha": "antiphons/festal_pascha.json",
+        "festal_ascension": "antiphons/festal_ascension.json",
+        "festal_pentecost": "antiphons/festal_pentecost.json",
+        "festal_mid_pentecost": "antiphons/festal_mid_pentecost.json",
+
+        "entrance_angels_spirits": "entrances/entrance_angels.json",
+        "come_let_us_worship_sunday": "entrances/entrance_sunday.json",
+        "come_let_us_worship_nativity": "entrances/entrance_nativity.json",
+        "come_let_us_worship_fall_down": "entrances/entrance_standard.json",
+        "exaltation_entrance_verse": "entrances/entrance_exaltation.json",
+        "tabor_entrance_verse": "entrances/entrance_transfiguration.json",
+        "blessed_is_he_that_comes": "entrances/entrance_palm_theophany.json",
+        "god_went_up": "entrances/entrance_ascension.json",
+        "be_exalted_o_lord": "entrances/entrance_pentecost.json",
+        "in_the_churches_bless_god": "entrances/entrance_pascha.json",
+        "proclaim_from_day_to_day": "entrances/entrance_annunciation.json",
+        
+        "standard_trisagion": "trisagion/standard.json",
+        "all_baptized": "trisagion/baptismal.json",
+        "cross_trisagion_replacement": "trisagion/cross.json",
+        "before_thy_cross": "trisagion/cross.json",
+
+        "cherubic_hymn_standard": "hymns/cherubic_standard.json",
+        "of_thy_mystical_supper": "hymns/cherubic_holy_thursday.json",
+        "let_all_mortal_flesh": "hymns/cherubic_holy_saturday.json",
+        "now_the_powers_of_heaven": "hymns/cherubic_presanctified.json",
+
+        "axion_estin": "megalynaria/axion_estin.json",
+        "in_thee_rejoiceth": "megalynaria/in_thee_rejoiceth.json",
+        "magnify_o_my_soul_cross": "megalynaria/irmos_9th_exaltation.json",
+        "magnify_o_my_soul_virginity": "megalynaria/irmos_9th_nativity_theotokos.json",
+        "magnify_o_my_soul_protection": "megalynaria/irmos_9th_protection.json",
+        "magnify_o_my_soul_entrance": "megalynaria/irmos_9th_entrance.json",
+        "magnify_o_my_soul_christ_king": "megalynaria/irmos_9th_nativity.json",
+        "magnify_o_my_soul_baptized": "megalynaria/irmos_9th_theophany.json",
+        "magnify_o_my_soul_transfigured": "megalynaria/irmos_9th_transfiguration.json",
+        "virgin_mother_good": "megalynaria/irmos_9th_meeting.json",
+        "receive_o_earth_glad_tidings": "megalynaria/irmos_9th_annunciation.json",
+        "all_generations_bless_you": "megalynaria/irmos_9th_dormition.json",
+        "angel_cried_shine_shine": "megalynaria/irmos_9th_pascha.json",
+        "magnify_o_my_soul_christ_giver_of_life": "megalynaria/irmos_9th_ascension.json",
+        "mother_unknown_to_man": "megalynaria/irmos_9th_pentecost.json",
+        "virginity_is_alien": "megalynaria/irmos_9th_mid_pentecost.json",
+
+        "praise_the_lord": "communion/praise_the_lord.json",
+        "righteous_memory": "communion/righteous_memory.json",
+        "cup_of_salvation": "communion/cup_of_salvation.json",
+        "making_angels_spirits": "communion/making_angels_spirits.json",
+        "light_of_your_countenance": "communion/light_of_your_countenance.json",
+        "their_sound_has_gone_forth": "communion/their_sound.json",
+        "the_lord_sent_redemption": "communion/redemption.json",
+        "grace_of_god_has_appeared": "communion/grace_appeared.json",
+        "we_will_walk_in_light": "communion/walk_in_light.json",
+        "the_lord_has_chosen_zion": "communion/chosen_zion.json",
+        "rejoice_in_the_lord": "communion/rejoice.json",
+        "be_exalted_o_god": "communion/be_exalted.json"
+      }
+    },
+
+    "octoechos": {
+      "base_path": "assets/octoechos/",
+      "map": {
+        "dogmatikon_current_tone": "dynamic_lookup_tone",
+        "res_trop": "dynamic_lookup_tone",
+        "res_kontakion": "dynamic_lookup_tone"
+      }
+    },
+
+    "menaion": {
+      "description": "Specific variable sets referenced by Logic IDs.",
+      "base_path": "assets/menaion/",
+      "map": {
+        "indiction_litiya": "09/01/litiya.json",
+        "nativity_theotokos_litiya": "09/08/litiya.json",
+        "protection_litiya": "10/01/litiya.json",
+        "michael_litiya": "11/08/litiya.json",
+        "josaphat_litiya": "11/12/litiya.json",
+        "entrance_litiya": "11/21/litiya.json",
+        "nicholas_litiya": "12/06/litiya.json",
+        "circumcision_basil_litiya": "01/01/litiya.json",
+        "theophany_stichera": "01/06/stichera_vespers.json",
+        "three_hierarchs_litiya": "01/30/litiya.json",
+        "meeting_litiya": "02/02/litiya.json",
+        "annunciation_litiya": "03/25/litiya.json",
+        "george_litiya": "04/23/litiya.json",
+        "john_theologian_litiya": "05/08/litiya.json",
+        "nativity_baptist_litiya": "06/24/litiya.json",
+        "peter_paul_litiya": "06/29/litiya.json",
+        "anthony_caves_litiya": "07/10/litiya.json",
+        "elijah_litiya": "07/20/litiya.json",
+        "transfiguration_litiya": "08/06/litiya.json",
+        "dormition_litiya": "08/15/litiya.json",
+        "beheading_litiya": "08/29/litiya.json"
+      }
+    },
+    
+    "triodion": {
+      "base_path": "assets/triodion/",
+      "map": {
+         "lenten_dismissal_with_prayer_st_ephrem": "common/dismissal_lenten.json",
+         "great_prokeimenon_turn_not_away": "vespers/prokeimenon_turn_not_away.json",
+         "great_prokeimenon_1": "vespers/prokeimenon_lent_sunday_1.json",
+         "great_prokeimenon_2": "vespers/prokeimenon_lent_sunday_2.json",
+         "canon_dead_standard": "matins/canon_soul_saturday.json",
+         "great_canon_andrew_crete_full": "matins/canon_great_canon_full.json",
+         "my_soul_my_soul": "kontakia/my_soul_my_soul.json",
+         "prayer_st_ephrem": "common/prayer_ephrem.json",
+         "lamentations_3_stases": "matins/lamentations_friday.json",
+         "christ_is_risen_repeated": "pascha/troparion_repeated.json",
+         "resurrection_damascene": "pascha/canon_pascha.json",
+         "angel_cried_until_mid_pentecost": "pascha/megalynarion_angel_cried.json",
+         "thomas_magnification": "pentecostarion/magnification_thomas.json",
+         "thomas_specific": "pentecostarion/dismissal_thomas.json",
+         "kneeling_vespers": "pentecostarion/vespers_kneeling_prayers.json"
+      }
+    },
+
+    "readings": {
+      "description": "Scripture references. Engine loads these by ID.",
+      "base_path": "assets/readings/",
+      "map": {
+         "john_1_1_17": "gospel/john_01_01.json",
+         "acts_1_1_8": "epistle/acts_01_01.json",
+         "psalm_103": "psalms/psalm_103.json",
+         "genesis_17": "ot/genesis_17.json",
+         "exodus_15": "ot/exodus_15.json",
+         "proverbs_10": "ot/proverbs_10.json",
+         "isaiah_43": "ot/isaiah_43.json",
+         "wisdom_3": "ot/wisdom_3.json",
+         "1_john_1_1_7": "epistle/1_john_01_01.json",
+         "john_19_25_27": "gospel/john_19_25.json",
+         "matthew_28_16_20": "gospel/matthew_28_16.json"
+      }
+    }
+  }
+}

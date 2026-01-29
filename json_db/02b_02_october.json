@@ -1,0 +1,75 @@
+{
+  "file_metadata": {
+    "filename": "02b_02_october.json",
+    "version": "2.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (October)",
+    "scope": "Fixed Feast Logic for October"
+  },
+  "month_settings": {
+    "month_id": 10,
+    "days": {
+      "01": {
+        "title_key": "menaion.oct_01.protection_theotokos",
+        "rank": "rank_vigil_theotokos",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_oct_1",
+        "base_template": "CASE_14",
+        "variants": [ { "condition": { "day_of_week": [0] }, "base_template": "CASE_13" } ],
+        "variables": {
+          "vespers_readings": ["genesis_28", "ezekiel_43", "proverbs_9"],
+          "litiya_stichera": "protection_litiya",
+          "matins_gospel": "luke_1_39_49_56",
+          "liturgy_antiphons": "typical_psalms_refrain_theotokos",
+          "liturgy_entrance": "come_let_us_worship_sunday",
+          "megalynarion": "magnify_o_my_soul_protection",
+          "communion_hymn": "cup_of_salvation"
+        }
+      },
+      "06": {
+        "title_key": "menaion.oct_06.st_thomas",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_oct_6",
+        "base_template": "CASE_05"
+      },
+      "09": {
+        "title_key": "menaion.oct_09.james_alpheus",
+        "rank": "rank_doxology",
+        "source_ref": "dolnytsky_part3_oct_9",
+        "base_template": "CASE_02"
+      },
+      "18": {
+        "title_key": "menaion.oct_18.luke_evangelist",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_oct_18",
+        "base_template": "CASE_05"
+      },
+      "23": {
+        "title_key": "menaion.oct_23.james_brother_of_lord",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_oct_23",
+        "base_template": "CASE_05"
+      },
+      "26": {
+        "title_key": "menaion.oct_26.demetrius_myrrhbearer",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_oct_26",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["isaiah_63", "jeremiah_2", "wisdom_4"],
+          "matins_gospel": "matthew_10_16_22",
+          "liturgy_readings": ["2_timothy_2_1_10", "matthew_8_23_27"],
+          "communion_hymn": "righteous_memory",
+          "troparia_sequence": "saint_demetrius_earthquake_stacking",
+          "troparia_instruction": "Include Troparion of the Earthquake (Troparion of the Day/Angels)."
+        }
+      },
+      "28": {
+        "title_key": "menaion.oct_28.paraskeva_iconium",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_oct_28",
+        "base_template": "CASE_05"
+      }
+    }
+  }
+}

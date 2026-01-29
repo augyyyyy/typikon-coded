@@ -1,0 +1,27 @@
+{
+  "title": "menaion.aug_15.dormition_theotokos",
+  "variables": {
+    "vespers_readings": [
+      "genesis_28_10_17",
+      "ezekiel_43_27_44_4",
+      "proverbs_9_1_11"
+    ],
+    "litiya_stichera": "dormition_litiya",
+    "matins_gospel": "luke_1_39_49_56",
+    "liturgy_antiphons": "typical_psalms_refrain_theotokos",
+    "entrance_hymn": "come_let_us_worship_sunday",
+    "troparia_sequence": "feast_glory_bn_kont_feast",
+    "liturgy_readings": [
+      "philippians_2_5_11",
+      "luke_10_38_42_11_27_28"
+    ],
+    "megalynarion": "all_generations_bless_you",
+    "communion_hymn": "cup_of_salvation",
+    "post_liturgy_action": {
+      "type": "inject_component",
+      "component_id": "blessing_flowers_herbs",
+      "trigger": "after_amvon_prayer"
+    }
+  },
+  "overrides": {}
+}

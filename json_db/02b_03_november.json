@@ -1,0 +1,102 @@
+{
+  "file_metadata": {
+    "filename": "02b_03_november.json",
+    "version": "2.1 (Standardized Keys)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part III (November)",
+    "scope": "Fixed Feast Logic for November"
+  },
+  "month_settings": {
+    "month_id": 11,
+    "days": {
+      "08": {
+        "title_key": "menaion.nov_08.archangel_michael",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_nov_8",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["joshua_5", "judges_6", "isaiah_14"],
+          "litiya_stichera": "michael_litiya",
+          "matins_gospel": "matthew_13_24_30",
+          "liturgy_entrance": "entrance_angels_spirits",
+          "liturgy_readings": ["hebrews_2_2_10", "luke_10_16_21"],
+          "communion_hymn": "making_angels_spirits"
+        }
+      },
+      "12": {
+        "title_key": "menaion.nov_12.josaphat_kuncevyc",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_nov_12",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["wisdom_4", "proverbs_10", "wisdom_5"],
+          "litiya_stichera": "josaphat_litiya",
+          "matins_gospel": "john_10_9_16",
+          "liturgy_readings": ["hebrews_4_14_5_6", "john_10_9_16"],
+          "communion_hymn": "righteous_memory"
+        }
+      },
+      "13": {
+        "title_key": "menaion.nov_13.john_chrysostom",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_nov_13",
+        "base_template": "CASE_05"
+      },
+      "14": {
+        "title_key": "menaion.nov_14.apostle_philip",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_nov_14",
+        "base_template": "CASE_05"
+      },
+      "15": {
+        "title_key": "menaion.nov_15.begin_philip_fast",
+        "rank": "rank_simple_6",
+        "source_ref": "dolnytsky_part3_nov_15",
+        "base_template": "CASE_02",
+        "system_flags": { "fast_period_start": "advent", "fast_level": "simple" }
+      },
+      "16": {
+        "title_key": "menaion.nov_16.matthew_evangelist",
+        "rank": "rank_polyeleos",
+        "source_ref": "dolnytsky_part3_nov_16",
+        "base_template": "CASE_05"
+      },
+      "21": {
+        "title_key": "menaion.nov_21.entrance_theotokos",
+        "rank": "rank_vigil_theotokos",
+        "period": "feast",
+        "source_ref": "dolnytsky_part3_nov_21",
+        "base_template": "CASE_14",
+        "variants": [ { "condition": { "day_of_week": [0] }, "base_template": "CASE_13" } ],
+        "variables": {
+          "vespers_readings": ["exodus_40", "1_kings_8", "ezekiel_43"],
+          "litiya_stichera": "entrance_litiya",
+          "matins_gospel": "luke_1_39_49_56",
+          "liturgy_antiphons": "typical_psalms_refrain_theotokos",
+          "liturgy_entrance": "come_let_us_worship_sunday",
+          "megalynarion": "magnify_o_my_soul_entrance",
+          "communion_hymn": "cup_of_salvation"
+        }
+      },
+      "25": {
+        "title_key": "menaion.nov_25.apodosis_entrance",
+        "rank": "rank_doxology",
+        "period": "apodosis",
+        "source_ref": "dolnytsky_part3_nov_25",
+        "base_template": "CASE_20"
+      },
+      "30": {
+        "title_key": "menaion.nov_30.andrew_first_called",
+        "rank": "rank_vigil_saint",
+        "source_ref": "dolnytsky_part3_nov_30",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": ["1_peter_1", "1_peter_2", "1_peter_4"],
+          "matins_gospel": "matthew_4_18_23",
+          "liturgy_readings": ["1_corinthians_4_9_16", "john_1_35_51"],
+          "communion_hymn": "their_sound_has_gone_forth"
+        }
+      }
+    }
+  }
+}

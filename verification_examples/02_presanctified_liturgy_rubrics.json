@@ -1,0 +1,13 @@
+{
+  "title": "Lenten Weekday",
+  "variables": {
+    "matins_type": "lenten_matins_weekday",
+    "hours_type": "structure_lenten",
+    "liturgy_type": "liturgy_presanctified"
+  },
+  "overrides": {
+    "matins_type": "lenten_matins_weekday",
+    "hours_type": "structure_lenten",
+    "liturgy_type": "liturgy_presanctified"
+  }
+}

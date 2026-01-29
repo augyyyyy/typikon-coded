@@ -1,0 +1,74 @@
+{
+    "file_metadata": {
+        "filename": "02i_logic_compline.json",
+        "description": "Logic maps for Small and Great Compline."
+    },
+    "canon_map": {
+        "monday": "canon_theotokos_tone",
+        "tuesday": "canon_theotokos_tone",
+        "wednesday": "canon_theotokos_tone",
+        "thursday": "canon_theotokos_tone",
+        "friday_lent": "canon_akathist",
+        "forefeast": "canon_forefeast",
+        "afterfeast": "canon_feast"
+    },
+    "troparia_stacks": {
+        "weekday": [
+            {
+                "type": "troparion",
+                "source": "temple"
+            },
+            {
+                "type": "troparion",
+                "source": "day_of_week"
+            },
+            {
+                "type": "troparion",
+                "source": "menaion_saint"
+            },
+            {
+                "type": "kontakion",
+                "source": "menaion_saint",
+                "glory": true
+            },
+            {
+                "type": "kontakion",
+                "source": "day_of_week",
+                "both_now": true
+            }
+        ],
+        "forefeast": [
+            {
+                "type": "troparion",
+                "source": "forefeast"
+            },
+            {
+                "type": "kontakion",
+                "source": "forefeast",
+                "glory": true,
+                "both_now": true
+            }
+        ],
+        "saturday": [
+            {
+                "type": "kontakion",
+                "source": "resurrection_tone"
+            }
+        ],
+        "lenten_friday": [
+            {
+                "type": "kontakion",
+                "source": "akathist",
+                "ref_key": "triodion.kontakion_champion_leader"
+            }
+        ]
+    },
+    "god_is_with_us_modes": {
+        "lenten": "tone_6_lenten",
+        "festal": "solemn_festal_melody"
+    },
+    "praises_selector": {
+        "lenten": "lord_of_hosts_tone_6",
+        "festal": "kontakion_feast"
+    }
+}

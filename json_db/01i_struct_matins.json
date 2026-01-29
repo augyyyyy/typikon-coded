@@ -1,0 +1,720 @@
+{
+  "file_metadata": {
+    "filename": "01i_struct_matins.json",
+    "version": "4.0 (Dolnytsky Encyclopedia Complete)",
+    "last_updated": "2026-01-26",
+    "authority": "Dolnytsky Typikon Part I (Matins) & Part IV (Triodion)",
+    "scope": "Complete Matins Matrix (Great, Daily, Lenten, Passion, Tomb, Bright)",
+    "description": "Defines the distinct orders of Matins with role-based rubrics derived directly from Dolnytsky."
+  },
+  "structures": {
+    "great_matins": {
+      "title_key": "titles.matins_great",
+      "source_ref": "Dolnytsky I: Order of Great Matins",
+      "sequence": [
+        {
+          "id": "matins_opening",
+          "section_key": "sections.beginning",
+          "content": {
+            "type": "conditional_block",
+            "logic": {
+              "function": "check_service_type",
+              "args": {
+                "type": "vigil"
+              }
+            },
+            "true_content": {
+              "id": "opening_vigil",
+              "rubric": {
+                "title": "Beginning with Vigil",
+                "source_ref": "Dolnytsky I: Great Matins",
+                "roles": {
+                  "priest": "Vested in Epitrachelion and Phelonion. Stand before the Holy Table. Exclaim 'Glory to the Holy...'",
+                  "choir": "Sing 'Amen' and 'Glory to God in the Highest' (3x)."
+                }
+              },
+              "content": {
+                "type": "fixed_group",
+                "ref_keys": [
+                  "horologion.glory_to_holy",
+                  "horologion.six_psalms"
+                ]
+              }
+            },
+            "false_content": {
+              "id": "opening_no_vigil",
+              "rubric": {
+                "title": "Beginning without Vigil (Morning)",
+                "source_ref": "Dolnytsky I: Great Matins",
+                "roles": {
+                  "priest": "Vest in Epitrachelion. Exit North Door. Stand before closed Holy Doors. Exclaim 'Blessed is our God'.",
+                  "choir": "Sing Introductory Prayers (Trisagion, Troparia, 'Lord Have Mercy' 12x).",
+                  "deacon": "Perform the Great Censing of the whole church during the Psalms."
+                }
+              },
+              "content": {
+                "type": "fixed_group",
+                "ref_keys": [
+                  "horologion.blessing_common",
+                  "horologion.trisagion_block",
+                  "psalm_19",
+                  "psalm_20",
+                  "horologion.six_psalms"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "great_litany",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_great"
+          }
+        },
+        {
+          "id": "god_is_the_lord",
+          "rubric": {
+            "title": "God is the Lord",
+            "roles": {
+              "deacon": "Intone verses before the Icon of Christ.",
+              "choir": "Sing the Troparion of the Feast/Saint."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_god_is_the_lord_troparia"
+            }
+          }
+        },
+        {
+          "id": "kathismata_block",
+          "rubric": {
+            "title": "The Kathismata",
+            "note": "Two Kathismata are read. On Sundays, the Polyeleos follows."
+          },
+          "content": {
+            "type": "sequence",
+            "components": [
+              {
+                "id": "kath_1",
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_kathisma",
+                  "args": {
+                    "num": 1
+                  }
+                }
+              },
+              {
+                "id": "sess_1",
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_sessional",
+                  "args": {
+                    "num": 1
+                  }
+                }
+              },
+              {
+                "id": "kath_2",
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_kathisma",
+                  "args": {
+                    "num": 2
+                  }
+                }
+              },
+              {
+                "id": "sess_2",
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_sessional",
+                  "args": {
+                    "num": 2
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "polyeleos_rite",
+          "rubric": {
+            "title": "The Polyeleos",
+            "source_ref": "Dolnytsky I: Matins",
+            "roles": {
+              "priest": "Open Holy Doors. Perform Great Censing of the whole church.",
+              "choir": "Sing Psalms 134-135 and Megalynaria."
+            }
+          },
+          "content": {
+            "type": "component_ref",
+            "ref_key": "components.polyeleos"
+          }
+        },
+        {
+          "id": "gospel_rite",
+          "rubric": {
+            "title": "The Gospel",
+            "source_ref": "Dolnytsky I: Matins",
+            "roles": {
+              "deacon": "Exclaim 'Let us pray to the Lord'.",
+              "priest": "Read the Gospel from the Holy Doors (or carry to Tetrapod on Sundays).",
+              "people": "Venerate the Gospel after the reading."
+            }
+          },
+          "content": {
+            "type": "component_ref",
+            "ref_key": "components.matins_gospel_rite"
+          }
+        },
+        {
+          "id": "canon_block",
+          "rubric": {
+            "title": "The Canon",
+            "note": "Combined from Octoechos, Menaion, and Triodion according to rank.",
+            "roles": {
+              "priest": "Anoint the faithful with blessed oil during the Canon."
+            }
+          },
+          "content": {
+            "type": "complex_structure",
+            "components": [
+              {
+                "id": "ode_1_3",
+                "type": "canon_ode_range",
+                "range": "1-3"
+              },
+              {
+                "id": "after_3",
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_canon_insertion",
+                  "args": {
+                    "pos": "after_3rd"
+                  }
+                }
+              },
+              {
+                "id": "ode_4_6",
+                "type": "canon_ode_range",
+                "range": "4-6"
+              },
+              {
+                "id": "after_6",
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_canon_insertion",
+                  "args": {
+                    "pos": "after_6th"
+                  }
+                }
+              },
+              {
+                "id": "ode_7_8",
+                "type": "canon_ode_range",
+                "range": "7-8"
+              },
+              {
+                "id": "ode_9_magnificat",
+                "rubric": {
+                  "roles": {
+                    "deacon": "Cense the Altar and Theotokos. Sing 'The Theotokos and Mother of the Light...'"
+                  }
+                },
+                "type": "canon_ode",
+                "ode": 9
+              },
+              {
+                "id": "after_9",
+                "type": "sequence",
+                "components": [
+                  {
+                    "id": "lit_small",
+                    "type": "fixed_ref",
+                    "ref_key": "horologion.litany_small"
+                  },
+                  {
+                    "id": "exap",
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_exapostilarion"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "praises",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_praises_stichera"
+            }
+          }
+        },
+        {
+          "id": "great_doxology",
+          "rubric": {
+            "title": "Great Doxology",
+            "roles": {
+              "priest": "Raise hands and exclaim 'Glory to You who have shown us the Light!'"
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.doxology_great"
+          }
+        },
+        {
+          "id": "post_doxology_event",
+          "rubric": {
+            "title": "Post-Doxology Rite",
+            "note": "For Cross Veneration etc."
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_post_doxology_event"
+            }
+          }
+        },
+        {
+          "id": "conclusion",
+          "sequence": [
+            {
+              "id": "end_trop",
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_dismissal_troparion"
+              }
+            },
+            {
+              "id": "litanies",
+              "type": "fixed_group",
+              "ref_keys": [
+                "horologion.litany_fervent",
+                "horologion.litany_supplication"
+              ]
+            },
+            {
+              "id": "dismissal",
+              "type": "fixed_ref",
+              "ref_key": "horologion.dismissal_great"
+            }
+          ]
+        }
+      ]
+    },
+    "daily_matins": {
+      "title_key": "titles.matins_daily",
+      "source_ref": "Dolnytsky I: Order of Daily Matins",
+      "sequence": [
+        {
+          "id": "opening_daily",
+          "content": {
+            "type": "fixed_group",
+            "ref_keys": [
+              "horologion.blessing_common",
+              "horologion.trisagion_block",
+              "psalm_19",
+              "psalm_20",
+              "horologion.six_psalms"
+            ]
+          }
+        },
+        {
+          "id": "great_litany",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_great"
+          }
+        },
+        {
+          "id": "god_is_the_lord",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_god_is_the_lord_troparia"
+            }
+          }
+        },
+        {
+          "id": "kathismata_daily",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_kathisma"
+            }
+          }
+        },
+        {
+          "id": "psalm_50",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "psalm_50"
+          }
+        },
+        {
+          "id": "canon_daily",
+          "content": {
+            "type": "complex_structure",
+            "components": [
+              {
+                "id": "odes",
+                "type": "canon_ode_range",
+                "range": "1-9"
+              }
+            ]
+          }
+        },
+        {
+          "id": "praises_read",
+          "rubric": {
+            "roles": {
+              "reader": "Read Psalms 148-150. Do not sing Stichera unless prescribed."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.praises_psalms"
+          }
+        },
+        {
+          "id": "small_doxology",
+          "rubric": {
+            "roles": {
+              "priest": "Exclaim 'To You belongs glory'.",
+              "reader": "Read the Doxology."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.doxology_small_read"
+          }
+        },
+        {
+          "id": "litany_supplication",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_supplication"
+          }
+        },
+        {
+          "id": "aposticha",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_aposticha"
+            }
+          }
+        },
+        {
+          "id": "good_thing",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.it_is_a_good_thing"
+          }
+        },
+        {
+          "id": "dismissal_daily",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.dismissal_small"
+          }
+        }
+      ]
+    },
+    "lenten_matins_weekday": {
+      "title_key": "titles.matins_lenten_weekday",
+      "source_ref": "Dolnytsky IV: Lenten Matins (Alleluia)",
+      "inherits_from": "daily_matins",
+      "overrides": [
+        {
+          "target_id": "god_is_the_lord",
+          "action": "replace",
+          "new_component": {
+            "id": "alleluia_module",
+            "rubric": {
+              "title": "The Alleluia & Trinity Hymns",
+              "roles": {
+                "priest": "Intone 'Alleluia' in the Tone of the Week.",
+                "choir": "Sing Alleluia (4x) and the Trinity Hymns."
+              }
+            },
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_alleluia_vs_god_is_lord"
+              }
+            }
+          }
+        },
+        {
+          "target_id": "kathismata_daily",
+          "action": "replace",
+          "new_component": {
+            "id": "kathismata_lenten",
+            "rubric": {
+              "title": "Three Kathismata",
+              "note": "Three Kathismata are read on Lenten weekdays."
+            },
+            "content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_kathisma",
+                    "args": {
+                      "num": 1
+                    }
+                  }
+                },
+                {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_kathisma",
+                    "args": {
+                      "num": 2
+                    }
+                  }
+                },
+                {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_kathisma",
+                    "args": {
+                      "num": 3
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "target_id": "canon_daily",
+          "action": "replace",
+          "new_component": {
+            "id": "canon_lenten",
+            "rubric": {
+              "title": "Lenten Canon",
+              "note": "Menaion Canon + Triodion Odes (e.g. 2, 8, 9)."
+            },
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_lenten_canon_odes"
+              }
+            }
+          }
+        },
+        {
+          "target_id": "good_thing",
+          "action": "replace",
+          "new_component": {
+            "id": "standing_in_temple",
+            "content": {
+              "type": "fixed_ref",
+              "ref_key": "triodion.standing_in_the_temple"
+            }
+          }
+        },
+        {
+          "target_id": "dismissal_daily",
+          "action": "insert_before",
+          "new_component": {
+            "id": "prayer_st_ephrem",
+            "rubric": {
+              "title": "Prayer of St. Ephrem",
+              "roles": {
+                "all": "Make 3 great prostrations."
+              }
+            },
+            "content": {
+              "type": "fixed_ref",
+              "ref_key": "triodion.prayer_st_ephrem"
+            }
+          }
+        }
+      ]
+    },
+    "tomb_matins": {
+      "title_key": "titles.matins_tomb",
+      "source_ref": "Dolnytsky IV: Matins of Great Saturday",
+      "inherits_from": "great_matins",
+      "overrides": [
+        {
+          "target_id": "kathismata_block",
+          "action": "replace",
+          "new_component": {
+            "id": "encomia_rite",
+            "content": {
+              "type": "component_ref",
+              "ref_key": "components.tomb_encomia_stations"
+            }
+          }
+        },
+        {
+          "target_id": "polyeleos_rite",
+          "action": "remove"
+        },
+        {
+          "target_id": "great_doxology",
+          "action": "insert_after",
+          "new_component": {
+            "id": "shroud_procession",
+            "content": {
+              "type": "component_ref",
+              "ref_key": "components.shroud_procession_and_burial"
+            }
+          }
+        }
+      ]
+    },
+    "passion_matins": {
+      "title_key": "titles.matins_passion",
+      "source_ref": "Dolnytsky IV: Matins of Great Friday",
+      "sequence": [
+        {
+          "id": "opening",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.blessing_common"
+          }
+        },
+        {
+          "id": "six_psalms",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.hexapsalmos"
+          }
+        },
+        {
+          "id": "alleluia_passion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.alleluia_passion"
+          }
+        },
+        {
+          "id": "troparion_passion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.troparion_glorious_disciples"
+          }
+        },
+        {
+          "id": "gospel_cycle",
+          "rubric": {
+            "title": "The 12 Passion Gospels",
+            "roles": {
+              "priest": "Read 12 Gospels at the Center of the Church."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_12_passion_gospels"
+            }
+          }
+        },
+        {
+          "id": "canon_passion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.canon_great_friday"
+          }
+        },
+        {
+          "id": "praises_passion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.praises_great_friday"
+          }
+        },
+        {
+          "id": "dismissal_passion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.dismissal_great_friday"
+          }
+        }
+      ]
+    },
+    "bright_matins": {
+      "title_key": "titles.matins_bright",
+      "source_ref": "Dolnytsky IV: Resurrection Matins",
+      "sequence": [
+        {
+          "id": "procession",
+          "rubric": {
+            "title": "Procession",
+            "roles": {
+              "clergy": "Process around the church singing 'Thy Resurrection O Christ Savior'."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "paschal_procession"
+          }
+        },
+        {
+          "id": "opening_doors",
+          "rubric": {
+            "title": "Opening",
+            "roles": {
+              "priest": "Exclaim 'Glory to the Holy...' before closed doors. Sing 'Christ is Risen' with verses."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.opening_let_god_arise"
+          }
+        },
+        {
+          "id": "canon_pascha",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.canon_pascha"
+          }
+        },
+        {
+          "id": "praises_pascha",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_bright_praises"
+            }
+          }
+        },
+        {
+          "id": "kissing_rite",
+          "rubric": {
+            "title": "Veneration",
+            "roles": {
+              "priest": "Hold the Cross. Greet faithful 'Christ is Risen'."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "veneration_of_cross_and_icons"
+          }
+        },
+        {
+          "id": "dismissal_pascha",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.dismissal_paschal_full"
+          }
+        }
+      ]
+    }
+  }
+}

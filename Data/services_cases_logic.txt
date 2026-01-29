@@ -1,0 +1,163 @@
+{
+  "project_metadata": {
+    "title": "Ruthenian Liturgikon Master Logic",
+    "version": "4.0 (Complete 71 Cases)",
+    "authority": "Dolnytsky Typikon (2010)",
+    "rank_definitions": {
+      "CLASS_I": "Great Feast (Cross in Circle) - Vigil always",
+      "CLASS_II": "Vigil Rank (Cross with Semicircle) - Vigil prescribed",
+      "CLASS_III": "Polyeleos Rank (Cross) - Polyeleos, no Vigil",
+      "CLASS_IV": "Great Doxology Rank (Three Dots) - Sung Doxology",
+      "CLASS_V": "Six Stichera Rank (Three Dots) - 6 Stichera, Read Doxology",
+      "CLASS_SIMPLE": "No Sign - 3 Stichera, Read Doxology"
+    }
+  },
+
+  "service_structures": {
+    "vespers": {
+      "VESP_A": "Great Vespers (Vigil: Litiya + Loaves)",
+      "VESP_B": "Great Vespers (Polyeleos: Entrance, Readings, No Litiya)",
+      "VESP_C": "Daily Vespers (No Entrance)",
+      "VESP_D": "Small Vespers (Before Vigil)"
+    },
+    "compline": {
+      "COMP_A": "Small Compline (Canon to Theotokos)",
+      "COMP_B": "Great Compline (Lenten: God is with us)",
+      "COMP_C": "Great Compline (Vigil: Litiya + Loaves)"
+    },
+    "midnight_office": {
+      "MID_A": "Daily Midnight (Ps 118, Bridegroom)",
+      "MID_B": "Saturday Midnight (Ps 118, Dead/Saints)",
+      "MID_C": "Sunday Midnight (Triadic Canon, Hypakoe)"
+    },
+    "matins": {
+      "MAT_A": "Great Matins (Sung Doxology, Gospel if Sun/Feast)",
+      "MAT_B": "Daily Matins (Read Doxology)",
+      "MAT_C": "Lenten Matins (Alleluia, St. Ephrem)",
+      "MAT_D": "Royal Matins (Passion/Shroud)"
+    },
+    "hours": {
+      "HOUR_A": "Usual Hour (Standard Psalms)",
+      "HOUR_B": "Lenten Hour (Kathisma, Verses, Ephrem)",
+      "HOUR_C": "Royal Hour (Substituted Psalms, Readings)",
+      "HOUR_D": "Paschal Hour (Christ is Risen x3)"
+    },
+    "liturgy": {
+      "LIT_A": "Divine Liturgy (Chrysostom)",
+      "LIT_B": "Divine Liturgy (Basil)",
+      "LIT_C": "Presanctified Gifts",
+      "LIT_D": "Typika (Reader)"
+    }
+  },
+
+  "liturgical_cases_map": {
+    "GROUP_A_OCTOECHOS": {
+      "CASE_01": "Sunday_Simple -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_01a": "Sunday_Two_Saints -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_02": "Weekday_Simple -> [VESP_C, COMP_A, MID_A, MAT_B, HOUR_A, LIT_A]",
+      "CASE_02a": "Weekday_Two_Saints -> [VESP_C, COMP_A, MID_A, MAT_B, HOUR_A, LIT_A]",
+      "CASE_02b": "Weekday_Doxology -> [VESP_B, COMP_A, MID_A, MAT_A, HOUR_A, LIT_A]",
+      "CASE_03": "Saturday_Simple -> [VESP_C, COMP_A, MID_B, MAT_B, HOUR_A, LIT_A]",
+      "CASE_03a": "Saturday_Two_Saints -> [VESP_C, COMP_A, MID_B, MAT_B, HOUR_A, LIT_A]",
+      "CASE_03b": "Saturday_Doxology -> [VESP_B, COMP_A, MID_B, MAT_A, HOUR_A, LIT_A]",
+      "CASE_04": "Sunday_Polyeleos -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_05": "Weekday_Polyeleos -> [VESP_B, COMP_A, MID_A, MAT_A, HOUR_A, LIT_A]",
+      "CASE_06": "Sunday_Vigil -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_07": "Weekday_Vigil -> [VESP_A, COMP_A, MID_A, MAT_A, HOUR_A, LIT_A]"
+    },
+    
+    "GROUP_B_FOREFEASTS": {
+      "CASE_08": "Sunday_Forefeast -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_09": "Weekday_Forefeast -> [VESP_C, COMP_A, MID_A, MAT_B, HOUR_A, LIT_A]"
+    },
+
+    "GROUP_C_GREAT_FEASTS": {
+      "CASE_10": "Feast_Of_Lord -> [VESP_A, MID_C(if Sun)/MID_A, MAT_A, HOUR_A, LIT_A]",
+      "CASE_11": "Feast_Theotokos_Sun -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_12": "Feast_Theotokos_Wkday -> [VESP_A, COMP_A, MID_A, MAT_A, HOUR_A, LIT_A]"
+    },
+
+    "GROUP_D_AFTERFEASTS": {
+      "CASE_13": "Sun_Afterfeast_Simple -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_14": "Wkday_Afterfeast_Simple -> [VESP_C, COMP_A, MID_A, MAT_B, HOUR_A, LIT_A]",
+      "CASE_15": "Sun_Afterfeast_Poly -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_16": "Wkday_Afterfeast_Poly -> [VESP_B, COMP_A, MID_A, MAT_A, HOUR_A, LIT_A]",
+      "CASE_17": "Sun_Afterfeast_Vigil -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_18": "Wkday_Afterfeast_Vigil -> [VESP_A, COMP_A, MID_A, MAT_A, HOUR_A, LIT_A]"
+    },
+
+    "GROUP_E_APODOSIS": {
+      "CASE_19": "Apodosis_Sun -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_20": "Apodosis_Wkday -> [VESP_B, COMP_A, MID_A, MAT_A, HOUR_A, LIT_A]"
+    },
+
+    "GROUP_F_TRIODION": {
+      "CASE_21": "Triodion_Sunday -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_A]",
+      "CASE_22": "Cheesefare_Wkday -> [VESP_C, COMP_A, MID_A, MAT_C, HOUR_B, LIT_D]"
+    },
+
+    "GROUP_G_GREAT_LENT": {
+      "CASE_23": "Lenten_Weekday -> [VESP_C, COMP_B, MID_A(Lenten), MAT_C, HOUR_B, LIT_C]",
+      "CASE_24": "Lenten_Saturday -> [VESP_C, COMP_A, MID_B, MAT_B, HOUR_A, LIT_A]",
+      "CASE_25": "Lenten_Sunday -> [VESP_A, MID_C, MAT_A, HOUR_A, LIT_B]"
+    },
+
+    "GROUP_H_HOLY_WEEK": {
+      "CASE_26": "Holy_MonTueWed -> [MAT_C(Bridegroom), HOUR_B(Gospel), LIT_C]"
+    },
+
+    "GROUP_I_PENTECOSTARION": {
+      "CASE_27": "Bright_Week -> [All Services = Paschal Hours/Liturgy]",
+      "CASE_28": "Paschal_Sunday -> [VESP_A, MID_C, MAT_A, HOUR_D, LIT_A]",
+      "CASE_29": "Paschal_Weekday -> [VESP_C, COMP_A, MID_A, MAT_B, HOUR_A, LIT_A]"
+    },
+
+    "GROUP_J_MENAION_SPECIFICS": {
+      "CASE_30": "Sept_1 (Indiction) -> [MAT_A]",
+      "CASE_31": "Sat_Before_Exaltation -> [Standard Sat + Readings]",
+      "CASE_32": "Sun_Before_Exaltation -> [Standard Sun + Readings]",
+      "CASE_33": "Sept_14 (Exaltation) -> [MAT_A(Cross Veneration)]",
+      "CASE_34": "Sat_After_Exaltation -> [Standard]",
+      "CASE_35": "Sun_After_Exaltation -> [Standard]",
+      "CASE_36": "Dec_24 (Nativity Eve) -> [HOUR_C, VESP_A+LIT_B]",
+      "CASE_37": "Dec_25 (Nativity) -> [COMP_C, MAT_A, LIT_A]",
+      "CASE_38": "Sat_After_Nativity -> [Standard]",
+      "CASE_39": "Sun_After_Nativity -> [Standard]",
+      "CASE_40": "Jan_1 (Circumcision) -> [VESP_A, MAT_A, LIT_B]",
+      "CASE_41": "Jan_5 (Theophany Eve) -> [HOUR_C, VESP_A+LIT_B]",
+      "CASE_42": "Jan_6 (Theophany) -> [COMP_C, MAT_A, LIT_A]",
+      "CASE_43": "Jan_7 (Synaxis John) -> [VESP_B, MAT_A]",
+      "CASE_44": "Sat_After_Theophany -> [Standard]",
+      "CASE_45": "Sun_After_Theophany -> [Standard]",
+      "CASE_46": "Jan_30 (3 Hierarchs) -> [VESP_A, MAT_A]",
+      "CASE_47": "Feb_2 (Meeting) -> [VESP_A, MAT_A]",
+      "CASE_48": "Mar_25 (Annunciation) -> [VESP_A+LIT_A]",
+      "CASE_49": "Jun_24 (Nativity John) -> [VESP_A, MAT_A]",
+      "CASE_50": "Jun_29 (Peter/Paul) -> [VESP_A, MAT_A]",
+      "CASE_51": "Aug_6 (Transfiguration) -> [VESP_A, MAT_A, LIT_A]",
+      "CASE_52": "Aug_15 (Dormition) -> [VESP_A, MAT_A]",
+      "CASE_53": "Aug_29 (Beheading) -> [MAT_A]"
+    },
+
+    "GROUP_K_TRIODION_SPECIFICS": {
+      "CASE_54": "Meatfare_Sat -> [MAT_C(Alleluia/Requiem)]",
+      "CASE_55": "Cheesefare_Sat -> [MAT_A(Doxology)]",
+      "CASE_56": "Cheesefare_Sun -> [Standard Sun]",
+      "CASE_57": "Lent_Sun_1 (Orthodoxy) -> [Procession]",
+      "CASE_58": "Lent_Sun_3 (Cross) -> [Cross Veneration]",
+      "CASE_59": "Lent_Thu_5 (Great Canon) -> [MAT_C]",
+      "CASE_60": "Lent_Sat_5 (Akathist) -> [MAT_A]",
+      "CASE_61": "Lazarus_Sat -> [MAT_A]",
+      "CASE_62": "Palm_Sun -> [MAT_A(Branches)]",
+      "CASE_63": "Great_Thu -> [VESP_A+LIT_B]",
+      "CASE_64": "Great_Fri -> [HOUR_C, VESP_B(Shroud)]",
+      "CASE_65": "Great_Sat -> [VESP_A+LIT_B]",
+      "CASE_66": "Pascha -> [MAT_A(Paschal)]",
+      "CASE_67": "Mid_Pentecost -> [VESP_B, MAT_A]",
+      "CASE_68": "Ascension -> [VESP_A, MAT_A]",
+      "CASE_69": "Pentecost -> [VESP_A, MAT_A, Kneeling Prayers]",
+      "CASE_70": "Holy_Spirit_Mon -> [VESP_A, MAT_A]",
+      "CASE_71": "Corpus_Christi -> [Procession]"
+    }
+  }
+}
