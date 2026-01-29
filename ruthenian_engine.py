@@ -5,9 +5,14 @@ import copy
 
 class RuthenianEngine:
 
-    def __init__(self, base_dir=".", temple_feast_date=None, version="stamford_2014"):
+    def __init__(self, base_dir=".", temple_feast_date=None, version="stamford_2014", external_assets_dir=None):
         self.base_dir = base_dir
         self.json_db = os.path.join(base_dir, "json_db")
+        
+        # External Content Support (Security Boundary)
+        self.external_assets_dir = external_assets_dir
+        if self.external_assets_dir:
+            print(f"Engine: External Assets Enabled -> [{self.external_assets_dir}]")
         
         # Identifier Standardization (Phase 12)
         # We separate the "Logical ID" (for rules) from the "Physical Folder" (for text)
@@ -50,6 +55,10 @@ class RuthenianEngine:
         # Load Text Databases
         self.text_db = {} 
         self._load_versioned_texts()
+        
+        # Load External Private Assets (if provisioned)
+        if self.external_assets_dir and os.path.exists(self.external_assets_dir):
+            self._load_external_assets()
 
     def _load_text_db(self, filename):
         # Look in the mapped content folder
@@ -61,6 +70,34 @@ class RuthenianEngine:
         except Exception as e:
             print(f"ERROR loading {filename}: {e}")
             return {}
+
+    def _load_external_assets(self):
+        """
+        Recursively loads all JSON files in the external directory and merges them into text_db.
+        This allows private assets to override or supplement public ones.
+        """
+        print(f"Engine: Scanning external assets...")
+        count = 0
+        for root, dirs, files in os.walk(self.external_assets_dir):
+            for file in files:
+                if file.endswith(".json"):
+                    path = os.path.join(root, file)
+                    try:
+                        with open(path, 'r', encoding='utf-8') as f:
+                            data = json.load(f)
+                            # If it's a bulk file (dict of ID -> Asset), update all
+                            if isinstance(data, dict):
+                                # Check if it's a single asset (has "id" and "content") or a collection
+                                if "id" in data and "content" in data:
+                                    self.text_db[data["id"]] = data
+                                    count += 1
+                                else:
+                                    # Assume collection key->value
+                                    self.text_db.update(data)
+                                    count += len(data)
+                    except Exception as e:
+                        print(f"Error loading external asset {file}: {e}")
+        print(f"Engine: Loaded {count} external assets.")
 
     def _load_versioned_texts(self):
         try:

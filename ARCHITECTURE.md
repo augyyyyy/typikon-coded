@@ -57,6 +57,10 @@ All logic is stored in `json_db/` to keep the Python code clean and the rules ed
 *   `02d_logic_temple.json`: Rules for Patronal Feasts.
 *   `02e_logic_matins.json`: Specific logic for the complexities of Matins (Canon stacking, Katavasia).
 
+*   **(Private) External Content**: `json_db/private_assets/` (GitIgnored).
+    *   This folder allows loading proprietary texts (recensions) that must not be committed to the public repo.
+    *   The Engine scans this directory at startup if `external_assets_dir` is provided.
+
 ## Folder Structure & Fidelity
 
 To ensure fidelity to specific recensions (e.g., the "Stamford" translation), the system uses a **Physical vs. Logical** separation.

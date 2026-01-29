@@ -133,3 +133,7 @@ cython_debug/
 # IDEs
 .idea/
 .vscode/
+
+# Private Content (Security Boundary)
+json_db/private_assets/
+
