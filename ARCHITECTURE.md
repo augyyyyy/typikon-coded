@@ -52,6 +52,8 @@ The text blocks are assembled into a coherent document (Markdown/JSON) for displ
 
 All logic is stored in `json_db/` to keep the Python code clean and the rules editable.
 
+Example:
+
 *   `02a_logic_general.json`: The "20 Paradigms" of the Dolnytsky Typikon. The master controller for standard interactions.
 *   `02c_logic_triodion.json`: Rules for Lent and Holy Week. High priority overrides.
 *   `02d_logic_temple.json`: Rules for Patronal Feasts.
