@@ -98,6 +98,15 @@ For more detailed information, please refer to:
 - [Data Structure](DATA_STRUCTURE.md): Explanation of the JSON database schema and asset management.
 - [Contributing](CONTRIBUTING.md): How to contribute code or textual corrections.
 
+## Changelog
+
+### v0.1.0 (2026-01-29)
+*   **Initial Release**: Core logic engine implementation based on Dolnytsky Typikon.
+*   **Documentation**: Added comprehensive guides for Architecture, Data Structure, and Canon Law implementation.
+*   **Privacy Layer**: Implemented "External Content" architecture to support private/copyrighted assets via `json_db/private_assets/`.
+*   **CLI**: Enhanced `generate_my_service.py` with command-line arguments for easier prototyping and version switching.
+*   **CI/CD**: Established rigorous "Hierarch Test" verification protocols.
+
 ## License
 
 [License Information Here]
