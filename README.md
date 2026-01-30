@@ -100,6 +100,12 @@ For more detailed information, please refer to:
 
 ## Changelog
 
+### v0.2.0 (2026-01-30) - The Lenten Logic Update
+*   **Modules B1, B2, B5 Implemented**: Full support for Lenten Weekday Logic.
+*   **Presanctified Liturgy**: Engine now correctly identifies triggers for Presanctified vs Vesperal Liturgies.
+*   **Canon Mergers**: Complex interleaving of Triodion (3 Odes) and Menaion (8 Odes) is now mathematically solved for every day of the week.
+*   **Conflict Resolution**: Fixed "Alleluia" vs "God is the Lord" priority issues.
+
 ### v0.1.0 (2026-01-29)
 *   **Initial Release**: Core logic engine implementation based on Dolnytsky Typikon.
 *   **Documentation**: Added comprehensive guides for Architecture, Data Structure, and Canon Law implementation.

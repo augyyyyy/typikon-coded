@@ -44,7 +44,8 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
     3.  Sessional of the Saint (2nd) [if exists].
     4.  **Glory:** Polyeleos Sessional of the Saint.
     5.  **Both now:** Theotokion of the Polyeleos Sessional.
-    *   *Citation: Dolnytsky Pt II, Line 157.*
+    5.  **Both now:** Theotokion of the Polyeleos Sessional.
+    *   *Citation:* **Dolnytsky Part II, Line 177 (Saint with Polyeleos on Sunday):** "Hypakoe of the tone, also 1st and 2nd Sessional Hymn of the saint once without Theotokia, Glory: 3rd Sessional Hymn of the saint, Both now: his Theotokion."
 
 ### Point IV: After Canon Ode III
 *   **Logic:** **The Kontakion Shift.**
@@ -103,6 +104,8 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
     1.  Kontakion of the Feast.
     2.  Ikos of the Feast.
     *   *The Resurrectional Kontakion/Ikos is usually suppressed or moved.*
+    *   *Citation:* **Dolnytsky Part II, Line 325 (Feast of Lord on Sunday):** "After the 3rd Ode – Sessional Hymn, after the 6th – Kontakion-Ikos... of the feast."
+    *   *Citation:* **Dolnytsky Part II, Line 353 (Feast of Theotokos on Sunday):** "After the 6th – Kontakion-Ikos of the feast... Sunday Kontakion-Ikos [moved to Ode 3 if Resurrection is suppressed? Actually Dolnytsky says Sunday Kontakion-Ikos at Ode 3]." (Wait, Line 353 says: "After the 3rd Ode – Sunday Kontakion-Ikos and Sessional Hymn of the feast"). *Correction:* On Theotokos Feasts, Sunday Kontakion moves to Ode 3. On Lord's Feasts, Sunday is suppressed entirely.
 
 ---
 
@@ -143,6 +146,7 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
 *   **Content:**
     1.  Kontakion of the Saint.
     2.  Ikos of the Saint.
+    *   *Citation:* **Dolnytsky Part II, Line 209 (Saint with Polyeleos on Weekdays):** "After the 3rd Ode – Sessional Hymn of the saint, after the 6th – Kontakion-Ikos of the saint."
 
 ---
 
@@ -181,7 +185,10 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
 1.  **The Rule of Displacement:** If the "High Place" (Ode VI) is occupied by a higher-ranking Kontakion (e.g., Resurrection on Sunday), the lower-ranking Kontakion (e.g., Saint) **must** yield.
 2.  **Destination:** The yielded Kontakion moves to **Ode III** (Slot IV).
 3.  **Combination:** It sits alongside the Sessional Hymn of Ode III.
+3.  **Combination:** It sits alongside the Sessional Hymn of Ode III.
     *   *Order:* Kontakion + Sessional (usually).
+    *   *Citation:* **Dolnytsky Part II, Line 180 (Saint with Polyeleos on Sunday):** "After the 3rd Ode – Kontakion-Ikos and SESSIONAL HYMN of the saint."
+    *   *Citation:* **Dolnytsky Part II, Line 97 (Saint without Polyeleos on Weekdays):** "After the 3rd Ode – Sessional Hymn of the saint... after the 6th – Kontakion-Ikos of the saint." (Note: For Polyeleos, the Kontakion MOVES to Ode 3 if Resurrection occupies Ode 6).
 
 ---
 

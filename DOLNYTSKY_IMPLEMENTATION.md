@@ -124,10 +124,25 @@ One of the most complex parts of the Rite is the Dismissal (*Otpušt*). The engi
     *   Saint of the Liturgy (Chrysostom/Basil).
 
 ### 4. Lenten Modifications (The Triodion)
-When `season_id == 'triodion'`, a "Super-Logic" layer activates:
-*   **The Alleluia Rule**: If it is a Lenten Weekday, "God is the Lord" is replaced by "Alleluia".
-*   **The Prayer of St. Ephrem**: Inserted into Hours/Vespers.
-*   **Vesperal Liturgy**: Logic allows two services to merge into one (Vespers + St. Basil Liturgy).
+When `season_id == 'triodion'`, a "Super-Logic" layer activates, implementing specific modules from the Verification Suite:
+
+*   **Module B1: Lenten Canon Mergers**
+    *   *The Problem*: On Lenten Weekdays, the Triodion has only 3 Odes (Tri-odion). The Menaion has a full Canon. How do they fit?
+    *   *The Logic*:
+        *   **Mondays**: Triodion takes Odes 1, 8, 9. Menaion takes Odes 3, 4, 5, 6, 7.
+        *   **Tuesdays**: Triodion takes Odes 2, 8, 9. Menaion takes Odes 1, 3, 4, 5, 6, 7.
+        *   *Result*: The engine dynamically "pauses" the Menaion canon to insert the Triodion Odes at the correct indices.
+
+*   **Module B2: Presanctified Triggers**
+    *   *Logic*: The *Liturgy of the Presanctified Gifts* is triggered if:
+        *   It is a Lenten Wednesday or Friday (Rank < Polyeleos).
+        *   It is Thursday of the Great Canon.
+        *   It is Monday, Tuesday, or Wednesday of Holy Week.
+        *   *Exception*: If Annunciation (March 25) falls on these days, it is a Vesperal Liturgy of St. Chrysostom, NOT Presanctified.
+
+*   **Module B5: Interludes (Sidalen Logic)**
+    *   *The Ode 3 Refuge*: On Lenten weekdays, the Saint's Sidalen (normally after Ode 3) is preserved even if the Triodion is present. It migrates to a structured "Interlude" block along with the Triodion Sidalen.
+    *   *Alleluia Rule*: The "God is the Lord" module is swapped for the "Alleluia" module, triggering special singular Troparia.
 
 ---
 

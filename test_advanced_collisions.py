@@ -43,7 +43,44 @@ def test_fallback_logic():
     assert rubrics["variables"]["rank"] == "rank_simple_6", "Fallback rank mismatch"
     print("Fallback Logic: PASS")
 
+def test_annunciation_collisions():
+    print("\n--- Testing Phase 8: Annunciation Collisions ---")
+    
+    # 1. Great Friday (-2)
+    ctx1 = {"date": "2025-03-25", "pascha_offset": -2}
+    rule = engine.check_collision(ctx1)
+    
+    if rule:
+        print(f"Great Friday Match: Found Rule")
+        rubric = rule.get('rubric', {})
+        assert rubric.get('liturgy_type') == "Chrysostom (Unique)"
+    else:
+        print("FAIL: Great Friday Collision NOT found")
+        
+    # 2. Kyrio-Pascha (0)
+    ctx2 = {"date": "2029-03-25", "pascha_offset": 0} 
+    rule = engine.check_collision(ctx2)
+    if rule:
+        print(f"Kyrio-Pascha Match: Found Rule")
+        sid = engine.identify_scenario(ctx2)
+        print(f"Scenario ID: {sid}")
+        assert sid == "collision_annunciation_pascha_sunday"
+    else:
+        print("FAIL: Kyrio-Pascha Collision NOT found")
+
+    # 3. St. George Transfer
+    ctx3 = {"date": "2025-04-23", "pascha_offset": -2}
+    rule = engine.check_collision(ctx3)
+    if rule:
+        print(f"St. George Great Friday Match: {rule.get('rubric', {}).get('action')}")
+        assert rule['rubric']['action'] == "TRANSFER_FIXED"
+    else:
+        print("FAIL: St. George Collision NOT found")
+    
+    print("Phase 8 Collisions: PASS")
+
 if __name__ == "__main__":
     test_condition_logic()
     test_fallback_logic()
+    test_annunciation_collisions()
     print("--- All Advanced Tests Passed ---")

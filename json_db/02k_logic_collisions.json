@@ -1,0 +1,184 @@
+{
+    "metadata": {
+        "version": "1.0",
+        "source": "Dolnytsky Typikon Part III (Menaion) & IV (Triodion)",
+        "description": "Collision rules for Fixed Feasts falling on Movable Cycle days (Double Feasts)."
+    },
+    "collisions": {
+        "03-25": {
+            "feast_name": "Annunciation",
+            "rules": [
+                {
+                    "movable_cycle": "Lent",
+                    "movable_day": "Weekday",
+                    "rubric": {
+                        "vespers_param": "Great Vespers (Sun Eve) or Presanctified (Mon-Fri). 10 Stichera: 5 Triodion, 5 Feast.",
+                        "matins_canon": "Feast on 6, Triodion on 8. Refrain of Feast at 9th Ode.",
+                        "liturgy_type": "Chrysostom (if with Vespers) or Presanctified",
+                        "notes": "If Presanctified is not served, Vespers stichera adjusted."
+                    }
+                },
+                {
+                    "movable_cycle": "Lent",
+                    "movable_day": "Saturday_3_4",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 2 Triodion, 8 Feast.",
+                        "liturgy_type": "Chrysostom",
+                        "notes": "Matins is Feast only. Triodion omitted."
+                    }
+                },
+                {
+                    "movable_cycle": "Lent",
+                    "movable_day": "Sunday_Cross",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 3 Res, 3 Cross, 4 Feast.",
+                        "matins_canon": "Res 4, Cross 4, Feast 6. Katavasia of Feast.",
+                        "liturgy_type": "Basl",
+                        "notes": "Cross Veneration takes precedence at Doxology."
+                    }
+                },
+                {
+                    "movable_cycle": "Lent",
+                    "movable_day": "Thursday_Great_Canon",
+                    "rubric": {
+                        "action": "TRANSFER_MOVABLE",
+                        "target_day": "Tuesday_5",
+                        "notes": "Great Canon transferred to Tuesday. Thursday becomes Apodosis of Feast."
+                    }
+                },
+                {
+                    "movable_cycle": "Lent",
+                    "movable_day": "Saturday_Akathist",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 2 Triodion, 8 Feast.",
+                        "matins_canon": "Feast 6, Akathist 8. 9th Ode: Feast Refrain.",
+                        "liturgy_type": "Chrysostom",
+                        "notes": "Akathist 4-ode canon sung at Compline."
+                    }
+                },
+                {
+                    "movable_cycle": "Lent",
+                    "movable_day": "Saturday_Lazarus",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 2 Triodion, 3 Lazarus, 5 Feast.",
+                        "matins_canon": "Lazarus 8, Feast 6. Katavasia Lazarus.",
+                        "liturgy_type": "Chrysostom",
+                        "notes": "Entrance Verse: Feast + Lazarus. Trisagion: 'As many as have been baptized'."
+                    }
+                },
+                {
+                    "movable_cycle": "Lent",
+                    "movable_day": "Sunday_Palm",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 6 Feast, 4 Palm.",
+                        "matins_canon": "Feast 8, Palm 8. Katavasia Both.",
+                        "liturgy_type": "Chrysostom",
+                        "notes": "Gospel of Feast + Palm."
+                    }
+                },
+                {
+                    "movable_cycle": "Great_Week",
+                    "movable_day": "Great_Monday_Tuesday_Wednesday",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 5 Triodion, 5 Feast.",
+                        "matins_canon": "Feast 12 (Irmos 14), Triodion 2-3 ode.",
+                        "liturgy_type": "Chrysostom (with Vespers)",
+                        "notes": "Readings: 2 Triodion, 2 Feast. Gospel Feast."
+                    }
+                },
+                {
+                    "movable_cycle": "Great_Week",
+                    "movable_day": "Great_Thursday",
+                    "rubric": {
+                        "vespers_param": "Presanctified not laid down. Vesper-Liturgy Basil.",
+                        "matins_canon": "Feast 8, Triodion 8.",
+                        "liturgy_type": "Basil",
+                        "notes": "Washing of Feet omitted? Readings: Day + Feast."
+                    }
+                },
+                {
+                    "movable_cycle": "Great_Week",
+                    "movable_day": "Great_Friday",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 6 Triodion, 4 Feast.",
+                        "matins_canon": "Feast 12. Passion Gospels read.",
+                        "liturgy_type": "Chrysostom (Unique)",
+                        "notes": "Liturgy served on Great Friday! Readings: 3 Triodion, 2 Feast."
+                    }
+                },
+                {
+                    "movable_cycle": "Great_Week",
+                    "movable_day": "Great_Saturday",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 6 Triodion, 4 Feast.",
+                        "matins_canon": "Feast 6, Triodion 8 (Noble Joseph).",
+                        "liturgy_type": "Basil",
+                        "notes": "Readings: Day (15) + Feast."
+                    }
+                },
+                {
+                    "movable_cycle": "Pascha",
+                    "movable_day": "Pascha_Sunday",
+                    "rubric": {
+                        "name": "Kyrio-Pascha",
+                        "matins_canon": "Pascha 8, Feast 8.",
+                        "liturgy_type": "Chrysostom",
+                        "notes": "Gospel Feast read after 6th Ode of Matins or at Liturgy? Dolnytsky: Gospel of Feast at Matins after 6th. Liturgy: Gospel Day + Feast."
+                    }
+                },
+                {
+                    "movable_cycle": "Pascha",
+                    "movable_day": "Bright_Week",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 4 Triodion, 6 Feast.",
+                        "matins_canon": "Pascha 6, Feast 8.",
+                        "liturgy_type": "Chrysostom",
+                        "notes": "Paschal Commemoration."
+                    }
+                }
+            ]
+        },
+        "04-23": {
+            "feast_name": "St. George",
+            "rules": [
+                {
+                    "movable_cycle": "Great_Week",
+                    "movable_day": "Great_Friday",
+                    "rubric": {
+                        "action": "TRANSFER_FIXED",
+                        "target_day": "Bright_Monday",
+                        "notes": "Transferred to Bright Monday."
+                    }
+                },
+                {
+                    "movable_cycle": "Great_Week",
+                    "movable_day": "Great_Saturday",
+                    "rubric": {
+                        "action": "TRANSFER_FIXED",
+                        "target_day": "Bright_Monday",
+                        "notes": "Transferred to Bright Monday."
+                    }
+                },
+                {
+                    "movable_cycle": "Pascha",
+                    "movable_day": "Pascha_Sunday",
+                    "rubric": {
+                        "action": "TRANSFER_FIXED",
+                        "target_day": "Bright_Monday",
+                        "notes": "Transferred to Bright Monday."
+                    }
+                },
+                {
+                    "movable_cycle": "Pascha",
+                    "movable_day": "Bright_Week",
+                    "rubric": {
+                        "vespers_param": "10 Stichera: 4 Triodion, 6 Saint.",
+                        "matins_canon": "Pascha 8, Saint 6.",
+                        "liturgy_type": "Chrysostom",
+                        "notes": "Combined service."
+                    }
+                }
+            ]
+        }
+    }
+}

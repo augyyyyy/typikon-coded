@@ -61,6 +61,7 @@ class RuthenianEngine:
         self.midnight_logic = self._load_json("02j_logic_midnight.json")
         self.god_is_lord_logic = self._load_json("02c_logic_troparia_god_is_lord.json")
         self.general_cases = self._load_json("02a_logic_general.json")
+        self.collision_db = self._load_json("02k_logic_collisions.json")
         
         # Load Text Databases (Multi-Layer Strategy)
         self.text_db = {} 
@@ -172,6 +173,77 @@ class RuthenianEngine:
         
         return None
 
+    # --- Phase 8: Advanced Collision Logic (Double Feasts) ---
+    
+    def check_collision(self, context):
+        """
+        Checks for a collision between a Fixed Feast and the Movable Cycle.
+        Returns the specific collision rule from 02k_logic_collisions.json if found.
+        """
+        date_str = context.get("date", "")
+        if not date_str: return None
+        
+        # Extract MM-DD
+        try:
+             # YYYY-MM-DD
+             parts = date_str.split("-")
+             if len(parts) == 3:
+                 key = f"{parts[1]}-{parts[2]}"
+             else:
+                 return None
+        except:
+             return None
+             
+        if key not in self.collision_db.get("collisions", {}):
+             return None
+             
+        feast_rules = self.collision_db["collisions"][key].get("rules", [])
+        offset = context.get("pascha_offset")
+        
+        # Mapper Logic
+        movable_match = self._map_offset_to_collision_key(offset)
+        if not movable_match: 
+             return None
+        
+        for rule in feast_rules:
+             if rule.get("movable_day") == movable_match:
+                  # Inject feast name for context
+                  rule["_feast_name"] = self.collision_db["collisions"][key].get("feast_name")
+                  return rule
+                  
+        return None
+
+    def _map_offset_to_collision_key(self, offset):
+        """
+        Maps Pascha Offset to the keys used in 02k_logic_collisions.json.
+        """
+        if offset is None: return None
+        
+        if offset == 0: return "Pascha_Sunday"
+        if offset == -1: return "Great_Saturday"
+        if offset == -2: return "Great_Friday"
+        if offset == -3: return "Great_Thursday"
+        if offset in [-6, -5, -4]: return "Great_Monday_Tuesday_Wednesday"
+        if offset == -7: return "Sunday_Palm"
+        if offset == -8: return "Saturday_Lazarus"
+        if offset == -15: return "Saturday_Akathist"
+        if offset == -17: return "Thursday_Great_Canon"
+        if offset == -28: return "Sunday_Veneration_Cross"
+        
+        if offset in [-22, -29]: return "Saturday_3_4" # Sat 4 (-22), Sat 3 (-29)
+        
+        if 1 <= offset <= 6: return "Bright_Week"
+        
+        # Generic Lent Weekday (Mon-Fri)
+        # Ranges: Lent (Great Fast) starts -48. Ends -9 (Fri before Lazarus).
+        if -48 <= offset <= -9:
+             # Exclude Saturdays (-43, -36, -29, -22, -15, -8) and Sundays
+             # Sat 3,4 and Akathist handled above.
+             if offset % 7 not in [0, 6]: 
+                  return "Weekday"
+                  
+        return None
+
     # --- Phase 12: Dolnytsky Logic Modules ---
 
     def identify_scenario(self, context):
@@ -191,7 +263,14 @@ class RuthenianEngine:
         
         if triodion_key in triodion_domain:
             # Check for Collisions (e.g. Annunciation on Palm Sunday/Pascha)
-            # This logic will go here in Phase 8.1
+            collision_rule = self.check_collision(context)
+            if collision_rule:
+                 # Construct specialized scenario ID
+                 # e.g. collision_annunciation_great_friday
+                 feast_name = collision_rule.get("_feast_name", "Feast").replace(" ", "_").lower()
+                 movable_day = collision_rule.get("movable_day", "day").lower()
+                 return f"collision_{feast_name}_{movable_day}"
+
             return triodion_key
             
         # 2. TEMPLE FEAST LOOKUP (Dolnytsky Part V)

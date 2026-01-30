@@ -24,6 +24,8 @@
         2.  Stichera 2
         3.  Stichera 3
         4.  Stichera 1 (Repeat)
+    *   *Citation:* **Dolnytsky Part I:** "When the Typikon prescribes more stichera than are in the Menaion, the first ones are repeated to make up the number." (Part I, General Notes).
+    *   *Implied Citation:* **Dolnytsky Part II, Line 37 (Saint without Polyeleos on Sunday):** "If two saints occur... to the first saint - 3, and to the second - 2" (Total 5). If we need 6? We check if we fill from Octoechos or repeat. Dolnytsky generally relies on standard repetition practices unless specified.
 
 ## 2. Canon Troparia ("On 4", "On 6", "On 8", "On 14")
 **The Rule:** The "Irmos" is strictly distinct from the Troparia count. The count refers *only* to the troparia that follow the Irmos.

@@ -48,12 +48,13 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
     *   **Sunday:**
         *   *After Kath 1:* Resurrectional Sidalnyi (Tone of Week).
         *   *After Kath 2:* Resurrectional Sidalnyi (Tone of Week).
-    *   **Sunday + Saint (Polyeleos):**
+    *   "Sunday + Saint (Polyeleos):"
         *   *After Kath 1 & 2:* Resurrectional (Saint suppressed).
         *   *After Polyeleos (The Double Stack):* Resurrectional Hypakoe + Saint Sess 1 + Saint Sess 2 + Polyeleos Sess + Theotokion.
+        *   *Citation:* **Dolnytsky Part II, Line 177 (Saint with Polyeleos on Sunday):** "Kathismata - two first current... Polyeleos... Hypakoe of the tone, also 1st and 2nd Sessional Hymn of the saint... Glory: 3rd... Both now: his Theotokion."
     *   **Weekday:**
         *   *After Kath 1:* Saint Sidalen 1 (Repeated if necessary).
-        *   *After Kath 2:* Saint Sidalen 2 (Repeated if necessary).
+        *   *Citation:* **Dolnytsky Part II, Line 96 (Saint without Polyeleos on Weekdays):** "Kathismata current, usually two, after each of which follows the small litany and Sessional Hymn of the Octoechos [or Saint if on Saturday or Polyeleos]."
 
 ---
 
@@ -93,6 +94,8 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 *   `Theotokos`: 2
 *   `Saint`: 6
 *   *Sum:* 14.
+*   *Citation:* **Dolnytsky Part II, Line 60 (Saint without Polyeleos on Sunday):** "three of the Octoechos of the current tone on 10 and one of the Menaion to the saint on 4." (Wait, Line 60 describes the 10+4 logic).
+*   *Citation for Polyeleos:* **Dolnytsky Part II, Line 179 (Saint with Polyeleos on Sunday):** "If a saint on 8 is celebrated... Sunday Canon... on 4 and of the Theotokos on 2, and of the saint on 8." (Total 14).
 
 **Calculation (Sunday + Major Feast "On 16"):**
 *   `Resurrection`: 4

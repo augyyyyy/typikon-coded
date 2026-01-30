@@ -91,7 +91,9 @@ class TestLentenDeepLogic(unittest.TestCase):
         result = self.engine.resolve_canon_interludes(context)
         
         # Ode 3 Should contain the Saint's Sidalen
-        self.assertIn("saint_sidalen_1", result["ode_3"])
+        # Ode 3 Should contain the Saint's Sidalen
+        # Updated to check for structured object instead of raw string
+        self.assertTrue(any(item.get("type") == "sessional_saint" for item in result["ode_3"]))
 
     # MODULE B2: PRESANCTIFIED TRIGGERS
     # =========================================================================
