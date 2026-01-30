@@ -42,6 +42,7 @@ class RuthenianEngine:
         self.trace_log = []
 
         self.assets_map = self._load_json("03_assets_map.json")
+        self.scenario_registry = self._load_json("00_master_scenario_registry.json")
         self.triodion_logic = self._load_json("02c_logic_triodion.json")
         self.vespers_logic = self._load_json("04_logic_vespers.json")
         self.matins_logic = self._load_json("02e_logic_matins.json")
@@ -170,6 +171,65 @@ class RuthenianEngine:
         return None
 
     # --- Phase 12: Dolnytsky Logic Modules ---
+
+    def identify_scenario(self, context):
+        """
+        The New Brain: Centralized Logic Resolution.
+        Queries the Universal Scenario Registry to determine the specific Liturgical Occasion.
+        Returns a Scenario ID (e.g., 'triodion_day_-7' or 'temple_case_17_palm_sunday').
+        """
+        offset = context.get("pascha_offset", 0)
+        is_temple = context.get("is_temple_feast", False)
+        day_of_week = context.get("day_of_week", 0)
+        
+        # 1. TRIODION / PENTECOSTARION LOOKUP (Direct Offset Match)
+        # This covers all moveable feasts (Palm Sunday, Pascha, Ascension, etc.)
+        triodion_key = f"triodion_day_{offset}"
+        triodion_domain = self.scenario_registry.get("domains", {}).get("triodion", {}).get("scenarios", {})
+        
+        if triodion_key in triodion_domain:
+            # Check for Collisions (e.g. Annunciation on Palm Sunday/Pascha)
+            # This logic will go here in Phase 8.1
+            return triodion_key
+            
+        # 2. TEMPLE FEAST LOOKUP (Dolnytsky Part V)
+        if is_temple:
+            # Map Part V cases based on date/offset
+            # Case 17: Palm Sunday (handled by offset lookup above usually, but temple overrides?)
+            # Wait, Temple logic OVERRIDES standard days.
+            
+            # Case 17: Temple on Palm Sunday (Offset -7)
+            if offset == -7: return "temple_case_17_palm_sunday"
+            
+            # Case 26: Temple on Pentecost (Offset 49)
+            if offset == 49: return "temple_case_26_pentecost"
+            
+            # Case 16: Lazarus Sat (Offset -8)
+            if offset == -8: return "temple_case_16_lazarus"
+            
+            # Case 15: Akathist Sat (Offset -15)
+            if offset == -15: return "temple_case_15_akathist"
+            
+            # Case 18: Holy Week (Transfer)
+            if -6 <= offset <= -1: return "temple_case_18_passion_week"
+            
+            # Case 19: Bright Week (Transfer)
+            if 1 <= offset <= 6: return "temple_case_19_bright_week"
+            
+            # Case 2, 3, 9, 10, 11 (Lenten Collisions)
+            if -48 <= offset <= -1:
+                if day_of_week == 6 and offset in [-43, -36, -29]: # Sat 1, 2, 3, 4 of Lent
+                     if offset == -43: return "temple_case_09_lenten_weekday" # Actually St Theo is Case 9/10 logic? No Case 10 is Memorial
+                     return "temple_case_10_memorial_sat"
+                if day_of_week == 0: return "temple_case_11_lenten_sunday"
+                if day_of_week in [1,2,3,4,5]:
+                    if offset >= -55 and offset <= -50: return "temple_case_03_cheesefare_week"
+                    return "temple_case_09_lenten_weekday"
+
+            # Case: Standard Temple Feast
+            return "temple_standard"
+
+        return "standard_day"
 
     def identify_paradigm(self, context):
         """
@@ -355,9 +415,9 @@ class RuthenianEngine:
         # Mapping table for abstract variable_refs -> concrete DB keys
         mapping = {
             "stichera_resurrection": f"tone_{tone}.sat_vespers.stichera_lord_i_call",
-            "aposticha_resurrection": f"tone_{tone}.sat_vespers.aposticha",
-            "troparion_resurrection": f"tone_{tone}.sat_vespers.troparia", # Note: usually Sunday Matins/Vespers share troparion
-            "sessional_resurrection_1": f"tone_{tone}.sun_matins.sessionals", # Simplified, might need split
+            "aposticha_resurrection": f"tone_{tone}.sat_vespers.stichera_aposticha",
+            "troparion_resurrection": f"tone_{tone}.sat_vespers.troparia",
+            "sessional_resurrection_1": f"tone_{tone}.sun_matins.sessionals",
             "stichera_praises": f"tone_{tone}.sun_matins.stichera_praises",
         }
         
@@ -650,12 +710,19 @@ class RuthenianEngine:
         triodion_map = self.triodion_logic.get("logic_map", {})
         best_match = None;
         best_priority = -1
+        best_key = None
         for key, data in triodion_map.items():
             if ("triggers" in data and self._check_condition(data["triggers"], context)):
                 p = data.get("priority", 0)
                 if p > best_priority:
                     best_priority = p
                     best_match = data
+                    best_key = key
+        
+        # Inject Active Triodion Key (e.g. 'wed_veneration_cross') for Exclusion Checks
+        if best_key:
+            context["triodion_key"] = best_key
+
         if best_match:
             rubrics["title"] = best_match.get('title', 'Triodion Service')
             t_vars = best_match.get("variables", {});
@@ -696,6 +763,11 @@ class RuthenianEngine:
                         if "type" in action and "vesperal_liturgy" in action["type"]:
                             rubrics["overrides"]["liturgy_type"] = "vesperal_merge_logic"
                         break
+        elif not rubrics["title"] or rubrics["title"] == "Service for " + str(context["date"]):
+            # FALLBACK: Simple Feast (Missing Data)
+            rubrics["title"] = f"Saint of the Day ({context['month']}-{context['day']})"
+            rubrics["variables"]["rank"] = "rank_simple_6"
+            rubrics["variables"]["vespers_type"] = "daily_vespers"
 
         # Layer 3: Temple Logic
         if context["is_temple_feast"]:
@@ -709,6 +781,60 @@ class RuthenianEngine:
         self._apply_lookahead(context, rubrics)
         
         return rubrics
+
+    def _check_condition(self, condition, context):
+        """
+        Evaluates complex triggers (ranges, weeks, exclusions).
+        """
+        if not condition: return True
+
+        # 0. Season ID (Critical for preventing leakage)
+        if "season_id" in condition:
+             if context.get("season_id") != condition["season_id"]: return False
+        
+        # 1. Day of Week
+        if "day_of_week" in condition:
+            allowed = condition["day_of_week"]
+            if isinstance(allowed, int): allowed = [allowed]
+            if context["day_of_week"] not in allowed: return False
+            
+        # 2. Triodion Period
+        if "triodion_period" in condition:
+            allowed = condition["triodion_period"]
+            current = context.get("triodion_period", "")
+            if isinstance(allowed, str): allowed = [allowed]
+            if current not in allowed: return False
+            
+        # 3. Exclude Days (Requires 'triodion_key' injection)
+        if "exclude_days" in condition:
+            excluded = condition["exclude_days"]
+            active_key = context.get("triodion_key", "")
+            if active_key in excluded: return False
+
+        # 4. Pascha Offset
+        if "pascha_offset" in condition:
+            req = condition["pascha_offset"]
+            if context["pascha_offset"] != req: return False
+
+        # 5. Pascha Offset Range
+        if "pascha_offset_range" in condition:
+            rng = condition["pascha_offset_range"]
+            val = context["pascha_offset"]
+            if not (rng[0] <= val <= rng[1]): return False
+
+        # 6. Week (Lenten)
+        if "week" in condition:
+            allowed_weeks = condition["week"]
+            offset = context["pascha_offset"]
+            # Lent Starts -48. Week 1 = [-48, -42].
+            # Week = (Offset + 48) // 7 + 1
+            if offset >= -48:
+                 current_week = (offset + 48) // 7 + 1
+                 if current_week not in allowed_weeks: return False
+            else:
+                 return False # Pre-Lent, no 'week' concept in this schema?
+
+        return True
 
     def resolve_full_cycle_order(self, context):
         """
@@ -784,45 +910,6 @@ class RuthenianEngine:
         # For now, return 1.
         return 1
 
-    def _check_condition(self, condition, context):
-        """FINAL, ROBUST VERSION"""
-        if not condition: return True
-
-        # Check all conditions; if any fail, return False immediately.
-        if "day_of_week" in condition:
-            if context["day_of_week"] not in condition["day_of_week"]:
-                return False
-
-        if "season_id" in condition:
-            if context["season_id"] != condition["season_id"]:
-                return False
-
-        if "triodion_period" in condition:
-            req = condition["triodion_period"]
-            val = context["triodion_period"]
-            if isinstance(req, list):
-                if val not in req: return False
-            elif val != req:
-                return False
-
-        if "pascha_offset" in condition:
-            req = condition["pascha_offset"]
-            val = context["pascha_offset"]
-            # This handles both int and list in the JSON
-            if isinstance(req, list):
-                if val not in req: return False
-            elif isinstance(req, int):
-                if val != req: return False
-            else:  # Malformed JSON
-                return False
-
-        if "pascha_offset_range" in condition:
-            r_start, r_end = condition["pascha_offset_range"]
-            if not (r_start <= context["pascha_offset"] <= r_end):
-                return False
-
-        # If we passed all checks, it's a match.
-        return True
 
     def _get_structure_sequence(self, struct_data, root_id):
         """

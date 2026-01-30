@@ -1,8 +1,8 @@
 {
   "file_metadata": {
     "filename": "02b_07_march.json",
-    "version": "3.2 (Holy Friday Fix)",
-    "last_updated": "2026-01-26",
+    "version": "3.3 (16 Annunciation Cases)",
+    "last_updated": "2026-01-29",
     "authority": "Dolnytsky Typikon Part III (March)",
     "scope": "Fixed Feast Logic for March"
   },
@@ -16,12 +16,20 @@
         "base_template": "CASE_05",
         "variants": [
           {
-            "condition": { "triodion_period": ["lent_weekday"] },
+            "condition": {
+              "triodion_period": [
+                "lent_weekday"
+              ]
+            },
             "action": {
               "type": "presanctified_liturgy_polyeleos",
               "variables": {
-                  "liturgy_gospel": "matthew_20_1_16",
-                  "vespers_readings": ["isaiah_43", "isaiah_49", "martyrs_readings_3"]
+                "liturgy_gospel": "matthew_20_1_16",
+                "vespers_readings": [
+                  "isaiah_43",
+                  "isaiah_49",
+                  "martyrs_readings_3"
+                ]
               }
             }
           }
@@ -32,48 +40,270 @@
         "rank": "rank_vigil_theotokos",
         "period": "feast",
         "source_ref": "dolnytsky_part3_mar_25",
-        "system_flags": { "suppress_octoechos": true, "fast_level": "wine_oil_fish" },
+        "system_flags": {
+          "suppress_octoechos": true,
+          "fast_level": "wine_oil_fish"
+        },
         "base_template": "CASE_14",
         "variants": [
           {
-            "condition": { "triodion_period": ["lent_weekday"] },
+            "case_id": "ANN_01",
+            "condition": {
+              "triodion_period": [
+                "lent_weekday"
+              ],
+              "exclude_days": [
+                "wed_veneration_cross",
+                "thu_great_canon",
+                "fri_akathist"
+              ]
+            },
+            "description": "Fast days of Forty Days (default Lenten weekday)",
             "action": {
               "type": "vesperal_liturgy_chrysostom",
-              "variables": { "readings": "annunciation_readings_vesperal" }
-            }
-          },
-          {
-            "condition": { "triodion_period": ["holy_friday"] },
-            "action": {
-              "type": "vesperal_liturgy_chrysostom_passion",
               "variables": {
-                  "liturgy_type": "vesperal_merge_logic",
-                  "vespers_type": "passion_burial_vespers",
-                  "hours_type": "structure_royal",
-                  "note": "Serve Vespers of Great Friday combined with Liturgy of Annunciation."
+                "readings": "annunciation_readings_vesperal"
               }
             }
           },
           {
-            "condition": { "triodion_period": ["pascha"] },
-            "action": { "type": "kyrio_pascha_template" }
+            "case_id": "ANN_02",
+            "condition": {
+              "triodion_period": [
+                "lent_saturday"
+              ],
+              "week": [
+                3,
+                4
+              ]
+            },
+            "description": "3rd & 4th Saturdays of Lent",
+            "action": {
+              "type": "standard_liturgy_chrysostom",
+              "variables": {
+                "liturgy_antiphons": "festal_annunciation_antiphons"
+              }
+            }
           },
           {
-            "condition": { "triodion_period": ["bright_week"] },
-            "action": { 
-                "type": "standard_liturgy_chrysostom", 
-                "variables": { "liturgy_antiphons": "festal_annunciation_antiphons" }
+            "case_id": "ANN_03",
+            "condition": {
+              "triodion_period": [
+                "sunday_veneration_cross"
+              ]
+            },
+            "description": "Sunday of Veneration of Cross",
+            "action": {
+              "type": "combined_sunday_feast",
+              "variables": {
+                "cross_veneration": true,
+                "trisagion": "before_thy_cross"
+              }
+            }
+          },
+          {
+            "case_id": "ANN_04",
+            "condition": {
+              "pascha_offset": -25,
+              "day_of_week": 3
+            },
+            "description": "Wednesday of Veneration of Cross",
+            "action": {
+              "type": "vesperal_liturgy_chrysostom",
+              "variables": {
+                "cross_veneration_repeat": true
+              }
+            }
+          },
+          {
+            "case_id": "ANN_05",
+            "condition": {
+              "triodion_period": [
+                "lent_sunday"
+              ],
+              "week": [
+                4,
+                5
+              ]
+            },
+            "description": "4th & 5th Sundays of Lent",
+            "action": {
+              "type": "combined_sunday_feast",
+              "variables": {
+                "suppress_cross": true
+              }
+            }
+          },
+          {
+            "case_id": "ANN_06",
+            "condition": {
+              "pascha_offset": -17
+            },
+            "description": "Thursday of Great Canon",
+            "action": {
+              "type": "vesperal_liturgy_chrysostom",
+              "variables": {
+                "great_canon_read": true
+              }
+            }
+          },
+          {
+            "case_id": "ANN_07",
+            "condition": {
+              "pascha_offset": -16
+            },
+            "description": "Friday of 5th week (Akathist)",
+            "action": {
+              "type": "vesperal_liturgy_chrysostom",
+              "variables": {
+                "akathist_at_compline": true
+              }
+            }
+          },
+          {
+            "case_id": "ANN_08",
+            "condition": {
+              "pascha_offset": -15
+            },
+            "description": "Akathist Saturday",
+            "action": {
+              "type": "combined_akathist_feast",
+              "variables": {
+                "matins_akathist": true
+              }
+            }
+          },
+          {
+            "case_id": "ANN_09",
+            "condition": {
+              "pascha_offset": -8
+            },
+            "description": "Lazarus Saturday",
+            "action": {
+              "type": "combined_lazarus_feast",
+              "variables": {
+                "trisagion": "all_baptized"
+              }
+            }
+          },
+          {
+            "case_id": "ANN_10",
+            "condition": {
+              "pascha_offset": -7
+            },
+            "description": "Palm Sunday",
+            "action": {
+              "type": "combined_palm_feast",
+              "variables": {
+                "blessing_palms": true,
+                "priority": "palm_over_annunciation"
+              }
+            }
+          },
+          {
+            "case_id": "ANN_11",
+            "condition": {
+              "pascha_offset_range": [
+                -6,
+                -4
+              ]
+            },
+            "description": "Great Monday/Tuesday/Wednesday",
+            "action": {
+              "type": "vesperal_liturgy_chrysostom_passion",
+              "variables": {
+                "hours": "structure_lenten"
+              }
+            }
+          },
+          {
+            "case_id": "ANN_12",
+            "condition": {
+              "pascha_offset": -3
+            },
+            "description": "Great Thursday",
+            "action": {
+              "type": "combined_thursday_feast",
+              "variables": {
+                "cherubic": "of_thy_mystical_supper"
+              }
+            }
+          },
+          {
+            "case_id": "ANN_13",
+            "condition": {
+              "pascha_offset": -2
+            },
+            "description": "Great Friday",
+            "action": {
+              "type": "vesperal_liturgy_chrysostom_passion",
+              "variables": {
+                "liturgy_type": "vesperal_merge_logic",
+                "vespers_type": "passion_burial_vespers",
+                "hours_type": "structure_royal",
+                "note": "Serve Vespers of Great Friday combined with Liturgy of Annunciation."
+              }
+            }
+          },
+          {
+            "case_id": "ANN_14",
+            "condition": {
+              "pascha_offset": -1
+            },
+            "description": "Great Saturday",
+            "action": {
+              "type": "combined_saturday_feast",
+              "variables": {
+                "cherubic": "let_all_mortal_flesh"
+              }
+            }
+          },
+          {
+            "case_id": "ANN_15",
+            "condition": {
+              "pascha_offset": 0
+            },
+            "description": "Sunday of Resurrection (Kyrio-Pascha)",
+            "action": {
+              "type": "kyrio_pascha_template",
+              "variables": {
+                "note": "Exceedingly rare - Annunciation on Pascha itself"
+              }
+            }
+          },
+          {
+            "case_id": "ANN_16",
+            "condition": {
+              "pascha_offset_range": [
+                1,
+                3
+              ]
+            },
+            "description": "Bright Monday/Tuesday/Wednesday",
+            "action": {
+              "type": "standard_liturgy_chrysostom",
+              "variables": {
+                "liturgy_antiphons": "festal_annunciation_antiphons",
+                "paschal_hours": true
+              }
             }
           }
         ],
         "variables": {
-          "vespers_readings": ["exodus_3_1_8", "proverbs_8_22_30", "genesis_28_10_17"],
+          "vespers_readings": [
+            "exodus_3_1_8",
+            "proverbs_8_22_30",
+            "genesis_28_10_17"
+          ],
           "litiya_stichera": "annunciation_litiya",
           "matins_gospel": "luke_1_39_49_56",
           "liturgy_antiphons": "typical_psalms_refrain_theotokos",
           "entrance_hymn": "proclaim_from_day_to_day",
           "troparia_sequence": "feast_glory_bn_kont_feast",
-          "liturgy_readings": ["hebrews_2_11_18", "luke_1_24_38"],
+          "liturgy_readings": [
+            "hebrews_2_11_18",
+            "luke_1_24_38"
+          ],
           "megalynarion": "receive_o_earth_glad_tidings",
           "communion_hymn": "the_lord_has_chosen_zion"
         }

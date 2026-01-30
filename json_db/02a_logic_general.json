@@ -1,23 +1,28 @@
 {
   "file_metadata": {
     "filename": "02a_logic_general.json",
-    "version": "5.1 (Standardized Keys)",
-    "last_updated": "2026-01-26",
+    "version": "5.2 (Special Vigil Override)",
+    "last_updated": "2026-01-29",
     "authority": "Dolnytsky Typikon Part II",
     "scope": "The 20 General Liturgical Cases (Octoechos, Menaion, Triodion/Pentecostion interactions)",
     "description": "Logic controller for daily, Sunday, and Festal services. Handles priority disputes between Octoechos and Menaion based on rank (Simple, Doxology, Polyeleos, Vigil) and Period (Normal, Forefeast, Afterfeast, Apodosis)."
   },
   "logic_definitions": {
-    
     "//_GROUP_A": "OCTOECHOS_PERIOD (NON-FESTAL)",
-
     "case_01_sunday_simple_saint": {
       "id": "CASE_01",
       "source_ref": "dolnytsky_part2_sunday_simple_saint",
       "triggers": {
-        "day_of_week": [0],
-        "rank_id": ["rank_simple_4", "rank_simple_6"],
-        "period": ["normal"]
+        "day_of_week": [
+          0
+        ],
+        "rank_id": [
+          "rank_simple_4",
+          "rank_simple_6"
+        ],
+        "period": [
+          "normal"
+        ]
       },
       "variables": {
         "vespers_stichera_distribution": {
@@ -25,22 +30,51 @@
           "logic_switch": {
             "1_saint": {
               "distribution": [
-                { "source": "octoechos", "type": "resurrection", "qty": 7 },
-                { "source": "menaion", "type": "saint", "qty": 3 }
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 7
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                }
               ]
             },
             "2_saints": {
               "distribution": [
-                { "source": "octoechos", "type": "resurrection", "qty": 4 },
-                { "source": "menaion", "type": "saint_1", "qty": 3 },
-                { "source": "menaion", "type": "saint_2", "qty": 3 } 
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
               ]
             },
             "saint_on_6": {
               "distribution": [
-                { "source": "octoechos", "type": "resurrection", "qty": 4 },
-                { "source": "menaion", "type": "saint", "qty": 6 }
-              ]
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 6
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ],
+              "source_ref": "Dolnytsky Part II Line 38"
             }
           },
           "glory": "saint_doxastikon_if_present",
@@ -52,37 +86,89 @@
           "logic_switch": {
             "1_saint": {
               "distribution": [
-                { "source": "octoechos", "type": "resurrection", "qty": 4, "irmos": true },
-                { "source": "octoechos", "type": "cross_res", "qty": 3 },
-                { "source": "octoechos", "type": "theotokos", "qty": 3 },
-                { "source": "menaion", "type": "saint", "qty": 4 }
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "cross_res",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "theotokos",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
               ]
             },
             "2_saints": {
               "distribution": [
-                { "source": "octoechos", "type": "resurrection", "qty": 4, "irmos": true },
-                { "source": "octoechos", "type": "theotokos", "qty": 2 },
-                { "source": "menaion", "type": "saint_1", "qty": 4 },
-                { "source": "menaion", "type": "saint_2", "qty": 4 }
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "theotokos",
+                  "qty": 2
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 4
+                }
               ]
             }
           }
         },
         "liturgy_variables": {
-           "antiphons": "typical",
-           "troparia": ["res_trop", "saint_trop", "patron_trop"],
-           "kontakia": ["res_kontakion", "saint_kontakion", "patron_kontakion"]
+          "antiphons": "typical",
+          "troparia": [
+            "res_trop",
+            "saint_trop",
+            "patron_trop"
+          ],
+          "kontakia": [
+            "res_kontakion",
+            "saint_kontakion",
+            "patron_kontakion"
+          ]
         }
       }
     },
-
     "case_02_weekday_simple_saint": {
       "id": "CASE_02",
       "source_ref": "dolnytsky_part2_weekday_simple_saint",
       "triggers": {
-        "day_of_week": [1, 2, 3, 4, 5],
-        "rank_id": ["rank_simple_3", "rank_doxology"],
-        "period": ["normal"]
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "rank_id": [
+          "rank_simple_3",
+          "rank_doxology"
+        ],
+        "period": [
+          "normal"
+        ]
       },
       "variables": {
         "vespers_stichera_distribution": {
@@ -90,19 +176,39 @@
           "logic_switch": {
             "1_saint": {
               "distribution": [
-                { "source": "octoechos", "type": "current_day", "qty": 3 },
-                { "source": "menaion", "type": "saint", "qty": 3 }
+                {
+                  "source": "octoechos",
+                  "type": "current_day",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                }
               ]
             },
             "2_saints": {
               "distribution": [
-                { "source": "menaion", "type": "saint_1", "qty": 3 },
-                { "source": "menaion", "type": "saint_2", "qty": 3 }
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
               ]
             },
             "saint_on_6_doxology": {
               "distribution": [
-                { "source": "menaion", "type": "saint", "qty": 6 }
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 6
+                }
               ]
             }
           },
@@ -110,34 +216,66 @@
           "both_now": "theotokion_horologion_or_octoechos"
         },
         "matins_canon_distribution": {
-           "total_count": 14,
-           "logic_switch": {
-             "1_saint": {
-               "distribution": [
-                 { "source": "octoechos", "type": "canon_1", "qty": 6, "irmos": true },
-                 { "source": "octoechos", "type": "canon_2", "qty": 4 },
-                 { "source": "menaion", "type": "saint", "qty": 4 }
-               ]
-             },
-             "2_saints": {
-               "distribution": [
-                 { "source": "octoechos", "type": "canon_1", "qty": 6, "irmos": true },
-                 { "source": "menaion", "type": "saint_1", "qty": 4 },
-                 { "source": "menaion", "type": "saint_2", "qty": 4 }
-               ]
-             }
-           }
+          "total_count": 14,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "canon_1",
+                  "qty": 6,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "canon_2",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "canon_1",
+                  "qty": 6,
+                  "irmos": true
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 4
+                }
+              ]
+            }
+          }
         }
       }
     },
-
     "case_03_saturday_simple_saint": {
       "id": "CASE_03",
       "source_ref": "dolnytsky_part2_saturday_simple_saint",
       "triggers": {
-        "day_of_week": [6],
-        "rank_id": ["rank_simple_3", "rank_doxology"],
-        "period": ["normal"]
+        "day_of_week": [
+          6
+        ],
+        "rank_id": [
+          "rank_simple_3",
+          "rank_doxology"
+        ],
+        "period": [
+          "normal"
+        ]
       },
       "variables": {
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
@@ -146,397 +284,836 @@
           "logic_switch": {
             "1_saint": {
               "distribution": [
-                { "source": "menaion", "type": "saint", "qty": 3 },
-                { "source": "octoechos", "type": "martyria", "qty": 3 }
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
               ]
             },
             "2_saints": {
               "distribution": [
-                { "source": "menaion", "type": "saint_1", "qty": 3 },
-                { "source": "menaion", "type": "saint_2", "qty": 3 }
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
               ]
             }
           },
           "both_now": "dogmatikon_current_tone"
         },
         "matins_canon_distribution": {
-           "total_count": 14,
-           "distribution": [
-             { "source": "temple/menaion", "type": "saint_sequential_or_temple", "qty": 6, "irmos": true },
-             { "source": "menaion", "type": "saint_current", "qty": 4 },
-             { "source": "octoechos", "type": "martyria", "qty": 4 }
-           ]
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
+            }
+          ]
         }
       }
     },
-
     "case_04_sunday_polyeleos": {
       "id": "CASE_04",
       "source_ref": "dolnytsky_part2_sunday_polyeleos",
       "triggers": {
-        "day_of_week": [0],
-        "rank_id": ["rank_polyeleos"],
-        "period": ["normal"]
+        "day_of_week": [
+          0
+        ],
+        "rank_id": [
+          "rank_polyeleos"
+        ],
+        "period": [
+          "normal"
+        ]
       },
       "variables": {
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
-            { "source": "octoechos", "type": "resurrection", "qty": 4 },
-            { "source": "menaion", "type": "saint", "qty": 6 }
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 6
+            }
           ],
           "glory": "saint_doxastikon",
           "both_now": "dogmatikon_current_tone"
         },
         "matins_canon_distribution": {
-           "distribution": [
-              { "source": "octoechos", "type": "resurrection", "qty": 4, "irmos": true },
-              { "source": "octoechos", "type": "theotokos", "qty": 2 },
-              { "source": "menaion", "type": "saint", "qty": 8 }
-           ]
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 8
+            }
+          ]
         },
         "praises_distribution": {
-           "total_count": 8,
-           "distribution": [
-              { "source": "octoechos", "type": "resurrection", "qty": 4 },
-              { "source": "menaion", "type": "saint", "qty": 4 }
-           ]
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
         }
       }
     },
-
     "case_05_weekday_polyeleos": {
       "id": "CASE_05",
       "source_ref": "dolnytsky_part2_weekday_polyeleos",
       "triggers": {
-        "day_of_week": [1, 2, 3, 4, 5, 6],
-        "rank_id": ["rank_polyeleos"],
-        "period": ["normal"]
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "rank_id": [
+          "rank_polyeleos"
+        ],
+        "period": [
+          "normal"
+        ]
       },
       "variables": {
         "suppress_octoechos": true,
         "vespers_stichera_distribution": {
-           "total_count": 8,
-           "source": "menaion",
-           "type": "saint",
-           "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
+          "total_count": 8,
+          "source": "menaion",
+          "type": "saint",
+          "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
         },
         "matins_canon_distribution": {
-           "distribution": [
-              { "source": "octoechos", "type": "theotokos_special", "qty": 6, "irmos": true },
-              { "source": "menaion", "type": "saint", "qty": 8 }
-           ]
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "theotokos_special",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 8
+            }
+          ]
         }
       }
     },
-
     "case_06_sunday_vigil": {
       "id": "CASE_06",
       "source_ref": "dolnytsky_part2_sunday_vigil",
       "triggers": {
-        "day_of_week": [0],
-        "rank_id": ["rank_vigil"],
-        "period": ["normal"]
+        "day_of_week": [
+          0
+        ],
+        "rank_id": [
+          "rank_vigil"
+        ],
+        "period": [
+          "normal"
+        ]
       },
       "base_template": "CASE_04",
       "variables": {
-        "vespers_additions": ["litiya_stichera", "blessing_loaves"],
-        "matins_additions": ["anointing", "magnification"]
+        "vespers_additions": [
+          "litiya_stichera",
+          "blessing_loaves"
+        ],
+        "matins_additions": [
+          "anointing",
+          "magnification"
+        ]
       }
     },
-
     "case_07_weekday_vigil": {
       "id": "CASE_07",
       "source_ref": "dolnytsky_part2_weekday_vigil",
       "triggers": {
-        "day_of_week": [1, 2, 3, 4, 5, 6],
-        "rank_id": ["rank_vigil"],
-        "period": ["normal"]
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "rank_id": [
+          "rank_vigil"
+        ],
+        "period": [
+          "normal"
+        ]
       },
       "base_template": "CASE_05",
       "variables": {
-        "vespers_additions": ["litiya_stichera", "blessing_loaves"]
+        "vespers_additions": [
+          "litiya_stichera",
+          "blessing_loaves"
+        ]
       }
     },
-
+    "special_vigil_override": {
+      "id": "SPECIAL_VIGIL_OVERRIDE",
+      "source_ref": "dolnytsky_part2_line_251",
+      "description": "Nativity and Beheading of St. John the Baptist (June 24, August 29) and Chief Apostles Peter and Paul (June 29) surpass other saints in that their canons are taken ALONE (no Theotokion canon) and their Apostle-Gospel at Liturgy is taken ALONE (no daily readings)",
+      "applies_to_dates": [
+        {
+          "julian_month": 6,
+          "julian_day": 24,
+          "feast": "Nativity of John the Forerunner"
+        },
+        {
+          "julian_month": 6,
+          "julian_day": 29,
+          "feast": "Holy Apostles Peter and Paul"
+        },
+        {
+          "julian_month": 8,
+          "julian_day": 29,
+          "feast": "Beheading of John the Forerunner"
+        }
+      ],
+      "overrides": {
+        "matins_canon": {
+          "suppress_theotokos_canon": true,
+          "note": "Canon of the saint alone (no Octoechos Theotokos canon)"
+        },
+        "liturgy_readings": {
+          "suppress_daily_readings": true,
+          "note": "Apostle and Gospel of the saint only (no sequential daily readings)"
+        }
+      }
+    },
     "//_GROUP_B": "FOREFEASTS",
-
     "case_08_sunday_forefeast": {
       "id": "CASE_08",
       "source_ref": "dolnytsky_part2_forefeast_sunday",
-      "triggers": { 
-        "day_of_week": [0], 
-        "rank_id": ["rank_simple"], 
-        "period": ["forefeast"] 
+      "triggers": {
+        "day_of_week": [
+          0
+        ],
+        "rank_id": [
+          "rank_simple"
+        ],
+        "period": [
+          "forefeast"
+        ]
       },
       "variables": {
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
-            { "source": "octoechos", "type": "resurrection", "qty": 4 },
-            { "source": "menaion", "type": "forefeast", "qty": 3 },
-            { "source": "menaion", "type": "saint", "qty": 3 }
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "forefeast",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
+            }
           ],
           "glory": "forefeast_doxastikon",
           "both_now": "dogmatikon_current_tone"
         },
         "matins_canon_distribution": {
-           "distribution": [
-             { "source": "octoechos", "type": "resurrection", "qty": 4, "irmos": true },
-             { "source": "octoechos", "type": "theotokos", "qty": 2 },
-             { "source": "menaion", "type": "forefeast", "qty": 4 },
-             { "source": "menaion", "type": "saint", "qty": 4 }
-           ]
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "menaion",
+              "type": "forefeast",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
         }
       }
     },
-
     "case_09_weekday_forefeast": {
       "id": "CASE_09",
       "source_ref": "dolnytsky_part2_forefeast_weekday",
-      "triggers": { 
-        "day_of_week": [1, 2, 3, 4, 5, 6], 
-        "rank_id": ["rank_simple"], 
-        "period": ["forefeast"] 
+      "triggers": {
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "rank_id": [
+          "rank_simple"
+        ],
+        "period": [
+          "forefeast"
+        ]
       },
       "variables": {
         "suppress_octoechos": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "distribution": [ { "source": "menaion", "type": "forefeast", "qty": 3 }, { "source": "menaion", "type": "saint", "qty": 3 } ],
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "forefeast",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
+            }
+          ],
           "both_now": "forefeast_theotokion"
         },
         "matins_canon_distribution": {
-           "distribution": [
-             { "source": "menaion", "type": "forefeast", "qty": 8, "irmos": true },
-             { "source": "menaion", "type": "saint", "qty": 4 }
-           ]
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "forefeast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
         }
       }
     },
-
     "//_GROUP_C": "GREAT_FEASTS",
-
     "case_10_feast_of_lord": {
       "id": "CASE_10",
       "source_ref": "dolnytsky_part2_feast_of_lord",
-      "triggers": { 
-        "period": ["feast"], 
-        "type": ["lord"] 
+      "triggers": {
+        "period": [
+          "feast"
+        ],
+        "type": [
+          "lord"
+        ]
       },
       "variables": {
         "suppress_octoechos": true,
         "suppress_menaion_saint": true,
-        "vespers_stichera_distribution": { "total_count": 8, "source": "menaion", "type": "feast" },
+        "vespers_stichera_distribution": {
+          "total_count": 8,
+          "source": "menaion",
+          "type": "feast"
+        },
         "liturgy_variables": {
-           "antiphons": "festal_antiphons",
-           "entrance_hymn": "festal_entrance",
-           "trisagion": "substitution_possible_if_appointed"
+          "antiphons": "festal_antiphons",
+          "entrance_hymn": "festal_entrance",
+          "trisagion": "substitution_possible_if_appointed"
         }
       }
     },
-
     "case_11_feast_of_theotokos_sunday": {
       "id": "CASE_11",
       "source_ref": "dolnytsky_part2_feast_theotokos_sunday",
-      "triggers": { 
-        "day_of_week": [0], 
-        "period": ["feast"], 
-        "type": ["theotokos"] 
-      },
-      "variables": {
-        "vespers_stichera_distribution": {
-          "total_count": 10,
-          "distribution": [ { "source": "octoechos", "type": "resurrection", "qty": 4 }, { "source": "menaion", "type": "feast", "qty": 6 } ],
-          "both_now": "feast_doxastikon"
-        },
-        "matins_canon_distribution": {
-           "distribution": [
-             { "source": "octoechos", "type": "resurrection", "qty": 4, "irmos": true },
-             { "source": "octoechos", "type": "theotokos", "qty": 2 },
-             { "source": "menaion", "type": "feast", "qty": 8 }
-           ]
-        }
-      }
-    },
-
-    "case_12_feast_of_theotokos_weekday": {
-        "id": "CASE_12",
-        "source_ref": "dolnytsky_part2_feast_theotokos_weekday",
-        "triggers": { 
-            "day_of_week": [1, 2, 3, 4, 5, 6], 
-            "period": ["feast"], 
-            "type": ["theotokos"] 
-        },
-        "base_template": "CASE_10",
-        "variables": {
-           "liturgy_antiphons": "typical_psalms_beatitudes",
-           "liturgy_trisagion": "standard_trisagion"
-        }
-    },
-
-    "//_GROUP_D": "AFTERFEASTS",
-
-    "case_13_afterfeast_sunday_simple": {
-      "id": "CASE_13",
-      "source_ref": "dolnytsky_part2_afterfeast_sunday",
-      "triggers": { 
-        "day_of_week": [0], 
-        "rank_id": ["rank_simple"], 
-        "period": ["afterfeast"] 
+      "triggers": {
+        "day_of_week": [
+          0
+        ],
+        "period": [
+          "feast"
+        ],
+        "type": [
+          "theotokos"
+        ]
       },
       "variables": {
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
-            { "source": "octoechos", "type": "resurrection", "qty": 4 },
-            { "source": "menaion", "type": "feast", "qty": 3 },
-            { "source": "menaion", "type": "saint", "qty": 3 }
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ],
+          "both_now": "feast_doxastikon"
+        },
+        "matins_canon_distribution": {
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 8
+            }
+          ]
+        }
+      }
+    },
+    "case_12_feast_of_theotokos_weekday": {
+      "id": "CASE_12",
+      "source_ref": "dolnytsky_part2_feast_theotokos_weekday",
+      "triggers": {
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "period": [
+          "feast"
+        ],
+        "type": [
+          "theotokos"
+        ]
+      },
+      "base_template": "CASE_10",
+      "variables": {
+        "liturgy_antiphons": "typical_psalms_beatitudes",
+        "liturgy_trisagion": "standard_trisagion"
+      }
+    },
+    "//_GROUP_D": "AFTERFEASTS",
+    "case_13_afterfeast_sunday_simple": {
+      "id": "CASE_13",
+      "source_ref": "dolnytsky_part2_afterfeast_sunday",
+      "triggers": {
+        "day_of_week": [
+          0
+        ],
+        "rank_id": [
+          "rank_simple"
+        ],
+        "period": [
+          "afterfeast"
+        ]
+      },
+      "variables": {
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
+            }
           ]
         },
         "matins_canon_distribution": {
           "distribution": [
-             { "source": "octoechos", "type": "resurrection", "qty": 4, "irmos": true },
-             { "source": "octoechos", "type": "theotokos", "qty": 2 },
-             { "source": "menaion", "type": "feast", "qty": 4 },
-             { "source": "menaion", "type": "saint", "qty": 4 }
-           ]
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
         }
       }
     },
-
     "case_14_afterfeast_weekday_simple": {
       "id": "CASE_14",
       "source_ref": "dolnytsky_part2_afterfeast_weekday_para1",
-      "triggers": { 
-        "day_of_week": [1, 2, 3, 4, 5, 6], 
-        "rank_id": ["rank_simple"], 
-        "period": ["afterfeast"] 
+      "triggers": {
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "rank_id": [
+          "rank_simple"
+        ],
+        "period": [
+          "afterfeast"
+        ]
       },
       "variables": {
         "suppress_octoechos": true,
-        "vespers_stichera_distribution": { "total_count": 6, "distribution": [ { "source": "menaion", "type": "feast", "qty": 3 }, { "source": "menaion", "type": "saint", "qty": 3 } ] },
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
+            }
+          ]
+        },
         "matins_canon_distribution": {
-           "distribution": [
-             { "source": "menaion", "type": "feast", "qty": 8, "irmos": true },
-             { "source": "menaion", "type": "saint", "qty": 4 }
-           ]
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
         }
       }
     },
-
     "case_15_afterfeast_sunday_polyeleos": {
       "id": "CASE_15",
       "source_ref": "dolnytsky_part2_afterfeast_sunday_polyeleos",
-      "triggers": { 
-        "day_of_week": [0], 
-        "rank_id": ["rank_polyeleos"], 
-        "period": ["afterfeast"] 
+      "triggers": {
+        "day_of_week": [
+          0
+        ],
+        "rank_id": [
+          "rank_polyeleos"
+        ],
+        "period": [
+          "afterfeast"
+        ]
       },
       "variables": {
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
-            { "source": "octoechos", "type": "resurrection", "qty": 3 },
-            { "source": "menaion", "type": "feast", "qty": 3 },
-            { "source": "menaion", "type": "saint", "qty": 4 }
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
           ],
           "both_now": "dogmatikon_current_tone"
         },
         "matins_canon_distribution": {
           "distribution": [
-             { "source": "octoechos", "type": "resurrection", "qty": 4, "irmos": true },
-             { "source": "menaion", "type": "feast", "qty": 4 },
-             { "source": "menaion", "type": "saint", "qty": 6 }
-           ]
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 6
+            }
+          ]
         }
       }
     },
-
     "case_16_afterfeast_weekday_polyeleos": {
       "id": "CASE_16",
       "source_ref": "dolnytsky_part2_afterfeast_weekday_polyeleos",
-      "triggers": { 
-        "day_of_week": [1, 2, 3, 4, 5, 6], 
-        "rank_id": ["rank_polyeleos"], 
-        "period": ["afterfeast"] 
+      "triggers": {
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "rank_id": [
+          "rank_polyeleos"
+        ],
+        "period": [
+          "afterfeast"
+        ]
       },
       "variables": {
         "suppress_octoechos": true,
-        "vespers_stichera_distribution": { "total_count": 8, "distribution": [ { "source": "menaion", "type": "feast", "qty": 3 }, { "source": "menaion", "type": "saint", "qty": 5 } ] },
+        "vespers_stichera_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 5
+            }
+          ]
+        },
         "matins_canon_distribution": {
-           "distribution": [
-             { "source": "menaion", "type": "feast", "qty": 6, "irmos": true },
-             { "source": "menaion", "type": "saint", "qty": 8 }
-           ]
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 8
+            }
+          ]
         }
       }
     },
-
     "case_17_afterfeast_sunday_vigil": {
       "id": "CASE_17",
       "source_ref": "dolnytsky_part2_afterfeast_sunday_vigil",
-      "triggers": { 
-        "day_of_week": [0], 
-        "rank_id": ["rank_vigil"], 
-        "period": ["afterfeast"] 
+      "triggers": {
+        "day_of_week": [
+          0
+        ],
+        "rank_id": [
+          "rank_vigil"
+        ],
+        "period": [
+          "afterfeast"
+        ]
       },
       "base_template": "CASE_15",
-      "variables": { "vespers_litiya": "saint_and_feast", "matins_anointing": true }
+      "variables": {
+        "vespers_litiya": "saint_and_feast",
+        "matins_anointing": true
+      }
     },
-
     "case_18_afterfeast_weekday_vigil": {
       "id": "CASE_18",
       "source_ref": "dolnytsky_part2_afterfeast_weekday_vigil",
-      "triggers": { 
-        "day_of_week": [1, 2, 3, 4, 5, 6], 
-        "rank_id": ["rank_vigil"], 
-        "period": ["afterfeast"] 
+      "triggers": {
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "rank_id": [
+          "rank_vigil"
+        ],
+        "period": [
+          "afterfeast"
+        ]
       },
       "base_template": "CASE_16",
-      "variables": { "vespers_litiya": "saint_and_feast", "matins_anointing": true }
+      "variables": {
+        "vespers_litiya": "saint_and_feast",
+        "matins_anointing": true
+      }
     },
-
     "//_GROUP_E": "APODOSIS",
-
     "case_19_apodosis_sunday": {
       "id": "CASE_19",
       "source_ref": "dolnytsky_part2_apodosis_sunday",
-      "triggers": { 
-        "day_of_week": [0], 
-        "period": ["apodosis"] 
+      "triggers": {
+        "day_of_week": [
+          0
+        ],
+        "period": [
+          "apodosis"
+        ]
       },
       "variables": {
         "suppress_menaion_saint": true,
         "duration_lookup": "refer_to_festal_table",
         "vespers_stichera_distribution": {
           "total_count": 10,
-          "distribution": [ { "source": "octoechos", "type": "resurrection", "qty": 4 }, { "source": "menaion", "type": "feast", "qty": 6 } ],
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ],
           "glory": "feast_doxastikon",
           "both_now": "dogmatikon_current_tone"
         },
         "matins_canon_distribution": {
-           "distribution": [
-             { "source": "octoechos", "type": "resurrection", "qty": 4, "irmos": true },
-             { "source": "octoechos", "type": "theotokos", "qty": 2 },
-             { "source": "menaion", "type": "feast", "qty": 8 }
-           ]
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 8
+            }
+          ]
         }
       }
     },
-
     "case_20_apodosis_weekday": {
       "id": "CASE_20",
       "source_ref": "dolnytsky_part2_apodosis_weekday",
-      "triggers": { 
-        "day_of_week": [1, 2, 3, 4, 5], 
-        "period": ["apodosis"] 
+      "triggers": {
+        "day_of_week": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "period": [
+          "apodosis"
+        ]
       },
       "variables": {
         "suppress_octoechos": true,
         "suppress_menaion_saint": true,
-        "vespers_stichera_distribution": { "total_count": 6, "source": "menaion", "type": "feast" },
-        "matins_canon_distribution": { "total_count": 14, "source": "menaion", "type": "feast", "qty": 14, "note": "Exact repetition of the feast day canon." }
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "source": "menaion",
+          "type": "feast"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "source": "menaion",
+          "type": "feast",
+          "qty": 14,
+          "note": "Exact repetition of the feast day canon."
+        }
       }
     }
   }

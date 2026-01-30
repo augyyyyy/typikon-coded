@@ -1,8 +1,8 @@
 {
   "file_metadata": {
     "filename": "02c_logic_triodion.json",
-    "version": "3.3 (Final ID Alignment)",
-    "last_updated": "2026-01-27",
+    "version": "3.4 (Added Missing Sundays + Feasts)",
+    "last_updated": "2026-01-29",
     "authority": "Dolnytsky Typikon Part IV",
     "scope": "Moveable Cycle Logic",
     "description": "Final version with all structure IDs aligned to the 01 series files."
@@ -315,6 +315,46 @@
         "matins_magnification": "thomas_magnification"
       }
     },
+    "sunday_myrrhbearers": {
+      "triggers": {
+        "pascha_offset": 14
+      },
+      "priority": 70,
+      "title": "Sunday of the Myrrh-bearing Women",
+      "source_ref": "dolnytsky_part4_lines_200_225",
+      "variables": {
+        "matins_troparia_sequence": [
+          "noble_joseph",
+          "when_thou_didst_descend",
+          "myrrhbearers"
+        ],
+        "note": "Troparion 'Noble Joseph' used throughout week"
+      }
+    },
+    "sunday_paralytic": {
+      "triggers": {
+        "pascha_offset": 21
+      },
+      "priority": 70,
+      "title": "Sunday of the Paralytic",
+      "source_ref": "dolnytsky_part4_lines_226_250"
+    },
+    "sunday_samaritan": {
+      "triggers": {
+        "pascha_offset": 28
+      },
+      "priority": 70,
+      "title": "Sunday of the Samaritan Woman",
+      "source_ref": "dolnytsky_part4_lines_251_275"
+    },
+    "sunday_blind_man": {
+      "triggers": {
+        "pascha_offset": 35
+      },
+      "priority": 70,
+      "title": "Sunday of the Blind Man",
+      "source_ref": "dolnytsky_part4_lines_276_300"
+    },
     "pentecostarion_general_weekday": {
       "triggers": {
         "pascha_offset_range": [
@@ -384,6 +424,35 @@
       },
       "priority": 80,
       "title": "Sunday of All Saints"
+    },
+    "feast_of_eucharist": {
+      "triggers": {
+        "pascha_offset": 60,
+        "day_of_week": 4
+      },
+      "priority": 95,
+      "title": "Feast of the Most Holy Eucharist (Corpus Christi)",
+      "source_ref": "dolnytsky_part4_lines_600_700",
+      "description": "Thursday after Trinity Sunday. Lviv Synod mandate.",
+      "variables": {
+        "procession": "eucharistic_procession_four_altars",
+        "gospel_readings": [
+          "Mt 108",
+          "Mk 64",
+          "Lk 108",
+          "Jn 23"
+        ]
+      }
+    },
+    "co_suffering_theotokos": {
+      "triggers": {
+        "pascha_offset": 65,
+        "day_of_week": 5
+      },
+      "priority": 60,
+      "title": "Friday of the Co-suffering of the Most Holy Theotokos",
+      "source_ref": "dolnytsky_part4_lines_850_890",
+      "description": "Friday after leavetaking of Feast of Eucharist"
     }
   },
   "lenten_logic_maps": {

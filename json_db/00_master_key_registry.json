@@ -310,10 +310,106 @@
         },
         "octoechos": {
             "description": "Tone-based texts (dynamic lookup)",
-            "count": 1,
+            "count": 32,
             "keys": {
                 "octoechos.canon_theotokos_current_tone": {
                     "desc": "Theotokos canon by current tone"
+                },
+                "tone_1.sat_vespers.stichera_lord_i_call": {
+                    "desc": "Tone 1 Vespers Stichera"
+                },
+                "tone_1.sat_vespers.stichera_aposticha": {
+                    "desc": "Tone 1 Vespers Aposticha"
+                },
+                "tone_1.sun_matins.sessionals": {
+                    "desc": "Tone 1 Matins Sessionals"
+                },
+                "tone_1.raw_content": {
+                    "desc": "Tone 1 Full Propers"
+                },
+                "tone_2.sat_vespers.stichera_lord_i_call": {
+                    "desc": "Tone 2 Vespers Stichera"
+                },
+                "tone_2.sat_vespers.stichera_aposticha": {
+                    "desc": "Tone 2 Vespers Aposticha"
+                },
+                "tone_2.sun_matins.sessionals": {
+                    "desc": "Tone 2 Matins Sessionals"
+                },
+                "tone_2.raw_content": {
+                    "desc": "Tone 2 Full Propers"
+                },
+                "tone_3.sat_vespers.stichera_lord_i_call": {
+                    "desc": "Tone 3 Vespers Stichera"
+                },
+                "tone_3.sat_vespers.stichera_aposticha": {
+                    "desc": "Tone 3 Vespers Aposticha"
+                },
+                "tone_3.sun_matins.sessionals": {
+                    "desc": "Tone 3 Matins Sessionals"
+                },
+                "tone_3.raw_content": {
+                    "desc": "Tone 3 Full Propers"
+                },
+                "tone_4.sat_vespers.stichera_lord_i_call": {
+                    "desc": "Tone 4 Vespers Stichera"
+                },
+                "tone_4.sat_vespers.stichera_aposticha": {
+                    "desc": "Tone 4 Vespers Aposticha"
+                },
+                "tone_4.sun_matins.sessionals": {
+                    "desc": "Tone 4 Matins Sessionals"
+                },
+                "tone_4.raw_content": {
+                    "desc": "Tone 4 Full Propers"
+                },
+                "tone_5.sat_vespers.stichera_lord_i_call": {
+                    "desc": "Tone 5 Vespers Stichera"
+                },
+                "tone_5.sat_vespers.stichera_aposticha": {
+                    "desc": "Tone 5 Vespers Aposticha"
+                },
+                "tone_5.sun_matins.sessionals": {
+                    "desc": "Tone 5 Matins Sessionals"
+                },
+                "tone_5.raw_content": {
+                    "desc": "Tone 5 Full Propers"
+                },
+                "tone_6.sat_vespers.stichera_lord_i_call": {
+                    "desc": "Tone 6 Vespers Stichera"
+                },
+                "tone_6.sat_vespers.stichera_aposticha": {
+                    "desc": "Tone 6 Vespers Aposticha"
+                },
+                "tone_6.sun_matins.sessionals": {
+                    "desc": "Tone 6 Matins Sessionals"
+                },
+                "tone_6.raw_content": {
+                    "desc": "Tone 6 Full Propers"
+                },
+                "tone_7.sat_vespers.stichera_lord_i_call": {
+                    "desc": "Tone 7 Vespers Stichera"
+                },
+                "tone_7.sat_vespers.stichera_aposticha": {
+                    "desc": "Tone 7 Vespers Aposticha"
+                },
+                "tone_7.sun_matins.sessionals": {
+                    "desc": "Tone 7 Matins Sessionals"
+                },
+                "tone_7.raw_content": {
+                    "desc": "Tone 7 Full Propers"
+                },
+                "tone_8.sat_vespers.stichera_lord_i_call": {
+                    "desc": "Tone 8 Vespers Stichera"
+                },
+                "tone_8.sat_vespers.stichera_aposticha": {
+                    "desc": "Tone 8 Vespers Aposticha"
+                },
+                "tone_8.sun_matins.sessionals": {
+                    "desc": "Tone 8 Matins Sessionals"
+                },
+                "tone_8.raw_content": {
+                    "desc": "Tone 8 Full Propers"
                 }
             }
         }

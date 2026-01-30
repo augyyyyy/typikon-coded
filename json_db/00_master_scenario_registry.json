@@ -1,0 +1,175 @@
+{
+    "file_metadata": {
+        "filename": "00_master_scenario_registry.json",
+        "version": "1.0",
+        "description": "The Universal Scenario Index: Maps every discrete liturgical occasion to its Logic ID and Dolnytsky Source.",
+        "generated_by": "Antigravity",
+        "last_updated": "2026-01-29"
+    },
+    "domains": {
+        "temple": {
+            "description": "Classification of Feasts and Temple Ranks (Dolnytsky Part V)",
+            "scenarios": {
+                "temple_case_02_meatfare_sat": {
+                    "source": "Part V, Case 2",
+                    "condition": "Meatfare Saturday",
+                    "logic_id": "meatfare_saturday"
+                },
+                "temple_case_03_cheesefare_week": {
+                    "source": "Part V, Case 3",
+                    "condition": "Cheesefare Week (Mon-Fri)",
+                    "logic_id": "cheesefare_week"
+                },
+                "temple_case_09_lenten_weekday": {
+                    "source": "Part V, Case 9",
+                    "condition": "Lent Weeks 2-6 (Mon-Fri)",
+                    "logic_id": "lent_weekdays_2_to_6"
+                },
+                "temple_case_10_memorial_sat": {
+                    "source": "Part V, Case 10",
+                    "condition": "Ln. 2, 3, 4 Saturdays",
+                    "logic_id": "lent_saturdays_2_3_4"
+                },
+                "temple_case_11_lenten_sunday": {
+                    "source": "Part V, Case 11",
+                    "condition": "Ln. 2, 4, 5 Sundays",
+                    "logic_id": "lent_sundays_2_4_5"
+                },
+                "temple_case_15_akathist": {
+                    "source": "Part V, Case 15",
+                    "condition": "Akathist Saturday",
+                    "logic_id": "akathist_saturday"
+                },
+                "temple_case_16_lazarus": {
+                    "source": "Part V, Case 16",
+                    "condition": "Lazarus Saturday",
+                    "logic_id": "lazarus_saturday"
+                },
+                "temple_case_17_palm_sunday": {
+                    "source": "Part V, Case 17",
+                    "condition": "Palm Sunday",
+                    "logic_id": "palm_sunday"
+                },
+                "temple_case_18_passion_week": {
+                    "source": "Part V, Case 18",
+                    "condition": "Holy Week (Mon-Sat)",
+                    "logic_id": "transfer_logic"
+                },
+                "temple_case_19_bright_week": {
+                    "source": "Part V, Case 19",
+                    "condition": "Bright Week (Mon-Sat)",
+                    "logic_id": "bright_week"
+                },
+                "temple_case_26_pentecost": {
+                    "source": "Part V, Case 26",
+                    "condition": "Pentecost Sunday",
+                    "logic_id": "pentecost"
+                }
+            }
+        },
+        "triodion": {
+            "description": "Moveable Cycle Days (Publican to All Saints)",
+            "scenarios": {
+                "triodion_day_-70": {
+                    "title": "Sunday of Publican & Pharisee",
+                    "logic_id": "sunday_publican_pharisee",
+                    "source": "Part IV, p. 1"
+                },
+                "triodion_day_-57": {
+                    "title": "Meatfare Saturday (Souls)",
+                    "logic_id": "saturday_meatfare",
+                    "source": "Part IV, Meatfare Sat"
+                },
+                "triodion_day_-48_to_-43": {
+                    "title": "Clean Week",
+                    "logic_id": "great_lent_clean_week",
+                    "source": "Part IV, Lent"
+                },
+                "triodion_day_-42": {
+                    "title": "Sunday of Orthodoxy",
+                    "logic_id": "sunday_lent_1",
+                    "source": "Part IV, Lent Sun 1"
+                },
+                "triodion_day_-15": {
+                    "title": "Akathist Saturday",
+                    "logic_id": "saturday_akathist",
+                    "source": "Part IV, Lent Sat 5"
+                },
+                "triodion_day_-8": {
+                    "title": "Lazarus Saturday",
+                    "logic_id": "saturday_lazarus",
+                    "source": "Part IV, Lazarus"
+                },
+                "triodion_day_-7": {
+                    "title": "Palm Sunday",
+                    "logic_id": "sunday_palm",
+                    "source": "Part IV, Palm Sun"
+                },
+                "triodion_day_-2": {
+                    "title": "Good Friday",
+                    "logic_id": "holy_friday",
+                    "source": "Part IV, Holy Week"
+                },
+                "triodion_day_0": {
+                    "title": "Pascha",
+                    "logic_id": "pascha",
+                    "source": "Part IV, Pascha"
+                },
+                "triodion_day_39": {
+                    "title": "Ascension",
+                    "logic_id": "ascension",
+                    "source": "Part IV, Ascension"
+                },
+                "triodion_day_49": {
+                    "title": "Pentecost",
+                    "logic_id": "pentecost",
+                    "source": "Part IV, Pentecost"
+                },
+                "triodion_day_60": {
+                    "title": "Feast of Eucharist",
+                    "logic_id": "feast_of_eucharist",
+                    "source": "Part IV, Eucharist"
+                }
+            }
+        },
+        "menaion": {
+            "description": "Fixed Cycle Date-Specific Logic",
+            "scenarios": {
+                "annunciation_case_01": {
+                    "source": "Dolnytsky Part III, March 25",
+                    "condition": "Annunciation on Non-Lenten Day",
+                    "logic_id": "annunciation_standard"
+                },
+                "annunciation_case_05_palm": {
+                    "source": "Part III, Mar 25",
+                    "condition": "Annunciation on Palm Sunday",
+                    "logic_id": "annunciation_palm_sunday"
+                },
+                "annunciation_case_08_pascha": {
+                    "source": "Part III, Mar 25",
+                    "condition": "Kyrio-Pascha (Annunciation on Pascha)",
+                    "logic_id": "kyrio_pascha"
+                },
+                "feb_24_finding_head": {
+                    "source": "Part III, Feb 24",
+                    "condition": "Finding of the Head of Baptist",
+                    "logic_id": "finding_head_base"
+                },
+                "dec_25_nativity": {
+                    "source": "Part III, Dec 25",
+                    "condition": "Nativity of the Lord",
+                    "logic_id": "nativity_lord"
+                },
+                "jan_06_theophany": {
+                    "source": "Part III, Jan 6",
+                    "condition": "Theophany",
+                    "logic_id": "theophany"
+                }
+            }
+        },
+        "collisions": {
+            "description": "Specific intersections of Moveable and Fixed cycles",
+            "scenarios": {}
+        }
+    }
+}

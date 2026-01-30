@@ -1,8 +1,8 @@
 {
   "file_metadata": {
     "filename": "02b_06_february.json",
-    "version": "2.1 (Standardized Keys)",
-    "last_updated": "2026-01-26",
+    "version": "2.2 (12 Finding of Head Cases)",
+    "last_updated": "2026-01-29",
     "authority": "Dolnytsky Typikon Part III (February)",
     "scope": "Fixed Feast Logic for February"
   },
@@ -15,29 +15,53 @@
         "rank": "rank_vigil_lord",
         "period": "feast",
         "source_ref": "dolnytsky_part3_feb_2",
-        "system_flags": { "suppress_octoechos": true, "fast_level": "no_fast" },
+        "system_flags": {
+          "suppress_octoechos": true,
+          "fast_level": "no_fast"
+        },
         "base_template": "CASE_12",
         "variants": [
           {
-            "condition": { "triodion_period": ["meatfare_sunday", "cheesefare_sunday"] },
-            "action": { 
-                "combine_rank": "rank_vigil_lord_sunday",
-                "variables": { "suppress_resurrection_hymns": false }
+            "condition": {
+              "triodion_period": [
+                "meatfare_sunday",
+                "cheesefare_sunday"
+              ]
+            },
+            "action": {
+              "combine_rank": "rank_vigil_lord_sunday",
+              "variables": {
+                "suppress_resurrection_hymns": false
+              }
             }
           },
           {
-            "condition": { "triodion_period": ["lent_monday_1"] },
-            "action": { "type": "vesperal_liturgy_basil", "fast_level": "strict" }
+            "condition": {
+              "triodion_period": [
+                "lent_monday_1"
+              ]
+            },
+            "action": {
+              "type": "vesperal_liturgy_basil",
+              "fast_level": "strict"
+            }
           }
         ],
         "variables": {
-          "vespers_readings": ["exodus_12_13_15_22_40", "isaiah_6", "isaiah_19"],
+          "vespers_readings": [
+            "exodus_12_13_15_22_40",
+            "isaiah_6",
+            "isaiah_19"
+          ],
           "litiya_stichera": "meeting_litiya",
           "matins_gospel": "luke_2_25_32",
           "liturgy_antiphons": "festal_meeting_antiphons",
           "entrance_hymn": "the_lord_has_made_known_salvation",
           "troparia_sequence": "feast_glory_bn_kont_feast",
-          "liturgy_readings": ["hebrews_7_7_17", "luke_2_22_40"],
+          "liturgy_readings": [
+            "hebrews_7_7_17",
+            "luke_2_22_40"
+          ],
           "megalynarion": "virgin_mother_good",
           "communion_hymn": "cup_of_salvation"
         }
@@ -49,13 +73,198 @@
         "base_template": "CASE_05",
         "variants": [
           {
-             "condition": { "is_leap_year": true },
-             "action": { "shift_date_to": 23, "comment": "Moves to Feb 23 in Leap Years." }
+            "case_id": "HEAD_00",
+            "condition": {
+              "is_leap_year": true
+            },
+            "action": {
+              "shift_date_to": 23,
+              "comment": "Moves to Feb 23 in Leap Years."
+            }
+          },
+          {
+            "case_id": "HEAD_01",
+            "condition": {
+              "pascha_offset": -57
+            },
+            "description": "Meatfare Saturday",
+            "action": {
+              "type": "combine_souls_polyeleos",
+              "variables": {
+                "dead_commemoration": true
+              }
+            }
+          },
+          {
+            "case_id": "HEAD_02",
+            "condition": {
+              "triodion_period": [
+                "meatfare_sunday",
+                "cheesefare_sunday"
+              ]
+            },
+            "description": "Meatfare/Cheesefare Sundays",
+            "action": {
+              "type": "combined_sunday_polyeleos"
+            }
+          },
+          {
+            "case_id": "HEAD_03",
+            "condition": {
+              "triodion_period": [
+                "cheesefare_week"
+              ],
+              "day_of_week": [
+                1,
+                2,
+                4
+              ]
+            },
+            "description": "Cheesefare Mon/Tue/Thu",
+            "action": {
+              "type": "standard_polyeleos",
+              "variables": {
+                "fast_level": "cheesefare"
+              }
+            }
+          },
+          {
+            "case_id": "HEAD_04",
+            "condition": {
+              "triodion_period": [
+                "cheesefare_week"
+              ],
+              "day_of_week": [
+                3,
+                5
+              ]
+            },
+            "description": "Cheesefare Wed/Fri",
+            "action": {
+              "type": "standard_polyeleos",
+              "variables": {
+                "fast_level": "strict"
+              }
+            }
+          },
+          {
+            "case_id": "HEAD_05",
+            "condition": {
+              "pascha_offset": -50
+            },
+            "description": "Cheesefare Saturday",
+            "action": {
+              "type": "combine_souls_polyeleos",
+              "variables": {
+                "dead_commemoration": false
+              }
+            }
+          },
+          {
+            "case_id": "HEAD_06",
+            "condition": {
+              "triodion_period": [
+                "lent_weekday"
+              ],
+              "week": 1
+            },
+            "description": "Fast days of 1st week of Lent",
+            "action": {
+              "type": "presanctified_liturgy_polyeleos",
+              "variables": {
+                "strict_fast": true
+              }
+            }
+          },
+          {
+            "case_id": "HEAD_07",
+            "condition": {
+              "pascha_offset": -43
+            },
+            "description": "Saturday of 1st week (St Theodore)",
+            "action": {
+              "type": "combine_theodore_polyeleos"
+            }
+          },
+          {
+            "case_id": "HEAD_08",
+            "condition": {
+              "pascha_offset": -42
+            },
+            "description": "1st Sunday of Lent (Orthodoxy)",
+            "action": {
+              "type": "combined_sunday_polyeleos",
+              "variables": {
+                "icon_procession": true
+              }
+            }
+          },
+          {
+            "case_id": "HEAD_09",
+            "condition": {
+              "triodion_period": [
+                "lent_weekday"
+              ],
+              "week": [
+                2,
+                3
+              ]
+            },
+            "description": "Fast days of 2nd/3rd weeks",
+            "action": {
+              "type": "presanctified_liturgy_polyeleos"
+            }
+          },
+          {
+            "case_id": "HEAD_10",
+            "condition": {
+              "pascha_offset": [
+                -36,
+                -29
+              ]
+            },
+            "description": "Saturdays of 2nd/3rd weeks (Memorial)",
+            "action": {
+              "type": "combine_souls_polyeleos",
+              "variables": {
+                "dead_commemoration": true
+              }
+            }
+          },
+          {
+            "case_id": "HEAD_11",
+            "condition": {
+              "pascha_offset": -35
+            },
+            "description": "2nd Sunday of Lent (St Gregory Palamas)",
+            "action": {
+              "type": "combined_sunday_polyeleos",
+              "variables": {
+                "liturgy_type": "liturgy_basil"
+              }
+            }
+          },
+          {
+            "case_id": "HEAD_12",
+            "condition": {
+              "pascha_offset": -28
+            },
+            "description": "3rd Sunday of Lent (Veneration of Cross)",
+            "action": {
+              "type": "combined_cross_polyeleos",
+              "variables": {
+                "cross_veneration": true,
+                "liturgy_type": "liturgy_basil"
+              }
+            }
           }
         ],
         "variables": {
           "matins_gospel": "luke_7_17_30",
-          "liturgy_readings": ["2_corinthians_4_6_15", "matthew_11_2_15"]
+          "liturgy_readings": [
+            "2_corinthians_4_6_15",
+            "matthew_11_2_15"
+          ]
         }
       }
     }
