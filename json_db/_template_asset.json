@@ -3,8 +3,42 @@
   "metadata": {
     "title": "Resurrectional Troparion - Tone 1",
     "type": "troparion",
+    "type_options": [
+      "troparion",
+      "kontakion",
+      "sticheron",
+      "naslavnyk",
+      "sidalnyi",
+      "svitylny",
+      "stepenna",
+      "irmos",
+      "katavasia",
+      "prokeimenon",
+      "alleluia",
+      "aposticha",
+      "praises",
+      "megalynarion",
+      "theotokion"
+    ],
     "tone": 1,
-    "tags": ["sunday", "octoechos", "resurrection"],
+    "melody_type": "troparion_tone",
+    "melody_type_options": [
+      "samohlas_stikhiron",
+      "samohlas_psalm",
+      "troparion_tone",
+      "kontakion_tone",
+      "sidalen",
+      "prokeimenon",
+      "alleluia",
+      "irmosi",
+      "bulharski",
+      "samopodobny"
+    ],
+    "tags": [
+      "sunday",
+      "octoechos",
+      "resurrection"
+    ],
     "source": "Ruthenian Euchologion (2006)",
     "version": "1.2"
   },
@@ -19,8 +53,8 @@
       "uk": "Коли камінь був запечатаний юдеями, і воїни стерегли пречисте тіло Твоє, воскрес Ти на третій день, Спасе, даруючи світові життя. Тому сили небесні взивали до Тебе, Життєдавче: Слава воскресінню Твоєму, Христе! Слава царству Твоєму! Слава провидінню Твоєму, єдиний Чоловіколюбче!"
     },
     "variables": {
-       "has_variables": false,
-       "placeholders": [] 
+      "has_variables": false,
+      "placeholders": []
     }
   },
   "media": {
