@@ -316,10 +316,17 @@
                     "desc": "Theotokos canon by current tone"
                 },
                 "tone_1.sat_vespers.stichera_lord_i_call": {
-                    "desc": "Tone 1 Vespers Stichera"
+                    "desc": "Tone 1 Vespers Stichera",
+                    "aliases": [
+                        "stichera_resurrection",
+                        "tone_1_resurrection_stichera"
+                    ]
                 },
                 "tone_1.sat_vespers.stichera_aposticha": {
-                    "desc": "Tone 1 Vespers Aposticha"
+                    "desc": "Tone 1 Vespers Aposticha",
+                    "aliases": [
+                        "aposticha_resurrection"
+                    ]
                 },
                 "tone_1.sun_matins.sessionals": {
                     "desc": "Tone 1 Matins Sessionals"
@@ -328,10 +335,17 @@
                     "desc": "Tone 1 Full Propers"
                 },
                 "tone_2.sat_vespers.stichera_lord_i_call": {
-                    "desc": "Tone 2 Vespers Stichera"
+                    "desc": "Tone 2 Vespers Stichera",
+                    "aliases": [
+                        "stichera_resurrection",
+                        "tone_2_resurrection_stichera"
+                    ]
                 },
                 "tone_2.sat_vespers.stichera_aposticha": {
-                    "desc": "Tone 2 Vespers Aposticha"
+                    "desc": "Tone 2 Vespers Aposticha",
+                    "aliases": [
+                        "aposticha_resurrection"
+                    ]
                 },
                 "tone_2.sun_matins.sessionals": {
                     "desc": "Tone 2 Matins Sessionals"
@@ -340,10 +354,17 @@
                     "desc": "Tone 2 Full Propers"
                 },
                 "tone_3.sat_vespers.stichera_lord_i_call": {
-                    "desc": "Tone 3 Vespers Stichera"
+                    "desc": "Tone 3 Vespers Stichera",
+                    "aliases": [
+                        "stichera_resurrection",
+                        "tone_3_resurrection_stichera"
+                    ]
                 },
                 "tone_3.sat_vespers.stichera_aposticha": {
-                    "desc": "Tone 3 Vespers Aposticha"
+                    "desc": "Tone 3 Vespers Aposticha",
+                    "aliases": [
+                        "aposticha_resurrection"
+                    ]
                 },
                 "tone_3.sun_matins.sessionals": {
                     "desc": "Tone 3 Matins Sessionals"
@@ -352,10 +373,17 @@
                     "desc": "Tone 3 Full Propers"
                 },
                 "tone_4.sat_vespers.stichera_lord_i_call": {
-                    "desc": "Tone 4 Vespers Stichera"
+                    "desc": "Tone 4 Vespers Stichera",
+                    "aliases": [
+                        "stichera_resurrection",
+                        "tone_4_resurrection_stichera"
+                    ]
                 },
                 "tone_4.sat_vespers.stichera_aposticha": {
-                    "desc": "Tone 4 Vespers Aposticha"
+                    "desc": "Tone 4 Vespers Aposticha",
+                    "aliases": [
+                        "aposticha_resurrection"
+                    ]
                 },
                 "tone_4.sun_matins.sessionals": {
                     "desc": "Tone 4 Matins Sessionals"
@@ -364,10 +392,17 @@
                     "desc": "Tone 4 Full Propers"
                 },
                 "tone_5.sat_vespers.stichera_lord_i_call": {
-                    "desc": "Tone 5 Vespers Stichera"
+                    "desc": "Tone 5 Vespers Stichera",
+                    "aliases": [
+                        "stichera_resurrection",
+                        "tone_5_resurrection_stichera"
+                    ]
                 },
                 "tone_5.sat_vespers.stichera_aposticha": {
-                    "desc": "Tone 5 Vespers Aposticha"
+                    "desc": "Tone 5 Vespers Aposticha",
+                    "aliases": [
+                        "aposticha_resurrection"
+                    ]
                 },
                 "tone_5.sun_matins.sessionals": {
                     "desc": "Tone 5 Matins Sessionals"
@@ -376,10 +411,17 @@
                     "desc": "Tone 5 Full Propers"
                 },
                 "tone_6.sat_vespers.stichera_lord_i_call": {
-                    "desc": "Tone 6 Vespers Stichera"
+                    "desc": "Tone 6 Vespers Stichera",
+                    "aliases": [
+                        "stichera_resurrection",
+                        "tone_6_resurrection_stichera"
+                    ]
                 },
                 "tone_6.sat_vespers.stichera_aposticha": {
-                    "desc": "Tone 6 Vespers Aposticha"
+                    "desc": "Tone 6 Vespers Aposticha",
+                    "aliases": [
+                        "aposticha_resurrection"
+                    ]
                 },
                 "tone_6.sun_matins.sessionals": {
                     "desc": "Tone 6 Matins Sessionals"
@@ -388,10 +430,17 @@
                     "desc": "Tone 6 Full Propers"
                 },
                 "tone_7.sat_vespers.stichera_lord_i_call": {
-                    "desc": "Tone 7 Vespers Stichera"
+                    "desc": "Tone 7 Vespers Stichera",
+                    "aliases": [
+                        "stichera_resurrection",
+                        "tone_7_resurrection_stichera"
+                    ]
                 },
                 "tone_7.sat_vespers.stichera_aposticha": {
-                    "desc": "Tone 7 Vespers Aposticha"
+                    "desc": "Tone 7 Vespers Aposticha",
+                    "aliases": [
+                        "aposticha_resurrection"
+                    ]
                 },
                 "tone_7.sun_matins.sessionals": {
                     "desc": "Tone 7 Matins Sessionals"
@@ -400,10 +449,17 @@
                     "desc": "Tone 7 Full Propers"
                 },
                 "tone_8.sat_vespers.stichera_lord_i_call": {
-                    "desc": "Tone 8 Vespers Stichera"
+                    "desc": "Tone 8 Vespers Stichera",
+                    "aliases": [
+                        "stichera_resurrection",
+                        "tone_8_resurrection_stichera"
+                    ]
                 },
                 "tone_8.sat_vespers.stichera_aposticha": {
-                    "desc": "Tone 8 Vespers Aposticha"
+                    "desc": "Tone 8 Vespers Aposticha",
+                    "aliases": [
+                        "aposticha_resurrection"
+                    ]
                 },
                 "tone_8.sun_matins.sessionals": {
                     "desc": "Tone 8 Matins Sessionals"
