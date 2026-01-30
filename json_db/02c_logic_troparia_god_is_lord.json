@@ -1,0 +1,320 @@
+{
+    "file_metadata": {
+        "filename": "02c_logic_troparia_god_is_lord.json",
+        "version": "1.0",
+        "description": "Troparia selection logic at 'God is the Lord' per Dolnytsky Part 1 Lines 147-154",
+        "authority": "Dolnytsky Typikon Part I: Troparia at 'God is the Lord'"
+    },
+    "troparia_rules": {
+        "description": "Complete matrix for troparia at Matins 'God is the Lord'",
+        "note": "Tone of 'God is the Lord' follows the FIRST troparion sung",
+        "conditions": [
+            {
+                "id": "feast_lord_theotokos",
+                "condition": "Great Feast of the Lord OR Great Feast of the Theotokos",
+                "source_ref": "Dolnytsky I Line 147",
+                "sequence": [
+                    {
+                        "slot": 1,
+                        "content": "troparion_feast",
+                        "count": 2
+                    },
+                    {
+                        "slot": 2,
+                        "content": "glory_both_now",
+                        "type": "combined"
+                    },
+                    {
+                        "slot": 3,
+                        "content": "troparion_feast",
+                        "count": 1
+                    }
+                ],
+                "total_troparia": 3,
+                "master_tone": "tone_of_feast"
+            },
+            {
+                "id": "sunday_with_saint",
+                "condition": "Sunday AND Saint with own troparion",
+                "source_ref": "Dolnytsky I Line 148",
+                "sequence": [
+                    {
+                        "slot": 1,
+                        "content": "troparion_resurrection",
+                        "count": 2
+                    },
+                    {
+                        "slot": 2,
+                        "content": "glory",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 3,
+                        "content": "troparion_saint",
+                        "count": 1
+                    },
+                    {
+                        "slot": 4,
+                        "content": "both_now",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 5,
+                        "content": "theotokion_sunday_by_saint_tone",
+                        "count": 1
+                    }
+                ],
+                "total_troparia": 4,
+                "master_tone": "tone_of_week",
+                "theotokion_tone": "tone_of_saint"
+            },
+            {
+                "id": "sunday_with_two_saints",
+                "condition": "Sunday AND two Saints with own troparia",
+                "source_ref": "Dolnytsky I Line 149",
+                "sequence": [
+                    {
+                        "slot": 1,
+                        "content": "troparion_resurrection",
+                        "count": 1
+                    },
+                    {
+                        "slot": 2,
+                        "content": "troparion_saint_1",
+                        "count": 1
+                    },
+                    {
+                        "slot": 3,
+                        "content": "glory",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 4,
+                        "content": "troparion_saint_2",
+                        "count": 1
+                    },
+                    {
+                        "slot": 5,
+                        "content": "both_now",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 6,
+                        "content": "theotokion_sunday_by_saint2_tone",
+                        "count": 1
+                    }
+                ],
+                "total_troparia": 5,
+                "master_tone": "tone_of_week",
+                "theotokion_tone": "tone_of_second_saint",
+                "note": "Theotokion uses tone of DOXASTIKON (second saint)"
+            },
+            {
+                "id": "sunday_with_feast_and_saint",
+                "condition": "Sunday AND Feast (Fore/Afterfeast) AND Saint",
+                "source_ref": "Dolnytsky I Line 150",
+                "sequence": [
+                    {
+                        "slot": 1,
+                        "content": "troparion_resurrection",
+                        "count": 2
+                    },
+                    {
+                        "slot": 2,
+                        "content": "glory",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 3,
+                        "content": "troparion_saint",
+                        "count": 1
+                    },
+                    {
+                        "slot": 4,
+                        "content": "both_now",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 5,
+                        "content": "troparion_feast",
+                        "count": 1
+                    }
+                ],
+                "total_troparia": 5,
+                "master_tone": "tone_of_week",
+                "note": "Feast troparion replaces Theotokion at Both Now"
+            },
+            {
+                "id": "weekday_saint",
+                "condition": "Weekday AND single Saint",
+                "source_ref": "Dolnytsky I Line 151",
+                "sequence": [
+                    {
+                        "slot": 1,
+                        "content": "troparion_saint",
+                        "count": 2
+                    },
+                    {
+                        "slot": 2,
+                        "content": "glory_both_now",
+                        "type": "combined"
+                    },
+                    {
+                        "slot": 3,
+                        "content": "theotokion",
+                        "count": 1,
+                        "conditional": true
+                    }
+                ],
+                "total_troparia": 3,
+                "master_tone": "tone_of_saint",
+                "theotokion_logic": {
+                    "if_polyeleos": "theotokion_sunday_by_saint_tone",
+                    "if_not_polyeleos": "theotokion_dismissal_by_saint_tone_and_weekday"
+                }
+            },
+            {
+                "id": "weekday_two_non_polyeleos_saints",
+                "condition": "Weekday AND two non-Polyeleos Saints",
+                "source_ref": "Dolnytsky I Line 152",
+                "sequence": [
+                    {
+                        "slot": 1,
+                        "content": "troparion_saint_1",
+                        "count": 2
+                    },
+                    {
+                        "slot": 2,
+                        "content": "glory",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 3,
+                        "content": "troparion_saint_2",
+                        "count": 1
+                    },
+                    {
+                        "slot": 4,
+                        "content": "both_now",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 5,
+                        "content": "theotokion_dismissal_by_saint2_tone_and_weekday",
+                        "count": 1
+                    }
+                ],
+                "total_troparia": 5,
+                "master_tone": "tone_of_first_saint",
+                "theotokion_tone": "tone_of_second_saint"
+            },
+            {
+                "id": "weekday_feast_and_saint",
+                "condition": "Weekday AND Feast (Fore/Afterfeast) AND Saint",
+                "source_ref": "Dolnytsky I Line 153",
+                "sequence": [
+                    {
+                        "slot": 1,
+                        "content": "troparion_feast",
+                        "count": 2
+                    },
+                    {
+                        "slot": 2,
+                        "content": "glory",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 3,
+                        "content": "troparion_saint",
+                        "count": 1
+                    },
+                    {
+                        "slot": 4,
+                        "content": "both_now",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 5,
+                        "content": "troparion_feast",
+                        "count": 1
+                    }
+                ],
+                "total_troparia": 5,
+                "master_tone": "tone_of_feast",
+                "note": "Feast troparion appears at start AND at Both Now"
+            },
+            {
+                "id": "weekday_feast_and_two_saints",
+                "condition": "Weekday AND Feast AND two Saints with own troparia",
+                "source_ref": "Dolnytsky I Line 154",
+                "sequence": [
+                    {
+                        "slot": 1,
+                        "content": "troparion_feast",
+                        "count": 1
+                    },
+                    {
+                        "slot": 2,
+                        "content": "troparion_saint_1",
+                        "count": 1
+                    },
+                    {
+                        "slot": 3,
+                        "content": "glory",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 4,
+                        "content": "troparion_saint_2",
+                        "count": 1
+                    },
+                    {
+                        "slot": 5,
+                        "content": "both_now",
+                        "type": "separator"
+                    },
+                    {
+                        "slot": 6,
+                        "content": "troparion_feast",
+                        "count": 1
+                    }
+                ],
+                "total_troparia": 5,
+                "master_tone": "tone_of_feast"
+            }
+        ]
+    },
+    "selection_logic": {
+        "resolve_god_is_the_lord_troparia": {
+            "description": "Master function for God is the Lord troparia selection",
+            "evaluation_order": [
+                "1. Check if Great Feast of Lord/Theotokos → feast_lord_theotokos",
+                "2. Check if Sunday + Feast + Saint → sunday_with_feast_and_saint",
+                "3. Check if Sunday + Two Saints → sunday_with_two_saints",
+                "4. Check if Sunday + One Saint → sunday_with_saint",
+                "5. Check if Weekday + Feast + Two Saints → weekday_feast_and_two_saints",
+                "6. Check if Weekday + Feast + Saint → weekday_feast_and_saint",
+                "7. Check if Weekday + Two Saints → weekday_two_non_polyeleos_saints",
+                "8. Default: Weekday + One Saint → weekday_saint"
+            ],
+            "inputs": [
+                "day_of_week",
+                "is_sunday",
+                "feast_rank",
+                "is_fore_or_afterfeast",
+                "saint_count",
+                "saint_1_polyeleos",
+                "saint_2_polyeleos",
+                "tone_of_week",
+                "tone_of_feast",
+                "tone_of_saint_1",
+                "tone_of_saint_2"
+            ],
+            "outputs": [
+                "troparion_sequence",
+                "master_tone",
+                "theotokion_key"
+            ]
+        }
+    }
+}

@@ -1,0 +1,129 @@
+{
+    "file_metadata": {
+        "filename": "02d_logic_canon_refrains.json",
+        "version": "1.0",
+        "description": "Canon refrains (pripěvy) per Dolnytsky Part 1 Lines 166-173",
+        "authority": "Dolnytsky Typikon Part I: Refrains to the Odes of the Canon"
+    },
+    "canon_refrains": {
+        "description": "Refrains sung before each troparion of the Canon at Matins",
+        "source_ref": "Dolnytsky I Lines 166-173",
+        "by_canon_type": {
+            "resurrection": {
+                "text_key": "refrain.resurrection",
+                "text_church_slavonic": "Слава, Господи, святому Воскресенію Твоєму.",
+                "text_english": "Glory, O Lord, to Thy holy Resurrection."
+            },
+            "resurrection_and_cross": {
+                "text_key": "refrain.resurrection_cross",
+                "text_church_slavonic": "Слава, Господи, Кресту Твоєму і Воскресенію.",
+                "text_english": "Glory, O Lord, to Thy Cross and Resurrection."
+            },
+            "cross": {
+                "text_key": "refrain.cross",
+                "text_church_slavonic": "Слава, Господи, Кресту Твоєму і Распятію.",
+                "text_english": "Glory, O Lord, to Thy Cross and Crucifixion."
+            },
+            "nativity": {
+                "text_key": "refrain.nativity",
+                "text_church_slavonic": "Слава, Господи, святому Рождеству Твоєму.",
+                "text_english": "Glory, O Lord, to Thy holy Nativity."
+            },
+            "theophany": {
+                "text_key": "refrain.theophany",
+                "text_church_slavonic": "Слава, Господи, святому Богоявленню Твоєму.",
+                "text_english": "Glory, O Lord, to Thy holy Theophany."
+            },
+            "transfiguration": {
+                "text_key": "refrain.transfiguration",
+                "text_church_slavonic": "Слава, Господи, святому Преображенню Твоєму.",
+                "text_english": "Glory, O Lord, to Thy holy Transfiguration."
+            },
+            "pascha": {
+                "text_key": "refrain.pascha",
+                "text_church_slavonic": "Христос воскресе із мертвих.",
+                "text_english": "Christ is risen from the dead."
+            },
+            "ascension": {
+                "text_key": "refrain.ascension",
+                "text_church_slavonic": "Слава, Господи, святому Вознесенню Твоєму.",
+                "text_english": "Glory, O Lord, to Thy holy Ascension."
+            },
+            "pentecost": {
+                "text_key": "refrain.pentecost",
+                "text_church_slavonic": "Слава Тобі, Боже наш, слава Тобі.",
+                "text_english": "Glory to Thee, our God, glory to Thee."
+            },
+            "trinity": {
+                "text_key": "refrain.trinity",
+                "text_church_slavonic": "Пресвятая Тройце, Боже наш, слава Тобі.",
+                "text_english": "O Most Holy Trinity, our God, glory to Thee."
+            },
+            "theotokos": {
+                "text_key": "refrain.theotokos",
+                "text_church_slavonic": "Пресвятая Богородице, спаси нас.",
+                "text_english": "O Most Holy Theotokos, save us."
+            },
+            "saint": {
+                "text_key": "refrain.saint",
+                "text_template": "Святий [RANK] [NAME], моли Бога о нас.",
+                "text_template_english": "Holy [RANK] [NAME], pray to God for us.",
+                "rank_options": [
+                    "Apostle",
+                    "Hieromartyr",
+                    "Martyr",
+                    "Confessor",
+                    "Hierarch",
+                    "Venerable",
+                    "Prophet",
+                    "Righteous",
+                    "Unmercenary",
+                    "Fool-for-Christ"
+                ]
+            },
+            "all_saints": {
+                "text_key": "refrain.all_saints",
+                "text_church_slavonic": "Всі святії, моліте Бога о нас.",
+                "text_english": "All Saints, pray to God for us."
+            },
+            "dead": {
+                "text_key": "refrain.dead",
+                "text_church_slavonic": "Упокой, Господи, душу раба Твого усопшого.",
+                "text_english": "Rest, O Lord, the soul of Thy departed servant."
+            },
+            "general_feast": {
+                "text_key": "refrain.general",
+                "text_church_slavonic": "Слава Тобі, Боже наш, слава Тобі.",
+                "text_english": "Glory to Thee, our God, glory to Thee."
+            }
+        },
+        "special_refrains": {
+            "ode_8_glory": {
+                "text_key": "refrain.ode_8_glory",
+                "text_church_slavonic": "Благословім Отця і Сина і Святого Духа, Господа.",
+                "text_english": "Let us bless the Father, and the Son, and the Holy Spirit, the Lord.",
+                "note": "Used instead of 'Glory' before last troparion of Ode 8"
+            },
+            "ode_8_katavasia_prefix": {
+                "text_key": "refrain.ode_8_katavasia",
+                "text_church_slavonic": "Хвалім, благословім, покланяємося Господеві, співаючи і превозносячи во всі віки.",
+                "text_english": "We praise, we bless, we worship the Lord, praising and magnifying Him unto all ages.",
+                "note": "Sung before Katavasia of Ode 8"
+            }
+        }
+    },
+    "selection_logic": {
+        "resolve_canon_refrain": {
+            "description": "Select refrain based on service type",
+            "priority": [
+                "1. If Pascha/Bright Week → pascha",
+                "2. If Feast of Lord → by feast name (nativity, theophany, etc.)",
+                "3. If Trinity Sunday → trinity",
+                "4. If Sunday → resurrection OR resurrection_and_cross (varies)",
+                "5. If Canon of Theotokos → theotokos",
+                "6. If Canon of Saint → saint (with name template)",
+                "7. Default → general_feast"
+            ]
+        }
+    }
+}

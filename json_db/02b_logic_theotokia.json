@@ -1,0 +1,147 @@
+{
+    "file_metadata": {
+        "filename": "02b_logic_theotokia.json",
+        "version": "1.0",
+        "description": "Theotokion selection matrices per Dolnytsky Part 1 (Lines 62, 86, 148-154)",
+        "authority": "Dolnytsky Typikon Part I & II"
+    },
+    "theotokia_tables": {
+        "sunday_theotokia": {
+            "description": "Sunday Theotokia (Dogmatika) - used for Polyeleos Saints on weekdays and all Sundays",
+            "source_ref": "Dolnytsky I: 'Theotokion from the Sunday ones, according to tone of Saint'",
+            "by_tone": {
+                "1": "theotokion.sunday.tone_1",
+                "2": "theotokion.sunday.tone_2",
+                "3": "theotokion.sunday.tone_3",
+                "4": "theotokion.sunday.tone_4",
+                "5": "theotokion.sunday.tone_5",
+                "6": "theotokion.sunday.tone_6",
+                "7": "theotokion.sunday.tone_7",
+                "8": "theotokion.sunday.tone_8"
+            }
+        },
+        "dismissal_theotokia": {
+            "description": "Daily Dismissal Theotokia - 8 tones × 7 days matrix for non-Polyeleos weekdays",
+            "source_ref": "Dolnytsky I: 'Dismissal Theotokion according to tone and day of week'",
+            "by_tone_and_day": {
+                "1": {
+                    "monday": "theotokion.dismissal.tone_1.monday",
+                    "tuesday": "theotokion.dismissal.tone_1.tuesday",
+                    "wednesday": "theotokion.dismissal.tone_1.wednesday",
+                    "thursday": "theotokion.dismissal.tone_1.thursday",
+                    "friday": "theotokion.dismissal.tone_1.friday",
+                    "saturday": "theotokion.dismissal.tone_1.saturday",
+                    "sunday": "theotokion.sunday.tone_1"
+                },
+                "2": {
+                    "monday": "theotokion.dismissal.tone_2.monday",
+                    "tuesday": "theotokion.dismissal.tone_2.tuesday",
+                    "wednesday": "theotokion.dismissal.tone_2.wednesday",
+                    "thursday": "theotokion.dismissal.tone_2.thursday",
+                    "friday": "theotokion.dismissal.tone_2.friday",
+                    "saturday": "theotokion.dismissal.tone_2.saturday",
+                    "sunday": "theotokion.sunday.tone_2"
+                },
+                "3": {
+                    "monday": "theotokion.dismissal.tone_3.monday",
+                    "tuesday": "theotokion.dismissal.tone_3.tuesday",
+                    "wednesday": "theotokion.dismissal.tone_3.wednesday",
+                    "thursday": "theotokion.dismissal.tone_3.thursday",
+                    "friday": "theotokion.dismissal.tone_3.friday",
+                    "saturday": "theotokion.dismissal.tone_3.saturday",
+                    "sunday": "theotokion.sunday.tone_3"
+                },
+                "4": {
+                    "monday": "theotokion.dismissal.tone_4.monday",
+                    "tuesday": "theotokion.dismissal.tone_4.tuesday",
+                    "wednesday": "theotokion.dismissal.tone_4.wednesday",
+                    "thursday": "theotokion.dismissal.tone_4.thursday",
+                    "friday": "theotokion.dismissal.tone_4.friday",
+                    "saturday": "theotokion.dismissal.tone_4.saturday",
+                    "sunday": "theotokion.sunday.tone_4"
+                },
+                "5": {
+                    "monday": "theotokion.dismissal.tone_5.monday",
+                    "tuesday": "theotokion.dismissal.tone_5.tuesday",
+                    "wednesday": "theotokion.dismissal.tone_5.wednesday",
+                    "thursday": "theotokion.dismissal.tone_5.thursday",
+                    "friday": "theotokion.dismissal.tone_5.friday",
+                    "saturday": "theotokion.dismissal.tone_5.saturday",
+                    "sunday": "theotokion.sunday.tone_5"
+                },
+                "6": {
+                    "monday": "theotokion.dismissal.tone_6.monday",
+                    "tuesday": "theotokion.dismissal.tone_6.tuesday",
+                    "wednesday": "theotokion.dismissal.tone_6.wednesday",
+                    "thursday": "theotokion.dismissal.tone_6.thursday",
+                    "friday": "theotokion.dismissal.tone_6.friday",
+                    "saturday": "theotokion.dismissal.tone_6.saturday",
+                    "sunday": "theotokion.sunday.tone_6"
+                },
+                "7": {
+                    "monday": "theotokion.dismissal.tone_7.monday",
+                    "tuesday": "theotokion.dismissal.tone_7.tuesday",
+                    "wednesday": "theotokion.dismissal.tone_7.wednesday",
+                    "thursday": "theotokion.dismissal.tone_7.thursday",
+                    "friday": "theotokion.dismissal.tone_7.friday",
+                    "saturday": "theotokion.dismissal.tone_7.saturday",
+                    "sunday": "theotokion.sunday.tone_7"
+                },
+                "8": {
+                    "monday": "theotokion.dismissal.tone_8.monday",
+                    "tuesday": "theotokion.dismissal.tone_8.tuesday",
+                    "wednesday": "theotokion.dismissal.tone_8.wednesday",
+                    "thursday": "theotokion.dismissal.tone_8.thursday",
+                    "friday": "theotokion.dismissal.tone_8.friday",
+                    "saturday": "theotokion.dismissal.tone_8.saturday",
+                    "sunday": "theotokion.sunday.tone_8"
+                }
+            }
+        },
+        "stavrotheotokia": {
+            "description": "Cross-Theotokia (Stavrotheotokia) - Used on Wed/Fri evenings and Tue/Thu mornings",
+            "source_ref": "Dolnytsky II: Stavrotheotokion Toggle",
+            "by_tone": {
+                "1": "theotokion.stavro.tone_1",
+                "2": "theotokion.stavro.tone_2",
+                "3": "theotokion.stavro.tone_3",
+                "4": "theotokion.stavro.tone_4",
+                "5": "theotokion.stavro.tone_5",
+                "6": "theotokion.stavro.tone_6",
+                "7": "theotokion.stavro.tone_7",
+                "8": "theotokion.stavro.tone_8"
+            },
+            "applies_when": {
+                "vespers": [
+                    "wednesday",
+                    "friday"
+                ],
+                "matins": [
+                    "tuesday",
+                    "thursday"
+                ]
+            }
+        }
+    },
+    "selection_logic": {
+        "resolve_theotokion": {
+            "description": "Master function for Theotokion selection",
+            "priority_order": [
+                "1. If Great Feast of Lord/Theotokos: Use Feast Theotokion (often same as troparion)",
+                "2. If Afterfeast: Use Feast Theotokion",
+                "3. If Sunday: Use Sunday Theotokion by Tone of Week",
+                "4. If Polyeleos Saint on weekday: Use Sunday Theotokion by Tone of Saint",
+                "5. If Stavrotheotokion day (check applies_when): Use Stavrotheotokion by Tone",
+                "6. Default: Use Dismissal Theotokion by Tone of Saint AND Day of Week"
+            ],
+            "inputs": [
+                "day_of_week",
+                "tone_of_saint",
+                "tone_of_week",
+                "feast_rank",
+                "is_afterfeast"
+            ],
+            "output": "theotokion_key"
+        }
+    }
+}
