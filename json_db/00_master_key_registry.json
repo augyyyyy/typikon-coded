@@ -1,0 +1,364 @@
+{
+    "file_metadata": {
+        "filename": "00_master_key_registry.json",
+        "version": "1.0",
+        "description": "Master registry of all liturgical asset keys for search and validation",
+        "generated": "2026-01-29",
+        "total_keys": 140
+    },
+    "domains": {
+        "horologion": {
+            "description": "Fixed texts from Book of Hours",
+            "count": 62,
+            "keys": {
+                "horologion.blessing_common": {
+                    "desc": "Priest's opening blessing",
+                    "aliases": [
+                        "blessing_priest"
+                    ]
+                },
+                "horologion.blessing_vigil": {
+                    "desc": "Vigil opening blessing"
+                },
+                "horologion.trisagion_block": {
+                    "desc": "Trisagion prayers",
+                    "aliases": [
+                        "trisagion_prayers"
+                    ]
+                },
+                "horologion.invitatory_3x": {
+                    "desc": "Come let us worship 3x",
+                    "aliases": [
+                        "come_let_us_worship_3x"
+                    ]
+                },
+                "horologion.our_father": {
+                    "desc": "Lord's Prayer",
+                    "aliases": [
+                        "lords_prayer"
+                    ]
+                },
+                "horologion.creed": {
+                    "desc": "Nicene Creed"
+                },
+                "horologion.litany_great": {
+                    "desc": "Great Litany (Peace)",
+                    "aliases": [
+                        "litany_peace"
+                    ]
+                },
+                "horologion.litany_small": {
+                    "desc": "Small Litany"
+                },
+                "horologion.litany_fervent": {
+                    "desc": "Fervent Litany"
+                },
+                "horologion.litany_supplication": {
+                    "desc": "Supplication Litany"
+                },
+                "horologion.dismissal_small": {
+                    "desc": "Small dismissal"
+                },
+                "horologion.dismissal_great": {
+                    "desc": "Great dismissal"
+                },
+                "horologion.dismissal_full": {
+                    "desc": "Full dismissal with saints"
+                },
+                "horologion.dismissal_lenten": {
+                    "desc": "Lenten dismissal"
+                },
+                "horologion.psalm_103": {
+                    "desc": "Opening psalm of Vespers"
+                },
+                "horologion.o_gladsome_light_read": {
+                    "desc": "Phos Hilaron",
+                    "aliases": [
+                        "gladsome_light",
+                        "phos_hilaron"
+                    ]
+                },
+                "horologion.nunc_dimittis": {
+                    "desc": "Canticle of Simeon",
+                    "aliases": [
+                        "canticle_simeon"
+                    ]
+                },
+                "horologion.vouchsafe_o_lord": {
+                    "desc": "Vouchsafe O Lord prayer"
+                },
+                "horologion.hexapsalmos": {
+                    "desc": "Six Psalms of Matins"
+                },
+                "horologion.six_psalms": {
+                    "desc": "Six Psalms content"
+                },
+                "horologion.doxology_great": {
+                    "desc": "Great Doxology (sung)"
+                },
+                "horologion.doxology_small_read": {
+                    "desc": "Small Doxology (read)"
+                },
+                "horologion.praises_psalms": {
+                    "desc": "Lauds/Praises psalms"
+                },
+                "horologion.prayer_hours_thou_who": {
+                    "desc": "Thou who at all times prayer"
+                },
+                "horologion.prayer_hour_1_christ_true_light": {
+                    "desc": "Hour 1 concluding prayer"
+                },
+                "horologion.prayer_hour_3_mardari": {
+                    "desc": "Hour 3 concluding prayer"
+                },
+                "horologion.prayer_hour_6_god_and_lord_of_hosts": {
+                    "desc": "Hour 6 concluding prayer"
+                },
+                "horologion.prayer_hour_9_master_lord": {
+                    "desc": "Hour 9 concluding prayer"
+                },
+                "horologion.verses_hour_1_order_my_steps": {
+                    "desc": "Hour 1 verses"
+                },
+                "horologion.verses_hour_3_blessed_is_the_lord": {
+                    "desc": "Hour 3 verses"
+                },
+                "horologion.verses_hour_6_compassions_quickly": {
+                    "desc": "Hour 6 verses"
+                },
+                "horologion.verses_hour_9_forsake_not": {
+                    "desc": "Hour 9 verses"
+                },
+                "horologion.lord_have_mercy_3x": {
+                    "desc": "Lord have mercy 3x"
+                },
+                "horologion.lord_have_mercy_12": {
+                    "desc": "Lord have mercy 12x"
+                },
+                "horologion.lord_have_mercy_40": {
+                    "desc": "Lord have mercy 40x"
+                },
+                "horologion.axion_estin": {
+                    "desc": "It is truly meet",
+                    "aliases": [
+                        "it_is_truly_meet"
+                    ]
+                },
+                "horologion.only_begotten": {
+                    "desc": "Only-Begotten Son hymn"
+                },
+                "horologion.protection_christians": {
+                    "desc": "Protection of Christians"
+                },
+                "horologion.troparia_compline_day_passed": {
+                    "desc": "Compline troparia"
+                },
+                "horologion.psalm_50": {
+                    "desc": "Penitential psalm"
+                },
+                "horologion.psalm_90": {
+                    "desc": "He that dwells"
+                },
+                "horologion.psalm_142": {
+                    "desc": "O Lord hear my prayer"
+                }
+            }
+        },
+        "triodion": {
+            "description": "Lenten Triodion propers",
+            "count": 19,
+            "keys": {
+                "triodion.prayer_st_ephrem": {
+                    "desc": "Prayer of St. Ephrem with prostrations"
+                },
+                "triodion.hour_1_lenten_troparia_verses": {
+                    "desc": "Lenten Hour 1 troparia"
+                },
+                "triodion.hour_3_lenten_troparia_verses": {
+                    "desc": "Lenten Hour 3 troparia"
+                },
+                "triodion.hour_6_lenten_troparia_verses": {
+                    "desc": "Lenten Hour 6 troparia"
+                },
+                "triodion.hour_9_lenten_troparia_verses": {
+                    "desc": "Lenten Hour 9 troparia"
+                },
+                "triodion.lenten_kontakia_hours": {
+                    "desc": "Lenten kontakia for Hours"
+                },
+                "triodion.now_the_powers_of_heaven": {
+                    "desc": "Cherubic hymn for Presanctified"
+                },
+                "triodion.let_my_prayer_arise": {
+                    "desc": "Presanctified hymn"
+                },
+                "triodion.beatitudes_lenten": {
+                    "desc": "Lenten beatitudes"
+                },
+                "triodion.dismissal_presanctified": {
+                    "desc": "Presanctified dismissal"
+                },
+                "triodion.alleluia_passion": {
+                    "desc": "Passion week Alleluia"
+                },
+                "triodion.canon_great_friday": {
+                    "desc": "Good Friday canon"
+                },
+                "triodion.canon_tomb_complete": {
+                    "desc": "Holy Saturday tomb canon"
+                },
+                "triodion.praises_great_friday": {
+                    "desc": "Good Friday praises"
+                },
+                "triodion.troparion_when_thou_didst_descend": {
+                    "desc": "Holy Saturday troparion"
+                }
+            }
+        },
+        "pentecostarion": {
+            "description": "Paschal season propers",
+            "count": 9,
+            "keys": {
+                "pentecostarion.christ_is_risen_3x": {
+                    "desc": "Christ is Risen troparion 3x"
+                },
+                "pentecostarion.having_beheld_resurrection_3x": {
+                    "desc": "Having Beheld hymn 3x"
+                },
+                "pentecostarion.hypakoe_pascha": {
+                    "desc": "Paschal Hypakoe"
+                },
+                "pentecostarion.kontakion_pascha": {
+                    "desc": "Paschal Kontakion"
+                },
+                "pentecostarion.canon_pascha": {
+                    "desc": "Paschal Canon"
+                },
+                "pentecostarion.troparia_paschal_hours": {
+                    "desc": "Paschal Hours troparia"
+                },
+                "pentecostarion.dismissal_paschal_hours": {
+                    "desc": "Paschal Hours dismissal"
+                },
+                "pentecostarion.dismissal_paschal_full": {
+                    "desc": "Full Paschal dismissal"
+                },
+                "pentecostarion.opening_let_god_arise": {
+                    "desc": "Let God Arise opening"
+                }
+            }
+        },
+        "liturgikon": {
+            "description": "Divine Liturgy texts",
+            "count": 5,
+            "keys": {
+                "liturgikon.blessing_kingdom": {
+                    "desc": "Blessed is the Kingdom"
+                },
+                "liturgikon.anaphora_chrysostom": {
+                    "desc": "Anaphora of St. John Chrysostom"
+                },
+                "liturgikon.anaphora_basil": {
+                    "desc": "Anaphora of St. Basil"
+                },
+                "liturgikon.ambo_prayer": {
+                    "desc": "Prayer Behind the Ambon"
+                },
+                "liturgikon.litanies_catechumens": {
+                    "desc": "Catechumen dismissal prayers"
+                }
+            }
+        },
+        "components": {
+            "description": "Composite liturgical rites",
+            "count": 12,
+            "keys": {
+                "components.artoklasia": {
+                    "desc": "Blessing of Loaves"
+                },
+                "components.communion_rite": {
+                    "desc": "Communion sequence"
+                },
+                "components.entrance_great": {
+                    "desc": "Great Entrance"
+                },
+                "components.little_entrance_rite": {
+                    "desc": "Little Entrance"
+                },
+                "components.litiya_procession": {
+                    "desc": "Litiya at Vespers"
+                },
+                "components.matins_gospel_rite": {
+                    "desc": "Matins Gospel sequence"
+                },
+                "components.polyeleos": {
+                    "desc": "Polyeleos rite"
+                },
+                "components.prothesis_rite": {
+                    "desc": "Proskomedia/Preparation"
+                },
+                "components.kneeling_prayers": {
+                    "desc": "Pentecost Kneeling Prayers"
+                },
+                "components.shroud_procession_and_burial": {
+                    "desc": "Good Friday burial"
+                },
+                "components.tomb_encomia_stations": {
+                    "desc": "Holy Saturday Lamentations"
+                }
+            }
+        },
+        "octoechos": {
+            "description": "Tone-based texts (dynamic lookup)",
+            "count": 1,
+            "keys": {
+                "octoechos.canon_theotokos_current_tone": {
+                    "desc": "Theotokos canon by current tone"
+                }
+            }
+        }
+    },
+    "search_index": {
+        "psalm": [
+            "horologion.psalm_*"
+        ],
+        "litany": [
+            "horologion.litany_*"
+        ],
+        "dismissal": [
+            "horologion.dismissal_*",
+            "triodion.dismissal_*",
+            "pentecostarion.dismissal_*"
+        ],
+        "prayer": [
+            "horologion.prayer_*",
+            "triodion.prayer_*"
+        ],
+        "troparia": [
+            "horologion.troparia_*",
+            "triodion.troparia_*",
+            "pentecostarion.troparia_*"
+        ],
+        "hour": [
+            "horologion.prayer_hour_*",
+            "horologion.verses_hour_*",
+            "triodion.hour_*"
+        ],
+        "vespers": [
+            "horologion.o_gladsome_light_read",
+            "horologion.nunc_dimittis",
+            "horologion.vouchsafe_o_lord"
+        ],
+        "matins": [
+            "horologion.hexapsalmos",
+            "horologion.doxology_*",
+            "horologion.praises_psalms"
+        ],
+        "paschal": [
+            "pentecostarion.*"
+        ],
+        "lenten": [
+            "triodion.*"
+        ]
+    }
+}

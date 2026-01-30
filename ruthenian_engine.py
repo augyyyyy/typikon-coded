@@ -5,17 +5,23 @@ import copy
 
 class RuthenianEngine:
 
-    def __init__(self, base_dir=".", temple_feast_date=None, version="stamford_2014", external_assets_dir=None):
+    def __init__(self, base_dir=".", temple_feast_date=None, version="stamford_2014", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None):
         self.base_dir = base_dir
         self.json_db = os.path.join(base_dir, "json_db")
         
-        # External Content Support (Security Boundary)
-        self.external_assets_dir = external_assets_dir
-        if self.external_assets_dir:
-            print(f"Engine: External Assets Enabled -> [{self.external_assets_dir}]")
+        # Recension Architecture (Dual-Path)
+        self.fixed_recension_path = fixed_recension_path
+        self.variable_recension_path = variable_recension_path
         
-        # Identifier Standardization (Phase 12)
-        # We separate the "Logical ID" (for rules) from the "Physical Folder" (for text)
+        # Legacy/Single-Path Backward Compatibility & External Boundary
+        self.external_assets_dir = external_assets_dir if external_assets_dir else variable_recension_path
+
+        if self.fixed_recension_path:
+             print(f"Engine: Fixed Recension -> [{self.fixed_recension_path}]")
+        if self.variable_recension_path:
+             print(f"Engine: Variable Recension -> [{self.variable_recension_path}]")
+        
+        # Identifier Standardization
         self.version_map = {
             "stamford": "stamford_2014",
             "stamford_2014": "stamford_2014",
@@ -27,9 +33,10 @@ class RuthenianEngine:
         }
         
         self.version_id = self.version_map.get(version, version)
+        # Default internal folder if no external path provided
         self.content_folder = self.folder_map.get(self.version_id, "stamford")
         
-        print(f"Engine Init: Logic=[{self.version_id}] | Content=[json_db/{self.content_folder}]")
+        print(f"Engine Init: Logic=[{self.version_id}] | Internal Content=[json_db/{self.content_folder}]")
 
         self.temple_feast_date = temple_feast_date
         self.trace_log = []
@@ -52,13 +59,18 @@ class RuthenianEngine:
         self._load_menaion_files()
         self.midnight_logic = self._load_json("02j_logic_midnight.json")
         
-        # Load Text Databases
+        # Load Text Databases (Multi-Layer Strategy)
         self.text_db = {} 
         self._load_versioned_texts()
         
-        # Load External Private Assets (if provisioned)
-        if self.external_assets_dir and os.path.exists(self.external_assets_dir):
-            self._load_external_assets()
+        # Load External Assets (Fixed and Variable Recensions)
+        if self.fixed_recension_path and os.path.exists(self.fixed_recension_path):
+            self._load_external_assets(self.fixed_recension_path, "Fixed")
+        if self.variable_recension_path and os.path.exists(self.variable_recension_path):
+            self._load_external_assets(self.variable_recension_path, "Variable")
+        elif self.external_assets_dir and os.path.exists(self.external_assets_dir):
+            # Legacy single-path fallback
+            self._load_external_assets(self.external_assets_dir, "Legacy")
 
     def _load_text_db(self, filename):
         # Look in the mapped content folder
@@ -71,14 +83,18 @@ class RuthenianEngine:
             print(f"ERROR loading {filename}: {e}")
             return {}
 
-    def _load_external_assets(self):
+    def _load_external_assets(self, asset_path, label="External"):
         """
-        Recursively loads all JSON files in the external directory and merges them into text_db.
-        This allows private assets to override or supplement public ones.
+        Recursively loads all JSON files in the specified directory and merges them into text_db.
+        This allows external assets (Fixed or Variable recensions) to override or supplement internal ones.
+        
+        Args:
+            asset_path: Path to the directory containing JSON assets.
+            label: A label for logging purposes (e.g., "Fixed", "Variable").
         """
-        print(f"Engine: Scanning external assets...")
+        print(f"Engine: Scanning {label} Recension assets at [{asset_path}]...")
         count = 0
-        for root, dirs, files in os.walk(self.external_assets_dir):
+        for root, dirs, files in os.walk(asset_path):
             for file in files:
                 if file.endswith(".json"):
                     path = os.path.join(root, file)
@@ -96,8 +112,8 @@ class RuthenianEngine:
                                     self.text_db.update(data)
                                     count += len(data)
                     except Exception as e:
-                        print(f"Error loading external asset {file}: {e}")
-        print(f"Engine: Loaded {count} external assets.")
+                        print(f"Error loading {label} asset {file}: {e}")
+        print(f"Engine: Loaded {count} {label} Recension assets.")
 
     def _load_versioned_texts(self):
         try:

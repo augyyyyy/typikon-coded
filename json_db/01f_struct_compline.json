@@ -43,9 +43,9 @@
           "content": {
             "type": "fixed_group",
             "ref_keys": [
-              "psalm_50",
-              "psalm_69",
-              "psalm_142"
+              "horologion.psalm_50",
+              "horologion.psalm_69",
+              "horologion.psalm_142"
             ]
           }
         },
@@ -191,9 +191,9 @@
               "type": "sequence",
               "components": [
                 {
-                  "id": "psalm_69",
+                  "id": "horologion.psalm_69",
                   "type": "fixed_ref",
-                  "ref_key": "psalm_69"
+                  "ref_key": "horologion.psalm_69"
                 },
                 {
                   "id": "canon_portion",
@@ -214,12 +214,12 @@
               "id": "psalms_part1",
               "type": "fixed_group",
               "ref_keys": [
-                "psalm_4",
-                "psalm_6",
-                "psalm_12",
-                "psalm_24",
-                "psalm_30",
-                "psalm_90"
+                "horologion.psalm_4",
+                "horologion.psalm_6",
+                "horologion.psalm_12",
+                "horologion.psalm_24",
+                "horologion.psalm_30",
+                "horologion.psalm_90"
               ]
             },
             {
@@ -270,9 +270,9 @@
               "id": "psalms_part2",
               "type": "fixed_group",
               "ref_keys": [
-                "psalm_50",
-                "psalm_101",
-                "prayer_manasses"
+                "horologion.psalm_50",
+                "horologion.psalm_101",
+                "horologion.prayer_manasses"
               ]
             },
             {
@@ -296,9 +296,9 @@
               "id": "psalms_part3",
               "type": "fixed_group",
               "ref_keys": [
-                "psalm_69",
-                "psalm_142",
-                "doxology_small_read"
+                "horologion.psalm_69",
+                "horologion.psalm_142",
+                "horologion.doxology_small_read"
               ]
             },
             {

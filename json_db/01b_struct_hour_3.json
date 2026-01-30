@@ -13,7 +13,7 @@
       "source_ref": "dolnytsky_part1_hours_para1",
       "sequence": [
         { "id": "opening_prayers", "content": { "type": "fixed_group", "ref_keys": ["horologion.blessing_common", "horologion.trisagion_block", "horologion.invitatory_3x"] } },
-        { "id": "psalms_fixed", "content": { "type": "fixed_group", "ref_keys": ["psalm_16", "psalm_24", "psalm_50"] } },
+        { "id": "psalms_fixed", "content": { "type": "fixed_group", "ref_keys": ["horologion.psalm_16", "horologion.psalm_24", "horologion.psalm_50"] } },
         { "id": "troparia_block", "content": { "type": "generator", "generator_method": "generate_hour_troparia", "args": { "hour": 3 } } },
         { "id": "verses_fixed", "content": { "type": "fixed_ref", "ref_key": "horologion.verses_hour_3_blessed_is_the_lord" } },
         { "id": "trisagion_prayers", "content": { "type": "fixed_ref", "ref_key": "horologion.trisagion_block" } },

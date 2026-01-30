@@ -57,8 +57,8 @@
                 "ref_keys": [
                   "horologion.blessing_common",
                   "horologion.trisagion_block",
-                  "psalm_19",
-                  "psalm_20",
+                  "horologion.psalm_19",
+                  "horologion.psalm_20",
                   "horologion.six_psalms"
                 ]
               }
@@ -322,8 +322,8 @@
             "ref_keys": [
               "horologion.blessing_common",
               "horologion.trisagion_block",
-              "psalm_19",
-              "psalm_20",
+              "horologion.psalm_19",
+              "horologion.psalm_20",
               "horologion.six_psalms"
             ]
           }
@@ -354,10 +354,10 @@
           }
         },
         {
-          "id": "psalm_50",
+          "id": "horologion.psalm_50",
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_50"
+            "ref_key": "horologion.psalm_50"
           }
         },
         {

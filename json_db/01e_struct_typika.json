@@ -30,7 +30,7 @@
           }
         },
         {
-          "id": "psalm_102",
+          "id": "horologion.psalm_102",
           "section_key": "sections.psalmody",
           "source_ref": "dolnytsky_part1_typika_para2",
           "rubric": {
@@ -39,16 +39,16 @@
           },
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_102_bless_the_lord"
+            "ref_key": "horologion.psalm_102_bless_the_lord"
           }
         },
         {
-          "id": "psalm_145",
+          "id": "horologion.psalm_145",
           "section_key": "sections.psalmody",
           "source_ref": "dolnytsky_part1_typika_para2",
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_145_praise_the_lord"
+            "ref_key": "horologion.psalm_145_praise_the_lord"
           }
         },
         {
@@ -136,7 +136,7 @@
           "sequence": [
             { "id": "lord_have_mercy_3x", "type": "fixed_ref", "ref_key": "horologion.lord_have_mercy_3x" },
             { "id": "blessed_be_name", "type": "fixed_ref", "ref_key": "horologion.blessed_be_name_3x" },
-            { "id": "psalm_33", "type": "fixed_ref", "ref_key": "psalm_33" },
+            { "id": "horologion.psalm_33", "type": "fixed_ref", "ref_key": "horologion.psalm_33" },
             { "id": "dismissal", "type": "fixed_ref", "ref_key": "horologion.dismissal_full" }
           ]
         }

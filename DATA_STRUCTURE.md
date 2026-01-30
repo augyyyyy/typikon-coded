@@ -111,4 +111,59 @@ To add a new Feasts or Saint:
 
 1.  **Create the Text Assets**: Create JSON files for the Troparion, Kontakion, and Stichera in `assets/menaion/<month>/`.
 2.  **Register IDs**: Ensure the IDs are unique.
-3.  **Update Logic (Optional)**: If the Saint has a specific rank (e.g., Polyeleos), ensure the `menaion_logic` for that month reflects it (or rely on the default engine fallback).
+
+## 6. Recension Architecture
+
+The system distinguishes between **two types** of recension data to allow for maximum flexibility:
+
+### 6.1. Fixed Recension (Structure & Ordinaries)
+*   **Definition**: Controls the "Skeleton" of the service and the fixed prayers (Ordinaries).
+*   **Examples**: "Abridged Stamford Horologion", "Unabridged Monastic Horologion", "Ruthenian Recension".
+*   **Content**:
+    *   `structure_*.json`: Defines which slots exist (e.g., does Matins have a Gospel reading?).
+    *   `horologion_*.json`: Defines the text for fixed prayers (Trisagion, Psalm 103, Gladsome Light).
+
+### 6.2. Variable Recension (Propers)
+*   **Definition**: Controls the changeable parts of the service (Propers) without altering the structure.
+*   **Examples**: "Stamford Translation", "Ponomar Project Translation", "Metropolitan Cantor Institute".
+*   **Content**:
+    *   `octoechos_*.json`
+    *   `menaion_*.json`
+    *   `triodion_*.json`
+
+### 6.3 Loading Logic
+The Engine accepts two configuration parameters:
+1.  `fixed_recension_path`: Points to the folder containing structural/fixed JSONs.
+2.  `variable_recension_path`: Points to the folder containing variable propers.
+
+*   **Fallback**: If a key is missing in the requested Variable Recension, it falls back to the default internal assets.
+*   **Override**: A Variable Recension can legally override a Fixed Text if it provides a key that matches a fixed asset ID (rare, but allowed).
+
+## 7. Master Key List (Standardized IDs)
+
+To enable swapping recensions, all assets must adhere to these **Master Keys**.
+
+### Fixed Keys (Horologion)
+*   `horologion.vespers.opening_doxology`
+*   `horologion.vespers.come_let_us_worship`
+*   `horologion.vespers.psalm_103`
+*   `horologion.vespers.great_litany`
+*   `horologion.vespers.kathisma_hymn`
+*   `horologion.vespers.small_litany`
+*   `horologion.vespers.o_lord_i_have_cried` (The Psalm verses themselves, not stichera)
+*   `horologion.vespers.gladsome_light`
+*   `horologion.vespers.prokeimenon_intro`
+*   `horologion.vespers.vouchsafe_o_lord`
+*   `horologion.vespers.litany_supplication`
+*   `horologion.vespers.prayer_bowing_heads`
+*   `horologion.vespers.dismissal`
+
+### Variable Keys (Octoechos/Menaion)
+*   `tone_<N>.sat_vespers.stichera_lord_i_call`
+*   `tone_<N>.sat_vespers.stichera_aposticha`
+*   `tone_<N>.sat_vespers.troparion`
+*   `tone_<N>.sat_vespers.theotokion`
+*   `menaion.<MONTH>_<DAY>.vespers.stichera_lord_i_call`
+*   `menaion.<MONTH>_<DAY>.vespers.troparion`
+
+**Rule**: Parsing scripts must normalize source text into these specific keys.

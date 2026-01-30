@@ -26,9 +26,9 @@
           "content": {
             "type": "fixed_group",
             "ref_keys": [
-              "psalm_5",
-              "psalm_89",
-              "psalm_100"
+              "horologion.psalm_5",
+              "horologion.psalm_89",
+              "horologion.psalm_100"
             ]
           }
         },

@@ -1,0 +1,37 @@
+{
+    "file_metadata": {
+        "filename": "text_liturgikon.json",
+        "version": "1.0",
+        "description": "Divine Liturgy fixed texts"
+    },
+    "liturgikon.blessing_kingdom": {
+        "content": {
+            "en": "[STUB] Blessed is the Kingdom of the Father..."
+        },
+        "_stub": true
+    },
+    "liturgikon.anaphora_chrysostom": {
+        "content": {
+            "en": "[STUB] Anaphora of St. John Chrysostom"
+        },
+        "_stub": true
+    },
+    "liturgikon.anaphora_basil": {
+        "content": {
+            "en": "[STUB] Anaphora of St. Basil"
+        },
+        "_stub": true
+    },
+    "liturgikon.ambo_prayer": {
+        "content": {
+            "en": "[STUB] O Lord, who blessest those who bless Thee..."
+        },
+        "_stub": true
+    },
+    "liturgikon.litanies_catechumens": {
+        "content": {
+            "en": "[STUB] Catechumen dismissal prayers"
+        },
+        "_stub": true
+    }
+}

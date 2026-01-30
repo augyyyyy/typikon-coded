@@ -40,7 +40,7 @@
           }
         },
         {
-          "id": "psalm_103_vigil",
+          "id": "horologion.psalm_103_vigil",
           "rubric": {
             "title": "The Proemial Psalm",
             "source_ref": "Dolnytsky I:2",
@@ -52,7 +52,7 @@
           },
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_103"
+            "ref_key": "horologion.psalm_103"
           }
         },
         {
@@ -66,7 +66,7 @@
           "id": "kathisma_vigil",
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_1_selected"
+            "ref_key": "horologion.psalm_1_selected"
           }
         },
         {
@@ -336,10 +336,10 @@
           }
         },
         {
-          "id": "psalm_103",
+          "id": "horologion.psalm_103",
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_103"
+            "ref_key": "horologion.psalm_103"
           }
         },
         {

@@ -29,15 +29,15 @@
           }
         },
         {
-          "id": "psalm_50",
+          "id": "horologion.psalm_50",
           "section_key": "sections.psalmody",
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_50"
+            "ref_key": "horologion.psalm_50"
           }
         },
         {
-          "id": "kathisma_17",
+          "id": "horologion.kathisma_17",
           "section_key": "sections.psalmody",
           "rubric": {
             "key": "rubrics.midnight.kathisma_17_rule",
@@ -47,7 +47,7 @@
           },
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_118_blameless"
+            "ref_key": "horologion.psalm_118_blameless"
           }
         },
         {
@@ -112,8 +112,8 @@
               "content": {
                 "type": "fixed_group",
                 "ref_keys": [
-                  "psalm_120",
-                  "psalm_133"
+                  "horologion.psalm_120",
+                  "horologion.psalm_133"
                 ]
               }
             },
@@ -181,14 +181,14 @@
       "inherits_from": "midnight_daily",
       "overrides": [
         {
-          "target_id": "kathisma_17",
+          "target_id": "horologion.kathisma_17",
           "action": "replace",
           "new_component": {
-            "id": "kathisma_9",
+            "id": "horologion.kathisma_9",
             "section_key": "sections.psalmody",
             "content": {
               "type": "fixed_ref",
-              "ref_key": "kathisma_9"
+              "ref_key": "horologion.kathisma_9"
             }
           }
         },
@@ -211,7 +211,7 @@
       "inherits_from": "midnight_daily",
       "overrides": [
         {
-          "target_id": "kathisma_17",
+          "target_id": "horologion.kathisma_17",
           "action": "replace",
           "new_component": {
             "id": "triadic_canon",
@@ -259,10 +259,10 @@
           }
         },
         {
-          "id": "psalm_50",
+          "id": "horologion.psalm_50",
           "content": {
             "type": "fixed_ref",
-            "ref_key": "psalm_50"
+            "ref_key": "horologion.psalm_50"
           }
         },
         {
