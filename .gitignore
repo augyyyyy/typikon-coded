@@ -137,3 +137,10 @@ cython_debug/
 # Private Content (Security Boundary)
 json_db/private_assets/
 Data/
+
+# Generated Output & Reports
+final_results/
+verification_examples/
+missing_materials.txt
+verification_phase_*.txt
+tmp_*.txt
