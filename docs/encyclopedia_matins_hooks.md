@@ -17,6 +17,9 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 *   **Major Feast:** `rank >= 3` + `vigil=True` → **Great Matins (Festal)**
 *   **Lenten Weekday:** `season=lent` + `day!=sun/sat` → **Lenten Matins (Alleluia)**
 *   **Standard:** `rank < 3` → **Daily Matins**
+> **Primary Source Logic:**
+> "Matins — Great and Small, or Daily, and Great [Matins] can be with an All-Night Vigil or without it." (Dolnytsky, Part I, Line 7).
+> "If there is a Vigil, then we begin Great Matins immediately after Great Vespers... If there is no Vigil, then Matins is sung in the morning, separately from Vespers." (Dolnytsky, Part I, Line 142).
 
 ---
 
@@ -31,6 +34,9 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
     *   *[Constraint]*: "If two Saints have troparia in different tones..."
     *   *[Logic]*: The Tone is determined by the **First Saint** listed in the Menaion (the "Principal Saint").
     *   *[Source]*: `menaion_day.saints[0].troparion_tone` vs `menaion_day.saints[1].troparion_tone`.
+> **Primary Source Logic:**
+> "If the service is Sunday and of a Saint with his own troparion, then the Sunday troparion of the current tone twice, Glory: troparion of the Saint once, and Both now: Theotokion from the Sunday ones, according to the tone of the troparion of the Saint." (Dolnytsky, Part I, Line 148).
+> "If the service is Sunday and of two Saints... troparion of the first Saint once, Glory: troparion of the second Saint once, Both now: Theotokion from the Sunday ones, according to the tone... of the second Saint." (Dolnytsky, Part I, Line 149).
 
 ---
 
@@ -56,6 +62,10 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
         *   *After Kath 1:* Saint Sidalen 1 (Repeated if necessary).
         *   *Citation:* **Dolnytsky Part II, Line 96 (Saint without Polyeleos on Weekdays):** "Kathismata current, usually two, after each of which follows the small litany and Sessional Hymn of the Octoechos [or Saint if on Saturday or Polyeleos]."
 
+> **Primary Source Logic:**
+> "When the service is Sunday and the service of some Polyeleos Saint... then only the 19th Kathisma is taken... Hypakoe of the tone, then all three Sessional Hymns of the Saint, that is the first and second once each, without Theotokia, Glory: his Polyeleos Sessional Hymn once, and Both now: its Theotokion." (Dolnytsky, Part I, Line 157).
+> *Interpretation:* This confirms the "Double Stack" logic where the Sunday Hypakoe displaces the Sessional Hymns to later slots, but the Polyeleos Sessional takes the Glory slot.
+
 ---
 
 ### GATE 4: THE POLYELEOS SWITCH
@@ -63,6 +73,8 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 **Logic:** Boolean flag for the "Great Censing" (Psalm 134/135).
 *   **True:** Sunday, Major Feast (`rank_polyeleos`+), Patron Feast.
 *   **False:** Ordinary Weekday, Lenten Weekday.
+> **Primary Source Logic:**
+> "Regarding the Polyeleos, let it be known that it is sung on all Feasts which have Great Vespers and Great Matins. On the occasion of Sunday it is sung only on the Sundays from the Leavetaking of the Holy Cross to the Forefeast of the Nativity of Christ... and from the Leavetaking of Theophany... to Cheese-fare Sunday... On other Sundays of the whole year the 17th Kathisma is used." (Dolnytsky, Part I, Line 157).
 
 ---
 
@@ -75,6 +87,8 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 2.  **The Hypakoe:**
     *   **Sunday:** Inserted after Anabathmoi.
     *   **Feast:** Migrates—replaces the Sessional Hymn after Ode 3.
+> **Primary Source Logic:**
+> "If the service is Sunday, the Gradual (Stepenna) of the current tone is sung, all three antiphons... if the service is a Feast, then only the first antiphon of Tone 4." (Dolnytsky, Part I, Line 159).
 
 ---
 
@@ -102,6 +116,10 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 *   `Feast`: 12 (Dominates)
 *   *Sum:* 16.
 
+> **Primary Source Logic:**
+> "Of such canons at Matins... there can be either one, or two, or three, or four. One or two (usually two) occur on Feasts of the Lord and of the Theotokos... their troparia are taken together to [make] 12... If two Saints with their own services fall in the middle of a Feast, then the troparia of each ode are taken to [make] 14." (Dolnytsky, Part I, Line 165).
+> *Interpretation:* Dolnytsky explicitly defines the summation logic ("together to make 12"), which is the foundation of our `resolve_canon_combination` hook.
+
 ---
 
 ### GATE 7: KATAVASIA SELECTOR
@@ -111,6 +129,8 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 *   **Lent:** *Open my mouth...*
 *   **Pascha:** *It is the Day of Resurrection...*
 *   **Major Feast Override:** If a Great Feast falls on Sunday, use the **Irmos of the Feast** as Katavasia.
+> **Primary Source Logic:**
+> "Upon the conclusion of the last troparion of each ode, the current Katavasia is sung, if the irmos of some of the canons of the Feasts of the Lord or of the Theotokos is presented... These irmoi... are used not only at Great Matins on the day of the Feasts themselves, but also at all Great Matins throughout the whole year within the limits defined by the Typikon." (Dolnytsky, Part I, Line 165).
 
 ---
 
@@ -119,6 +139,9 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 *   **Standard:** Sing *My soul doth magnify the Lord*.
 *   **Suppressed:** Great Feasts of Lord/Theotokos.
 *   **Result:** Sing **Festal Megalynaria** (Zadostoinyk refrains).
+> **Primary Source Logic:**
+> "If there is one service of a Feast of the Lord or of the Theotokos, then at the 9th Ode, instead of the general refrains, we sing refrains proper (given at the 9th Ode of the canon of the Feast) to all its troparia... and also to its irmoi and Katavasia." (Dolnytsky, Part I, Line 173).
+> "...with the exception of Feasts of the Lord and of the Theotokos, on which, according to ancient typikons, it is not proper to take [My soul magnifies]." (Dolnytsky, Part I, Line 174).
 
 ---
 
@@ -131,6 +154,10 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
     2.  Glory: Feast Exapostilarion
     3.  Both now: Theotokion.
 
+> **Primary Source Logic:**
+> "And the Exaposteilarion on Feasts of the Lord and of the Theotokos is taken three times, that is twice – simply, and the third time – with the refrain Glory, Both now." (Dolnytsky, Part I, Line 176).
+> "If it is Sunday, 'It is truly meet' is not taken, but then... we sing, according to the tone of the Prokeimenon... the troparion 'Holy is the Lord our God' (3)." (Dolnytsky, Part I, Line 176).
+
 ---
 
 ### GATE 10: THE PRAISES & EMPHASIS
@@ -140,6 +167,9 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 **The "Glory" Slot (Doxastikon):**
 *   **Sunday:** The **Eothinon Doxastikon** (1-11). *Note: This is unique. It corresponds to the Gospel read an hour ago.*
 *   **Feast:** The Doxastikon of the Feast serves as the theological summit of the service.
+> **Primary Source Logic:**
+> "There can also be eight stichera of the Praises... however, refrains from the psalms of the Praises are needed only six, because to the last two stichera special refrains are added, given at the Aposticha stichera of Vespers." (Dolnytsky, Part I, Line 181).
+> *Interpretation:* This explains the dynamic sizing of the Praises and specifically the refrain logic for the Doxastikon ("special refrains... given at Aposticha").
 
 ---
 
@@ -147,6 +177,9 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 **Hook:** `resolve_doxology_mode(rank)`
 *   **Great (Sung):** Sundays, Feasts. Ends with *Trisagion* (Sung) -> Troparion.
 *   **Small (Read):** Weekdays. Ends with *Trisagion* (Read) -> Litany -> Aposticha.
+> **Primary Source Logic:**
+> "The Great Doxology and Trisagion with small bows are sung... upon the conclusion of the Trisagion, the troparia are sung." (Dolnytsky, Part I, Line 184).
+> *But for Daily Matins:* "After Glory, Both now usually the Small Doxology is read, before which the priest... does not say 'To Thee belongs glory'... The priest stands there until the end of the litany 'Let us complete,' which follows after the Doxology... The Aposticha is sung." (Dolnytsky, Part I, Line 204).
 
 ---
 
@@ -154,6 +187,10 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 **Hook:** `resolve_dismissal_troparion(tone_or_feast)`
 *   **Sunday Troparion:** Fixed by Tone (Odd/Even Rule).
 *   **Feast:** Becomes the Troparion of the Feast.
+> **Primary Source Logic:**
+> "If [it is] a Sunday service on Sunday, then we sing only the Resurrection troparion... 'Today salvation has come to the world,' when the tone is odd... and the second – 'Having risen from the tomb,' when the tone is even." (Dolnytsky, Part I, Line 188).
+> "If the service is only of a Feast of the Lord or of the Theotokos, one troparion of the Feast is sung." (Dolnytsky, Part I, Line 185).
+> "The priest... pronounces the dismissal, mentioning in it the current service (that is, the one which falls on that day, one or more, as many as there are)." (Dolnytsky, Part I, Line 72).
 
 ---
 

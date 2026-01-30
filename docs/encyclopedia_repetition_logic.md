@@ -24,8 +24,10 @@
         2.  Stichera 2
         3.  Stichera 3
         4.  Stichera 1 (Repeat)
-    *   *Citation:* **Dolnytsky Part I:** "When the Typikon prescribes more stichera than are in the Menaion, the first ones are repeated to make up the number." (Part I, General Notes).
-    *   *Implied Citation:* **Dolnytsky Part II, Line 37 (Saint without Polyeleos on Sunday):** "If two saints occur... to the first saint - 3, and to the second - 2" (Total 5). If we need 6? We check if we fill from Octoechos or repeat. Dolnytsky generally relies on standard repetition practices unless specified.
+
+> **Primary Source Logic:**
+> "When the Typikon prescribes more stichera than are in the Menaion, the first ones are repeated to make up the number." (Dolnytsky, Part I, General Notes).
+> "If two saints occur... to the first saint - 3, and to the second - 2 (Total 5)." (Dolnytsky, Part II, Line 37). *Implies filling the count.*
 
 ## 2. Canon Troparia ("On 4", "On 6", "On 8", "On 14")
 **The Rule:** The "Irmos" is strictly distinct from the Troparia count. The count refers *only* to the troparia that follow the Irmos.
@@ -49,8 +51,10 @@ Often, a rubric will say: *"Sessional Hymn of the Saint twice."*
     2.  **Glory, Both now:**
     3.  Read the *same* Sessional Hymn again (or its Theotokion if explicitly provided).
     *   *Correction:* Usually "Twice" means: Sessional, Glory, Sessional (Repeat), Both now, Theotokion.
-    *   *Dolnytsky Clarification:* "Sessional Hymn on Feasts... twice, that is once – simply the Sessional Hymn, and the second time – with the refrain Glory, Both now." (Part I, Line 176).
-    *   *Wait!* Dolnytsky actually says: "Twice... that is once simply, and the second time with refrain Glory, Both now." This implies the "Both now" covers the Theotokion, but the "Glory" covers the repeat.
+
+> **Primary Source Logic:**
+> "The Sessional Hymn on Feasts of the Lord and of the Theotokos [is taken] twice; that is once – simply the Sessional Hymn, and the second time – with the refrain Glory, Both now." (Dolnytsky, Part I, Line 176).
+> *Clarification:* "If the Saint has two Sessional Hymns... then they are taken once each, that is the first – simply, the second – with the refrain Glory, then Both now: his Theotokion." (Dolnytsky, Part I, Line 176).
 
 ### Shortage of Sessionals (The "Double Stack" nuance)
 When combining Sunday + Saint (Polyeleos), we need to fill **3** slots for the Saint after the Polyeleos (Sess 1, Sess 2, Poly Sess).

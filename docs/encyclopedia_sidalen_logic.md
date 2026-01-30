@@ -45,7 +45,10 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
     4.  **Glory:** Polyeleos Sessional of the Saint.
     5.  **Both now:** Theotokion of the Polyeleos Sessional.
     5.  **Both now:** Theotokion of the Polyeleos Sessional.
-    *   *Citation:* **Dolnytsky Part II, Line 177 (Saint with Polyeleos on Sunday):** "Hypakoe of the tone, also 1st and 2nd Sessional Hymn of the saint once without Theotokia, Glory: 3rd Sessional Hymn of the saint, Both now: his Theotokion."
+    
+> **Primary Source Logic:**
+> "Hypakoe of the tone, also 1st and 2nd Sessional Hymn of the saint... Glory: 3rd [Polyeleos] Sessional Hymn of the saint, Both now: his Theotokion." (Dolnytsky, Part II, Line 177).
+> *Logic:* The presence of the Sunday Hypakoe pushes the Saint's sessionals deeper into the service, creating the "Double Stack" after the Polyeleos.
 
 ### Point IV: After Canon Ode III
 *   **Logic:** **The Kontakion Shift.**
@@ -104,8 +107,12 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
     1.  Kontakion of the Feast.
     2.  Ikos of the Feast.
     *   *The Resurrectional Kontakion/Ikos is usually suppressed or moved.*
-    *   *Citation:* **Dolnytsky Part II, Line 325 (Feast of Lord on Sunday):** "After the 3rd Ode – Sessional Hymn, after the 6th – Kontakion-Ikos... of the feast."
-    *   *Citation:* **Dolnytsky Part II, Line 353 (Feast of Theotokos on Sunday):** "After the 6th – Kontakion-Ikos of the feast... Sunday Kontakion-Ikos [moved to Ode 3 if Resurrection is suppressed? Actually Dolnytsky says Sunday Kontakion-Ikos at Ode 3]." (Wait, Line 353 says: "After the 3rd Ode – Sunday Kontakion-Ikos and Sessional Hymn of the feast"). *Correction:* On Theotokos Feasts, Sunday Kontakion moves to Ode 3. On Lord's Feasts, Sunday is suppressed entirely.
+    *   *The Resurrectional Kontakion/Ikos is usually suppressed or moved.*
+
+> **Primary Source Logic:**
+> **Feast of Lord:** "After the 3rd Ode – Sessional Hymn, after the 6th – Kontakion-Ikos... of the feast." (Dolnytsky Part II, Line 325).
+> **Feast of Theotokos:** "After the 3rd Ode – Sunday Kontakion-Ikos and Sessional Hymn of the feast... After the 6th – Kontakion-Ikos of the feast." (Dolnytsky Part II, Line 353).
+> *Differentiation:* For Lord's Feasts, the Sunday text is totally suppressed. For Theotokos Feasts, the Sunday Kontakion survives but is demoted to Ode 3.
 
 ---
 
@@ -146,7 +153,11 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
 *   **Content:**
     1.  Kontakion of the Saint.
     2.  Ikos of the Saint.
-    *   *Citation:* **Dolnytsky Part II, Line 209 (Saint with Polyeleos on Weekdays):** "After the 3rd Ode – Sessional Hymn of the saint, after the 6th – Kontakion-Ikos of the saint."
+    2.  Ikos of the Saint.
+    
+> **Primary Source Logic:**
+> "After the 3rd Ode – Sessional Hymn of the saint, after the 6th – Kontakion-Ikos of the saint." (Dolnytsky Part II, Line 209).
+> *Comparison:* Unlike Sunday, there is no "High Place" competition here, so the Saint's Kontakion rests naturally at Ode 6.
 
 ---
 
@@ -187,8 +198,11 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
 3.  **Combination:** It sits alongside the Sessional Hymn of Ode III.
 3.  **Combination:** It sits alongside the Sessional Hymn of Ode III.
     *   *Order:* Kontakion + Sessional (usually).
-    *   *Citation:* **Dolnytsky Part II, Line 180 (Saint with Polyeleos on Sunday):** "After the 3rd Ode – Kontakion-Ikos and SESSIONAL HYMN of the saint."
-    *   *Citation:* **Dolnytsky Part II, Line 97 (Saint without Polyeleos on Weekdays):** "After the 3rd Ode – Sessional Hymn of the saint... after the 6th – Kontakion-Ikos of the saint." (Note: For Polyeleos, the Kontakion MOVES to Ode 3 if Resurrection occupies Ode 6).
+    *   *Order:* Kontakion + Sessional (usually).
+
+> **Primary Source Logic:**
+> "After the 3rd Ode – Kontakion-Ikos and SESSIONAL HYMN of the saint." (Dolnytsky Part II, Line 180).
+> *Logic:* This confirms that when the Saint's Kontakion is displaced from Ode 6 by the Resurrection, it finds refuge at Ode 3 alongside the rightful Sessional Hymn.
 
 ---
 
