@@ -36,7 +36,7 @@ Smith argues that a database alone cannot solve the Typikon; it requires an **In
 **Our Implementation**: This is the definition of our `RuthenianEngine`.
 1.  **Facts**: `json_db/02a_logic_general.json` (The 20 Paradigms).
 2.  **Inference**: The `resolve_rubrics` method in `ruthenian_engine.py` which interrogates the "Day" object to determine the "Case".
-3.  **Validation**: Smith suggests verifying against "Past Ordos". We verify against the **Dolnytsky Typikon** itself using `stress_test_dolnytsky.py`.
+3.  **Validation**: Smith suggests verifying against "Past Ordos". 
 
 ### C. Complexity & Concurrency
 The thesis highlights the difficulty of **Concurrency** (when two feasts clash).
