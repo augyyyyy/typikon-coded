@@ -30,11 +30,11 @@ def main():
     # 1. Initialize Engine
     try:
         engine = RuthenianEngine(version=args.version, external_assets_dir=args.external)
-        print(f"✅ Engine Loaded (Version: {args.version})")
+        print(f"[OK] Engine Loaded (Version: {args.version})")
         if args.external:
              print(f"   External Assets: {args.external}")
     except Exception as e:
-        print(f"❌ Engine Failed to Load: {e}")
+        print(f"[ERROR] Engine Failed to Load: {e}")
         return
 
     # Helper function to process a date
@@ -45,7 +45,7 @@ def main():
 
             # 3. Calculate Context
             ctx = engine.get_liturgical_context(target_date)
-            print(f"\n📅 Targeting: {target_date.isoformat()}")
+            print(f"\n[DATE] Targeting: {target_date.isoformat()}")
             print(f"   Context: {ctx['triodion_period'].upper()} | {ctx['season_id'].upper()} | Tone {ctx.get('tone', '?')}")
 
             # 4. Resolve Logic
@@ -63,15 +63,15 @@ def main():
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(full_text)
 
-            print(f"✅ Generated: {filename}")
+            print(f"[OK] Generated: {filename}")
             
             if not args.no_open:
                 open_file(filename)
                 
         except ValueError:
-            print("❌ Invalid Date Format. Use YYYY-MM-DD.")
+            print("[ERROR] Invalid Date Format. Use YYYY-MM-DD.")
         except Exception as e:
-            print(f"❌ Critical Error: {e}")
+            print(f"[ERROR] Critical Error: {e}")
             import traceback
             traceback.print_exc()
 

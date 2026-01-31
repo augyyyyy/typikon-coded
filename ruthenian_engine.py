@@ -120,36 +120,94 @@ class RuthenianEngine:
         print(f"Engine: Loaded {count} {label} Recension assets.")
 
     def _load_versioned_texts(self):
+        """
+        Load texts from asset-based directory structure.
+        Recursively scans assets/stamford/ directory.
+        """
+        # Load ID map first
+        id_map_path = os.path.join(self.base_dir, "assets", self.content_folder, "_id_map.json")
+        id_map = {}
+        if os.path.exists(id_map_path):
+            with open(id_map_path, 'r', encoding='utf-8') as f:
+                id_map = json.load(f)
+        
+        # Scan assets directory
+        assets_base = os.path.join(self.base_dir, "assets", self.content_folder)
+        
+        if not os.path.exists(assets_base):
+            print(f"Warning: Assets directory not found: {assets_base}")
+            print(f"Falling back to bulk files...")
+            self._load_bulk_files()
+            return
+        
+        # Recursively load all JSON assets
+        count = 0
+        for root, dirs, files in os.walk(assets_base):
+            for file in files:
+                if file.endswith('.json') and file != '_id_map.json':
+                    asset_path = os.path.join(root, file)
+                    try:
+                        with open(asset_path, 'r', encoding='utf-8') as f:
+                            asset_data = json.load(f)
+                        
+                        # Get original ID from asset or from ID map
+                        if isinstance(asset_data, dict) and '_original_id' in asset_data:
+                            asset_id = asset_data['_original_id']
+                        else:
+                            # Fallback: use filename hash to lookup in ID map
+                            file_hash = os.path.splitext(file)[0]
+                            asset_id = id_map.get(file_hash, file_hash)
+                        
+                        self.text_db[asset_id] = asset_data
+                        count += 1
+                    except Exception as e:
+                        print(f"Error loading {asset_path}: {e}")
+        
+        print(f"Engine: Loaded {count} assets from {assets_base}")
+    
+    def _load_bulk_files(self):
+        """Fallback: Load from legacy bulk JSON files."""
         try:
-             supplement_db = self._load_text_db("text_horologion_supplement.json")
-             if supplement_db: self.text_db.update(supplement_db)
+            supplement_db = self._load_text_db("text_horologion_supplement.json")
+            if supplement_db: self.text_db.update(supplement_db)
         except:
-             self.log("Warning: text_horologion_supplement.json not found")
-             
+            self.log("Warning: text_horologion_supplement.json not found")
+            
         try:
-             octoechos_db = self._load_text_db("text_octoechos.json")
-             if octoechos_db: self.text_db.update(octoechos_db)
+            octoechos_db = self._load_text_db("text_octoechos.json")
+            if octoechos_db: self.text_db.update(octoechos_db)
         except:
-             self.log("Warning: text_octoechos.json not found")
+            self.log("Warning: text_octoechos.json not found")
 
         try:
-             eothinon_db = self._load_text_db("text_eothinon.json")
-             if eothinon_db: self.text_db.update(eothinon_db)
+            eothinon_db = self._load_text_db("text_eothinon.json")
+            if eothinon_db: self.text_db.update(eothinon_db)
         except:
-             self.log("Warning: text_eothinon.json not found")
+            self.log("Warning: text_eothinon.json not found")
 
         try:
-             triodion_db = self._load_text_db("text_triodion.json")
-             if triodion_db: self.text_db.update(triodion_db)
+            triodion_db = self._load_text_db("text_triodion.json")
+            if triodion_db: self.text_db.update(triodion_db)
         except:
-             self.log("Warning: text_triodion.json not found")
+            self.log("Warning: text_triodion.json not found")
 
         try:
-             pentecostarion_db = self._load_text_db("text_pentecostarion.json")
-             if pentecostarion_db: self.text_db.update(pentecostarion_db)
+            pentecostarion_db = self._load_text_db("text_pentecostarion.json")
+            if pentecostarion_db: self.text_db.update(pentecostarion_db)
         except:
-             self.log("Warning: text_pentecostarion.json not found")
+            self.log("Warning: text_pentecostarion.json not found")
 
+        try:
+            horologion_db = self._load_text_db("text_horologion.json")
+            if horologion_db: self.text_db.update(horologion_db)
+        except:
+            self.log("Warning: text_horologion.json not found")
+
+        try:
+            liturgikon_db = self._load_text_db("text_liturgikon.json")
+            if liturgikon_db: self.text_db.update(liturgikon_db)
+        except:
+            self.log("Warning: text_liturgikon.json not found")
 
     def log(self, message):
         self.trace_log.append(message)
@@ -3175,6 +3233,875 @@ class RuthenianEngine:
             "hypakoe_slot": None
         }
 
+    def check_polyeleos(self, context):
+        """
+        Gate 4: Polyeleos Switch
+        Determines if Polyeleos (Psalm 134/135) should be sung.
+        
+        Returns: Boolean
+        
+        Logic (Dolnytsky Part I, Line 157):
+        - True on Sundays during specific seasons
+        - True on Major Feasts (rank >= 3)
+        - True on Temple Feast
+        - False on Lenten Weekdays
+        """
+        # Check for major feast
+        rank = context.get('rank', 5)
+        if rank <= 3:  # Polyeleos rank or higher
+            return True
+        
+        # Check if Sunday
+        if context.get('day_of_week') == 0:  # Sunday
+            # Seasonal logic for Sunday Polyeleos
+            season = context.get('season_id', '')
+            pascha_offset = context.get('pascha_offset', 0)
+            
+            # From Leavetaking of Holy Cross (Sept 27) to Nativity Forefeast
+            # From Leavetaking of Theophany (Jan 14) to Cheesefare Sunday
+            
+            # Simplified: Polyeleos on Sundays during Octoechos season
+            if season == 'octoechos':
+                # Exception: NOT during Triodion period (Lent)
+                if pascha_offset < -48:  # Before Lent starts
+                    return True
+                elif pascha_offset > 50:  # After Pentecost
+                    return True
+            
+            # During Triodion: only if major feast overrides
+            if pascha_offset >= -48 and pascha_offset < 0:
+                return rank <= 3
+        
+        return False
+
+    def resolve_polyeleos(self, context):
+        """
+        Gate 4: Resolves Polyeleos content.
+        
+        Returns: dict with Polyeleos structure
+        """
+        if not self.check_polyeleos(context):
+            # Use 17th Kathisma instead
+            return {
+                "type": "kathisma_17",
+                "polyeleos": False,
+                "psalm": "kathisma_17"
+            }
+        
+        return {
+            "type": "polyeleos",
+            "polyeleos": True,
+            "psalms": [134, 135],
+            "magnification": self._get_magnification(context),
+            "sessional": "polyeleos_sessional"
+        }
+
+    def _get_magnification(self, context):
+        """Helper for Polyeleos magnification text."""
+        rank = context.get('rank', 5)
+        if rank == 1:  # Great Feast of Lord
+            return f"magnification_feast_{context.get('feast_id', 'generic')}"
+        elif rank == 2:  # Theotokos Feast
+            return "magnification_theotokos"
+        else:
+            return "magnification_saint"
+    
+    def resolve_prokeimenon(self, context):
+        """
+        Gate 3a: Prokeimenon Selection
+        
+        Returns the correct Prokeimenon based on:
+        - Sunday: 11-week Eothinon cycle (rotates with Gospel)
+        - Feast: Feast-specific prokeimenon
+        - Weekday: Daily prokeimenon
+        
+        Citation: Dolnytsky Part I Lines 157-159
+        """
+        day_of_week = context.get('day_of_week', 0)  # 0 = Sunday
+        rank = context.get('rank', 5)
+        eothinon = context.get('eothinon', 1)  # 1-11 cycle
+        
+        # Great Feast overrides all
+        if rank == 1:  # Great Feast of Lord
+            feast_id = context.get('feast_id', '')
+            return {
+                "type": "festal_prokeimenon",
+                "feast_id": feast_id,
+                "prokeimenon_id": f"prokeimenon_{feast_id}",
+                "tone": self._get_festal_tone(feast_id)
+            }
+        
+        # Sunday - use Eothinon cycle  
+        if day_of_week == 0:
+            # Map Eothinon 1-11 to tones and psalm verses
+            eothinon_prokeimena = {
+                1: {"tone": 4, "psalm": 11, "text": "I myself will arise"},
+                2: {"tone": 4, "psalm": 7, "text": "Lord, rise up in Your anger"},
+                3: {"tone": 5, "psalm": 9, "text": "Arise then, Lord"},
+                4: {"tone": 5, "psalm": 18, "text": "Their voice goes out"},
+                5: {"tone": 6, "psalm": 12, "text": "Turn and bring me help"},
+                6: {"tone": 6, "psalm": 9, "text": "The Lord is king"},
+                7: {"tone": 7, "psalm": 28, "text": "The Lord will give strength"},
+                8: {"tone": 7, "psalm": 18, "text": "Their voice goes out"},
+                9: {"tone": 8, "psalm": 76, "text": "You will be known"},
+                10: {"tone": 8, "psalm": 27, "text": "I love You, Lord"},
+                11: {"tone": 1, "psalm": 9, "text": "I will praise You"}
+            }
+            
+            prokeimenon_data = eothinon_prokeimena.get(eothinon, eothinon_prokeimena[1])
+            
+            return {
+                "type": "sunday_prokeimenon",
+                "eothinon": eothinon,
+                "tone": prokeimenon_data["tone"],
+                "psalm": prokeimenon_data["psalm"],
+                "text": prokeimenon_data["text"],
+                "prokeimenon_id": f"prokeimenon_eothinon_{eothinon}"
+            }
+        
+        # Weekday - tone of the week
+        octoechos_week = context.get('octoechos_week', 1)  # 1-8
+        tone = ((octoechos_week - 1) % 8) + 1
+        
+        return {
+            "type": "daily_prokeimenon",
+            "tone": tone,
+            "prokeimenon_id": f"prokeimenon_weekday_tone_{tone}",
+            "day_of_week": day_of_week
+        }
+
+    def resolve_gospel(self, context):
+        """
+        Gate 3b: Gospel Selection - Eothinon Cycle
+        
+        Returns correct Gospel reading:
+        - Sunday: 11 Eothinon Gospels (resurrection narratives)
+        - Great Feast: Feast-specific Gospel
+        - Weekday: Sequential Matthew reading or saint's Gospel
+        
+        Citation: Dolnytsky Part I Line 157
+        """
+        day_of_week = context.get('day_of_week', 0)
+        rank = context.get('rank', 5)
+        eothinon = context.get('eothinon', 1)
+        
+        # Great Feast overrides
+        if rank == 1:
+            feast_id = context.get('feast_id', '')
+            return {
+                "type": "festal_gospel",
+                "feast_id": feast_id,
+                "gospel_id": f"gospel_{feast_id}",
+                "pericope": self._get_festal_gospel_pericope(feast_id)
+            }
+        
+        # Sunday - Eothinon Gospel (11 resurrection narratives)
+        if day_of_week == 0:
+            # Map Eothinon to Gospel pericopes
+            eothinon_gospels = {
+                1: {"book": "Matthew", "chapter": 28, "verses": "16-20", "section": 116},
+                2: {"book": "Mark", "chapter": 16, "verses": "1-8", "section": 70},
+                3: {"book": "Mark", "chapter": 16, "verses": "9-20", "section": 71},
+                4: {"book": "Luke", "chapter": 24, "verses": "1-12", "section": 112},
+                5: {"book": "Luke", "chapter": 24, "verses": "12-35", "section": 113},
+                6: {"book": "Luke", "chapter": 24, "verses": "36-53", "section": 114},
+                7: {"book": "John", "chapter": 20, "verses": "1-10", "section": 63},
+                8: {"book": "John", "chapter": 20, "verses": "11-18", "section": 64},
+                9: {"book": "John", "chapter": 20, "verses": "19-31", "section": 65},
+                10: {"book": "John", "chapter": 21, "verses": "1-14", "section": 66},
+                11: {"book": "John", "chapter": 21, "verses": "15-25", "section": 67}
+            }
+            
+            gospel_data = eothinon_gospels.get(eothinon, eothinon_gospels[1])
+            
+            return {
+                "type": "eothinon_gospel",
+                "eothinon": eothinon,
+                "book": gospel_data["book"],
+                "chapter": gospel_data["chapter"],
+                "verses": gospel_data["verses"],
+                "section": gospel_data["section"],
+                "gospel_id": f"gospel_eothinon_{eothinon}"
+            }
+        
+        # Weekday or Saint - Check if saint has own Gospel
+        saint_gospel = context.get('saint_gospel')
+        if saint_gospel:
+            return {
+                "type": "saint_gospel",
+                "gospel_id": saint_gospel,
+                "saint_id": context.get('saint_id', '')
+            }
+        
+        # Default: Sequential Matthew reading (not implemented yet)
+        return {
+            "type": "sequential_gospel",
+            "gospel_id": "gospel_sequential_matthew",
+            "note": "Sequential reading from Matthew"
+        }
+
+    def resolve_exapostilarion(self, context):
+        """
+        Gate: Exapostilarion Selection
+        
+        Returns Exapostilarion (Light Hymn after Ode 9):
+        - Sunday: 11 Eothinon cycle
+        - Feast: Feast exapostilarion
+        - Weekday: Theotokion
+        
+        Citation: Dolnytsky Part I
+        """
+        day_of_week = context.get('day_of_week', 0)
+        rank = context.get('rank', 5)
+        eothinon = context.get('eothinon', 1)
+        
+        # Great Feast
+        if rank == 1:
+            feast_id = context.get('feast_id', '')
+            return {
+                "type": "festal_exapostilarion",
+                "exapostilarion_id": f"exapostilarion_{feast_id}"
+            }
+        
+        # Sunday - Eothinon cycle
+        if day_of_week == 0:
+            return {
+                "type": "eothinon_exapostilarion",
+                "eothinon": eothinon,
+                "exapostilarion_id": f"exapostilarion_eothinon_{eothinon}"
+            }
+        
+        # Weekday
+        return {
+            "type": "theotokion_exapostilarion",
+            "exapostilarion_id": "theotokion_exapostilarion_weekday"
+        }
+
+    def _get_festal_tone(self, feast_id):
+        """Helper: Returns tone for feast prokeimenon"""
+        festal_tones = {
+            "nativity": 4,
+            "theophany": 4,
+            "transfiguration": 4,
+            "dormition": 4,
+            "annunciation": 4
+        }
+        return festal_tones.get(feast_id, 1)
+
+    def _get_festal_gospel_pericope(self, feast_id):
+        """Helper: Returns Gospel pericope for feast"""
+        festal_gospels = {
+            "nativity": {"book": "Matthew", "chapter": 2, "verses": "1-12"},
+            "theophany": {"book": "Matthew", "chapter": 3, "verses": "13-17"},
+            "transfiguration": {"book": "Matthew", "chapter": 17, "verses": "1-9"},
+            "dormition": {"book": "Luke", "chapter": 10, "verses": "38-42; 11:27-28"},
+            "annunciation": {"book": "Luke", "chapter": 1, "verses": "26-38"}
+        }
+        return festal_gospels.get(feast_id, {"book": "John", "chapter": 1, "verses": "1-17"})
+
+    def resolve_angelic_council(self, context):
+        """
+        Gate 4a: Angelic Council vs. Magnification
+        
+        On Polyeleos Sundays, before Polyeleos (Psalms 134-135),
+        there is a choice between:
+        - "Angelic Council" (Собор Ангельский) - when NO feast
+        - "Magnification" (Величание) - when feast is present
+        
+        Citation: Dolnytsky Part I Line 157
+        """
+        if not self.check_polyeleos(context):
+            return {"type": "none", "text": None}
+        
+        rank = context.get('rank', 5)
+        
+        # If Great Feast or Polyeleos Saint, use Magnification
+        if rank <= 3:  # Great Feast, Theotokos Feast, Polyeleos Saint
+            magnitude_type = self._get_magnification(context)
+            return {
+                "type": "magnification",
+                "magnification_id": magnitude_type,
+                "text_id": magnitude_type
+            }
+        
+        # Otherwise, use "Angelic Council" (simple Sunday Polyeleos)
+        return {
+            "type": "angelic_council",
+            "text_id": "angelic_council",
+            "psalms": "Angelic Council and Polyeleos"
+        }
+
+    def resolve_hypakoe(self, context):
+        """
+        Gate 4b: Hypakoe Placement
+        
+        Hypakoe (седален по polyeleos) appears:
+        - After Polyeleos Sessional (if Polyeleos)
+        - OR After Kathismata (if no Polyeleos)
+        - Special: Moves to Ode 3 on Great Feasts
+        
+        Citation: Dolnytsky Part II Line 180, 353
+        """
+        rank = context.get('rank', 5)
+        has_polyeleos = self.check_polyeleos(context)
+        day_of_week = context.get('day_of_week', 0)
+        
+        # Special case: Dormition - Hypakoe replaces Sessional after Ode 3
+        if context.get('feast_id') == 'dormition':
+            return {
+                "type": "hypakoe_after_ode_3",
+                "hypakoe_id": "hypakoe_dormition",
+                "placement": "replaces_sessional_ode_3"
+            }
+        
+        # Great Feast: Hypakoe after Polyeleos
+        if rank == 1 and has_polyeleos:
+            return {
+                "type": "festal_hypakoe",
+                "hypakoe_id": f"hypakoe_{context.get('feast_id', 'sunday')}",
+                "placement": "after_polyeleos_sessional"
+            }
+        
+        # Sunday: Resurrection Hypakoe (one per tone)
+        if day_of_week == 0:
+            octoechos_week = context.get('octoechos_week', 1)
+            tone = ((octoechos_week - 1) % 8) + 1
+            return {
+                "type": "sunday_hypakoe",
+                "hypakoe_id": f"hypakoe_tone_{tone}",
+                "tone": tone,
+                "placement": "after_kathismata" if not has_polyeleos else "after_polyeleos"
+            }
+        
+        # No Hypakoe on simple weekdays
+        return {
+            "type": "none",
+            "hypakoe_id": None
+        }
+    
+    def resolve_anabathmoi(self, context):
+        """
+        Gate 5: Anabathmoi Selection (Separated from Hypakoe)
+        
+        Anabathmoi (Gradual Psalms) are sung before the Prokeimenon at Matins.
+        
+        Returns the correct Anabathmoi:
+        - Great Feast: "From my youth" (Antiphon 1, Tone 4)
+        - Sunday: Anabathmoi of the current tone (1-8)
+        - Polyeleos Saint: "From my youth" (Antiphon 1, Tone 4)
+        - Simple Weekday: None
+        
+        Citation: Dolnytsky Part I Line 157
+        """
+        rank = context.get('rank', 5)
+        day_of_week = context.get('day_of_week', 0)
+        
+        # Great Feast: "From my youth" (Tone 4, Antiphon 1)
+        if rank == 1:
+            return {
+                "type": "festal_anabathmoi",
+                "anabathmoi_id": "from_my_youth_tone_4",
+                "tone": 4,
+                "antiphon": 1,
+                "text": "From my youth up many passions have warred against me"
+            }
+        
+        # Sunday: Anabathmoi of the tone
+        if day_of_week == 0:
+            octoechos_week = context.get('octoechos_week', 1)
+            tone = ((octoechos_week - 1) % 8) + 1
+            return {
+                "type": "sunday_anabathmoi",
+                "anabathmoi_id": f"anabathmoi_tone_{tone}",
+                "tone": tone,
+                "antiphons": 3  # Each tone has 3 antiphons
+            }
+        
+        # Polyeleos Saint (weekday): "From my youth"
+        if rank <= 3:  # Polyeleos Saint
+            return {
+                "type": "polyeleos_anabathmoi",
+                "anabathmoi_id": "from_my_youth_tone_4",
+                "tone": 4,
+                "antiphon": 1
+            }
+        
+        # Simple weekday: No Anabathmoi
+        return {
+            "type": "none",
+            "anabathmoi_id": None
+        }
+
+    def resolve_kathisma_choice(self, context):
+        """
+        Gate 6: Kathisma 17 vs. 19 (Polyeleos) Choice
+        
+        At Sunday Matins, determines which Kathisma to read:
+        - Kathisma 17 (Psalms 118-133): Simple Sunday (no Polyeleos)
+        - Polyeleos (Psalms 134-135): Sunday + Polyeleos Saint/Feast
+        
+        Citation: Dolnytsky Part I Line 157
+        """
+        day_of_week = context.get('day_of_week', 0)
+        
+        # Non-Sunday: use sequential kathisma
+        if day_of_week != 0:
+            # Weekday kathisma cycle (1-20 over 2 weeks)
+            week_number = context.get('week_number', 1)
+            return {
+                "type": "weekday_kathisma",
+                "kathisma_number": self._get_weekday_kathisma(context),
+                "polyeleos": False
+            }
+        
+        # Sunday: Check if Polyeleos
+        has_polyeleos = self.check_polyeleos(context)
+        
+        if has_polyeleos:
+            # Use Polyeleos (Psalms 134-135) instead of Kathisma 17
+            return {
+                "type": "polyeleos",
+                "kathisma_number": 19,  # Polyeleos is technically part of Kathisma 19
+                "psalms": [134, 135],
+                "polyeleos": True,
+                "angelic_council_or_magnification": self.resolve_angelic_council(context)
+            }
+        else:
+            # Use Kathisma 17 (Psalms 118-133)
+            return {
+                "type": "sunday_kathisma_17",
+                "kathisma_number": 17,
+                "psalms": list(range(118, 134)),  # Psalms 118-133
+                "polyeleos": False
+            }
+
+    def _get_weekday_kathisma(self, context):
+        """Helper: Returns weekday kathisma number (1-20 cycle)"""
+        day_of_week = context.get('day_of_week', 0)
+        week_number = context.get('week_number', 1)
+        
+        # Simplified - needs full implementation with week cycle
+        # Monday = 1, Tuesday = 2, etc.
+        # Two kathismata per day = 20 kathismata over 2 weeks
+        base = ((week_number - 1) % 2) * 10
+        return base + (day_of_week * 2) + 1
+
+    def resolve_doxology_type(self, context):
+        """
+        Gate 11: Doxology Type - Great vs. Small
+        
+        Determines which Doxology to use at the end of Matins:
+        - Great Doxology (sung): Sundays, Great Feasts, Polyeleos Saints
+        - Small Doxology (read): Simple weekdays
+        
+        Citation: Dolnytsky Part I Lines 157-159, Part II Line 267
+        """
+        rank = context.get('rank', 5)
+        day_of_week = context.get('day_of_week', 0)
+        
+        # Great Feast: Always Great Doxology
+        if rank == 1:
+            return {
+                "type": "great_doxology",
+                "doxology_id": "great_doxology_sung",
+                "sung": True,
+                "reason": "Great Feast of the Lord"
+            }
+        
+        # Sunday: Always Great Doxology
+        if day_of_week == 0:
+            return {
+                "type": "great_doxology",
+                "doxology_id": "great_doxology_sung",
+                "sung": True,
+                "reason": "Sunday Resurrection"
+            }
+        
+        # Polyeleos Saint (rank 2-3): Great Doxology
+        if rank <= 3:
+            return {
+                "type": "great_doxology",
+                "doxology_id": "great_doxology_sung",
+                "sung": True,
+                "reason": "Polyeleos Saint"
+            }
+        
+        # Feast with Doxology (rank 4)
+        if rank == 4:
+            return {
+                "type": "great_doxology",
+                "doxology_id": "great_doxology_sung",
+                "sung": True,
+                "reason": "Saint with Doxology"
+            }
+        
+        # Simple weekday: Small Doxology
+        return {
+            "type": "small_doxology",
+            "doxology_id": "small_doxology_read",
+            "sung": False,
+            "reason": "Simple weekday"
+        }
+
+    def resolve_matins_dismissal_troparion(self, context):
+        """
+        Gate 12: Matins Dismissal Troparion
+        
+        Determines which troparion to use at the dismissal of Matins:
+        - Sunday: Resurrectional troparion of the tone
+        - Great Feast: Troparion of the feast
+        - Saint: Troparion of the saint
+        - Multiple: Stacking logic
+        
+        Citation: Dolnytsky Part I Line 159
+        """
+        rank = context.get('rank', 5)
+        day_of_week = context.get('day_of_week', 0)
+        
+        troparia = []
+        
+        # Great Feast: Feast troparion dominates
+        if rank == 1:
+            feast_id = context.get('feast_id', '')
+            troparia.append({
+                "type": "festal",
+                "troparion_id": f"troparion_{feast_id}",
+                "tone": self._get_festal_tone(feast_id)
+            })
+            return {
+                "troparia": troparia,
+                "glory_both_now": f"troparion_{feast_id}"
+            }
+        
+        # Sunday + Saint stacking
+        if day_of_week == 0:
+            octoechos_week = context.get('octoechos_week', 1)
+            tone = ((octoechos_week - 1) % 8) + 1
+            
+            # Resurrectional troparion
+            troparia.append({
+                "type": "resurrectional",
+                "troparion_id": f"troparion_resurrection_tone_{tone}",
+                "tone": tone
+            })
+            
+            # If saint present
+            saint_id = context.get('saint_id')
+            if saint_id and rank <= 4:
+                troparia.append({
+                    "type": "saint",
+                    "troparion_id": f"troparion_{saint_id}",
+                    "position": "glory"
+                })
+                
+                # Theotokion at Both Now
+                return {
+                    "troparia": troparia,
+                    "glory": f"troparion_{saint_id}",
+                    "both_now": f"theotokion_tone_{tone}"
+                }
+            
+            # Sunday alone
+            return {
+                "troparia": troparia,
+                "glory_both_now": f"troparion_resurrection_tone_{tone}"
+            }
+        
+        # Weekday saint
+        saint_id = context.get('saint_id')
+        if saint_id:
+            saint_tone = context.get('saint_tone', 1)
+            troparia.append({
+                "type": "saint",
+                "troparion_id": f"troparion_{saint_id}",
+                "tone": saint_tone
+            })
+            
+            return {
+                "troparia": troparia,
+                "both_now": f"theotokion_dismissal_tone_{saint_tone}"
+            }
+        
+        # Default weekday
+        return {
+            "troparia": [],
+            "none": True
+        }
+
+    def resolve_eothinon_doxastikon(self, context):
+        """
+        Gate 10: Eothinon Doxastikon (Sunday Gospel Sticheron)
+        
+        Returns the correct Gospel Sticheron for Sundays (11 cycle):
+        - Sung at "Glory" after the Praises
+        - Corresponds to the Eothinon Gospel
+        
+        Citation: Dolnytsky Part I Line 182
+        """
+        day_of_week = context.get('day_of_week', 0)
+        eothinon = context.get('eothinon', 1)
+        
+        if day_of_week != 0:
+            return {"type": "none", "doxastikon_id": None}
+        
+        # Sunday: Gospel Sticheron based on Eothinon
+        return {
+            "type": "eothinon_doxastikon",
+            "eothinon": eothinon,
+            "doxastikon_id": f"gospel_sticheron_eothinon_{eothinon}",
+            "position": "glory_after_praises",
+            "tone": self._get_eothinon_tone(eothinon)
+        }
+
+    def _get_eothinon_tone(self, eothinon):
+        """Helper: Returns tone for Eothinon Gospel Sticheron"""
+        # Eothinon tones follow a pattern
+        eothinon_tones = {
+            1: 5, 2: 5, 3: 6, 4: 6,
+            5: 7, 6: 7, 7: 8, 8: 8,
+            9: 1, 10: 1, 11: 2
+        }
+        return eothinon_tones.get(eothinon, 1)
+    
+    def _get_festal_tone(self, feast_id):
+        """Helper: Returns tone for feast troparion"""
+        # Map feast IDs to tones
+        festal_tones = {
+            'nativity': 4,
+            'theophany': 1,
+            'meeting': 1,
+            'annunciation': 4,
+            'entry_jerusalem': 1,
+            'ascension': 4,
+            'pentecost': 8,
+            'transfiguration': 7,
+            'dormition': 1,
+            'nativity_theotokos': 4,
+            'exaltation_cross': 1,
+            'presentation_theotokos': 4
+        }
+        return festal_tones.get(feast_id, 1)
+    
+    def resolve_katavasia(self, context):
+        """
+        Gate 7: Katavasia Selection
+        
+        Katavasia are the irmos (refrains) sung at the end of certain odes of the canon.
+        
+        Rules (Dolnytsky Part V):
+        - Default: "I will open my mouth" (general Theotokos Katavasia) after odes 3, 6, 8, 9
+        - Great Feasts: Festal Katavasia after EACH ode (1-9)
+        - Polyeleos: Irmos of last canon after odes 3, 6, 8, 9
+        - Triodion/Pascha periods: Special seasonal Katavasia
+        - Lenten weekdays: Only after odes 3, 6, 8, 9
+        
+        Citation: Dolnytsky Part V Line 245-262
+        """
+        rank = context.get('rank', 5)
+        feast_id = context.get('feast_id', '')
+        season = context.get('season', 'ordinary')
+        day_of_week = context.get('day_of_week', 0)
+        
+        # Great Feasts: Festal Katavasia after EVERY ode (1-9)
+        if rank == 1:
+            return {
+                "type": "festal_katavasia",
+                "katavasia_id": f"katavasia_{feast_id}",
+                "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                "frequency": "after_each_ode"
+            }
+        
+        # Pascha and Bright Week: Paschal Katavasia every ode
+        if season == 'pascha' or season == 'bright_week':
+            return {
+                "type": "paschal_katavasia",
+                "katavasia_id": "katavasia_pascha",
+                "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                "frequency": "after_each_ode"
+            }
+        
+        # Triodion seasons: Special Triodion Katavasia
+        if season in ['triodion', 'great_lent', 'holy_week']:
+            # Meatfare Sunday: Triodion Katavasia
+            if feast_id == 'meatfare_sunday':
+                return {
+                    "type": "triodion_katavasia",
+                    "katavasia_id": "katavasia_triodion",
+                    "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    "frequency": "after_each_ode"
+                }
+            
+            # Lenten weekdays: Only after 3, 6, 8, 9 (with three-ode canon)
+            if day_of_week != 0 and day_of_week != 6:
+                return {
+                    "type": "lenten_katavasia",
+                    "katavasia_id": "irmos_last_canon",
+                    "after_odes": [3, 6, 8, 9],
+                    "frequency": "limited_odes"
+                }
+        
+        # Meeting of the Lord season (Jan 15 - Feb 9): Meeting Katavasia
+        if season == 'meeting_season':
+            return {
+                "type": "festal_katavasia",
+                "katavasia_id": "katavasia_meeting",
+                "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                "frequency": "after_each_ode"
+            }
+        
+        # Polyeleos Saint (rank 2-3): Irmos of last canon after 3, 6, 8, 9
+        if rank <= 3:
+            return {
+                "type": "polyeleos_katavasia",
+                "katavasia_id": "irmos_last_canon",
+                "after_odes": [3, 6, 8, 9],
+                "frequency": "limited_odes"
+            }
+        
+        # Default: "I will open my mouth" (general Theotokos) after 3, 6, 8, 9
+        return {
+            "type": "general_katavasia",
+            "katavasia_id": "i_will_open_my_mouth",
+            "after_odes": [3, 6, 8, 9],
+            "frequency": "limited_odes",
+            "text": "I will open my mouth and it shall be filled with the Spirit"
+        }
+
+    def resolve_magnificat(self, context):
+        """
+        Gate 8: Magnificat at Ode 9
+        
+        Determines what is sung during Ode 9 instead of or with "It is truly meet":
+        - Default: "It is truly meet" (Axion Estin)
+        - Sunday/Feast: "More honorable" + festal irmos or "Holy is the Lord"
+        - Great Feasts: Special Magnificat + "More honorable"
+        
+        The Magnificat refers to the magnification of the Theotokos during the 9th Ode.
+        
+        Citation: Dolnytsky Part I Line 157, Appendix Line 205
+        """
+        rank = context.get('rank', 5)
+        day_of_week = context.get('day_of_week', 0)
+        feast_id = context.get('feast_id', '')
+        season = context.get('season', 'ordinary')
+        
+        # Pascha to Thomas Sunday: NO "It is truly meet", only irmos
+        if season in ['pascha', 'bright_week']:
+            return {
+                "type": "paschal_magnificat",
+                "magnificat_id": "angel_cried_out",
+                "axion_estin": False,
+                "more_honorable": False,
+                "text": "The Angel cried out to her full of grace"
+            }
+        
+        # Great Feast: Festal irmos instead of "It is truly meet"
+        if rank == 1:
+            # Specific feasts that replace "It is truly meet"
+            if feast_id in ['nativity', 'theophany', 'annunciation', 'dormition']:
+                return {
+                    "type": "festal_magnificat",
+                    "magnificat_id": f"magnificat_{feast_id}",
+                    "axion_estin": False,
+                    "more_honorable": False,
+                    "note": "Festal irmos replaces 'It is truly meet'"
+                }
+            else:
+                # Other Great Feasts: "More honorable" + festal irmos
+                return {
+                    "type": "festal_with_more_honorable",
+                    "magnificat_id": f"magnificat_{feast_id}",
+                    "axion_estin": False,
+                    "more_honorable": True,
+                    "followed_by": "festal_irmos"
+                }
+        
+        # Sunday: Sing irmos instead of "It is truly meet"
+        if day_of_week == 0:
+            eothinon = context.get('eothinon', 1)
+            octoechos_week = context.get('octoechos_week', 1)
+            tone = ((octoechos_week - 1) % 8) + 1
+            
+            return {
+                "type": "sunday_magnificat",
+                "magnificat_id": f"irmos_ode_9_tone_{tone}",
+                "axion_estin": False,
+                "more_honorable": False,
+                "irmos_replaces_axion": True,
+                "tone": tone
+            }
+        
+        # Polyeleos: Irmos instead of "It is truly meet"
+        if rank <= 3:
+            return {
+                "type": "polyeleos_magnificat",
+                "magnificat_id": "irmos_ode_9_last_canon",
+                "axion_estin": False,
+                "more_honorable": False,
+                "note": "Irmos of last canon replaces 'It is truly meet'"
+            }
+        
+        # Simple weekday: "It is truly meet"
+        return {
+            "type": "default_magnificat",
+            "magnificat_id": "it_is_truly_meet",
+            "axion_estin": True,
+            "more_honorable": False,
+            "text": "It is truly meet to bless you, O Theotokos"
+        }
+    
+    def check_footnote_exceptions(self, date, service_type=""):
+        """
+        Gate 13: Check for Dolnytsky footnote exceptions.
+        
+        Returns: dict with exception details or None.
+        """
+        # Parse date
+        if hasattr(date, 'isoformat'):
+            date_str = date.isoformat()
+        else:
+            date_str = str(date)
+        
+        # Known critical exceptions from Dolnytsky
+        exceptions = {
+            # Annunciation on Great Friday
+            "03-25_great_friday": {
+                "override": "Transfer Annunciation to Bright Monday",
+                "note": "Dolnytsky Footnote 47"
+            },
+            # St. George on Holy Saturday
+            "04-23_holy_saturday": {
+                "override": "Transfer to Bright Monday",
+                "note": "Dolnytsky Footnote 52"
+            }
+        }
+        
+        # Create lookup key (month-day)
+        if len(date_str) >= 10:
+            month_day = date_str[5:10]  # MM-DD
+            key = f"{month_day}_{service_type}"
+            return exceptions.get(key)
+        
+        return None
+
+    def apply_footnote_exceptions(self, context, rubrics):
+        """
+        Gate 13: Apply any footnote exceptions to rubrics.
+        
+        Modifies rubrics dict in place based on exceptions.
+        """
+        exception = self.check_footnote_exceptions(
+            context.get('date'),
+            context.get('service_type', '')
+        )
+        
+        if exception:
+            rubrics['footnote_exception'] = exception
+            rubrics['warnings'] = rubrics.get('warnings', [])
+            rubrics['warnings'].append(f"FOOTNOTE OVERRIDE: {exception['override']}")
+        
+        return rubrics
+
     def check_magnificat_suppression(self, context):
         """
         Implements Logic Gate 8: Magnificat Suppression (Ode 9).
@@ -3235,30 +4162,86 @@ class RuthenianEngine:
 
     def resolve_matins_dismissal_troparion(self, context):
         """
-        Implements Logic Gate 12: Dismissal Troparion (apolytykion at end of Matins).
-        Ref: Dolnytsky Part I.
-        """
-        tone = context.get("tone", 1)
-        paradigm = self.identify_paradigm(context)
+        Gate 12: Matins Dismissal Troparion
         
-        # Sunday: Resurrectional Troparion of the Tone
-        if paradigm == "p1_sunday_resurrection":
-             return {
-                 "type": "troparion",
-                 "source": f"octoechos_tone_{tone}"
-             }
-             
-        # Feast: Troparion of the Feast
-        if paradigm == "p_feast_lord":
-             return {
-                 "type": "troparion", 
-                 "source": "feast"
-             }
-             
-        # Weekday: Troparion of the Saint? 
-        # Actually usually it is a Theotokion or specific dismissal logic?
-        # Leaving as "day_troparion" for now.
+        Determines which troparion to use at the dismissal of Matins:
+        - Sunday: Resurrectional troparion of the tone
+        - Great Feast: Troparion of the feast
+        - Saint: Troparion of the saint
+        - Multiple: Stacking logic
+        
+        Citation: Dolnytsky Part I Line 159
+        """
+        rank = context.get('rank', 5)
+        day_of_week = context.get('day_of_week', 0)
+        
+        troparia = []
+        
+        # Great Feast: Feast troparion dominates
+        if rank == 1:
+            feast_id = context.get('feast_id', '')
+            troparia.append({
+                "type": "festal",
+                "troparion_id": f"troparion_{feast_id}",
+                "tone": self._get_festal_tone(feast_id)
+            })
+            return {
+                "troparia": troparia,
+                "glory_both_now": f"troparion_{feast_id}"
+            }
+        
+        # Sunday + Saint stacking
+        if day_of_week == 0:
+            octoechos_week = context.get('octoechos_week', 1)
+            tone = ((octoechos_week - 1) % 8) + 1
+            
+            # Resurrectional troparion
+            troparia.append({
+                "type": "resurrectional",
+                "troparion_id": f"troparion_resurrection_tone_{tone}",
+                "tone": tone
+            })
+            
+            # If saint present
+            saint_id = context.get('saint_id')
+            if saint_id and rank <= 4:
+                troparia.append({
+                    "type": "saint",
+                    "troparion_id": f"troparion_{saint_id}",
+                    "position": "glory"
+                })
+                
+                # Theotokion at Both Now
+                return {
+                    "troparia": troparia,
+                    "glory": f"troparion_{saint_id}",
+                    "both_now": f"theotokion_tone_{tone}"
+                }
+            
+            # Sunday alone
+            return {
+                "troparia": troparia,
+                "glory_both_now": f"troparion_resurrection_tone_{tone}"
+            }
+        
+        # Weekday saint
+        saint_id = context.get('saint_id')
+        if saint_id:
+            saint_tone = context.get('saint_tone', 1)
+            troparia.append({
+                "type": "saint",
+                "troparion_id": f"troparion_{saint_id}",
+                "tone": saint_tone
+            })
+            
+            return {
+                "troparia": troparia,
+                "both_now": f"theotokion_dismissal_tone_{saint_tone}"
+            }
+        
+        # Default weekday
         return {
-            "type": "troparion",
-            "source": "day_troparion"
+            "troparia": [],
+            "none": True
         }
+

@@ -99,7 +99,11 @@ For more detailed information, please refer to:
 - [Contributing](CONTRIBUTING.md): How to contribute code or textual corrections.
 - [Academic Alignment](docs/thesis_alignment_analysis.md): A comparative analysis of this engine against the 2011 Master's Thesis "Automating the Byzantine Typikon".
 
-## Changelog
+### v0.3.0 (2026-01-30) - The Dolnytsky Logic Engine
+*   **Phase 12c: Hyper-Dimensional Logic**: Implemented collision resolution for Sunday + Great Feast of Lord (Theophany). Refactored `identify_paradigm` to prioritize Rank 1 feasts over Sunday.
+*   **Phase 12d: Vesperal Liturgy Engine**: Added support for hybrid Vespers-Liturgy services (Theophany Eve, Nativity Eve). Implemented `resolve_evening_service_type` and `resolve_liturgy_extensions` for Great Blessing of Water.
+*   **Validation Matrix**: Created 50-scenario Dolnytsky stress test matrix. Currently passing 13/50 verification points.
+*   **Data Integrity**: Fixed Octoechos parser to properly ingest Tone 3 (previously missing due to regex issue).
 
 ### v0.2.0 (2026-01-30) - The Lenten Logic Update
 *   **Modules B1, B2, B5 Implemented**: Full support for Lenten Weekday Logic.
