@@ -9,7 +9,7 @@ The **Liturgical Intelligence Engine** is a Python-based system designed to dyna
 - **Logic-First Architecture**: Rubrics drive the text generation. The system first resolves *what* should be said before fetching *how* it should be said.
 - **Dolnytsky Typikon Implementation**: Core logic is based on the 20 Paradigms of the Dolnytsky Typikon (Part II).
 - **Dynamic Text Construction**: Generates strict-service booklets ("The Common") or full-text user booklets.
-- **Multi-Recension Support**: Capable of handling different textual traditions (Stamford, Gregorian, etc.) through a unique ID system.
+- **Multi-Recension Support**: Capable of handling different textual traditions (Stamford vs St Sergius, Julian vs Gregorian, etc.) through a unique ID system.
 - **Verification Suite**: Includes automated stress tests to ensure rubrical accuracy across the liturgical year.
 
 ## Quick Start
