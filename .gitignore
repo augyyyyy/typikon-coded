@@ -58,3 +58,4 @@ verification_phase_*.txt
 # Sensitive Data
 config_local.json
 secrets.json
+Data/system_instructions.txt
