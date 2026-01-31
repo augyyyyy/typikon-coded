@@ -65,7 +65,24 @@ class RuthenianEngine:
         
         # Load Text Databases (Multi-Layer Strategy)
         self.text_db = {} 
-        self._load_versioned_texts()
+        # The original _load_versioned_texts() and _load_bulk_files() are replaced by the following explicit loads
+        self._load_versioned_texts("json_db/stamford/text_horologion.json")
+        self._load_versioned_texts("json_db/stamford/text_horologion_supplement.json")
+        self._load_versioned_texts("json_db/stamford/text_eothinon.json")
+        self._load_versioned_texts("json_db/stamford/text_octoechos.json")
+        self._load_versioned_texts("json_db/stamford/text_pentecostarion.json")
+        self._load_versioned_texts("json_db/stamford/text_triodion.json")
+        self._load_versioned_texts("json_db/stamford/text_weekdays.json")
+        self._load_versioned_texts("json_db/stamford/text_theotokia.json")
+        
+        self.general_menaion_db = self._load_json("json_db/common/text_general_menaion.json")
+        # Overlay Stamford General Menaion if available
+        stamford_common_path = "json_db/stamford/text_general_menaion.json"
+        abs_common_path = os.path.abspath(stamford_common_path)
+        if os.path.exists(abs_common_path):
+            stamford_common = self._load_json(abs_common_path)
+            self.general_menaion_db.update(stamford_common)
+            # print(f"Engine: Overlaid {len(stamford_common)} items from Stamford General Menaion")
         
         # Load External Assets (Fixed and Variable Recensions)
         if self.fixed_recension_path and os.path.exists(self.fixed_recension_path):
@@ -75,6 +92,16 @@ class RuthenianEngine:
         elif self.external_assets_dir and os.path.exists(self.external_assets_dir):
             # Legacy single-path fallback
             self._load_external_assets(self.external_assets_dir, "Legacy")
+
+    def _load_json(self, path_to_json):
+        try:
+            abs_path = os.path.abspath(path_to_json)
+            if not os.path.exists(abs_path):
+                 return {}
+            with open(abs_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return {}
 
     def _load_text_db(self, filename):
         # Look in the mapped content folder
@@ -119,11 +146,29 @@ class RuthenianEngine:
                         print(f"Error loading {label} asset {file}: {e}")
         print(f"Engine: Loaded {count} {label} Recension assets.")
 
-    def _load_versioned_texts(self):
+    def _load_versioned_texts(self, specific_path=None):
         """
-        Load texts from asset-based directory structure.
-        Recursively scans assets/stamford/ directory.
+        Load texts from asset-based directory structure OR specific file.
+        Recursively scans assets/stamford/ directory if no path provided.
         """
+        if specific_path:
+             # Direct load mode
+             abs_path = os.path.abspath(specific_path)
+             if os.path.exists(abs_path):
+                 try:
+                     with open(abs_path, 'r', encoding='utf-8') as f:
+                         data = json.load(f)
+                         
+                     if isinstance(data, dict):
+                         self.text_db.update(data)
+                         # print(f"Engine: Loaded {len(data)} items from {specific_path}")
+                 except Exception as e:
+                     print(f"Engine: Error loading {specific_path}: {e}")
+             else:
+                 pass
+                 # print(f"Warning: File not found {specific_path}")
+             return
+
         # Load ID map first
         id_map_path = os.path.join(self.base_dir, "assets", self.content_folder, "_id_map.json")
         id_map = {}
@@ -212,15 +257,50 @@ class RuthenianEngine:
     def log(self, message):
         self.trace_log.append(message)
 
-    def get_text(self, text_id, logic_requirement=None):
+    def get_text(self, text_id, logic_requirement=None, context=None):
         """
         Public accessor for text_db.
-        If logic_requirement is provided and text is missing, returns a structured MISSING asset.
+        If logic_requirement is provided and text is missing, attempts fallback to General Menaion 
+        before returning a structured MISSING asset.
         """
+        # 1. Primary Lookup
         item = self.text_db.get(text_id)
         if item:
+            # Basic template rendering for primary text (if variable)
+            if context and isinstance(item, dict) and "content" in item:
+                # Simple replacement for St. Name if strictly needed
+                pass
             return item
         
+        # 2. General Menaion Fallback
+        if context and "saint_class" in context and self.general_menaion_db:
+            # Map standard key to generic key, e.g., "menaion.01_22.troparion" -> "general.apostle.troparion"
+            # Helper to extract the suffix (e.g. 'troparion', 'kontakion', 'stichera_vespers')
+            key_parts = text_id.split(".")
+            suffix = key_parts[-1]
+            if len(key_parts) > 2 and "stichera" in key_parts[-2]:
+                 suffix = f"{key_parts[-2]}.{suffix}" # e.g. "stichera_vespers.lord_i_call"
+
+            saint_classes = context.get("saint_class", "").split(",")
+            for st_class in saint_classes:
+                st_class = st_class.strip().lower()
+                generic_id = f"general.{st_class}.{suffix}"
+                
+                fallback_item = self.general_menaion_db.get(generic_id)
+                if fallback_item:
+                    # Deep Copy to avoid mutating the master DB
+                    rendered_item = copy.deepcopy(fallback_item)
+                    
+                    # Template Rendering
+                    st_name = context.get("st_name", "Saint")
+                    if "content" in rendered_item and isinstance(rendered_item["content"], str):
+                        rendered_item["content"] = rendered_item["content"].replace("{{name}}", st_name)
+                    
+                    # Add Metadata about Fallback source
+                    rendered_item["_source"] = f"General Menaion ({st_class})"
+                    return rendered_item
+
+        # 3. Missing Handler
         if logic_requirement:
             return {
                 "title": "Missing Component",
@@ -3997,8 +4077,12 @@ class RuthenianEngine:
         
         # Great Feast: Festal irmos instead of "It is truly meet"
         if rank == 1:
-            # Specific feasts that replace "It is truly meet"
-            if feast_id in ['nativity', 'theophany', 'annunciation', 'dormition']:
+            # Specific feasts that replace "It is truly meet" (Megalynaria/Refrains)
+            # Most Great Feasts of the Lord and Theotokos have 9th Ode Refrains suppressing "More Honorable"
+            # TODO: Verify Entry/Exaltation specifics. For now adding Meeting, Transfiguration, Ascension, Pentecost.
+            if feast_id in ['nativity', 'theophany', 'annunciation', 'dormition', 
+                           'meeting', 'transfiguration', 'ascension', 'pentecost', 
+                           'entry_jerusalem', 'exaltation_cross', 'presentation_theotokos', 'nativity_theotokos']:
                 return {
                     "type": "festal_magnificat",
                     "magnificat_id": f"magnificat_{feast_id}",
@@ -4007,7 +4091,8 @@ class RuthenianEngine:
                     "note": "Festal irmos replaces 'It is truly meet'"
                 }
             else:
-                # Other Great Feasts: "More honorable" + festal irmos
+                # Fallback for others (should be few if any Great Feasts left?)
+                # Maybe Patronal Feasts?
                 return {
                     "type": "festal_with_more_honorable",
                     "magnificat_id": f"magnificat_{feast_id}",

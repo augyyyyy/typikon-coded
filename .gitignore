@@ -41,6 +41,9 @@ verification_examples/*.txt
 verification_examples/*.md
 *.log
 *.tmp
+debug_*.py
+temp_*.py
+scratch_*.py
 
 # Testing
 .pytest_cache/

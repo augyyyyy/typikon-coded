@@ -1,0 +1,67 @@
+{
+    "weekday.monday.troparion": {
+        "content": "Princes of the heavenly hosts,* we, though unworthy, beg you* to encircle us through your prayers* under the shelter of the wings of your spiritual glory.* Guard us as we come to you and sincerely cry:* “Deliver us from dangers, O princes of the powers on high.”",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "weekday.monday.kontakion": {
+        "content": "Princes of God’s hosts, ministers of divine glory, leaders of angels and guides of men, pray for our welfare and for great mercy, O princes of the incorporeal powers.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "weekday.tuesday.troparion": {
+        "content": "The just man is remembered with praises,* but for you the Lord’s testimony will suffice, O Forerunner,* for you truly became more honorable than the prophets* and were deemed worthy to baptize the One foretold.* Then you suffered for the truth and joyfully announced to those in Hades* that God appeared in the flesh taking away the sin of the world* and offering us great mercy.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "weekday.tuesday.kontakion": {
+        "content": "She who once was barren gives birth today to the Forerunner of Christ,* who will fulfill every prophecy.* In the Jordan he placed his hand upon the One Whom the prophets foretold,* and thus was shown to be the prophet, the herald, and the Forerunner of the Word of God.",
+        "tone": "Tone 3",
+        "source": "Stamford"
+    },
+    "weekday.wednesday.troparion": {
+        "content": "Save Your people, O Lord, and bless Your inheritance.* Grant victory to Your faithful people against enemies,* and protect Your community by Your cross.",
+        "tone": "Tone 1",
+        "source": "Stamford"
+    },
+    "weekday.wednesday.kontakion": {
+        "content": "By Your own choice, O Christ our God,* You were lifted on the cross.* Grant Your mercies to Your new community* that bears Your name.* By Your power gladden the faithful people* and grant them victory against enemies.* May they have the help of Your instrument of peace,* the invincible sign of victory.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "weekday.thursday.troparion": {
+        "content": "Holy apostles, intercede with the merciful God* to grant to our souls forgiveness of sins.",
+        "tone": "Tone 3",
+        "source": "Stamford"
+    },
+    "weekday.thursday.troparion_2": {
+        "content": "The truth of your deeds made you for your flock a rule of faith* and an image of meekness,* a teacher of continence.* And so, you gained the heights through humility,* riches through poverty,* father and bishop Nicholas.* Intercede with Christ our God* for the salvation of our souls.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "weekday.thursday.kontakion": {
+        "content": "You received Your inspired and steadfast preachers, Your chief disciples,* into the enjoyment of Your good things and into repose.* You, Who alone know the heart, accepted their labors and death* more gladly than any holocaust.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "weekday.saturday.troparion": {
+        "content": "Apostles, prophets, martyrs,* bishops, venerable and righteous ones,* having finished the fight well and having kept the faith,* you now have free approach to the Savior.* For our sake, we beseech you, entreat Him in His goodness to save our souls.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "weekday.saturday.kontakion": {
+        "content": "O Lord, Maker of nature,* the world offers You the godly martyrs as the first-fruits of nature.* By their supplications, through the Mother of God,* preserve Your Church and Your people in profound peace,* O Most Merciful One.",
+        "tone": "Tone 8",
+        "source": "Stamford"
+    },
+    "weekday.friday.troparion": {
+        "content": "Save Your people, O Lord, and bless Your inheritance.* Grant victory to Your faithful people against enemies,* and protect Your community by Your cross.",
+        "tone": "Tone 1",
+        "source": "Stamford"
+    },
+    "weekday.friday.kontakion": {
+        "content": "By Your own choice, O Christ our God,* You were lifted on the cross.* Grant Your mercies to Your new community* that bears Your name.* By Your power gladden the faithful people* and grant them victory against enemies.* May they have the help of Your instrument of peace,* the invincible sign of victory.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://ruthenian-engine.org/schemas/text_asset.schema.json",
+    "title": "Ruthenian Text Asset",
+    "description": "Schema for liturgical text databases (e.g., text_octoechos.json, text_menaion.json).",
+    "type": "object",
+    "properties": {
+        "file_metadata": {
+            "type": "object",
+            "description": "Optional metadata about the file's generation."
+        }
+    },
+    "patternProperties": {
+        "^[a-z0-9_]+(\\.[a-z0-9_]+){1,5}$": {
+            "description": "Keys must follow the pattern 'group.slug.type' (e.g., 'weekday.monday.troparion').",
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": [
+                        "string",
+                        "object"
+                    ],
+                    "description": "The liturgical text content (string or localized dict)."
+                },
+                "tone": {
+                    "type": "string",
+                    "pattern": "^Tone [1-8]$|^[1-8]$|^Variable$",
+                    "description": "The musical tone (e.g., 'Tone 1', 'Tone 8')."
+                },
+                "source": {
+                    "type": "string",
+                    "enum": [
+                        "Stamford",
+                        "Ruthenian",
+                        "Common",
+                        "Other",
+                        "System Logic"
+                    ],
+                    "description": "The provenance of the text."
+                },
+                "rubric": {
+                    "type": "string",
+                    "description": "Optional rubric or instruction associated with the text."
+                },
+                "_source": {
+                    "type": "string",
+                    "description": "Internal field for tracking fallback origins."
+                }
+            },
+            "required": [
+                "content",
+                "source"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": false
+}

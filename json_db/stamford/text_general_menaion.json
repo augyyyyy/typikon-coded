@@ -1,0 +1,227 @@
+{
+    "general.theotokos.troparion": {
+        "content": "To the Mother of God let us now have recourse with fervor,* and let us lowly sinners fall down in repentance crying from the depths of our souls:* O Lady, help and have pity upon us!* Make haste! We perish under our many sins!* Turn not your servants away empty,* for in you we possess our only patroness!",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.theotokos.kontakion": {
+        "content": "We have no other help, we have no other hope,* apart from you, O immaculate Virgin.* Give us your help. In you we hope, and in you we glory,* for we are your servants. May we not be put to shame.",
+        "tone": "Tone 6",
+        "source": "Stamford"
+    },
+    "general.prophet.troparion": {
+        "content": "As we celebrate the memory of Your prophet {{name}},* O Lord, we beseech You through him: Save our souls!",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.prophet.kontakion": {
+        "content": "Enlightened by the spirit* your pure heart, having seen the distant in the present,* became a vessel of brilliant prophecy;* and so we honor you, O blessed and glorious prophet {{name}}.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.apostle.troparion": {
+        "content": "Holy apostle {{name}}, intercede with the merciful God* to grant forgiveness of sins to our souls.",
+        "tone": "Tone 3",
+        "source": "Stamford"
+    },
+    "general.apostle.kontakion": {
+        "content": "As a star most bright the Church forever possesses you,* O apostle {{name}},* for she is illumined by the frequent gift of your miracles.* And so, we call out to Christ:* Save those who venerate in faith the memory of Your apostle,* O most merciful One.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.apostles.troparion": {
+        "content": "Holy apostles, intercede with the merciful God* to grant forgiveness of sins to our souls.",
+        "tone": "Tone 3",
+        "source": "Stamford"
+    },
+    "general.apostles.kontakion": {
+        "content": "You became branches of Christ’s vineyard, O wise ones,* bearing the grapes of good works,* and pouring forth for us the wine of salvation.* Receiving it and filled with gladness,* we celebrate your precious memorial.* Therefore pray that we be granted great mercy and forgiveness of sins,* O apostles of the Lord.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.hierarch.troparion": {
+        "content": "The truth of your deeds made you for your flock a rule of faith* and an image of meekness,* a teacher of continence.* And so you gained the heights through humility,* riches through poverty,* father and bishop, {{name}},* intercede with Christ, our God* for the salvation of our souls.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.hierarch.kontakion": {
+        "content": "O thunder of God, spiritual trumpet,* planter of faith and destroyer of heresies,* servant of the Trinity, great hierarch {{name}}* forever standing in the company of angels,* pray without ceasing for us all.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.hierarchs.troparion": {
+        "content": "God of our fathers, You always treat us fairly.* Deprive us not of Your mercy,* but by their prayers direct our lives in peace.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.hierarchs.kontakion": {
+        "content": "As teachers of virtue and the adornment of hierarchs,* the church sings you praises:* By your prayers grant to those who venerate you with love* the achievement of virtues and deliverance from temptation,* for you are invincible.",
+        "tone": "Tone 8",
+        "source": "Stamford"
+    },
+    "general.venerable.troparion": {
+        "content": "The divine image was faithfully preserved in you, O father,* for taking up the cross you followed Christ.* By your deeds you have taught to see beyond flesh, which passes,* and care for the soul, a thing immortal.* And so, O Venerable {{name}},* your spirit rejoices with the angels.",
+        "tone": "Tone 8",
+        "source": "Stamford"
+    },
+    "general.venerable.troparion_alt_2": {
+        "content": "You made the wilderness your dwelling, O father {{name}},* the bearer of God.* You became an angel in the flesh and a wonderworker.* Through fasts, vigils, and prayers, you obtained from God special graces* to heal the sick and to sanctify the souls of those who come to you with trust.* Glory to the One Who gave you strength!* Glory to the One Who crowned you!* Glory to the One Who through your intercession grants healing to all.",
+        "tone": "Tone 1",
+        "source": "Stamford"
+    },
+    "general.venerable.kontakion": {
+        "content": "Divinely armed with purity of spirit* and mightily wielding the lance of unceasing prayers,* you overcame the powers of demons,* O Venerable {{name}}; pray without ceasing for us all.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.venerables.troparion": {
+        "content": "God of our fathers, You always treat us fairly.* Deprive us not of Your mercy* but by their prayers direct our lives in peace.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.venerables.kontakion": {
+        "content": "Passing through the swell of waves without being wet,* you mightily engulfed the incorporeal enemies* in the streams of your tears, O godly venerable ones.* Having received the gift of miracles,* pray without ceasing for us all.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.martyr.troparion": {
+        "content": "Your martyr {{name}}* O Lord, by his passion acquired the crown of incorruptibility from You, our God.* For possessing Your power he overcame the torturers* and shattered the feeble insolence of demons.* By his supplications, save our souls.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.martyr.troparion_alt_2": {
+        "content": "You willingly took the cross of Christ as a weapon,* and hastened to fight the enemies.* You suffered for Christ, and handed over to Him your blessed soul.* For this, you deserved to receive from Him the gift of healing.* Pray to Christ our God, that He may save our souls.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.martyr.kontakion": {
+        "content": "As a bright and unerring star you appeared to the world* proclaiming with your rays the Sun, that is, Christ, O martyr {{name}},* and you have extinguished all error.* But to us you give light, praying without ceasing for us all.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.martyrs.troparion": {
+        "content": "Be swayed by the pains that the saints have suffered for you, O Lord,* and heal all our pains,* O Lover of mankind; for this we pray.",
+        "tone": "Tone 1",
+        "source": "Stamford"
+    },
+    "general.martyrs.troparion_alt_2": {
+        "content": "O passion-bearers of the Lord!* Blessed is the earth that drank your blood, and the churches that received your bodies;* for at the tribunal you vanquished the enemy,* and courageously preached Christ.* Implore Him, Who is all-good, to save our souls.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.martyrs.kontakion": {
+        "content": "Appearing as radiant lights, O godly martyrs,* you illumine all creation with the brightness of your miracles,* healing infirmities, always dispelling deep darkness* and praying unceasingly to Christ our God for all of us.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.hieromartyr.troparion": {
+        "content": "Having shared the way of life of the apostles,* and having become a successor to their thrones,* laboring you found the divinely inspired way to contemplation.* Therefore, forthrightly ministering the word of truth,* you shed your blood for the faith, O hieromartyr {{name}}.* Intercede with Christ our God for the salvation of our souls.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.hieromartyr.kontakion": {
+        "content": "Having piously lived among the hierarchs,* and having trod the path of suffering,* you extinguished the sacrifices to idols* and were a defender for your flock, O godly one.* Therefore, venerating you, we sincerely cry to you:* Rescue us from danger by your prayers, O our father {{name}}.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.hieromartyrs.troparion": {
+        "content": "God of our fathers..., (p. 1240).",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.hieromartyrs.kontakion": {
+        "content": "Having gathered today, let us praise you in song* as unextinguishable lights of the Mystical Sun,* for you have shone forth to those who are in the darkness of ignorance* and summon all to the heights of piety, O hieromartyrs.* Therefore, we cry to you: Rejoice! O foundation of all ascetics!",
+        "tone": "Tone 3",
+        "source": "Stamford"
+    },
+    "general.venerable_martyr.troparion": {
+        "content": "The divine image was faithfully preserved in you, O father,* for taking the cross you followed Christ.* By your deeds you have taught us to see beyond flesh which passes,* and care for the soul, a thing immortal.* And so, O venerable father {{name}},* your spirit rejoices with angels.",
+        "tone": "Tone 8",
+        "source": "Stamford"
+    },
+    "general.venerable_martyr.kontakion": {
+        "content": "As a pious and tested ascetic and as an honored voluntary sufferer and as a model inhabitant of the desert,* let us rightly praise in song the all-blessed {{name}},* for he has overcome the passions.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.venerable_martyrs.troparion": {
+        "content": "God of our fathers..., (p. 1240).",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.venerable_martyrs.kontakion": {
+        "content": "Passing through the swell of waves without being wet,* you mightily engulfed the incorporeal enemies* in the streams of your tears, O godly venerable martyrs.* Having received the gift of miracles,* pray without ceasing for us all.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.woman_martyr.troparion": {
+        "content": "Your lamb {{name}}, O Jesus, cries in loud voice:* You, O my Bridegroom, I love. And, seeking You, I undergo martyrdom.* And with You I am crucified and buried in Your baptism,* and I suffer for Your sake that I may reign with You.* And I die on Your behalf that I may live in You.* Receive me as a spotless sacrifice,* sacrificed for You with love.* — Through her intercession in Your mercy save our souls.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.woman_martyr.kontakion": {
+        "content": "We, all the faithful, have found your shrine to be a place of spiritual healing,* and we cry aloud to you: O glorious virgin martyr {{name}},* pray unceasingly to Christ our God for all of us!",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.women_martyrs.troparion": {
+        "content": "As spiritual lambs, through martyrdom you came to Christ, the Lamb and Shepherd,* for you had finished the course and kept the faith.* And so, today, with spiritual joy, O wondrous women,* we celebrate your holy memory* while magnifying Christ.",
+        "tone": "Tone 1",
+        "source": "Stamford"
+    },
+    "general.women_martyrs.kontakion": {
+        "content": "We celebrate the memory of Christ’s women martyrs* and with faith ask for help that we all may be saved from every tribulation.* And we cry: Our God is with us,* and he has glorified these women as He willed.",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.venerable_woman.troparion": {
+        "content": "The divine image was faithfully preserved in you, O mother,* for taking the cross you followed Christ.* By your deeds you have taught us to see beyond flesh which passes,* and care for the soul, a thing immortal.* And so, O venerable mother {{name}}* your spirit rejoices with angels.",
+        "tone": "Tone 8",
+        "source": "Stamford"
+    },
+    "general.venerable_woman.kontakion": {
+        "content": "For the love of the Lord, O venerable woman,* you scorned the desire for rest and enlightened your soul through fasting,* for you have mightily conquered the beasts.* Through your prayers thwart the rage of fiends.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.venerable_women.troparion": {
+        "content": "Being espoused to your true Bridegroom, O glorious Christian women,* and having renounced union with any temporal suitor,* and being brought up by virtuous struggles, you reached the heights of incorruptibility.* O spiritually most beautiful and very rich pillars,* and rule of monastic women.* Therefore, pray unceasingly for us who celebrate your memory with love.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.venerable_women.kontakion": {
+        "content": "Having mortified your bodies through fasting* and having implored the Creator through unceasing prayers,* to receive full forgiveness of your sins,* you have received from God pardon and the kingdom of heaven.* Pray to Christ our God for all of us.",
+        "tone": "Tone 1",
+        "source": "Stamford"
+    },
+    "general.venerable_woman_martyr.troparion": {
+        "content": "Your lamb {{name}}, O Jesus..., (p. 1243).",
+        "tone": "Tone 4",
+        "source": "Stamford"
+    },
+    "general.venerable_woman_martyr.kontakion": {
+        "content": "Your divine memory, O {{name}}* has shone forth today* to the world as a sun proclaiming your life;* for having by abstinence destroyed the urgings of the flesh,* through the blood of your martyrdom you have espoused yourself to Christ.* Therefore, deliver from all evils those who praise you,* so that we may cry out to you: Hail, O holy mother!",
+        "tone": "Tone 8",
+        "source": "Stamford"
+    },
+    "general.confessor.troparion": {
+        "content": "Guide of orthodoxy, teacher of piety and purity,* luminary of the world, inspired adornment of hierarchs (venerables). O wise {{name}}.* You have enlightened all by your teachings, O spiritual trumpet!* Intercede with Christ our God for the salvation of our souls.",
+        "tone": "Tone 8",
+        "source": "Stamford"
+    },
+    "general.confessor.kontakion": {
+        "content": "You took delight in self-control, O wise one,* and you put the desires of the flesh to sleep.* You were seen to have grown in faith;* and, like the tree of life in paradise, you flourished, O holy father, {{name}}.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    },
+    "general.unmercenaries.troparion": {
+        "content": "Holy selfless physicians and wonder-workers, {{name}}, visit our infirmities.* Freely you have received, freely give to us.",
+        "tone": "Tone 8",
+        "source": "Stamford"
+    },
+    "general.unmercenaries.kontakion": {
+        "content": "Having received the grace of cures, you are granting health to those in need,* O glorious wonder-working physicians. Through your visitation cast down the boldness of the enemy,* healing people by your miracles.",
+        "tone": "Tone 2",
+        "source": "Stamford"
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://ruthenian-engine.org/schemas/service_structure.schema.json",
+    "title": "Ruthenian Service Structure",
+    "description": "Schema for defining the structural flow of a service (e.g., 01i_struct_matins.json).",
+    "type": "array",
+    "items": {
+        "$ref": "#/definitions/ServicePart"
+    },
+    "definitions": {
+        "ServicePart": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "static",
+                        "dynamic_block",
+                        "rubric"
+                    ]
+                },
+                "content": {
+                    "description": "For static parts, the text content.",
+                    "type": "string"
+                },
+                "function": {
+                    "description": "For dynamic parts, the function name to call.",
+                    "type": "string"
+                },
+                "items": {
+                    "description": "Nested parts.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ServicePart"
+                    }
+                }
+            },
+            "required": [
+                "title",
+                "type"
+            ]
+        }
+    }
+}

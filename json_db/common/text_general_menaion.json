@@ -1,0 +1,99 @@
+{
+    "file_metadata": {
+        "filename": "text_general_menaion.json",
+        "version": "1.0",
+        "description": "Common of Saints (General Menaion) with template placeholders"
+    },
+    "general.apostle.troparion": {
+        "id": "general_apostle.troparion",
+        "metadata": {
+            "title": "Troparion of an Apostle",
+            "tone": 3,
+            "class": "apostle"
+        },
+        "content": {
+            "text": {
+                "en": "O holy Apostle {{name}}, intercede with the merciful God that He grant our souls forgiveness of sins."
+            }
+        },
+        "source": "Ruthenian"
+    },
+    "general.apostle.kontakion": {
+        "id": "general_apostle.kontakion",
+        "metadata": {
+            "title": "Kontakion of an Apostle",
+            "tone": 2
+        },
+        "content": {
+            "text": {
+                "en": "You appeared as a bright star announcing Christ with your radiance, which is repulsive to this world, O Apostle {{name}}; as you unceasingly pray for us all."
+            }
+        },
+        "source": "Ruthenian"
+    },
+    "general.martyr.troparion": {
+        "id": "general_martyr.troparion",
+        "metadata": {
+            "title": "Troparion of a Martyr",
+            "tone": 4
+        },
+        "content": {
+            "text": {
+                "en": "Your martyr {{name}}, O Lord, by his/her struggle obtained the incorruptible crown from You, our God; for with Your help he/she killed the tyrants and shattered the powerless arrogance of demons. Through his/her prayers, save our souls."
+            }
+        },
+        "source": "Ruthenian"
+    },
+    "general.martyr.kontakion": {
+        "id": "general_martyr.kontakion",
+        "metadata": {
+            "title": "Kontakion of a Martyr",
+            "tone": 2
+        },
+        "content": {
+            "text": {
+                "en": "You appeared as a bright star announcing Christ with your radiance, O Martyr {{name}}; unceasingly pray for us all."
+            }
+        },
+        "source": "Ruthenian"
+    },
+    "general.hierarch.troparion": {
+        "id": "general_hierarch.troparion",
+        "metadata": {
+            "title": "Troparion of a Hierarch",
+            "tone": 4
+        },
+        "content": {
+            "text": {
+                "en": "The truth of your deeds made you for your flock a rule of faith and an image of meekness, a teacher of abstinence. And so you gained the heights by humility and riches by poverty, holy father, hierarch {{name}}. Intercede with Christ our God for the salvation of our souls."
+            }
+        },
+        "source": "Ruthenian"
+    },
+    "general.venerable.troparion": {
+        "id": "general_venerable.troparion",
+        "metadata": {
+            "title": "Troparion of a Venerable",
+            "tone": 8
+        },
+        "content": {
+            "text": {
+                "en": "In you, O Father {{name}}, the divine image was preserved; for taking up your cross, you followed after Christ. By your deeds you taught us to overlook the flesh for it passes away, but to care for the soul which is deathless. Wherefore, O holy {{name}}, your spirit rejoices with the angels."
+            }
+        },
+        "source": "Ruthenian"
+    },
+    "general.theotokos.troparion": {
+        "id": "general_theotokos.troparion",
+        "metadata": {
+            "title": "Troparion of the Theotokos",
+            "tone": 4
+        },
+        "content": {
+            "text": {
+                "en": "To the Birth-giver of God let us run now most earnestly, we sinners all and wretched ones, and fall prostrate in repentance, calling from the depths of our souls: Lady, come unto our aid, have compassion upon us; hasten for we are lost in a throng of transgressions; turn not your servants away with empty hands, for you alone do we have as our only hope."
+            }
+        },
+        "source": "Ruthenian"
+    }
+}
