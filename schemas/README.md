@@ -24,6 +24,19 @@ Validates structural definitions like `01i_struct_matins.json`.
 *   **Structure**: Recursive tree of "Parts".
 *   **Dynamic**: Uses `"type": "dynamic_block"` and `"function"` field for logic.
 
+### 3. `project_context.schema.json`
+Validates `PROJECT_STATE.json` for AI session continuity.
+*   **Purpose**: Ensures implementation plans, task lists, and context persist across AI model switches.
+*   **Key Fields**:
+    *   `active_tasks`: Current work items with subtasks and related files
+    *   `implementation_plans`: Detailed plans with phases, timelines, and hour estimates
+    *   `completed_milestones`: Historical record of achievements
+    *   `key_decisions`: Important architectural/design decisions
+    *   `known_issues`: Current bugs being tracked
+    *   `context_for_next_session`: Free-form notes for AI handoff
+
+> **CRITICAL**: Any AI-generated plan with timeline MUST be saved to `PROJECT_STATE.json` and committed to git immediately. This prevents loss of work between sessions.
+
 ## Known Issues (as of Jan 2026)
 The following legacy files currently fail validation and need organic fixing:
 *   `json_db/stamford/text_pentecostarion.json`: Missing `source` on some items.

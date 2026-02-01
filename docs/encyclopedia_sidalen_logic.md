@@ -44,7 +44,6 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
     3.  Sessional of the Saint (2nd) [if exists].
     4.  **Glory:** Polyeleos Sessional of the Saint.
     5.  **Both now:** Theotokion of the Polyeleos Sessional.
-    5.  **Both now:** Theotokion of the Polyeleos Sessional.
     
 > **Primary Source Logic:**
 > "Hypakoe of the tone, also 1st and 2nd Sessional Hymn of the saint... Glory: 3rd [Polyeleos] Sessional Hymn of the saint, Both now: his Theotokion." (Dolnytsky, Part II, Line 177).
@@ -107,7 +106,6 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
     1.  Kontakion of the Feast.
     2.  Ikos of the Feast.
     *   *The Resurrectional Kontakion/Ikos is usually suppressed or moved.*
-    *   *The Resurrectional Kontakion/Ikos is usually suppressed or moved.*
 
 > **Primary Source Logic:**
 > **Feast of Lord:** "After the 3rd Ode – Sessional Hymn, after the 6th – Kontakion-Ikos... of the feast." (Dolnytsky Part II, Line 325).
@@ -153,7 +151,6 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
 *   **Content:**
     1.  Kontakion of the Saint.
     2.  Ikos of the Saint.
-    2.  Ikos of the Saint.
     
 > **Primary Source Logic:**
 > "After the 3rd Ode – Sessional Hymn of the saint, after the 6th – Kontakion-Ikos of the saint." (Dolnytsky Part II, Line 209).
@@ -178,7 +175,7 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
 *   **Content:**
     1.  Kontakion of the Indiction.
     2.  Ikos of the Indiction.
-    *   *The Saint's Kontakion is presumably recited at the Hours or suppressed, unless explicitly "Shifted" to Ode 3 in the rubrics.*
+    *   *The Saint's Kontakion is recited at the Hours (Dolnytsky Part II, Line 98) or suppressed, unless explicitly "Shifted" to Ode 3 per the rubrics.*
 
 ---
 
@@ -196,9 +193,7 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
 1.  **The Rule of Displacement:** If the "High Place" (Ode VI) is occupied by a higher-ranking Kontakion (e.g., Resurrection on Sunday), the lower-ranking Kontakion (e.g., Saint) **must** yield.
 2.  **Destination:** The yielded Kontakion moves to **Ode III** (Slot IV).
 3.  **Combination:** It sits alongside the Sessional Hymn of Ode III.
-3.  **Combination:** It sits alongside the Sessional Hymn of Ode III.
-    *   *Order:* Kontakion + Sessional (usually).
-    *   *Order:* Kontakion + Sessional (usually).
+    *   *Order:* Kontakion + Ikos + Sessional (Dolnytsky Part II, Line 180).
 
 > **Primary Source Logic:**
 > "After the 3rd Ode – Kontakion-Ikos and SESSIONAL HYMN of the saint." (Dolnytsky Part II, Line 180).

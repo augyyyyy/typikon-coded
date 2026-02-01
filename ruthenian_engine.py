@@ -3557,6 +3557,57 @@ class RuthenianEngine:
             "exapostilarion_id": "theotokion_exapostilarion_weekday"
         }
 
+    def resolve_post_ode9_hymn(self, context):
+        """
+        Gate: Post-Ode 9 Hymn Selection
+        
+        Determines which hymn comes after Ode 9 Katavasia, before Small Litany:
+        - Non-Sunday: "It is truly meet" (Достойно є)
+        - Sunday: "Holy is the Lord our God" (3x) (Свят Господь Бог наш)
+        
+        Citation: Dolnytsky Part I Line 176:
+        "After the Katavasia of the 9th Ode, according to the Slavonic Typikon, 
+        'It is truly meet' is taken, if it is not Sunday. If it is Sunday, 
+        'It is truly meet' is not taken, but then...we sing...the troparion 
+        'Holy is the Lord our God' (3)."
+        """
+        day_of_week = context.get('day_of_week', 0)
+        rank = context.get('rank', 5)
+        season = context.get('season_id', '')
+        
+        # Special: Bright Week (Paschal season) skips both
+        if season == 'bright_week':
+            return {
+                "type": "paschal_troparion",
+                "hymn_id": "paschal_troparion_refrain",
+                "note": "During Bright Week, special Paschal refrains are used"
+            }
+        
+        # Special: Major Feasts have their own Irmos (Zadostojnyk)
+        if rank == 1:
+            feast_id = context.get('feast_id', '')
+            return {
+                "type": "zadostojnyk",
+                "hymn_id": f"zadostojnyk_{feast_id}",
+                "note": "Major feasts replace 'It is truly meet' with feast irmos"
+            }
+        
+        # Sunday: "Holy is the Lord our God" (3x)
+        if day_of_week == 0:
+            return {
+                "type": "holy_is_the_lord",
+                "hymn_id": "holy_is_the_lord",
+                "repetitions": 3,
+                "ref_key": "horologion.holy_is_the_lord"
+            }
+        
+        # Non-Sunday: "It is truly meet"
+        return {
+            "type": "it_is_truly_meet",
+            "hymn_id": "it_is_truly_meet",
+            "ref_key": "horologion.it_is_truly_meet"
+        }
+
     def _get_festal_tone(self, feast_id):
         """Helper: Returns tone for feast prokeimenon"""
         festal_tones = {

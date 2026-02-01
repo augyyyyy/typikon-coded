@@ -8,7 +8,7 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 
 ---
 
-## 🛑 THE 12 GREAT LOGIC GATES OF MATINS
+## 🛑 THE 13 GREAT LOGIC GATES OF MATINS
 
 ### GATE 1: SERVICE STRUCTURE TYPE
 **Hook:** `resolve_service_type(date, vigil_status)`
@@ -78,17 +78,19 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 
 ---
 
-### GATE 5: GRADUALS (HYPAKOE vs ANABATHMOI)
-**Hook:** `resolve_graduals(tone, feast_rank)`
+### GATE 5: GRADUALS (HYPAKOE & ANABATHMOI)
+**Hook:** `resolve_hypakoe(context)` + `resolve_anabathmoi(tone, feast_rank)`
+**Critical**: These are **SEQUENTIAL**, not mutually exclusive.
 
-1.  **The Anabathmoi (Stepenna):**
-    *   **Sunday:** Sung in the **Tone of the Week**.
-    *   **Feast:** "First Antiphon of Tone 4" (*From my youth...*) is the default override.
-2.  **The Hypakoe:**
-    *   **Sunday:** Inserted after Anabathmoi.
+1.  **The Hypakoe:**
+    *   **Sunday:** Sung FIRST, after the Polyeleos/Kathisma 17.
     *   **Feast:** Migrates—replaces the Sessional Hymn after Ode 3.
+2.  **The Anabathmoi (Stepenna):**
+    *   **Sunday:** Sung AFTER the Hypakoe, in the **Tone of the Week**.
+    *   **Feast:** "First Antiphon of Tone 4" (*From my youth...*) is the default override.
 > **Primary Source Logic:**
-> "If the service is Sunday, the Gradual (Stepenna) of the current tone is sung, all three antiphons... if the service is a Feast, then only the first antiphon of Tone 4." (Dolnytsky, Part I, Line 159).
+> "After the Hypakoe of the current tone... the Gradual (Stepenna) of the current tone is sung, all three antiphons." (Dolnytsky, Part I, Line 159).
+> *Interpretation:* The Typikon explicitly states SEQUENCE: Hypakoe THEN Anabathmoi. They are never alternatives.
 
 ---
 
@@ -156,7 +158,9 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 
 > **Primary Source Logic:**
 > "And the Exaposteilarion on Feasts of the Lord and of the Theotokos is taken three times, that is twice – simply, and the third time – with the refrain Glory, Both now." (Dolnytsky, Part I, Line 176).
-> "If it is Sunday, 'It is truly meet' is not taken, but then... we sing, according to the tone of the Prokeimenon... the troparion 'Holy is the Lord our God' (3)." (Dolnytsky, Part I, Line 176).
+
+> [!NOTE]
+> The "Holy is the Lord" citation (Line 176) refers to the **Post-Ode 9 Hymn** before the Exapostilarion, not the Exapostilarion itself. This is now implemented in `resolve_post_ode9_hymn()`.
 
 ---
 
@@ -211,13 +215,15 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 | Gate 2 | `resolve_god_is_the_lord` | Part V | ✅ **DONE** |
 | Gate 3 | `resolve_matins_kathisma` | Part II | ✅ **DONE** |
 | Gate 4 | `check_polyeleos` | Part IV | ✅ **DONE** |
-| Gate 5 | `resolve_graduals` | Part I | ✅ **DONE** |
+| Gate 5 | `resolve_hypakoe` + `resolve_anabathmoi` | Part I Ln 159 | ✅ **DONE** |
 | Gate 6 | `resolve_canon_stack` | Part I | ✅ **DONE** |
 | Gate 7 | `resolve_katavasia` | Part II | ✅ **DONE** |
 | Gate 8 | `check_magnificat_suppression` | Part I | ✅ **DONE** |
+| Gate 8b | `resolve_post_ode9_hymn` | Part I Ln 176 | ✅ **NEW** |
 | Gate 9 | `resolve_exapostilarion_matins` | Part III | ✅ **DONE** |
 | Gate 10 | `resolve_praises_stack` | Part I | ✅ **DONE** |
 | Gate 11 | `resolve_doxology_mode` | Part I | ✅ **DONE** |
 | Gate 12 | `resolve_matins_dismissal_troparion` | Part I | ✅ **DONE** |
+| Gate 13 | `apply_footnote_exceptions` | Footnotes | ✅ **DONE** |
 
 > *"Matins is difficult because it requires you to be a liturgical editor in real-time. The goal of this codebase is to become that editor."*

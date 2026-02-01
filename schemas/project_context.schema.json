@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "project_context.schema.json",
+  "title": "Project Context Schema",
+  "description": "Schema for persisting project state, tasks, and implementation plans across AI model sessions. This ensures no work is lost during model switching.",
+  "type": "object",
+  "required": ["version", "last_updated", "active_tasks", "implementation_plans", "completed_milestones"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of this context file"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last update"
+    },
+    "last_model": {
+      "type": "string",
+      "description": "Name/ID of the last AI model that updated this file"
+    },
+    "project_summary": {
+      "type": "string",
+      "description": "Brief description of the project for quick context loading"
+    },
+    "active_tasks": {
+      "type": "array",
+      "description": "Currently active work items",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status", "created", "priority"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { 
+            "type": "string", 
+            "enum": ["pending", "in_progress", "blocked", "review", "completed"]
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "created": { "type": "string", "format": "date-time" },
+          "estimated_hours": { "type": "number" },
+          "dependencies": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "subtasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "completed": { "type": "boolean" }
+              }
+            }
+          },
+          "related_files": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Paths to files related to this task"
+          }
+        }
+      }
+    },
+    "implementation_plans": {
+      "type": "array",
+      "description": "Detailed implementation plans with timelines",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "created", "phases"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "created": { "type": "string", "format": "date-time" },
+          "target_completion": { "type": "string", "format": "date-time" },
+          "total_estimated_hours": { "type": "number" },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "approved", "in_progress", "completed", "abandoned"]
+          },
+          "phases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["phase_number", "title", "tasks"],
+              "properties": {
+                "phase_number": { "type": "integer" },
+                "title": { "type": "string" },
+                "estimated_hours": { "type": "number" },
+                "start_date": { "type": "string", "format": "date" },
+                "end_date": { "type": "string", "format": "date" },
+                "status": { 
+                  "type": "string",
+                  "enum": ["pending", "in_progress", "completed"]
+                },
+                "tasks": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "title": { "type": "string" },
+                      "completed": { "type": "boolean" },
+                      "hours": { "type": "number" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "completed_milestones": {
+      "type": "array",
+      "description": "Historical record of completed major milestones",
+      "items": {
+        "type": "object",
+        "required": ["title", "completed_date"],
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "completed_date": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "key_decisions": {
+      "type": "array",
+      "description": "Important decisions made that future models should know",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date-time" },
+          "decision": { "type": "string" },
+          "rationale": { "type": "string" }
+        }
+      }
+    },
+    "known_issues": {
+      "type": "array",
+      "description": "Current bugs or issues being tracked",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "file": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "context_for_next_session": {
+      "type": "string",
+      "description": "Free-form notes for the next AI session to read first"
+    }
+  }
+}

@@ -108,6 +108,17 @@
                 }
               },
               {
+                "id": "litany_small_1",
+                "rubric": {
+                  "source_ref": "Dolnytsky I Line 156",
+                  "roles": {
+                    "priest": "Exclaim 'For Thine is the dominion' (quietly, sitting at place)"
+                  }
+                },
+                "type": "fixed_ref",
+                "ref_key": "horologion.litany_small"
+              },
+              {
                 "id": "sess_1",
                 "type": "variable_logic",
                 "logic": {
@@ -126,6 +137,17 @@
                     "num": 2
                   }
                 }
+              },
+              {
+                "id": "litany_small_2",
+                "rubric": {
+                  "source_ref": "Dolnytsky I Line 156",
+                  "roles": {
+                    "priest": "Exclaim 'For Thine is the dominion' (quietly, sitting at place)"
+                  }
+                },
+                "type": "fixed_ref",
+                "ref_key": "horologion.litany_small"
               },
               {
                 "id": "sess_2",
@@ -295,14 +317,46 @@
                 }
               },
               {
-                "type": "canon_ode",
-                "ode": 8
-              },
-              {
-                "type": "variable_logic",
-                "logic": {
-                  "function": "resolve_katavasia"
-                }
+                "id": "ode_8_block",
+                "rubric": {
+                  "title": "Eighth Ode - Special Refrains",
+                  "source_ref": "Dolnytsky I Line 174",
+                  "note": "Instead of 'Glory' → 'Let us bless the Father, Son, and Holy Spirit'. Katavasia intro: 'We praise, we bless, we worship the Lord'"
+                },
+                "type": "sequence",
+                "components": [
+                  {
+                    "type": "canon_ode",
+                    "ode": 8
+                  },
+                  {
+                    "id": "ode_8_blessing",
+                    "type": "fixed_ref",
+                    "ref_key": "horologion.let_us_bless"
+                  },
+                  {
+                    "id": "ode_8_troparion",
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_canon_ode_troparion",
+                      "args": {
+                        "ode": 8,
+                        "position": "glory"
+                      }
+                    }
+                  },
+                  {
+                    "id": "ode_8_katavasia_intro",
+                    "type": "fixed_ref",
+                    "ref_key": "horologion.we_praise_bless_worship"
+                  },
+                  {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_katavasia"
+                    }
+                  }
+                ]
               },
               {
                 "id": "ode_9_magnificat",
@@ -331,6 +385,18 @@
                 "id": "after_9",
                 "type": "sequence",
                 "components": [
+                  {
+                    "id": "post_ode9_hymn",
+                    "rubric": {
+                      "title": "Post-Ode 9 Hymn",
+                      "source_ref": "Dolnytsky I Line 176",
+                      "note": "Non-Sunday: 'It is truly meet'. Sunday: 'Holy is the Lord our God' (3x)"
+                    },
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_post_ode9_hymn"
+                    }
+                  },
                   {
                     "id": "lit_small",
                     "type": "fixed_ref",
@@ -447,12 +513,64 @@
           }
         },
         {
-          "id": "kathismata_daily",
+          "id": "kathismata_daily_block",
+          "rubric": {
+            "title": "The Kathismata",
+            "source_ref": "Dolnytsky I:204 - 'to the second Sessional Hymn inclusive'",
+            "note": "Two or three Kathismata with Sessional Hymns, same as Great Matins."
+          },
           "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_kathisma"
-            }
+            "type": "sequence",
+            "components": [
+              {
+                "id": "kathisma_1",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_kathisma",
+                    "args": {
+                      "num": 1
+                    }
+                  }
+                }
+              },
+              {
+                "id": "sessional_1",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_sessional",
+                    "args": {
+                      "position": "after_kathisma_1"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "kathisma_2",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_kathisma",
+                    "args": {
+                      "num": 2
+                    }
+                  }
+                }
+              },
+              {
+                "id": "sessional_2",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_sessional",
+                    "args": {
+                      "position": "after_kathisma_2"
+                    }
+                  }
+                }
+              }
+            ]
           }
         },
         {
@@ -464,22 +582,128 @@
         },
         {
           "id": "canon_daily",
+          "rubric": {
+            "title": "The Canon",
+            "source_ref": "Dolnytsky I:204 - 'Katavasia...only after 3rd, 6th, 8th, 9th'",
+            "note": "Katavasia is irmos of last canon, not current seasonal."
+          },
           "content": {
             "type": "complex_structure",
             "components": [
               {
-                "id": "odes",
+                "id": "odes_1_2",
                 "type": "canon_ode_range",
-                "range": "1-9"
+                "range": "1-2"
+              },
+              {
+                "id": "ode_3",
+                "type": "canon_ode",
+                "ode": 3
+              },
+              {
+                "id": "katavasia_3",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_katavasia",
+                    "args": {
+                      "type": "irmos_last_canon"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "odes_4_5",
+                "type": "canon_ode_range",
+                "range": "4-5"
+              },
+              {
+                "id": "ode_6",
+                "type": "canon_ode",
+                "ode": 6
+              },
+              {
+                "id": "katavasia_6",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_katavasia",
+                    "args": {
+                      "type": "irmos_last_canon"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "ode_7",
+                "type": "canon_ode",
+                "ode": 7
+              },
+              {
+                "id": "ode_8",
+                "type": "canon_ode",
+                "ode": 8
+              },
+              {
+                "id": "katavasia_8",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_katavasia",
+                    "args": {
+                      "type": "irmos_last_canon"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "ode_9_magnificat",
+                "rubric": {
+                  "note": "At 9th Ode priest censes as at Great Matins."
+                },
+                "type": "canon_ode",
+                "ode": 9
+              },
+              {
+                "id": "katavasia_9",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_katavasia",
+                    "args": {
+                      "type": "irmos_last_canon"
+                    }
+                  }
+                }
               }
             ]
           }
         },
         {
+          "id": "it_is_truly_meet",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.it_is_truly_meet"
+          }
+        },
+        {
+          "id": "exapostilarion",
+          "rubric": {
+            "source_ref": "Dolnytsky I:204 - 'after the Exaposteilarion'"
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_exapostilarion"
+            }
+          }
+        },
+        {
           "id": "praises_read",
           "rubric": {
+            "source_ref": "Dolnytsky I:204 - 'simply, without singing'",
             "roles": {
-              "reader": "Read Psalms 148-150. Do not sing Stichera unless prescribed."
+              "reader": "Read Psalms 148-150 without singing, without stichera."
             }
           },
           "content": {
@@ -490,9 +714,10 @@
         {
           "id": "small_doxology",
           "rubric": {
+            "source_ref": "Dolnytsky I:204",
             "roles": {
-              "priest": "Exclaim 'To You belongs glory'.",
-              "reader": "Read the Doxology."
+              "priest": "Exclaim 'Glory to Thee Who hast shown us the light'.",
+              "reader": "Read the Small Doxology."
             }
           },
           "content": {
@@ -524,7 +749,48 @@
           }
         },
         {
+          "id": "trisagion_block",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_our_father"
+          }
+        },
+        {
+          "id": "dismissal_troparion",
+          "rubric": {
+            "source_ref": "Dolnytsky I:204 - 'troparion of the Saint is sung'"
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_matins_dismissal_troparion"
+            }
+          }
+        },
+        {
+          "id": "dismissal_theotokion",
+          "rubric": {
+            "source_ref": "Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone'"
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_dismissal_theotokion"
+            }
+          }
+        },
+        {
+          "id": "litany_have_mercy",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_have_mercy"
+          }
+        },
+        {
           "id": "dismissal_daily",
+          "rubric": {
+            "source_ref": "Dolnytsky I:204 - 'Blessed is He Who Is'"
+          },
           "content": {
             "type": "fixed_ref",
             "ref_key": "horologion.dismissal_small"
@@ -534,65 +800,149 @@
     },
     "lenten_matins_weekday": {
       "title_key": "titles.matins_lenten_weekday",
-      "source_ref": "Dolnytsky IV: Lenten Matins (Alleluia)",
+      "source_ref": "Dolnytsky IV:201-234 Lenten Matins (Alleluia)",
       "inherits_from": "daily_matins",
       "overrides": [
         {
           "target_id": "god_is_the_lord",
           "action": "replace",
           "new_component": {
-            "id": "alleluia_module",
+            "id": "alleluia_trinity_hymns",
             "rubric": {
-              "title": "The Alleluia & Trinity Hymns",
-              "roles": {
-                "priest": "Intone 'Alleluia' in the Tone of the Week.",
-                "choir": "Sing Alleluia (4x) and the Trinity Hymns."
-              }
-            },
-            "content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_alleluia_vs_god_is_lord"
-              }
-            }
-          }
-        },
-        {
-          "target_id": "kathismata_daily",
-          "action": "replace",
-          "new_component": {
-            "id": "kathismata_lenten",
-            "rubric": {
-              "title": "Three Kathismata",
-              "note": "Three Kathismata are read on Lenten weekdays."
+              "title": "Alleluia & Trinity Hymns",
+              "source_ref": "Dolnytsky IV:205-206",
+              "note": "Instead of 'God is the Lord' we sing Alleluia in the sequential tone."
             },
             "content": {
               "type": "sequence",
               "components": [
                 {
-                  "type": "variable_logic",
-                  "logic": {
-                    "function": "resolve_kathisma",
-                    "args": {
-                      "num": 1
+                  "id": "alleluia",
+                  "content": {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_alleluia_vs_god_is_lord"
                     }
                   }
                 },
                 {
-                  "type": "variable_logic",
-                  "logic": {
-                    "function": "resolve_kathisma",
-                    "args": {
-                      "num": 2
+                  "id": "trinity_hymns",
+                  "rubric": {
+                    "source_ref": "Dolnytsky IV:206 - '3 Trinity Hymns...each sung 3x'",
+                    "note": "Three commemorations: weekday, all saints, Theotokos."
+                  },
+                  "content": {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_trinity_hymns",
+                      "args": {
+                        "count": 3,
+                        "with_commemorations": true
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "target_id": "kathismata_daily_block",
+          "action": "replace",
+          "new_component": {
+            "id": "kathismata_lenten",
+            "rubric": {
+              "title": "Three Kathismata with Prostrations",
+              "source_ref": "Dolnytsky IV:209",
+              "note": "At 'Alleluia' of each 'Glory' of Kathismata—3 prostrations."
+            },
+            "content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "id": "kathisma_1",
+                  "content": {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_kathisma",
+                      "args": {
+                        "num": 1,
+                        "with_prostrations": true
+                      }
                     }
                   }
                 },
                 {
-                  "type": "variable_logic",
-                  "logic": {
-                    "function": "resolve_kathisma",
-                    "args": {
-                      "num": 3
+                  "id": "sessional_1_octoechos",
+                  "rubric": {
+                    "source_ref": "Dolnytsky IV:209 - 'Sessional Hymns...after 1st...of Octoechos'"
+                  },
+                  "content": {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_lenten_sessional",
+                      "args": {
+                        "position": 1,
+                        "source": "octoechos"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "kathisma_2",
+                  "content": {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_kathisma",
+                      "args": {
+                        "num": 2,
+                        "with_prostrations": true
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "sessional_2_triodion",
+                  "rubric": {
+                    "source_ref": "Dolnytsky IV:209 - 'after 2nd and 3rd...of Triodion'"
+                  },
+                  "content": {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_lenten_sessional",
+                      "args": {
+                        "position": 2,
+                        "source": "triodion"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "kathisma_3",
+                  "content": {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_kathisma",
+                      "args": {
+                        "num": 3,
+                        "with_prostrations": true
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "sessional_3_triodion",
+                  "rubric": {
+                    "source_ref": "Dolnytsky IV:209"
+                  },
+                  "content": {
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_lenten_sessional",
+                      "args": {
+                        "position": 3,
+                        "source": "triodion"
+                      }
                     }
                   }
                 }
@@ -604,15 +954,155 @@
           "target_id": "canon_daily",
           "action": "replace",
           "new_component": {
-            "id": "canon_lenten",
+            "id": "canon_lenten_triodic",
             "rubric": {
-              "title": "Lenten Canon",
-              "note": "Menaion Canon + Triodion Odes (e.g. 2, 8, 9)."
+              "title": "Lenten Triodic Canon",
+              "source_ref": "Dolnytsky IV:212-228",
+              "note": "Mon=1,8,9; Tue=2,8,9; Wed=3,8,9; Thu=4,8,9; Fri=5,8,9; Sat=6,7,8,9"
             },
             "content": {
               "type": "variable_logic",
               "logic": {
-                "function": "resolve_lenten_canon_odes"
+                "function": "resolve_lenten_triodic_canon",
+                "args": {
+                  "rules": {
+                    "monday": [
+                      1,
+                      8,
+                      9
+                    ],
+                    "tuesday": [
+                      2,
+                      8,
+                      9
+                    ],
+                    "wednesday": [
+                      3,
+                      8,
+                      9
+                    ],
+                    "thursday": [
+                      4,
+                      8,
+                      9
+                    ],
+                    "friday": [
+                      5,
+                      8,
+                      9
+                    ],
+                    "saturday": [
+                      6,
+                      7,
+                      8,
+                      9
+                    ]
+                  },
+                  "menaion_on": 6,
+                  "triodion_on": 8
+                }
+              }
+            }
+          }
+        },
+        {
+          "target_id": "it_is_truly_meet",
+          "action": "replace",
+          "new_component": {
+            "id": "it_is_truly_meet_prostration",
+            "rubric": {
+              "source_ref": "Dolnytsky IV:202 - 'After It is truly meet—1 prostration'"
+            },
+            "content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "type": "fixed_ref",
+                  "ref_key": "horologion.it_is_truly_meet"
+                },
+                {
+                  "type": "prostration_marker",
+                  "count": 1,
+                  "type_": "small"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "target_id": "exapostilarion",
+          "action": "replace",
+          "new_component": {
+            "id": "exapostilarion_lenten",
+            "rubric": {
+              "source_ref": "Dolnytsky IV:231 - '3x with commemorations'",
+              "note": "Trinity Exapostilarion of the tone, three times with commemorations."
+            },
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_lenten_exapostilarion",
+                "args": {
+                  "times": 3,
+                  "commemorations": [
+                    "weekday",
+                    "all_saints",
+                    "theotokos"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "target_id": "small_doxology",
+          "action": "replace",
+          "new_component": {
+            "id": "small_doxology_prostrations",
+            "rubric": {
+              "source_ref": "Dolnytsky IV:232 - 'at Glory to God in highest—3 prostrations'"
+            },
+            "content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "id": "priest_to_thee_belongs",
+                  "content": {
+                    "type": "fixed_ref",
+                    "ref_key": "triodion.to_thee_belongs_glory"
+                  }
+                },
+                {
+                  "id": "glory_to_god",
+                  "content": {
+                    "type": "fixed_ref",
+                    "ref_key": "horologion.doxology_small_read"
+                  }
+                },
+                {
+                  "type": "prostration_marker",
+                  "count": 3,
+                  "type_": "small"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "target_id": "aposticha",
+          "action": "replace",
+          "new_component": {
+            "id": "aposticha_triodion",
+            "rubric": {
+              "source_ref": "Dolnytsky IV:233"
+            },
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_lenten_aposticha",
+                "args": {
+                  "source": "triodion"
+                }
               }
             }
           }
@@ -621,7 +1111,57 @@
           "target_id": "good_thing",
           "action": "replace",
           "new_component": {
+            "id": "good_thing_lenten",
+            "rubric": {
+              "source_ref": "Dolnytsky IV:234 - 'It is a good thing' twice"
+            },
+            "content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "type": "fixed_ref",
+                  "ref_key": "horologion.it_is_a_good_thing"
+                },
+                {
+                  "type": "repeat",
+                  "count": 2
+                }
+              ]
+            }
+          }
+        },
+        {
+          "target_id": "trisagion_block",
+          "action": "replace",
+          "new_component": {
+            "id": "trisagion_prostrations",
+            "rubric": {
+              "source_ref": "Dolnytsky IV:234 - 'at Trisagion—3 prostrations'"
+            },
+            "content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "type": "fixed_ref",
+                  "ref_key": "horologion.trisagion_our_father"
+                },
+                {
+                  "type": "prostration_marker",
+                  "count": 3,
+                  "type_": "small"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "target_id": "dismissal_troparion",
+          "action": "replace",
+          "new_component": {
             "id": "standing_in_temple",
+            "rubric": {
+              "source_ref": "Dolnytsky IV:234 - 'Troparion Standing in the temple'"
+            },
             "content": {
               "type": "fixed_ref",
               "ref_key": "triodion.standing_in_the_temple"
@@ -629,19 +1169,50 @@
           }
         },
         {
-          "target_id": "dismissal_daily",
-          "action": "insert_before",
+          "target_id": "dismissal_theotokion",
+          "action": "remove"
+        },
+        {
+          "target_id": "litany_have_mercy",
+          "action": "replace",
           "new_component": {
-            "id": "prayer_st_ephrem",
+            "id": "lord_have_mercy_40",
             "rubric": {
-              "title": "Prayer of St. Ephrem",
-              "roles": {
-                "all": "Make 3 great prostrations."
-              }
+              "source_ref": "Dolnytsky IV:234 - 'Lord, have mercy (40)'"
+            },
+            "content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "type": "fixed_ref",
+                  "ref_key": "horologion.lord_have_mercy_40"
+                },
+                {
+                  "id": "prayer_st_ephrem",
+                  "rubric": {
+                    "source_ref": "Dolnytsky IV:234 - '16 prostrations'"
+                  },
+                  "content": {
+                    "type": "fixed_ref",
+                    "ref_key": "triodion.prayer_st_ephrem_16"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "target_id": "dismissal_daily",
+          "action": "replace",
+          "new_component": {
+            "id": "no_dismissal_lenten",
+            "rubric": {
+              "source_ref": "Dolnytsky IV:234 - 'after last prostration, immediately O come let us worship'",
+              "note": "No dismissal. 1st Hour begins immediately."
             },
             "content": {
               "type": "fixed_ref",
-              "ref_key": "triodion.prayer_st_ephrem"
+              "ref_key": "horologion.o_come_let_us_worship_3x"
             }
           }
         }
