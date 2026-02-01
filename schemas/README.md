@@ -18,6 +18,7 @@ Validates files like `text_octoechos.json`, `text_menaion.json`.
     *   Keys must follow dot-notation: `group.slug.type` (e.g., `weekday.monday.troparion`).
     *   Must have `content` and `source`.
     *   `content` can be a string OR a localized object.
+    *   **Exception**: `text_menaion.json` uses a **flattened key** strategy (e.g., `menaion.0101.vespers.stichera_lord_i_call`) for simpler date-based lookups, rather than the deep nesting of `text_triodion.json`.
 
 ### 2. `service_structure.schema.json`
 Validates structural definitions like `01i_struct_matins.json`.

@@ -30,7 +30,8 @@
       "title": "Sunday of the Publican and the Pharisee",
       "variables": {
         "matins_praises_stichera_triodion": 4,
-        "liturgy_kontakion": "triodion"
+        "liturgy_kontakion": "triodion",
+        "text_key": "sunday_of_the_publican_and_pharisee"
       }
     },
     "sunday_prodigal_son": {
@@ -40,7 +41,8 @@
       "priority": 60,
       "title": "Sunday of the Prodigal Son",
       "variables": {
-        "matins_polyeleos_add": "psalm_136_waters_of_babylon"
+        "matins_polyeleos_add": "psalm_136_waters_of_babylon",
+        "text_key": "sunday_of_the_prodigal_son"
       }
     },
     "saturday_meatfare": {
@@ -49,14 +51,16 @@
       },
       "priority": 50,
       "title": "Saturday of Souls (Meatfare)",
-      "base_template": "soul_saturday_template"
+      "base_template": "soul_saturday_template",
+      "text_key": "saturday_of_the_departed"
     },
     "sunday_meatfare": {
       "triggers": {
         "pascha_offset": -56
       },
       "priority": 65,
-      "title": "Sunday of Meatfare (Last Judgment)"
+      "title": "Sunday of Meatfare (Last Judgment)",
+      "text_key": "meatfare_sunday"
     },
     "cheesefare_week_general": {
       "triggers": {
@@ -77,7 +81,8 @@
       "priority": 70,
       "title": "Sunday of Cheesefare (Forgiveness)",
       "variables": {
-        "vespers_evening_type": "forgiveness_vespers"
+        "vespers_evening_type": "forgiveness_vespers",
+        "text_key": "cheesefare_sunday"
       }
     },
     "great_lent_clean_week": {
@@ -131,7 +136,8 @@
       "priority": 80,
       "title": "Sunday of Orthodoxy",
       "variables": {
-        "liturgy_prokeimenon": "song_of_fathers"
+        "liturgy_prokeimenon": "song_of_fathers",
+        "text_key": "first_sunday_of_the_great_fast"
       }
     },
     "saturday_lent_2_3_4": {
@@ -153,7 +159,8 @@
       "priority": 80,
       "title": "Sunday of St. Gregory Palamas",
       "variables": {
-        "liturgy_type": "liturgy_basil"
+        "liturgy_type": "liturgy_basil",
+        "text_key": "second_sunday_of_the_great_fast"
       }
     },
     "sunday_lent_3": {
@@ -165,7 +172,8 @@
       "variables": {
         "matins_great_doxology_end": "procession_cross_veneration",
         "liturgy_type": "liturgy_basil",
-        "liturgy_trisagion_replace": "before_thy_cross"
+        "liturgy_trisagion_replace": "before_thy_cross",
+        "text_key": "third_sunday_of_the_great_fast"
       }
     },
     "sunday_lent_4": {
@@ -175,7 +183,8 @@
       "priority": 80,
       "title": "Sunday of St. John Climacus",
       "variables": {
-        "liturgy_type": "liturgy_basil"
+        "liturgy_type": "liturgy_basil",
+        "text_key": "fourth_sunday_of_the_great_fast"
       }
     },
     "sunday_lent_5": {
@@ -185,7 +194,8 @@
       "priority": 80,
       "title": "Sunday of St. Mary of Egypt",
       "variables": {
-        "liturgy_type": "liturgy_basil"
+        "liturgy_type": "liturgy_basil",
+        "text_key": "fifth_sunday_of_the_great_fast"
       }
     },
     "thursday_great_canon": {
@@ -195,7 +205,8 @@
       "priority": 60,
       "title": "Thursday of the Great Canon",
       "variables": {
-        "matins_canon": "great_canon_andrew_crete_full"
+        "matins_canon": "great_canon_andrew_crete_full",
+        "text_key": "matins_with_prostrations"
       }
     },
     "saturday_akathist": {

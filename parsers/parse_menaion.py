@@ -61,8 +61,8 @@ def parse_menaion():
         if vespers_match:
             vespers_content = vespers_match.group(1)
             
-            # Stichera on "Lord I Call"
-            lihc = re.search(r'Stichera at ["\"]?O Lord, I have cried["\"]?\.*(.*?)(?=Aposticha|Glory be:|The entrance|$)', 
+            # Stichera on "Lord I Call" - Relaxed regex for smart quotes and variations
+            lihc = re.search(r'Stichera at.*?O Lord, I have cried.*?(.*?)(?=Aposticha|Glory be:|The entrance|$)', 
                             vespers_content, re.DOTALL | re.IGNORECASE)
             if lihc:
                 db[f"menaion.{day_key}.vespers.stichera_lord_i_call"] = {

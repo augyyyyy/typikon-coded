@@ -91,7 +91,14 @@ class RuthenianEngine:
             self._load_external_assets(self.variable_recension_path, "Variable")
         elif self.external_assets_dir and os.path.exists(self.external_assets_dir):
             # Legacy single-path fallback
+        # Legacy single-path fallback
             self._load_external_assets(self.external_assets_dir, "Legacy")
+            
+        # Load New Triodion Parsed Data
+        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/lenten_triodion.json")
+        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/floral_triodion.json")
+        # Load Menaion Parsed Data
+        self._load_versioned_texts("json_db/stamford/text_menaion.json")
 
     def _load_json(self, path_to_json):
         try:
@@ -624,6 +631,15 @@ class RuthenianEngine:
             "content": "It is truly meet..."
         }
 
+    def _find_fuzzy_key(self, container, prefix):
+        """Helper to find a key in container starting with prefix."""
+        if not isinstance(container, dict):
+            return None
+        for k in container.keys():
+            if k.startswith(prefix):
+                return k
+        return None
+
     def _resolve_variable_ref(self, ref_key, context):
         """
         Resolves a dynamic reference like 'stichera_resurrection' to a concrete key 
@@ -651,14 +667,67 @@ class RuthenianEngine:
         # Triodion Mapping
         triodion_key = context.get('triodion_day_key') 
         if triodion_key:
-             mapping.update({
-                  "stichera_triodion": f"{triodion_key}.sat_vespers.stichera_vespers",
-                  "aposticha_triodion": f"{triodion_key}.sat_vespers.aposticha",
-                  "canon_triodion": f"{triodion_key}.sun_matins.canon_ode_9",
-                  "exapostilarion_triodion": f"{triodion_key}.sun_matins.exapostilarion",
-                  "stichera_praises_triodion": f"{triodion_key}.sun_matins.stichera_praises",
-                  "sessional_triodion": f"{triodion_key}.sat_matins.sessional", 
-             })
+             # Look up the text_key from logic
+             logic_entry = self.triodion_logic.get('logic_map', {}).get(triodion_key, {})
+             # Try top-level then variables
+             text_key = logic_entry.get('text_key')
+             if not text_key:
+                  text_key = logic_entry.get('variables', {}).get('text_key')
+                  
+             if text_key and text_key in self.text_db:
+                  root = self.text_db[text_key]
+                  
+                  # Resolver Helper
+                  def get_triodion_content(service_prefix, section_prefix):
+                      service_key = self._find_fuzzy_key(root, service_prefix)
+                      if service_key:
+                          section_key = self._find_fuzzy_key(root[service_key], section_prefix)
+                          if section_key:
+                              return root[service_key][section_key]
+                      return None
+
+                  # Map Dynamic Keys
+                  result = None
+                  if ref_key == "stichera_triodion":
+                      result = get_triodion_content("saturday_vespers", "stichera_at_o_lord")
+                  elif ref_key == "aposticha_triodion":
+                      result = get_triodion_content("saturday_vespers", "aposticha")
+                  elif ref_key == "canon_triodion":
+                      result = get_triodion_content("sunday_matins", "ode_9")
+                  elif ref_key == "exapostilarion_triodion":
+                      result = get_triodion_content("sunday_matins", "exapostilarion")
+                  elif ref_key == "stichera_praises_triodion":
+                      result = get_triodion_content("sunday_matins", "stichera_at_the_praises")
+                  elif ref_key == "sessional_triodion":
+                       # Try Matins Sessional
+                       result = get_triodion_content("sunday_matins", "sessional")
+
+                  if result is not None:
+                      if isinstance(result, list):
+                          return {"content": "\n\n".join(result), "title": "Triodion Prop"}
+                      return result
+
+        # Menaion Mapping (Flattened Keys)
+        menaion_key = context.get('menaion_key')
+        if menaion_key:
+             target_key = None
+             if ref_key == "stichera_menaion":
+                  target_key = f"{menaion_key}.vespers.stichera_lord_i_call"
+             elif ref_key == "aposticha_menaion":
+                  target_key = f"{menaion_key}.vespers.aposticha"
+             elif ref_key == "litiya_menaion":
+                  target_key = f"{menaion_key}.vespers.litiya"
+             elif ref_key == "sessional_menaion":
+                  target_key = f"{menaion_key}.matins.sessional"
+             elif ref_key == "exapostilarion_menaion":
+                  target_key = f"{menaion_key}.matins.exapostilarion"
+             elif ref_key == "stichera_praises_menaion":
+                  target_key = f"{menaion_key}.matins.stichera_praises"
+             elif ref_key == "canon_menaion":
+                  target_key = f"{menaion_key}.matins.canon"
+             
+             if target_key and target_key in self.text_db:
+                  return self.text_db[target_key]
 
         # Pentecostarion Mapping
         pentecostarion_key = context.get('pentecostarion_day_key')
@@ -1594,10 +1663,15 @@ class RuthenianEngine:
             season_id = "pentecostarion"
         is_temple_feast = bool(
             self.temple_feast_date and self.temple_feast_date == (target_date.month, target_date.day))
+        
+        # Menaion Key Synthesis
+        menaion_key = f"menaion.{target_date.month:02d}{target_date.day:02d}"
+            
         return {"date": target_date.isoformat(), "year": year, "month": target_date.month, "day": target_date.day,
                 "day_of_week": weekday, "pascha_offset": delta,
                 "triodion_period": self._get_triodion_period_name(delta), "season_id": season_id,
-                "is_temple_feast": is_temple_feast}
+                "is_temple_feast": is_temple_feast,
+                "menaion_key": menaion_key}
 
     def _get_triodion_period_name(self, delta):
         if delta == 0: return "pascha";
@@ -2019,13 +2093,6 @@ class RuthenianEngine:
         # Lenten Triodion Logic
         if context.get("season_id") == "triodion" and context.get("triodion_period") == "lent_weekday":
              day = context.get("day_of_week", 1) # Default Mon
-             # Monday (1): 1, 8, 9
-             # Tuesday (2): 2, 8, 9
-             # Wednesday (3): 3, 8, 9
-             # Thursday (4): 4, 8, 9
-             # Friday (5): 5, 8, 9
-             # Saturday (6): 6, 7, 8, 9?
-             
              if day == 1: odes = [1, 8, 9]
              elif day == 2: odes = [2, 8, 9]
              elif day == 3: odes = [3, 8, 9]
@@ -2033,6 +2100,69 @@ class RuthenianEngine:
              elif day == 5: odes = [5, 8, 9]
              
         return odes
+
+    def resolve_lenten_triodic_canon(self, context):
+        """
+        Determines the distribution of Troparia for Lenten Weekday Matins.
+        Logic Source: Dolnytsky IV:220, 226.
+        
+        Rules:
+        1. Triodic Odes (e.g. 1,8,9 on Mon): Menaion on 6, Triodion on 8.
+        2. Non-Triodic Odes (e.g. 3,4,5,6,7): Menaion only, on 4.
+        3. If 2 Saints on Triodic Ode: Combined Menaion on 6 (3+3) + Triodion on 8.
+        """
+        result = {}
+        day = context.get("day_of_week", 1)
+        
+        # 1. Identify valid Triodic Odes for the day
+        triodic_odes = []
+        if day == 1: triodic_odes = [1, 8, 9]
+        elif day == 2: triodic_odes = [2, 8, 9]
+        elif day == 3: triodic_odes = [3, 8, 9]
+        elif day == 4: triodic_odes = [4, 8, 9]
+        elif day == 5: triodic_odes = [5, 8, 9]
+        
+        # 2. Analyze Saints
+        saints = context.get("saints", [])
+        saint_count = len(saints)
+        
+        # 3. Iterate all Odes (1-9)
+        all_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        
+        for ode in all_odes:
+            if ode in triodic_odes:
+                # Rule: Menaion 6 + Triodion 8
+                entry = {
+                    "triodion_count": 8,
+                    "menaion_count": 6
+                }
+                
+                # Split for 2 saints if applicable
+                if saint_count >= 2:
+                    entry["saint1_count"] = 3
+                    entry["saint2_count"] = 3
+                    
+                result[f"ode_{ode}"] = entry
+            else:
+                # Rule: Menaion 4 (Triodion absent)
+                entry = {
+                    "menaion_count": 4,
+                    # No triodion key means count is 0
+                }
+                
+                # Split for 2 saints? Dolnytsky IV:220 doesn't explicitly split 2+2, 
+                # but standard practice is 2+2=4 or Saint1 on 4 (Saint2 omitted?)
+                # Part IV Line 226: "The second saint is sung on the odes... where we sing only from the Menaion?"
+                # It says "We sing the canon of the Menaion (the two saints combined) on 6 [at Triodic odes]"
+                # It doesn't explicitly say for non-triodic. 
+                # Standard practice: Saint 1 (2) + Saint 2 (2) = 4.
+                if saint_count >= 2:
+                    entry["saint1_count"] = 2
+                    entry["saint2_count"] = 2
+                    
+                result[f"ode_{ode}"] = entry
+                
+        return result
 
     def resolve_matins_structure_order(self, context, rubrics=None):
         """
@@ -4380,4 +4510,19 @@ class RuthenianEngine:
             "troparia": [],
             "none": True
         }
+
+    def resolve_fixed_feast(self, context):
+        """
+        Resolves the fixed feast logic for the current date.
+        Uses context['menaion_key'] (e.g., 'menaion.0101') to find logic.
+        """
+        month = context['month']
+        day = context['day']
+        day_str = f"{day:02d}"
+        
+        if month not in self.menaion_logic:
+            return None
+            
+        month_logic = self.menaion_logic[month]
+        return month_logic.get('days', {}).get(day_str)
 
