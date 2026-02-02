@@ -99,6 +99,16 @@ For more detailed information, please refer to:
 - [Contributing](CONTRIBUTING.md): How to contribute code or textual corrections.
 - [Academic Alignment](docs/thesis_alignment_analysis.md): A comparative analysis of this engine against the 2011 Master's Thesis "Automating the Byzantine Typikon".
 
+### v0.4.0 (2026-02-01) - The Matins Audit & St. Sergius Import
+*   **St. Sergius Octoechos**: Successfully imported Tone 1 of the unabridged "St. Sergius" recension using a new atomic parser. Supported recursive structures (Canons, Stichera Groups) in `json_db/st_sergius/`.
+*   **Deep Structural Audit**: Completed a comprehensive audit of all Matins variants against the Dolnytsky Typikon.
+    *   **Daily Matins**: Validated structure; identified gaps in "Read" Praises and Litanies.
+    *   **Lenten Matins**: Fixed "Alleluia" replacement logic; validated Trinity Hymns and Lenten Kathismata.
+    *   **Festal Matins**: Audited "Feast of the Lord" logic; identified missing Gospel Rite triggers.
+    *   **Paschal Matins**: Generated skeleton for Matins of the Resurrection; mapped missing Canon/Dismissal assets.
+*   **Logic Core**: Fixed critical bugs in `resolve_alleluia_vs_god_is_lord` and `check_gospel_service`.
+*   **Recension Repairs**: Extracted "Morning Prayers" (1-12) from the Six Psalms text block into atomic components.
+
 ### v0.3.0 (2026-01-30) - The Dolnytsky Logic Engine
 *   **Phase 12c: Hyper-Dimensional Logic**: Implemented collision resolution for Sunday + Great Feast of Lord (Theophany). Refactored `identify_paradigm` to prioritize Rank 1 feasts over Sunday.
 *   **Phase 12d: Vesperal Liturgy Engine**: Added support for hybrid Vespers-Liturgy services (Theophany Eve, Nativity Eve). Implemented `resolve_evening_service_type` and `resolve_liturgy_extensions` for Great Blessing of Water.

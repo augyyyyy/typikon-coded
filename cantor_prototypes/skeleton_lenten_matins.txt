@@ -1,177 +1,208 @@
-=== MATINS SKELETON: LENTEN MATINS (2026-02-18) ===
+
+========================================
+         LENTEN MATINS SKELETON         
+========================================
 
 
->> MATINS_OPENING <<
+   >>> BLESSING <<<
+   Priest: Blessed be our God, always, now and for ever and ever.
+   Choir: Amen.
 
-   BEGINNING WITHOUT VIGIL (MORNING)    
+   >>> INTRODUCTORY PRAYERS <<<
+   Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+   Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+   Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+   Lord, have mercy. (3x)
+   Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+   Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+   Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+   Choir: Amen.
+   Lord, have mercy. (12x)
+   Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+   Come, let us adore the King, our God.
+   Come, let us adore Christ, the King and our God.
+   Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+
+   >>> PSALM 19 <<<
+   May the Lord hear you in the day of distress;* may the name of the God of Jacob defend you.
+   May He send you help from the sanctuary* and from Zion may He sustain you.
+   May He remember all your sacrifices,* and may your whole burnt offering be honored.
+   May He give you what your heart desires* and fulfill all your plans.
+   We shall rejoice in your salvation* and in the name of our God we shall be great.
+   May the Lord fulfill all your petitions.* Now I know that the Lord has saved His anointed.
+   He will hear him from His holy heaven;* in His right hand is the power of salvation.
+   Some trust in chariots and some in horses,* but we will call upon the name of the Lord our God.
+   They have collapsed and fallen,* but we have risen and stand upright.
+   O Lord, save the king* and hear us on the day we call upon You.
+
+   >>> PSALM 20 <<<
+   In Your strength, O Lord, the king rejoices,* in Your salvation he is glad indeed.
+   You have given him his heart’s desire* and have not withheld the request of his lips.
+   For You established him with blessings of goodness;* You placed a crown of precious stones/gold upon his head.
+   He asked You for life and You gave it to him,* length of days forever and ever.
+   Great is his glory in Your salvation;* glory and majesty You lay upon him.
+   For You will give him a blessing forever and ever;* You will gladden him with the joy of Your face.
+   For the king trusts in the Lord,* and through the mercy of the Most High he shall not be moved.
+   May Your hand reach all Your enemies;* may Your right hand find all who hate You.
+   You shall make them like a fiery furnace* when Your face appears.
+   The Lord will destroy them in His anger,* and fire will devour them.
+   You will wipe out their offspring from the earth* and their seed from among the children of men.
+   For they plotted evil against You,* they devised purposes they could not fulfill.
+   For You will put them to flight;* You will ready Your arrows against their face.
+   Be exalted, O Lord, in Your strength;* we will sing and praise Your might.
+
+   >>> HOROLOGION.SIX_PSALMS <<<
+   [STUB] The Six Psalms content
+
+   >>> LITANY OF PEACE <<<
+   In peace let us pray to the Lord.
+   Choir: Lord, have mercy (and after each petition).
+   For the peace from on high and for the salvation of our souls, let us pray to the Lord.
+   For peace throughout the whole world, for the well-being of God’s holy churches and for the unity of all, let us pray to the Lord.
+   For this holy church and for all who enter it with faith, reverence, and fear of God, let us pray to the Lord.
+   For our most holy universal Pontiff, N., Pope of Rome, let us pray to the Lord.
+   For our most blessed Patriarch, N., our most reverend Metropolitan, N., our God-loving Bishop, N., the reverend priesthood, the diaconate in Christ, and all the clergy and the people, let us pray to the Lord.
+   For our nation under God, for our government, and for all the military, let us pray to the Lord.
+   For this city (or For this village, or For this holy monastery), for every city and country and for the faithful who live in them, let us pray to the Lord.
+   For favorable weather, for an abundance of the fruits of the earth, and for peaceful times, let us pray to the Lord.
+   For the seafarers and travelers, for the sick and the suffering, for those held captive, and for their salvation, let us pray to the Lord.
+   That we may be delivered from all tribulation, wrath, and misfortune, let us pray to the Lord.
+   Help and save, have mercy and protect us, O God, by Your grace.
+   Remembering our most holy and immaculate, most blessed and glorious Lady, the Mother of God and ever-virgin Mary, together with all the saints, let us commend ourselves and one another and our whole life to Christ our God.
+   Choir: To You, O Lord.
+   Priest: For all glory, honor, and worship befit You, Father, Son, and Holy Spirit, now and for ever and ever.
+   Choir: Amen.
+
+        ALLELUIA & TRINITY HYMNS        
 ----------------------------------------
-   (Source: Dolnytsky I: Great Matins)
+   (Source: Dolnytsky IV:205-206)
+   [NOTE: Instead of 'God is the Lord' we sing Alleluia in the sequential tone.]
+   (Source: Dolnytsky IV:206 - '3 Trinity Hymns...each sung 3x')
+   [NOTE: Three commemorations: weekday, all saints, Theotokos.]
 
-   PRIEST: Vest in Epitrachelion. Exit North Door. Stand before closed Holy Doors. Exclaim 'Blessed is our God'.
+   [VARIABLE PROPERS: resolve_trinity_hymns]
 
-   CHOIR: Sing Introductory Prayers (Trisagion, Troparia, 'Lord Have Mercy' 12x).
-
-   DEACON: Perform the Great Censing of the whole church during the Psalms.
-
-   [STRUCTURE: HOROLOGION.BLESSING_COMMON]
-
-   [STRUCTURE: HOROLOGION.TRISAGION_BLOCK]
-
-   [STRUCTURE: HOROLOGION.PSALM_19]
-
-   [STRUCTURE: HOROLOGION.PSALM_20]
-
-   [STRUCTURE: HOROLOGION.GLORY_TO_HOLY]
-
-   [STRUCTURE: HOROLOGION.GLORY_TO_GOD_HIGHEST]
-
-   [STRUCTURE: HOROLOGION.O_LORD_OPEN_LIPS]
-
-   [STRUCTURE: HOROLOGION.PSALM_3]
-
-   [STRUCTURE: HOROLOGION.PSALM_37]
-
-   [STRUCTURE: HOROLOGION.PSALM_62]
-
-   [STRUCTURE: HOROLOGION.MATINS.MID_SIX_PSALMS_DOXOLOGY]
-
-   [STRUCTURE: HOROLOGION.PSALM_87]
-
-   [STRUCTURE: HOROLOGION.PSALM_102]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_1]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_2]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_3]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_4]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_5]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_6]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_7]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_8]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_9]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_10]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_11]
-
-   [STRUCTURE: HOROLOGION.MATINS.PRAYER_12]
-
-   [STRUCTURE: HOROLOGION.PSALM_142]
-
->> GREAT_LITANY <<
-
-   [STRUCTURE: HOROLOGION.LITANY_GREAT]
-
->> GOD_IS_THE_LORD <<
-
-            GOD IS THE LORD             
+   THREE KATHISMATA WITH PROSTRATIONS   
 ----------------------------------------
+   (Source: Dolnytsky IV:209)
+   [NOTE: At 'Alleluia' of each 'Glory' of Kathismata—3 prostrations.]
 
-   DEACON: Intone verses before the Icon of Christ.
+   [VARIABLE PROPERS: resolve_kathisma]
+   (Source: Dolnytsky IV:209 - 'Sessional Hymns...after 1st...of Octoechos')
 
-   CHOIR: Sing the Troparion of the Feast/Saint.
+   [VARIABLE PROPERS: resolve_lenten_sessional]
 
-   [STRUCTURE: HOROLOGION.GOD_IS_THE_LORD_VERSES]
+   [VARIABLE PROPERS: resolve_kathisma]
+   (Source: Dolnytsky IV:209 - 'after 2nd and 3rd...of Triodion')
 
-   [LOGIC START: resolve_god_is_the_lord_troparia]
+   [VARIABLE PROPERS: resolve_lenten_sessional]
 
-   >>> LOGIC RESOLVED: weekday_saint (Tone 1) <<<
-      -> [COMPONENT: troparion_saint (Tone 1)]
-      -> [COMPONENT: troparion_saint (Tone 1)]
-   [ATOMIC: glory_both_now]
-      -> [COMPONENT: theotokion (Tone 1)]
-   [LOGIC END: resolve_god_is_the_lord_troparia]
+   [VARIABLE PROPERS: resolve_kathisma]
+   (Source: Dolnytsky IV:209)
 
->> KATHISMATA_BLOCK <<
+   [VARIABLE PROPERS: resolve_lenten_sessional]
 
-             THE KATHISMATA             
+   >>> PSALM 50 <<<
+   (Wednesday, Saturday, and Sunday)
+   Have mercy on me, God, in Your kindness.* In Your compassion blot out my offense.
+   O wash me more and more from my guilt* and cleanse me from my sin.
+   My offenses truly I know them;* my sin is always before me.
+   Against You, You alone, have I sinned;* what is evil in Your sight I have done.
+   That You may be justified when You give sentence* and be without reproach when You judge.
+   O see, in guilt I was born,* a sinner was I conceived.
+   Indeed, You love truth in the heart;* then in the secret of my heart teach me wisdom.
+   O purify me, then I shall be clean;* O wash me, I shall be whiter than snow.
+   Make me hear rejoicing and gladness,* that the bones You have crushed may thrill.
+   From my sins turn away Your face* and blot out all my guilt.
+   A pure heart create for me, O God,* put a steadfast spirit within me.
+   Do not cast me away from Your presence,* nor deprive me of Your holy spirit.
+   Give me again the joy of Your help;* with a spirit of fervor sustain me.
+   That I may teach transgressors Your ways* and sinners may return to You.
+   O rescue me, God, my helper,* and my tongue shall ring out Your goodness.
+   O Lord, open my lips* and my mouth shall declare Your praise.
+   For in sacrifice You take no delight,* burnt offering from me You would refuse.
+   My sacrifice, a contrite spirit.* A humbled, contrite heart You will not spurn.
+   In Your goodness, show favor to Zion:* rebuild the walls of Jerusalem.
+   Then You will be pleased with lawful sacrifice, burnt offerings wholly consumed,* Then You will be offered young bulls on Your altar.
+   The choir concludes the psalms in the following manner:
+   Glory be to the Father, and to the Son, and to the Holy Spirit,
+   Now and for ever, and ever. Amen.
+   Alleluia! Alleluia! Alleluia! Glory to You, O God! (3x)
+   Lord, have mercy. (3x)
+   Then the prescribed troparion. During the Great Fast, (see below).
+   Now and for ever: O Mother of God, you are the true vine laden with the Fruit of Life;* wherefore, we implore you, O Lady,* to intercede together with the apostles and all the saints* that we may obtain mercy for our souls.
+   During the Great Fast, the following troparion is taken:
+   (Tone 6) At the third hour, O Lord,* You sent Your Holy Spirit to Your apostles.* Do not take Him from us, O gracious One,* but rather, renew Him within us as we pray to You.
+   Verse: A pure heart create for me, O God, put a steadfast spirit within me.
+   Verse: Do not cast me away from Your presence, nor deprive me of Your holy Spirit.
+   Glory be: Now and for ever: O Mother of God... (see above)
+   Blessed is the Lord God! Blessed is the Lord day by day! May the God of our salvation* smooth our path. Our God is the God of salvation.
+   Holy God; Trinity most holy; Our Father; and the kontakion.
+   During the Great Fast, instead of the kontakion, the following troparia are taken:
+   (Tone 8) Blessed are You, O Christ our God.* You filled the fishermen with wisdom,* sending down upon them the Holy Spirit.* Through them You have caught the whole world in your net.* O Lover of mankind, glory be to You!
+   Glory be: When the Most High descended and confused tongues,* He scattered the people;* but when He distributed the tongues of fire, He called all to unity.* Therefore, with one voice,* let us praise the most Holy Spirit.
+   Now and for ever: O most pure Mother of God,* you are a hope, a stronghold, and a refuge for Christians;* you are an unconquerable wall and a peaceful haven for the weary.* Through your unceasing intercession you are saving the world;* and we ask you to also remember us, O Virgin worthy of all praise.
+   Lord, have mercy (40x);
+   O Christ our God, in all times and places You are worshiped and glorified both in heaven and on earth. You are long-suffering and generous in Your mercy and compassion. You love the just and show mercy to the sinner, calling all people to repentance through the promise of blessings to come. Deem, O Lord, at this very hour, to receive our supplications and to direct our lives in the path of Your commandments. Sanctify our souls; purify our bodies; set aright our minds; cleanse our thoughts; deliver us from all affliction, trouble, and distress; surround us with Your holy angels so that, guided and guarded in their camp, we may attain oneness of faith and the knowledge of Your unspeakable glory. For You are blessed for ever and ever. Amen.
+   Lord, have mercy. (3x), Glory be, Now and for ever, More honorable... to the prayer of the First Hour, see p. 156.
+
+          LENTEN TRIODIC CANON          
 ----------------------------------------
-   [NOTE: Two Kathismata are read. On Sundays, the Polyeleos follows.]
-   (Source: Dolnytsky I Line 156)
+   (Source: Dolnytsky IV:212-228)
+   [NOTE: Mon=1,8,9; Tue=2,8,9; Wed=3,8,9; Thu=4,8,9; Fri=5,8,9; Sat=6,7,8,9]
 
-   PRIEST: Exclaim 'For Thine is the dominion' (quietly, sitting at place)
-   (Source: Dolnytsky I Line 156)
+   [VARIABLE PROPERS: resolve_lenten_triodic_canon]
+   (Source: Dolnytsky IV:202 - 'After It is truly meet—1 prostration')
+   (Source: Dolnytsky IV:231 - '3x with commemorations')
+   [NOTE: Trinity Exapostilarion of the tone, three times with commemorations.]
 
-   PRIEST: Exclaim 'For Thine is the dominion' (quietly, sitting at place)
+   [VARIABLE PROPERS: resolve_lenten_exapostilarion]
+   (Source: Dolnytsky I:204 - 'simply, without singing')
 
->> POLYELEOS_CHOICE <<
+   READER: Read Psalms 148-150 without singing, without stichera.
 
-        POLYELEOS OR KATHISMA 17        
-----------------------------------------
-   (Source: Dolnytsky I: Matins (Gate 6))
+   >>> HOROLOGION.PRAISES_PSALMS <<<
+   [STUB] Let everything that hath breath...
+   (Source: Dolnytsky IV:232 - 'at Glory to God in highest—3 prostrations')
 
-   PRIEST: If Polyeleos: Open Holy Doors, Great Censing. If Kathisma 17: Remain in altar.
+   [MISSING TEXT: triodion.to_thee_belongs_glory]
 
-   CHOIR: Sing Psalms 134-135 (Polyeleos) or Psalms 118-133 (Kathisma 17).
+   >>> HOROLOGION.DOXOLOGY_SMALL_READ <<<
+   [STUB] Glory to God in the highest...
 
-   [LOGIC START: resolve_kathisma_choice]
+   >>> HOROLOGION.LITANY_SUPPLICATION <<<
+   [STUB] Let us complete our prayer...
+   (Source: Dolnytsky IV:233)
 
-   [VARIABLE PROPERS: resolve_kathisma_choice]
-   [LOGIC END: resolve_kathisma_choice]
+   >>> UNTITLED <<<
+   O Christ, by Your passion we have been freed from suffering;* and by Your resurrection we have been delivered from corruption.* O Lord, glory to You!
+   
+   *Verse:* The Lord reigns, He is clothed in majesty.
+   
+   Let all creation rejoice, let the heavens be glad,* let the nations clap their hands with joy.* For Christ our Savior, in His love for mankind,* has nailed our sins to the cross;* He has put Death to death,* and by raising our fallen forefather, Adam,* He has given life to all mankind.
+   
+   *Verse:* For He has made the world firm, which shall not be moved.
+   
+   O God, You are above all understanding;* You are King and Lord of heaven and earth.* Yet of Your own free will,* You allowed Yourself to be crucified because of Your love for mankind.* When You descended below,* Hades was filled with bitterness as You confronted it;* but the souls of the just received You with great joy.* Adam arose when he saw You, his Creator, down in the depths.* What a wonder this is!* You are the Life of all and have tasted death* in order to dispel the darkness of the world by Your light.* O Lord, risen from the dead, glory to You!
+   
+   *Verse:* Holiness befits Your house, O Lord, for length of days.
+   
+   The myrrh-bearing women were filled with grief* as they hastened with spices to Your tomb;* but they did not find Your most pure body.* Instead, they found an angel* who proclaimed Your unique and glorious resurrection,* and commanded them to announce to Your apostles:* The Lord is risen, granting great mercy to the world.
+   
+   *Glory be: Now and for ever:* O Mother of God, the prophecy of Isaiah is fulfilled,* since you remained a virgin both before and after giving birth.* For it was God Who was born of you to restore our human nature.* Therefore, do not overlook your servants who supplicate you in your temple.* Since you have held the merciful Lord in your arms,* be compassionate toward your servants,* and beseech Him to save our souls.
+   (Source: Dolnytsky IV:234 - 'It is a good thing' twice)
+   (Source: Dolnytsky IV:234 - 'at Trisagion—3 prostrations')
+   (Source: Dolnytsky IV:234 - 'Troparion Standing in the temple')
 
->> GRADUALS_BLOCK <<
+   [MISSING TEXT: triodion.standing_in_the_temple]
+   (Source: Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone')
 
-         HYPAKOE AND ANABATHMOI         
-----------------------------------------
-   (Source: Dolnytsky I: Matins (Gate 5 & 4b))
+   [VARIABLE PROPERS: resolve_dismissal_theotokion]
+   (Source: Dolnytsky IV:234 - 'Lord, have mercy (40)')
+   (Source: Dolnytsky IV:234 - '16 prostrations')
 
-   CHOIR: Sing Hypakoe (if Sunday) and Anabathmoi (Antiphons).
+   [MISSING TEXT: triodion.prayer_st_ephrem_16]
+   (Source: Dolnytsky IV:234 - 'after last prostration, immediately O come let us worship')
+   [NOTE: No dismissal. 1st Hour begins immediately.]
 
->> GOSPEL_RITE <<
-
-               THE GOSPEL               
-----------------------------------------
-   (Source: Dolnytsky I: Matins)
-
-   DEACON: Exclaim 'Let us pray to the Lord'.
-
-   PRIEST: Read the Gospel from the Holy Doors (or carry to Tetrapod on Sundays).
-
-   PEOPLE: Venerate the Gospel after the reading.
-
->> CANON_BLOCK <<
-
-               THE CANON                
-----------------------------------------
-   [NOTE: Combined from Octoechos, Menaion, and Triodion according to rank.]
-
-   PRIEST: Anoint the faithful with blessed oil during the Canon.
-
->> PRAISES <<
-
-   [LOGIC START: resolve_praises_stichera]
-
-   [VARIABLE PROPERS: resolve_praises_stichera]
-   [LOGIC END: resolve_praises_stichera]
-
->> GREAT_DOXOLOGY <<
-
-          GREAT DOXOLOGY LOGIC          
-----------------------------------------
-   (Source: Dolnytsky I: Matins (Gate 11))
-
-   PRIEST: Great Doxology (Sung) or Small Doxology (Read) depending on rank.
-
-   [LOGIC START: resolve_doxology_type]
-
-   [VARIABLE PROPERS: resolve_doxology_type]
-   [LOGIC END: resolve_doxology_type]
-
->> POST_DOXOLOGY_EVENT <<
-
-           POST-DOXOLOGY RITE           
-----------------------------------------
-   [NOTE: For Cross Veneration etc.]
-
-   [LOGIC START: resolve_post_doxology_event]
-   [ERROR EXECUTING LOGIC resolve_post_doxology_event: RuthenianEngine.resolve_post_doxology_event() missing 1 required positional argument: 'rubrics']
-   [LOGIC END: resolve_post_doxology_event]
-
->> CONCLUSION <<
+   [MISSING TEXT: horologion.o_come_let_us_worship_3x]

@@ -167,3 +167,49 @@ To enable swapping recensions, all assets must adhere to these **Master Keys**.
 *   `menaion.<MONTH>_<DAY>.vespers.troparion`
 
 **Rule**: Parsing scripts must normalize source text into these specific keys.
+
+## 8. Atomic Component Structures (v0.3.0+)
+
+To support complex, non-linear liturgical rendering (e.g. Canons, interleaved Stichera), the engine now supports "Atomic" structured objects within the asset database.
+
+### 8.1 Stichera Group (`stichera_group`)
+Used for "Lord I Call", "Aposticha", "Praises".
+```json
+{
+  "type": "stichera_group",
+  "items": [
+    {
+      "type": "sticheron",
+      "text": "The text of the hymn...",
+      "verse": "The psalm verse preceding it..." // Optional
+    },
+    {
+      "type": "doxastichon",
+      "text": "Glory...",
+      "rubric": "Tone 6"
+    },
+    {
+      "type": "theotokion",
+      "text": "Both now..."
+    }
+  ]
+}
+```
+
+### 8.2 Canon (`canon`)
+A recursive structure defining the Odes.
+```json
+{
+  "type": "canon",
+  "title": "Canon of the Resurrection",
+  "acrostic": "An acrostic signature...",
+  "odes": {
+    "1": {
+      "irmos": { "text": "..." },
+      "troparia": [ { "text": "..." }, { "text": "..." } ],
+      "katavasia": { "text": "..." } // Optional override
+    },
+    "3": { ... }
+  }
+}
+```

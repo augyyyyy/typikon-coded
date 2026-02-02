@@ -29,21 +29,13 @@
 
    [STRUCTURE: HOROLOGION.PSALM_3]
 
-   [STRUCTURE: HOROLOGION.PSALM_37]
-
-   [STRUCTURE: HOROLOGION.PSALM_62]
-
-   [STRUCTURE: HOROLOGION.MATINS.MID_SIX_PSALMS_DOXOLOGY]
-
-   [STRUCTURE: HOROLOGION.PSALM_87]
-
-   [STRUCTURE: HOROLOGION.PSALM_102]
-
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_1]
 
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_2]
 
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_3]
+
+   [STRUCTURE: HOROLOGION.PSALM_37]
 
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_4]
 
@@ -51,11 +43,19 @@
 
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_6]
 
+   [STRUCTURE: HOROLOGION.PSALM_62]
+
+   [STRUCTURE: HOROLOGION.MATINS.MID_SIX_PSALMS_DOXOLOGY]
+
+   [STRUCTURE: HOROLOGION.PSALM_87]
+
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_7]
 
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_8]
 
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_9]
+
+   [STRUCTURE: HOROLOGION.PSALM_102]
 
    [STRUCTURE: HOROLOGION.MATINS.PRAYER_10]
 
@@ -112,8 +112,6 @@
    CHOIR: Sing Psalms 134-135 (Polyeleos) or Psalms 118-133 (Kathisma 17).
 
    [LOGIC START: resolve_kathisma_choice]
-
-   [VARIABLE PROPERS: resolve_kathisma_choice]
    [LOGIC END: resolve_kathisma_choice]
 
 >> GRADUALS_BLOCK <<
@@ -136,6 +134,40 @@
 
    PEOPLE: Venerate the Gospel after the reading.
 
+   [LOGIC START: resolve_gradual]
+
+   [VARIABLE PROPERS: resolve_gradual]
+   [LOGIC END: resolve_gradual]
+
+   [LOGIC START: resolve_matins_prokeimenon]
+
+   [VARIABLE PROPERS: resolve_matins_prokeimenon]
+   [LOGIC END: resolve_matins_prokeimenon]
+
+   [STRUCTURE: HOROLOGION.LET_EVERYTHING_BREATH]
+
+   [LOGIC START: resolve_matins_gospel]
+
+   [VARIABLE PROPERS: resolve_matins_gospel]
+   [LOGIC END: resolve_matins_gospel]
+
+   [STRUCTURE: HOROLOGION.HAVING_BEHELD_RESURRECTION]
+
+   [STRUCTURE: PSALM_50]
+
+   [LOGIC START: resolve_post_gospel_stichera]
+
+   [STRUCTURE: HOROLOGION.GLORY_APOSTLES]
+
+   [STRUCTURE: HOROLOGION.BOTH_NOW_THEOTOKOS]
+
+   [STRUCTURE: HOROLOGION.HAVE_MERCY]
+
+   [STRUCTURE: HOROLOGION.JESUS_HAVING_RISEN]
+   [LOGIC END: resolve_post_gospel_stichera]
+
+   [STRUCTURE: HOROLOGION.LITANY_SAVE_O_GOD_SHORT]
+
 >> CANON_BLOCK <<
 
                THE CANON                
@@ -148,7 +180,13 @@
 
    [LOGIC START: resolve_praises_stichera]
 
-   [VARIABLE PROPERS: resolve_praises_stichera]
+   [STRUCTURE: HOROLOGION.PSALMS_PRAISES_148_150]
+
+   [STRUCTURE: OCTOECHOS.PRAISES_STICHERA_TONE_1]
+
+   [STRUCTURE: EOTHINON.PRAISES_GLORY_GOSPEL_1]
+
+   [STRUCTURE: OCTOECHOS.PRAISES_BOTH_NOW_TONE_1]
    [LOGIC END: resolve_praises_stichera]
 
 >> GREAT_DOXOLOGY <<
@@ -161,7 +199,7 @@
 
    [LOGIC START: resolve_doxology_type]
 
-   [VARIABLE PROPERS: resolve_doxology_type]
+   [STRUCTURE: HOROLOGION.DOXOLOGY_GREAT]
    [LOGIC END: resolve_doxology_type]
 
 >> POST_DOXOLOGY_EVENT <<
@@ -171,7 +209,8 @@
    [NOTE: For Cross Veneration etc.]
 
    [LOGIC START: resolve_post_doxology_event]
-   [ERROR EXECUTING LOGIC resolve_post_doxology_event: RuthenianEngine.resolve_post_doxology_event() missing 1 required positional argument: 'rubrics']
+
+   [VARIABLE PROPERS: resolve_post_doxology_event]
    [LOGIC END: resolve_post_doxology_event]
 
 >> CONCLUSION <<

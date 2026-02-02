@@ -180,6 +180,42 @@ class CantorRenderer:
             logic_name = content.get("logic", {}).get("function", "Unknown")
             self._render_variable_item(engine, context, logic_name)
 
+        # 7. Structured Group (Stichera / Canon)
+        elif c_type in ["stichera_group", "canon"]:
+            # Render a header if provided?
+            if c_type == "canon":
+                self.output.append("\n   === CANON ===")
+                
+            items = content.get("items", [])
+            for item in items:
+                self._render_structured_item(item)
+    
+    def _render_structured_item(self, item):
+        i_type = item.get("type", "text")
+        text = item.get("text", "")
+        verse = item.get("verse")
+        
+        if i_type == "ode_header":
+             self.output.append(f"\n   --- {text} ---")
+             return
+
+        # Render Verse if present
+        if verse:
+             self.output.append(f"\n   [Verse] {verse}")
+             
+        # Render Text based on type
+        if i_type == "irmos":
+            self.output.append(f"   (Irmos) {text}")
+        elif i_type == "doxastichon":
+            self.output.append(f"   (Glory/Both) {text}")
+        elif i_type == "theotokion":
+            self.output.append(f"   (Theotokion) {text}")
+        elif i_type == "refrain":
+            self.output.append(f"   (Refrain) {text}")
+        else:
+            # Standard sticheron or tropariion
+            self.output.append(f"   {text}")
+
     def _render_text_item(self, engine, ref_key):
         # Normalize and Lookup
         lookup_keys = [ref_key, ref_key.replace("horologion.", "")]

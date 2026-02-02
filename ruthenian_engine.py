@@ -2822,7 +2822,7 @@ class RuthenianEngine:
 
     # PHASE 9: LENTEN MATINS (EXTREME)
 
-    def resolve_alleluia_vs_god_is_lord(self, context, rubrics):
+    def resolve_alleluia_vs_god_is_lord(self, context, rubrics=None):
         # I. Alleluia Logic
         # If Lenten Weekday -> Alleluia + Trinity Hymns
         if context.get("is_lent") and context.get("day_of_week") in [1,2,3,4,5]:
@@ -2854,7 +2854,7 @@ class RuthenianEngine:
                  ]
              }
         # Fallback to God is the Lord
-        return self.resolve_god_is_the_lord_troparia(context, rubrics)
+        return self.resolve_god_is_the_lord_troparia(context)
 
     def resolve_lenten_canon_odes(self, context, rubrics):
         # V. Canon Merger (Menaion + Triodion)
@@ -4581,6 +4581,26 @@ class RuthenianEngine:
              items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_theotokion_{eothinon_num}"})
              
         return items
+
+    def check_gospel_service(self, context):
+        """
+        Determines if the current service should include the Matins Gospel Rite.
+        Returns True for Sundays and Great Feasts.
+        Returns False for simple Weekdays (Daily Matins).
+        """
+        day = context.get("day_of_week") # 0=Sunday
+        rank = context.get("rank", 0) # 0=Simple, ...
+        
+        # Sundays always have Gospel
+        if day == 0:
+            return True
+            
+        # Feasts of Polyeleos rank or higher (approximate check)
+        # Assuming rank 3+ is Polyeleos/Vigil
+        if rank >= 3:
+            return True
+            
+        return False
 
     def resolve_praises_stichera(self, context):
         """

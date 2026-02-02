@@ -62,3 +62,6 @@ Data/system_instructions.txt
 
 # AI Working Files (brain transfer between sessions)
 .agent/brain/
+
+# Prototypes
+cantor_prototypes/

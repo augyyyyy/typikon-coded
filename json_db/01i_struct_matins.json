@@ -254,18 +254,20 @@
         },
         {
           "id": "gospel_rite",
-          "rubric": {
-            "title": "The Gospel",
-            "source_ref": "Dolnytsky I: Matins",
-            "roles": {
-              "deacon": "Exclaim 'Let us pray to the Lord'.",
-              "priest": "Read the Gospel from the Holy Doors (or carry to Tetrapod on Sundays).",
-              "people": "Venerate the Gospel after the reading."
-            }
-          },
           "content": {
-            "type": "component_ref",
-            "ref_key": "components.matins_gospel_rite"
+            "type": "conditional_block",
+            "logic": {
+              "function": "check_gospel_service"
+            },
+            "true_content": {
+              "type": "sequence",
+              "components": [
+                {
+                  "type": "component_ref",
+                  "ref_key": "components.matins_gospel_rite"
+                }
+              ]
+            }
           }
         },
         {
