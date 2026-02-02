@@ -63,3 +63,35 @@ This document tracks structural and content discrepancies between the implemente
 
 ## 3. Structural/Order Issues
 - **Morning Prayers**: ✅ **Verified**. Split into 12 atomic prayers (`prayer_1` to `prayer_12`). Listed in structure. Logic for interleaving is deferred but structural integrity is fixed.
+
+## Daily Matins Gap Matrix (Phase 18)
+| Component | Issue Category | Detailed Finding | Remediation Action |
+| :--- | :--- | :--- | :--- |
+| **Gospel Rite** | Incorrect Inclusion | Logic currently includes Gospel on non-Feast days. Fix implemented in `check_gospel_service` but structure needs validation. | Wrap `gospel_rite` in `conditional_block` using refined logic. |
+| **Praises** | Content Missing / Style Mismatch | Engine calls `psalms_praises_148_150` which is missing from JSON. Stub `horologion.praises_psalms` exists but is the Sung version ("Let everything that hath breath"). Daily Matins requires "Read" version. | 1. Add `horologion.psalms_praises_simple` (Read).<br>2. Add `horologion.psalms_praises_sung` (Sung).<br>3. Update engine to switch based on service rank. |
+| **Small Litany** | Content Error | `horologion.common.litany_small` contains the Litany of Supplication text ("Let us complete..."). | Rename faulty key to `litany_supplication` and create correct `litany_small` ("Again and again..."). |
+| **Kathisma Litanies** | Content Verification | Structure calls `litany_small` after Kathismata, but due to Content Error above, it renders the wrong text. | Fix `litany_small` content. |
+
+## Lenten Matins Gap Matrix (Phase 18)
+| Component | Issue Category | Detailed Finding | Remediation Action |
+| :--- | :--- | :--- | :--- |
+| **Alleluia vs God is the Lord** | **Code Bug** | `ValueError` during generation: `resolve_alleluia_vs_god_is_lord` missing `rubrics` argument. | Fix function signature in `ruthenian_engine.py` to accept `rubrics`. |
+| **Praises** | Content Missing | Same as Daily: Renders Sung version instead of Read version. | Implement `horologion.psalms_praises_simple` (Read). |
+| **Lenten Texts** | **Missing Assets** | `triodion.to_thee_belongs_glory` and `triodion.standing_in_the_temple` are missing. | Import/Stub these specific Lenten fixed texts. |
+| **Aposticha** | Content Mismatch | Renders **Sunday Tone 1** Aposticha instead of Triodion-specific Lenten Aposticha. | Update `resolve_aposticha` to check for `period="triodion"` and fetch from Triodion if available. |
+
+## Festal Matins Gap Matrix (Phase 18)
+| Component | Issue Category | Detailed Finding | Remediation Action |
+| :--- | :--- | :--- | :--- |
+| **Gospel Rite** | **Code Bug** | Gospel Rite missing from skeleton. logic `check_gospel_service` relies on missing `rank` integer. | Update `check_gospel_service` to respect `is_feast` flag and `feast_level`. |
+| **Megalynarion** | **Structural Gap** | No slot for Megalynarion (Magnification) after Polyeleos. | Add `components.matins_megalynarion` slot to `01i_struct_matins.json` (conditional on Feast). |
+| **Praises** | Content Missing | `horologion.psalms_praises_148_150` missing. | Same as Daily/Lenten remediation. |
+| **Doxology** | Content Verification | Defaults to Small Doxology (Read) if rank is low. | Ensure Festal context triggers Great Doxology (Sung). |
+
+## Paschal Matins Gap Matrix (Phase 18)
+| Component | Issue Category | Detailed Finding | Remediation Action |
+| :--- | :--- | :--- | :--- |
+| **Paschal Canon** | **Missing Assets** | `pentecostarion.canon_pascha` is missing. | Import full Paschal Canon (Irmos, Troparia, Katavasia). |
+| **Opening Rite** | **Missing Assets** | `pentecostarion.opening_let_god_arise` is missing. | Import initial Paschal verses/stichera. |
+| **Dismissal** | **Missing Assets** | `pentecostarion.dismissal_paschal_full` is missing. | Import the specific Dialogical Paschal Dismissal. |
+| **Praises** | **Logic Stub** | `resolve_bright_praises` exists but rendered as a stub variable. | Implement logic to fill Paschal praises (Resurrectional Stichera + Paschal Stichera). |

@@ -161,6 +161,366 @@
                 },
                 "horologion.psalm_142": {
                     "desc": "O Lord hear my prayer"
+                },
+                "horologion.psalm_140": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_141": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_129": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_116": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_76": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_113": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_54": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_17": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_60": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_68": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_33": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_69": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_to_the_mother_god": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_to_jesus_christ": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_4": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_6": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_12": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_24": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_30": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_st_basil_the_great": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_101": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_118": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_120": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_133": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_64": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_st_eustratius": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_3": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_37": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_62": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_87": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_102": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_148": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_149": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_150": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_5": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_89": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_100": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_the_first_hour": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_16": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_the_third_hour": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_53": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_the_sixth_hour": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_83": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_84": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_85": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_the_ninth_hour": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_145": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_1_selected": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.dismissal_vigil_sequence": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_st_ephrem": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_theotokos": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.blessed_be_name_3x": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.dismissal_great_compline_standard": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.dismissal_great_friday": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.dismissal_great_saturday": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.dismissal_small_prayers": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.dismissal_small_with_litany": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.glory_to_holy": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.have_mercy_on_us_lord": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.heavenly_choir": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.it_is_a_good_thing": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.kathisma_9": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.kontakion_have_mercy_on_us": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.litany_final_compline": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_absolution_dead": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_compline_grant_us": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_compline_spotless": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_manasses": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.prayer_remember_fathers_brethren": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_102_bless_the_lord": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_118_blameless": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_145_praise_the_lord": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_19": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.psalm_20": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.remember_us_o_lord": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.remit_pardon": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.supplication_all_holy_lady": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.trop_repose_mother_holy": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.trop_repose_remember_o_lord": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.troparion_illumine_my_eyes": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.vigil_bridge_blessing": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.god_is_the_lord_verses": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.polyeleos": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.hosts_of_angels": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.gradual_hymn_tone4": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.hymn_of_resurrection": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.glory_to_god_highest": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.o_lord_open_lips": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.mid_six_psalms_doxology": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_1": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_2": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_3": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_4": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_5": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_6": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_7": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_8": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_9": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_10": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_11": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.matins.prayer_12": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "horologion.hour_1.prayer": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.prayer_first_hour": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.hour_3.prayer": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.prayer_third_hour": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.hour_6.prayer": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.prayer_sixth_hour": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.hour_9.prayer": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.prayer_ninth_hour": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.liturgy.only_begotten": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.hymn_only_begotten": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.typika.beatitudes": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.typika_beatitudes": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.compline.full_text": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.compline_service": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.midnight.full_text": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.nocturn_service": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.prayer": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.beatitudes": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "horologion.full_text": {
+                    "desc": "Auto-registered from text_horologion_supplement.json"
                 }
             }
         },
@@ -212,6 +572,36 @@
                 },
                 "triodion.troparion_when_thou_didst_descend": {
                     "desc": "Holy Saturday troparion"
+                },
+                "triodion.publican_pharisee.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.publican_pharisee.raw_content": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.prodigal_son.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.prodigal_son.raw_content": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.saturday_departed.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.saturday_departed.raw_content": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.meatfare.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.meatfare.raw_content": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.cheesefare.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_triodion.json"
+                },
+                "triodion.cheesefare.raw_content": {
+                    "desc": "Auto-registered from text_triodion.json"
                 }
             }
         },
@@ -245,6 +635,72 @@
                 },
                 "pentecostarion.opening_let_god_arise": {
                     "desc": "Let God Arise opening"
+                },
+                "pentecostarion.lazarus_saturday.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.lazarus_saturday.troparion": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.lazarus_saturday.raw_content": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.palm_sunday.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.palm_sunday.troparion": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.palm_sunday.raw_content": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_monday.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_monday.troparion": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_monday.raw_content": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_tuesday.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_tuesday.troparion": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_tuesday.raw_content": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_wednesday.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_wednesday.troparion": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_wednesday.raw_content": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_thursday.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_thursday.troparion": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_thursday.raw_content": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_friday.vespers.stichera_aposticha": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_friday.troparion": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_friday.raw_content": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
+                },
+                "pentecostarion.great_saturday.raw_content": {
+                    "desc": "Auto-registered from text_pentecostarion.json"
                 }
             }
         },
@@ -466,6 +922,1470 @@
                 },
                 "tone_8.raw_content": {
                     "desc": "Tone 8 Full Propers"
+                }
+            }
+        },
+        "eothinon": {
+            "description": "Auto-registered domain eothinon",
+            "keys": {
+                "eothinon.1.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_1_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.1.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_1_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.1.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_1_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.1.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_1_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.2.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_2_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.2.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_2_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.2.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_2_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.2.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_2_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.3.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_3_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.3.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_3_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.3.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_3_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.3.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_3_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.4.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_4_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.4.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_4_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.4.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_4_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.4.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_4_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.5.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_5_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.5.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_5_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.5.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_5_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.5.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_5_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.6.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_6_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.6.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_6_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.6.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_6_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.6.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_6_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.7.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_7_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.7.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_7_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.7.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_7_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.7.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_7_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.8.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_8_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.8.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_8_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.8.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_8_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.8.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_8_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.9.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_9_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.9.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_9_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.9.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_9_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.9.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_9_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.10.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_10_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.10.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_10_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.10.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_10_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.10.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_10_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.11.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_11_gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.11.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_11_exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.11.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_11_theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.11.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.eothinon_11_stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.gospel": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.exapostilarion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.theotokion": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                },
+                "eothinon.stichera": {
+                    "desc": "Auto-registered from text_eothinon.json"
+                }
+            }
+        },
+        "general": {
+            "description": "Auto-registered domain general",
+            "keys": {
+                "general.theotokos.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.theotokos.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.prophet.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.prophet.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.apostle.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.apostle.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.apostles.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.apostles.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.hierarch.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.hierarch.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.hierarchs.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.hierarchs.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable.troparion_alt_2": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerables.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerables.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.martyr.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.martyr.troparion_alt_2": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.martyr.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.martyrs.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.martyrs.troparion_alt_2": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.martyrs.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.hieromartyr.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.hieromartyr.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.hieromartyrs.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.hieromartyrs.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_martyr.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_martyr.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_martyrs.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_martyrs.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.woman_martyr.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.woman_martyr.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.women_martyrs.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.women_martyrs.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_woman.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_woman.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_women.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_women.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_woman_martyr.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.venerable_woman_martyr.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.confessor.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.confessor.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.unmercenaries.troparion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                },
+                "general.unmercenaries.kontakion": {
+                    "desc": "Auto-registered from text_general_menaion.json"
+                }
+            }
+        },
+        "prayer_o_all-holy_trinity_consubstantial_might_undivided_kingship_source_and_origin_all_goodness_deal_kindly_with_me_a_sinner;_strengthen_my_innermost_spirit_cleanse_me_all_evil_and_enlighten_my_mind_that_i_may_ever_glorify_you_with_this_prayer_one_is_holy_one_is_lord_jesus_christ_to_the_glory_god_the_father": {
+            "description": "Auto-registered domain prayer_o_all-holy_trinity_consubstantial_might_undivided_kingship_source_and_origin_all_goodness_deal_kindly_with_me_a_sinner;_strengthen_my_innermost_spirit_cleanse_me_all_evil_and_enlighten_my_mind_that_i_may_ever_glorify_you_with_this_prayer_one_is_holy_one_is_lord_jesus_christ_to_the_glory_god_the_father",
+            "keys": {
+                "prayer_o_all-holy_trinity_consubstantial_might_undivided_kingship_source_and_origin_all_goodness_deal_kindly_with_me_a_sinner;_strengthen_my_innermost_spirit_cleanse_me_all_evil_and_enlighten_my_mind_that_i_may_ever_glorify_you_with_this_prayer_one_is_holy_one_is_lord_jesus_christ_to_the_glory_god_the_father._amen.": {
+                    "desc": "Auto-registered from text_horologion.json"
+                },
+                "prayer_o_all-holy_trinity_consubstantial_might_undivided_kingship_source_and_origin_all_goodness_deal_kindly_with_me_a_sinner;_strengthen_my_innermost_spirit_cleanse_me_all_evil_and_enlighten_my_mind_that_i_may_ever_glorify_you_with_this_prayer_one_is_holy_one_is_lord_jesus_christ_to_the_glory_god_the_father.": {
+                    "desc": "Auto-registered from text_horologion.json"
+                }
+            }
+        },
+        "file_metadata": {
+            "description": "Auto-registered domain file_metadata",
+            "keys": {
+                "file_metadata": {
+                    "desc": "Auto-registered from text_liturgikon.json"
+                }
+            }
+        },
+        "menaion": {
+            "description": "Auto-registered domain menaion",
+            "keys": {
+                "menaion.0101.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0101.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0101.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0101.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0101.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0101.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0102.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0102.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0102.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0102.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0105.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0106.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0106.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0106.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0107.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0107.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0107.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0107.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0130.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0130.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0130.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0130.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0130.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0202.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0202.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0202.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0202.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0202.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0203.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0203.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0203.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0203.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0325.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0325.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0325.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0326.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0326.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0423.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0423.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0423.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0506.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0506.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0508.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0508.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0508.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0508.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0509.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0509.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0509.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0511.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0511.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0511.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0511.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0521.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0521.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0521.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0521.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0521.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0521.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0521.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0624.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0624.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0624.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0624.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0624.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0629.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0629.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0629.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0629.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0629.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0629.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0629.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0629.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0710.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0710.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0710.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0710.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0711.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0711.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0715.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0715.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0715.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0715.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0719.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0719.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0720.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0720.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0720.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0720.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0722.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0722.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0724.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0724.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0724.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0724.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0725.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0725.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0725.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0801.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0801.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0801.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0801.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0806.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0806.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0806.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0806.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0806.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0806.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0807.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0807.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0807.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0807.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0807.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0815.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0815.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0815.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0815.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0815.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0815.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0815.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0815.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0816.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0816.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0816.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0816.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0816.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0816.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0829.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0829.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0829.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0829.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0829.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0829.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0829.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0901.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0901.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0901.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0901.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0901.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0908.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0908.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0908.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0908.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0908.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0908.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0908.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0909.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0909.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0909.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0914.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0914.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0914.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0914.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0914.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0915.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0915.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0915.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0915.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0915.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0915.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0923.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0923.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.0923.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1001.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1001.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1001.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1001.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1001.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1001.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1026.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1026.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1026.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1108.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1108.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1108.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1108.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1108.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1112.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1112.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1112.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1112.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1112.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1121.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1121.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1121.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1121.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1206.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1206.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1206.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1206.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1206.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1209.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1209.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1209.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1209.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1209.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1209.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1209.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1217.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1217.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1217.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1218.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1218.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1218.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1218.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1218.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1220.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1220.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1220.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1220.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1220.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1220.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1224.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1225.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1225.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1225.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1225.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1225.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1225.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1226.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1226.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1226.vespers.litiya": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1226.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1226.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1227.vespers.stichera_lord_i_call": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1227.vespers.aposticha": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1227.matins.sessional": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1227.matins.exapostilarion": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1227.matins.stichera_praises": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1227.matins.canon": {
+                    "desc": "Auto-registered from text_menaion.json"
+                },
+                "menaion.1227.metadata": {
+                    "desc": "Auto-registered from text_menaion.json"
+                }
+            }
+        },
+        "tone_1": {
+            "description": "Auto-registered domain tone_1",
+            "keys": {
+                "tone_1.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                }
+            }
+        },
+        "tone_2": {
+            "description": "Auto-registered domain tone_2",
+            "keys": {
+                "tone_2.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                }
+            }
+        },
+        "tone_3": {
+            "description": "Auto-registered domain tone_3",
+            "keys": {
+                "tone_3.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                }
+            }
+        },
+        "tone_4": {
+            "description": "Auto-registered domain tone_4",
+            "keys": {
+                "tone_4.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                }
+            }
+        },
+        "tone_5": {
+            "description": "Auto-registered domain tone_5",
+            "keys": {
+                "tone_5.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                }
+            }
+        },
+        "tone_6": {
+            "description": "Auto-registered domain tone_6",
+            "keys": {
+                "tone_6.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                }
+            }
+        },
+        "tone_7": {
+            "description": "Auto-registered domain tone_7",
+            "keys": {
+                "tone_7.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                }
+            }
+        },
+        "tone_8": {
+            "description": "Auto-registered domain tone_8",
+            "keys": {
+                "tone_8.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                }
+            }
+        },
+        "theotokion": {
+            "description": "Auto-registered domain theotokion",
+            "keys": {
+                "theotokion.tone_1.resurrectional": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_1.sunday_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_1.monday_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_1.mon_wed_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_1.tue_thu_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_1.tue_thu_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_1.wed_fri_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_1.fri_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_1.sat_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.resurrectional": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.sunday_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.monday_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.mon_wed_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.tue_thu_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.tue_thu_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.wed_fri_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.fri_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_2.sat_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.resurrectional": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.sunday_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.monday_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.generic": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.generic_alt": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.tue_thu_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.wed_fri_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.fri_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_3.sat_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.resurrectional": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.sunday_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.monday_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.generic": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.generic_alt": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.tue_thu_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.wed_fri_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.fri_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_4.sat_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_5.resurrectional": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_5.sunday_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_5.generic": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_5.generic_alt": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_5.tue_thu_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_5.wed_fri_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_5.fri_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_5.sat_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.resurrectional": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.sunday_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.monday_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.generic": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.generic_alt": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.tue_thu_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.wed_fri_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.fri_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_6.sat_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.resurrectional": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.sunday_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.monday_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.generic": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.generic_alt": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.tue_thu_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.wed_fri_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.fri_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_7.sat_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.resurrectional": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.sunday_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.monday_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.generic": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.generic_alt": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.tue_thu_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.wed_fri_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.fri_vespers": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                },
+                "theotokion.tone_8.sat_matins_end": {
+                    "desc": "Auto-registered from text_theotokia.json"
+                }
+            }
+        },
+        "weekday": {
+            "description": "Auto-registered domain weekday",
+            "keys": {
+                "weekday.monday.troparion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.monday.kontakion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.tuesday.troparion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.tuesday.kontakion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.wednesday.troparion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.wednesday.kontakion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.thursday.troparion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.thursday.troparion_2": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.thursday.kontakion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.saturday.troparion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.saturday.kontakion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.friday.troparion": {
+                    "desc": "Auto-registered from text_weekdays.json"
+                },
+                "weekday.friday.kontakion": {
+                    "desc": "Auto-registered from text_weekdays.json"
                 }
             }
         }

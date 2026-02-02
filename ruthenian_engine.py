@@ -524,10 +524,10 @@ class RuthenianEngine:
         day_of_week = context.get('day_of_week', 0)
         
         # 1. Preamble
-        if paradigm == "p1_sunday_resurrection":
+        if paradigm == "p1_sunday_resurrection" or day_of_week == 0:
             preamble = "May Christ our true God, risen from the dead,"
         elif paradigm == "p_feast_lord":
-             # Should look up specific Feast preamble e.g. "born in a cavern"
+             # Placeholder for specific Feast preambles (Nativity, Transfiguration, etc.)
             preamble = "May Christ our true God," 
         else:
             preamble = "May Christ our true God,"
@@ -535,8 +535,14 @@ class RuthenianEngine:
         # 2. Intercessors (Theotokos is standard)
         intercessors = "through the prayers of His most pure Mother;"
         
-        # 3. Saints of Day (Placeholder)
-        saint_of_day = "of the holy (Saint of the Day);" 
+        # 3. Saints of Day
+        # Ideally, fetch from context['saints']
+        saints = context.get("saints", [])
+        if saints:
+            saint_names = ", ".join([s.get("title", {}).get("en", "Saint") for s in saints])
+            saint_of_day = f"of the holy {saint_names};"
+        else:
+            saint_of_day = "of the holy (Saint of the Day);" 
         
         # 4. Temple Patron
         # RULE: On Feast of Lord, Temple Patron is OMITTED (Dolnytsky)
@@ -548,6 +554,90 @@ class RuthenianEngine:
         conclusion = "and of all the saints, have mercy on us and save us, for He is good and loves mankind."
         
         return f"{preamble} {intercessors} {saint_of_day} {temple_phrase} {conclusion}"
+
+    def resolve_dismissal_universal(self, context, service="matins"):
+        """
+        Universal Resolver for Dismissals.
+        Handles overrides for Pascha, Great Feasts, and specific service types.
+        """
+        # 1. Paschal Override (Bright Week)
+        if context.get("is_pascha"):
+            key = "pentecostarion.dismissal_paschal_full"
+            if service in ["hours", "compline", "midnight"]:
+                key = "pentecostarion.dismissal_paschal_hours"
+            
+            return {
+                "type": "fixed_ref",
+                "ref_key": key
+            }
+
+        # 2. Lenten Daily Override (Optional - "Prayer of St Ephrem" replaces dismissal in some contexts?)
+        # For now, standard dismissal is retained in Matins even in Lent, but ending is different.
+
+        # 3. Standard Text Construction
+        text = self.construct_dismissal(context)
+        
+        return {
+            "type": "text",
+            "content": text,
+            "rid": "dismissal_full"
+        }
+
+    def resolve_litany_universal(self, context, litany_type="fervent"):
+        """
+        Universal Resolver for Litanies.
+        Centralizes litany fetching and formatting with variable substitution.
+        """
+        item = None
+        if litany_type == "fervent":
+            item = self.get_text("horologion.litany_fervent", context=context)
+        elif litany_type == "supplication":
+            item = self.get_text("horologion.litany_supplication", context=context)
+        elif litany_type in ["peace", "great"]:
+            item = self.get_text("horologion.litany_great", context=context)
+        elif litany_type == "small":
+            item = self.get_text("horologion.litany_small", context=context)
+        
+        if not item:
+            return {
+                "type": "text",
+                "content": f"[MISSING_LITANY: {litany_type}]",
+                "is_missing": True
+            }
+            
+        # Clone to avoid mutating DB
+        rendered = copy.deepcopy(item)
+        
+        if "content" in rendered and isinstance(rendered["content"], str):
+            text = rendered["content"]
+            
+            # 1. Names Substitution (Common for Litany of Peace/Fervent)
+            hierarchy = {
+                "Pontiff, N.": context.get("pope_name", "N."),
+                "Patriarch, N.": context.get("patriarch_name", "N."),
+                "Metropolitan, N.": context.get("metropolitan_name", "N."),
+                "Bishop, N.": context.get("bishop_name", "N.")
+            }
+            
+            for rank_n, actual_name in hierarchy.items():
+                if rank_n in text:
+                    text = text.replace(rank_n, rank_n.replace("N.", actual_name))
+            
+            # 2. Saints of the Day
+            saints = context.get("saints", [])
+            saints_str = ", ".join([s.get("title", {}).get("en", "Saint") for s in saints]) if saints else "all the saints"
+            
+            if "{saints}" in text:
+                text = text.replace("{saints}", saints_str)
+            
+            # 3. Special Petitions
+            special_petitions = context.get("special_petitions", "")
+            if "[Special Petitions may be inserted here]" in text:
+                text = text.replace("[Special Petitions may be inserted here]", special_petitions)
+
+            rendered["content"] = text
+            
+        return rendered
 
     def resolve_isodikon(self, context):
         """
@@ -888,100 +978,6 @@ class RuthenianEngine:
 
 
 
-    def resolve_general_case(self, context):
-        """
-        Matches content against the General Cases in 02a_logic_general.json.
-        Returns the full case object (or None).
-        """
-        cases = self.general_cases.get("logic_definitions", {})
-        
-        # Calculate derived inputs for matching
-        rank_id = self._get_rank_id(context)
-        day_of_week = context.get("day_of_week", 0)
-        period = "normal"
-        if context.get("is_fore_or_afterfeast"): period = "forefeast" # Simplified check
-        elif context.get("feast_level") == "lord": period = "feast" 
-        
-        # Iterating through cases to find best match
-        # Ideally we sort by specificity, but for now linear scan of defined order
-        for key, case_def in cases.items():
-            if key.startswith("//"): continue
-            
-            triggers = case_def.get("triggers", {})
-            
-            # Check Period
-            if "period" in triggers and period not in triggers["period"]:
-                continue
-                
-            # Check Day
-            if "day_of_week" in triggers and day_of_week not in triggers["day_of_week"]:
-                continue
-                
-            # Check Rank
-            if "rank_id" in triggers:
-                # If the trigger list doesn't contain our current rank_id
-                if rank_id not in triggers["rank_id"]:
-                    continue
-            
-            # Check Type (e.g. Lord vs Theotokos)
-            if "type" in triggers:
-                ctx_type = context.get("feast_level", "unknown")
-                if ctx_type not in triggers["type"]:
-                    continue
-
-            return case_def
-            
-        return None
-
-    def _get_rank_id(self, context):
-        # Helper to convert numeric rank to string ID used in 02a
-        r = self.calculate_rank(context)
-        
-        if r == 1: return "rank_vigil"
-        if r == 2: return "rank_vigil"
-        if r == 3: return "rank_polyeleos"
-        
-        # Rank 4 (Six Stichera) or 5 (Simple)
-        # If Doxology is explicitly set in context overrides
-        if context.get("variables", {}).get("rank") == "rank_doxology":
-             return "rank_doxology"
-
-        s_count = len(context.get("saints", []))
-        if s_count >= 2: return "rank_simple_6"
-        return "rank_simple_4"
-
-    def resolve_canon_stack(self, context):
-        """
-        Implements Logic Gate 6: Canon Math.
-        Determines how to split the 14 (or 16) troparia among sources.
-        """
-        case_def = self.resolve_general_case(context)
-        if not case_def:
-            # Fallback for now
-            return {"error": "No matching general case found", "distribution": []}
-            
-        canon_logic = case_def.get("variables", {}).get("matins_canon_distribution", {})
-        
-        # Check for Logic Switch (e.g. 1_saint vs 2_saints)
-        if "logic_switch" in canon_logic:
-            s_count = len(context.get("saints", []))
-            switch_key = "1_saint"
-            if s_count >= 2: switch_key = "2_saints"
-            
-            # Access the sub-logic
-            sub_rule = canon_logic["logic_switch"].get(switch_key, {})
-            return {
-                "total_count": canon_logic.get("total_count", 14),
-                "distribution": sub_rule.get("distribution", []),
-                "case_id": case_def.get("id")
-            }
-            
-        # Direct Distribution
-        return {
-            "total_count": canon_logic.get("total_count", 14),
-            "distribution": canon_logic.get("distribution", []),
-            "case_id": case_def.get("id")
-        }
 
     def resolve_general_case(self, context):
         """
@@ -4605,24 +4601,61 @@ class RuthenianEngine:
     def resolve_praises_stichera(self, context):
         """
         Resolves the Psalms of Praise (148-150) and Stichera.
+        Refactored to use the Universal Stichera Resolver.
+        """
+        return self.resolve_stichera_group_universal(context, group_type="matins_praises")
+
+    def resolve_stichera_group_universal(self, context, group_type="matins_praises"):
+        """
+        Universal Resolver for Stichera Groupings.
+        Handles selection from Octoechos, Menaion, and Triodion.
         """
         items = []
-        
-        # 1. Psalms 148-150 (Fixed)
-        items.append({"type": "fixed_ref", "ref_key": "horologion.psalms_praises_148_150"})
-        
-        # 2. Stichera (Sunday: 8 Resurrectional)
-        day_of_week = context.get("day_of_week")
+        rank = self.calculate_rank(context)
+        is_sunday = context.get("day_of_week") == 0
         tone = context.get("tone", 1)
         
-        if day_of_week == 0:
+        # 1. Psalms/Intro
+        if group_type == "matins_praises":
+            # Decide between Read and Sung variant
+            if is_sunday or rank <= 3:
+                items.append({"type": "fixed_ref", "ref_key": "horologion.psalms_praises_sung"})
+            else:
+                items.append({"type": "fixed_ref", "ref_key": "horologion.psalms_praises_read"})
+
+        # 2. Distribution (Recipe)
+        # For now, we reuse the praises_stack logic if it matches
+        stack_recipe = None
+        if group_type == "matins_praises":
+            stack_recipe = self.resolve_praises_stack(context)
+        
+        # 3. Apply Recipe
+        if stack_recipe and stack_recipe.get("distribution"):
+             # Placeholder for complex distribution logic (fetching actual stichera)
+             # For now, we append a summary reference
+             for dist in stack_recipe["distribution"]:
+                 source = dist.get("source")
+                 qty = dist.get("qty")
+                 items.append({
+                     "type": "stichera_block",
+                     "source": source,
+                     "qty": qty,
+                     "note": f"Fetch {qty} from {source}"
+                 })
+                 
+             # Glory / Both Now
+             if stack_recipe.get("glory"):
+                 items.append({"type": "fixed_ref", "ref_key": f"glory_to_god", "rubric_note": "Glory..."})
+             if stack_recipe.get("both_now"):
+                 items.append({"type": "fixed_ref", "ref_key": f"now_and_ever", "rubric_note": "Now and ever..."})
+
+        # 4. Sunday Fallback (Keep old logic working)
+        elif is_sunday and group_type == "matins_praises":
             items.append({
                 "type": "fixed_ref", 
                 "ref_key": f"octoechos.praises_stichera_tone_{tone}",
                 "rubric_note": f"8 Resurrectional Stichera, Tone {tone}"
             })
-            
-            # Glory... Both now...
             items.append({"type": "fixed_ref", "ref_key": f"eothinon.praises_glory_gospel_{context.get('eothinon_number', 1)}"})
             items.append({"type": "fixed_ref", "ref_key": f"octoechos.praises_both_now_tone_{tone}"})
 

@@ -93,6 +93,7 @@ print(booklet)
 
 For more detailed information, please refer to:
 
+- [Master Project Plan](MASTER_PROJECT_PLAN.md): **The Central Command Center**. Integrates the project timeline, functional specifications, and deep logic roadmaps.
 - [Architecture Guide](ARCHITECTURE.md): Deep dive into the Logic-First design and engine internals.
 - [Dolnytsky Implementation](DOLNYTSKY_IMPLEMENTATION.md): **Strict Canonical Logic**. A detailed breakdown of the 20 Paradigms, Precedence Rules, and "Weighing of Feasts" implementation.
 - [Data Structure](DATA_STRUCTURE.md): Explanation of the JSON database schema and asset management.

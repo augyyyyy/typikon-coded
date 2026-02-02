@@ -1,0 +1,80 @@
+{
+    "pentecostarion.opening_let_god_arise": {
+        "id": "pentecostarion.opening_let_god_arise",
+        "rubrics": {
+            "instruction": "The Priest sings the verses, and the people respond with 'Christ is Risen'."
+        },
+        "content": {
+            "text": {
+                "en": "Verse: Let God arise, and let His enemies be scattered; let those who hate Him flee from before His face.\nTroparion: Christ is risen from the dead, trampling death by death, and to those in the tombs giving life!\n\nVerse: As smoke vanishes, let them vanish; as wax melts before the fire.\nTroparion: Christ is risen...\n\nVerse: So let the wicked perish at the presence of God, but let the righteous rejoice.\nTroparion: Christ is risen...\n\nVerse: This is the day which the Lord has made; let us rejoice and be glad in it.\nTroparion: Christ is risen...",
+                "sl": "Da voskresnet Boh...",
+                "uk": "Нехай воскресне Бог..."
+            }
+        }
+    },
+    "pentecostarion.dismissal_paschal_full": {
+        "id": "pentecostarion.dismissal_paschal_full",
+        "rubrics": {
+            "instruction": "Dialogical Dismissal with the Cross."
+        },
+        "content": {
+            "text": {
+                "en": "Priest: Glory to You, O Christ, our God, our hope, glory be to You.\nChoir: Christ is risen from the dead, trampling death by death, and to those in the tombs giving life! Lord, have mercy (3x). Give the blessing.\nPriest: May Christ our true God, who is risen from the dead, trampling death by death and to those in the tombs giving life, through the prayers of His most pure Mother and of all the saints, have mercy on us and save us, for He is good and loves mankind.\nChoir: Amen."
+            }
+        }
+    },
+    "pentecostarion.dismissal_paschal_hours": {
+        "id": "pentecostarion.dismissal_paschal_hours",
+        "rubrics": {
+            "instruction": "At the Hours/Compline"
+        },
+        "content": {
+            "text": {
+                "en": "Lord, have mercy (40 times).\nGlory... Now...\nMore honorable than the Cherubim...\nIn the name of the Lord, Father, bless.\nPriest: Through the prayers of our holy fathers...\nChoir: Amen.\nPriest: Christ is risen... (3x)\nGlory... Now... Lord have mercy (3x), Give the blessing."
+            }
+        }
+    },
+    "pentecostarion.canon_pascha": {
+        "id": "pentecostarion.canon_pascha",
+        "type": "canon",
+        "metadata": {
+            "title": "The Canon of Pascha",
+            "author": "St. John of Damascus",
+            "tone": 1
+        },
+        "odes": {
+            "1": {
+                "irmos": {
+                    "text": "It is the Day of Resurrection! Let us be radiant, O people! Pascha! The Lord's Pascha! For Christ our God has passed us from death to life, and from earth to heaven, we who sing the triumphal hymn."
+                },
+                "katavasia": {
+                    "text": "It is the Day of Resurrection..."
+                },
+                "troparia": [
+                    {
+                        "text": "Let us cleanse our senses and we shall see Christ shining with the unapproachable light of the resurrection, and we shall clearly hear Him say: Rejoice! as we sing the triumphal hymn."
+                    },
+                    {
+                        "text": "Let the heavens properly rejoice, and let the earth be glad, and let the whole visible and invisible world keep the feast; for Christ, our eternal gladness, has risen."
+                    }
+                ]
+            },
+            "3": {
+                "irmos": {
+                    "text": "Come, let us drink a new drink, not miraculously produced from a barren rock, but the fountain of incorruption, springing from the tomb of Christ, in Whom we are strengthened."
+                },
+                "katavasia": {
+                    "text": "Come, let us drink..."
+                },
+                "troparia": [
+                    {
+                        "text": "Now all things are filled with light: heaven and earth and the nether regions. Therefore, let all creation celebrate the resurrection of Christ, in Whom it is strengthened."
+                    },
+                    {
+                        "text": "Yesterday I was buried with You, O Christ; today I rise with You, for You have risen. Yesterday I was crucified with You; O Savior, glorify me with You in Your kingdom."
+                    }
+                ]
+            }
+        }
+    }
+}
