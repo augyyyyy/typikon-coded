@@ -8,35 +8,38 @@ class CantorRenderer:
         self.output = []
 
     def add_header(self, text, style="main"):
+        text = text.upper()
         if style == "main":
-            self.output.append(f"\n{'='*40}")
-            self.output.append(f"{text.upper().center(40)}")
-            self.output.append(f"{'='*40}\n")
+            border = "=" * 40
+            self.output.append(f"\n{border}")
+            self.output.append(f"{text.center(40)}")
+            self.output.append(f"{border}\n")
         elif style == "sub":
-            self.output.append(f"\n{text}")
-            self.output.append("-" * len(text))
+            self.output.append(f"\n{text.center(40)}")
+            self.output.append("-" * 40)
     
     def add_rubric(self, text):
-        # Simulating the "Red Text" from screenshots with a distinct marker
-        self.output.append(f"\n   [!] RUBRIC: {text}")
+        # Swires Style: Red/Italicized rubric marker
+        self.output.append(f"\n   [!] {text}")
 
     def add_verse_slot(self, number, verse_text, content_desc):
         self.output.append(f"\n{number:<3} {verse_text}...")
         self.output.append(f"    > {content_desc}")
 
     def render_seasonal_box(self, condition, content):
-        # Mimics the boxed seasonal logic from screenshots
+        # Encyclopedia Style Box
         box_width = 60
-        self.output.append(f"\n+{'-' * (box_width - 2)}+")
-        self.output.append(f"| {condition.upper().ljust(box_width - 4)} |")
-        self.output.append(f"+{'-' * (box_width - 2)}+")
+        border = f"+{'-' * (box_width - 2)}+"
+        self.output.append(f"\n{border}")
+        self.output.append(f"| SCENARIO: {condition.upper().ljust(box_width - 14)} |")
+        self.output.append(f"{border}")
         for line in content:
             self.output.append(f"| {line.ljust(box_width - 4)} |")
-        self.output.append(f"+{'-' * (box_width - 2)}+")
+        self.output.append(f"{border}")
 
     def render_actor_rubric(self, actor, text):
-        # Mimics the Red Actor text (DEACON: Text)
-        self.output.append(f"\n   [{actor.upper()}]: {text}")
+        # Swires Style: Actor Label Indented
+        self.output.append(f"\n   {actor.upper()}: {text}")
 
     def render_canon(self, engine, context, rubrics):
         self.add_header("THE CANON", style="main")
@@ -97,109 +100,261 @@ class CantorRenderer:
             self.output.append("Error: Structure sequence not found.")
             return "\n".join(self.output)
 
-        self.add_header("GREAT VESPERS", style="main")
+        self.add_header(f"PROTOTYPE: {root_id.upper().replace('_', ' ')}", style="main")
         
-        # 3. Traverse and Render
+        # 3. Traverse and Render Recursively
         for slot in sequence:
-            slot_id = slot.get("id", "unknown")
-            
-            # --- RENDER RUBRICS (The "Red Text") ---
-            if "rubric" in slot:
-                r = slot["rubric"]
-                # Title -> Sub-header
-                if "title" in r:
-                    self.add_header(r["title"], style="sub")
-                
-                # Source Ref -> Tiny rubric
-                if "source_ref" in r:
-                    self.output.append(f"   (Source: {r['source_ref']})")
-
-                # Roles -> Actor Dialogue (The red text lines)
-                if "roles" in r:
-                    for role, text in r["roles"].items():
-                        self.render_actor_rubric(role, text)
-
-            # --- RENDER CONTENT ---
-            # Special Handling for specific IDs (The "Visual Logic")
-            if slot_id == "opening_vigil":
-                # In real life, we would call engine.resolve_seasonal_opening(context)
-                # Here we mimic the result of that logic for the box view
-                if "pascha" in context["triodion_period"]:
-                    self.render_seasonal_box("Paschal Season", ["Christ is Risen (3x)", "Let God Arise..."])
-                else:
-                    self.render_seasonal_box("Standard / Lent", ["Glory to the Holy, Consubstantial...", "Come, let us worship (3x)"])
-            
-            elif slot_id == "lord_i_have_cried_10":
-                # Render the Stichera Countdown
-                self.render_stichera_countdown(engine, context, rubrics)
-                
-            elif slot_id == "canon_block":
-                # Only render canon if applicable
-                if "matins" in rubrics.get("variables", {}).get("matins_type", "great_matins") or "vigil" in rubrics.get("title", "").lower():
-                    self.render_canon(engine, context, rubrics)
-
-            else:
-                # Generic Content Fallback
-                content = slot.get("content", {})
-                c_type = content.get("type")
-                if c_type == "fixed_ref":
-                    ref_key = content.get('ref_key')
-                    
-                    # Normalize and Lookup
-                    lookup_keys = [ref_key, ref_key.replace("horologion.", "")]
-                    
-                    # Aliases
-                    if "litany_great" in ref_key: lookup_keys.append("litany_peace")
-                    if "litany_small" in ref_key: lookup_keys.append("litany_peace") # Reuse for now
-                    if "dismissal" in ref_key: lookup_keys.append("dismissal")
-
-                    item = None
-                    for k in lookup_keys:
-                        if hasattr(engine, 'text_db') and k in engine.text_db:
-                            item = engine.text_db[k]
-                            break
-                    
-                    if item:
-                        self.output.append(f"\n   >>> {item.get('title', ref_key)} <<<".upper())
-                        text_lines = item.get('content', '').split('\n')
-                        for line in text_lines:
-                             # Truncate very long texts for prototype? No, user wants full text.
-                             self.output.append(f"   {line}")
-                    else:
-                         self.output.append(f"\n   [MISSING TEXT: {ref_key}] (Not found in Horologion)")
-
-                elif c_type == "variable_logic":
-                    logic_name = content.get("logic", {}).get("function", "Unknown Logic")
-                    
-                    # Try to resolve text content via Engine (Octoechos/Eothinon)
-                    resolved_text = None
-                    if hasattr(engine, '_resolve_variable_ref'):
-                         # Strip "resolve_" to get the key candidate
-                         key_candidate = logic_name.replace("resolve_", "")
-                         # Helper logic to match simpler keys if needed
-                         if "stichera_resurrection" in logic_name: key_candidate = "stichera_resurrection"
-                         if "aposticha" in logic_name:
-                             if context.get('pentecostarion_day_key'):
-                                 key_candidate = "aposticha_pentecostarion"
-                             elif context.get('triodion_day_key'):
-                                 key_candidate = "aposticha_triodion"
-                             else:
-                                 key_candidate = "aposticha_resurrection"
-                         if "troparia_resurrection" in logic_name: key_candidate = "troparion_resurrection"
-                         if "sessional_resurrection" in logic_name: key_candidate = "sessional_resurrection_1" # Hack for now
-                         
-                         resolved_text = engine._resolve_variable_ref(key_candidate, context)
-
-                    if resolved_text:
-                         self.output.append(f"\n   >>> {resolved_text.get('title', logic_name)} <<<".upper())
-                         text_lines = resolved_text.get('content', '').split('\n')
-                         for line in text_lines:
-                              self.output.append(f"   {line}")
-                    else:
-                         self.output.append(f"\n   [VARIABLE PROPERS: {logic_name}]")
-                         self.output.append("   (Text not yet integrated or Missing from Octoechos)")
+            self.render_slot(engine, context, slot, rubrics)
 
         return "\n".join(self.output)
+
+    def render_slot(self, engine, context, slot, rubrics):
+        slot_id = slot.get("id", "unknown")
+        
+        # --- RENDER RUBRICS ---
+        if "rubric" in slot:
+            r = slot["rubric"]
+            if "title" in r: self.add_header(r["title"], style="sub")
+            if "source_ref" in r: self.output.append(f"   (Source: {r['source_ref']})")
+            if "note" in r: self.output.append(f"   [NOTE: {r['note']}]")
+            if "roles" in r:
+                for role, text in r["roles"].items():
+                    self.render_actor_rubric(role, text)
+
+        # --- RENDER CONTENT ---
+        content = slot.get("content", {})
+        c_type = content.get("type")
+
+        # 1. Recursive Sequence
+        if c_type == "sequence":
+            for child in content.get("components", []):
+                self.render_slot(engine, context, child, rubrics)
+
+        # 2. Conditional Block
+        elif c_type == "conditional_block":
+            # Simplify logic evaluation for prototype (real engine has 'evaluate_condition')
+            logic = content.get("logic", {})
+            func = logic.get("function")
+            args = logic.get("args", {})
+            
+            result = False
+            # Hardcoded prototype checks
+            if func == "check_service_type":
+                # Check if the requested type matches context
+                req_type = args.get("type")
+                if req_type == "vigil" and "vigil" in rubrics.get("variables", {}).get("service_type", ""):
+                    result = True
+            
+            # Recurse
+            target_content = content.get("true_content") if result else content.get("false_content")
+            if target_content:
+                self.render_slot(engine, context, target_content, rubrics)
+
+        # 3. Fixed Group
+        elif c_type == "fixed_group":
+             for key in content.get("ref_keys", []):
+                 # Create a fake slot for the fixed ref
+                 self.render_slot(engine, context, {"content": {"type": "fixed_ref", "ref_key": key}}, rubrics)
+
+        # 4. Component Reference
+        elif c_type == "component_ref":
+             ref_key = content.get("ref_key")
+             # Strip 'components.' prefix
+             comp_id = ref_key.replace("components.", "")
+             
+             if hasattr(engine, 'components') and comp_id in engine.components:
+                 comp_def = engine.components[comp_id]
+                 if "sequence" in comp_def:
+                      for child in comp_def["sequence"]:
+                           self.render_slot(engine, context, child, rubrics)
+             else:
+                 self.output.append(f"   [MISSING COMPONENT: {ref_key}]") 
+
+        # 5. Fixed Reference
+        elif c_type == "fixed_ref":
+            ref_key = content.get('ref_key')
+            self._render_text_item(engine, ref_key)
+
+        # 6. Variable Logic
+        elif c_type == "variable_logic":
+            logic_name = content.get("logic", {}).get("function", "Unknown")
+            self._render_variable_item(engine, context, logic_name)
+
+    def _render_text_item(self, engine, ref_key):
+        # Normalize and Lookup
+        lookup_keys = [ref_key, ref_key.replace("horologion.", "")]
+        if "litany_great" in ref_key: lookup_keys.append("litany_peace")
+        if "litany_small" in ref_key: lookup_keys.append("litany_peace")
+        if "dismissal" in ref_key: lookup_keys.append("dismissal")
+
+        item = None
+        for k in lookup_keys:
+            if hasattr(engine, 'text_db') and k in engine.text_db:
+                item = engine.text_db[k]
+                break
+        
+        if item:
+            self.output.append(f"\n   >>> {item.get('title', ref_key)} <<<".upper())
+            content = item.get('content', '')
+            
+            if isinstance(content, dict):
+                 # Handle localized dictionary or structured content
+                 # Try common language keys: 'en', 'eng', 'english', or 'content'
+                 text = content.get('en') or content.get('eng') or content.get('english') or content.get('content') or str(content)
+                 for line in text.split('\n'):
+                     self.output.append(f"   {line}")
+            elif isinstance(content, str):
+                for line in content.split('\n'):
+                    self.output.append(f"   {line}")
+            else:
+                 self.output.append(f"   [UNKNOWN CONTENT TYPE: {type(content)}]")
+        else:
+             self.output.append(f"\n   [MISSING TEXT: {ref_key}]")
+
+    def _render_variable_item(self, engine, context, logic_name):
+        # 1. Try to execute as a method on the engine first (Dynamic Logic)
+        if hasattr(engine, logic_name):
+            method = getattr(engine, logic_name)
+            try:
+                # Execute the logic function
+                result = method(context)
+                
+                # Case A: Result is a Sequence (Legacy "God is the Lord" style)
+                if isinstance(result, dict) and "sequence" in result:
+                    self.output.append(f"\n   >>> LOGIC RESOLVED: {result.get('rule_id', 'custom')} (Tone {result.get('tone', '?')}) <<<")
+                    sequence = result["sequence"]
+                    for item in sequence:
+                        # Recursively render the atomic component
+                        # We construct a synthetic slot for the item
+                        content_key = item.get("content")
+                        count = item.get("count", 1)
+                        
+                        # Handle 'Separator' types (Glory/Both Now)
+                        if item.get("type") in ["separator", "combined"]:
+                             self._render_fixed_atomic_string(content_key)
+                             continue
+
+                        # Fetch the actual text for the content key
+                        # This requires the engine to have a resolver for 'troparion_resurrection', etc.
+                        for _ in range(count):
+                            self._resolve_and_render_atomic_component(engine, context, content_key, result)
+                    return "\n".join(self.output)
+                
+                # Case B: Result is simple text metadata (Legacy)
+                elif isinstance(result, dict) and "content" in result and "type" not in result:
+                    self._render_text_payload(result)
+                    return "\n".join(self.output)
+
+                # Case C: Result is a Structural Slot (Dict with 'type')
+                elif isinstance(result, dict) and "type" in result:
+                    self.render_slot(engine, context, {"content": result}, {})
+                    return "\n".join(self.output)
+
+                # Case D: Result is a List of Structural Slots
+                elif isinstance(result, list):
+                    for item in result:
+                        if isinstance(item, dict):
+                            # Treat as content definition
+                            self.render_slot(engine, context, {"content": item}, {})
+                    return "\n".join(self.output)
+
+            except Exception as e:
+                self.output.append(f"   [ERROR EXECUTING LOGIC {logic_name}: {e}]")
+                return "\n".join(self.output)
+
+        # 2. Fallback: Try to resolve as a variable reference key
+        # (Existing legacy behavior)
+        resolved_text = None
+        if hasattr(engine, '_resolve_variable_ref'):
+             key_candidate = logic_name.replace("resolve_", "")
+             # Mappings
+             if "stichera_resurrection" in logic_name: key_candidate = "stichera_resurrection"
+             if "aposticha" in logic_name:
+                 if context.get('pentecostarion_day_key'): key_candidate = "aposticha_pentecostarion"
+                 elif context.get('triodion_day_key'): key_candidate = "aposticha_triodion"
+                 else: key_candidate = "aposticha_resurrection"
+             
+             resolved_text = engine._resolve_variable_ref(key_candidate, context)
+
+        if resolved_text:
+             self._render_text_payload(resolved_text)
+        else:
+             self.output.append(f"\n   [VARIABLE PROPERS: {logic_name}]")
+
+        return "\n".join(self.output)
+
+    def _render_fixed_atomic_string(self, key):
+        """Helper to render standard fixed strings like Glory/Both Now."""
+        map_ = {
+            "glory": "Glory to the Father and to the Son and to the Holy Spirit.",
+            "both_now": "Now and for ever and ever. Amen.",
+            "glory_both_now": "Glory to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen."
+        }
+        text = map_.get(key, f"[{key}]")
+        self.output.append(f"   {text}")
+
+    def _resolve_and_render_atomic_component(self, engine, context, key, logic_result):
+        """Resolves a specific atomic component from the sequence."""
+        # This is where we map abstract keys like 'troparion_resurrection' to actual DB keys
+        # We might need to extend RuthenianEngine to handle these specific lookups publically
+        # For now, implementing a basic mapping here or calling an internal helper
+        
+        # Tone override from logic result
+        current_tone = logic_result.get("tone", context.get("tone_of_week", 1))
+        
+        if key == "troparion_resurrection":
+            # Construct key: tone_X.matins.troparion_resurrection
+            # or rely on engine to resolve it. 
+            # Ideally: engine.get_text(f"tone_{current_tone}.troparion.resurrection")
+            # But structure might be different. Let's try to query the engine's text_db directly if possible, or use _resolve_variable_ref
+            
+            # Implementation Strategy: Use _resolve_variable_ref with context modification?
+            # Or construct the lookup key manually since we know the schema.
+            db_key = f"tone_{current_tone}.troparion.resurrection" 
+            text_obj = engine.get_text(db_key)
+
+            # Fallback if assume specific structure
+            if not text_obj:
+                 # Try Recension 2014 specific path
+                 db_key = f"tone_{current_tone}.troparion_resurrection"
+                 text_obj = engine.get_text(f"octoechos.{db_key}")
+
+            if not text_obj:
+                # Hard fallback for prototype
+                text_obj = {"title": f"Resurrection Troparion (Tone {current_tone})", "content": "[Text not found in DB]"}
+            
+            self._render_text_payload(text_obj)
+
+        elif key == "troparion_saint":
+            # Get first saint from context
+            saints = context.get("saints", [])
+            if saints:
+                # For prototype, just rendering a placeholder with saint name
+                saint_name = saints[0].get("name", "Unknown Saint")
+                self.output.append(f"   [Troparion of {saint_name}]")
+            else:
+                self.output.append("   [Troparion of Saint]")
+
+        elif key == "theotokion_sunday_by_saint_tone":
+             # Needs theotokion tone
+             tone = logic_result.get("theotokion_tone", current_tone)
+             self.output.append(f"   [Sunday Theotokion (Tone {tone})]")
+        
+        else:
+             self.output.append(f"   [{key}]")
+
+    def _render_text_payload(self, text_obj):
+        """Standard rendering of a title/content text object."""
+        title = text_obj.get('title', 'Untitled')
+        content = text_obj.get('content', '')
+        
+        # Handle dict content (multilingual)
+        if isinstance(content, dict):
+            content = content.get("en", content.get("eng", str(content)))
+
+        self.output.append(f"\n   >>> {title} <<<".upper())
+        for line in content.split('\n'):
+             self.output.append(f"   {line}")
 
     def render_stichera_countdown(self, engine, context, rubrics):
         # Re-using the logic from previous step, but now integrated into traversal

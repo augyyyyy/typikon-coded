@@ -37,7 +37,15 @@
                 "type": "fixed_group",
                 "ref_keys": [
                   "horologion.glory_to_holy",
-                  "horologion.six_psalms"
+                  "horologion.glory_to_god_highest",
+                  "horologion.o_lord_open_lips",
+                  "horologion.psalm_3",
+                  "horologion.psalm_37",
+                  "horologion.psalm_62",
+                  "horologion.matins.mid_six_psalms_doxology",
+                  "horologion.psalm_87",
+                  "horologion.psalm_102",
+                  "horologion.psalm_142"
                 ]
               }
             },
@@ -59,7 +67,28 @@
                   "horologion.trisagion_block",
                   "horologion.psalm_19",
                   "horologion.psalm_20",
-                  "horologion.six_psalms"
+                  "horologion.glory_to_holy",
+                  "horologion.glory_to_god_highest",
+                  "horologion.o_lord_open_lips",
+                  "horologion.psalm_3",
+                  "horologion.matins.prayer_1",
+                  "horologion.matins.prayer_2",
+                  "horologion.matins.prayer_3",
+                  "horologion.psalm_37",
+                  "horologion.matins.prayer_4",
+                  "horologion.matins.prayer_5",
+                  "horologion.matins.prayer_6",
+                  "horologion.psalm_62",
+                  "horologion.matins.mid_six_psalms_doxology",
+                  "horologion.psalm_87",
+                  "horologion.matins.prayer_7",
+                  "horologion.matins.prayer_8",
+                  "horologion.matins.prayer_9",
+                  "horologion.psalm_102",
+                  "horologion.matins.prayer_10",
+                  "horologion.matins.prayer_11",
+                  "horologion.matins.prayer_12",
+                  "horologion.psalm_142"
                 ]
               }
             }
@@ -82,10 +111,25 @@
             }
           },
           "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_god_is_the_lord_troparia"
-            }
+            "type": "sequence",
+            "components": [
+              {
+                "id": "god_is_the_lord_verses",
+                "content": {
+                  "type": "fixed_ref",
+                  "ref_key": "horologion.god_is_the_lord_verses"
+                }
+              },
+              {
+                "id": "god_is_the_lord_troparia",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_god_is_the_lord_troparia"
+                  }
+                }
+              }
+            ]
           }
         },
         {

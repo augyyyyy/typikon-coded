@@ -64,7 +64,9 @@
 
 ## Current State Summary
 
-**Active Work**: Encyclopedia Documentation Reconciliation (7 phases, ~120 hours)
+**Current State Summary**
+
+**Active Work**: Menaion Audit Complete. Moving to Phase 13: Full Typikon Logic Reconciliation.
 
 **Known Bugs**:
 1. `matins_logic_audit.md` - Summary contradicts details
@@ -72,6 +74,7 @@
 3. Missing functions - `resolve_anabathmoi()`, `resolve_hypakoe()`
 
 **Recent Milestones**:
+- 2026-02-01: **Menaion Integration Complete** (Fixed Feasts, Flat Schema, Verified Jan 1)
 - 2026-01-31: 13/13 Matins Gates (core), Schema Governance, Stamford ingestion
 
 ---
@@ -82,6 +85,7 @@
 2. **20 Paradigm System** - Dolnytsky's feast ranking hierarchy
 3. **Hypakoe THEN Anabathmoi** - Sequential, not exclusive (Part I Line 159)
 4. **All docs must cite Dolnytsky line numbers** - No vague language
+5. **Menaion Flattened Keys** - `menaion.0101.X` instead of nested dicts (see `schemas/README.md`)
 
 ---
 

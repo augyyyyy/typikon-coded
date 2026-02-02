@@ -33,6 +33,7 @@
             {
                 "condition": "rank >= 3",
                 "sequence": [
+                    "horologion.litany_small",
                     "kontakion_saint",
                     "ikos_saint",
                     "sidalen_saint",
@@ -45,6 +46,7 @@
             {
                 "condition": "rank >= 3",
                 "sequence": [
+                    "horologion.litany_small",
                     "kontakion_feast",
                     "ikos_feast"
                 ],

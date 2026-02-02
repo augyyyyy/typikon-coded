@@ -42,6 +42,9 @@ class RuthenianEngine:
         self.trace_log = []
 
         self.assets_map = self._load_json("03_assets_map.json")
+        _comp_data = self._load_json("00_components.json")
+        self.components = _comp_data.get("components", {}) # Unwrapped
+        self.rank_taxonomy = _comp_data.get("system_definitions", {}).get("rank_taxonomy", {})
         self.scenario_registry = self._load_json("00_master_scenario_registry.json")
         self.triodion_logic = self._load_json("02c_logic_triodion.json")
         self.vespers_logic = self._load_json("04_logic_vespers.json")
@@ -1513,6 +1516,8 @@ class RuthenianEngine:
         # Scenario Matching Logic
         if is_feast_lord or is_feast_theotokos:
             selected_rule_id = "feast_lord_theotokos"
+        elif is_sunday and saint_count == 0:
+             selected_rule_id = "sunday_resurrection_only"
         elif is_sunday and saint_count == 1:
             selected_rule_id = "sunday_with_saint"
         elif is_sunday and saint_count >= 2:
@@ -2224,7 +2229,8 @@ class RuthenianEngine:
         
         return eothinon
 
-    def resolve_post_doxology_event(self, context, rubrics):
+    def resolve_post_doxology_event(self, context, rubrics=None):
+        if not rubrics: rubrics = {}
         # 1. Check Logic File Variables
         action_spec = rubrics.get("variables", {}).get("matins_post_doxology_action")
         if action_spec:
@@ -3963,45 +3969,40 @@ class RuthenianEngine:
         # Great Feast: Always Great Doxology
         if rank == 1:
             return {
-                "type": "great_doxology",
-                "doxology_id": "great_doxology_sung",
-                "sung": True,
-                "reason": "Great Feast of the Lord"
+                "type": "fixed_ref",
+                "ref_key": "horologion.doxology_great",
+                "rubric_note": "Great Feast of the Lord (Sung)"
             }
         
         # Sunday: Always Great Doxology
         if day_of_week == 0:
             return {
-                "type": "great_doxology",
-                "doxology_id": "great_doxology_sung",
-                "sung": True,
-                "reason": "Sunday Resurrection"
+                "type": "fixed_ref",
+                "ref_key": "horologion.doxology_great",
+                "rubric_note": "Sunday Resurrection (Sung)"
             }
         
         # Polyeleos Saint (rank 2-3): Great Doxology
         if rank <= 3:
             return {
-                "type": "great_doxology",
-                "doxology_id": "great_doxology_sung",
-                "sung": True,
-                "reason": "Polyeleos Saint"
+                "type": "fixed_ref",
+                "ref_key": "horologion.doxology_great",
+                "rubric_note": "Polyeleos Saint (Sung)"
             }
         
         # Feast with Doxology (rank 4)
         if rank == 4:
             return {
-                "type": "great_doxology",
-                "doxology_id": "great_doxology_sung",
-                "sung": True,
-                "reason": "Saint with Doxology"
+                "type": "fixed_ref",
+                "ref_key": "horologion.doxology_great",
+                "rubric_note": "Saint with Doxology (Sung)"
             }
         
         # Simple weekday: Small Doxology
         return {
-            "type": "small_doxology",
-            "doxology_id": "small_doxology_read",
-            "sung": False,
-            "reason": "Simple weekday"
+            "type": "fixed_ref",
+            "ref_key": "horologion.doxology_small",
+            "rubric_note": "Simple weekday (Read)"
         }
 
     def resolve_matins_dismissal_troparion(self, context):
@@ -4525,4 +4526,85 @@ class RuthenianEngine:
             
         month_logic = self.menaion_logic[month]
         return month_logic.get('days', {}).get(day_str)
+
+    def resolve_matins_gospel(self, context):
+        """
+        Resolves the Gospel Reading for Matins.
+        """
+        # 1. Check for Feast Gospel (Stub: needs Menaion lookup)
+        
+        # 2. Sunday Gospel (Eothinon)
+        day_of_week = context.get("day_of_week")
+        if day_of_week == 0: # Sunday
+            # Calculate Eothinon based on date or pass from context
+            # Default to 1 if missing for prototype
+            eothinon_num = context.get("eothinon_number", 1) 
+            return {
+                "reading_key": f"eothinon.gospel_{eothinon_num}",
+                "title": f"Matins Gospel {eothinon_num} (Eothinon)" 
+            }
+        
+        return None
+
+    def resolve_post_gospel_stichera(self, context):
+        """
+        Resolves the stichera after Psalm 50.
+        """
+        day_of_week = context.get("day_of_week")
+        
+        if day_of_week == 0: # Sunday
+            return [
+                {"type": "fixed_ref", "ref_key": "horologion.glory_apostles"},
+                {"type": "fixed_ref", "ref_key": "horologion.both_now_theotokos"},
+                {"type": "fixed_ref", "ref_key": "horologion.have_mercy"},
+                {"type": "fixed_ref", "ref_key": "horologion.jesus_having_risen"}
+            ]
+        
+        # Default/Feast Stub
+        return []
+
+    def resolve_exapostilarion(self, context):
+        """
+        Resolves Exapostilarion and Theotokion.
+        """
+        day_of_week = context.get("day_of_week")
+        items = []
+        
+        # Holy is the Lord (Sunday)
+        if day_of_week == 0:
+             tone = context.get("tone", 1)
+             items.append({"type": "fixed_ref", "ref_key": f"octoechos.holy_is_the_lord_tone_{tone}"})
+             
+             # Eothinon Exapostilarion
+             eothinon_num = context.get("eothinon_number", 1) 
+             items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_{eothinon_num}"})
+             items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_theotokion_{eothinon_num}"})
+             
+        return items
+
+    def resolve_praises_stichera(self, context):
+        """
+        Resolves the Psalms of Praise (148-150) and Stichera.
+        """
+        items = []
+        
+        # 1. Psalms 148-150 (Fixed)
+        items.append({"type": "fixed_ref", "ref_key": "horologion.psalms_praises_148_150"})
+        
+        # 2. Stichera (Sunday: 8 Resurrectional)
+        day_of_week = context.get("day_of_week")
+        tone = context.get("tone", 1)
+        
+        if day_of_week == 0:
+            items.append({
+                "type": "fixed_ref", 
+                "ref_key": f"octoechos.praises_stichera_tone_{tone}",
+                "rubric_note": f"8 Resurrectional Stichera, Tone {tone}"
+            })
+            
+            # Glory... Both now...
+            items.append({"type": "fixed_ref", "ref_key": f"eothinon.praises_glory_gospel_{context.get('eothinon_number', 1)}"})
+            items.append({"type": "fixed_ref", "ref_key": f"octoechos.praises_both_now_tone_{tone}"})
+
+        return items
 

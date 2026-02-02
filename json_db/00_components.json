@@ -170,7 +170,7 @@
                     "id": "polyeleos_psalms",
                     "content": {
                         "type": "fixed_ref",
-                        "ref_key": "horologion.polyeleos_selected_verses"
+                        "ref_key": "horologion.polyeleos"
                     }
                 },
                 {

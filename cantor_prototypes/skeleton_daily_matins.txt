@@ -1,0 +1,177 @@
+=== MATINS SKELETON: DAILY MATINS (2026-01-21) ===
+
+
+>> MATINS_OPENING <<
+
+   BEGINNING WITHOUT VIGIL (MORNING)    
+----------------------------------------
+   (Source: Dolnytsky I: Great Matins)
+
+   PRIEST: Vest in Epitrachelion. Exit North Door. Stand before closed Holy Doors. Exclaim 'Blessed is our God'.
+
+   CHOIR: Sing Introductory Prayers (Trisagion, Troparia, 'Lord Have Mercy' 12x).
+
+   DEACON: Perform the Great Censing of the whole church during the Psalms.
+
+   [STRUCTURE: HOROLOGION.BLESSING_COMMON]
+
+   [STRUCTURE: HOROLOGION.TRISAGION_BLOCK]
+
+   [STRUCTURE: HOROLOGION.PSALM_19]
+
+   [STRUCTURE: HOROLOGION.PSALM_20]
+
+   [STRUCTURE: HOROLOGION.GLORY_TO_HOLY]
+
+   [STRUCTURE: HOROLOGION.GLORY_TO_GOD_HIGHEST]
+
+   [STRUCTURE: HOROLOGION.O_LORD_OPEN_LIPS]
+
+   [STRUCTURE: HOROLOGION.PSALM_3]
+
+   [STRUCTURE: HOROLOGION.PSALM_37]
+
+   [STRUCTURE: HOROLOGION.PSALM_62]
+
+   [STRUCTURE: HOROLOGION.MATINS.MID_SIX_PSALMS_DOXOLOGY]
+
+   [STRUCTURE: HOROLOGION.PSALM_87]
+
+   [STRUCTURE: HOROLOGION.PSALM_102]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_1]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_2]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_3]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_4]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_5]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_6]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_7]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_8]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_9]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_10]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_11]
+
+   [STRUCTURE: HOROLOGION.MATINS.PRAYER_12]
+
+   [STRUCTURE: HOROLOGION.PSALM_142]
+
+>> GREAT_LITANY <<
+
+   [STRUCTURE: HOROLOGION.LITANY_GREAT]
+
+>> GOD_IS_THE_LORD <<
+
+            GOD IS THE LORD             
+----------------------------------------
+
+   DEACON: Intone verses before the Icon of Christ.
+
+   CHOIR: Sing the Troparion of the Feast/Saint.
+
+   [STRUCTURE: HOROLOGION.GOD_IS_THE_LORD_VERSES]
+
+   [LOGIC START: resolve_god_is_the_lord_troparia]
+
+   >>> LOGIC RESOLVED: weekday_saint (Tone 1) <<<
+      -> [COMPONENT: troparion_saint (Tone 1)]
+      -> [COMPONENT: troparion_saint (Tone 1)]
+   [ATOMIC: glory_both_now]
+      -> [COMPONENT: theotokion (Tone 1)]
+   [LOGIC END: resolve_god_is_the_lord_troparia]
+
+>> KATHISMATA_BLOCK <<
+
+             THE KATHISMATA             
+----------------------------------------
+   [NOTE: Two Kathismata are read. On Sundays, the Polyeleos follows.]
+   (Source: Dolnytsky I Line 156)
+
+   PRIEST: Exclaim 'For Thine is the dominion' (quietly, sitting at place)
+   (Source: Dolnytsky I Line 156)
+
+   PRIEST: Exclaim 'For Thine is the dominion' (quietly, sitting at place)
+
+>> POLYELEOS_CHOICE <<
+
+        POLYELEOS OR KATHISMA 17        
+----------------------------------------
+   (Source: Dolnytsky I: Matins (Gate 6))
+
+   PRIEST: If Polyeleos: Open Holy Doors, Great Censing. If Kathisma 17: Remain in altar.
+
+   CHOIR: Sing Psalms 134-135 (Polyeleos) or Psalms 118-133 (Kathisma 17).
+
+   [LOGIC START: resolve_kathisma_choice]
+
+   [VARIABLE PROPERS: resolve_kathisma_choice]
+   [LOGIC END: resolve_kathisma_choice]
+
+>> GRADUALS_BLOCK <<
+
+         HYPAKOE AND ANABATHMOI         
+----------------------------------------
+   (Source: Dolnytsky I: Matins (Gate 5 & 4b))
+
+   CHOIR: Sing Hypakoe (if Sunday) and Anabathmoi (Antiphons).
+
+>> GOSPEL_RITE <<
+
+               THE GOSPEL               
+----------------------------------------
+   (Source: Dolnytsky I: Matins)
+
+   DEACON: Exclaim 'Let us pray to the Lord'.
+
+   PRIEST: Read the Gospel from the Holy Doors (or carry to Tetrapod on Sundays).
+
+   PEOPLE: Venerate the Gospel after the reading.
+
+>> CANON_BLOCK <<
+
+               THE CANON                
+----------------------------------------
+   [NOTE: Combined from Octoechos, Menaion, and Triodion according to rank.]
+
+   PRIEST: Anoint the faithful with blessed oil during the Canon.
+
+>> PRAISES <<
+
+   [LOGIC START: resolve_praises_stichera]
+
+   [VARIABLE PROPERS: resolve_praises_stichera]
+   [LOGIC END: resolve_praises_stichera]
+
+>> GREAT_DOXOLOGY <<
+
+          GREAT DOXOLOGY LOGIC          
+----------------------------------------
+   (Source: Dolnytsky I: Matins (Gate 11))
+
+   PRIEST: Great Doxology (Sung) or Small Doxology (Read) depending on rank.
+
+   [LOGIC START: resolve_doxology_type]
+
+   [VARIABLE PROPERS: resolve_doxology_type]
+   [LOGIC END: resolve_doxology_type]
+
+>> POST_DOXOLOGY_EVENT <<
+
+           POST-DOXOLOGY RITE           
+----------------------------------------
+   [NOTE: For Cross Veneration etc.]
+
+   [LOGIC START: resolve_post_doxology_event]
+   [ERROR EXECUTING LOGIC resolve_post_doxology_event: RuthenianEngine.resolve_post_doxology_event() missing 1 required positional argument: 'rubrics']
+   [LOGIC END: resolve_post_doxology_event]
+
+>> CONCLUSION <<
