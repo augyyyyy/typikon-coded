@@ -175,7 +175,7 @@ In the Matins structure (Polyeleos Rank and above), there are four critical "slo
 *   **Content:**
     1.  Kontakion of the Indiction.
     2.  Ikos of the Indiction.
-    *   *The Saint's Kontakion is recited at the Hours (Dolnytsky Part II, Line 98) or suppressed, unless explicitly "Shifted" to Ode 3 per the rubrics.*
+
 
 ---
 

@@ -1,0 +1,583 @@
+DATE: 2026-03-15
+FEAST: Sunday of St. John Climacus
+
+
+--- VESPERS (daily_vespers) ---
+[beginning_daily] 
+   >>> RUBRIC:  <<<
+   [PRIEST]: Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'.
+
+[lord_i_have_cried_6] 
+[prokeimenon_daily]    >>> LOGIC RESULT: resolve_prokeimenon <<<
+      Result Object
+[vouchsafe_read]    >>> horologion.vouchsafe_o_lord <<<
+{
+  "en": "[STUB] Vouchsafe, O Lord..."
+}
+[aposticha]    >>> LOGIC RESULT: resolve_aposticha <<<
+      Result Object
+[nunc_dimittis_read]    >>> horologion.nunc_dimittis <<<
+{
+  "en": "[STUB] Now lettest Thou Thy servant depart..."
+}
+[trisagion]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[troparia_daily]    >>> LOGIC RESULT: resolve_vespers_troparia_simple <<<
+      Result Object
+[dismissal_daily]    >>> horologion.dismissal_small <<<
+{
+  "en": "[STUB] Small dismissal"
+}
+
+--- COMPLINE (small_compline) ---
+[opening_blessing]    >>> Blessing <<<
+Priest: Blessed be our God, always, now and for ever and ever.
+Choir: Amen.
+[introductory_prayers]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[invitatory]    >>> horologion.invitatory_3x <<<
+{
+  "en": "[STUB] Come let us worship... (3x)"
+}
+[psalms_compline]    Group: horologion.psalm_50, horologion.psalm_69, horologion.psalm_142
+[doxology_small]    >>> horologion.doxology_small_read <<<
+{
+  "en": "[STUB] Glory to God in the highest..."
+}
+[creed]    >>> horologion.creed <<<
+{
+  "en": "[STUB] I believe in one God..."
+}
+[canon_slot]    >>> LOGIC RESULT: resolve_compline_canon <<<
+      Result Object
+[axion_estin]    >>> horologion.axion_estin <<<
+{
+  "en": "[STUB] It is truly meet..."
+}
+[trisagion_2]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[troparia_slot]    >>> LOGIC RESULT: resolve_compline_troparia <<<
+      None
+[lord_have_mercy_40]    >>> horologion.lord_have_mercy_40 <<<
+{
+  "en": "[STUB] Lord, have mercy. (40x)"
+}
+[prayer_hours]    >>> horologion.prayer_hours_thou_who <<<
+{
+  "en": "[STUB] O Thou who at all times and every hour..."
+}
+[prayers_final]    Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
+[dismissal_sequence]    Sequence:
+      - {'id': 'dismiss_prayers', 'type': 'fixed_ref', 'ref_key': 'horologion.dismissal_small_prayers'}
+      - {'id': 'lit_final', 'type': 'fixed_ref', 'ref_key': 'horologion.litany_final_compline'}
+
+--- MIDNIGHT OFFICE (midnight_sunday) ---
+[opening_blessing]    >>> Blessing <<<
+Priest: Blessed be our God, always, now and for ever and ever.
+Choir: Amen.
+[trisagion_prayers]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[horologion.psalm_50]    >>> Psalm 50 <<<
+(Wednesday, Saturday, and Sunday)
+Have mercy on me, God, in Your kindness.* In Your compassion blot out my offense.
+O wash me more and more from my guilt* and cleanse me from my sin.
+My offenses truly I know them;* my sin is always before me.
+Against You, You alone, have I sinned;* what is evil in Your sight I have done.
+That You may be justified when You give sentence* and be without reproach when You judge.
+O see, in guilt I was born,* a sinner was I conceived.
+Indeed, You love truth in the heart;* then in the secret of my heart teach me wisdom.
+O purify me, then I shall be clean;* O wash me, I shall be whiter than snow.
+Make me hear rejoicing and gladness,* that the bones You have crushed may thrill.
+From my sins turn away Your face* and blot out all my guilt.
+A pure heart create for me, O God,* put a steadfast spirit within me.
+Do not cast me away from Your presence,* nor deprive me of Your holy spirit.
+Give me again the joy of Your help;* with a spirit of fervor sustain me.
+That I may teach transgressors Your ways* and sinners may return to You.
+O rescue me, God, my helper,* and my tongue shall ring out Your goodness.
+O Lord, open my lips* and my mouth shall declare Your praise.
+For in sacrifice You take no delight,* burnt offering from me You would refuse.
+My sacrifice, a contrite spirit.* A humbled, contrite heart You will not spurn.
+In Your goodness, show favor to Zion:* rebuild the walls of Jerusalem.
+Then You will be pleased with lawful sacrifice, burnt offerings wholly consumed,* Then You will be offered young bulls on Your altar.
+The choir concludes the psalms in the following manner:
+Glory be to the Father, and to the Son, and to the Holy Spirit,
+Now and for ever, and ever. Amen.
+Alleluia! Alleluia! Alleluia! Glory to You, O God! (3x)
+Lord, have mercy. (3x)
+Then the prescribed troparion. During the Great Fast, (see below).
+Now and for ever: O Mother of God, you are the true vine laden with the Fruit of Life;* wherefore, we implore you, O Lady,* to intercede together with the apostles and all the saints* that we may obtain mercy for our souls.
+During the Great Fast, the following troparion is taken:
+(Tone 6) At the third hour, O Lord,* You sent Your Holy Spirit to Your apostles.* Do not take Him from us, O gracious One,* but rather, renew Him within us as we pray to You.
+Verse: A pure heart create for me, O God, put a steadfast spirit within me.
+Verse: Do not cast me away from Your presence, nor deprive me of Your holy Spirit.
+Glory be: Now and for ever: O Mother of God... (see above)
+Blessed is the Lord God! Blessed is the Lord day by day! May the God of our salvation* smooth our path. Our God is the God of salvation.
+Holy God; Trinity most holy; Our Father; and the kontakion.
+During the Great Fast, instead of the kontakion, the following troparia are taken:
+(Tone 8) Blessed are You, O Christ our God.* You filled the fishermen with wisdom,* sending down upon them the Holy Spirit.* Through them You have caught the whole world in your net.* O Lover of mankind, glory be to You!
+Glory be: When the Most High descended and confused tongues,* He scattered the people;* but when He distributed the tongues of fire, He called all to unity.* Therefore, with one voice,* let us praise the most Holy Spirit.
+Now and for ever: O most pure Mother of God,* you are a hope, a stronghold, and a refuge for Christians;* you are an unconquerable wall and a peaceful haven for the weary.* Through your unceasing intercession you are saving the world;* and we ask you to also remember us, O Virgin worthy of all praise.
+Lord, have mercy (40x);
+O Christ our God, in all times and places You are worshiped and glorified both in heaven and on earth. You are long-suffering and generous in Your mercy and compassion. You love the just and show mercy to the sinner, calling all people to repentance through the promise of blessings to come. Deem, O Lord, at this very hour, to receive our supplications and to direct our lives in the path of Your commandments. Sanctify our souls; purify our bodies; set aright our minds; cleanse our thoughts; deliver us from all affliction, trouble, and distress; surround us with Your holy angels so that, guided and guarded in their camp, we may attain oneness of faith and the knowledge of Your unspeakable glory. For You are blessed for ever and ever. Amen.
+Lord, have mercy. (3x), Glory be, Now and for ever, More honorable... to the prayer of the First Hour, see p. 156.
+[triadic_canon] 
+   >>> RUBRIC:  <<<
+
+   >>> LOGIC RESULT: resolve_triadic_canon <<<
+      Result Object
+[creed]    >>> horologion.creed <<<
+{
+  "en": "[STUB] I believe in one God..."
+}
+[trisagion_prayers_2]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[troparia_block]    >>> LOGIC RESULT: resolve_midnight_troparia <<<
+      Result Object
+[prayer_hours_thou_who]    >>> horologion.prayer_hours_thou_who <<<
+{
+  "en": "[STUB] O Thou who at all times and every hour..."
+}
+[closing_prayer]    >>> LOGIC RESULT: resolve_midnight_prayer <<<
+      Result Object
+[prayer_st_ephrem] 
+   >>> RUBRIC:  <<<
+
+   >>> triodion.prayer_st_ephrem <<<
+{
+  "en": "[STUB] O Lord and Master of my life..."
+}
+[dismissal]    >>> horologion.dismissal_small_with_litany <<<
+{
+  "en": "[STUB] Dismissal with litany"
+}
+
+--- MATINS (daily_matins) ---
+[opening_daily]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.psalm_19, horologion.psalm_20, horologion.six_psalms
+[great_litany]    >>> Litany of Peace <<<
+In peace let us pray to the Lord.
+Choir: Lord, have mercy (and after each petition).
+For the peace from on high and for the salvation of our souls, let us pray to the Lord.
+For peace throughout the whole world, for the well-being of God’s holy churches and for the unity of all, let us pray to the Lord.
+For this holy church and for all who enter it with faith, reverence, and fear of God, let us pray to the Lord.
+For our most holy universal Pontiff, N., Pope of Rome, let us pray to the Lord.
+For our most blessed Patriarch, N., our most reverend Metropolitan, N., our God-loving Bishop, N., the reverend priesthood, the diaconate in Christ, and all the clergy and the people, let us pray to the Lord.
+For our nation under God, for our government, and for all the military, let us pray to the Lord.
+For this city (or For this village, or For this holy monastery), for every city and country and for the faithful who live in them, let us pray to the Lord.
+For favorable weather, for an abundance of the fruits of the earth, and for peaceful times, let us pray to the Lord.
+For the seafarers and travelers, for the sick and the suffering, for those held captive, and for their salvation, let us pray to the Lord.
+That we may be delivered from all tribulation, wrath, and misfortune, let us pray to the Lord.
+Help and save, have mercy and protect us, O God, by Your grace.
+Remembering our most holy and immaculate, most blessed and glorious Lady, the Mother of God and ever-virgin Mary, together with all the saints, let us commend ourselves and one another and our whole life to Christ our God.
+Choir: To You, O Lord.
+Priest: For all glory, honor, and worship befit You, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+[god_is_the_lord]    >>> LOGIC RESULT: resolve_god_is_the_lord_troparia <<<
+      Result Object
+[kathismata_daily_block] 
+   >>> RUBRIC: The Kathismata <<<
+   (Source): Dolnytsky I:204 - 'to the second Sessional Hymn inclusive'
+
+   Sequence:
+      - {'id': 'kathisma_1', 'content': {'type': 'variable_logic', 'logic': {'function': 'resolve_kathisma', 'args': {'num': 1}}}}
+      - {'id': 'sessional_1', 'content': {'type': 'variable_logic', 'logic': {'function': 'resolve_sessional', 'args': {'position': 'after_kathisma_1'}}}}
+      - {'id': 'kathisma_2', 'content': {'type': 'variable_logic', 'logic': {'function': 'resolve_kathisma', 'args': {'num': 2}}}}
+      - {'id': 'sessional_2', 'content': {'type': 'variable_logic', 'logic': {'function': 'resolve_sessional', 'args': {'position': 'after_kathisma_2'}}}}
+[horologion.psalm_50]    >>> Psalm 50 <<<
+(Wednesday, Saturday, and Sunday)
+Have mercy on me, God, in Your kindness.* In Your compassion blot out my offense.
+O wash me more and more from my guilt* and cleanse me from my sin.
+My offenses truly I know them;* my sin is always before me.
+Against You, You alone, have I sinned;* what is evil in Your sight I have done.
+That You may be justified when You give sentence* and be without reproach when You judge.
+O see, in guilt I was born,* a sinner was I conceived.
+Indeed, You love truth in the heart;* then in the secret of my heart teach me wisdom.
+O purify me, then I shall be clean;* O wash me, I shall be whiter than snow.
+Make me hear rejoicing and gladness,* that the bones You have crushed may thrill.
+From my sins turn away Your face* and blot out all my guilt.
+A pure heart create for me, O God,* put a steadfast spirit within me.
+Do not cast me away from Your presence,* nor deprive me of Your holy spirit.
+Give me again the joy of Your help;* with a spirit of fervor sustain me.
+That I may teach transgressors Your ways* and sinners may return to You.
+O rescue me, God, my helper,* and my tongue shall ring out Your goodness.
+O Lord, open my lips* and my mouth shall declare Your praise.
+For in sacrifice You take no delight,* burnt offering from me You would refuse.
+My sacrifice, a contrite spirit.* A humbled, contrite heart You will not spurn.
+In Your goodness, show favor to Zion:* rebuild the walls of Jerusalem.
+Then You will be pleased with lawful sacrifice, burnt offerings wholly consumed,* Then You will be offered young bulls on Your altar.
+The choir concludes the psalms in the following manner:
+Glory be to the Father, and to the Son, and to the Holy Spirit,
+Now and for ever, and ever. Amen.
+Alleluia! Alleluia! Alleluia! Glory to You, O God! (3x)
+Lord, have mercy. (3x)
+Then the prescribed troparion. During the Great Fast, (see below).
+Now and for ever: O Mother of God, you are the true vine laden with the Fruit of Life;* wherefore, we implore you, O Lady,* to intercede together with the apostles and all the saints* that we may obtain mercy for our souls.
+During the Great Fast, the following troparion is taken:
+(Tone 6) At the third hour, O Lord,* You sent Your Holy Spirit to Your apostles.* Do not take Him from us, O gracious One,* but rather, renew Him within us as we pray to You.
+Verse: A pure heart create for me, O God, put a steadfast spirit within me.
+Verse: Do not cast me away from Your presence, nor deprive me of Your holy Spirit.
+Glory be: Now and for ever: O Mother of God... (see above)
+Blessed is the Lord God! Blessed is the Lord day by day! May the God of our salvation* smooth our path. Our God is the God of salvation.
+Holy God; Trinity most holy; Our Father; and the kontakion.
+During the Great Fast, instead of the kontakion, the following troparia are taken:
+(Tone 8) Blessed are You, O Christ our God.* You filled the fishermen with wisdom,* sending down upon them the Holy Spirit.* Through them You have caught the whole world in your net.* O Lover of mankind, glory be to You!
+Glory be: When the Most High descended and confused tongues,* He scattered the people;* but when He distributed the tongues of fire, He called all to unity.* Therefore, with one voice,* let us praise the most Holy Spirit.
+Now and for ever: O most pure Mother of God,* you are a hope, a stronghold, and a refuge for Christians;* you are an unconquerable wall and a peaceful haven for the weary.* Through your unceasing intercession you are saving the world;* and we ask you to also remember us, O Virgin worthy of all praise.
+Lord, have mercy (40x);
+O Christ our God, in all times and places You are worshiped and glorified both in heaven and on earth. You are long-suffering and generous in Your mercy and compassion. You love the just and show mercy to the sinner, calling all people to repentance through the promise of blessings to come. Deem, O Lord, at this very hour, to receive our supplications and to direct our lives in the path of Your commandments. Sanctify our souls; purify our bodies; set aright our minds; cleanse our thoughts; deliver us from all affliction, trouble, and distress; surround us with Your holy angels so that, guided and guarded in their camp, we may attain oneness of faith and the knowledge of Your unspeakable glory. For You are blessed for ever and ever. Amen.
+Lord, have mercy. (3x), Glory be, Now and for ever, More honorable... to the prayer of the First Hour, see p. 156.
+[canon_daily] 
+   >>> RUBRIC: The Canon <<<
+   (Source): Dolnytsky I:204 - 'Katavasia...only after 3rd, 6th, 8th, 9th'
+
+[it_is_truly_meet]    horologion.it_is_truly_meet
+[exapostilarion] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky I:204 - 'after the Exaposteilarion'
+
+   >>> LOGIC RESULT: resolve_exapostilarion <<<
+      - Unknown
+      - Unknown
+      - Unknown
+[praises_read] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky I:204 - 'simply, without singing'
+   [READER]: Read Psalms 148-150 without singing, without stichera.
+
+   >>> horologion.praises_psalms <<<
+{
+  "en": "[STUB] Let everything that hath breath..."
+}
+[small_doxology] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky I:204
+   [PRIEST]: Exclaim 'Glory to Thee Who hast shown us the light'.
+   [READER]: Read the Small Doxology.
+
+   >>> horologion.doxology_small_read <<<
+{
+  "en": "[STUB] Glory to God in the highest..."
+}
+[litany_supplication]    >>> horologion.litany_supplication <<<
+Let us complete our prayer to the Lord.
+Choir: Lord, have mercy.
+Help and save, have mercy and protect us, O God, by Your grace.
+Choir: Lord, have mercy.
+That this whole day may be perfect, holy, peaceful, and sinless, let us ask the Lord.
+Choir: Grant this, O Lord.
+For an angel of peace, a faithful guide, a guardian of our souls and bodies, let us ask the Lord.
+Choir: Grant this, O Lord.
+For the forgiveness and remission of our sins and offenses, let us ask the Lord.
+Choir: Grant this, O Lord.
+For all that is good and beneficial for our souls, and for peace for the world, let us ask the Lord.
+Choir: Grant this, O Lord.
+That we may spend the rest of our life in peace and repentance, let us ask the Lord.
+Choir: Grant this, O Lord.
+For a Christian end to our lives, one that is painless, unashamed, and peaceful; and for a good defense at the awesome tribunal of Christ, let us ask the Lord.
+Choir: Grant this, O Lord.
+Remembering our most holy and immaculate, most blessed and glorious Lady, the Mother of God and ever-virgin Mary, together with all the saints, let us commend ourselves and one another and our whole life to Christ our God.
+Choir: To You, O Lord.
+[aposticha]    >>> LOGIC RESULT: resolve_aposticha <<<
+      Result Object
+[good_thing]    >>> horologion.it_is_a_good_thing <<<
+{
+  "en": "[STUB] It is a good thing to give thanks..."
+}
+[trisagion_block]    horologion.trisagion_our_father
+[dismissal_troparion] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky I:204 - 'troparion of the Saint is sung'
+
+   >>> LOGIC RESULT: resolve_matins_dismissal_troparion <<<
+      Result Object
+[dismissal_theotokion] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone'
+
+   [MISSING LOGIC]: resolve_dismissal_theotokion
+[litany_have_mercy]    horologion.litany_have_mercy
+[dismissal_daily] 
+   >>> RUBRIC:  <<<
+   (Source): Dolnytsky I:204 - 'Blessed is He Who Is'
+
+   >>> horologion.dismissal_small <<<
+{
+  "en": "[STUB] Small dismissal"
+}
+
+--- FIRST HOUR (structure_standard) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: horologion.psalm_5, horologion.psalm_89, horologion.psalm_100
+[troparia_block] 
+[verses_fixed]    >>> horologion.verses_hour_1_order_my_steps <<<
+{
+  "en": "[STUB] Order my steps..."
+}
+[trisagion_prayers]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_1_christ_true_light
+[dismissal_slot]    >>> horologion.dismissal_small <<<
+{
+  "en": "[STUB] Small dismissal"
+}
+
+--- THIRD HOUR (structure_standard) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: horologion.psalm_16, horologion.psalm_24, horologion.psalm_50
+[troparia_block] 
+[verses_fixed]    >>> horologion.verses_hour_3_blessed_is_the_lord <<<
+{
+  "en": "[STUB] Blessed is the Lord..."
+}
+[trisagion_prayers]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_3_mardari
+[dismissal_slot]    >>> horologion.dismissal_small <<<
+{
+  "en": "[STUB] Small dismissal"
+}
+
+--- SIXTH HOUR (structure_standard) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: horologion.psalm_53, horologion.psalm_54, horologion.psalm_90
+[troparia_block] 
+[verses_fixed]    >>> horologion.verses_hour_6_compassions_quickly <<<
+{
+  "en": "[STUB] Let Thy compassions quickly..."
+}
+[trisagion_prayers]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_6_god_and_lord_of_hosts
+[dismissal_slot]    >>> horologion.dismissal_small <<<
+{
+  "en": "[STUB] Small dismissal"
+}
+
+--- NINTH HOUR (structure_standard) ---
+[opening_prayers]    Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+[psalms_fixed]    Group: horologion.psalm_83, horologion.psalm_84, horologion.psalm_85
+[troparia_block] 
+[verses_fixed]    >>> horologion.verses_hour_9_forsake_not <<<
+{
+  "en": "[STUB] Forsake us not utterly..."
+}
+[trisagion_prayers]    >>> Introductory Prayers <<<
+Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Trinity most holy, have mercy on us. Cleanse us of our sins, O Lord; pardon our transgressions, O Master; look upon our weaknesses and heal them, O Holy One; for the sake of Your name.
+Lord, have mercy. (3x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Our Father, Who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.
+Priest: For Thine is the kingdom and the power and the glory, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+Lord, have mercy. (12x)
+Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.
+Come, let us adore the King, our God.
+Come, let us adore Christ, the King and our God.
+Come, let us adore and bow down to the only Lord Jesus Christ, the King and our God.
+[kontakion_block] 
+[conclusion]    Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
+[dismissal_slot]    >>> horologion.dismissal_small <<<
+{
+  "en": "[STUB] Small dismissal"
+}
+
+--- LITURGY (liturgy_basil) ---
+[prothesis] 
+   >>> RUBRIC: The Prothesis (Preparation) <<<
+   (Source): Dolnytsky IV:385
+   [PRIEST]: Prepare the Lamb. On Sundays and Feasts, cut the Lamb for the communicants. On Holy Thursday, prepare two Lambs (one for Presanctified).
+   [DEACON]: Pour wine and water into the Chalice. Cover the Gifts.
+
+[opening_blessing] 
+   >>> RUBRIC: The Opening <<<
+   [DEACON]: Exclaim 'Bless, Master!'
+   [PRIEST]: Lift the Gospel Book. Make the sign of the Cross over the Antimension. Exclaim 'Blessed is the Kingdom...'
+
+   liturgikon.blessing_kingdom
+[great_litany]    >>> Litany of Peace <<<
+In peace let us pray to the Lord.
+Choir: Lord, have mercy (and after each petition).
+For the peace from on high and for the salvation of our souls, let us pray to the Lord.
+For peace throughout the whole world, for the well-being of God’s holy churches and for the unity of all, let us pray to the Lord.
+For this holy church and for all who enter it with faith, reverence, and fear of God, let us pray to the Lord.
+For our most holy universal Pontiff, N., Pope of Rome, let us pray to the Lord.
+For our most blessed Patriarch, N., our most reverend Metropolitan, N., our God-loving Bishop, N., the reverend priesthood, the diaconate in Christ, and all the clergy and the people, let us pray to the Lord.
+For our nation under God, for our government, and for all the military, let us pray to the Lord.
+For this city (or For this village, or For this holy monastery), for every city and country and for the faithful who live in them, let us pray to the Lord.
+For favorable weather, for an abundance of the fruits of the earth, and for peaceful times, let us pray to the Lord.
+For the seafarers and travelers, for the sick and the suffering, for those held captive, and for their salvation, let us pray to the Lord.
+That we may be delivered from all tribulation, wrath, and misfortune, let us pray to the Lord.
+Help and save, have mercy and protect us, O God, by Your grace.
+Remembering our most holy and immaculate, most blessed and glorious Lady, the Mother of God and ever-virgin Mary, together with all the saints, let us commend ourselves and one another and our whole life to Christ our God.
+Choir: To You, O Lord.
+Priest: For all glory, honor, and worship befit You, Father, Son, and Holy Spirit, now and for ever and ever.
+Choir: Amen.
+[antiphons_block] 
+   >>> RUBRIC: The Antiphons <<<
+   (Source): Dolnytsky II:102
+   [CHOIR]: Sing the First Antiphon (or Typical Psalms).
+   [DEACON]: Stand at the usual place. Exclaim the Small Litany between Antiphons.
+
+   >>> LOGIC RESULT: resolve_liturgy_antiphons <<<
+      Result Object
+[little_entrance] 
+   >>> RUBRIC: The Little Entrance <<<
+   [PRIEST]: Recite the Prayer of the Entrance silently. Bless the Entrance.
+   [DEACON]: Carry the Gospel Book. Exclaim 'Wisdom, Upright!'
+   [SUBDEACON]: Precede the Gospel with candles.
+
+[troparia_kontakia_block] 
+   >>> RUBRIC: Troparia and Kontakia <<<
+
+   >>> LOGIC RESULT: resolve_liturgy_hymns <<<
+      Result Object
+[trisagion_module] 
+   >>> RUBRIC: The Trisagion <<<
+   [PRIEST]: Recite the Prayer of the Trisagion silently.
+
+   >>> LOGIC RESULT: resolve_trisagion_type <<<
+      Result Object
+[readings_block] 
+   >>> RUBRIC: The Readings <<<
+   [READER]: Intone the Prokeimenon. Read the Epistle.
+   [DEACON]: Cense the Altar and People during the Alleluia. Read the Gospel from the Ambo.
+   [PRIEST]: Sit during the Epistle. Stand for the Gospel.
+
+[litanies_catechumens]    liturgikon.litanies_catechumens
+[cherubic_hymn_block] 
+   >>> RUBRIC: Cherubic Hymn <<<
+   [PRIEST]: Recite the Prayer of the Cherubic Hymn silently.
+   [DEACON]: Cense the Altar, Icons, and People (Psalm 50).
+
+   >>> LOGIC RESULT: resolve_cherubic_hymn <<<
+      Result Object
+[great_entrance] 
+   >>> RUBRIC: The Great Entrance <<<
+   [DEACON]: Carry the Diskos (on head or in hands). Exclaim commemorations.
+   [PRIEST]: Carry the Chalice. Exclaim commemorations.
+   [SUBDEACON]: Hold the Aer and censer.
+
+[basil_anaphora] 
+   >>> RUBRIC: Anaphora of St. Basil <<<
+
+   liturgikon.anaphora_basil
+[in_thee_rejoiceth]    >>> LOGIC RESULT: resolve_basil_megalynarion <<<
+      None
+[lords_prayer]    >>> horologion.our_father <<<
+{
+  "en": "[STUB] Our Father, who art in heaven..."
+}
+[communion_module] 
+   >>> RUBRIC: Communion <<<
+   [PRIEST]: Break the Lamb. Commune himself and the Deacon.
+   [DEACON]: Exclaim 'With fear of God...'
+   [CHOIR]: Sing 'Receive the Body of Christ'.
+
+[post_communion] 
+[dismissal] 
+   >>> RUBRIC: The Dismissal <<<
+   (Source): Dolnytsky II:102
+   [PRIEST]: Bless the people with the Hand Cross (if Sunday/Feast) or hand (Weekday).
+   [CHOIR]: Sing 'Amen' and 'Eis polla eti despota'.
+
+   >>> LOGIC RESULT: resolve_liturgy_dismissal <<<
+      Result Object

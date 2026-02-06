@@ -223,6 +223,54 @@
           }
         },
         {
+          "id": "prokeimenon_daily",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_prokeimenon"
+            }
+          }
+        },
+        {
+          "id": "vouchsafe_read",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.vouchsafe_o_lord"
+          }
+        },
+        {
+          "id": "aposticha",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_aposticha"
+            }
+          }
+        },
+        {
+          "id": "nunc_dimittis_read",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.nunc_dimittis"
+          }
+        },
+        {
+          "id": "trisagion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_block"
+          }
+        },
+        {
+          "id": "troparia_daily",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_vespers_troparia_simple"
+            }
+          }
+        },
+        {
           "id": "dismissal_daily",
           "content": {
             "type": "fixed_ref",
@@ -521,6 +569,7 @@
     },
     "passion_burial_vespers": {
       "title_key": "titles.vespers_passion_burial",
+      "source_ref": "Dolnytsky Part IV: Good Friday Vespers",
       "sequence": [
         {
           "id": "opening",
@@ -530,15 +579,56 @@
           }
         },
         {
-          "id": "entrance_gospel",
-          "rubric": {
-            "roles": {
-              "priest": "Enter with the Gospel Book."
+          "id": "psalm_103",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.psalm_103"
+          }
+        },
+        {
+          "id": "great_litany",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_great"
+          }
+        },
+        {
+          "id": "lord_i_have_cried_10",
+          "content": {
+            "type": "generator",
+            "generator_method": "generate_stichera_sequence",
+            "args": {
+              "slot_id": "vespers_stichera_passion",
+              "count": 10
             }
           }
         },
         {
-          "id": "readings_passion",
+          "id": "entrance_gospel",
+          "rubric": {
+            "title": "Entrance with Gospel",
+            "roles": {
+              "priest": "Enter with the Gospel Book primarily, not the Censer."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.entrance_prayer"
+          }
+        },
+        {
+          "id": "light_gladdening",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.gladsome_light"
+          }
+        },
+        {
+          "id": "readings_passion_block",
+          "rubric": {
+            "title": "The Readings",
+            "note": "Prokeimenon, OT (Exodus, Job, Isaiah), Epistle, Gospel."
+          },
           "content": {
             "type": "variable_logic",
             "logic": {
@@ -547,10 +637,80 @@
           }
         },
         {
-          "id": "shroud_procession",
+          "id": "litany_fervent",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_fervent"
+          }
+        },
+        {
+          "id": "vouchsafe",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.vouchsafe_o_lord"
+          }
+        },
+        {
+          "id": "litany_supplication",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_supplication"
+          }
+        },
+        {
+          "id": "aposticha_passion",
+          "rubric": {
+            "title": "Aposticha",
+            "note": "During the singing, the Priest incenses the Shroud."
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_aposticha"
+            }
+          }
+        },
+        {
+          "id": "nunc_dimittis",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.nunc_dimittis"
+          }
+        },
+        {
+          "id": "trisagion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_block"
+          }
+        },
+        {
+          "id": "troparia_shroud",
+          "rubric": {
+            "title": "Troparia (The Noble Joseph)",
+            "roles": {
+              "priest": "Procession with Shroud to the Tomb during these troparia."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_vespers_troparia_simple"
+            }
+          }
+        },
+        {
+          "id": "shroud_procession_rite",
           "content": {
             "type": "component_ref",
             "ref_key": "components.shroud_procession_and_burial"
+          }
+        },
+        {
+          "id": "dismissal_passion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.dismissal_great"
           }
         }
       ]

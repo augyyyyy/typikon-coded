@@ -1,0 +1,136 @@
+RUBRICAL ABSTRACT: 2026-02-05
+Logic: Saint of the Day (2-5)
+
+
+=== VESPERS (daily_vespers) ===
+   [beginning_daily] RUBRIC: {'roles': {'priest': "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."}}
+   [lord_i_have_cried_6] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_daily'})
+   [prokeimenon_daily] HOOK: resolve_prokeimenon()
+   [vouchsafe_read] Fixed Ref: horologion.vouchsafe_o_lord
+   [aposticha] HOOK: resolve_aposticha()
+   [nunc_dimittis_read] Fixed Ref: horologion.nunc_dimittis
+   [trisagion] Fixed Ref: horologion.trisagion_block
+   [troparia_daily] HOOK: resolve_vespers_troparia_simple()
+   [dismissal_daily] Fixed Ref: horologion.dismissal_small
+
+=== COMPLINE (small_compline) ===
+   [opening_blessing] Fixed Ref: horologion.blessing_common
+   [introductory_prayers] Fixed Ref: horologion.trisagion_block
+   [invitatory] Fixed Ref: horologion.invitatory_3x
+   [psalms_compline] Fixed Group: horologion.psalm_50, horologion.psalm_69, horologion.psalm_142
+   [doxology_small] Fixed Ref: horologion.doxology_small_read
+   [creed] Fixed Ref: horologion.creed
+   [canon_slot] HOOK: resolve_compline_canon()
+   [axion_estin] Fixed Ref: horologion.axion_estin
+   [trisagion_2] Fixed Ref: horologion.trisagion_block
+   [troparia_slot] HOOK: resolve_compline_troparia(rank=small)
+   [lord_have_mercy_40] Fixed Ref: horologion.lord_have_mercy_40
+   [prayer_hours] Fixed Ref: horologion.prayer_hours_thou_who
+   [prayers_final] Fixed Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
+   [dismissal_sequence] Sequence Block:
+
+=== MIDNIGHT OFFICE (midnight_daily) ===
+   [opening_blessing] Fixed Ref: horologion.blessing_common
+   [trisagion_prayers] Fixed Ref: horologion.trisagion_block
+   [horologion.psalm_50] Fixed Ref: horologion.psalm_50
+   [horologion.kathisma_17] RUBRIC: {'key': 'rubrics.midnight.kathisma_17_rule', 'variables': {'part': 'entire'}}
+   [horologion.kathisma_17] Fixed Ref: horologion.psalm_118_blameless
+   [creed] Fixed Ref: horologion.creed
+   [trisagion_prayers_2] Fixed Ref: horologion.trisagion_block
+   [troparia_block] HOOK: resolve_midnight_troparia(type=daily)
+   [prayer_hours_thou_who] Fixed Ref: horologion.prayer_hours_thou_who
+   [closing_prayer] HOOK: resolve_midnight_prayer()
+   [prayer_st_ephrem] RUBRIC: {'key': 'rubrics.lenten.prayer_ephrem_16', 'variables': {'count': 16}}
+   [prayer_st_ephrem] Fixed Ref: triodion.prayer_st_ephrem
+   [dismissal] Fixed Ref: horologion.dismissal_small_with_litany
+
+=== MATINS (daily_matins) ===
+   [opening_daily] Fixed Group: horologion.blessing_common, horologion.trisagion_block, horologion.psalm_19, horologion.psalm_20, horologion.six_psalms
+   [great_litany] Fixed Ref: horologion.litany_great
+   [god_is_the_lord] HOOK: resolve_god_is_the_lord_troparia()
+   [kathismata_daily_block] RUBRIC: The Kathismata
+   [kathismata_daily_block] Sequence Block:
+      [kathisma_1] HOOK: resolve_kathisma(num=1)
+      [sessional_1] HOOK: resolve_sessional(position=after_kathisma_1)
+      [kathisma_2] HOOK: resolve_kathisma(num=2)
+      [sessional_2] HOOK: resolve_sessional(position=after_kathisma_2)
+   [horologion.psalm_50] Fixed Ref: horologion.psalm_50
+   [canon_daily] RUBRIC: The Canon
+   [it_is_truly_meet] Fixed Ref: horologion.it_is_truly_meet
+   [exapostilarion] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'after the Exaposteilarion'"}
+   [exapostilarion] HOOK: resolve_exapostilarion()
+   [praises_read] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'simply, without singing'", 'roles': {'reader': 'Read Psalms 148-150 without singing, without stichera.'}}
+   [praises_read] Fixed Ref: horologion.praises_psalms
+   [small_doxology] RUBRIC: {'source_ref': 'Dolnytsky I:204', 'roles': {'priest': "Exclaim 'Glory to Thee Who hast shown us the light'.", 'reader': 'Read the Small Doxology.'}}
+   [small_doxology] Fixed Ref: horologion.doxology_small_read
+   [litany_supplication] Fixed Ref: horologion.litany_supplication
+   [aposticha] HOOK: resolve_aposticha()
+   [good_thing] Fixed Ref: horologion.it_is_a_good_thing
+   [trisagion_block] Fixed Ref: horologion.trisagion_our_father
+   [dismissal_troparion] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'troparion of the Saint is sung'"}
+   [dismissal_troparion] HOOK: resolve_matins_dismissal_troparion()
+   [dismissal_theotokion] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone'"}
+   [dismissal_theotokion] HOOK: resolve_dismissal_theotokion()
+   [litany_have_mercy] Fixed Ref: horologion.litany_have_mercy
+   [dismissal_daily] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'Blessed is He Who Is'"}
+   [dismissal_daily] Fixed Ref: horologion.dismissal_small
+
+=== FIRST HOUR (structure_standard) ===
+   [opening_prayers] Fixed Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+   [psalms_fixed] Fixed Group: horologion.psalm_5, horologion.psalm_89, horologion.psalm_100
+   [troparia_block] GENERATOR: generate_hour_troparia({'hour': 1})
+   [verses_fixed] Fixed Ref: horologion.verses_hour_1_order_my_steps
+   [trisagion_prayers] Fixed Ref: horologion.trisagion_block
+   [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_1_christ_true_light
+   [dismissal_slot] Fixed Ref: horologion.dismissal_small
+
+=== THIRD HOUR (structure_standard) ===
+   [opening_prayers] Fixed Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+   [psalms_fixed] Fixed Group: horologion.psalm_16, horologion.psalm_24, horologion.psalm_50
+   [troparia_block] GENERATOR: generate_hour_troparia({'hour': 3})
+   [verses_fixed] Fixed Ref: horologion.verses_hour_3_blessed_is_the_lord
+   [trisagion_prayers] Fixed Ref: horologion.trisagion_block
+   [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_3_mardari
+   [dismissal_slot] Fixed Ref: horologion.dismissal_small
+
+=== SIXTH HOUR (structure_standard) ===
+   [opening_prayers] Fixed Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+   [psalms_fixed] Fixed Group: horologion.psalm_53, horologion.psalm_54, horologion.psalm_90
+   [troparia_block] GENERATOR: generate_hour_troparia({'hour': 6})
+   [verses_fixed] Fixed Ref: horologion.verses_hour_6_compassions_quickly
+   [trisagion_prayers] Fixed Ref: horologion.trisagion_block
+   [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_6_god_and_lord_of_hosts
+   [dismissal_slot] Fixed Ref: horologion.dismissal_small
+
+=== NINTH HOUR (structure_standard) ===
+   [opening_prayers] Fixed Group: horologion.blessing_common, horologion.trisagion_block, horologion.invitatory_3x
+   [psalms_fixed] Fixed Group: horologion.psalm_83, horologion.psalm_84, horologion.psalm_85
+   [troparia_block] GENERATOR: generate_hour_troparia({'hour': 9})
+   [verses_fixed] Fixed Ref: horologion.verses_hour_9_forsake_not
+   [trisagion_prayers] Fixed Ref: horologion.trisagion_block
+   [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
+   [dismissal_slot] Fixed Ref: horologion.dismissal_small
+
+=== LITURGY (liturgy_chrysostom) ===
+   [prothesis] RUBRIC: The Prothesis (Preparation)
+   [opening_blessing] RUBRIC: The Opening
+   [opening_blessing] Fixed Ref: liturgikon.blessing_kingdom
+   [great_litany] Fixed Ref: horologion.litany_great
+   [antiphons_block] RUBRIC: The Antiphons
+   [antiphons_block] HOOK: resolve_liturgy_antiphons()
+   [little_entrance] RUBRIC: The Little Entrance
+   [troparia_kontakia_block] RUBRIC: Troparia and Kontakia
+   [troparia_kontakia_block] HOOK: resolve_liturgy_hymns()
+   [trisagion_module] RUBRIC: The Trisagion
+   [trisagion_module] HOOK: resolve_trisagion_type()
+   [readings_block] RUBRIC: The Readings
+   [litanies_catechumens] Fixed Ref: liturgikon.litanies_catechumens
+   [cherubic_hymn_block] RUBRIC: Cherubic Hymn
+   [cherubic_hymn_block] HOOK: resolve_cherubic_hymn()
+   [great_entrance] RUBRIC: The Great Entrance
+   [anaphora_block] Fixed Ref: liturgikon.anaphora_chrysostom
+   [megalynarion_block] HOOK: resolve_liturgy_megalynarion()
+   [lords_prayer] Fixed Ref: horologion.our_father
+   [communion_module] RUBRIC: Communion
+   [dismissal] RUBRIC: The Dismissal
+   [dismissal] HOOK: resolve_liturgy_dismissal()

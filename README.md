@@ -1,4 +1,4 @@
-# Liturgical Intelligence Engine
+# Typikon Coded
 
 > **Coding the Typikon**: A Logic-First approach to generating accurate liturgical services according to the Dolnytsky Typikon and other traditions.
 
@@ -40,20 +40,20 @@ The **Liturgical Intelligence Engine** is a Python-based system designed to dyna
 The engine can be used via the command line or as a Python library.
 
 #### CLI Generation
-The repository includes a robust generation script `generate_my_service.py` that accepts arguments for date, version, and external assets.
+The repository includes a robust generation script `generate_typikon_service.py` that accepts arguments for date, version, and external assets.
 
 ```bash
 # Interactive Mode
-python generate_my_service.py
+python generate_typikon_service.py
 
 # Auto-Generate for a specific date
-python generate_my_service.py --date 2026-01-11
+python generate_typikon_service.py --date 2026-01-11
 
 # Test a different recension logic
-python generate_my_service.py --version other_tradition_2025
+python generate_typikon_service.py --version other_tradition_2025
 
 # Load private assets (Plugin Architecture)
-python generate_my_service.py --date 2026-01-06 --external "C:/MyPrivateAssets"
+python generate_typikon_service.py --date 2026-01-06 --external "C:/MyPrivateAssets"
 ```
 
 #### Python Library Usage
@@ -100,6 +100,17 @@ For more detailed information, please refer to:
 - [Contributing](CONTRIBUTING.md): How to contribute code or textual corrections.
 - [Academic Alignment](docs/thesis_alignment_analysis.md): A comparative analysis of this engine against the 2011 Master's Thesis "Automating the Byzantine Typikon".
 
+### v0.5.0 (2026-02-05) - Logic Core Complete
+*   **Full Service Logic Coverage**: Completed logic gates for all major services:
+    *   **Vespers**: 13/13 Gates (Great, Daily, Presanctified, Lenten).
+    *   **Hours**: 8/8 Gates (Regular, Lenten, Royal).
+    *   **Compline**: 8/8 Gates (Small, Great, Vigil).
+    *   **Midnight Office**: 4/4 Gates.
+    *   **Liturgy**: 12/12 Gates (Chrysostom, Basil, Presanctified).
+*   **Documentation Suite**: Published definitive "Encyclopedia" hooks for above services.
+*   **Presanctified Support**: Full logic for Lenten transfers and readings.
+*   **Code Quality**: Added 14+ new resolver functions and cleaned up duplicate Katavasia logic.
+
 ### v0.4.0 (2026-02-01) - The Matins Audit & St. Sergius Import
 *   **St. Sergius Octoechos**: Successfully imported Tone 1 of the unabridged "St. Sergius" recension using a new atomic parser. Supported recursive structures (Canons, Stichera Groups) in `json_db/st_sergius/`.
 *   **Deep Structural Audit**: Completed a comprehensive audit of all Matins variants against the Dolnytsky Typikon.
@@ -126,7 +137,7 @@ For more detailed information, please refer to:
 *   **Initial Release**: Core logic engine implementation based on Dolnytsky Typikon.
 *   **Documentation**: Added comprehensive guides for Architecture, Data Structure, and Canon Law implementation.
 *   **Privacy Layer**: Implemented "External Content" architecture to support private/copyrighted assets via `json_db/private_assets/`.
-*   **CLI**: Enhanced `generate_my_service.py` with command-line arguments for easier prototyping and version switching.
+*   **CLI**: Enhanced `generate_typikon_service.py` with command-line arguments for easier prototyping and version switching.
 *   **CI/CD**: Established rigorous "Hierarch Test" verification protocols.
 
 ## License

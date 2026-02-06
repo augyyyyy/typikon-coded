@@ -95,12 +95,18 @@
       "priority": 50,
       "title": "Clean Week",
       "variables": {
-        "compline_type": "great_compline_lenten"
+        "compline_type": "great_compline_lenten",
+        "matins_type": "lenten_matins_weekday",
+        "hours_type": "structure_lenten",
+        "liturgy_type": "none"
       }
     },
     "lent_general_weekday": {
       "triggers": {
-        "season_id": "triodion",
+        "pascha_offset_range": [
+          -48,
+          -1
+        ],
         "day_of_week": [
           1,
           2,

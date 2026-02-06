@@ -1,6 +1,6 @@
 # System Architecture
 
-The Liturgical Intelligence Engine is built upon a "Logic First" philosophy. This means that *rubrics* (the rules of the service) are processed and resolved entirely before any liturgical text is selected or formatting is applied. This separation ensures that the engine can accurately handle the complex variability of Byzantine rites without hardcoding text paths.
+**Typikon Coded** (The Liturgical Intelligence Engine) is built upon a "Logic First" philosophy. This means that *rubrics* (the rules of the service) are processed and resolved entirely before any liturgical text is selected or formatting is applied. This separation ensures that the engine can accurately handle the complex variability of Byzantine rites without hardcoding text paths.
 
 ## Core Design Principles
 

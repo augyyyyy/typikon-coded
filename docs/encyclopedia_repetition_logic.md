@@ -41,6 +41,15 @@
 > [!NOTE]
 > **Dolnytsky Specifics:** Dolnytsky often specifies "The Irmos of the first canon is taken, the others are not." The total count (e.g., "14") usually includes the Irmos of the *leading* canon but excludes the others.
 > *   *Formula:* Total = (Irmos x 1) + (Canon A Troparia) + (Canon B Troparia).
+> 
+> ### Matins Canon "On X" Table (Sunday)
+> Based on Dolnytsky Part II, Line 179:
+> 
+> | Sunday Rank | Leading Canon | Second Canon | Total Count |
+> | :--- | :--- | :--- | :--- |
+> | Sunday Only | Resurrection (4) | Cross-Res (3) + Theo (3) | **14** (Inc. Irmos) |
+> | Sunday + Saint (S) | Resurrection (4) | Theo (3) + Saint (3) | **14** (Inc. Irmos) |
+| Sunday + Saint (Vig) | Resurrection (4) | Theo (3) + Saint (6) | **16** (Inc. Irmos) |
 
 ## 3. Sessional Hymns (Sidalnyi)
 

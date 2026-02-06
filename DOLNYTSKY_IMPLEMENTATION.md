@@ -2,7 +2,7 @@
 
 > **"The Order of Service is not a rigid chain, but a living dialog between the Octoechos (Eternity), the Menaion (History), and the Local Church (The Present)."**
 
-This document details the rigorous logic implementation of **Isidor Dolnytsky's *Typikon of the Ruthenian Church* (Lviv, 1899)**. It is intended for liturgists, canonarchs, and developers who wish to understand the "Liturgical Intelligence" verifying every generated service.
+This document details the rigorous logic implementation of **Isidor Dolnytsky's *Typikon of the Ruthenian Church* (Lviv, 1899)** in **Typikon Coded**. It is intended for liturgists, canonarchs, and developers who wish to understand the "Liturgical Intelligence" verifying every generated service.
 
 The system does not merely concatenate text; it models the **20 Liturgical Paradigms** (Part II of the Typikon) to make complex rubrical value judgments.
 

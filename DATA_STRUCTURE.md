@@ -1,6 +1,6 @@
 # Data Structure & Dictionary
 
-The Liturgical Intelligence Engine relies on a structured JSON database to store both logic and content. This document details the schema for the various file types found in `json_db/` and `assets/`.
+**Typikon Coded** (The Liturgical Intelligence Engine) relies on a structured JSON database to store both logic and content. This document details the schema for the various file types found in `json_db/` and `assets/`.
 
 ## 1. Text Assets
 

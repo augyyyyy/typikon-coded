@@ -2,8 +2,11 @@ import json
 import os
 from collections import defaultdict
 
-file_path = r"c:\Users\augus\PycharmProjects\MyFirstGui\json_db\stamford\text_horologion.json"
-registry_path = r"c:\Users\augus\PycharmProjects\MyFirstGui\00_master_key_registry.json"
+# Use relative paths from script location for portability
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(script_dir)
+file_path = os.path.join(project_root, "json_db", "stamford", "text_horologion.json")
+registry_path = os.path.join(project_root, "00_master_key_registry.json")
 
 def analyze():
     print(f"Analyzing {file_path} for redundancies...")

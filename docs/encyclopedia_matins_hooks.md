@@ -209,21 +209,23 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 
 ## 🔧 ENGINE IMPLEMENTATION STATUS
 
-| Logic Gate | Function Name | Dolnytsky Ref | Status |
-|------------|---------------|---------------|--------|
-| Gate 1 | `identify_scenario` | Part I | ✅ **DONE** |
-| Gate 2 | `resolve_god_is_the_lord` | Part V | ✅ **DONE** |
-| Gate 3 | `resolve_matins_kathisma` | Part II | ✅ **DONE** |
-| Gate 4 | `check_polyeleos` | Part IV | ✅ **DONE** |
-| Gate 5 | `resolve_hypakoe` + `resolve_anabathmoi` | Part I Ln 159 | ✅ **DONE** |
-| Gate 6 | `resolve_canon_stack` | Part I | ✅ **DONE** |
-| Gate 7 | `resolve_katavasia` | Part II | ✅ **DONE** |
-| Gate 8 | `check_magnificat_suppression` | Part I | ✅ **DONE** |
-| Gate 8b | `resolve_post_ode9_hymn` | Part I Ln 176 | ✅ **NEW** |
-| Gate 9 | `resolve_exapostilarion_matins` | Part III | ✅ **DONE** |
-| Gate 10 | `resolve_praises_stack` | Part I | ✅ **DONE** |
-| Gate 11 | `resolve_doxology_mode` | Part I | ✅ **DONE** |
-| Gate 12 | `resolve_matins_dismissal_troparion` | Part I | ✅ **DONE** |
-| Gate 13 | `apply_footnote_exceptions` | Footnotes | ✅ **DONE** |
+| Logic Gate | Function Name | Dolnytsky Ref | Status | Verified 2026-02-05 |
+|------------|---------------|---------------|--------|:-------------------:|
+| Gate 1 | `identify_scenario` | Part I | ✅ **DONE** | ✅ |
+| Gate 2 | `resolve_god_is_the_lord` | Part V | ✅ **DONE** | ✅ |
+| Gate 3 | `resolve_kathisma` | Part II | ✅ **DONE** | ✅ (renamed) |
+| Gate 4 | `check_polyeleos` | Part IV | ✅ **DONE** | ✅ |
+| Gate 5 | `resolve_hypakoe` + `resolve_anabathmoi` | Part I Ln 159 | ✅ **DONE** | ✅ (both exist) |
+| Gate 6 | `resolve_canon_stack` | Part I | ✅ **DONE** | ✅ 2026-02-05 |
+| Gate 7 | `resolve_katavasia` | Part II | ✅ **DONE** | ✅ (consolidated) |
+| Gate 8 | `resolve_magnificat` | Part I | ✅ **DONE** | ✅ |
+| Gate 8b | `resolve_post_ode9_hymn` | Part I Ln 176 | ✅ **DONE** | ✅ |
+| Gate 9 | `resolve_exapostilarion` | Part III | ✅ **DONE** | ✅ |
+| Gate 10 | `resolve_praises_stichera` | Part I | ✅ **DONE** | ✅ |
+| Gate 11 | `resolve_doxology_type` | Part I | ✅ **DONE** | ✅ |
+| Gate 12 | `resolve_troparia_dismissal` | Part I | ✅ **DONE** | ✅ |
+| Gate 13 | `apply_footnote_exceptions` | Footnotes | ✅ **DONE** | ✅ 2026-02-05 |
+
+**Summary: 13/13 DONE (100%)**
 
 > *"Matins is difficult because it requires you to be a liturgical editor in real-time. The goal of this codebase is to become that editor."*

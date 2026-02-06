@@ -23,5 +23,138 @@
         "content": "From the resurrectional tone of the week and the following:\n\nGlory be: (Tone 6): Adam was banished from paradise because of the forbidden fruit.* He sat before the gate, sighing and lamenting:* Alas! Woe is me! What is happening to me?* I have transgressed the commandment of the Lord,* and now I am deprived of every blessing.* O paradise, so delightful, you were planted for me,* and now you are closed because of Eve.* Beseech your Creator Who has also fashioned me* to fill me with the fragrance of your flowers once again.* And the Savior said to him:* I do not desire the destruction of My creation;*",
         "source": "Stamford Lenten Triodion"
     },
-    "triodion.cheesefare.raw_content": "SATURDAY VESPERS\n\nStichera at “O Lord, I have cried...”\n\nSeven stichera from the resurrectional tone of the week and the following three:\n\n(Tone 6, Podoben — Vse Otlozhyvshe): My Creator and Lord has formed me from the clay of the earth,* He has given me a soul by His life-giving breath.* He has made me ruler of all things visible upon the earth* and has made me a companion of the angels.* But Satan has used the serpent as a trap* and has deceived me with this bait;* he has separated me from the glory of God* and delivered me over to the earth and to death.* But You, O Lord of Mercy, call me back to You.\n\nAlas! I have been stripped of my divine garment* by transgressing Your commandment, O Lord,* and by following the counsel of the enemy.* I am now clothed with fig leaves and the garments of skin;* I now eat my bread by the sweat of my brow,* and because of my fault, the earth is condemned to bring forth thistles and thorns.* But, You, O Lord born of the Virgin in these last times,* call me back to enter once again into paradise.\n\nO beloved paradise, beauty of springtime and divinely created abode,* unending joy and delight,* the glory of all the just, the enchantment of the prophets and the dwelling place of the saints,* by the rustling of your leaves,* implore the Creator of the universe* to open the gates that I have closed by my fault;* let me partake of the tree of life* and share the joy that I once found in You.\n\nGlory be: Adam sat before paradise,* sighing and weeping over his nakedness:* Alas! I was seduced by craftiness and stripped naked,* and I am now separated from glory.* Alas! In my simplicity, I was naked;* but now I do not know what to do,* O paradise, never again shall I taste your joy;* never again shall I see the Lord, my Creator and my God.* For I must return to the earth from which I was taken.* O merciful God, I cry out to You:* I have fallen; have mercy on me.\n\nNow and for ever: Dogmaticon of the tone of the week.\n\nAposticha\n\nFrom the resurrectional tone of the week and the following:\n\nGlory be: (Tone 6): Adam was banished from paradise because of the forbidden fruit.* He sat before the gate, sighing and lamenting:* Alas! Woe is me! What is happening to me?* I have transgressed the commandment of the Lord,* and now I am deprived of every blessing.* O paradise, so delightful, you were planted for me,* and now you are closed because of Eve.* Beseech your Creator Who has also fashioned me* to fill me with the fragrance of your flowers once again.* And the Savior said to him:* I do not desire the destruction of My creation;*"
+    "triodion.cheesefare.raw_content": "SATURDAY VESPERS\n\nStichera at “O Lord, I have cried...”\n\nSeven stichera from the resurrectional tone of the week and the following three:\n\n(Tone 6, Podoben — Vse Otlozhyvshe): My Creator and Lord has formed me from the clay of the earth,* He has given me a soul by His life-giving breath.* He has made me ruler of all things visible upon the earth* and has made me a companion of the angels.* But Satan has used the serpent as a trap* and has deceived me with this bait;* he has separated me from the glory of God* and delivered me over to the earth and to death.* But You, O Lord of Mercy, call me back to You.\n\nAlas! I have been stripped of my divine garment* by transgressing Your commandment, O Lord,* and by following the counsel of the enemy.* I am now clothed with fig leaves and the garments of skin;* I now eat my bread by the sweat of my brow,* and because of my fault, the earth is condemned to bring forth thistles and thorns.* But, You, O Lord born of the Virgin in these last times,* call me back to enter once again into paradise.\n\nO beloved paradise, beauty of springtime and divinely created abode,* unending joy and delight,* the glory of all the just, the enchantment of the prophets and the dwelling place of the saints,* by the rustling of your leaves,* implore the Creator of the universe* to open the gates that I have closed by my fault;* let me partake of the tree of life* and share the joy that I once found in You.\n\nGlory be: Adam sat before paradise,* sighing and weeping over his nakedness:* Alas! I was seduced by craftiness and stripped naked,* and I am now separated from glory.* Alas! In my simplicity, I was naked;* but now I do not know what to do,* O paradise, never again shall I taste your joy;* never again shall I see the Lord, my Creator and my God.* For I must return to the earth from which I was taken.* O merciful God, I cry out to You:* I have fallen; have mercy on me.\n\nNow and for ever: Dogmaticon of the tone of the week.\n\nAposticha\n\nFrom the resurrectional tone of the week and the following:\n\nGlory be: (Tone 6): Adam was banished from paradise because of the forbidden fruit.* He sat before the gate, sighing and lamenting:* Alas! Woe is me! What is happening to me?* I have transgressed the commandment of the Lord,* and now I am deprived of every blessing.* O paradise, so delightful, you were planted for me,* and now you are closed because of Eve.* Beseech your Creator Who has also fashioned me* to fill me with the fragrance of your flowers once again.* And the Savior said to him:* I do not desire the destruction of My creation;*",
+    "triodion.alleluia_passion": {
+        "content": {
+            "en": "[STUB] Alleluia for Passion Week"
+        },
+        "_stub": true,
+        "_description": "Alleluia for Passion Week"
+    },
+    "triodion.beatitudes_lenten": {
+        "content": {
+            "en": "[STUB] Lenten Beatitudes"
+        },
+        "_stub": true,
+        "_description": "Lenten Beatitudes"
+    },
+    "triodion.canon_great_friday": {
+        "content": {
+            "en": "[STUB] Good Friday Canon"
+        },
+        "_stub": true,
+        "_description": "Good Friday Canon"
+    },
+    "triodion.canon_tomb_complete": {
+        "content": {
+            "en": "[STUB] Holy Saturday Tomb Canon"
+        },
+        "_stub": true,
+        "_description": "Holy Saturday Tomb Canon"
+    },
+    "triodion.communion_hymn_taste_and_see": {
+        "content": {
+            "en": "[STUB] O taste and see..."
+        },
+        "_stub": true,
+        "_description": "O taste and see..."
+    },
+    "triodion.dismissal_presanctified": {
+        "content": {
+            "en": "[STUB] Presanctified Dismissal"
+        },
+        "_stub": true,
+        "_description": "Presanctified Dismissal"
+    },
+    "triodion.hour_1_lenten_troparia_verses": {
+        "content": {
+            "en": "[STUB] Lenten Hour 1 Troparia"
+        },
+        "_stub": true,
+        "_description": "Lenten Hour 1 Troparia"
+    },
+    "triodion.hour_3_lenten_troparia_verses": {
+        "content": {
+            "en": "[STUB] Lenten Hour 3 Troparia"
+        },
+        "_stub": true,
+        "_description": "Lenten Hour 3 Troparia"
+    },
+    "triodion.hour_6_lenten_troparia_verses": {
+        "content": {
+            "en": "[STUB] Lenten Hour 6 Troparia"
+        },
+        "_stub": true,
+        "_description": "Lenten Hour 6 Troparia"
+    },
+    "triodion.hour_9_lenten_troparia_verses": {
+        "content": {
+            "en": "[STUB] Lenten Hour 9 Troparia"
+        },
+        "_stub": true,
+        "_description": "Lenten Hour 9 Troparia"
+    },
+    "triodion.lenten_kontakia_hours": {
+        "content": {
+            "en": "[STUB] Lenten Kontakia for Hours"
+        },
+        "_stub": true,
+        "_description": "Lenten Kontakia for Hours"
+    },
+    "triodion.let_my_prayer_arise": {
+        "content": {
+            "en": "[STUB] Let my prayer arise..."
+        },
+        "_stub": true,
+        "_description": "Let my prayer arise..."
+    },
+    "triodion.now_the_powers_of_heaven": {
+        "content": {
+            "en": "[STUB] Now the powers of heaven..."
+        },
+        "_stub": true,
+        "_description": "Now the powers of heaven..."
+    },
+    "triodion.praises_great_friday": {
+        "content": {
+            "en": "[STUB] Good Friday Praises"
+        },
+        "_stub": true,
+        "_description": "Good Friday Praises"
+    },
+    "triodion.prayer_st_ephrem": {
+        "content": {
+            "en": "[STUB] O Lord and Master of my life..."
+        },
+        "_stub": true,
+        "_description": "O Lord and Master of my life..."
+    },
+    "triodion.remember_us_solemn": {
+        "content": {
+            "en": "[STUB] Solemn Remember us, O Lord..."
+        },
+        "_stub": true,
+        "_description": "Solemn Remember us, O Lord..."
+    },
+    "triodion.standing_in_the_temple": {
+        "content": {
+            "en": "[STUB] Standing in the temple..."
+        },
+        "_stub": true,
+        "_description": "Standing in the temple..."
+    },
+    "triodion.troparion_glorious_disciples": {
+        "content": {
+            "en": "[STUB] O glorious disciples..."
+        },
+        "_stub": true,
+        "_description": "O glorious disciples..."
+    },
+    "triodion.troparion_when_thou_didst_descend": {
+        "content": {
+            "en": "[STUB] When Thou didst descend..."
+        },
+        "_stub": true,
+        "_description": "When Thou didst descend..."
+    }
 }

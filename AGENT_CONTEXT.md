@@ -15,7 +15,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Name** | Ruthenian Typikon Logic Engine |
+| **Name** | Typikon Coded (Ruthenian Typikon Logic Engine) |
 | **Purpose** | Automate Byzantine liturgical service generation |
 | **Primary Source** | Dolnytsky's Typikon (1899) |
 | **Language** | Python 3.x |
