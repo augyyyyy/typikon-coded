@@ -96,6 +96,7 @@
       "title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
+        "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
         "liturgy_type": "none"
@@ -118,6 +119,7 @@
       "priority": 40,
       "title": "Lenten Weekday",
       "variables": {
+        "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
         "liturgy_type": "liturgy_presanctified"

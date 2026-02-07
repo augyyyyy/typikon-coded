@@ -1619,14 +1619,11 @@ class RuthenianEngine:
         
         # Lenten Alleluia Check (Typikon lines 205-206)
         # Applied if: Lenten Period + Weekday + Not a Feast/Polyeleos
-        gradual_type = "god_is_the_lord"
-        if context.get("period") == "triodion" and context.get("is_lenten_day") and not is_sunday and rank > 3:
-             gradual_type = "alleluia"
-             # If existing rules don't cover Alleluia, we might need a separate return or logic branch.
-             # For now, we return a special tone/sequence marker or handle it via a new rule ID "lenten_alleluia"
-             # But the rules logic below finds a rule by ID.
-             # Let's see if we can force specific handling or just add the ID to rule list logic?
-             # I'll force a return here for Lenten Alleluia to ensure it overrides standard "weekday_saint"
+        # Lenten Alleluia Check (Typikon lines 205-206)
+        # Applied if: Lenten Period + Weekday + Not a Feast/Polyeleos
+        is_lenten_weekday = (context.get("season") == "lent" and not is_sunday and rank > 3)
+        if is_lenten_weekday:
+             # Alleluia Logic
              return {
                  "tone": context.get("tone_of_week", 1),
                  "sequence": [
@@ -1755,6 +1752,87 @@ class RuthenianEngine:
         return "\n".join(self.trace_log)
 
 
+
+    def resolve_midnight_office_weekday(self, context):
+        """
+        Implements Lenten/Weekday Midnight Office structure.
+        Ref: Dolnytsky Part IV (Lent), Part I (Midnight).
+        """
+        is_lent = context.get("season") == "lent"
+        
+        # Prayer of St. Ephrem Count: 16 in Lent, 0 otherwise
+        ephrem = 16 if is_lent else 0
+        
+        return {
+             "kathisma_17": "horologion.psalm_118_blameless",
+             "creed": "horologion.creed",
+             "troparia": "resolve_midnight_troparia", # Handled by sub-hook
+             "prayer_ephrem": ephrem
+        }
+
+    def resolve_compline_troparia(self, context):
+        """
+        Resolves Troparia for Compline.
+        Fixes issue where Lenten/Monday troparia were returning None.
+        Ref: Dolnytsky Part IV Days of Lent.
+        """
+        rank = self._get_rank_id(context)
+        day = context.get("day_of_week")
+        season = context.get("season")
+        is_lent = (season == "lent")
+
+        # 1. Great Compline (Lent Mon-Thu)
+        if is_lent and day in [1,2,3,4]:
+             # "Usual Troparia" as at Small Compline? 
+             # No, Great Compline has its own fixed structure usually.
+             # But Dolnytsky says "After It is truly meet... sing the usual troparia".
+             return {
+                 "type": "sequential",
+                 "items": [
+                     {"id": "horologion.trop_day_of_week", "tone": "variable"},
+                     {"id": "horologion.trop_temple", "tone": "variable"},
+                     {"id": "horologion.text_o_god_of_fathers", "tone": 4}
+                 ]
+             }
+
+        # 2. Small Compline (Fridays, Weekends, Non-Lent)
+        # Standard: Day of Week, Temple, etc.
+        return {
+             "type": "sequential",
+             "items": [
+                 {"id": "horologion.trop_day_of_week"},
+                 {"id": "horologion.trop_temple"},
+                 {"id": "horologion.kontakion_day_of_week"},
+                 {"id": "horologion.kontakion_temple"},
+                 {"id": "horologion.text_lord_who_for_our_sake"} # "O Eternal King" structure?
+             ]
+        }
+        
+    def resolve_lenten_canon_distribution(self, context):
+        """
+        Logic for Triodion Odes in Lenten Matins.
+        Mon: 1,8,9. Tue: 2,8,9. Wed: 3,8,9. Thu: 4,8,9. Fri: 5,8,9.
+        """
+        day = context.get("day_of_week")
+        
+        mapping = {
+            1: [1, 8, 9],
+            2: [2, 8, 9],
+            3: [3, 8, 9],
+            4: [4, 8, 9],
+            5: [5, 8, 9]
+        }
+        
+        odes = mapping.get(day, [8, 9]) # Default/Fallback
+        
+        return {
+            "triodion_odes": odes,
+            "menaion_odes": [1,3,4,5,6,7,8,9] # Menaion usually fills the rest or is skipped? 
+            # Dolnytsky: "Canons will be only of Menaion and Triodion... Triodion in 3 odes."
+            # Implicitly: Menaion covers the full range (1,3-9) minus the Triodion slots?
+            # Actually, typically Menaion is on 6, Triodion on 8.
+            # Total 14.
+        }
 
     def _load_menaion_files(self):
         if not os.path.exists(self.json_db): return

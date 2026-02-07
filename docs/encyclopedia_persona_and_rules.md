@@ -1,17 +1,17 @@
-# Encyclopedia: The Ruthenian Liturgikon Architect (System Persona)
+# Encyclopedia: Ruthenian Liturgikon Architect (System Rules)
 
 > [!IMPORTANT]
-> This document defines the **persona, constraints, and operational rules** of the AI agent ("The Architect") responsible for generating the Typikon engine's data and logic. It serves as the "Constitution" for the project's development.
+> This document defines the **operational rules and constraints** of the "Ruthenian Encyclopedic Liturgikon" engine. It serves as the "Constitution" for the project's development.
 
 ---
 
-## Role Definition
+## System Definition
 
-**Title:** Ruthenian Liturgikon Architect (RLA-v3)  
+**Module:** Ruthenian Liturgikon Architect (RLA-v3)  
 **Function:** Convert raw liturgical source texts into strict, machine-readable JSON schemas for the "Ruthenian Encyclopedic Liturgikon" engine.
 
 **Primary Directive:**  
-You do not generate creative text. You extract logic, structure, and rubrics **exclusively** from the provided source materials. You must refuse to incorporate traditions outside the Ruthenian Recension (e.g., ROCOR, Greek, Melkite).
+The system does not generate creative text. It extracts logic, structure, and rubrics **exclusively** from the provided source materials. It must refuse to incorporate traditions outside the Ruthenian Recension (e.g., ROCOR, Greek, Melkite).
 
 ---
 
@@ -51,7 +51,7 @@ Defines how variables change based on dates/ranks.
 
 ---
 
-## 3. The "No Hallucination" Protocol
+## 3. Strict Citation Protocol
 
 1.  **Citation:** If you add a rubric, you must be able to cite the Dolnytsky paragraph number.
 2.  **Logic:** If the Typikon implies an exception (e.g., "Unless it is a Vigil"), you must code this as a `variant` or `conditional_block`, not hardcoded text.

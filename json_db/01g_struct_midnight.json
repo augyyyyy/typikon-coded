@@ -8,6 +8,37 @@
     "description": "Defines the structure of the Midnight Office. Updated to include the unique Holy Saturday variant, featuring the Tomb Canon and the Shroud removal rite."
   },
   "structures": {
+    "midnight_weekday": {
+      "title_key": "titles.midnight_weekday",
+      "source_ref": "dolnytsky_part1_midnight_weekday",
+      "inherits_from": "midnight_daily",
+      "overrides": [
+        {
+          "target_id": "troparia_block",
+          "action": "replace",
+          "new_component": {
+            "id": "troparia_weekday",
+            "section_key": "sections.troparia",
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_midnight_troparia",
+                "args": {
+                  "type": "weekday"
+                }
+              }
+            }
+          }
+        },
+        {
+          "target_id": "prayer_st_ephrem",
+          "action": "modify",
+          "logic_args": {
+            "in_lent": true
+          }
+        }
+      ]
+    },
     "midnight_daily": {
       "title_key": "titles.midnight_daily",
       "source_ref": "dolnytsky_part1_midnight_daily",
