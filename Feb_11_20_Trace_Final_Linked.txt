@@ -67,6 +67,8 @@ Logic: Triodion Service
    [prayer_hours] Fixed Ref: horologion.prayer_hours_thou_who
    [prayers_final] Fixed Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
    [dismissal_sequence] Sequence Block:
+      [dismiss_prayers] Fixed Ref: horologion.dismissal_small_prayers
+      [lit_final] Fixed Ref: horologion.litany_final_compline
 
 === MIDNIGHT OFFICE (midnight_daily) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -330,6 +332,8 @@ Logic: Triodion Service
    [prayer_hours] Fixed Ref: horologion.prayer_hours_thou_who
    [prayers_final] Fixed Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
    [dismissal_sequence] Sequence Block:
+      [dismiss_prayers] Fixed Ref: horologion.dismissal_small_prayers
+      [lit_final] Fixed Ref: horologion.litany_final_compline
 
 === MIDNIGHT OFFICE (midnight_daily) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -593,6 +597,8 @@ Logic: Triodion Service
    [prayer_hours] Fixed Ref: horologion.prayer_hours_thou_who
    [prayers_final] Fixed Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
    [dismissal_sequence] Sequence Block:
+      [dismiss_prayers] Fixed Ref: horologion.dismissal_small_prayers
+      [lit_final] Fixed Ref: horologion.litany_final_compline
 
 === MIDNIGHT OFFICE (midnight_daily) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -856,6 +862,8 @@ Logic: Triodion Service
    [prayer_hours] Fixed Ref: horologion.prayer_hours_thou_who
    [prayers_final] Fixed Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
    [dismissal_sequence] Sequence Block:
+      [dismiss_prayers] Fixed Ref: horologion.dismissal_small_prayers
+      [lit_final] Fixed Ref: horologion.litany_final_compline
 
 === MIDNIGHT OFFICE (midnight_saturday) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -893,8 +901,26 @@ Logic: Triodion Service
             [TRACE] Reason: Sunday: Resurrectional Troparion + Theotokion.
    [kathismata_block] RUBRIC: The Kathismata
    [kathismata_block] Sequence Block:
+      [kath_1] HOOK: resolve_kathisma(num=1)
+            [TRACE] Citation: Dolnytsky Part I Lines 47-51, Part IV (Hours)
+            [TRACE] Reason: Psalter Cycle for Day 6: Standard rotation.
+            Type: sunday_kathisma_17
       [litany_small_1] RUBRIC: {'source_ref': 'Dolnytsky I Line 156', 'roles': {'priest': "Exclaim 'For Thine is the dominion' (quietly, sitting at place)"}}
+      [litany_small_1] Fixed Ref: horologion.litany_small
+      [sess_1] HOOK: resolve_sessional(num=1)
+            [TRACE] Citation: Dolnytsky Part I Lines 157-165, Part II Lines 177-180
+            [TRACE] Reason: Standard execution path.
+            Type: weekday_sessional
+      [kath_2] HOOK: resolve_kathisma(num=2)
+            [TRACE] Citation: Dolnytsky Part I Lines 47-51, Part IV (Hours)
+            [TRACE] Reason: Psalter Cycle for Day 6: Standard rotation.
+            Type: sunday_kathisma_17
       [litany_small_2] RUBRIC: {'source_ref': 'Dolnytsky I Line 156', 'roles': {'priest': "Exclaim 'For Thine is the dominion' (quietly, sitting at place)"}}
+      [litany_small_2] Fixed Ref: horologion.litany_small
+      [sess_2] HOOK: resolve_sessional(num=2)
+            [TRACE] Citation: Dolnytsky Part I Lines 157-165, Part II Lines 177-180
+            [TRACE] Reason: Standard execution path.
+            Type: weekday_sessional
    [polyeleos_choice] RUBRIC: Polyeleos or Kathisma 17
    [polyeleos_choice] HOOK: resolve_kathisma_choice()
          [TRACE] Citation: Dolnytsky Part I Line 157
@@ -902,6 +928,14 @@ Logic: Triodion Service
          Type: sunday_kathisma_17
    [graduals_block] RUBRIC: Hypakoe and Anabathmoi
    [graduals_block] Sequence Block:
+      [hypakoe_slot] HOOK: resolve_hypakoe()
+            [TRACE] Citation: Dolnytsky Part II Line 180, 353
+            [TRACE] Reason: Standard execution path.
+            Type: none
+      [anabathmoi_slot] HOOK: resolve_anabathmoi()
+            [TRACE] Citation: Dolnytsky Part I Line 157
+            [TRACE] Reason: Standard execution path.
+            Type: none
    [canon_block] RUBRIC: The Canon
    [praises] HOOK: resolve_praises_stichera()
          [TRACE] Citation: Internal Logic
@@ -1101,6 +1135,8 @@ Logic: Sunday of Cheesefare (Forgiveness)
    [prayer_hours] Fixed Ref: horologion.prayer_hours_thou_who
    [prayers_final] Fixed Group: horologion.prayer_compline_spotless, horologion.prayer_compline_grant_us
    [dismissal_sequence] Sequence Block:
+      [dismiss_prayers] Fixed Ref: horologion.dismissal_small_prayers
+      [lit_final] Fixed Ref: horologion.litany_final_compline
 
 === MIDNIGHT OFFICE (midnight_sunday) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -1143,8 +1179,26 @@ Logic: Sunday of Cheesefare (Forgiveness)
             [TRACE] Reason: Sunday: Resurrectional Troparion + Theotokion.
    [kathismata_block] RUBRIC: The Kathismata
    [kathismata_block] Sequence Block:
+      [kath_1] HOOK: resolve_kathisma(num=1)
+            [TRACE] Citation: Dolnytsky Part I Lines 47-51, Part IV (Hours)
+            [TRACE] Reason: Psalter Cycle for Day 0: Standard rotation.
+            Type: sunday_kathisma_17
       [litany_small_1] RUBRIC: {'source_ref': 'Dolnytsky I Line 156', 'roles': {'priest': "Exclaim 'For Thine is the dominion' (quietly, sitting at place)"}}
+      [litany_small_1] Fixed Ref: horologion.litany_small
+      [sess_1] HOOK: resolve_sessional(num=1)
+            [TRACE] Citation: Dolnytsky Part I Lines 157-165, Part II Lines 177-180
+            [TRACE] Reason: Standard execution path.
+            Type: resurrection_sessional
+      [kath_2] HOOK: resolve_kathisma(num=2)
+            [TRACE] Citation: Dolnytsky Part I Lines 47-51, Part IV (Hours)
+            [TRACE] Reason: Psalter Cycle for Day 0: Standard rotation.
+            Type: sunday_kathisma_17
       [litany_small_2] RUBRIC: {'source_ref': 'Dolnytsky I Line 156', 'roles': {'priest': "Exclaim 'For Thine is the dominion' (quietly, sitting at place)"}}
+      [litany_small_2] Fixed Ref: horologion.litany_small
+      [sess_2] HOOK: resolve_sessional(num=2)
+            [TRACE] Citation: Dolnytsky Part I Lines 157-165, Part II Lines 177-180
+            [TRACE] Reason: Standard execution path.
+            Type: resurrection_sessional
    [polyeleos_choice] RUBRIC: Polyeleos or Kathisma 17
    [polyeleos_choice] HOOK: resolve_kathisma_choice()
          [TRACE] Citation: Dolnytsky Part I Line 157
@@ -1152,6 +1206,14 @@ Logic: Sunday of Cheesefare (Forgiveness)
          Type: sunday_kathisma_17
    [graduals_block] RUBRIC: Hypakoe and Anabathmoi
    [graduals_block] Sequence Block:
+      [hypakoe_slot] HOOK: resolve_hypakoe()
+            [TRACE] Citation: Dolnytsky Part II Line 180, 353
+            [TRACE] Reason: Standard execution path.
+            Type: sunday_hypakoe
+      [anabathmoi_slot] HOOK: resolve_anabathmoi()
+            [TRACE] Citation: Dolnytsky Part I Line 157
+            [TRACE] Reason: Standard execution path.
+            Type: sunday_anabathmoi
    [canon_block] RUBRIC: The Canon
    [praises] HOOK: resolve_praises_stichera()
          [TRACE] Citation: Internal Logic
@@ -1300,11 +1362,20 @@ Logic: Clean Week
 [TRACE] Override: Set midnight_type='midnight_weekday' from Triodion.
 [TRACE] Override: Set matins_type='lenten_matins_weekday' from Triodion.
 [TRACE] Override: Set hours_type='structure_lenten' from Triodion.
+[TRACE] Lenten Logic: Aliturgical Day (Liturgy Suppressed).
 
 
-=== VESPERS (daily_vespers) ===
-   [beginning_daily] RUBRIC: {'roles': {'priest': "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."}}
-   [lord_i_have_cried_6] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_daily'})
+=== VESPERS (lenten_vespers) ===
+   [opening_lenten] Fixed Ref: horologion.blessing_common
+   [horologion.psalm_103] Fixed Ref: horologion.psalm_103
+   [great_litany] Fixed Ref: horologion.litany_great
+   [kathisma_lenten] RUBRIC: {'key': 'rubrics.lenten.kathisma_18_or_none'}
+   [kathisma_lenten] HOOK: resolve_lenten_kathisma()
+         [TRACE] Citation: None
+         [TRACE] Reason: Standard execution path.
+         Type: fixed_ref
+         Ref: kathisma_18
+   [lord_i_have_cried_lenten] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_lenten'})
          [TRACE] Citation: Internal Logic
          [TRACE] Reason: Weekday (Rank 4): Standard distribution.
          Total: 6 Stichera
@@ -1312,25 +1383,38 @@ Logic: Clean Week
          - 3 from MENAION
          Glory: saint_doxastikon
          Both Now: theotokion_horologion_or_octoechos
-   [prokeimenon_daily] HOOK: resolve_prokeimenon()
-         [TRACE] Citation: Dolnytsky Part I Lines 157-159
-         [TRACE] Reason: Weekday cycle.
-         Type: daily_prokeimenon
-   [vouchsafe_read] Fixed Ref: horologion.vouchsafe_o_lord
+   [entrance_conditional] HOOK: resolve_vespers_entrance()
+         [TRACE] Citation: Dolnytsky Part I Lines 23-28
+         [TRACE] Reason: Standard execution path.
+         Result: None
+   [prokeimenon_readings] HOOK: resolve_lenten_prokeimenon()
+         [TRACE] Citation: None
+         [TRACE] Reason: Standard execution path.
+         Type: sequence
+         Components:
+           - {'type': 'prokeimenon', 'ref_key': 'triodion.prokeimenon_1'}
+           - {'type': 'reading', 'source': 'genesis'}
+           - {'type': 'prokeimenon', 'ref_key': 'triodion.prokeimenon_2'}
+           - {'type': 'reading', 'source': 'proverbs'}
+   [vouchsafe] Fixed Ref: horologion.vouchsafe_o_lord
    [aposticha] HOOK: resolve_aposticha()
          [TRACE] Citation: Dolnytsky Part II Lines 100-115, Appendix Line 199
          [TRACE] Reason: Weekday: Standard Aposticha from Octoechos.
          Type: weekday_aposticha
-   [nunc_dimittis_read] Fixed Ref: horologion.nunc_dimittis
-   [trisagion] Fixed Ref: horologion.trisagion_block
-   [troparia_daily] HOOK: resolve_vespers_troparia_simple()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Troparion of the Day/Saint.
-         Type: troparia_stack
+   [lenten_ending] RUBRIC: Lenten Conclusion (Rejoice O Virgin + Ephrem)
+   [lenten_ending] HOOK: resolve_lenten_ending()
+         [TRACE] Citation: Dolnytsky Part IV.
+         [TRACE] Reason: Standard execution path.
+         Type: lenten_ending_sequence
          Components:
-           - {'id': 'horologion.troparion_saint_day'}
-           - {'id': 'horologion.theotokion_dismissal_weekday'}
-   [dismissal_daily] Fixed Ref: horologion.dismissal_small
+           - {'id': 'horologion.rejoice_o_virgin_theotokos', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.baptist_of_christ', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.supplicate_for_us_apostles', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.beneath_thy_compassion', 'count': 1, 'rubric': 'No Prostration'}
+           - {'id': 'horologion.lord_have_mercy_40', 'count': 1}
+           - {'id': 'horologion.more_honorable', 'count': 1}
+           - {'id': 'horologion.prayer_st_ephrem', 'count': 3}
+   [dismissal_lenten] Fixed Ref: horologion.dismissal_lenten
 
 === COMPLINE (great_compline_lenten) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -1417,6 +1501,7 @@ Logic: Clean Week
          [TRACE] Reason: Day is 1. Triodic Odes for this day trigger specific Menaion/Triodion balance.
    [it_is_truly_meet_prostration] RUBRIC: {'source_ref': "Dolnytsky IV:202 - 'After It is truly meet—1 prostration'"}
    [it_is_truly_meet_prostration] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_truly_meet
    [exapostilarion_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:231 - '3x with commemorations'", 'note': 'Trinity Exapostilarion of the tone, three times with commemorations.'}
    [exapostilarion_lenten] HOOK: resolve_lenten_exapostilarion(times=3, commemorations=['weekday', 'all_saints', 'theotokos'])
          [TRACE] Citation: Dolnytsky Part IV Lines 231-232
@@ -1437,8 +1522,10 @@ Logic: Clean Week
          Type: lenten_aposticha_triodion
    [good_thing_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'It is a good thing' twice"}
    [good_thing_lenten] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_a_good_thing
    [trisagion_prostrations] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'at Trisagion—3 prostrations'"}
    [trisagion_prostrations] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.trisagion_our_father
    [standing_in_temple] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Troparion Standing in the temple'"}
    [standing_in_temple] Fixed Ref: triodion.standing_in_the_temple
    [dismissal_theotokion] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone'"}
@@ -1449,6 +1536,7 @@ Logic: Clean Week
          Ref: horologion.theotokion_dismissal.day_1
    [lord_have_mercy_40] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Lord, have mercy (40)'"}
    [lord_have_mercy_40] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.lord_have_mercy_40
       [prayer_st_ephrem] RUBRIC: {'source_ref': "Dolnytsky IV:234 - '16 prostrations'"}
       [prayer_st_ephrem] Fixed Ref: triodion.prayer_st_ephrem_16
    [no_dismissal_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'after last prostration, immediately O come let us worship'", 'note': 'No dismissal. 1st Hour begins immediately.'}
@@ -1504,6 +1592,12 @@ Logic: Clean Week
    [lenten_troparia_6] Fixed Ref: triodion.hour_6_lenten_troparia_verses
    [prophecy_module] RUBRIC: Prophecy of the Sixth Hour
    [prophecy_module] Sequence Block:
+      [prokeimenon_1] HOOK: resolve_prophecy_prok_1()
+            [Logic Missing: resolve_prophecy_prok_1]
+      [reading_isaiah] HOOK: resolve_prophecy_reading()
+            [Logic Missing: resolve_prophecy_reading]
+      [prokeimenon_2] HOOK: resolve_prophecy_prok_2()
+            [Logic Missing: resolve_prophecy_prok_2]
    [verses_fixed] Fixed Ref: horologion.verses_hour_6_compassions_quickly
    [trisagion_prayers] Fixed Ref: horologion.trisagion_block
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
@@ -1528,56 +1622,9 @@ Logic: Clean Week
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
    [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
    [typika_transition] RUBRIC: {'source_ref': 'Dolnytsky IV:351', 'roles': {'all': 'Proceed immediately to the Typika service.'}}
+   [typika_transition] LINK: unknown (in None)
 
-=== LITURGY (liturgy_chrysostom) ===
-   [prothesis] RUBRIC: The Prothesis (Preparation)
-   [opening_blessing] RUBRIC: The Opening
-   [opening_blessing] Fixed Ref: liturgikon.blessing_kingdom
-   [great_litany] Fixed Ref: horologion.litany_great
-   [antiphons_block] RUBRIC: The Antiphons
-   [antiphons_block] HOOK: resolve_liturgy_antiphons()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Appointed Antiphons or Typical Psalms.
-         Type: generator
-   [little_entrance] RUBRIC: The Little Entrance
-   [troparia_kontakia_block] RUBRIC: Troparia and Kontakia
-   [troparia_kontakia_block] HOOK: resolve_liturgy_hymns()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Temple Priority Logic: Sunday + Temple + Saint (Standard Order).
-         Type: hymn_stack
-         Components:
-           - {'type': 'troparion', 'source': 'menaion_saint'}
-           - {'type': 'troparion', 'source': 'temple'}
-           - {'type': 'kontakion', 'source': 'temple', 'glory': True}
-           - {'type': 'kontakion', 'source': 'menaion_saint', 'both_now': True}
-   [trisagion_module] RUBRIC: The Trisagion
-   [trisagion_module] HOOK: resolve_trisagion_type()
-         [TRACE] Citation: Dolnytsky Part II (Trisagion replacements)
-         [TRACE] Reason: Standard execution path.
-         Type: standard
-         Ref: horologion.trisagion
-   [readings_block] RUBRIC: The Readings
-   [litanies_catechumens] Fixed Ref: liturgikon.litanies_catechumens
-   [cherubic_hymn_block] RUBRIC: Cherubic Hymn
-   [cherubic_hymn_block] HOOK: resolve_cherubic_hymn()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: liturgikon.cherubic_hymn_standard
-   [great_entrance] RUBRIC: The Great Entrance
-   [anaphora_block] Fixed Ref: liturgikon.anaphora_chrysostom
-   [megalynarion_block] HOOK: resolve_liturgy_megalynarion()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: horologion.axion_estin
-   [lords_prayer] Fixed Ref: horologion.our_father
-   [communion_module] RUBRIC: Communion
-   [dismissal] RUBRIC: The Dismissal
-   [dismissal] HOOK: resolve_liturgy_dismissal()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: text
+=== LITURGY (structure_suppressed) ===
 
 ################################################################################
 # DATE: 2026-02-17 (Tuesday)
@@ -1591,11 +1638,20 @@ Logic: Clean Week
 [TRACE] Override: Set midnight_type='midnight_weekday' from Triodion.
 [TRACE] Override: Set matins_type='lenten_matins_weekday' from Triodion.
 [TRACE] Override: Set hours_type='structure_lenten' from Triodion.
+[TRACE] Lenten Logic: Aliturgical Day (Liturgy Suppressed).
 
 
-=== VESPERS (daily_vespers) ===
-   [beginning_daily] RUBRIC: {'roles': {'priest': "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."}}
-   [lord_i_have_cried_6] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_daily'})
+=== VESPERS (lenten_vespers) ===
+   [opening_lenten] Fixed Ref: horologion.blessing_common
+   [horologion.psalm_103] Fixed Ref: horologion.psalm_103
+   [great_litany] Fixed Ref: horologion.litany_great
+   [kathisma_lenten] RUBRIC: {'key': 'rubrics.lenten.kathisma_18_or_none'}
+   [kathisma_lenten] HOOK: resolve_lenten_kathisma()
+         [TRACE] Citation: None
+         [TRACE] Reason: Standard execution path.
+         Type: fixed_ref
+         Ref: kathisma_18
+   [lord_i_have_cried_lenten] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_lenten'})
          [TRACE] Citation: Internal Logic
          [TRACE] Reason: Weekday (Rank 4): Standard distribution.
          Total: 6 Stichera
@@ -1603,25 +1659,38 @@ Logic: Clean Week
          - 3 from MENAION
          Glory: saint_doxastikon
          Both Now: theotokion_horologion_or_octoechos
-   [prokeimenon_daily] HOOK: resolve_prokeimenon()
-         [TRACE] Citation: Dolnytsky Part I Lines 157-159
-         [TRACE] Reason: Weekday cycle.
-         Type: daily_prokeimenon
-   [vouchsafe_read] Fixed Ref: horologion.vouchsafe_o_lord
+   [entrance_conditional] HOOK: resolve_vespers_entrance()
+         [TRACE] Citation: Dolnytsky Part I Lines 23-28
+         [TRACE] Reason: Standard execution path.
+         Result: None
+   [prokeimenon_readings] HOOK: resolve_lenten_prokeimenon()
+         [TRACE] Citation: None
+         [TRACE] Reason: Standard execution path.
+         Type: sequence
+         Components:
+           - {'type': 'prokeimenon', 'ref_key': 'triodion.prokeimenon_1'}
+           - {'type': 'reading', 'source': 'genesis'}
+           - {'type': 'prokeimenon', 'ref_key': 'triodion.prokeimenon_2'}
+           - {'type': 'reading', 'source': 'proverbs'}
+   [vouchsafe] Fixed Ref: horologion.vouchsafe_o_lord
    [aposticha] HOOK: resolve_aposticha()
          [TRACE] Citation: Dolnytsky Part II Lines 100-115, Appendix Line 199
          [TRACE] Reason: Weekday: Standard Aposticha from Octoechos.
          Type: weekday_aposticha
-   [nunc_dimittis_read] Fixed Ref: horologion.nunc_dimittis
-   [trisagion] Fixed Ref: horologion.trisagion_block
-   [troparia_daily] HOOK: resolve_vespers_troparia_simple()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Troparion of the Day/Saint.
-         Type: troparia_stack
+   [lenten_ending] RUBRIC: Lenten Conclusion (Rejoice O Virgin + Ephrem)
+   [lenten_ending] HOOK: resolve_lenten_ending()
+         [TRACE] Citation: Dolnytsky Part IV.
+         [TRACE] Reason: Standard execution path.
+         Type: lenten_ending_sequence
          Components:
-           - {'id': 'horologion.troparion_saint_day'}
-           - {'id': 'horologion.theotokion_dismissal_weekday'}
-   [dismissal_daily] Fixed Ref: horologion.dismissal_small
+           - {'id': 'horologion.rejoice_o_virgin_theotokos', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.baptist_of_christ', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.supplicate_for_us_apostles', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.beneath_thy_compassion', 'count': 1, 'rubric': 'No Prostration'}
+           - {'id': 'horologion.lord_have_mercy_40', 'count': 1}
+           - {'id': 'horologion.more_honorable', 'count': 1}
+           - {'id': 'horologion.prayer_st_ephrem', 'count': 3}
+   [dismissal_lenten] Fixed Ref: horologion.dismissal_lenten
 
 === COMPLINE (great_compline_lenten) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -1708,6 +1777,7 @@ Logic: Clean Week
          [TRACE] Reason: Day is 2. Triodic Odes for this day trigger specific Menaion/Triodion balance.
    [it_is_truly_meet_prostration] RUBRIC: {'source_ref': "Dolnytsky IV:202 - 'After It is truly meet—1 prostration'"}
    [it_is_truly_meet_prostration] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_truly_meet
    [exapostilarion_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:231 - '3x with commemorations'", 'note': 'Trinity Exapostilarion of the tone, three times with commemorations.'}
    [exapostilarion_lenten] HOOK: resolve_lenten_exapostilarion(times=3, commemorations=['weekday', 'all_saints', 'theotokos'])
          [TRACE] Citation: Dolnytsky Part IV Lines 231-232
@@ -1728,8 +1798,10 @@ Logic: Clean Week
          Type: lenten_aposticha_triodion
    [good_thing_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'It is a good thing' twice"}
    [good_thing_lenten] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_a_good_thing
    [trisagion_prostrations] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'at Trisagion—3 prostrations'"}
    [trisagion_prostrations] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.trisagion_our_father
    [standing_in_temple] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Troparion Standing in the temple'"}
    [standing_in_temple] Fixed Ref: triodion.standing_in_the_temple
    [dismissal_theotokion] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone'"}
@@ -1740,6 +1812,7 @@ Logic: Clean Week
          Ref: horologion.theotokion_dismissal.day_2
    [lord_have_mercy_40] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Lord, have mercy (40)'"}
    [lord_have_mercy_40] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.lord_have_mercy_40
       [prayer_st_ephrem] RUBRIC: {'source_ref': "Dolnytsky IV:234 - '16 prostrations'"}
       [prayer_st_ephrem] Fixed Ref: triodion.prayer_st_ephrem_16
    [no_dismissal_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'after last prostration, immediately O come let us worship'", 'note': 'No dismissal. 1st Hour begins immediately.'}
@@ -1795,6 +1868,12 @@ Logic: Clean Week
    [lenten_troparia_6] Fixed Ref: triodion.hour_6_lenten_troparia_verses
    [prophecy_module] RUBRIC: Prophecy of the Sixth Hour
    [prophecy_module] Sequence Block:
+      [prokeimenon_1] HOOK: resolve_prophecy_prok_1()
+            [Logic Missing: resolve_prophecy_prok_1]
+      [reading_isaiah] HOOK: resolve_prophecy_reading()
+            [Logic Missing: resolve_prophecy_reading]
+      [prokeimenon_2] HOOK: resolve_prophecy_prok_2()
+            [Logic Missing: resolve_prophecy_prok_2]
    [verses_fixed] Fixed Ref: horologion.verses_hour_6_compassions_quickly
    [trisagion_prayers] Fixed Ref: horologion.trisagion_block
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
@@ -1819,56 +1898,9 @@ Logic: Clean Week
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
    [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
    [typika_transition] RUBRIC: {'source_ref': 'Dolnytsky IV:351', 'roles': {'all': 'Proceed immediately to the Typika service.'}}
+   [typika_transition] LINK: unknown (in None)
 
-=== LITURGY (liturgy_chrysostom) ===
-   [prothesis] RUBRIC: The Prothesis (Preparation)
-   [opening_blessing] RUBRIC: The Opening
-   [opening_blessing] Fixed Ref: liturgikon.blessing_kingdom
-   [great_litany] Fixed Ref: horologion.litany_great
-   [antiphons_block] RUBRIC: The Antiphons
-   [antiphons_block] HOOK: resolve_liturgy_antiphons()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Appointed Antiphons or Typical Psalms.
-         Type: generator
-   [little_entrance] RUBRIC: The Little Entrance
-   [troparia_kontakia_block] RUBRIC: Troparia and Kontakia
-   [troparia_kontakia_block] HOOK: resolve_liturgy_hymns()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Temple Priority Logic: Sunday + Temple + Saint (Standard Order).
-         Type: hymn_stack
-         Components:
-           - {'type': 'troparion', 'source': 'menaion_saint'}
-           - {'type': 'troparion', 'source': 'temple'}
-           - {'type': 'kontakion', 'source': 'temple', 'glory': True}
-           - {'type': 'kontakion', 'source': 'menaion_saint', 'both_now': True}
-   [trisagion_module] RUBRIC: The Trisagion
-   [trisagion_module] HOOK: resolve_trisagion_type()
-         [TRACE] Citation: Dolnytsky Part II (Trisagion replacements)
-         [TRACE] Reason: Standard execution path.
-         Type: standard
-         Ref: horologion.trisagion
-   [readings_block] RUBRIC: The Readings
-   [litanies_catechumens] Fixed Ref: liturgikon.litanies_catechumens
-   [cherubic_hymn_block] RUBRIC: Cherubic Hymn
-   [cherubic_hymn_block] HOOK: resolve_cherubic_hymn()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: liturgikon.cherubic_hymn_standard
-   [great_entrance] RUBRIC: The Great Entrance
-   [anaphora_block] Fixed Ref: liturgikon.anaphora_chrysostom
-   [megalynarion_block] HOOK: resolve_liturgy_megalynarion()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: horologion.axion_estin
-   [lords_prayer] Fixed Ref: horologion.our_father
-   [communion_module] RUBRIC: Communion
-   [dismissal] RUBRIC: The Dismissal
-   [dismissal] HOOK: resolve_liturgy_dismissal()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: text
+=== LITURGY (structure_suppressed) ===
 
 ################################################################################
 # DATE: 2026-02-18 (Wednesday)
@@ -1882,37 +1914,10 @@ Logic: Clean Week
 [TRACE] Override: Set midnight_type='midnight_weekday' from Triodion.
 [TRACE] Override: Set matins_type='lenten_matins_weekday' from Triodion.
 [TRACE] Override: Set hours_type='structure_lenten' from Triodion.
+[TRACE] Lenten Logic: Presanctified Liturgy selected.
 
 
-=== VESPERS (daily_vespers) ===
-   [beginning_daily] RUBRIC: {'roles': {'priest': "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."}}
-   [lord_i_have_cried_6] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_daily'})
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday (Rank 4): Standard distribution.
-         Total: 6 Stichera
-         - 3 from OCTOECHOS
-         - 3 from MENAION
-         Glory: saint_doxastikon
-         Both Now: theotokion_horologion_or_octoechos
-   [prokeimenon_daily] HOOK: resolve_prokeimenon()
-         [TRACE] Citation: Dolnytsky Part I Lines 157-159
-         [TRACE] Reason: Weekday cycle.
-         Type: daily_prokeimenon
-   [vouchsafe_read] Fixed Ref: horologion.vouchsafe_o_lord
-   [aposticha] HOOK: resolve_aposticha()
-         [TRACE] Citation: Dolnytsky Part II Lines 100-115, Appendix Line 199
-         [TRACE] Reason: Weekday: Standard Aposticha from Octoechos.
-         Type: weekday_aposticha
-   [nunc_dimittis_read] Fixed Ref: horologion.nunc_dimittis
-   [trisagion] Fixed Ref: horologion.trisagion_block
-   [troparia_daily] HOOK: resolve_vespers_troparia_simple()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Troparion of the Day/Saint.
-         Type: troparia_stack
-         Components:
-           - {'id': 'horologion.troparion_saint_day'}
-           - {'id': 'horologion.theotokion_dismissal_weekday'}
-   [dismissal_daily] Fixed Ref: horologion.dismissal_small
+=== VESPERS (structure_suppressed) ===
 
 === COMPLINE (great_compline_lenten) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -1999,6 +2004,7 @@ Logic: Clean Week
          [TRACE] Reason: Day is 3. Triodic Odes for this day trigger specific Menaion/Triodion balance.
    [it_is_truly_meet_prostration] RUBRIC: {'source_ref': "Dolnytsky IV:202 - 'After It is truly meet—1 prostration'"}
    [it_is_truly_meet_prostration] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_truly_meet
    [exapostilarion_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:231 - '3x with commemorations'", 'note': 'Trinity Exapostilarion of the tone, three times with commemorations.'}
    [exapostilarion_lenten] HOOK: resolve_lenten_exapostilarion(times=3, commemorations=['weekday', 'all_saints', 'theotokos'])
          [TRACE] Citation: Dolnytsky Part IV Lines 231-232
@@ -2019,8 +2025,10 @@ Logic: Clean Week
          Type: lenten_aposticha_triodion
    [good_thing_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'It is a good thing' twice"}
    [good_thing_lenten] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_a_good_thing
    [trisagion_prostrations] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'at Trisagion—3 prostrations'"}
    [trisagion_prostrations] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.trisagion_our_father
    [standing_in_temple] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Troparion Standing in the temple'"}
    [standing_in_temple] Fixed Ref: triodion.standing_in_the_temple
    [dismissal_theotokion] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone'"}
@@ -2031,6 +2039,7 @@ Logic: Clean Week
          Ref: horologion.theotokion_dismissal.day_3
    [lord_have_mercy_40] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Lord, have mercy (40)'"}
    [lord_have_mercy_40] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.lord_have_mercy_40
       [prayer_st_ephrem] RUBRIC: {'source_ref': "Dolnytsky IV:234 - '16 prostrations'"}
       [prayer_st_ephrem] Fixed Ref: triodion.prayer_st_ephrem_16
    [no_dismissal_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'after last prostration, immediately O come let us worship'", 'note': 'No dismissal. 1st Hour begins immediately.'}
@@ -2086,6 +2095,12 @@ Logic: Clean Week
    [lenten_troparia_6] Fixed Ref: triodion.hour_6_lenten_troparia_verses
    [prophecy_module] RUBRIC: Prophecy of the Sixth Hour
    [prophecy_module] Sequence Block:
+      [prokeimenon_1] HOOK: resolve_prophecy_prok_1()
+            [Logic Missing: resolve_prophecy_prok_1]
+      [reading_isaiah] HOOK: resolve_prophecy_reading()
+            [Logic Missing: resolve_prophecy_reading]
+      [prokeimenon_2] HOOK: resolve_prophecy_prok_2()
+            [Logic Missing: resolve_prophecy_prok_2]
    [verses_fixed] Fixed Ref: horologion.verses_hour_6_compassions_quickly
    [trisagion_prayers] Fixed Ref: horologion.trisagion_block
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
@@ -2110,56 +2125,55 @@ Logic: Clean Week
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
    [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
    [typika_transition] RUBRIC: {'source_ref': 'Dolnytsky IV:351', 'roles': {'all': 'Proceed immediately to the Typika service.'}}
+   [typika_transition] LINK: unknown (in None)
 
-=== LITURGY (liturgy_chrysostom) ===
-   [prothesis] RUBRIC: The Prothesis (Preparation)
-   [opening_blessing] RUBRIC: The Opening
-   [opening_blessing] Fixed Ref: liturgikon.blessing_kingdom
-   [great_litany] Fixed Ref: horologion.litany_great
-   [antiphons_block] RUBRIC: The Antiphons
-   [antiphons_block] HOOK: resolve_liturgy_antiphons()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Appointed Antiphons or Typical Psalms.
-         Type: generator
-   [little_entrance] RUBRIC: The Little Entrance
-   [troparia_kontakia_block] RUBRIC: Troparia and Kontakia
-   [troparia_kontakia_block] HOOK: resolve_liturgy_hymns()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Temple Priority Logic: Sunday + Temple + Saint (Standard Order).
-         Type: hymn_stack
+=== LITURGY (liturgy_presanctified) ===
+   [vespers_portion] LINK: presanctified_vespers (in 01h_struct_vespers.json)
+      [opening_presanctified] Fixed Ref: liturgikon.blessing_kingdom
+      [horologion.psalm_103] Fixed Ref: horologion.psalm_103
+      [great_litany] Fixed Ref: horologion.litany_great
+      [kathisma_lenten] RUBRIC: Kathisma 18
+      [kathisma_lenten] HOOK: resolve_lenten_kathisma()
+            [TRACE] Citation: None
+            [TRACE] Reason: Standard execution path.
+            Type: fixed_ref
+            Ref: kathisma_18
+      [lord_i_have_cried_lenten] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_lenten'})
+            [TRACE] Citation: Internal Logic
+            [TRACE] Reason: Weekday (Rank 4): Standard distribution.
+            Total: 6 Stichera
+            - 3 from OCTOECHOS
+            - 3 from MENAION
+            Glory: saint_doxastikon
+            Both Now: theotokion_horologion_or_octoechos
+      [entrance_presanctified] RUBRIC: Entrance with Censer (or Gospel)
+      [entrance_presanctified] HOOK: resolve_presanctified_entrance()
+            [TRACE] Citation: Dolnytsky Part IV Lines 360-370 (Presanctified Entrance)
+            [TRACE] Reason: Standard execution path.
+            Type: presanctified_entrance
+      [readings_light] RUBRIC: Readings & Light
+      [readings_light] HOOK: resolve_presanctified_readings()
+            [TRACE] Citation: Dolnytsky Part IV Lines 375-400 (Presanctified Readings)
+            [TRACE] Reason: Standard execution path.
+            Type: presanctified_readings
+      [let_my_prayer_arise] RUBRIC: Let My Prayer Arise
+      [let_my_prayer_arise] Fixed Ref: triodion.let_my_prayer_arise
+      [aposticha] HOOK: resolve_aposticha()
+            [TRACE] Citation: Dolnytsky Part II Lines 100-115, Appendix Line 199
+            [TRACE] Reason: Weekday: Standard Aposticha from Octoechos.
+            Type: weekday_aposticha
+   [litany_fervent] Fixed Ref: horologion.litany_fervent
+   [litanies_catechumens_photizomenoi] HOOK: resolve_photizomenoi_litany()
+         [TRACE] Citation: None
+         [TRACE] Reason: Standard execution path.
+         Type: sequence
          Components:
-           - {'type': 'troparion', 'source': 'menaion_saint'}
-           - {'type': 'troparion', 'source': 'temple'}
-           - {'type': 'kontakion', 'source': 'temple', 'glory': True}
-           - {'type': 'kontakion', 'source': 'menaion_saint', 'both_now': True}
-   [trisagion_module] RUBRIC: The Trisagion
-   [trisagion_module] HOOK: resolve_trisagion_type()
-         [TRACE] Citation: Dolnytsky Part II (Trisagion replacements)
-         [TRACE] Reason: Standard execution path.
-         Type: standard
-         Ref: horologion.trisagion
-   [readings_block] RUBRIC: The Readings
-   [litanies_catechumens] Fixed Ref: liturgikon.litanies_catechumens
-   [cherubic_hymn_block] RUBRIC: Cherubic Hymn
-   [cherubic_hymn_block] HOOK: resolve_cherubic_hymn()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: liturgikon.cherubic_hymn_standard
-   [great_entrance] RUBRIC: The Great Entrance
-   [anaphora_block] Fixed Ref: liturgikon.anaphora_chrysostom
-   [megalynarion_block] HOOK: resolve_liturgy_megalynarion()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: horologion.axion_estin
+           - {'type': 'fixed_ref', 'ref_key': 'liturgikon.litanies_catechumens_presanctified'}
+   [great_entrance_presanctified] RUBRIC: Great Entrance (Presanctified)
+   [great_entrance_presanctified] Fixed Ref: triodion.now_the_powers_of_heaven
    [lords_prayer] Fixed Ref: horologion.our_father
-   [communion_module] RUBRIC: Communion
-   [dismissal] RUBRIC: The Dismissal
-   [dismissal] HOOK: resolve_liturgy_dismissal()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: text
+   [communion_presanctified] Fixed Ref: triodion.communion_hymn_taste_and_see
+   [dismissal_presanctified] Fixed Ref: triodion.dismissal_presanctified
 
 ################################################################################
 # DATE: 2026-02-19 (Thursday)
@@ -2173,11 +2187,20 @@ Logic: Clean Week
 [TRACE] Override: Set midnight_type='midnight_weekday' from Triodion.
 [TRACE] Override: Set matins_type='lenten_matins_weekday' from Triodion.
 [TRACE] Override: Set hours_type='structure_lenten' from Triodion.
+[TRACE] Lenten Logic: Aliturgical Day (Liturgy Suppressed).
 
 
-=== VESPERS (daily_vespers) ===
-   [beginning_daily] RUBRIC: {'roles': {'priest': "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."}}
-   [lord_i_have_cried_6] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_daily'})
+=== VESPERS (lenten_vespers) ===
+   [opening_lenten] Fixed Ref: horologion.blessing_common
+   [horologion.psalm_103] Fixed Ref: horologion.psalm_103
+   [great_litany] Fixed Ref: horologion.litany_great
+   [kathisma_lenten] RUBRIC: {'key': 'rubrics.lenten.kathisma_18_or_none'}
+   [kathisma_lenten] HOOK: resolve_lenten_kathisma()
+         [TRACE] Citation: None
+         [TRACE] Reason: Standard execution path.
+         Type: fixed_ref
+         Ref: kathisma_18
+   [lord_i_have_cried_lenten] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_lenten'})
          [TRACE] Citation: Internal Logic
          [TRACE] Reason: Weekday (Rank 4): Standard distribution.
          Total: 6 Stichera
@@ -2185,25 +2208,38 @@ Logic: Clean Week
          - 3 from MENAION
          Glory: saint_doxastikon
          Both Now: theotokion_horologion_or_octoechos
-   [prokeimenon_daily] HOOK: resolve_prokeimenon()
-         [TRACE] Citation: Dolnytsky Part I Lines 157-159
-         [TRACE] Reason: Weekday cycle.
-         Type: daily_prokeimenon
-   [vouchsafe_read] Fixed Ref: horologion.vouchsafe_o_lord
+   [entrance_conditional] HOOK: resolve_vespers_entrance()
+         [TRACE] Citation: Dolnytsky Part I Lines 23-28
+         [TRACE] Reason: Standard execution path.
+         Result: None
+   [prokeimenon_readings] HOOK: resolve_lenten_prokeimenon()
+         [TRACE] Citation: None
+         [TRACE] Reason: Standard execution path.
+         Type: sequence
+         Components:
+           - {'type': 'prokeimenon', 'ref_key': 'triodion.prokeimenon_1'}
+           - {'type': 'reading', 'source': 'genesis'}
+           - {'type': 'prokeimenon', 'ref_key': 'triodion.prokeimenon_2'}
+           - {'type': 'reading', 'source': 'proverbs'}
+   [vouchsafe] Fixed Ref: horologion.vouchsafe_o_lord
    [aposticha] HOOK: resolve_aposticha()
          [TRACE] Citation: Dolnytsky Part II Lines 100-115, Appendix Line 199
          [TRACE] Reason: Weekday: Standard Aposticha from Octoechos.
          Type: weekday_aposticha
-   [nunc_dimittis_read] Fixed Ref: horologion.nunc_dimittis
-   [trisagion] Fixed Ref: horologion.trisagion_block
-   [troparia_daily] HOOK: resolve_vespers_troparia_simple()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Troparion of the Day/Saint.
-         Type: troparia_stack
+   [lenten_ending] RUBRIC: Lenten Conclusion (Rejoice O Virgin + Ephrem)
+   [lenten_ending] HOOK: resolve_lenten_ending()
+         [TRACE] Citation: Dolnytsky Part IV.
+         [TRACE] Reason: Standard execution path.
+         Type: lenten_ending_sequence
          Components:
-           - {'id': 'horologion.troparion_saint_day'}
-           - {'id': 'horologion.theotokion_dismissal_weekday'}
-   [dismissal_daily] Fixed Ref: horologion.dismissal_small
+           - {'id': 'horologion.rejoice_o_virgin_theotokos', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.baptist_of_christ', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.supplicate_for_us_apostles', 'count': 1, 'rubric': 'Prostration'}
+           - {'id': 'horologion.beneath_thy_compassion', 'count': 1, 'rubric': 'No Prostration'}
+           - {'id': 'horologion.lord_have_mercy_40', 'count': 1}
+           - {'id': 'horologion.more_honorable', 'count': 1}
+           - {'id': 'horologion.prayer_st_ephrem', 'count': 3}
+   [dismissal_lenten] Fixed Ref: horologion.dismissal_lenten
 
 === COMPLINE (great_compline_lenten) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -2290,6 +2326,7 @@ Logic: Clean Week
          [TRACE] Reason: Day is 4. Triodic Odes for this day trigger specific Menaion/Triodion balance.
    [it_is_truly_meet_prostration] RUBRIC: {'source_ref': "Dolnytsky IV:202 - 'After It is truly meet—1 prostration'"}
    [it_is_truly_meet_prostration] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_truly_meet
    [exapostilarion_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:231 - '3x with commemorations'", 'note': 'Trinity Exapostilarion of the tone, three times with commemorations.'}
    [exapostilarion_lenten] HOOK: resolve_lenten_exapostilarion(times=3, commemorations=['weekday', 'all_saints', 'theotokos'])
          [TRACE] Citation: Dolnytsky Part IV Lines 231-232
@@ -2310,8 +2347,10 @@ Logic: Clean Week
          Type: lenten_aposticha_triodion
    [good_thing_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'It is a good thing' twice"}
    [good_thing_lenten] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_a_good_thing
    [trisagion_prostrations] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'at Trisagion—3 prostrations'"}
    [trisagion_prostrations] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.trisagion_our_father
    [standing_in_temple] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Troparion Standing in the temple'"}
    [standing_in_temple] Fixed Ref: triodion.standing_in_the_temple
    [dismissal_theotokion] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone'"}
@@ -2322,6 +2361,7 @@ Logic: Clean Week
          Ref: horologion.theotokion_dismissal.day_4
    [lord_have_mercy_40] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Lord, have mercy (40)'"}
    [lord_have_mercy_40] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.lord_have_mercy_40
       [prayer_st_ephrem] RUBRIC: {'source_ref': "Dolnytsky IV:234 - '16 prostrations'"}
       [prayer_st_ephrem] Fixed Ref: triodion.prayer_st_ephrem_16
    [no_dismissal_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'after last prostration, immediately O come let us worship'", 'note': 'No dismissal. 1st Hour begins immediately.'}
@@ -2377,6 +2417,12 @@ Logic: Clean Week
    [lenten_troparia_6] Fixed Ref: triodion.hour_6_lenten_troparia_verses
    [prophecy_module] RUBRIC: Prophecy of the Sixth Hour
    [prophecy_module] Sequence Block:
+      [prokeimenon_1] HOOK: resolve_prophecy_prok_1()
+            [Logic Missing: resolve_prophecy_prok_1]
+      [reading_isaiah] HOOK: resolve_prophecy_reading()
+            [Logic Missing: resolve_prophecy_reading]
+      [prokeimenon_2] HOOK: resolve_prophecy_prok_2()
+            [Logic Missing: resolve_prophecy_prok_2]
    [verses_fixed] Fixed Ref: horologion.verses_hour_6_compassions_quickly
    [trisagion_prayers] Fixed Ref: horologion.trisagion_block
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
@@ -2401,56 +2447,9 @@ Logic: Clean Week
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
    [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
    [typika_transition] RUBRIC: {'source_ref': 'Dolnytsky IV:351', 'roles': {'all': 'Proceed immediately to the Typika service.'}}
+   [typika_transition] LINK: unknown (in None)
 
-=== LITURGY (liturgy_chrysostom) ===
-   [prothesis] RUBRIC: The Prothesis (Preparation)
-   [opening_blessing] RUBRIC: The Opening
-   [opening_blessing] Fixed Ref: liturgikon.blessing_kingdom
-   [great_litany] Fixed Ref: horologion.litany_great
-   [antiphons_block] RUBRIC: The Antiphons
-   [antiphons_block] HOOK: resolve_liturgy_antiphons()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Appointed Antiphons or Typical Psalms.
-         Type: generator
-   [little_entrance] RUBRIC: The Little Entrance
-   [troparia_kontakia_block] RUBRIC: Troparia and Kontakia
-   [troparia_kontakia_block] HOOK: resolve_liturgy_hymns()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Temple Priority Logic: Sunday + Temple + Saint (Standard Order).
-         Type: hymn_stack
-         Components:
-           - {'type': 'troparion', 'source': 'menaion_saint'}
-           - {'type': 'troparion', 'source': 'temple'}
-           - {'type': 'kontakion', 'source': 'temple', 'glory': True}
-           - {'type': 'kontakion', 'source': 'menaion_saint', 'both_now': True}
-   [trisagion_module] RUBRIC: The Trisagion
-   [trisagion_module] HOOK: resolve_trisagion_type()
-         [TRACE] Citation: Dolnytsky Part II (Trisagion replacements)
-         [TRACE] Reason: Standard execution path.
-         Type: standard
-         Ref: horologion.trisagion
-   [readings_block] RUBRIC: The Readings
-   [litanies_catechumens] Fixed Ref: liturgikon.litanies_catechumens
-   [cherubic_hymn_block] RUBRIC: Cherubic Hymn
-   [cherubic_hymn_block] HOOK: resolve_cherubic_hymn()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: liturgikon.cherubic_hymn_standard
-   [great_entrance] RUBRIC: The Great Entrance
-   [anaphora_block] Fixed Ref: liturgikon.anaphora_chrysostom
-   [megalynarion_block] HOOK: resolve_liturgy_megalynarion()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: horologion.axion_estin
-   [lords_prayer] Fixed Ref: horologion.our_father
-   [communion_module] RUBRIC: Communion
-   [dismissal] RUBRIC: The Dismissal
-   [dismissal] HOOK: resolve_liturgy_dismissal()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: text
+=== LITURGY (structure_suppressed) ===
 
 ################################################################################
 # DATE: 2026-02-20 (Friday)
@@ -2464,37 +2463,10 @@ Logic: Clean Week
 [TRACE] Override: Set midnight_type='midnight_weekday' from Triodion.
 [TRACE] Override: Set matins_type='lenten_matins_weekday' from Triodion.
 [TRACE] Override: Set hours_type='structure_lenten' from Triodion.
+[TRACE] Lenten Logic: Presanctified Liturgy selected.
 
 
-=== VESPERS (daily_vespers) ===
-   [beginning_daily] RUBRIC: {'roles': {'priest': "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."}}
-   [lord_i_have_cried_6] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_daily'})
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday (Rank 4): Standard distribution.
-         Total: 6 Stichera
-         - 3 from OCTOECHOS
-         - 3 from MENAION
-         Glory: saint_doxastikon
-         Both Now: theotokion_horologion_or_octoechos
-   [prokeimenon_daily] HOOK: resolve_prokeimenon()
-         [TRACE] Citation: Dolnytsky Part I Lines 157-159
-         [TRACE] Reason: Weekday cycle.
-         Type: daily_prokeimenon
-   [vouchsafe_read] Fixed Ref: horologion.vouchsafe_o_lord
-   [aposticha] HOOK: resolve_aposticha()
-         [TRACE] Citation: Dolnytsky Part II Lines 100-115, Appendix Line 199
-         [TRACE] Reason: Weekday: Standard Aposticha from Octoechos.
-         Type: weekday_aposticha
-   [nunc_dimittis_read] Fixed Ref: horologion.nunc_dimittis
-   [trisagion] Fixed Ref: horologion.trisagion_block
-   [troparia_daily] HOOK: resolve_vespers_troparia_simple()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Troparion of the Day/Saint.
-         Type: troparia_stack
-         Components:
-           - {'id': 'horologion.troparion_saint_day'}
-           - {'id': 'horologion.theotokion_dismissal_weekday'}
-   [dismissal_daily] Fixed Ref: horologion.dismissal_small
+=== VESPERS (structure_suppressed) ===
 
 === COMPLINE (great_compline_lenten) ===
    [opening_blessing] Fixed Ref: horologion.blessing_common
@@ -2581,6 +2553,7 @@ Logic: Clean Week
          [TRACE] Reason: Day is 5. Triodic Odes for this day trigger specific Menaion/Triodion balance.
    [it_is_truly_meet_prostration] RUBRIC: {'source_ref': "Dolnytsky IV:202 - 'After It is truly meet—1 prostration'"}
    [it_is_truly_meet_prostration] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_truly_meet
    [exapostilarion_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:231 - '3x with commemorations'", 'note': 'Trinity Exapostilarion of the tone, three times with commemorations.'}
    [exapostilarion_lenten] HOOK: resolve_lenten_exapostilarion(times=3, commemorations=['weekday', 'all_saints', 'theotokos'])
          [TRACE] Citation: Dolnytsky Part IV Lines 231-232
@@ -2601,8 +2574,10 @@ Logic: Clean Week
          Type: lenten_aposticha_triodion
    [good_thing_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'It is a good thing' twice"}
    [good_thing_lenten] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.it_is_a_good_thing
    [trisagion_prostrations] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'at Trisagion—3 prostrations'"}
    [trisagion_prostrations] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.trisagion_our_father
    [standing_in_temple] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Troparion Standing in the temple'"}
    [standing_in_temple] Fixed Ref: triodion.standing_in_the_temple
    [dismissal_theotokion] RUBRIC: {'source_ref': "Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone'"}
@@ -2613,6 +2588,7 @@ Logic: Clean Week
          Ref: horologion.theotokion_dismissal.day_5
    [lord_have_mercy_40] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'Lord, have mercy (40)'"}
    [lord_have_mercy_40] Sequence Block:
+      [anonymous_slot] Fixed Ref: horologion.lord_have_mercy_40
       [prayer_st_ephrem] RUBRIC: {'source_ref': "Dolnytsky IV:234 - '16 prostrations'"}
       [prayer_st_ephrem] Fixed Ref: triodion.prayer_st_ephrem_16
    [no_dismissal_lenten] RUBRIC: {'source_ref': "Dolnytsky IV:234 - 'after last prostration, immediately O come let us worship'", 'note': 'No dismissal. 1st Hour begins immediately.'}
@@ -2668,6 +2644,12 @@ Logic: Clean Week
    [lenten_troparia_6] Fixed Ref: triodion.hour_6_lenten_troparia_verses
    [prophecy_module] RUBRIC: Prophecy of the Sixth Hour
    [prophecy_module] Sequence Block:
+      [prokeimenon_1] HOOK: resolve_prophecy_prok_1()
+            [Logic Missing: resolve_prophecy_prok_1]
+      [reading_isaiah] HOOK: resolve_prophecy_reading()
+            [Logic Missing: resolve_prophecy_reading]
+      [prokeimenon_2] HOOK: resolve_prophecy_prok_2()
+            [Logic Missing: resolve_prophecy_prok_2]
    [verses_fixed] Fixed Ref: horologion.verses_hour_6_compassions_quickly
    [trisagion_prayers] Fixed Ref: horologion.trisagion_block
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
@@ -2692,56 +2674,55 @@ Logic: Clean Week
    [lenten_kontakia_set] Fixed Ref: triodion.lenten_kontakia_hours
    [conclusion] Fixed Group: horologion.lord_have_mercy_40, horologion.prayer_hours_thou_who, horologion.prayer_hour_9_master_lord
    [typika_transition] RUBRIC: {'source_ref': 'Dolnytsky IV:351', 'roles': {'all': 'Proceed immediately to the Typika service.'}}
+   [typika_transition] LINK: unknown (in None)
 
-=== LITURGY (liturgy_chrysostom) ===
-   [prothesis] RUBRIC: The Prothesis (Preparation)
-   [opening_blessing] RUBRIC: The Opening
-   [opening_blessing] Fixed Ref: liturgikon.blessing_kingdom
-   [great_litany] Fixed Ref: horologion.litany_great
-   [antiphons_block] RUBRIC: The Antiphons
-   [antiphons_block] HOOK: resolve_liturgy_antiphons()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Weekday: Appointed Antiphons or Typical Psalms.
-         Type: generator
-   [little_entrance] RUBRIC: The Little Entrance
-   [troparia_kontakia_block] RUBRIC: Troparia and Kontakia
-   [troparia_kontakia_block] HOOK: resolve_liturgy_hymns()
-         [TRACE] Citation: Internal Logic
-         [TRACE] Reason: Temple Priority Logic: Sunday + Temple + Saint (Standard Order).
-         Type: hymn_stack
+=== LITURGY (liturgy_presanctified) ===
+   [vespers_portion] LINK: presanctified_vespers (in 01h_struct_vespers.json)
+      [opening_presanctified] Fixed Ref: liturgikon.blessing_kingdom
+      [horologion.psalm_103] Fixed Ref: horologion.psalm_103
+      [great_litany] Fixed Ref: horologion.litany_great
+      [kathisma_lenten] RUBRIC: Kathisma 18
+      [kathisma_lenten] HOOK: resolve_lenten_kathisma()
+            [TRACE] Citation: None
+            [TRACE] Reason: Standard execution path.
+            Type: fixed_ref
+            Ref: kathisma_18
+      [lord_i_have_cried_lenten] GENERATOR: generate_stichera_sequence({'slot_id': 'vespers_stichera_lenten'})
+            [TRACE] Citation: Internal Logic
+            [TRACE] Reason: Weekday (Rank 4): Standard distribution.
+            Total: 6 Stichera
+            - 3 from OCTOECHOS
+            - 3 from MENAION
+            Glory: saint_doxastikon
+            Both Now: theotokion_horologion_or_octoechos
+      [entrance_presanctified] RUBRIC: Entrance with Censer (or Gospel)
+      [entrance_presanctified] HOOK: resolve_presanctified_entrance()
+            [TRACE] Citation: Dolnytsky Part IV Lines 360-370 (Presanctified Entrance)
+            [TRACE] Reason: Standard execution path.
+            Type: presanctified_entrance
+      [readings_light] RUBRIC: Readings & Light
+      [readings_light] HOOK: resolve_presanctified_readings()
+            [TRACE] Citation: Dolnytsky Part IV Lines 375-400 (Presanctified Readings)
+            [TRACE] Reason: Standard execution path.
+            Type: presanctified_readings
+      [let_my_prayer_arise] RUBRIC: Let My Prayer Arise
+      [let_my_prayer_arise] Fixed Ref: triodion.let_my_prayer_arise
+      [aposticha] HOOK: resolve_aposticha()
+            [TRACE] Citation: Dolnytsky Part II Lines 100-115, Appendix Line 199
+            [TRACE] Reason: Weekday: Standard Aposticha from Octoechos.
+            Type: weekday_aposticha
+   [litany_fervent] Fixed Ref: horologion.litany_fervent
+   [litanies_catechumens_photizomenoi] HOOK: resolve_photizomenoi_litany()
+         [TRACE] Citation: None
+         [TRACE] Reason: Standard execution path.
+         Type: sequence
          Components:
-           - {'type': 'troparion', 'source': 'menaion_saint'}
-           - {'type': 'troparion', 'source': 'temple'}
-           - {'type': 'kontakion', 'source': 'temple', 'glory': True}
-           - {'type': 'kontakion', 'source': 'menaion_saint', 'both_now': True}
-   [trisagion_module] RUBRIC: The Trisagion
-   [trisagion_module] HOOK: resolve_trisagion_type()
-         [TRACE] Citation: Dolnytsky Part II (Trisagion replacements)
-         [TRACE] Reason: Standard execution path.
-         Type: standard
-         Ref: horologion.trisagion
-   [readings_block] RUBRIC: The Readings
-   [litanies_catechumens] Fixed Ref: liturgikon.litanies_catechumens
-   [cherubic_hymn_block] RUBRIC: Cherubic Hymn
-   [cherubic_hymn_block] HOOK: resolve_cherubic_hymn()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: liturgikon.cherubic_hymn_standard
-   [great_entrance] RUBRIC: The Great Entrance
-   [anaphora_block] Fixed Ref: liturgikon.anaphora_chrysostom
-   [megalynarion_block] HOOK: resolve_liturgy_megalynarion()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: fixed_ref
-         Ref: horologion.axion_estin
+           - {'type': 'fixed_ref', 'ref_key': 'liturgikon.litanies_catechumens_presanctified'}
+   [great_entrance_presanctified] RUBRIC: Great Entrance (Presanctified)
+   [great_entrance_presanctified] Fixed Ref: triodion.now_the_powers_of_heaven
    [lords_prayer] Fixed Ref: horologion.our_father
-   [communion_module] RUBRIC: Communion
-   [dismissal] RUBRIC: The Dismissal
-   [dismissal] HOOK: resolve_liturgy_dismissal()
-         [TRACE] Citation: None
-         [TRACE] Reason: Standard execution path.
-         Type: text
+   [communion_presanctified] Fixed Ref: triodion.communion_hymn_taste_and_see
+   [dismissal_presanctified] Fixed Ref: triodion.dismissal_presanctified
 
 ================================================================================
 END OF TRACE

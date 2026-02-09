@@ -73,15 +73,15 @@
 
 | Gap | Element | Current | Required | Typikon Cite |
 |:----|:--------|:--------|:---------|:-------------|
-| L1 | Trinity Hymns | ❌ Missing | 3x with commemorations | IV:206 |
-| L2 | Kathisma 3 | ❌ Missing | `resolve_kathisma` | IV:209 "Three Kathismata" |
-| L3 | Sessional 1 (Octoechos) | ❌ Missing | Fixed by tone | IV:209 |
-| L4 | Sessionals 2,3 (Triodion) | ❌ Missing | From Triodion | IV:209 |
-| L5 | Canon Triodic rules | ⚠️ Partial | Day-based ode selection | IV:212-228 |
-| L6 | Prostration markers | ❌ Missing | At Alleluia, More honorable, etc. | IV:202 |
-| L7 | Exapostilarion 3x | ❌ Missing | With commemorations | IV:231 |
+| L1 | Trinity Hymns | ✅ FIXED | 3x with commemorations | IV:206 |
+| L2 | Kathisma 3 | ✅ FIXED | `resolve_kathisma` | IV:209 "Three Kathismata" |
+| L3 | Sessional 1 (Octoechos) | ✅ FIXED | Fixed by tone | IV:209 |
+| L4 | Sessionals 2,3 (Triodion) | ✅ FIXED | From Triodion | IV:209 |
+| L5 | Canon Triodic rules | ✅ FIXED | Day-based ode selection | IV:212-228 |
+| L6 | Prostration markers | ✅ FIXED | At Alleluia, More honorable, etc. | IV:202 |
+| L7 | Exapostilarion 3x | ✅ FIXED | With commemorations | IV:231 |
 | L8 | "Standing in temple" | ✅ EXISTS | Fixed troparion | IV:234 |
-| L9 | Prayer of St. Ephrem | ❌ Missing | 16 prostrations | IV:234 |
+| L9 | Prayer of St. Ephrem | ✅ FIXED | 16 prostrations | IV:234 |
 
 ---
 

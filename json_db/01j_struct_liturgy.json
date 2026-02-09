@@ -422,6 +422,10 @@
           "start_at_component": "trisagion_module"
         }
       ]
+    },
+    "structure_suppressed": {
+      "title_key": "titles.suppressed",
+      "sequence": []
     }
   }
 }

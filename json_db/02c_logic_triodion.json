@@ -72,6 +72,9 @@
       "priority": 30,
       "system_flags": {
         "fast_level": "cheesefare"
+      },
+      "variables": {
+        "triodion_period": "cheesefare"
       }
     },
     "sunday_cheesefare": {
@@ -82,7 +85,8 @@
       "title": "Sunday of Cheesefare (Forgiveness)",
       "variables": {
         "vespers_evening_type": "forgiveness_vespers",
-        "text_key": "cheesefare_sunday"
+        "text_key": "cheesefare_sunday",
+        "triodion_period": "cheesefare"
       }
     },
     "great_lent_clean_week": {
@@ -99,7 +103,7 @@
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
-        "liturgy_type": "none"
+        "season": "lent"
       }
     },
     "lent_general_weekday": {
@@ -122,7 +126,8 @@
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
-        "liturgy_type": "liturgy_presanctified"
+        "liturgy_type": "liturgy_presanctified",
+        "season": "lent"
       }
     },
     "saturday_lent_1": {
@@ -134,7 +139,8 @@
       "variables": {
         "liturgy_readings": [
           "saint_theodore"
-        ]
+        ],
+        "season": "lent"
       }
     },
     "sunday_lent_1": {
@@ -145,7 +151,8 @@
       "title": "Sunday of Orthodoxy",
       "variables": {
         "liturgy_prokeimenon": "song_of_fathers",
-        "text_key": "first_sunday_of_the_great_fast"
+        "text_key": "first_sunday_of_the_great_fast",
+        "season": "lent"
       }
     },
     "saturday_lent_2_3_4": {

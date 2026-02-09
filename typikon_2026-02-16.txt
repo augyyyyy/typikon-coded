@@ -1,0 +1,80 @@
+TYPIKON: 2026-02-16
+Logic: Clean Week
+----------------------------------------
+
+=== VESPERS ===
+Psalm: psalm_103
+Litany
+RUBRIC: Rubric
+At 'Lord, I have cried': 6 stichera
+- 3 from OCTOECHOS
+- 3 from MENAION
+Glory... saint_doxastikon
+Both Now... theotokion_horologion_or_octoechos
+Prokeimenon: Unknown
+RUBRIC: Lenten Conclusion (Rejoice O Virgin + Ephrem)
+
+=== COMPLINE ===
+RUBRIC: Rubric
+
+=== MIDNIGHT OFFICE ===
+Psalm: psalm_50
+RUBRIC: Rubric
+Psalm: psalm_118_blameless
+Troparia:
+- horologion.troparion_behold_the_bridegroom
+- horologion.troparion_behold_the_bridegroom_glory
+- horologion.troparion_behold_the_bridegroom_theotokion
+RUBRIC: Rubric
+Litany
+
+=== MATINS ===
+Litany
+RUBRIC: Alleluia & Trinity Hymns
+RUBRIC: Rubric (Dolnytsky IV:206 - '3 Trinity Hymns...each sung 3x')
+RUBRIC: Three Kathismata with Prostrations
+RUBRIC: Rubric (Dolnytsky IV:209 - 'Sessional Hymns...after 1st...of Octoechos')
+RUBRIC: Rubric (Dolnytsky IV:209 - 'after 2nd and 3rd...of Triodion')
+RUBRIC: Rubric (Dolnytsky IV:209)
+Psalm: psalm_50
+RUBRIC: Lenten Triodic Canon
+RUBRIC: Rubric (Dolnytsky IV:202 - 'After It is truly meet—1 prostration')
+RUBRIC: Rubric (Dolnytsky IV:231 - '3x with commemorations')
+RUBRIC: Rubric (Dolnytsky I:204 - 'simply, without singing')
+Psalm: praises_psalms
+RUBRIC: Rubric (Dolnytsky IV:232 - 'at Glory to God in highest—3 prostrations')
+Litany
+RUBRIC: Rubric (Dolnytsky IV:233)
+RUBRIC: Rubric (Dolnytsky IV:234 - 'It is a good thing' twice)
+RUBRIC: Rubric (Dolnytsky IV:234 - 'at Trisagion—3 prostrations')
+RUBRIC: Rubric (Dolnytsky IV:234 - 'Troparion Standing in the temple')
+RUBRIC: Rubric (Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone')
+RUBRIC: Rubric (Dolnytsky IV:234 - 'Lord, have mercy (40)')
+RUBRIC: Rubric (Dolnytsky IV:234 - '16 prostrations')
+RUBRIC: Rubric (Dolnytsky IV:234 - 'after last prostration, immediately O come let us worship')
+
+=== FIRST HOUR ===
+RUBRIC: Rubric
+RUBRIC: Rubric
+RUBRIC: Rubric
+
+=== THIRD HOUR ===
+RUBRIC: Rubric
+RUBRIC: Rubric
+RUBRIC: Rubric (Dolnytsky IV:349)
+RUBRIC: Rubric
+
+=== SIXTH HOUR ===
+RUBRIC: Rubric
+RUBRIC: Rubric
+RUBRIC: Rubric (Dolnytsky IV:349)
+RUBRIC: Prophecy of the Sixth Hour
+RUBRIC: Rubric
+
+=== NINTH HOUR ===
+RUBRIC: Rubric
+RUBRIC: Rubric
+RUBRIC: Rubric (Dolnytsky IV:349)
+RUBRIC: Rubric (Dolnytsky IV:351)
+
+=== LITURGY ===

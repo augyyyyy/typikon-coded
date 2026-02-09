@@ -2,6 +2,7 @@ import json
 import os
 from datetime import date, timedelta
 import copy
+from typikon_digest_generator import TypikonDigestGenerator
 
 class RuthenianEngine:
 
@@ -1622,6 +1623,11 @@ class RuthenianEngine:
         # Lenten Alleluia Check (Typikon lines 205-206)
         # Applied if: Lenten Period + Weekday + Not a Feast/Polyeleos
         is_lenten_weekday = (context.get("season") == "lent" and not is_sunday and rank > 3)
+        
+        # FIX: Cheesefare Wed/Fri are also Aliturgical/Alleluia Days (Dolnytsky)
+        if context.get("triodion_period") == "cheesefare" and context.get("day_of_week") in [3, 5]:
+             is_lenten_weekday = True
+
         if is_lenten_weekday:
              # Alleluia Logic
              return {
@@ -1872,9 +1878,21 @@ class RuthenianEngine:
         # Menaion Key Synthesis
         menaion_key = f"menaion.{target_date.month:02d}{target_date.day:02d}"
             
+        # Derived Season (Legacy/Compat)
+        season = "ordinary"
+        triodion_period = self._get_triodion_period_name(delta)
+        
+        if season_id == "triodion":
+            if triodion_period in ["great_lent", "holy_week"]:
+                 season = "lent"
+            elif triodion_period in ["pre_lent", "cheesefare"]:
+                 season = "pre_lent"
+        elif season_id == "pentecostarion":
+             season = "pascha"
+            
         return {"date": target_date.isoformat(), "year": year, "month": target_date.month, "day": target_date.day,
                 "day_of_week": weekday, "pascha_offset": delta,
-                "triodion_period": self._get_triodion_period_name(delta), "season_id": season_id,
+                "triodion_period": triodion_period, "season_id": season_id, "season": season,
                 "is_temple_feast": is_temple_feast,
                 "menaion_key": menaion_key}
 
@@ -1991,7 +2009,25 @@ class RuthenianEngine:
 
         if not rubrics["title"].strip() or "Service for" in rubrics["title"]:
             rubrics["title"] = f"Service for {context['date']}"
-        
+
+        # Lenten Service Structure Logic (Presanctified / Aliturgical)
+        if context.get("season") == "lent" and context.get("day_of_week") in [1,2,3,4,5]:
+             # Calculate Rank for logic checks
+             rank = self.calculate_rank(context) 
+             # Update context temporarily for check_presanctified (which uses context.get('rank'))
+             # Note: This doesn't persist outside this scope unless we assign to context, which is mutable ref
+             context['rank'] = rank 
+             
+             if self.check_presanctified_trigger(context):
+                 rubrics["overrides"]["liturgy_type"] = "liturgy_presanctified"
+                 rubrics["overrides"]["vespers_type"] = "structure_suppressed"
+                 rubrics["_trace"].append("Lenten Logic: Presanctified Liturgy selected.")
+             elif rank > 3: 
+                 # Not Presanctified, Not Feast -> Aliturgical Day
+                 rubrics["overrides"]["liturgy_type"] = "structure_suppressed"
+                 rubrics["overrides"]["vespers_type"] = "lenten_vespers"
+                 rubrics["_trace"].append("Lenten Logic: Aliturgical Day (Liturgy Suppressed).")
+
         # Apply Vespers Lookahead (Saturday Evening -> Sunday)
         self._apply_lookahead(context, rubrics)
         
@@ -2267,13 +2303,48 @@ class RuthenianEngine:
                     booklet.append(f"ERROR: Structure '{root_id}' not found in {service['file']}")
                     continue
 
-                for slot in skeleton:
-                    slot_id = slot.get('id', 'UNKNOWN_ID')
-                    if slot_id == 'UNKNOWN_ID':
-                        print(f"WARNING: Slot missing ID in {service_name}: {slot}")
-                    
-                    text = self._resolve_slot(slot, rubrics, context)
-                    booklet.append(f"[{slot_id}] {text}")
+                def process_sequence(sequence, depth=0):
+                    for slot in sequence:
+                        # Normalize type/content
+                        content = slot.get("content", {})
+                        if not content and "type" in slot: content = slot
+                        slot_type = content.get("type")
+
+                        if slot_type == 'link':
+                            target_id = content.get('target_id')
+                            target_file = content.get('target_file')
+                             
+                            if target_file and target_id:
+                                # Resolve path
+                                full_path = os.path.join(self.json_db, target_file)
+                                if not os.path.exists(full_path): full_path = target_file
+                                
+                                if os.path.exists(full_path):
+                                     try:
+                                         with open(full_path, 'r', encoding='utf-8') as f:
+                                             linked_data = json.load(f)
+                                         # Get sequence (handles inheritance too)
+                                         sub_seq = self._get_structure_sequence(linked_data, target_id)
+                                         if sub_seq:
+                                             booklet.append(f"[{slot.get('id','LINK')}] >>> EXPANDING LINK: {target_id} <<<")
+                                             process_sequence(sub_seq, depth + 1)
+                                             booklet.append(f"[{slot.get('id','LINK')}] <<< END LINK <<<")
+                                         else:
+                                             booklet.append(f"[{slot.get('id','LINK')}] ERROR: Link target '{target_id}' not found.")
+                                     except Exception as e:
+                                         booklet.append(f"[{slot.get('id','LINK')}] ERROR Loading Link: {e}")
+                            else:
+                                 booklet.append(f"[{slot.get('id','LINK')}] ERROR: Invalid Link Definition")
+                            continue
+
+                        slot_id = slot.get('id', 'UNKNOWN_ID')
+                        if slot_id == 'UNKNOWN_ID':
+                            print(f"WARNING: Slot missing ID in {service_name}: {slot}")
+                        
+                        text = self._resolve_slot(slot, rubrics, context)
+                        booklet.append(f"[{slot_id}] {text}")
+
+                process_sequence(skeleton)
 
             return "\n".join(booklet)
 
@@ -2306,6 +2377,8 @@ class RuthenianEngine:
                     abstract.append(f"{indent}[{slot_id}] RUBRIC: {title}")
 
                 content = slot.get("content", {})
+                if not content and "type" in slot:
+                    content = slot
                 slot_type = content.get("type")
                 
                 # 2. Logic Hooks
@@ -2343,6 +2416,34 @@ class RuthenianEngine:
                 elif slot_type == "fixed_ref":
                     abstract.append(f"{indent}[{slot_id}] Fixed Ref: {content.get('ref_key')}")
 
+                # 6. Links (Recurse)
+                elif slot_type == "link":
+                    target = slot.get('target_id', 'unknown')
+                    target_file = slot.get('target_file')
+                    abstract.append(f"{indent}[{slot_id}] LINK: {target} (in {target_file})")
+                    
+                    if target_file and target:
+                         # Load and expand
+                         import os
+                         # Resolve file path: assume it's in json_db unless absolute
+                         full_path = os.path.join(self.json_db, target_file)
+                         
+                         # Check if target_file is basename or relative path
+                         if not os.path.exists(full_path):
+                             # Try without json_db prefix if it was already included (unlikely given schema)
+                             full_path = target_file
+                             
+                         if os.path.exists(full_path):
+                             try:
+                                 with open(full_path, 'r', encoding='utf-8') as f:
+                                     linked_data = json.load(f)
+                                 # Find structure using helper to handle inheritance
+                                 sub_skeleton = self._get_structure_sequence(linked_data, target)
+                                 if sub_skeleton:
+                                      process_skeleton(sub_skeleton, depth + 1)
+                             except Exception as e:
+                                 abstract.append(f"{indent}   [ERROR loading link: {e}]")
+
         for service in self.daily_cycle:
             service_name = service["name"]
             
@@ -2378,6 +2479,212 @@ class RuthenianEngine:
                 process_skeleton(skeleton)
 
         return "\n".join(abstract)
+
+    def generate_typikon_digest(self, context, rubrics):
+        return TypikonDigestGenerator(self).generate(context, rubrics)
+
+    def _legacy_generate_typikon_digest(self, context, rubrics):
+        """
+        Generates a 'Typikon Style' digest (instructions only, no full text).
+        """
+        digest = [f"TYPIKON: {context['date']}"]
+        digest.append(f"Logic: {rubrics['title']}")
+        digest.append("-" * 40)
+
+        def process_skeleton(skeleton, depth=0):
+            indent = "" 
+            
+            for slot in skeleton:
+                slot_id = slot.get('id', 'anonymous_slot')
+                
+                # 1. Rubrics (Instructional)
+                if "rubric" in slot:
+                    r = slot["rubric"]
+                    title = r
+                    if isinstance(r, dict):
+                        # Try commonly used keys
+                        title = r.get('title') or r.get('description') or r.get('text')
+                        if not title:
+                             # Summarize sources if present
+                             if "source_ref" in r: title = f"Rubric ({r['source_ref']})"
+                             else: title = "Rubric"
+                    digest.append(f"RUBRIC: {title}")
+
+                content = slot.get("content", {})
+                if not content and "type" in slot: content = slot
+                slot_type = content.get("type")
+                
+                # 2. Variable Logic
+                if slot_type == "variable_logic":
+                    func_name = content["logic"].get("function")
+                    args = content["logic"].get("args", {})
+                    lines = self._format_logic_hook(func_name, args, context, rubrics)
+                    digest.extend(lines)
+
+                # 3. Generators
+                elif slot_type == "generator":
+                    method = content.get("generator_method")
+                    args = content.get("args", {})
+                    # Special handling for Stichera to get counts
+                    if method == "generate_stichera_sequence":
+                         enriched_context = {**context, **rubrics.get("variables", {})}
+                         enriched_context["overrides"] = rubrics.get("overrides", {})
+                         if rubrics.get("is_sunday_vigil"): enriched_context["is_sunday_vigil"] = True
+
+                         # Use the 'resolve_' logic directly to get metadata
+                         # This assumes the generator wrapper logic is similar
+                         if "vespers" in args.get('slot_id', ''):
+                              try:
+                                   res = self.resolve_vespers_stichera(enriched_context)
+                                   # Format info
+                                   total = res.get("total_count", 0)
+                                   digest.append(f"At 'Lord, I have cried': {total} stichera")
+                                   for item in res.get("distribution", []):
+                                        c = item.get('count', item.get('qty', '?'))
+                                        s = item.get('source', item.get('type', '')).upper()
+                                        digest.append(f"- {c} from {s}")
+                                   if "glory" in res: digest.append(f"Glory... {res['glory']}")
+                                   if "both_now" in res: digest.append(f"Both Now... {res['both_now']}")
+                              except:
+                                   digest.append("At 'Lord, I have cried': (Logic Error)")
+
+                # 4. Sequences (Recurse)
+                elif slot_type == "sequence":
+                    if "components" in content:
+                        process_skeleton(content["components"], depth + 1)
+                
+                # 5. Fixed Content
+                elif slot_type == "fixed_ref":
+                    ref = content.get('ref_key')
+                    if "psalm" in ref: digest.append(f"Psalm: {ref.split('.')[-1]}")
+                    elif "litany" in ref: digest.append(f"Litany")
+                    elif "hymn" in ref: digest.append(f"Hymn: {ref.split('.')[-1]}")
+
+                # 6. Links (Recurse)
+                elif slot_type == "link":
+                    target = slot.get('target_id')
+                    target_file = slot.get('target_file')
+                    if target_file and target:
+                         import os
+                         full_path = os.path.join(self.json_db, target_file)
+                         if not os.path.exists(full_path): full_path = target_file
+                         if os.path.exists(full_path):
+                             try:
+                                 with open(full_path, 'r', encoding='utf-8') as f: linked_data = json.load(f)
+                                 sub_skeleton = self._get_structure_sequence(linked_data, target)
+                                 if sub_skeleton: process_skeleton(sub_skeleton, depth + 1)
+                             except: pass
+
+        for service in self.daily_cycle:
+            service_name = service["name"]
+            digest.append(f"\n=== {service_name.upper()} ===")
+            
+            # Root ID resolution
+            root_id = service["root"]
+            if service["type_key"] in rubrics.get("variables", {}):
+                root_id = rubrics["variables"][service["type_key"]]
+            if service["type_key"] in rubrics.get("overrides", {}):
+                root_id = rubrics["overrides"][service["type_key"]]
+
+            # Apply Matins/Midnight/Hours overrides similar to generate_full_booklet
+            if service_name == "Matins":
+                 if context["triodion_period"] == "holy_friday": root_id = "tomb_matins"
+                 elif context["triodion_period"] in ["pascha", "bright_week"]: root_id = "bright_matins"
+            elif service_name == "Midnight Office":
+                 mode_data = self.resolve_midnight_office_mode(context)
+                 if "mode" in mode_data: root_id = f"midnight_{mode_data['mode']}"
+            elif "hours_type" in service["type_key"]:
+                 var_hours = rubrics.get("variables", {}).get("hours_type", "")
+                 if "royal" in var_hours: root_id = "structure_royal"
+                 elif "lenten" in var_hours: root_id = "structure_lenten"
+                 elif "paschal" in var_hours: root_id = "structure_paschal"
+
+            struct_data = self._load_json(service["file"])
+            skeleton = self._get_structure_sequence(struct_data, root_id)
+            if skeleton:
+                process_skeleton(skeleton)
+
+        return "\n".join(digest)
+
+    def _format_logic_hook(self, func_name, args, context, rubrics):
+        """
+        Executes logic and returns a list of formatted strings for the Typikon digest.
+        """
+        if not hasattr(self, func_name): return []
+
+        try:
+            # Prepare Context
+            enriched_context = {**context, **rubrics.get("variables", {})}
+            enriched_context["overrides"] = rubrics.get("overrides", {})
+            if rubrics.get("is_sunday_vigil"): enriched_context["is_sunday_vigil"] = True
+
+            # Get Function
+            func = getattr(self, func_name)
+            
+            # Inspect Args
+            import inspect
+            sig = inspect.signature(func)
+            call_kwargs = {}
+            if "rubrics" in sig.parameters: call_kwargs["rubrics"] = rubrics
+            
+            # Special Args (hours)
+            if func_name == "resolve_hours_collision" and "hour_num" in args:
+                 call_kwargs["hour_num"] = args["hour_num"]
+
+            # Execute
+            result = func(enriched_context, **call_kwargs)
+
+            # --- FORMATTING RULES ---
+            
+            # 1. Prokeimenon
+            if func_name == "resolve_prokeimenon" or "prokeimenon" in func_name:
+                lines = []
+                if isinstance(result, dict): result = [result]
+                for p in result:
+                     if isinstance(p, dict):
+                         ref = p.get('ref_key', p.get('source', 'Unknown'))
+                         lines.append(f"Prokeimenon: {ref.split('.')[-1]}")
+                return lines
+
+            # 2. God is the Lord / Alleluia
+            if func_name == "resolve_god_is_the_lord_troparia":
+                if result.get("gradual_type") == "alleluia":
+                    return ["At God is the Lord: Alleluia is sung."]
+                else:
+                    lines = [f"At God is the Lord (Tone {result.get('tone')}):"]
+                    for t in result.get("sequence", []):
+                        lines.append(f"- {t.get('content', t.get('type'))}")
+                    return lines
+
+            # 3. Readings
+            if "readings" in func_name:
+                lines = ["Readings:"]
+                if isinstance(result, list):
+                    for r in result:
+                        citation = r.get('citation', '')
+                        if not citation and "source" in r: citation = r.get('source')
+                        lines.append(f"- {citation}")
+                return lines
+
+            # 4. Troparia (Generic)
+            if "troparia" in func_name:
+                lines = ["Troparia:"]
+                if isinstance(result, dict):
+                    if "components" in result:
+                        for c in result["components"]:
+                             lines.append(f"- {c.get('id', c.get('type'))}")
+                    elif "sequence" in result:
+                        for c in result["sequence"]:
+                             lines.append(f"- {c.get('content', c.get('type'))}")
+                    elif "troparia_sequence" in result: # Hours collision result
+                        for c in result["troparia_sequence"]:
+                             lines.append(f"- {c.get('target', c.get('name'))}")
+                return lines
+                
+            return []
+
+        except Exception as e:
+            return [f"[Error formatting {func_name}: {e}]"]
 
     def _expand_abstract_logic(self, func_name, args, context, rubrics):
         """
@@ -2461,6 +2768,7 @@ class RuthenianEngine:
             elif isinstance(result, dict):
                  # Flatten simple dicts
                  if "type" in result: output.append(f"      Type: {result['type']}")
+                 if "gradual_type" in result: output.append(f"      Type: {result['gradual_type'].upper()}")
                  if "mode" in result: output.append(f"      Mode: {result['mode']}")
                  if "ref_key" in result: output.append(f"      Ref: {result['ref_key']}")
                  
@@ -2468,6 +2776,10 @@ class RuthenianEngine:
                  if "components" in result:
                       output.append("      Components:")
                       for sub in result["components"]:
+                           output.append(f"        - {sub}")
+                 elif "sequence" in result:
+                      output.append("      Sequence:")
+                      for sub in result["sequence"]:
                            output.append(f"        - {sub}")
                            
             else:
@@ -2643,10 +2955,13 @@ class RuthenianEngine:
 
         # 6. Troparia (Vespers/Matins general)
         elif "troparia" in func_name and "hour" not in func_name:
-            day = context.get("day_of_week")
-            is_sunday = day == 0 or context.get("is_sunday_vigil")
-            if is_sunday: explanation = "Sunday: Resurrectional Troparion + Theotokion."
-            else: explanation = "Weekday: Troparion of the Day/Saint."
+            if isinstance(result, dict) and result.get("gradual_type") == "alleluia":
+                 explanation = "Lenten/Aliturgical: Alleluia replaces God is the Lord."
+            else:
+                day = context.get("day_of_week")
+                is_sunday = day == 0 or context.get("is_sunday_vigil")
+                if is_sunday: explanation = "Sunday: Resurrectional Troparion + Theotokion."
+                else: explanation = "Weekday: Troparion of the Day/Saint."
 
         # 7. Hours Troparia
         elif func_name == "generate_hour_troparia" or func_name == "resolve_hours_collision":
@@ -7105,3 +7420,83 @@ class RuthenianEngine:
             "rubric_note": f"Dismissal Theotokion ({weekday.capitalize()})"
         }
 
+
+    # =========================================================================
+    # MISSING LENTEN HOOKS (Added Fix 2026-02-06)
+    # =========================================================================
+
+    def resolve_midnight_troparia(self, context):
+        """
+        Resolves Troparia for Midnight Office.
+        Fixes empty list issue in Lenten trace.
+        """
+        is_lent = context.get("season") == "lent"
+        day = context.get("day_of_week")
+        
+        if is_lent and day in [1,2,3,4,5]:
+            # Lenten Weekday: Behold the Bridegroom (Tone 8)
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"id": "horologion.troparion_behold_the_bridegroom", "tone": 8},
+                    {"id": "horologion.troparion_behold_the_bridegroom_glory", "tone": 8},
+                    {"id": "horologion.troparion_behold_the_bridegroom_theotokion", "tone": 8}
+                ]
+            }
+            
+        # Daily / Weekend Logic
+        # See Horologion: "On Weekdays... Troparion of the Day... Glory... Saints... Both Now... Theotokion"
+        return {
+            "type": "troparia_stack",
+            "components": [
+               {"id": "horologion.troparion_day_of_week"},
+               {"id": "horologion.troparion_temple"},
+               {"id": "horologion.troparion_saint_if_any"},
+               {"id": "horologion.theotokion_daily"}
+            ]
+        }
+
+    def resolve_lenten_ending(self, context):
+        """
+        Resolves the Lenten Vespers Conclusion (Rejoice O Virgin + Prostrations).
+        Ref: Dolnytsky Part IV.
+        """
+        return {
+             "type": "lenten_ending_sequence",
+             "components": [
+                 {"id": "horologion.rejoice_o_virgin_theotokos", "count": 1, "rubric": "Prostration"},
+                 {"id": "horologion.baptist_of_christ", "count": 1, "rubric": "Prostration"},
+                 {"id": "horologion.supplicate_for_us_apostles", "count": 1, "rubric": "Prostration"},
+                 {"id": "horologion.beneath_thy_compassion", "count": 1, "rubric": "No Prostration"},
+                 {"id": "horologion.lord_have_mercy_40", "count": 1},
+                 {"id": "horologion.more_honorable", "count": 1},
+                 {"id": "horologion.prayer_st_ephrem", "count": 3} # 3 great prostrations
+             ]
+        }
+
+    def resolve_vespers_troparia_simple(self, context):
+        """
+        Resolves Troparia for Small/Daily Vespers.
+        """
+        day = context.get("day_of_week")
+        is_sunday = day == 0 or context.get("is_sunday_vigil")
+        
+        if is_sunday:
+             tone = context.get("tone", 1)
+             return {
+                 "type": "troparia_stack",
+                 "components": [
+                     {"id": f"octoechos.troparion_resurrection_tone_{tone}", "tone": tone},
+                     {"id": f"octoechos.theotokion_resurrection_tone_{tone}", "tone": tone}
+                 ]
+             }
+             
+        # Weekday: Troparion of Day? Or Saint?
+        # Usually: Saint Troparion, Glory... Saint 2 or Both Now... Theotokion.
+        return {
+             "type": "troparia_stack",
+             "components": [
+                 {"id": "horologion.troparion_saint_day"},
+                 {"id": "horologion.theotokion_dismissal_weekday"}
+             ]
+        }

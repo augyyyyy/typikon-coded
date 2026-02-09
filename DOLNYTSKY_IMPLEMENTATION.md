@@ -144,6 +144,12 @@ When `season_id == 'triodion'`, a "Super-Logic" layer activates, implementing sp
     *   *The Ode 3 Refuge*: On Lenten weekdays, the Saint's Sidalen (normally after Ode 3) is preserved even if the Triodion is present. It migrates to a structured "Interlude" block along with the Triodion Sidalen.
     *   *Alleluia Rule*: The "God is the Lord" module is swapped for the "Alleluia" module, triggering special singular Troparia.
 
+### 5. Structural Recursion (The 'Link' Protocol)
+Some complex services, like the *Liturgy of the Presanctified Gifts*, are composites of multiple service structures (Vespers + Liturgy). To handle this without code duplication:
+*   **The 'Link' Slot**: A structure can contain a `link` slot pointing to another JSON file (e.g., `presanctified_vespers` in `01h_struct_vespers.json`).
+*   **Recursive Expansion**: The engine recursively parses these links, preserving the logic context (Rubrics, Variables) while injecting the child structure's sequence.
+*   **Inheritance**: Child structures can inherit from parent structures (e.g., `presanctified_vespers` inherits from `lenten_vespers`) and apply overrides (add/delete/replace slots), allowing for precise liturgical modeling.
+
 ---
 
 ## IV. Fidelity and Verification
