@@ -425,6 +425,72 @@
           }
         }
       ]
+    },
+    "structure_paschal": {
+      "title_key": "titles.paschal_hours",
+      "source_ref": "dolnytsky_part4_pascha_hours",
+      "sequence": [
+        {
+          "id": "opening_blessing",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.blessing_common"
+          }
+        },
+        {
+          "id": "christ_is_risen_3x",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.christ_is_risen_3x"
+          }
+        },
+        {
+          "id": "having_beheld_resurrection",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.having_beheld_resurrection_3x"
+          }
+        },
+        {
+          "id": "hypakoe",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.hypakoe_pascha"
+          }
+        },
+        {
+          "id": "kontakion",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.kontakion_pascha"
+          }
+        },
+        {
+          "id": "troparia_paschal",
+          "content": {
+            "type": "fixed_group",
+            "ref_keys": [
+              "pentecostarion.troparion_in_tomb",
+              "pentecostarion.troparion_in_hades",
+              "pentecostarion.theotokion_sanctified"
+            ]
+          }
+        },
+        {
+          "id": "lord_have_mercy_40",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.lord_have_mercy_40"
+          }
+        },
+        {
+          "id": "dismissal_paschal",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.dismissal_paschal"
+          }
+        }
+      ]
     }
   }
 }

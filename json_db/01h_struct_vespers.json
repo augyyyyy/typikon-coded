@@ -155,6 +155,40 @@
         }
       ]
     },
+    "great_vespers_simple": {
+      "title_key": "titles.vespers_great_simple",
+      "inherits_from": "great_vespers_vigil",
+      "overrides": [
+        {
+          "target_id": "litiya_rite",
+          "action": "delete"
+        },
+        {
+          "target_id": "artoklasia_rite",
+          "action": "replace",
+          "new_component": {
+            "id": "troparia_resurrectional",
+            "content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_vespers_troparia_simple"
+              }
+            }
+          }
+        },
+        {
+          "target_id": "dismissal_vigil",
+          "action": "replace",
+          "new_component": {
+            "id": "dismissal_great",
+            "content": {
+              "type": "fixed_ref",
+              "ref_key": "horologion.dismissal_great"
+            }
+          }
+        }
+      ]
+    },
     "great_vespers_polyeleos": {
       "title_key": "titles.vespers_great_polyeleos",
       "sequence": [
@@ -210,6 +244,46 @@
             "roles": {
               "priest": "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."
             }
+          }
+        },
+        {
+          "id": "psalm_103_simple",
+          "rubric": {
+            "title": "Psalm 103 (Simple)",
+            "roles": {
+              "cantor": "Read Psalm 103 without singing."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.psalm_103"
+          }
+        },
+        {
+          "id": "great_litany",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_great"
+          }
+        },
+        {
+          "id": "kathisma_daily",
+          "rubric": {
+            "title": "The Kathisma",
+            "note": "Current Kathisma for the day of the week."
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_daily_kathisma"
+            }
+          }
+        },
+        {
+          "id": "small_litany",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_small"
           }
         },
         {

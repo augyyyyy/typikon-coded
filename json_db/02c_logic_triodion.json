@@ -31,7 +31,20 @@
       "variables": {
         "matins_praises_stichera_triodion": 4,
         "liturgy_kontakion": "triodion",
-        "text_key": "sunday_of_the_publican_and_pharisee"
+        "text_key": "sunday_of_the_publican_and_pharisee",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "qty": 7
+            },
+            {
+              "source": "triodion",
+              "qty": 3
+            }
+          ]
+        }
       }
     },
     "sunday_prodigal_son": {
@@ -86,7 +99,20 @@
       "variables": {
         "vespers_evening_type": "forgiveness_vespers",
         "text_key": "cheesefare_sunday",
-        "triodion_period": "cheesefare"
+        "triodion_period": "cheesefare",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "qty": 6
+            },
+            {
+              "source": "triodion",
+              "qty": 4
+            }
+          ]
+        }
       }
     },
     "great_lent_clean_week": {
@@ -103,7 +129,20 @@
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
-        "season": "lent"
+        "season": "lent",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "qty": 3
+            }
+          ]
+        }
       }
     },
     "lent_general_weekday": {
@@ -127,7 +166,20 @@
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
         "liturgy_type": "liturgy_presanctified",
-        "season": "lent"
+        "season": "lent",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "qty": 3
+            }
+          ]
+        }
       }
     },
     "saturday_lent_1": {
@@ -314,7 +366,16 @@
         "vespers_type": "paschal_vespers",
         "matins_type": "bright_matins",
         "hours_type": "structure_paschal",
-        "liturgy_trisagion_replace": "all_baptized"
+        "liturgy_trisagion_replace": "all_baptized",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "qty": 10
+            }
+          ]
+        }
       }
     },
     "bright_week": {
@@ -328,7 +389,16 @@
       "title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
-        "matins_type": "bright_matins"
+        "matins_type": "bright_matins",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "qty": 6
+            }
+          ]
+        }
       }
     },
     "sunday_thomas": {
@@ -434,7 +504,16 @@
       "title": "Pentecost",
       "variables": {
         "vespers_type": "pentecost_kneeling_vespers",
-        "liturgy_trisagion_replace": "all_baptized"
+        "liturgy_trisagion_replace": "all_baptized",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "qty": 10
+            }
+          ]
+        }
       }
     },
     "monday_holy_spirit": {
@@ -483,37 +562,66 @@
   },
   "lenten_logic_maps": {
     "ode_schedule": {
-      "1": [
-        1,
-        8,
-        9
-      ],
-      "2": [
-        2,
-        8,
-        9
-      ],
-      "3": [
-        3,
-        8,
-        9
-      ],
-      "4": [
-        4,
-        8,
-        9
-      ],
-      "5": [
-        5,
-        8,
-        9
-      ],
-      "6": [
-        6,
-        7,
-        8,
-        9
-      ]
+      "1": {
+        "odes": [
+          1,
+          8,
+          9
+        ],
+        "distribution": {
+          "triodion": 8,
+          "menaion": 6
+        }
+      },
+      "2": {
+        "odes": [
+          2,
+          8,
+          9
+        ],
+        "distribution": {
+          "triodion": 8,
+          "menaion": 6
+        }
+      },
+      "3": {
+        "odes": [
+          3,
+          8,
+          9
+        ],
+        "distribution": {
+          "triodion": 8,
+          "menaion": 6
+        }
+      },
+      "4": {
+        "odes": [
+          4,
+          8,
+          9
+        ],
+        "distribution": {
+          "triodion": 8,
+          "menaion": 6
+        }
+      },
+      "5": {
+        "odes": [
+          5,
+          8,
+          9
+        ],
+        "distribution": {
+          "triodion": 8,
+          "menaion": 6
+        }
+      }
+    },
+    "standard_ode_distribution": {
+      "menaion": 4,
+      "triodion": 0,
+      "irmos": true
     },
     "trinity_hymns_map": {
       "structure": [

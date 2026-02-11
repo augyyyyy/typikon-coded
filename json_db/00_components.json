@@ -40,6 +40,39 @@
         }
     },
     "components": {
+        "entrance_great": {
+            "title_key": "titles.component_entrance",
+            "source_ref": "dolnytsky_part1_vespers",
+            "sequence": [
+                {
+                    "id": "procession",
+                    "rubric": {
+                        "key": "rubrics.vespers.entrance_procession",
+                        "variables": {
+                            "actor": "role.clergyman"
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_action",
+                        "action": "clergy_make_entrance_with_censer"
+                    }
+                },
+                {
+                    "id": "wisdom_upright",
+                    "content": {
+                        "type": "fixed_text",
+                        "content_key": "horologion.wisdom_upright"
+                    }
+                },
+                {
+                    "id": "phos_hilaron",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.phos_hilaron"
+                    }
+                }
+            ]
+        },
         "litiya_procession": {
             "title_key": "titles.component_litiya",
             "source_ref": "dolnytsky_part1_vespers_vigil_para6",

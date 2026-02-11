@@ -1,0 +1,178 @@
+TYPIKON: 2026-01-25
+Logic: Sunday of the Publican and Pharisee
+----------------------------------------
+
+=== DAILY VESPERS ===
+RUBRIC: Rubric
+At 'Lord, I have cried': 10 stichera
+- 7 from OCTOECHOS
+- 3 from MENAION
+Glory... saint_doxastikon_if_present
+Both Now... dogmatikon_current_tone
+Prokeimenon: Unknown
+Hymns (resolve_vespers_troparia_simple):
+- octoechos.troparion_resurrection_tone_8
+- octoechos.theotokion_resurrection_tone_8
+
+=== SMALL COMPLINE ===
+Fixed Group:
+- psalm_50
+- psalm_69
+- psalm_142
+Canon Logic: Standard
+Hymns (resolve_compline_troparia):
+- fixed_ref
+- context_lookup
+- fixed_ref
+Fixed Group:
+- prayer_compline_spotless
+- prayer_compline_grant_us
+Litany
+
+=== MIDNIGHT OFFICE (SUNDAY) ===
+Psalm: psalm_50
+RUBRIC: Rubric
+Psalm: psalm_118_blameless
+Hymns (resolve_midnight_troparia):
+- horologion.troparion_day_of_week
+- horologion.troparion_temple
+- horologion.troparion_saint_if_any
+- horologion.theotokion_daily
+Fixed Group:
+- psalm_120
+- psalm_133
+Fixed Group:
+- trop_repose_remember_o_lord
+- trop_repose_mother_holy
+RUBRIC: Rubric
+Litany
+
+=== SUNDAY MATINS ===
+Fixed Group:
+- blessing_common
+- trisagion_block
+- psalm_19
+- psalm_20
+- six_psalms
+Litany
+At God is the Lord (Tone 1):
+- troparion_resurrection
+- glory
+- troparion_saint
+- both_now
+- theotokion_sunday_by_saint_tone
+RUBRIC: The Kathismata
+Psalm: psalm_50
+RUBRIC: The Canon
+Odes 1-2
+Ode 3
+  Structure: Resurrection - 4 (including irmos), Cross_resurrection - 2, Theotokos - 2, Saint - 6
+Katavasia: Unknown
+Odes 4-5
+Ode 6
+  Structure: Resurrection - 4 (including irmos), Cross_resurrection - 2, Theotokos - 2, Saint - 6
+Katavasia: Unknown
+Ode 7
+  Structure: Resurrection - 4 (including irmos), Cross_resurrection - 2, Theotokos - 2, Saint - 6
+Ode 8
+  Structure: Resurrection - 4 (including irmos), Cross_resurrection - 2, Theotokos - 2, Saint - 6
+Katavasia: Unknown
+RUBRIC: Rubric
+Ode 9
+  Structure: Resurrection - 4 (including irmos), Cross_resurrection - 2, Theotokos - 2, Saint - 6
+Katavasia: Unknown
+RUBRIC: Rubric (Dolnytsky I:204 - 'after the Exaposteilarion')
+RUBRIC: Rubric (Dolnytsky I:204 - 'simply, without singing')
+Psalm: praises_psalms
+RUBRIC: Rubric (Dolnytsky I:204)
+Litany
+RUBRIC: Rubric (Dolnytsky I:204 - 'troparion of the Saint is sung')
+RUBRIC: Rubric (Dolnytsky I:204 - 'Dismissal Theotokion...according to the tone')
+Litany
+RUBRIC: Rubric (Dolnytsky I:204 - 'Blessed is He Who Is')
+
+=== FIRST HOUR ===
+Fixed Group:
+- blessing_common
+- trisagion_block
+- invitatory_3x
+Fixed Group:
+- psalm_5
+- psalm_89
+- psalm_100
+hour_1_kontakion: (Variable)
+Fixed Group:
+- lord_have_mercy_40
+- prayer_hours_thou_who
+- prayer_hour_1_christ_true_light
+
+=== THIRD HOUR ===
+Fixed Group:
+- blessing_common
+- trisagion_block
+- invitatory_3x
+Fixed Group:
+- psalm_16
+- psalm_24
+- psalm_50
+hour_3_kontakion: (Variable)
+Fixed Group:
+- lord_have_mercy_40
+- prayer_hours_thou_who
+- prayer_hour_3_mardari
+
+=== SIXTH HOUR ===
+Fixed Group:
+- blessing_common
+- trisagion_block
+- invitatory_3x
+Fixed Group:
+- psalm_53
+- psalm_54
+- psalm_90
+hour_6_kontakion: (Variable)
+Fixed Group:
+- lord_have_mercy_40
+- prayer_hours_thou_who
+- prayer_hour_6_god_and_lord_of_hosts
+
+=== NINTH HOUR ===
+Fixed Group:
+- blessing_common
+- trisagion_block
+- invitatory_3x
+Fixed Group:
+- psalm_83
+- psalm_84
+- psalm_85
+hour_9_kontakion: (Variable)
+Fixed Group:
+- lord_have_mercy_40
+- prayer_hours_thou_who
+- prayer_hour_9_master_lord
+
+=== DIVINE LITURGY OF ST. JOHN CHRYSOSTOM ===
+RUBRIC: The Prothesis (Preparation)
+RUBRIC: The Opening
+Litany
+RUBRIC: The Antiphons
+RUBRIC: The Little Entrance
+RUBRIC: Troparia and Kontakia
+Hymns (resolve_liturgy_hymns):
+- troparion
+- troparion
+- troparion
+- kontakion
+- kontakion
+- kontakion
+- kontakion
+RUBRIC: The Trisagion
+RUBRIC: The Readings
+liturgy_prokeimenon: Tone 8: Pray and return thanks...
+liturgy_epistle: 2 Timothy 3:10-15
+liturgy_alleluia: Tone 8: Come let us rejoice...
+liturgy_gospel: Luke 18:10-14
+RUBRIC: Cherubic Hymn
+RUBRIC: The Great Entrance
+RUBRIC: Communion
+RUBRIC: The Dismissal
