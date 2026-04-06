@@ -1,3 +1,0 @@
-=== CODING THE TYPIKON: MISSING MATERIALS REPORT ===
-The following critical assets are missing from the Stamford Recension source files:
-

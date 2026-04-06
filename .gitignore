@@ -1,8 +1,15 @@
+# ============================================================
+# Typikon Coded — .gitignore
+# ============================================================
+
+# ----------------------------------------------------------
 # Python
+# ----------------------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.pyd
 .Python
 build/
 develop-eggs/
@@ -19,50 +26,118 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Virtual Environment
+# ----------------------------------------------------------
+# Virtual Environments
+# ----------------------------------------------------------
 .venv/
 venv/
 ENV/
 env/
+env.bak/
+venv.bak/
 
-# IDE
+# ----------------------------------------------------------
+# IDE / Editor
+# ----------------------------------------------------------
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
+Thumbs.db
+desktop.ini
+*.sublime-project
+*.sublime-workspace
 
-# Project Specific
+# ----------------------------------------------------------
+# Testing & Coverage
+# ----------------------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# ----------------------------------------------------------
+# Tooling & Config (local only)
+# ----------------------------------------------------------
+.agent/
+.gemini/
+.antigravityignore
+AGENT_CONTEXT.md
+PROJECT_STATE.json
+config_local.json
+secrets.json
+
+# ----------------------------------------------------------
+# Private / Copyrighted Assets
+# ----------------------------------------------------------
 json_db/private_assets/
 json_db/external/
-verification_examples/*.txt
-verification_examples/*.md
-*.log
-*.tmp
+Data/system_instructions.txt
+
+# ----------------------------------------------------------
+# Internal Development Notes
+# ----------------------------------------------------------
+# Session logs, task histories, and working notes
+# that are not part of the public documentation.
+MASTER_SESSION_LOG.md
+MASTER_TASK_HISTORY.md
+MASTER_KNOWN_ISSUES.md
+MASTER_FEATURE_STATUS.md
+docs/encyclopedia_persona_and_rules.md
+
+# ----------------------------------------------------------
+# Debug & Scratch Scripts
+# ----------------------------------------------------------
 debug_*.py
 temp_*.py
 scratch_*.py
+_debug_*.py
+_explore_*.py
+repro_*.py
+reproducing_*.py
+isolate_*.py
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Generated Files
+# ----------------------------------------------------------
+# Temporary & Generated Output
+# ----------------------------------------------------------
+*.log
+*.tmp
+tmp_*.txt
+cantor_prototypes/
 cantor_output_example.txt
 missing_materials.txt
+
+# ----------------------------------------------------------
+# Trace & Verification Artifacts
+# ----------------------------------------------------------
+# Large machine-generated trace files used during
+# development to verify rubrical accuracy.
+Logic_Trace_*.txt
+*_Trace.txt
+*_Trace_*.txt
+Clean_Week_*.txt
+Feb_*_Trace*.txt
 verification_phase_*.txt
+verification_trace_*.txt
+Abstract_*.txt
+Service_*.txt
+digest_output.*
+digest_vespers_*.txt
 
-# Sensitive Data
-config_local.json
-secrets.json
-Data/system_instructions.txt
-
-# AI Working Files (brain transfer between sessions)
-.agent/brain/
-
-# Prototypes
-cantor_prototypes/
-docs/encyclopedia_persona_and_rules.md
+# ----------------------------------------------------------
+# Audit Results (internal only)
+# ----------------------------------------------------------
+audit_results/
