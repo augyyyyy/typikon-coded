@@ -1,0 +1,76 @@
+{
+    "file_metadata": {
+        "filename": "02h_logic_royal_hours.json",
+        "version": "1.0",
+        "authority": "Dolnytsky Typikon Part I & IV",
+        "scope": "Royal Hours Specifics"
+    },
+    "royal_psalms": {
+        "good_friday": {
+            "1": [
+                "horologion.psalm_5",
+                "horologion.psalm_2",
+                "horologion.psalm_21"
+            ],
+            "3": [
+                "horologion.psalm_16",
+                "horologion.psalm_34",
+                "horologion.psalm_108"
+            ],
+            "6": [
+                "horologion.psalm_53",
+                "horologion.psalm_139",
+                "horologion.psalm_90"
+            ],
+            "9": [
+                "horologion.psalm_83",
+                "horologion.psalm_68",
+                "horologion.psalm_85"
+            ]
+        },
+        "nativity": {
+            "1": [
+                "horologion.psalm_5",
+                "horologion.psalm_44",
+                "horologion.psalm_45"
+            ],
+            "3": [
+                "horologion.psalm_16",
+                "horologion.psalm_66",
+                "horologion.psalm_86"
+            ],
+            "6": [
+                "horologion.psalm_53",
+                "horologion.psalm_71",
+                "horologion.psalm_131"
+            ],
+            "9": [
+                "horologion.psalm_83",
+                "horologion.psalm_109",
+                "horologion.psalm_110"
+            ]
+        },
+        "theophany": {
+            "1": [
+                "horologion.psalm_5",
+                "horologion.psalm_44",
+                "horologion.psalm_28"
+            ],
+            "3": [
+                "horologion.psalm_16",
+                "horologion.psalm_28",
+                "horologion.psalm_41"
+            ],
+            "6": [
+                "horologion.psalm_53",
+                "horologion.psalm_73",
+                "horologion.psalm_90"
+            ],
+            "9": [
+                "horologion.psalm_83",
+                "horologion.psalm_92",
+                "horologion.psalm_113"
+            ]
+        }
+    }
+}

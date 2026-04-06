@@ -36,11 +36,11 @@ def test_L_isodikon_logic(engine):
     ctx_wk = {"day_of_week": 2}
     ctx_feast = {"rank": 1} # Short circuit for feast check
     
-    res_sun = engine.resolve_isodikon(ctx_sun, {})
-    res_wk = engine.resolve_isodikon(ctx_wk, {})
+    res_sun = engine.resolve_isodikon(ctx_sun)
+    res_wk = engine.resolve_isodikon(ctx_wk)
     
-    assert "rose from the dead" in res_sun["content"]
-    assert "wondrous in the Saints" in res_wk["content"]
+    assert "risen from the dead" in res_sun["refrain"]
+    assert "wondrous in the saints" in res_wk["refrain"]
 
 def test_L_anaphora_basil(engine):
     """

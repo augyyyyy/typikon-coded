@@ -1,0 +1,189 @@
+{
+    "file_metadata": {
+        "filename": "katavasia_seasons.json",
+        "version": "1.0",
+        "authority": "Dolnytsky Typikon Part V pp. 246-273",
+        "description": "Year-round Katavasia lookup: 11 immovable date ranges + 10 movable overrides"
+    },
+    "immovable": [
+        {
+            "start_month": 9,
+            "start_day": 1,
+            "end_month": 9,
+            "end_day": 21,
+            "katavasia": "Having traced the Cross",
+            "tone": 8,
+            "feast": "Exaltation"
+        },
+        {
+            "start_month": 9,
+            "start_day": 22,
+            "end_month": 11,
+            "end_day": 20,
+            "katavasia": "I will open",
+            "tone": 4,
+            "feast": "General of Theotokos"
+        },
+        {
+            "start_month": 11,
+            "start_day": 21,
+            "end_month": 12,
+            "end_day": 31,
+            "katavasia": "Christ is born",
+            "tone": 1,
+            "feast": "Nativity of Christ"
+        },
+        {
+            "start_month": 1,
+            "start_day": 1,
+            "end_month": 1,
+            "end_day": 14,
+            "katavasia": "The depths",
+            "tone": 2,
+            "feast": "Theophany"
+        },
+        {
+            "start_month": 1,
+            "start_day": 15,
+            "end_month": 2,
+            "end_day": 9,
+            "katavasia": "The dry land",
+            "tone": 3,
+            "feast": "Meeting"
+        },
+        {
+            "start_month": 2,
+            "start_day": 10,
+            "end_month": 7,
+            "end_day": 31,
+            "katavasia": "I will open",
+            "tone": 4,
+            "feast": "General of Theotokos"
+        },
+        {
+            "start_month": 8,
+            "start_day": 1,
+            "end_month": 8,
+            "end_day": 6,
+            "katavasia": "Having traced the Cross",
+            "tone": 8,
+            "feast": "Exaltation"
+        },
+        {
+            "start_month": 8,
+            "start_day": 7,
+            "end_month": 8,
+            "end_day": 13,
+            "katavasia": "The people of Israel",
+            "tone": 4,
+            "feast": "Transfiguration"
+        },
+        {
+            "start_month": 8,
+            "start_day": 14,
+            "end_month": 8,
+            "end_day": 23,
+            "katavasia": "Adorned",
+            "tone": 1,
+            "feast": "Dormition"
+        },
+        {
+            "start_month": 8,
+            "start_day": 24,
+            "end_month": 8,
+            "end_day": 31,
+            "katavasia": "Having traced the Cross",
+            "tone": 8,
+            "feast": "Exaltation"
+        }
+    ],
+    "movable": [
+        {
+            "offset_start": 1,
+            "offset_end": 38,
+            "katavasia": "The Resurrection Day",
+            "tone": 1,
+            "feast": "Pascha",
+            "note": "From Pascha to Apodosis (excl.)"
+        },
+        {
+            "offset_start": 24,
+            "offset_end": 24,
+            "katavasia": "The Sea",
+            "tone": 8,
+            "feast": "Mid-Pentecost",
+            "note": "Mid-Pentecost Wednesday"
+        },
+        {
+            "offset_start": 31,
+            "offset_end": 31,
+            "katavasia": "The Sea",
+            "tone": 8,
+            "feast": "Mid-Pentecost",
+            "note": "Apodosis of Mid-Pentecost"
+        },
+        {
+            "offset_start": 35,
+            "offset_end": 35,
+            "katavasia": "To the Savior",
+            "tone": 5,
+            "feast": "Ascension",
+            "note": "6th Sun after Pascha"
+        },
+        {
+            "offset_start": 38,
+            "offset_end": 38,
+            "katavasia": "To the Savior",
+            "tone": 5,
+            "feast": "Ascension",
+            "note": "Apodosis of Pascha"
+        },
+        {
+            "offset_start": 39,
+            "offset_end": 39,
+            "katavasia": "Divine",
+            "tone": 4,
+            "feast": "Pentecost",
+            "note": "Ascension Thursday"
+        },
+        {
+            "offset_start": 40,
+            "offset_end": 47,
+            "katavasia": "To the Savior",
+            "tone": 5,
+            "feast": "Ascension",
+            "note": "Fri after Ascension to Apodosis"
+        },
+        {
+            "offset_start": 42,
+            "offset_end": 42,
+            "katavasia": "Divine",
+            "tone": 4,
+            "feast": "Pentecost",
+            "note": "7th Sun after Pascha"
+        },
+        {
+            "offset_start": 48,
+            "offset_end": 48,
+            "katavasia": "Let us send up a song",
+            "tone": 8,
+            "feast": "Sat. of Pentecost"
+        },
+        {
+            "offset_start": 49,
+            "offset_end": 55,
+            "katavasia": "Divine",
+            "tone": 4,
+            "feast": "Pentecost",
+            "note": "Pentecost to Apodosis"
+        },
+        {
+            "offset_start": 56,
+            "offset_end": 56,
+            "katavasia": "I will open",
+            "tone": 4,
+            "feast": "General of Theotokos",
+            "note": "All Saints"
+        }
+    ]
+}

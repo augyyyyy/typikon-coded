@@ -88,12 +88,13 @@ class TestLentenDeepLogic(unittest.TestCase):
             "saints": [{"name": "Simple Saint", "rank": 5}]
         }
         
-        result = self.engine.resolve_canon_interludes(context)
+        # Resolve Ode 3 Interludes
+        result = self.engine.resolve_canon_interludes(3, context)
         
         # Ode 3 Should contain the Saint's Sidalen
         # Ode 3 Should contain the Saint's Sidalen
         # Updated to check for structured object instead of raw string
-        self.assertTrue(any(item.get("type") == "sessional_saint" for item in result["ode_3"]))
+        self.assertTrue(any(item.get("type") == "sessional" for item in result.get("components", [])))
 
     # MODULE B2: PRESANCTIFIED TRIGGERS
     # =========================================================================

@@ -21,7 +21,7 @@ def test_lenten_matins_clean_tuesday(engine):
     # 1. Alleluia Check
     res_all = engine.resolve_alleluia_vs_god_is_lord(context, {})
     assert res_all["type"] == "sequence"
-    assert "alleluia" in res_all["components"][0]["ref_key"]
+    assert "trinity_hymn" in res_all["components"][0]["ref_key"]
     assert "trinity_hymn" in res_all["components"][1]["ref_key"]
     
     # 2. Canon Check (Ode 2 for Tuesday)

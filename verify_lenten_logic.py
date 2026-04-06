@@ -32,7 +32,7 @@ def verify_hooks():
     # 2. Verify Lenten Vespers Ending
     print("\n--- Verifying Lenten Vespers Ending ---")
     try:
-        res = engine.resolve_lenten_ending(ctx_lent)
+        res = engine.resolve_lenten_ending(ctx_lent, {})
         print(f"Result: {json.dumps(res, indent=2)}")
         if len(res["components"]) >= 7:
             print("PASS: Contains sufficient components (Rejoice, Baptist, Ephrem)")

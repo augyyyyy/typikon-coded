@@ -95,7 +95,7 @@ def run_tests():
 
             digest_text = digest_gen.generate(context, rubrics)
             
-            filename = f"generated_digests/digest_{date_str}.txt"
+            filename = f"generated_digests/digest_{date_str}.md"
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(digest_text)
         except Exception as e:

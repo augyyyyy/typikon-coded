@@ -50,7 +50,7 @@ def main():
     print(output)
     
     # Save to file for user to see
-    with open("digest_output.txt", "w", encoding="utf-8") as f:
+    with open("digest_output.md", "w", encoding="utf-8") as f:
         f.write(output)
 
 if __name__ == "__main__":

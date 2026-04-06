@@ -136,6 +136,47 @@
             }
           }
         },
+        "praises_distribution": {
+          "total_count": 8,
+          "source_ref": "Dolnytsky Part II (Sunday Praises)",
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 2
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 2
+                }
+              ]
+            }
+          },
+          "glory": "saint_doxastikon_if_present",
+          "both_now": "most_blessed_art_thou"
+        },
         "liturgy_variables": {
           "antiphons": "typical",
           "troparia": [

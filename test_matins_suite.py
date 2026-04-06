@@ -43,13 +43,10 @@ def test_MC2_saturday_theotokion():
 
 def test_MC3_triode_filter():
     """M-C3: Lenten Tuesday Odes 2, 8, 9 only."""
-    # Lenten Tuesday.
-    # Need to find a date or force season.
-    ctx = {"season_id": "triodion", "triodion_period": "lent_weekday", "day_of_week": 1} # 1=Tuesday (0=Sun, 1=Mon, 2=Tue... wait engine uses 0=Sun?)
-    # Engine uses: weekday = (target_date.weekday() + 1) % 7.  Sun=0. Mon=1. Tue=2.
-    ctx['day_of_week'] = 2 
+    ctx = {"season_id": "triodion", "is_lent": True, "triodion_period": "lent_weekday", "day_of_week": 2}
     
-    odes = engine.resolve_canon_structure(ctx)
+    result = engine.resolve_lenten_canon_odes(ctx, {})
+    odes = result["triodion_odes"]
     assert 2 in odes and 8 in odes and 9 in odes
     assert 1 not in odes and 3 not in odes
 

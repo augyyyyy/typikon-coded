@@ -632,6 +632,10 @@
           }
         },
         {
+          "target_id": "aposticha",
+          "action": "delete"
+        },
+        {
           "target_id": "lenten_ending",
           "action": "delete"
         },

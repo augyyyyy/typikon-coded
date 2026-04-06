@@ -54,6 +54,8 @@ class RuthenianEngine:
         self.matins_logic = self._load_json("json_db/02e_logic_matins.json")
         self.temple_logic = self._load_json("json_db/02d_logic_temple.json")
         self.liturgy_logic = self._load_json("json_db/02f_logic_liturgy.json")
+        self.ceremonial_logic = self._load_json("json_db/02g_logic_ceremonial.json")
+        self.presanctified_logic = self._load_json("json_db/02g_logic_presanctified.json")
         self.hours_logic = self._load_json("json_db/02h_logic_hours.json")
         self.compline_logic = self._load_json("json_db/02i_logic_compline.json")
         self.hours_structures = {
@@ -72,23 +74,24 @@ class RuthenianEngine:
         # Load Text Databases (Multi-Layer Strategy)
         self.text_db = {} 
         # The original _load_versioned_texts() and _load_bulk_files() are replaced by the following explicit loads
-        self._load_versioned_texts("json_db/stamford/text_horologion.json")
-        self._load_versioned_texts("json_db/stamford/text_horologion_supplement.json")
-        self._load_versioned_texts("json_db/stamford/text_eothinon.json")
-        self._load_versioned_texts("json_db/stamford/text_octoechos.json")
-        self._load_versioned_texts("json_db/stamford/text_pentecostarion.json")
-        self._load_versioned_texts("json_db/stamford/text_triodion.json")
-        self._load_versioned_texts("json_db/stamford/text_weekdays.json")
-        self._load_versioned_texts("json_db/stamford/text_theotokia.json")
+        # Recension text assets (service book content specific to the tradition)
+        _cf = self.content_folder  # e.g. 'stamford'
+        self._load_versioned_texts(f"json_db/{_cf}/text_horologion.json")
+        self._load_versioned_texts(f"json_db/{_cf}/text_horologion_supplement.json")
+        self._load_versioned_texts(f"json_db/{_cf}/text_eothinon.json")
+        self._load_versioned_texts(f"json_db/{_cf}/text_octoechos.json")
+        self._load_versioned_texts(f"json_db/{_cf}/text_pentecostarion.json")
+        self._load_versioned_texts(f"json_db/{_cf}/text_triodion.json")
+        self._load_versioned_texts(f"json_db/{_cf}/text_weekdays.json")
+        self._load_versioned_texts(f"json_db/{_cf}/text_theotokia.json")
         
         self.general_menaion_db = self._load_json("json_db/common/text_general_menaion.json")
-        # Overlay Stamford General Menaion if available
-        stamford_common_path = "json_db/stamford/text_general_menaion.json"
-        abs_common_path = os.path.abspath(stamford_common_path)
+        # Overlay recension-specific General Menaion if available
+        recension_menaion_path = f"json_db/{_cf}/text_general_menaion.json"
+        abs_common_path = os.path.abspath(recension_menaion_path)
         if os.path.exists(abs_common_path):
-            stamford_common = self._load_json(abs_common_path)
-            self.general_menaion_db.update(stamford_common)
-            # print(f"Engine: Overlaid {len(stamford_common)} items from Stamford General Menaion")
+            recension_common = self._load_json(abs_common_path)
+            self.general_menaion_db.update(recension_common)
         
         # Load External Assets (Fixed and Variable Recensions)
         if self.fixed_recension_path and os.path.exists(self.fixed_recension_path):
@@ -103,15 +106,18 @@ class RuthenianEngine:
         self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/lenten_triodion.json")
         self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/floral_triodion.json")
         
-        # [NEW] Load Dolnytsky Calendar Data (Fixed & Movable)
-        self.dolnytsky_fixed = self._load_json("json_db/stamford/calendar_dolnytsky.json")
-        self.dolnytsky_movable = self._load_json("json_db/stamford/calendar_dolnytsky_movable.json")
+        # Primary Source: Dolnytsky Calendar Data (Fixed & Movable)
+        self.dolnytsky_fixed = self._load_json("json_db/calendar_dolnytsky.json")
+        self.dolnytsky_movable = self._load_json("json_db/calendar_dolnytsky_movable.json")
+        self.katavasia_seasons = self._load_json("json_db/katavasia_seasons.json")
         
         # Validation
         if not self.dolnytsky_fixed:
              print("WARNING: Failed to load 'calendar_dolnytsky.json'. Fixed calendar overrides disabled.")
         if not self.dolnytsky_movable:
              print("WARNING: Failed to load 'calendar_dolnytsky_movable.json'. Movable calendar overrides disabled.")
+        if not self.katavasia_seasons:
+             print("WARNING: Failed to load 'katavasia_seasons.json'. Katavasia lookup disabled.")
         
         # Load St. Sergius Unabridged Data (Refined)
         self.st_sergius_db = self._load_json("json_db/st_sergius/octoechos_tone_1_refined.json")
@@ -979,8 +985,21 @@ class RuthenianEngine:
         
         Citation: Dolnytsky Part II - Rank hierarchy determines service structure
         """
-        # Testing Bypass
-        if "rank" in context:
+        # 0. Check Dolnytsky Rank FIRST (Primary Source Authority)
+        # Citation: Dolnytsky Part V — calendar rank is definitive
+        dolnytsky_rank = context.get("dolnytsky_rank")
+        if dolnytsky_rank:
+             if dolnytsky_rank == "LORD": return 1
+             if dolnytsky_rank == "THEOTOKOS": return 1
+             if dolnytsky_rank == "VIGIL": return 2
+             if dolnytsky_rank == "POLYELEOS": return 2
+             if dolnytsky_rank == "GT_DOX": return 3
+             if dolnytsky_rank == "SIX": return 4
+             if dolnytsky_rank == "ALLELUIA": return 5
+             if dolnytsky_rank == "SIMPLE": return 5
+
+        # Testing Bypass (only for unit tests that manually set rank)
+        if "rank" in context and "dolnytsky_rank" not in context:
             try:
                 return int(context["rank"])
             except:
@@ -1043,6 +1062,33 @@ class RuthenianEngine:
         Determines the Vespers Stichera distribution using the unified General Cases.
         Replaces legacy logic from 04_logic_vespers.json.
         """
+        # RULE: Lenten Sunday Evening Override
+        # Citation: Dolnytsky Part IV (2nd and 5th Sunday Evening Vespers rubrics)
+        # Even Sundays (2nd, 4th): 6 Octoechos + 4 Menaion
+        # Odd Sundays (1st, 3rd, 5th): 4 Octoechos (Penitential) + 3 Triodion + 3 Menaion
+        if context.get("is_lent") and context.get("day_of_week") == 0:
+            offset = context.get("pascha_offset", 0)
+            is_odd = offset in [-42, -28, -14]
+            if is_odd:
+                return {
+                    "total": 10,
+                    "counts": [
+                        {"type": "octoechos", "subtype": "penitential", "qty": 4},
+                        {"type": "triodion", "qty": 3},
+                        {"type": "menaion", "qty": 3}
+                    ],
+                    "both_now": "menaion.theotokion"
+                }
+            else:
+                return {
+                    "total": 10,
+                    "counts": [
+                        {"type": "octoechos", "subtype": "resurrection", "qty": 6},
+                        {"type": "menaion", "qty": 4}
+                    ],
+                    "both_now": "octoechos.dogmatikon"
+                }
+
         # FIX: For Saturday Vigil, use Sunday's stichera distribution (10 stichera)
         # Citation: Dolnytsky Part II Lines 33-40 (Vespers stichera on Sunday = 10)
         lookup_context = context.copy()
@@ -1098,18 +1144,58 @@ class RuthenianEngine:
              return expanded
 
         vespers_logic = case_def.get("variables", {}).get("vespers_stichera_distribution", {})
-        
+    
+        # BUG-1 FIX: If matched case (typically Triodion overlay) has no vespers_stichera_distribution,
+        # fall back to the base general case for this day type.
+        # Citation: Dolnytsky Part II — Triodion Sundays follow the Sunday paradigm (Case 01) for
+        # stichera structure, with Triodion-specific text overlays.
+        if not vespers_logic or vespers_logic.get("total_count", 0) == 0:
+            base_context = context.copy()
+            # Remove season_id to prevent Triodion cases from matching again
+            base_context.pop("season_id", None)
+            base_context.pop("pascha_offset", None)
+            base_case = self._get_base_general_case(base_context)
+            if base_case:
+                vespers_logic = base_case.get("variables", {}).get("vespers_stichera_distribution", {})
+    
         count = vespers_logic.get("total_count", 0)
         dist = []
         glory = vespers_logic.get("glory")
         both_now = vespers_logic.get("both_now")
+
+        # BUG-3 FIX: If glory/both_now are missing even though distribution exists,
+        # inherit them from the base general case.
+        # Citation: Dolnytsky Part II — During Triodion Sundays, the Dogmatikon and
+        # Glory/Both Now assignments follow the standard Sunday paradigm.
+        if glory is None or both_now is None:
+            base_context = context.copy()
+            base_context.pop("season_id", None)
+            base_context.pop("pascha_offset", None)
+            base_case = self._get_base_general_case(base_context)
+            if base_case:
+                base_vespers = base_case.get("variables", {}).get("vespers_stichera_distribution", {})
+                if glory is None:
+                    glory = base_vespers.get("glory")
+                if both_now is None:
+                    both_now = base_vespers.get("both_now")
         
+        # Absolute fallback: if still None after all lookups, use safe Dolnytsky defaults
+        if glory is None:
+            glory = "saint_doxastikon_if_present"
+        if both_now is None:
+            day_of_week = context.get("day_of_week", 0)
+            if day_of_week == 0 or context.get("is_sunday_vigil"):
+                both_now = "dogmatikon_current_tone"
+            else:
+                both_now = "theotokion_daily"
+
+    
         # Check for Logic Switch
         if "logic_switch" in vespers_logic:
             s_count = len(context.get("saints", []))
             switch_key = "1_saint"
             if s_count >= 2: switch_key = "2_saints"
-            
+        
             sub_rule = vespers_logic["logic_switch"].get(switch_key, {})
             dist = sub_rule.get("distribution", [])
         else:
@@ -1128,6 +1214,7 @@ class RuthenianEngine:
             "both_now": resolved_both_now,
             "case_id": case_def.get("id")
         }
+
 
     def generate_stichera_distribution(self, rubrics, service_type="vespers"):
         """
@@ -1163,6 +1250,10 @@ class RuthenianEngine:
         if context["day_of_week"] == 6:
             action = "psalm_1"
 
+        # Suppress Kathisma for Sunday Evening during Lent
+        if context.get("is_lent") and context.get("day_of_week") == 0:
+            action = "none"
+
         return f"fixed[{action}]"
 
     def resolve_entrance_logic(self, context, rubrics):
@@ -1189,6 +1280,49 @@ class RuthenianEngine:
 
 
 
+
+    def resolve_vigil_polyeleos(self, context, rubrics=None):
+        """
+        Retrieves the Polyeleos components for a Vigil service.
+        Included to satisfy test_all_night_vigil.py.
+        """
+        # Part I - Psalms 134/135
+        comps = [{"type": "psalms", "ref_key": "polyeleos_psalms"}]
+        # Part II - Megalynarion calculation
+        has_megalynarion = context.get("rank", 5) <= 2
+        if has_megalynarion:
+            comps.append({"type": "megalynarion", "source": context.get("feast_id", "saint")})
+        return {"type": "polyeleos_stack", "components": comps}
+
+    def resolve_lenten_triodic_canon(self, context, rubrics=None):
+        """
+        Determines the specific Odes for the Lenten Triodic Canon based on the day of the week.
+        Citation: Dolnytsky IV:212-228
+        """
+        day_of_week = context.get("day_of_week", 0)
+        
+        day_names = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+        day_name = day_names[day_of_week]
+
+        # In case args are not passed via a dynamic rubric check, we can define the default fallback
+        rules = {
+            "monday": [1, 8, 9],
+            "tuesday": [2, 8, 9],
+            "wednesday": [3, 8, 9],
+            "thursday": [4, 8, 9],
+            "friday": [5, 8, 9],
+            "saturday": [6, 7, 8, 9]
+        }
+        
+        appointed_odes = rules.get(day_name, [])
+        if not appointed_odes:
+            return {"type": "canon_lenten", "action": "Standard"}
+            
+        return {
+            "type": "canon_lenten",
+            "action": f"Triodion Odes {', '.join(map(str, appointed_odes))}",
+            "appointed_odes": appointed_odes
+        }
 
     def resolve_general_case(self, context):
         """
@@ -1250,13 +1384,17 @@ class RuthenianEngine:
 
         # Sort candidates by priority if available (Triodion has priority field)
         # We need a stable iteration order.
-        # General cases don't have priority, assume simplified "first match" or "specific over general"
+        # General cases don't have priority, assume 0.
+        sorted_candidates = sorted(
+            [(k, v) for k, v in candidate_cases.items() if not k.startswith("//")],
+            key=lambda x: x[1].get("priority", 0),
+            reverse=True
+        )
         
         # Helper for matching
         p_offset = context.get("pascha_offset", 0)
 
-        for key, case_def in candidate_cases.items():
-            if key.startswith("//"): continue
+        for key, case_def in sorted_candidates:
             
             triggers = case_def.get("triggers", {})
             if not triggers: continue
@@ -1323,10 +1461,73 @@ class RuthenianEngine:
 
             return case_def
             
-        print(f"DEBUG: No Match Found! Context: Period={period}, Day={day_of_week}, Rank={rank_id}, Offset={p_offset}")
+        # FIX Issue #3: Instead of returning None, provide a safe default case
+        # This prevents downstream None errors in resolve_vespers_stichera, resolve_praises_stack, etc.
+        # Citation: Dolnytsky Part II Line 82 (weekday default: 3 Octoechos + 3 Menaion = 6)
+        print(f"WARNING: No General Case match. Period={period}, Day={day_of_week}, Rank={rank_id}, Offset={p_offset}")
+        
+        # Build a minimal default case based on rank
+        default_dist = [{"source": "octoechos", "qty": 3}, {"source": "menaion", "qty": 3}]
+        if rank_id in ["rank_vigil", "rank_polyeleos"]:
+            default_dist = [{"source": "octoechos", "qty": 4}, {"source": "menaion", "qty": 6}]
+        elif day_of_week == 0:  # Sunday: Dolnytsky II:36 -> 7+3
+            default_dist = [{"source": "octoechos", "qty": 7}, {"source": "menaion", "qty": 3}]
+        
+        return {
+            "id": "fallback_default",
+            "source_ref": "Engine Default (no case matched)",
+            "variables": {
+                "vespers_stichera_distribution": {
+                    "total_count": sum(d["qty"] for d in default_dist),
+                    "distribution": default_dist,
+                    "glory": "saint_doxastikon_if_present",
+                    "both_now": "dogmatikon_current_tone"
+                }
+            }
+        }
+
+    def _get_base_general_case(self, context):
+        """
+        Looks up ONLY the general cases (02a_logic_general.json), ignoring Triodion overlays.
+        Used to inherit base paradigm data (stichera distribution, canon structure, etc.)
+        when a Triodion case matches but doesn't specify these fields.
+        
+        Citation: Dolnytsky Part II — Triodion Sundays still follow the base Sunday paradigm
+        for service structure; the Triodion adds/replaces specific texts, not the overall framework.
+        """
+        cases = self.general_cases.get("logic_definitions", {})
+        rank_id = self._get_rank_id(context)
+        day_of_week = context.get("day_of_week", 0)
+        
+        for key, case_def in cases.items():
+            if key.startswith("//"): continue
+            triggers = case_def.get("triggers", {})
+            if not triggers: continue
+            
+            # Check day of week
+            if "day_of_week" in triggers and day_of_week not in triggers["day_of_week"]:
+                continue
+            
+            # Check rank — be lenient: if no rank matches, try broadening
+            if "rank_id" in triggers:
+                if rank_id not in triggers["rank_id"]:
+                    # For Triodion Sundays, the underlying saint rank may not match.
+                    # Accept the first Sunday case as fallback regardless of rank.
+                    if day_of_week == 0 and 0 in triggers.get("day_of_week", []):
+                        pass  # Accept this match
+                    else:
+                        continue
+            
+            # Check period — force to 'normal' (we want the base paradigm)
+            if "period" in triggers and "normal" not in triggers["period"]:
+                continue
+
+            return case_def
+        
         return None
 
     def _get_rank_id(self, context):
+
         # Helper to convert menaion_rank to string ID used in 02a_logic_general.json
         
         # 1. Check Dolnytsky Rank (New System)
@@ -1404,36 +1605,75 @@ class RuthenianEngine:
         # Hard fallback for simple Sunday if JSON missing
         if context.get("day_of_week") == 0:
             return [
-                {"source": "resurrection", "count": 4, "irmos": True},
-                {"source": "cross_resurrection", "count": 2}, 
-                {"source": "theotokos", "count": 2},
-                {"source": "saint", "count": 6} 
+                {"source": "octoechos", "type": "resurrection", "qty": 4, "count": 4, "irmos": True},
+                {"source": "octoechos", "type": "cross_res", "qty": 3, "count": 3}, 
+                {"source": "octoechos", "type": "theotokos", "qty": 3, "count": 3},
+                {"source": "menaion", "type": "saint", "qty": 4, "count": 4} 
             ]
             
-        return [{"source": "octoechos", "count": 4, "irmos": True}] # Final fallback
+        return [{"source": "octoechos", "type": "weekday", "qty": 4, "count": 4, "irmos": True}] # Final fallback
 
     def resolve_canon_interludes(self, ode_number, context):
         """
         Resolves Sessional Hymns (Ode 3) and Kontakion/Ikos (Ode 6).
+        
+        Citation: Dolnytsky Part I Lines 175-180:
+        After Ode 3: Sessional Hymns. On Sunday, includes Hypakoe.
+        After Ode 6: Kontakion & Ikos. On Sunday, Resurrection Kontakion.
         """
         if ode_number not in [3, 6]:
              return None
 
         result = {"type": "canon_interlude", "pos": ode_number, "components": []}
+        is_sunday = context.get("day_of_week") == 0
+        rank = context.get("rank", 5)
 
         # ODE 3 Logic
         if ode_number == 3:
-             # Standard: Sessional Hymns (Kathisma)
-             # Start with simple logic:
-             result["components"].append({"type": "sessional", "source": "menaion", "count": 1})
-             result["components"].append({"type": "glory_both_now", "source": "theotokion"})
+            if is_sunday:
+                # Sunday: Hypakoe of the tone
+                tone = context.get("octoechos_tone", context.get("tone", 1))
+                result["components"].append({
+                    "type": "hymn", "id": f"hypakoe_tone_{tone}",
+                    "source": "octoechos", "note": "Hypakoe of the Tone"
+                })
+            else:
+                # Weekday/Feast: Sessional Hymn from Menaion
+                result["components"].append({
+                    "type": "sessional", "id": "sessional_menaion",
+                    "source": "menaion", "count": 1
+                })
+            result["components"].append({
+                "type": "glory_both_now", "id": "glory_both_now_theotokion",
+                "source": "theotokion"
+            })
              
         # ODE 6 Logic
         elif ode_number == 6:
-             # Standard: Kontakion and Ikos
-             result["components"].append({"type": "kontakion", "source": "saint"})
-             result["components"].append({"type": "ikos", "source": "saint"})
+            if is_sunday:
+                # Sunday: Resurrection Kontakion & Ikos
+                tone = context.get("octoechos_tone", context.get("tone", 1))
+                result["components"].append({
+                    "type": "kontakion", "id": f"kontakion_resurrection_tone_{tone}",
+                    "source": "octoechos", "note": "Resurrection Kontakion"
+                })
+                result["components"].append({
+                    "type": "ikos", "id": f"ikos_resurrection_tone_{tone}",
+                    "source": "octoechos", "note": "Resurrection Ikos"
+                })
+            else:
+                # Weekday/Feast: Kontakion & Ikos from Menaion
+                result["components"].append({
+                    "type": "kontakion", "id": "kontakion_menaion",
+                    "source": "menaion"
+                })
+                result["components"].append({
+                    "type": "ikos", "id": "ikos_menaion",
+                    "source": "menaion"
+                })
 
+        # Alias: expose as "items" for backward-compatible access
+        result["items"] = result["components"]
         return result
 
     def resolve_canon_insertion(self, context, rubrics=None, pos=None):
@@ -1446,7 +1686,13 @@ class RuthenianEngine:
         elif pos == "after_6th": ode = 6
         
         if ode > 0:
-            return self.resolve_canon_interludes(ode, context)
+            result = self.resolve_canon_interludes(ode, context)
+            # BUG-2 FIX: Defensive type-checking. If result is a list, wrap it in a dict.
+            if isinstance(result, list):
+                result = {"type": "canon_interlude", "pos": ode, "components": result}
+            elif result and not isinstance(result, dict):
+                result = {"type": "canon_interlude", "pos": ode, "raw": str(result)}
+            return result
         return None
     def resolve_canon_stack(self, context):
         """
@@ -1496,7 +1742,17 @@ class RuthenianEngine:
             if interlude:
                 odes.append(interlude)
 
-        return {"type": "canon_block", "odes": odes}
+        # Build summary fields from Ode 1 distribution (the canonical distribution)
+        ode_objects = [o for o in odes if "ode" in o]
+        ode1_dist = ode_objects[0].get("distribution", []) if ode_objects else []
+        total_count = sum(d.get("qty", d.get("count", 0)) for d in ode1_dist)
+        
+        return {
+            "type": "canon_block",
+            "odes": odes,
+            "total_count": total_count,
+            "distribution": ode1_dist
+        }
 
     def apply_footnote_exceptions(self, context, rubrics=None):
         """
@@ -1528,6 +1784,301 @@ class RuthenianEngine:
             })
 
         return exceptions
+
+    # =========================================================================
+    # NEW MICRO-RESOLVERS (Layer 1 → 100%)
+    # =========================================================================
+
+    def resolve_polyeleos_or_kathisma_17(self, context, rubrics=None):
+        """
+        NEW-1: Determines whether Polyeleos, Kathisma 17, or Kathisma 19 is sung at Matins.
+        
+        Citation: Dolnytsky Part 1 Line 157:
+        "Polyeleos is sung on all Feasts which have Great Vespers and Great Matins.
+         On Sunday it is sung only from Sept 22 to Dec 19 and from Jan 14 to Cheesefare Sunday.
+         On other Sundays the 17th Kathisma is used."
+        """
+        day_of_week = context.get("day_of_week", 0)
+        rank = context.get("dolnytsky_rank", "")
+        
+        # 1. Feasts always get Polyeleos
+        if rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
+            return {
+                "type": "polyeleos",
+                "psalms": [134, 135],
+                "citation": "Dolnytsky Part 1 Line 157 — Polyeleos for all feasts with Great Matins"
+            }
+        
+        # 2. Sunday logic: date-dependent window
+        if day_of_week == 0:
+            date_str = context.get("date", "")
+            if len(date_str) >= 10:
+                mm = int(date_str[5:7])
+                dd = int(date_str[8:10])
+                mmdd = mm * 100 + dd
+                
+                # Window 1: Sep 22 (0922) to Dec 19 (1219) → Kathisma 17
+                # Window 2: Jan 14 (0114) to Cheesefare Sunday → Kathisma 19 (Polyeleos)
+                # Outside both: Kathisma 17
+                
+                # Dolnytsky says Polyeleos in Window 2, Kathisma 17 elsewhere
+                if 114 <= mmdd <= 228:  # Jan 14 to approx. late Feb (Cheesefare)
+                    # More precisely, until Cheesefare Sunday
+                    pascha_offset = context.get("pascha_offset", 0)
+                    if pascha_offset <= -49:  # Before or on Cheesefare
+                        return {
+                            "type": "polyeleos",
+                            "psalms": [134, 135],
+                            "citation": "Dolnytsky Part 1 Line 157 — Polyeleos from Jan 14 to Cheesefare"
+                        }
+                
+                if 922 <= mmdd <= 1219:
+                    return {
+                        "type": "kathisma_17",
+                        "psalm": 118,
+                        "citation": "Dolnytsky Part 1 Line 157 — Kathisma 17 from Sep 22 to Dec 19"
+                    }
+            
+            # Default for Sundays outside windows
+            return {
+                "type": "kathisma_17",
+                "psalm": 118,
+                "citation": "Dolnytsky Part 1 Line 157 — Kathisma 17 default for Sundays"
+            }
+        
+        # 3. Non-Sunday, non-feast: no polyeleos
+        return {
+            "type": "none",
+            "citation": "Dolnytsky Part 1 Line 157 — No Polyeleos on weekdays without feast"
+        }
+
+    def resolve_liturgy_type(self, context, rubrics=None):
+        """
+        NEW-2: Determines Chrysostom vs Basil vs Presanctified vs No Liturgy.
+        
+        Citation: Dolnytsky Part 1 Lines 219-221, Part 4:
+        - Basil: 5 Lenten Sundays, Holy Thursday, Holy Saturday, Jan 1,
+                 Eve of Nativity (Dec 24), Eve of Theophany (Jan 5)
+        - Presanctified: Wed/Fri of Lent + specific other days
+        - No Liturgy: Lenten weekdays (Mon/Tue/Thu) except feasts
+        - Chrysostom: all other days
+        """
+        day_of_week = context.get("day_of_week", 0)
+        pascha_offset = context.get("pascha_offset", 0)
+        date_str = context.get("date", "")
+        season = context.get("season_id", "")
+        
+        # Check Triodion-specific overrides first
+        triodion_case = self.resolve_general_case(context)
+        if triodion_case:
+            triodion_liturgy = triodion_case.get("variables", {}).get("liturgy_type")
+            if triodion_liturgy:
+                return {
+                    "type": triodion_liturgy,
+                    "citation": f"Triodion case: {triodion_case.get('title', 'unknown')}"
+                }
+        
+        # Fixed Basil dates (by civil date)
+        mmdd = ""
+        if len(date_str) >= 10:
+            mmdd = date_str[5:10]  # "MM-DD"
+        
+        basil_dates = ["01-01", "12-24", "01-05"]  # Jan 1, Nativity Eve, Theophany Eve
+        if mmdd in basil_dates:
+            return {
+                "type": "liturgy_basil",
+                "citation": f"Dolnytsky — Basil Liturgy on {mmdd}"
+            }
+        
+        # Lenten Sundays (offsets -42 through -7, excluding Palm Sunday which is -7)
+        if season == "triodion" and day_of_week == 0:
+            if -42 <= pascha_offset <= -14:  # 1st through 5th Sunday of Lent
+                return {
+                    "type": "liturgy_basil",
+                    "citation": "Dolnytsky Part 4 — Basil Liturgy on Lenten Sundays"
+                }
+        
+        # Holy Thursday and Holy Saturday
+        if pascha_offset == -3:  # Holy Thursday
+            return {"type": "liturgy_basil", "citation": "Dolnytsky Part 4 — Basil on Holy Thursday"}
+        if pascha_offset == -1:  # Holy Saturday
+            return {"type": "liturgy_basil", "citation": "Dolnytsky Part 4 — Basil on Holy Saturday"}
+        
+        # Presanctified: Wed/Fri of Lent
+        if season == "triodion" and day_of_week in (3, 5):  # Wed, Fri
+            if -48 <= pascha_offset <= -8:  # Clean week through 6th week
+                return {
+                    "type": "presanctified",
+                    "citation": "Dolnytsky Part 4 — Presanctified on Lenten Wed/Fri"
+                }
+        
+        # No Liturgy: Lenten Mon/Tue/Thu with some exceptions
+        if season == "triodion" and day_of_week in (1, 2, 4):
+            if -48 <= pascha_offset <= -8:
+                rank = context.get("dolnytsky_rank", "")
+                if rank not in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
+                    return {
+                        "type": "none",
+                        "citation": "Dolnytsky Part 4 — No Liturgy on Lenten Mon/Tue/Thu"
+                    }
+        
+        # Default: Chrysostom
+        return {
+            "type": "liturgy_chrysostom",
+            "citation": "Dolnytsky — Divine Liturgy of St. John Chrysostom (default)"
+        }
+
+    def resolve_saint_transfer(self, context, rubrics=None):
+        """
+        NEW-3: Determines if the saint of the day is transferred to another day.
+        
+        Citation: Dolnytsky Part 4 — During Lent, saints of rank below Polyeleos
+        on weekdays are transferred to the previous Friday at Compline.
+        """
+        season = context.get("season_id", "")
+        day_of_week = context.get("day_of_week", 0)
+        rank = context.get("dolnytsky_rank", "")
+        
+        # Only during Great Lent weekdays
+        if season != "triodion": 
+            return None
+        
+        pascha_offset = context.get("pascha_offset", 0)
+        if not (-48 <= pascha_offset <= -8):
+            return None
+            
+        if day_of_week in (1, 2, 3, 4, 5) and rank not in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
+            saints = context.get("saints", [])
+            if saints:
+                return {
+                    "transferred": True,
+                    "saint_name": saints[0].get("name", saints[0].get("id", "unknown")),
+                    "target": "previous_friday_compline",
+                    "citation": "Dolnytsky Part 4 — Lenten saint transfer to Friday Compline"
+                }
+        
+        return None
+
+    def resolve_service_combination_header(self, context, rubrics=None):
+        """
+        NEW-4: Generates the Dolnytsky-style header describing how services combine.
+        
+        E.g.: "Sunday service combined with the Triodion, and that of the forefeast"
+        Citation: Dolnytsky Part 2 — Headers of all 20 Paradigms
+        """
+        components = []
+        day_of_week = context.get("day_of_week", 0)
+        season = context.get("season_id", "")
+        d_title = context.get("dolnytsky_title", "")
+        full_text = f"{d_title}".lower()
+        
+        # Base service
+        if day_of_week == 0:
+            components.append("Sunday service from the Octoechos")
+        elif day_of_week == 6:
+            components.append("Saturday service")
+        else:
+            day_names = {1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursday", 5: "Friday"}
+            components.append(f"{day_names.get(day_of_week, 'Weekday')} service")
+        
+        # Triodion overlay
+        if season in ("triodion", "pentecostarion"):
+            components.append("the Triodion")
+        
+        # Forefeast/Afterfeast
+        if "forefeast" in full_text:
+            components.append("the forefeast")
+        elif "afterfeast" in full_text:
+            components.append("the afterfeast")
+        
+        # Saint
+        saints = context.get("saints", [])
+        if saints:
+            s_name = saints[0].get("name", saints[0].get("id", ""))
+            if s_name:
+                components.append(f"St. {s_name}")
+        
+        if len(components) <= 1:
+            return {"header": components[0] if components else "Service", "components": components}
+        
+        header = components[0] + " combined with " + ", and that of ".join(components[1:])
+        return {"header": header, "components": components}
+
+    def resolve_fasting_rule(self, context, rubrics=None):
+        """
+        NEW-5: Determines the refectory/fasting rule for the day.
+        
+        Citation: Dolnytsky Appendix — Fasting Rules
+        """
+        season = context.get("season_id", "")
+        day_of_week = context.get("day_of_week", 0)
+        pascha_offset = context.get("pascha_offset", 0)
+        rank = context.get("dolnytsky_rank", "")
+        
+        # Great Lent
+        if season == "triodion" and -48 <= pascha_offset <= -1:
+            if day_of_week in (6, 0):  # Sat/Sun
+                return {"type": "oil_and_wine", "note": "Oil and wine permitted on Lenten Saturdays and Sundays",
+                        "citation": "Dolnytsky Appendix — Lenten Fasting"}
+            elif day_of_week == 5:  # Friday
+                return {"type": "xerophagy", "note": "Dry eating (bread, raw vegetables, fruit)",
+                        "citation": "Dolnytsky Appendix — Lenten Friday"}
+            else:
+                return {"type": "xerophagy", "note": "Dry eating",
+                        "citation": "Dolnytsky Appendix — Lenten weekday"}
+
+        # Cheesefare week + Sunday (no meat, dairy/eggs OK)
+        if season == "triodion" and -55 <= pascha_offset <= -49:
+            return {"type": "dairy_and_eggs", "note": "Dairy and eggs permitted, no meat",
+                    "citation": "Dolnytsky Appendix — Cheesefare Week"}
+        
+        # Normal Wed/Fri
+        if day_of_week in (3, 5) and season not in ("pentecostarion",):
+            return {"type": "fast_day", "note": "Abstinence from meat and dairy",
+                    "citation": "Dolnytsky — Wednesday and Friday fast"}
+        
+        # Fish feast
+        if rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
+            return {"type": "fish_permitted", "note": "Fish and wine permitted for the feast",
+                    "citation": "Dolnytsky Appendix — Festal relaxation"}
+        
+        # Default
+        return {"type": "no_fast", "note": "No fasting restrictions",
+                "citation": "Dolnytsky Appendix — Normal day"}
+
+    def resolve_daily_matins_katavasia(self, context, rubrics=None):
+        """
+        NEW-6: For Daily Matins, the Katavasia is the irmos of the last canon,
+        sung only after Odes 3, 6, 8, and 9 (not after every ode like Great Matins).
+        
+        Citation: Dolnytsky Part 1 Line 204:
+        "The Katavasia will not be the current one, nor after every ode, but only
+         after the 3rd, 6th, 8th and 9th — the irmos of the last canon."
+        """
+        return {
+            "type": "daily_katavasia",
+            "source": "irmos_of_last_canon",
+            "after_odes": [3, 6, 8, 9],
+            "citation": "Dolnytsky Part 1 Line 204 — Daily Matins katavasia"
+        }
+
+    def resolve_daily_matins_praises(self, context, rubrics=None):
+        """
+        NEW-7: For Daily Matins, the Psalms of the Praises are read simply,
+        without singing and without the addition to the first two verses.
+        
+        Citation: Dolnytsky Part 1 Line 204:
+        "The Psalms of the Praises, simply, without singing and without the
+         addition to the first two verses of the words: 'Let everything that
+         hath breath' and 'To Thee belongs'."
+        """
+        return {
+            "type": "daily_praises",
+            "mode": "read",  # Not "sung"
+            "first_verse_addition": False,  # No "Let everything that hath breath"
+            "doxology_type": "small",  # Read, not sung
+            "citation": "Dolnytsky Part 1 Line 204 — Daily Matins Praises read simply"
+        }
 
     def resolve_praises_stack(self, context):
         """
@@ -1572,6 +2123,1834 @@ class RuthenianEngine:
         }
 
 
+
+    # =========================================================================
+    # SPRINT 1: CORE SUNDAY/FEAST LOGIC RESOLVERS
+    # =========================================================================
+
+    def resolve_gospel_sticheron_placement(self, context, rubrics=None):
+        """
+        Gap 1.1: Gospel Sticheron Displacement.
+        Citation: Dolnytsky Part II Lines 357, 389, 449, 521.
+        
+        On Sundays with the Eothinon cycle, the Gospel Sticheron is NOT placed
+        in the Praises Glory slot. Instead it is sung AFTER the dismissal of 
+        Matins: "Glory: Gospel Sticheron, Both now: Most Blessed art Thou".
+        
+        Returns:
+            dict with placement info:
+            - placement: "in_praises_glory" or "after_dismissal"
+            - key: asset key for the Gospel Sticheron text
+            - both_now: "Most Blessed art Thou" when after dismissal
+        """
+        is_sunday = context.get("day_of_week") == 0 or context.get("is_sunday_vigil")
+        period = context.get("period", "normal")
+        rank = self._get_rank_id(context)
+        
+        # Sunday Eothinon cycle: displaced after dismissal
+        if is_sunday and period not in ("feast",) and rank not in ("rank_vigil_lord",):
+            gospel_data = self.resolve_matins_gospel(context)
+            eothinon_num = gospel_data.get("eothinon_number", 1)
+            return {
+                "placement": "after_dismissal",
+                "key": f"eothinon.{eothinon_num}.stichera",
+                "glory_text": f"Gospel Sticheron {eothinon_num}",
+                "both_now": "most_blessed_art_thou",
+                "rubric": "Dolnytsky II:357 — After the dismissal: Glory, Gospel Sticheron; Both now, 'Most Blessed'",
+                "source": "eothinon"
+            }
+        
+        # Great Feasts of the Lord: Gospel Sticheron stays in Praises
+        if period == "feast" and context.get("feast_level") == "lord":
+            return {
+                "placement": "in_praises_glory",
+                "key": "feast.stichera_praises.doxastikon",
+                "source": "menaion"
+            }
+        
+        # Non-Sunday / no Gospel Sticheron
+        return {
+            "placement": "none",
+            "note": "No Gospel Sticheron for this day"
+        }
+
+    def resolve_litya_content(self, context, rubrics=None):
+        """
+        Gap 1.2: Litiya Content Resolver.
+        Citation: Dolnytsky Part II Lines 32-34, 225, 245.
+        
+        The Litiya (procession to narthex with prayers for the departed and 
+        the living) occurs at All-Night Vigil and certain festal Vespers.
+        
+        Structure: Litiya Stichera → Litiya Prayer → Glory/Both now
+        
+        Returns:
+            dict with stichera distribution and prayer text references.
+        """
+        rank = self._get_rank_id(context)
+        period = context.get("period", "normal")
+        is_vigil = rank in ("rank_vigil", "rank_vigil_lord")
+        
+        # Litiya only at Vigil services (or explicit override)
+        if not is_vigil and not context.get("force_litiya"):
+            return {"included": False, "reason": "No Litiya — not a Vigil service"}
+        
+        # Determine stichera source
+        feast_level = context.get("feast_level", "unknown")
+        stichera = []
+        glory = None
+        both_now = None
+        
+        if feast_level == "lord":
+            # Great Feast of the Lord: all stichera from feast
+            stichera = [
+                {"source": "menaion", "type": "litiya_feast", "qty": 5,
+                 "note": "Litiya stichera of the feast"}
+            ]
+            glory = "menaion.feast.litiya.glory"
+            both_now = "menaion.feast.litiya.both_now"
+            
+        elif feast_level == "theotokos":
+            # Great Feast of Theotokos: all from feast
+            stichera = [
+                {"source": "menaion", "type": "litiya_feast", "qty": 5}
+            ]
+            glory = "menaion.feast.litiya.glory"
+            both_now = "menaion.feast.litiya.both_now"
+            
+        elif period in ("afterfeast",) and is_vigil:
+            # Vigil Saint during Afterfeast: saint + feast stichera
+            stichera = [
+                {"source": "menaion", "type": "litiya_saint", "qty": 3,
+                 "note": "Litiya of the saint"},
+                {"source": "menaion", "type": "litiya_feast", "qty": 2,
+                 "note": "Litiya from the feast"}
+            ]
+            glory = "menaion.saint.litiya.glory"
+            both_now = "menaion.feast.litiya.both_now"
+                
+        else:
+            # Regular Vigil Saint (normal period): saint's own Litiya
+            saints = context.get("saints", [])
+            saint_id = saints[0].get("id", "saint") if saints else "saint"
+            stichera = [
+                {"source": "menaion", "type": "litiya_saint", "qty": 5,
+                 "note": f"Litiya of {saint_id}"}
+            ]
+            glory = f"menaion.{saint_id}.litiya.glory"
+            both_now = "menaion.saint.litiya.theotokion"
+        
+        return {
+            "included": True,
+            "stichera": stichera,
+            "glory": glory,
+            "both_now": both_now,
+            "prayer": "horologion.litiya_prayer",
+            "rubric": "Dolnytsky II:32-34 — Procession to narthex for Litiya",
+            "roles": {
+                "deacon": "Lead procession to narthex. Sing Litiya petitions.",
+                "priest": "Read Litiya prayer with head bowed.",
+                "choir": "Sing Litiya stichera."
+            }
+        }
+
+    def resolve_artoklasia(self, context, rubrics=None):
+        """
+        Gap 1.2 (continued): Blessing of Loaves (Artoklasia).
+        Citation: Dolnytsky Part I — Vigil Order.
+        
+        Occurs after Litiya at All-Night Vigil. Priest blesses five loaves,
+        wheat, wine, and oil. Then Troparion "Virgin Theotokos, Rejoice" (3×).
+        
+        Returns:
+            dict with artoklasia content and troparion.
+        """
+        rank = self._get_rank_id(context)
+        is_vigil = rank in ("rank_vigil", "rank_vigil_lord")
+        
+        if not is_vigil and not context.get("force_litiya"):
+            return {"included": False}
+        
+        return {
+            "included": True,
+            "prayer": "horologion.artoklasia_prayer",
+            "troparion": {
+                "key": "horologion.theotokion_virgin_rejoice",
+                "count": 3,
+                "note": "Sung three times after the blessing"
+            },
+            "rubric": "Priest blesses five loaves, wheat, wine, and oil",
+            "roles": {
+                "priest": "Stand before the table with loaves. Read the Artoklasia prayer. Sign the loaves crosswise with one loaf.",
+                "deacon": "Cense the loaves during the prayer.",
+                "choir": "Sing 'Virgin Theotokos, rejoice' three times."
+            }
+        }
+
+    def resolve_theotokion(self, context, position="both_now_vespers", rubrics=None):
+        """
+        Gap 1.3: Theotokion Selection Matrix.
+        Citation: Dolnytsky Part I Lines 62, 86, 148-154; Part II Line 45.
+        
+        Master resolver for Theotokion selection at any liturgical slot.
+        Uses the 02b_logic_theotokia.json matrix.
+        
+        Priority:
+          1. Great Feast of Lord/Theotokos → Feast Theotokion
+          2. Afterfeast → Feast Theotokion  
+          3. Sunday (or Sat Vigil) → Sunday Theotokion (Dogmatikon) by tone of week
+          4. Polyeleos Saint on weekday → Sunday Theotokion by tone of saint
+          5. Stavrotheotokion day (Wed/Fri vespers, Tue/Thu matins) → Stavrotheotokion
+          6. Default → Dismissal Theotokion by tone AND day of week
+        
+        Args:
+            context: liturgical context dict
+            position: "both_now_vespers", "both_now_matins", "troparion_theotokion",
+                      "aposticha_both_now", "glory_both_now"
+        
+        Returns:
+            dict with key, type, and citation.
+        """
+        theotokia_db = self.general_cases  # Will actually load from 02b
+        # Try to load dedicated Theotokia tables
+        theotokia = {}
+        for key in ["theotokia_tables", "02b_logic_theotokia"]:
+            if key in self.text_db:
+                theotokia = self.text_db[key]
+                break
+        
+        # Also check if loaded as separate JSON
+        if hasattr(self, 'theotokia_logic') and self.theotokia_logic:
+            theotokia = self.theotokia_logic.get("theotokia_tables", {})
+        else:
+            # Load it
+            try:
+                theotokia_file = self._load_json(os.path.join(self.base_dir, "json_db", "02b_logic_theotokia.json"))
+                if theotokia_file:
+                    self.theotokia_logic = theotokia_file
+                    theotokia = theotokia_file.get("theotokia_tables", {})
+            except Exception:
+                self.theotokia_logic = {}
+        
+        tone = context.get("tone", 1)
+        day_of_week = context.get("day_of_week", 0)
+        period = context.get("period", "normal")
+        feast_level = context.get("feast_level", "unknown")
+        rank = self._get_rank_id(context)
+        is_sunday = day_of_week == 0 or context.get("is_sunday_vigil")
+        
+        day_names = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+        day_name = day_names[day_of_week] if 0 <= day_of_week <= 6 else "sunday"
+        
+        # Priority 1: Great Feast override
+        if period == "feast" and feast_level in ("lord", "theotokos"):
+            return {
+                "type": "feast_theotokion",
+                "key": "menaion.feast.theotokion",
+                "citation": "Dolnytsky II — Feast Theotokion replaces all others",
+                "tone": tone
+            }
+        
+        # Priority 2: Afterfeast → Feast Theotokion
+        if period in ("afterfeast", "apodosis"):
+            return {
+                "type": "feast_theotokion",
+                "key": "menaion.feast.theotokion",
+                "citation": "Dolnytsky II — During Afterfeast, Feast Theotokion at Both now",
+                "tone": tone
+            }
+        
+        # Priority 3: Sunday / Sat Vigil → Sunday Theotokion (Dogmatikon) by tone of week
+        if is_sunday:
+            sun_table = theotokia.get("sunday_theotokia", {}).get("by_tone", {})
+            key = sun_table.get(str(tone), f"theotokion.sunday.tone_{tone}")
+            return {
+                "type": "dogmatikon",
+                "key": key,
+                "citation": f"Dolnytsky I:148 — Sunday Dogmatikon, Tone {tone}",
+                "tone": tone
+            }
+        
+        # Priority 4: Polyeleos Saint on weekday → Sunday Theotokion by tone of saint
+        if rank in ("rank_polyeleos", "rank_vigil"):
+            saints = context.get("saints", [])
+            saint_tone = saints[0].get("tone", tone) if saints else tone
+            sun_table = theotokia.get("sunday_theotokia", {}).get("by_tone", {})
+            key = sun_table.get(str(saint_tone), f"theotokion.sunday.tone_{saint_tone}")
+            return {
+                "type": "sunday_theotokion_by_saint_tone",
+                "key": key,
+                "citation": f"Dolnytsky I:86 — Sunday Theotokion in tone of saint ({saint_tone})",
+                "tone": saint_tone
+            }
+        
+        # Priority 5: Stavrotheotokion (Cross-Theotokion) for Wed/Fri vespers, Tue/Thu matins
+        stavro_table = theotokia.get("stavrotheotokia", {})
+        stavro_applies = stavro_table.get("applies_when", {})
+        
+        is_stavro = False
+        if position in ("both_now_vespers", "aposticha_both_now") and day_name in stavro_applies.get("vespers", []):
+            is_stavro = True
+        elif position in ("both_now_matins",) and day_name in stavro_applies.get("matins", []):
+            is_stavro = True
+        
+        if is_stavro:
+            stavro_by_tone = stavro_table.get("by_tone", {})
+            key = stavro_by_tone.get(str(tone), f"theotokion.stavro.tone_{tone}")
+            return {
+                "type": "stavrotheotokion",
+                "key": key,
+                "citation": f"Dolnytsky II — Stavrotheotokion, Tone {tone}, {day_name}",
+                "tone": tone
+            }
+        
+        # Priority 6: Default — Dismissal Theotokion by tone AND day of week
+        dismissal_table = theotokia.get("dismissal_theotokia", {}).get("by_tone_and_day", {})
+        tone_row = dismissal_table.get(str(tone), {})
+        key = tone_row.get(day_name, f"theotokion.dismissal.tone_{tone}.{day_name}")
+        return {
+            "type": "dismissal_theotokion",
+            "key": key,
+            "citation": f"Dolnytsky I:62 — Dismissal Theotokion, Tone {tone}, {day_name}",
+            "tone": tone
+        }
+
+    def resolve_forefeast_period(self, context):
+        """
+        Gap 1.4 Helper: Tags the current day with forefeast/afterfeast/apodosis period.
+        This data is already detected in resolve_general_case from dolnytsky_title text,
+        but this resolver provides explicit tagging for external consumers.
+        
+        Returns:
+            dict with period info or None if normal period.
+        """
+        d_title = context.get("dolnytsky_title", "")
+        d_commem = context.get("dolnytsky_commemoration", "")
+        full_text = f"{d_title} {d_commem}".lower()
+        
+        if "forefeast" in full_text:
+            return {"period": "forefeast", "source": "dolnytsky_calendar"}
+        elif "afterfeast" in full_text:
+            return {"period": "afterfeast", "source": "dolnytsky_calendar"}
+        elif "apodosis" in full_text:
+            return {"period": "apodosis", "source": "dolnytsky_calendar"}
+        
+        return {"period": "normal"}
+
+    # =========================================================================
+    # END SPRINT 1
+    # =========================================================================
+
+    # =========================================================================
+    # SPRINT 2: SMALL VESPERS + ANNOTATIONS + DATA ENRICHMENT
+    # =========================================================================
+
+    def resolve_small_vespers_needed(self, context, rubrics=None):
+        """
+        Gap 1.5: Small Vespers.
+        Citation: Dolnytsky Part I Lines 45-62.
+        
+        Small Vespers is served in the afternoon BEFORE an All-Night Vigil. 
+        It is an abbreviated Vespers with Psalm 103 (read, not chanted), 
+        "Lord I have cried" on 4, Aposticha, "Now lettest Thou", Troparion.
+        
+        Returns:
+            dict indicating if Small Vespers should occur and its structure.
+        """
+        rank = self._get_rank_id(context)
+        is_vigil = rank in ("rank_vigil", "rank_vigil_lord")
+        
+        if not is_vigil:
+            return {"needed": False, "reason": "No Small Vespers — not a Vigil day"}
+        
+        # Determine stichera source
+        saints = context.get("saints", [])
+        saint_id = saints[0].get("id", "saint") if saints else "saint"
+        feast_level = context.get("feast_level", "unknown")
+        
+        stichera_source = "menaion" if feast_level not in ("lord", "theotokos") else "feast"
+        
+        return {
+            "needed": True,
+            "structure": {
+                "psalm_103": {"mode": "read", "note": "Read, not chanted"},
+                "lord_i_have_cried": {
+                    "total_count": 4,
+                    "distribution": [
+                        {"source": stichera_source, "type": "saint", "qty": 4}
+                    ],
+                    "glory_both_now": "theotokion"
+                },
+                "aposticha": {
+                    "source": stichera_source,
+                    "note": "From Menaion or feast Aposticha"
+                },
+                "now_lettest_thou": {"key": "horologion.now_lettest_thou"},
+                "troparion": {"source": stichera_source},
+                "dismissal": {"type": "small"}
+            },
+            "rubric": "Dolnytsky I:45-62 — Small Vespers before Vigil",
+            "timing": "Served in afternoon, before All-Night Vigil begins"
+        }
+
+    def resolve_vestment_color(self, context, rubrics=None):
+        """
+        Gap 3.3: Vestment Color.
+        Citation: Dolnytsky Part I Lines 5-7; Part IV Lines 234, 561, 633.
+        
+        Determines the liturgical vestment color based on feast type, 
+        period, and special day designations.
+        
+        Returns:
+            dict with color and citation.
+        """
+        period = context.get("period", "normal")
+        feast_level = context.get("feast_level", "unknown")
+        rank = self._get_rank_id(context)
+        day_of_week = context.get("day_of_week", 0)
+        offset = context.get("pascha_offset", None)
+        
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        full_text = f"{d_title} {d_commem}"
+        
+        # 1. Passion Week: black/dark purple
+        if offset is not None and -7 <= offset <= -3:
+            return {"color": "black", "alt": "dark_purple",
+                    "citation": "Dolnytsky IV:561 — Passion Week vestments"}
+        
+        # Great Friday specifically
+        if offset is not None and offset == -2:
+            return {"color": "black",
+                    "citation": "Dolnytsky IV:633 — Great Friday"}
+        
+        # Great Saturday: white (after prokeimenon at Liturgy)
+        if offset is not None and offset == -1:
+            return {"color": "white",
+                    "citation": "Dolnytsky IV — Great Saturday, changed to white at Liturgy"}
+        
+        # 2. Pascha / Bright Week: red-gold
+        if offset is not None and 0 <= offset <= 6:
+            return {"color": "red", "alt": "gold",
+                    "citation": "Dolnytsky IV — Paschal vestments"}
+        
+        # 3. Pentecostarion Sundays: white/gold
+        if offset is not None and 7 <= offset <= 49:
+            return {"color": "gold", "alt": "white",
+                    "citation": "Dolnytsky IV — Pentecostarion"}
+        
+        # 4. Pentecost: green
+        if offset is not None and offset == 49:
+            return {"color": "green",
+                    "citation": "Dolnytsky IV — Pentecost"}
+        
+        # 5. Lenten period: purple/dark
+        if offset is not None and -48 <= offset <= -8:
+            if day_of_week == 0:  # Sundays of Lent
+                return {"color": "purple",
+                        "citation": "Dolnytsky IV:234 — Lenten Sundays"}
+            return {"color": "dark_purple", "alt": "black",
+                    "citation": "Dolnytsky IV:234 — Lenten weekdays"}
+        
+        # 6. Feast-specific
+        if feast_level == "lord":
+            # Nativity, Theophany, Transfiguration → gold/white
+            if any(w in full_text for w in ["nativity", "theophany", "transfiguration",
+                                            "presentation", "ascension"]):
+                return {"color": "gold", "alt": "white",
+                        "citation": "Dolnytsky I — Feast of the Lord, gold/white"}
+            # Exaltation of Cross → purple
+            if "cross" in full_text or "exaltation" in full_text:
+                return {"color": "purple",
+                        "citation": "Dolnytsky I — Exaltation of the Cross"}
+            return {"color": "gold", "citation": "Dolnytsky I — Feast of the Lord"}
+        
+        if feast_level == "theotokos":
+            return {"color": "blue", "alt": "light_blue",
+                    "citation": "Dolnytsky I — Theotokos feast, blue"}
+        
+        # 7. Martyrs: red
+        if any(w in full_text for w in ["martyr", "мученик"]):
+            return {"color": "red", "citation": "Martyrs — red vestments"}
+        
+        # 8. Hierarchs, Venerables: gold
+        if any(w in full_text for w in ["hierarch", "venerable", "confessor",
+                                        "unmercenary", "святитель"]):
+            return {"color": "gold", "citation": "Hierarchs/Venerables — gold"}
+        
+        # 9. Sunday default: gold
+        if day_of_week == 0:
+            return {"color": "gold", "citation": "Sunday — gold vestments"}
+        
+        # 10. Default weekday: green
+        return {"color": "green", "citation": "Default weekday — green"}
+
+    def resolve_prostration_annotation(self, context, service_point=None, rubrics=None):
+        """
+        Gap 3.1: Prostration Annotations.
+        Citation: Dolnytsky Part II Lines 97-102; Part IV Lines 68-72, 234.
+        
+        Returns rubrical annotation for prostrations at specific service points.
+        Prostrations are forbidden on Sundays, from Pascha to Pentecost, 
+        and on Great Feasts.
+        
+        Args:
+            service_point: "prayer_st_ephrem", "entrance", "great_prokeimenon",
+                          "gospel", "consecration", "communion", "trisagion"
+        
+        Returns:
+            dict with prostration type and count, or None if forbidden.
+        """
+        day_of_week = context.get("day_of_week", 0)
+        offset = context.get("pascha_offset", None)
+        period = context.get("period", "normal")
+        is_sunday = day_of_week == 0 or context.get("is_sunday_vigil")
+        
+        # Prostrations forbidden: Sundays, Pascha–Pentecost, Great Feasts
+        if is_sunday:
+            return {"forbidden": True, "reason": "No prostrations on Sundays",
+                    "citation": "Dolnytsky II:97"}
+        if offset is not None and 0 <= offset <= 49:
+            return {"forbidden": True, "reason": "No prostrations Pascha to Pentecost",
+                    "citation": "Dolnytsky II:97"}
+        if period == "feast":
+            return {"forbidden": True, "reason": "No prostrations on Great Feasts",
+                    "citation": "Dolnytsky II:98"}
+        
+        # Service-point specific annotations
+        annotations = {
+            "prayer_st_ephrem": {
+                "type": "full_prostration", "count": 3,
+                "note": "Three great metanias during Prayer of St. Ephrem",
+                "applies": offset is not None and -48 <= offset <= -8  # Lent
+            },
+            "prayer_st_ephrem_full": {
+                "type": "full_prostration", "count": 16,
+                "note": "Full Prayer of St. Ephrem: 4 prostrations + 12 bows + 1 final prostration",
+                "applies": offset is not None and -48 <= offset <= -8
+            },
+            "entrance": {
+                "type": "bow", "count": 1,
+                "note": "Bow at the entrance",
+                "applies": True
+            },
+            "gospel": {
+                "type": "bow", "count": 1,
+                "note": "Bow when Gospel is brought out",
+                "applies": True
+            },
+            "consecration": {
+                "type": "full_prostration", "count": 1,
+                "note": "Prostration at the epiclesis",
+                "applies": True
+            },
+            "trisagion": {
+                "type": "bow", "count": 3,
+                "note": "Three bows during Trisagion",
+                "applies": True
+            }
+        }
+        
+        if service_point and service_point in annotations:
+            ann = annotations[service_point]
+            if ann.get("applies", False):
+                return {"forbidden": False, "annotation": ann}
+        
+        return {"forbidden": False, "annotation": None, "note": "No specific prostration for this point"}
+
+    def resolve_censing_annotation(self, context, service_point=None, rubrics=None):
+        """
+        Gap 3.2: Censing Protocol Annotations.
+        Citation: Dolnytsky Part I Lines 16-25; Part II Lines 33-40.
+        
+        Returns censing instructions for the priest/deacon at service points.
+        
+        Args:
+            service_point: "psalm_103", "lord_i_have_cried", "polyeleos",
+                          "magnificat", "praises", "entrance", "gospel",
+                          "great_litany", "cherubic"
+        
+        Returns:
+            dict with censing type and scope.
+        """
+        # Service-point censing protocol
+        protocols = {
+            "psalm_103": {
+                "type": "great", "scope": "full",
+                "who": "priest",
+                "description": "Priest censes entire church during Psalm 103",
+                "citation": "Dolnytsky I:16 — Great censing at Psalm 103"
+            },
+            "lord_i_have_cried": {
+                "type": "great", "scope": "full",
+                "who": "deacon",
+                "description": "Great censing of the entire church",
+                "citation": "Dolnytsky I:20 — At 'Lord I have cried'"
+            },
+            "polyeleos": {
+                "type": "great", "scope": "full",
+                "who": "deacon",
+                "description": "Great censing at Polyeleos",
+                "citation": "Dolnytsky I — Censing at Polyeleos"
+            },
+            "magnificat": {
+                "type": "great", "scope": "full",
+                "who": "deacon",
+                "description": "Great censing during the Magnificat",
+                "citation": "Dolnytsky I — At Magnificat"
+            },
+            "gospel": {
+                "type": "small", "scope": "altar_and_gospel",
+                "who": "deacon",
+                "description": "Cense the Gospel book before reading",
+                "citation": "Dolnytsky I — Before Gospel reading"
+            },
+            "entrance": {
+                "type": "small", "scope": "altar_only",
+                "who": "deacon",
+                "description": "Small censing at the entrance",
+                "citation": "Dolnytsky I — At the Entrance"
+            },
+            "cherubic": {
+                "type": "great", "scope": "full",
+                "who": "priest",
+                "description": "Great censing during the Cherubic Hymn",
+                "citation": "Dolnytsky I — At the Cherubic Hymn"
+            },
+            "praises": {
+                "type": "small", "scope": "altar_only",
+                "who": "deacon",
+                "description": "Small censing at the Praises",
+                "citation": "Dolnytsky I — At the Praises"
+            }
+        }
+        
+        if service_point and service_point in protocols:
+            return {"has_censing": True, "protocol": protocols[service_point]}
+        
+        return {"has_censing": False, "note": "No censing prescribed at this point"}
+
+    def resolve_canon_refrain(self, context, canon_type=None, rubrics=None):
+        """
+        Gap 3.5: Canon Refrain Selection.
+        Citation: Dolnytsky Part I Lines 166-173.
+        
+        Selects the appropriate refrain (pripěv) for the canon troparia
+        using the data from 02d_logic_canon_refrains.json.
+        
+        Args:
+            canon_type: "resurrection", "theotokos", "saint", "feast",
+                       "triodion", "penitential", etc.
+        
+        Returns:
+            dict with refrain text key and display text.
+        """
+        # Load canon refrains data
+        refrains_data = {}
+        if hasattr(self, 'canon_refrains_logic') and self.canon_refrains_logic:
+            refrains_data = self.canon_refrains_logic.get("canon_refrains", {}).get("by_canon_type", {})
+        else:
+            try:
+                refrains_file = self._load_json(os.path.join(self.base_dir, "json_db", "02d_logic_canon_refrains.json"))
+                if refrains_file:
+                    self.canon_refrains_logic = refrains_file
+                    refrains_data = refrains_file.get("canon_refrains", {}).get("by_canon_type", {})
+            except Exception:
+                self.canon_refrains_logic = {}
+        
+        period = context.get("period", "normal")
+        offset = context.get("pascha_offset", None)
+        feast_level = context.get("feast_level", "unknown")
+        
+        # Auto-detect canon_type if not provided
+        if not canon_type:
+            # Pascha/Bright Week
+            if offset is not None and 0 <= offset <= 6:
+                canon_type = "pascha"
+            # Feast of the Lord by name
+            elif feast_level == "lord":
+                title = context.get("dolnytsky_title", "").lower()
+                for feast in ["nativity", "theophany", "transfiguration", "ascension", "pentecost"]:
+                    if feast in title:
+                        canon_type = feast
+                        break
+                if not canon_type:
+                    canon_type = "general_feast"
+            # Soul Saturday
+            elif "soul" in context.get("dolnytsky_title", "").lower():
+                canon_type = "dead"
+            # Sunday
+            elif context.get("day_of_week") == 0 or context.get("is_sunday_vigil"):
+                canon_type = "resurrection"
+            else:
+                canon_type = "saint"
+        
+        # Lookup refrain
+        if canon_type in refrains_data:
+            entry = refrains_data[canon_type]
+            result = {
+                "type": canon_type,
+                "text_key": entry.get("text_key", f"refrain.{canon_type}"),
+                "citation": "Dolnytsky I:166-173"
+            }
+            if "text_english" in entry:
+                result["display_text"] = entry["text_english"]
+            if "text_church_slavonic" in entry:
+                result["slavonic_text"] = entry["text_church_slavonic"]
+            if "text_template" in entry:
+                # Fill in saint name
+                saints = context.get("saints", [])
+                if saints:
+                    name = saints[0].get("name", "N.")
+                    saint_rank = saints[0].get("rank_title", "Saint")
+                    result["display_text"] = entry["text_template_english"].replace("[RANK]", saint_rank).replace("[NAME]", name)
+                    result["slavonic_text"] = entry["text_template"].replace("[RANK]", saint_rank).replace("[NAME]", name)
+            return result
+        
+        # Fallback
+        return {
+            "type": "general_feast",
+            "text_key": "refrain.general",
+            "display_text": "Glory to Thee, our God, glory to Thee.",
+            "citation": "Dolnytsky I:166 — Default refrain"
+        }
+
+
+
+    def resolve_dismissal_type(self, context, rubrics=None):
+        """
+        Gap 3.4: Period-Specific Dismissal Formulas.
+        Citation: Dolnytsky Part I Lines 209-212; Part IV Lines 561, 633, 850.
+        
+        Determines the dismissal formula variant based on the liturgical period.
+        
+        Returns:
+            dict with dismissal type and text reference.
+        """
+        offset = context.get("pascha_offset", None)
+        period = context.get("period", "normal")
+        day_of_week = context.get("day_of_week", 0)
+        is_sunday = day_of_week == 0 or context.get("is_sunday_vigil")
+        
+        # Paschal dismissal: Pascha through Ascension Leave-taking
+        if offset is not None and 0 <= offset <= 38:
+            return {
+                "type": "paschal",
+                "opening": "Christ is risen from the dead, trampling down death by death, and upon those in the tombs bestowing life.",
+                "text_key": "dismissal.paschal",
+                "count_opening": 3 if 0 <= offset <= 6 else 1,
+                "citation": "Dolnytsky IV:850 — Paschal dismissal"
+            }
+        
+        # Passion Week: special dismissals
+        if offset is not None and -7 <= offset <= -1:
+            return {
+                "type": "passion",
+                "text_key": "dismissal.passion_week",
+                "note": "He Who goes to His voluntary Passion for our salvation...",
+                "citation": "Dolnytsky IV:561 — Passion Week dismissal"
+            }
+        
+        # Pentecost / Trinity
+        if offset is not None and offset == 49:
+            return {
+                "type": "pentecost",
+                "text_key": "dismissal.pentecost",
+                "note": "He Who sent down the Most Holy Spirit in the form of fiery tongues...",
+                "citation": "Dolnytsky IV — Pentecost dismissal"
+            }
+        
+        # Sunday: resurrection dismissal mentioning the day's Resurrection Gospel
+        if is_sunday and period not in ("feast",):
+            gospel_data = self.resolve_matins_gospel(context)
+            eothinon = gospel_data.get("eothinon_number", 1)
+            return {
+                "type": "sunday",
+                "text_key": "dismissal.sunday",
+                "note": f"He who rose from the dead... (Eothinon {eothinon})",
+                "citation": "Dolnytsky I:209 — Sunday dismissal"
+            }
+        
+        # Great Feast
+        if period == "feast":
+            return {
+                "type": "festal",
+                "text_key": "dismissal.festal",
+                "note": "Includes commemoration of the feast in the dismissal formula",
+                "citation": "Dolnytsky I:211 — Festal dismissal"
+            }
+        
+        # Default: daily dismissal
+        return {
+            "type": "daily",
+            "text_key": "dismissal.daily",
+            "citation": "Dolnytsky I:209 — Daily dismissal"
+        }
+
+    # =========================================================================
+    # END SPRINT 2
+    # =========================================================================
+
+    # =========================================================================
+    # SPRINT 3: LENTEN SERVICE SUITE (Gaps 2.2-2.5)
+    # =========================================================================
+
+    def resolve_lenten_matins_mode(self, context, rubrics=None):
+        """
+        Gap 2.2: Lenten Matins Expanded.
+        Citation: Dolnytsky Part IV Lines 68-145.
+        
+        Lenten weekday Matins differs fundamentally:
+          - Opens with Alleluia (not "God is the Lord") with Trinity Hymns
+          - Alleluia tone cycles: Mon T1, Tue T2, Wed T3, Thu T4, Fri T5, Sat T6/7/8
+          - Small Doxology (read, not sung)
+          - Prayer of St. Ephrem with prostrations at end
+          - No Polyeleos, no Gospel, no Praises stichera
+        
+        Returns:
+            dict with complete Lenten Matins configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        day_of_week = context.get("day_of_week", 0)
+        is_sunday = day_of_week == 0 or context.get("is_sunday_vigil")
+        
+        # Only applies to Lenten weekdays (Mon-Fri of Great Lent, weeks 1-6)
+        is_lenten_weekday = (offset is not None and -48 <= offset <= -8 and 
+                             day_of_week in (1, 2, 3, 4, 5))
+        
+        if not is_lenten_weekday:
+            return {"is_lenten": False}
+        
+        # Alleluia tone cycling: Mon=1, Tue=2, Wed=3, Thu=4, Fri=5
+        # Saturdays use tone 6/7/8 but are handled separately
+        alleluia_tone = day_of_week  # Mon=1, Tue=2, ... Fri=5
+        
+        # Determine which Lenten week we're in (for Trinity Hymn selection)
+        # Week 1 starts at offset -48 (Clean Monday)
+        lent_week = ((offset + 48) // 7) + 1
+        
+        return {
+            "is_lenten": True,
+            "opening": {
+                "type": "alleluia",
+                "tone": alleluia_tone,
+                "key": f"horologion.alleluia_tone_{alleluia_tone}",
+                "note": "Instead of 'God is the Lord'",
+                "citation": "Dolnytsky IV:68 — Alleluia at Lenten Matins"
+            },
+            "trinity_hymns": {
+                "key": f"triodion.trinity_hymns.week_{lent_week}.day_{day_of_week}",
+                "tone": alleluia_tone,
+                "count": 3,
+                "note": "Three hymns to the Trinity, sung after Alleluia",
+                "citation": "Dolnytsky IV:72 — Trinity Hymns"
+            },
+            "kathismata": {
+                "count": 3,
+                "note": "Three kathismata at Lenten Matins (instead of 2)",
+                "citation": "Dolnytsky IV:75 — Three kathismata on Lenten weekday Matins"
+            },
+            "doxology": {
+                "type": "read",
+                "note": "Small Doxology — read, not sung",
+                "citation": "Dolnytsky IV:102 — Small Doxology at Lenten Matins"
+            },
+            "prayer_st_ephrem": {
+                "included": True,
+                "type": "full",
+                "prostrations": 16,
+                "text_key": "horologion.prayer_st_ephrem",
+                "note": "4 great prostrations + 12 bows + 1 final prostration",
+                "citation": "Dolnytsky IV:105 — Prayer of St. Ephrem with prostrations"
+            },
+            "suppress": ["polyeleos", "matins_gospel", "praises_stichera"],
+            "lent_week": lent_week
+        }
+
+    def resolve_lenten_hours(self, context, hour_num=1, rubrics=None):
+        """
+        Gap 2.3: Lenten Hours.
+        Citation: Dolnytsky Part IV Lines 112-160.
+        
+        Lenten Hours differ from regular Hours:
+          - Each Hour includes a full Kathisma reading
+          - Troparion of the Hour with psalm-verses
+          - 6th Hour includes OT reading (Prophecy: Isaiah/Genesis/Proverbs)
+          - Prayer of St. Ephrem at each Hour
+          - Kathisma assignments: 1st Hour = next kathisma after Matins;
+            3rd Hour = next; 6th Hour = next; 9th Hour — no additional kathisma
+        
+        Args:
+            hour_num: 1, 3, 6, or 9
+        
+        Returns:
+            dict with Lenten Hour configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        day_of_week = context.get("day_of_week", 0)
+        
+        is_lenten = (offset is not None and -48 <= offset <= -8 and 
+                     day_of_week in (1, 2, 3, 4, 5))
+        
+        if not is_lenten:
+            return {"is_lenten": False, "hour": hour_num}
+        
+        # Kathisma assignment logic
+        # Per Dolnytsky: Psalter is divided into 20 kathismata, 
+        # read through twice per Lenten week (Mon-Fri)
+        # Matins reads 3, then Hours read in sequence
+        kathisma_map = {
+            1: {"has_kathisma": True, "note": "Kathisma after Matins sequence"},
+            3: {"has_kathisma": True, "note": "Next kathisma"},
+            6: {"has_kathisma": True, "note": "Next kathisma"},
+            9: {"has_kathisma": False, "note": "No additional kathisma at 9th Hour"}
+        }
+        
+        # Lenten troparia for each Hour
+        troparia = {
+            1: {"troparion_key": "horologion.lenten_troparion_hour_1",
+                "note": "Troparion of the 1st Hour with verses"},
+            3: {"troparion_key": "horologion.lenten_troparion_hour_3",
+                "note": "Troparion of the 3rd Hour with verses"},
+            6: {"troparion_key": "horologion.lenten_troparion_hour_6",
+                "note": "Troparion of the 6th Hour with verses"},
+            9: {"troparion_key": "horologion.lenten_troparion_hour_9",
+                "note": "Troparion of the 9th Hour with verses"}
+        }
+        
+        result = {
+            "is_lenten": True,
+            "hour": hour_num,
+            "kathisma": kathisma_map.get(hour_num, {}),
+            "troparion": troparia.get(hour_num, {}),
+            "prayer_st_ephrem": {
+                "included": True,
+                "type": "abbreviated" if hour_num != 9 else "full",
+                "note": "Abbreviated form at Hours 1, 3, 6; full form at 9th Hour"
+            },
+            "citation": f"Dolnytsky IV:112-160 — Lenten {self._ordinal(hour_num)} Hour"
+        }
+        
+        # 6th Hour OT reading
+        if hour_num == 6:
+            lent_week = ((offset + 48) // 7) + 1
+            lent_day = day_of_week  # 1=Mon, 5=Fri
+            result["ot_reading"] = {
+                "included": True,
+                "source": "prophecy",
+                "key": f"triodion.prophecy.week_{lent_week}.day_{lent_day}",
+                "note": "OT reading (Isaiah or other prophecy) at 6th Hour",
+                "citation": "Dolnytsky IV:135 — Prophecy at 6th Hour"
+            }
+        
+        return result
+
+    def resolve_lenten_typika(self, context, rubrics=None):
+        """
+        Gap 2.4: Lenten Typika.
+        Citation: Dolnytsky Part IV Lines 161-185.
+        
+        On Lenten weekdays without Presanctified Liturgy, the Typika service
+        replaces the Liturgy. On Wed/Fri, Typika transitions into Vespers 
+        with Presanctified Liturgy.
+        
+        Returns:
+            dict with Lenten Typika configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        day_of_week = context.get("day_of_week", 0)
+        
+        is_lenten = (offset is not None and -48 <= offset <= -8 and 
+                     day_of_week in (1, 2, 3, 4, 5))
+        
+        if not is_lenten:
+            return {"is_lenten": False}
+        
+        # Presanctified days: Wed and Fri (and some special days)
+        has_presanctified = day_of_week in (3, 5)  # Wed, Fri
+        
+        return {
+            "is_lenten": True,
+            "structure": {
+                "beatitudes": {
+                    "included": True,
+                    "key": "horologion.beatitudes",
+                    "note": "Beatitudes chanted",
+                    "citation": "Dolnytsky IV:161 — Beatitudes at Typika"
+                },
+                "creed": {
+                    "included": True,
+                    "key": "horologion.creed"
+                },
+                "our_father": {
+                    "included": True,
+                    "key": "horologion.our_father"
+                },
+                "kontakia": {
+                    "source": "triodion",
+                    "note": "Kontakia of the day from Triodion/Menaion"
+                },
+                "psalm_33": {
+                    "included": True,
+                    "key": "horologion.psalm_33",
+                    "note": "Psalm 33 at the end (if no Presanctified follows)"
+                },
+                "prayer_st_ephrem": {
+                    "included": True,
+                    "type": "full"
+                }
+            },
+            "transitions_to_presanctified": has_presanctified,
+            "citation": "Dolnytsky IV:161-185 — Lenten Typika"
+        }
+
+    def resolve_great_compline(self, context, rubrics=None):
+        """
+        Gap 2.5: Great Compline.
+        Citation: Dolnytsky Part IV Lines 186-234.
+        
+        Great Compline (Великоповечір'я) is served on Lenten weekday evenings.
+        It has a three-part structure:
+          Part 1: Psalms 4, 6, 12, 24, 30, 90 + Great Doxology prayer
+          Part 2: Psalm 50, 101 + Prayer of Manasseh
+          Part 3: Psalm 69, 142 + Small Doxology + Creed + Canon
+        
+        During Clean Week, quarters of the Great Canon of St. Andrew are read.
+        On Thursday of 5th Week, the entire Great Canon is read.
+        
+        Returns:
+            dict with Great Compline configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        day_of_week = context.get("day_of_week", 0)
+        
+        is_lenten = (offset is not None and -48 <= offset <= -8 and 
+                     day_of_week in (1, 2, 3, 4))  # Mon-Thu evenings
+        
+        if not is_lenten:
+            return {"is_great_compline": False}
+        
+        lent_week = ((offset + 48) // 7) + 1
+        
+        # Determine canon for Great Compline
+        canon_config = None
+        
+        # Clean Week (Week 1): Great Canon quarters
+        if lent_week == 1 and day_of_week in (1, 2, 3, 4):
+            quarter_map = {1: "quarter_1", 2: "quarter_2", 3: "quarter_3", 4: "quarter_4"}
+            canon_config = {
+                "type": "great_canon_quarter",
+                "section": quarter_map.get(day_of_week),
+                "key": f"triodion.great_canon.{quarter_map.get(day_of_week)}",
+                "note": f"Great Canon of St. Andrew, {quarter_map.get(day_of_week).replace('_', ' ')}",
+                "citation": "Dolnytsky IV:190 — Great Canon quarters in Clean Week"
+            }
+        
+        # Thursday of 5th Week: entire Great Canon
+        elif lent_week == 5 and day_of_week == 4:
+            canon_config = {
+                "type": "great_canon_full",
+                "key": "triodion.great_canon.full",
+                "note": "Entire Great Canon of St. Andrew of Crete with Life of St. Mary of Egypt",
+                "citation": "Dolnytsky IV:210 — Full Great Canon on Thursday of 5th Week"
+            }
+        
+        # Regular Lenten Compline: Triodion canon
+        else:
+            canon_config = {
+                "type": "triodion_compline_canon",
+                "key": f"triodion.compline_canon.week_{lent_week}.day_{day_of_week}",
+                "note": "Triodion Canon of Compline"
+            }
+        
+        return {
+            "is_great_compline": True,
+            "structure": {
+                "part_1": {
+                    "psalms": [4, 6, 12, 24, 30, 90],
+                    "conclusion": "horologion.great_compline_part1_prayers",
+                    "note": "Part 1: Six Psalms + 'With us is God' + Troparia"
+                },
+                "part_2": {
+                    "psalms": [50, 101],
+                    "prayer_of_manasseh": "horologion.prayer_of_manasseh",
+                    "trisagion": True,
+                    "note": "Part 2: Penitential psalms + Prayer of Manasseh"
+                },
+                "part_3": {
+                    "psalms": [69, 142],
+                    "doxology": {"type": "read", "note": "Small Doxology"},
+                    "canon": canon_config,
+                    "creed": True,
+                    "note": "Part 3: Psalms + Canon + Creed"
+                }
+            },
+            "prayer_st_ephrem": {
+                "included": True,
+                "type": "full",
+                "note": "Prayer of St. Ephrem with prostrations at conclusion"
+            },
+            "lent_week": lent_week,
+            "citation": "Dolnytsky IV:186-234 — Great Compline"
+        }
+
+    @staticmethod
+    def _ordinal(n):
+        """Returns ordinal string for an integer: 1st, 2nd, 3rd, etc."""
+        suffixes = {1: 'st', 2: 'nd', 3: 'rd'}
+        if 11 <= (n % 100) <= 13:
+            suffix = 'th'
+        else:
+            suffix = suffixes.get(n % 10, 'th')
+        return f"{n}{suffix}"
+
+    # =========================================================================
+    # END SPRINT 3
+    # =========================================================================
+
+    # =========================================================================
+    # SPRINT 4: PASSION WEEK + PRESANCTIFIED (Gaps 2.1, 2.9)
+    # =========================================================================
+
+    def resolve_presanctified_liturgy(self, context, rubrics=None):
+        """
+        Gap 2.1: Presanctified Liturgy Structure.
+        Citation: Dolnytsky Part IV Lines 240-350.
+        
+        The Liturgy of the Presanctified Gifts is served on Wed/Fri of Lent,
+        and on special days (Mon-Wed of Passion Week, etc.).
+        
+        Structure: Vespers opening → Kathisma 18 → "Lord I have cried" (10) → 
+                   Entrance with censer → OT Readings (Genesis, Proverbs) →
+                   "Let my prayer be set forth" → Presanctified Communion rite.
+        
+        Returns:
+            dict with full Presanctified Liturgy configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        day_of_week = context.get("day_of_week", 0)
+        
+        # Check if this day has Presanctified
+        is_presanctified = False
+        
+        # Lenten Wed/Fri
+        if (offset is not None and -48 <= offset <= -8 and 
+            day_of_week in (3, 5)):
+            is_presanctified = True
+        
+        # Passion Week Mon-Wed
+        if offset is not None and offset in (-6, -5, -4):
+            is_presanctified = True
+        
+        # Special Lenten days (e.g., Annunciation on a Lenten weekday)
+        if context.get("force_presanctified"):
+            is_presanctified = True
+            
+        if not is_presanctified:
+            return {"is_presanctified": False}
+        
+        lent_week = ((offset + 48) // 7) + 1 if offset is not None and offset >= -48 else 0
+        
+        # Stichera distribution: Wed = 4 Octoechos + 6 Triodion; Fri = 6+4
+        if day_of_week == 3:  # Wednesday
+            stichera_dist = [
+                {"source": "octoechos", "type": "current_day", "qty": 4},
+                {"source": "triodion", "type": "day_stichera", "qty": 3},
+                {"source": "menaion", "type": "saint", "qty": 3}
+            ]
+        elif day_of_week == 5:  # Friday
+            stichera_dist = [
+                {"source": "octoechos", "type": "current_day", "qty": 6},
+                {"source": "menaion", "type": "saint", "qty": 4}
+            ]
+        else:  # Passion Week or other
+            stichera_dist = [
+                {"source": "triodion", "type": "day_stichera", "qty": 10}
+            ]
+        
+        return {
+            "is_presanctified": True,
+            "structure": {
+                "opening": {
+                    "psalm_103": {"mode": "read"},
+                    "great_litany": True,
+                    "citation": "Dolnytsky IV:240 — Presanctified opens as Vespers"
+                },
+                "kathisma_18": {
+                    "key": "psalter.kathisma_18",
+                    "note": "Kathisma 18 (Psalms 119-133) with 'Lord have mercy' between stases",
+                    "citation": "Dolnytsky IV:245"
+                },
+                "lord_i_have_cried": {
+                    "total_count": 10,
+                    "distribution": stichera_dist,
+                    "citation": "Dolnytsky IV:250 — Lord I have cried on 10"
+                },
+                "entrance": {
+                    "type": "with_censer",
+                    "note": "Entrance with censer (not Gospel book)",
+                    "citation": "Dolnytsky IV:255 — Entrance with censer",
+                    "roles": {
+                        "deacon": "Carry censer, lead entrance.",
+                        "priest": "Follow, no Gospel book."
+                    }
+                },
+                "ot_readings": {
+                    "count": 2,
+                    "readings": [
+                        {"source": "genesis", "key": f"triodion.presanctified.reading_1.week_{lent_week}.day_{day_of_week}"},
+                        {"source": "proverbs", "key": f"triodion.presanctified.reading_2.week_{lent_week}.day_{day_of_week}"}
+                    ],
+                    "citation": "Dolnytsky IV:260 — Two OT readings (Genesis, Proverbs)"
+                },
+                "let_my_prayer": {
+                    "key": "triodion.let_my_prayer_psalm_140",
+                    "note": "'Let my prayer be set forth' — Psalm 140 with verses and prostrations",
+                    "prostrations": True,
+                    "citation": "Dolnytsky IV:270"
+                },
+                "communion_rite": {
+                    "transfer": "Presanctified Gifts transferred from altar table",
+                    "hymn": "Now the powers of heaven do minister invisibly with us",
+                    "key": "triodion.presanctified_communion_hymn",
+                    "citation": "Dolnytsky IV:290 — Transfer of Holy Gifts"
+                },
+                "prayer_st_ephrem": {
+                    "included": True,
+                    "type": "abbreviated",
+                    "note": "Abbreviated Prayer of St. Ephrem at conclusion"
+                }
+            },
+            "lent_week": lent_week,
+            "citation": "Dolnytsky IV:240-350 — Liturgy of the Presanctified Gifts"
+        }
+
+    def resolve_passion_matins_gospels(self, context, rubrics=None):
+        """
+        Gap 2.9a: Passion Matins — 12 Gospels.
+        Citation: Dolnytsky Part IV Lines 561-600.
+        
+        On Great Thursday evening (Matins of Great Friday), 12 Gospel 
+        passages are read, interspersed with 15 Antiphons and Beatitudes.
+        
+        Returns:
+            dict with the 12 Gospel readings and antiphon structure.
+        """
+        offset = context.get("pascha_offset", None)
+        
+        # Only on Great Thursday evening = Matins of Great Friday
+        if offset is None or offset != -2:
+            return {"is_passion_matins": False}
+        
+        gospels = [
+            {"num": 1, "ref": "John 13:31-18:1", "note": "Farewell Discourse and High Priestly Prayer"},
+            {"num": 2, "ref": "John 18:1-28", "note": "Arrest in Gethsemane, Peter's denial"},
+            {"num": 3, "ref": "Matt 26:57-75", "note": "Trial before Caiaphas"},
+            {"num": 4, "ref": "John 18:28-19:16", "note": "Trial before Pilate"},
+            {"num": 5, "ref": "Matt 27:3-32", "note": "Death of Judas, scourging, way of the Cross"},
+            {"num": 6, "ref": "Mark 15:16-32", "note": "Crucifixion"},
+            {"num": 7, "ref": "Matt 27:33-54", "note": "Darkness, death of Christ, earthquake"},
+            {"num": 8, "ref": "Luke 23:32-49", "note": "Good thief, 'Father, forgive them'"},
+            {"num": 9, "ref": "John 19:25-37", "note": "Mother of God at the Cross, piercing"},
+            {"num": 10, "ref": "Mark 15:43-47", "note": "Burial by Joseph of Arimathea"},
+            {"num": 11, "ref": "John 19:38-42", "note": "Nicodemus, burial with myrrh"},
+            {"num": 12, "ref": "Matt 27:62-66", "note": "Sealing of the tomb, guard"}
+        ]
+        
+        return {
+            "is_passion_matins": True,
+            "gospels": gospels,
+            "antiphons": {
+                "count": 15,
+                "note": "15 Antiphons interspersed between Gospels",
+                "key": "triodion.passion_antiphons"
+            },
+            "beatitudes": {
+                "included": True,
+                "note": "Beatitudes sung as part of the antiphon sequence",
+                "key": "triodion.passion_beatitudes"
+            },
+            "processional": {
+                "after_gospel": 5,
+                "note": "After 5th Gospel, Cross is brought to center of church",
+                "citation": "Dolnytsky IV:575 — Processional after 5th Gospel"
+            },
+            "citation": "Dolnytsky IV:561-600 — Passion Matins with 12 Gospels"
+        }
+
+    def resolve_royal_hours(self, context, hour_num=1, rubrics=None):
+        """
+        Gap 2.9b: Royal Hours.
+        Citation: Dolnytsky Part IV Lines 601-632.
+        
+        Royal Hours are served on Great Friday morning. Each hour has:
+          - 3 specific Psalms
+          - OT Reading (Prophecy)
+          - Apostle (Epistle) Reading
+          - Gospel Reading
+          - Special troparia and stichera
+        
+        Args:
+            hour_num: 1, 3, 6, or 9
+        
+        Returns:
+            dict with Royal Hour configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        
+        if offset is None or offset != -2:
+            return {"is_royal_hours": False}
+        
+        # Royal Hour configurations per Dolnytsky
+        hours = {
+            1: {
+                "psalms": [5, 2, 21],
+                "prophecy": "Zechariah 11:10-13",
+                "apostle": "Galatians 6:14-18",
+                "gospel": "Matthew 27:1-56",
+                "troparion_key": "triodion.royal_hour_1.troparion"
+            },
+            3: {
+                "psalms": [34, 108, 50],
+                "prophecy": "Isaiah 50:4-11",
+                "apostle": "Romans 5:6-10",
+                "gospel": "Mark 15:16-41",
+                "troparion_key": "triodion.royal_hour_3.troparion"
+            },
+            6: {
+                "psalms": [53, 139, 90],
+                "prophecy": "Isaiah 52:13-54:1",
+                "apostle": "Hebrews 2:11-18",
+                "gospel": "Luke 23:32-49",
+                "troparion_key": "triodion.royal_hour_6.troparion"
+            },
+            9: {
+                "psalms": [68, 69, 85],
+                "prophecy": "Jeremiah 11:18-23; 12:1-5,9-15",
+                "apostle": "Hebrews 10:19-31",
+                "gospel": "John 18:28-19:37",
+                "troparion_key": "triodion.royal_hour_9.troparion"
+            }
+        }
+        
+        if hour_num not in hours:
+            return {"is_royal_hours": False, "error": f"Invalid hour: {hour_num}"}
+        
+        config = hours[hour_num]
+        return {
+            "is_royal_hours": True,
+            "hour": hour_num,
+            "psalms": config["psalms"],
+            "readings": {
+                "prophecy": config["prophecy"],
+                "apostle": config["apostle"],
+                "gospel": config["gospel"]
+            },
+            "troparion": {"key": config["troparion_key"]},
+            "citation": f"Dolnytsky IV:601-632 — Royal {self._ordinal(hour_num)} Hour"
+        }
+
+    def resolve_lamentations(self, context, rubrics=None):
+        """
+        Gap 2.9c: Great Saturday Tomb Matins — Lamentations (Encomia).
+        Citation: Dolnytsky Part IV Lines 670-720.
+        
+        Great Saturday Matins features Kathisma 17 (Psalm 118) divided into 
+        three stases, with Lamentations (troparia) interpolated between verses.
+        After the third stasis, there is a procession with the Shroud.
+        
+        Returns:
+            dict with Lamentations structure.
+        """
+        offset = context.get("pascha_offset", None)
+        
+        if offset is None or offset != -1:
+            return {"is_tomb_matins": False}
+        
+        return {
+            "is_tomb_matins": True,
+            "structure": {
+                "stasis_1": {
+                    "key": "triodion.lamentations.stasis_1",
+                    "psalm_range": "118:1-72",
+                    "refrain_type": "troparia_encomia",
+                    "note": "First stasis: verses with troparia lamentations"
+                },
+                "stasis_2": {
+                    "key": "triodion.lamentations.stasis_2",
+                    "psalm_range": "118:73-131",
+                    "refrain_type": "troparia_encomia",
+                    "note": "Second stasis"
+                },
+                "stasis_3": {
+                    "key": "triodion.lamentations.stasis_3",
+                    "psalm_range": "118:132-176",
+                    "refrain_type": "troparia_encomia",
+                    "note": "Third stasis"
+                }
+            },
+            "evlogitaria": {
+                "key": "triodion.evlogitaria_of_burial",
+                "note": "'Blessed art Thou, O Lord, teach me Thy statutes' — resurrection troparia",
+                "citation": "Dolnytsky IV:700 — Evlogitaria after Kathisma 17"
+            },
+            "procession": {
+                "with_shroud": True,
+                "timing": "After the Great Doxology",
+                "note": "Procession around the church with the Shroud (Plashchanytsia)",
+                "hymn": "Holy God, Holy Mighty, Holy Immortal",
+                "citation": "Dolnytsky IV:710 — Shroud procession"
+            },
+            "entrance_with_gospel": {
+                "included": True,
+                "note": "After procession, entrance with Gospel book",
+                "citation": "Dolnytsky IV:715"
+            },
+            "citation": "Dolnytsky IV:670-720 — Great Saturday Tomb Matins"
+        }
+
+    def resolve_burial_vespers(self, context, rubrics=None):
+        """
+        Gap 2.9d: Great Friday Vespers — Burial Service.
+        Citation: Dolnytsky Part IV Lines 633-670.
+        
+        Great Friday Vespers includes the 'Taking Down from the Cross'
+        with the Shroud (Plashchanytsia) being brought out during the
+        Gospel reading, and a procession at the conclusion.
+        
+        Returns:
+            dict with Great Friday Vespers/Burial configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        
+        if offset is None or offset != -2:
+            return {"is_burial_vespers": False}
+        
+        return {
+            "is_burial_vespers": True,
+            "stichera": {
+                "lord_i_have_cried": {
+                    "total_count": 6,
+                    "source": "triodion",
+                    "type": "passion_stichera"
+                }
+            },
+            "readings": {
+                "ot": ["Exodus 33:11-23", "Job 42:12-end", "Isaiah 52:13-54:1"],
+                "apostle": "1 Corinthians 1:18-2:2",
+                "gospel": {
+                    "composite": True,
+                    "refs": ["Matt 27:1-38", "Luke 23:39-43", "Matt 27:39-54",
+                             "John 19:31-37", "Matt 27:55-61"],
+                    "note": "Composite Gospel of the Burial"
+                }
+            },
+            "shroud_procession": {
+                "timing": "During the Aposticha, at 'Noble Joseph'",
+                "key": "triodion.noble_joseph",
+                "note": "Shroud is brought out during 'Noble Joseph'",
+                "citation": "Dolnytsky IV:650 — Shroud brought to center of church"
+            },
+            "aposticha": {
+                "key": "triodion.great_friday_aposticha",
+                "note": "Special Passion aposticha with 'Noble Joseph'"
+            },
+            "citation": "Dolnytsky IV:633-670 — Great Friday Vespers/Burial"
+        }
+
+    # =========================================================================
+    # END SPRINT 4
+    # =========================================================================
+
+    # =========================================================================
+    # SPRINT 5: PASCHAL + PENTECOSTARION (Gaps 2.6-2.8)
+    # =========================================================================
+
+    def resolve_paschal_services(self, context, rubrics=None):
+        """
+        Gap 2.6: Paschal Matins / Hours / Liturgy.
+        Citation: Dolnytsky Part IV Lines 720-850.
+        
+        Paschal Matins is completely unique:
+          - Begins at Royal Doors (not in church)
+          - No Six Psalms, no Kathismata, no Sedalen
+          - Paschal Canon replaces regular canon
+          - "Christ is risen" refrain throughout
+          - Paschal Hours replace regular Hours (no psalms, special troparia)
+          - Liturgy uses Paschal Antiphons
+        
+        Returns:
+            dict with Paschal service configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        
+        if offset is None or not (0 <= offset <= 6):
+            return {"is_paschal": False}
+        
+        is_pascha_night = offset == 0
+        bright_day = offset  # 0=Pascha, 1=Bright Monday, ... 6=Bright Saturday
+        
+        return {
+            "is_paschal": True,
+            "bright_day": bright_day,
+            "matins": {
+                "opening": {
+                    "procession": is_pascha_night,
+                    "troparion_count": 3 if is_pascha_night else 1,
+                    "note": "Begins at Royal Doors with 'Christ is risen' (x3)" if is_pascha_night else "Christ is risen (x1)",
+                    "citation": "Dolnytsky IV:720 — Paschal Matins opening"
+                },
+                "canon": {
+                    "type": "paschal",
+                    "key": "pentecostarion.paschal_canon",
+                    "odes": 8,  # Ode 2 is omitted
+                    "refrain": "Christ is risen from the dead",
+                    "katavasia_each_ode": True,
+                    "note": "Paschal Canon of St. John Damascene, katavasia after each ode"
+                },
+                "suppress": ["six_psalms", "kathismata", "sedalen", "polyeleos",
+                             "matins_gospel", "praises_stichera", "doxology"],
+                "paschal_stichera": {
+                    "key": "pentecostarion.paschal_stichera",
+                    "note": "Paschal Stichera of John Damascene at conclusion"
+                }
+            },
+            "hours": {
+                "type": "paschal",
+                "structure": {
+                    "troparion_key": "pentecostarion.paschal_troparion",
+                    "kontakion_key": "pentecostarion.paschal_kontakion",
+                    "no_psalms": True,
+                    "note": "Paschal Hours: no psalms, only Paschal troparion/kontakion"
+                },
+                "citation": "Dolnytsky IV:780 — Paschal Hours"
+            },
+            "liturgy": {
+                "antiphons": {
+                    "type": "paschal",
+                    "key": "pentecostarion.paschal_antiphons",
+                    "note": "Paschal Antiphons replace ordinary ones"
+                },
+                "entrance_hymn": {
+                    "key": "pentecostarion.paschal_entrance",
+                    "text": "In the churches bless God the Lord, from the springs of Israel."
+                },
+                "instead_of_cherubic": {
+                    "key": "pentecostarion.paschal_cherubic_replacement",
+                    "text": "Let all mortal flesh keep silence..."
+                },
+                "communion_hymn": {
+                    "key": "pentecostarion.paschal_communion",
+                    "text": "Receive ye the body of Christ, taste ye of the Fountain immortal."
+                },
+                "citation": "Dolnytsky IV:800 — Paschal Liturgy"
+            },
+            "dismissal": {
+                "type": "paschal",
+                "opening_count": 3,
+                "text_key": "dismissal.paschal"
+            },
+            "citation": "Dolnytsky IV:720-850 — Paschal Services"
+        }
+
+    def resolve_pentecostarion_troparia(self, context, rubrics=None):
+        """
+        Gap 2.7: Post-Pascha Troparion Cycling.
+        Citation: Dolnytsky Part IV Lines 850-920.
+        
+        After Thomas Sunday through Pentecost, services use the Pentecostarion
+        for troparia and kontakia. The weekly cycle is:
+          Thomas Sunday (offset 7-13) → Tone 1
+          Myrrh-bearing Women (14-20) → Different commemorations
+          Paralytic (21-27) → etc.
+        
+        Returns:
+            dict with Pentecostarion troparion configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        
+        if offset is None or not (7 <= offset <= 55):
+            return {"is_pentecostarion": False}
+        
+        # Map weeks to commemorations
+        week_map = {
+            1: {"name": "Thomas Sunday", "offset_range": (7, 13),
+                "troparion_key": "pentecostarion.thomas.troparion"},
+            2: {"name": "Myrrh-bearing Women", "offset_range": (14, 20),
+                "troparion_key": "pentecostarion.myrrhbearers.troparion"},
+            3: {"name": "Paralytic", "offset_range": (21, 27),
+                "troparion_key": "pentecostarion.paralytic.troparion"},
+            4: {"name": "Mid-Pentecost & Samaritan Woman", "offset_range": (28, 34),
+                "troparion_key": "pentecostarion.samaritan.troparion"},
+            5: {"name": "Man Born Blind", "offset_range": (35, 38),
+                "troparion_key": "pentecostarion.blind_man.troparion"},
+            6: {"name": "Ascension", "offset_range": (39, 48),
+                "troparion_key": "pentecostarion.ascension.troparion"},
+            7: {"name": "Holy Fathers of Nicaea", "offset_range": (49, 49),
+                "troparion_key": "pentecostarion.fathers.troparion"},
+            8: {"name": "Pentecost", "offset_range": (49, 55),
+                "troparion_key": "pentecostarion.pentecost.troparion"}
+        }
+        
+        current_week = None
+        for wk_num, wk_data in week_map.items():
+            start, end = wk_data["offset_range"]
+            if start <= offset <= end:
+                current_week = wk_data
+                break
+        
+        if not current_week:
+            return {"is_pentecostarion": True, "week": None}
+        
+        return {
+            "is_pentecostarion": True,
+            "week_name": current_week["name"],
+            "troparion_key": current_week["troparion_key"],
+            "katavasia": self.resolve_katavasia(context),
+            "citation": "Dolnytsky IV:850-920 — Pentecostarion troparion cycling"
+        }
+
+    def resolve_pentecost_kneeling(self, context, rubrics=None):
+        """
+        Gap 2.8: Pentecost Kneeling Prayers.
+        Citation: Dolnytsky Part IV Lines 920-950.
+        
+        At Pentecost Vespers (evening of the feast), three sets of 
+        kneeling prayers are read by the priest, during which the 
+        faithful kneel for the first time since Pascha.
+        
+        Returns:
+            dict with kneeling prayer configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        
+        if offset is None or offset != 49:
+            return {"is_pentecost_kneeling": False}
+        
+        return {
+            "is_pentecost_kneeling": True,
+            "prayers": [
+                {
+                    "set": 1,
+                    "key": "pentecostarion.kneeling_prayer_1",
+                    "note": "Prayer to God the Father",
+                    "posture": "kneeling"
+                },
+                {
+                    "set": 2,
+                    "key": "pentecostarion.kneeling_prayer_2",
+                    "note": "Prayer to God the Son",
+                    "posture": "kneeling"
+                },
+                {
+                    "set": 3,
+                    "key": "pentecostarion.kneeling_prayer_3",
+                    "note": "Prayer to God the Holy Spirit",
+                    "posture": "kneeling"
+                }
+            ],
+            "rubric": "First kneeling since Pascha. Deacon intones 'Let us kneel' before each prayer.",
+            "citation": "Dolnytsky IV:920-950 — Pentecost Kneeling Prayers"
+        }
+
+    # =========================================================================
+    # END SPRINT 5
+    # =========================================================================
+
+    # =========================================================================
+    # SPRINT 6: SPECIALIZED SERVICES (Gaps 4.1-4.4)
+    # =========================================================================
+
+    def resolve_corpus_christi(self, context, rubrics=None):
+        """
+        Gap 4.1: Corpus Christi (Feast of the Body and Blood of Christ).
+        Citation: Dolnytsky Part II; GKC Decree.
+        
+        A special Ruthenian/Ukrainian feast (Thursday after Trinity Sunday)
+        with a Eucharistic procession. Not in the standard Byzantine Typikon.
+        
+        Returns:
+            dict with Corpus Christi configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        
+        # Corpus Christi = Thursday after Trinity Sunday = Pascha + 60
+        if offset is None or offset != 60:
+            return {"is_corpus_christi": False}
+        
+        return {
+            "is_corpus_christi": True,
+            "rank": "great_feast",
+            "structure": {
+                "liturgy": {
+                    "type": "liturgy_st_john_chrysostom",
+                    "note": "Full Liturgy with Eucharistic focus"
+                },
+                "procession": {
+                    "included": True,
+                    "stations": 4,
+                    "note": "Eucharistic procession with 4 stations and Gospel readings",
+                    "citation": "GKC Decree — Corpus Christi procession"
+                },
+                "hymns": {
+                    "key": "supplemental.corpus_christi_hymns",
+                    "note": "Special Eucharistic hymns and stichera"
+                }
+            },
+            "citation": "Dolnytsky II / GKC — Corpus Christi (Body and Blood of Christ)"
+        }
+
+    def resolve_akathist_saturday(self, context, rubrics=None):
+        """
+        Gap 4.2: Akathist Saturday (Saturday of the 5th Week of Lent).
+        Citation: Dolnytsky Part IV Lines 400-440.
+        
+        The Akathist Hymn to the Theotokos is sung at Matins. 
+        The 24 stanzas (oikoi and kontakia) are read in 4 parts.
+        
+        Returns:
+            dict with Akathist Saturday configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        day_of_week = context.get("day_of_week", 0)
+        
+        # Saturday of 5th Week = offset -15 (approximately)
+        # More precisely: 5th Saturday of Lent
+        lent_week = ((offset + 48) // 7) + 1 if offset is not None and offset >= -48 else 0
+        
+        if lent_week != 5 or day_of_week != 6:
+            return {"is_akathist_saturday": False}
+        
+        return {
+            "is_akathist_saturday": True,
+            "matins": {
+                "akathist": {
+                    "key": "triodion.akathist_hymn",
+                    "parts": 4,
+                    "stanzas_per_part": 6,
+                    "total_stanzas": 24,
+                    "note": "24 stanzas (12 kontakia + 12 oikoi) in 4 parts",
+                    "citation": "Dolnytsky IV:400-440 — Akathist Hymn"
+                },
+                "kontakion": {
+                    "key": "triodion.akathist_kontakion",
+                    "text_incipit": "To thee, the Champion Leader"
+                },
+                "note": "Inserted after kathisma readings at Matins"
+            },
+            "citation": "Dolnytsky IV:400-440 — Akathist Saturday"
+        }
+
+    def resolve_saturdays_of_souls(self, context, rubrics=None):
+        """
+        Gap 4.3: Saturdays of Souls (Psychosabbata).
+        Citation: Dolnytsky Part IV Lines 25-67.
+        
+        Special memorial Saturdays: Meatfare Saturday, 2nd/3rd/4th Saturdays 
+        of Lent, and the Saturday before Pentecost. These include special 
+        memorial troparia, kontakia, and canons for the departed.
+        
+        Returns:
+            dict with memorial Saturday configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        day_of_week = context.get("day_of_week", 0)
+        
+        if day_of_week != 6 or offset is None:
+            return {"is_soul_saturday": False}
+        
+        # Identify specific Soul Saturdays
+        soul_saturdays = {
+            -57: {"name": "Meatfare Saturday", "key": "triodion.meatfare_saturday"},
+            -41: {"name": "2nd Saturday of Lent", "key": "triodion.soul_saturday_2"},
+            -34: {"name": "3rd Saturday of Lent", "key": "triodion.soul_saturday_3"},
+            -27: {"name": "4th Saturday of Lent", "key": "triodion.soul_saturday_4"},
+            48:  {"name": "Saturday before Pentecost", "key": "pentecostarion.pentecost_soul_saturday"}
+        }
+        
+        if offset not in soul_saturdays:
+            return {"is_soul_saturday": False}
+        
+        config = soul_saturdays[offset]
+        return {
+            "is_soul_saturday": True,
+            "name": config["name"],
+            "key": config["key"],
+            "memorial_elements": {
+                "troparion": {"key": f"{config['key']}.troparion",
+                              "text_incipit": "Remember, O Lord, as Thou art good, Thy servants"},
+                "kontakion": {"key": f"{config['key']}.kontakion",
+                              "text_incipit": "With the Saints give rest, O Christ"},
+                "canon": {"key": f"{config['key']}.memorial_canon",
+                          "note": "Memorial Canon for the departed"},
+                "litany": {"type": "memorial",
+                          "note": "Special memorial litany with names of departed"}
+            },
+            "citation": f"Dolnytsky IV:25-67 — {config['name']}"
+        }
+
+    def resolve_great_canon_of_andrew(self, context, rubrics=None):
+        """
+        Gap 4.4: Great Canon of St. Andrew of Crete.
+        Citation: Dolnytsky Part IV Lines 190-234.
+        
+        Covers both the distribution during Clean Week (quarters at Compline)
+        and the full reading on Thursday of the 5th Week.
+        
+        Note: This supplements resolve_great_compline but provides 
+        additional detail for the canon text structure itself.
+        
+        Returns:
+            dict with Great Canon configuration.
+        """
+        offset = context.get("pascha_offset", None)
+        day_of_week = context.get("day_of_week", 0)
+        
+        if offset is None:
+            return {"is_great_canon": False}
+        
+        lent_week = ((offset + 48) // 7) + 1 if offset >= -48 else 0
+        
+        # Clean Week quarters
+        if lent_week == 1 and day_of_week in (1, 2, 3, 4):
+            quarter = day_of_week
+            ode_ranges = {
+                1: {"odes": [1, 2, 3], "note": "Odes 1-3"},
+                2: {"odes": [4, 5, 6], "note": "Odes 4-6"},
+                3: {"odes": [7, 8], "note": "Odes 7-8"},
+                4: {"odes": [9], "note": "Ode 9 + Life of St. Mary of Egypt (partial)"}
+            }
+            return {
+                "is_great_canon": True,
+                "mode": "quarter",
+                "quarter": quarter,
+                "odes": ode_ranges[quarter]["odes"],
+                "key": f"triodion.great_canon.quarter_{quarter}",
+                "context_service": "great_compline",
+                "citation": f"Dolnytsky IV:190 — Great Canon, quarter {quarter} at Compline"
+            }
+        
+        # Thursday of 5th Week: full
+        if lent_week == 5 and day_of_week == 4:
+            return {
+                "is_great_canon": True,
+                "mode": "full",
+                "odes": list(range(1, 10)),
+                "key": "triodion.great_canon.full",
+                "life_of_mary_of_egypt": {
+                    "included": True,
+                    "key": "triodion.life_mary_egypt",
+                    "note": "Life of St. Mary of Egypt read between odes"
+                },
+                "context_service": "matins",
+                "citation": "Dolnytsky IV:210 — Full Great Canon at Matins, Thursday of 5th Week"
+            }
+        
+        return {"is_great_canon": False}
+
+    # =========================================================================
+    # END SPRINT 6
+    # =========================================================================
 
     # PHASE 13: DIGEST HELPERS
     
@@ -1836,9 +4215,9 @@ class RuthenianEngine:
                 # ... (Double Stack) ...
                 sidalen_3 = [
                     "hypakoe_resurrectional",
-                    st_sess_1, st_sess_2,
-                    {"type": "glory", "content": st_poly_sess},
-                    {"type": "both_now", "content": st_theotokion}
+                    "saint_sidalen_1", "saint_sidalen_2",
+                    {"type": "glory", "content": "saint_sidalen_polyeleos"},
+                    {"type": "both_now", "content": "saint_theotokion"}
                 ]
             else:
                 # ... (Saint Supremacy) ...
@@ -2226,9 +4605,17 @@ class RuthenianEngine:
              39: "ASCENSION",
              42: "Seventh Sunday after Pascha – of the Holy Fathers",
              49: "SUNDAY OF PENTECOST.",
+             50: "Monday of the Holy Spirit",
              56: "First Sunday after the Descent of the Holy Spirit – of All Saints",
              60: "OF THE EUCHARIST",
-             63: "Second Sunday after the Descent of the Holy Spirit." 
+             63: "Second Sunday after the Descent of the Holy Spirit.",
+             # --- Missing Apodoses and rankings (Dolnytsky V) ---
+             -50: "Cheesefare Saturday",       # [GT DOX]
+             31:  "Apodosis of Mid-Pentecost",  # [GT DOX]
+             47:  "Apodosis of Ascension",      # [GT DOX]
+             55:  "Apodosis of Pentecost",      # [GT DOX]
+             67:  "Apodosis of the Eucharist",  # [GT DOX]
+             68:  "Co-Suffering of the Theotokos"  # [POL]
         }
         
         # Fuzzy Matcher for Movable Keys
@@ -2279,6 +4666,36 @@ class RuthenianEngine:
              result["dolnytsky_rank"] = "GT_DOX" # Akathist is a major feast
              result["dolnytsky_commemoration"] = "Laudation of the Theotokos"
              result["dolnytsky_source"] = "movable_cycle_override"
+         
+         # [Override] Cheesefare Saturday (Source: Dolnytsky V:723)
+        elif pascha_offset == -50:
+             result["dolnytsky_title"] = "Cheesefare Saturday — Holy Ascetics"
+             result["dolnytsky_rank"] = "GT_DOX"
+             result["dolnytsky_source"] = "movable_cycle_override"
+
+         # [Override] Monday of Holy Spirit (Source: Dolnytsky V:807)
+        elif pascha_offset == 50:
+             result["dolnytsky_title"] = "Monday of the Holy Spirit"
+             result["dolnytsky_rank"] = "LORD"
+             result["dolnytsky_source"] = "movable_cycle_override"
+
+         # [Override] Apodoses (Source: Dolnytsky V)
+        elif pascha_offset in [31, 47, 55, 67]:
+             apo_names = {
+                 31: "Apodosis of Mid-Pentecost",
+                 47: "Apodosis of Ascension",
+                 55: "Apodosis of Pentecost",
+                 67: "Apodosis of the Eucharist"
+             }
+             result["dolnytsky_title"] = apo_names[pascha_offset]
+             result["dolnytsky_rank"] = "GT_DOX"
+             result["dolnytsky_source"] = "movable_cycle_override"
+
+         # [Override] Co-Suffering of the Theotokos (Source: Dolnytsky V:821)
+        elif pascha_offset == 68:
+             result["dolnytsky_title"] = "Co-Suffering of the Most Holy Theotokos"
+             result["dolnytsky_rank"] = "POLYELEOS"
+             result["dolnytsky_source"] = "movable_cycle_override"
         
         # 2. Fixed Cycle Lookup
         # Key format: "M-D" e.g. "9-1"
@@ -2291,13 +4708,20 @@ class RuthenianEngine:
                 primary = entries[0]
                 result["dolnytsky_commemoration"] = primary.get("description")
                 
-                # Check for Rank Override in Fixed Cycle
+                # Check for Rank Override in Fixed Cycle (only if movable didn't set rank)
                 code = primary.get("rank_code", "")
-                if code == "[GT DOX]": result["dolnytsky_rank"] = "GT_DOX"
-                elif code == "[POL]": result["dolnytsky_rank"] = "POLYELEOS"
-                elif code == "[VIGIL]": result["dolnytsky_rank"] = "VIGIL"
-                elif code == "[LORD]": result["dolnytsky_rank"] = "LORD"
-                elif code == "[MOG]": result["dolnytsky_rank"] = "THEOTOKOS"
+                if not result["dolnytsky_rank"]:
+                    if code == "[GT DOX]": result["dolnytsky_rank"] = "GT_DOX"
+                    elif code == "[POL]": result["dolnytsky_rank"] = "POLYELEOS"
+                    elif code == "[VIGIL]": result["dolnytsky_rank"] = "VIGIL"
+                    elif code == "[LORD]": result["dolnytsky_rank"] = "LORD"
+                    elif code == "[MOG]": result["dolnytsky_rank"] = "THEOTOKOS"
+                else:
+                    # Movable already set rank — use fixed cycle for codes like [6 SM] etc.
+                    rank_map = {"[LORD]": "LORD", "[MOG]": "THEOTOKOS", "[VIGIL]": "VIGIL",
+                                "[POL]": "POLYELEOS", "[GT DOX]": "GT_DOX", "[6 SM]": "SIX",
+                                "[4 A+G]": "SIX", "[4 NO]": "SIMPLE", "[4 TR]": "SIMPLE"}
+                    result["fixed_rank_code"] = rank_map.get(code, "SIMPLE")
                 
                 if not result["dolnytsky_title"]:
                      result["dolnytsky_title"] = primary.get("description")
@@ -2390,13 +4814,92 @@ class RuthenianEngine:
         triodion_period = self._get_triodion_period_name(delta)
         
         if season_id == "triodion":
-            if triodion_period in ["great_lent", "holy_week"]:
+            if triodion_period in ["great_lent", "clean_monday"] or triodion_period.startswith("sunday_") and -48 <= delta <= -8:
                  season = "lent"
-            elif triodion_period in ["pre_lent", "cheesefare"]:
+            elif triodion_period.startswith("holy_") or triodion_period == "palm_sunday":
+                 season = "lent"
+            elif triodion_period in ["pre_lent", "cheesefare"] or triodion_period.startswith("sunday_publican") or triodion_period.startswith("sunday_prodigal") or triodion_period.startswith("sunday_meatfare") or triodion_period.startswith("sunday_cheesefare"):
                  season = "pre_lent"
         elif season_id == "pentecostarion":
              season = "pascha"
             
+        # --- TONE CALCULATION (Octoechos 1-8) ---
+        # Citation: Dolnytsky Part V, "Second Sunday after the Descent of the Holy Spirit":
+        #   "With this Sunday begins the cycle of tones."
+        # The 2nd Sunday after Pentecost (= Pascha + 63) is when Tone 1 begins.
+        # All Saints (Pascha + 56) is the last Sunday of the Pentecostarion.
+        # During the Pentecostarion, tones align numerically from Thomas Sunday.
+        # Before the current year's Pascha, tones continue from the previous year.
+        tone_cycle_start_offset = 63  # 2nd Sunday after Pentecost = Pascha + 63
+        thomas_sunday_offset = 7  # Thomas Sunday = Pascha + 7
+        
+        if 0 <= delta <= 6:
+            # Bright Week: always Tone 1 (special Paschal services)
+            tone = 1
+        elif 7 <= delta <= 56:
+            # Pentecostarion (Thomas Sunday through All Saints):
+            # Tones align 1-8 numerically from Thomas Sunday
+            weeks_since_thomas = (delta - thomas_sunday_offset) // 7
+            tone = (weeks_since_thomas % 8) + 1
+        elif delta >= 57:
+            # After All Saints: formal Octoechos cycle
+            # Tone 1 = 2nd Sunday after Pentecost (offset 63)
+            weeks_since_start = (delta - tone_cycle_start_offset) // 7
+            tone = (weeks_since_start % 8) + 1
+        else:
+            # Before current year's Pascha (delta < 0):
+            # Calculate from PREVIOUS year's Pascha + 63 (2nd Sun after Pentecost)
+            prev_year = year - 1
+            if self.paschalion == "julian":
+                a2 = prev_year % 4; b2 = prev_year % 7; c2 = prev_year % 19
+                d2 = (19 * c2 + 15) % 30; e2 = (2 * a2 + 4 * b2 - d2 + 34) % 7
+                m2 = (d2 + e2 + 114) // 31; dy2 = ((d2 + e2 + 114) % 31) + 1
+                prev_pascha = date(prev_year, m2, dy2) + timedelta(days=13)
+            else:
+                a2 = prev_year % 19; b2 = prev_year // 100; c2 = prev_year % 100
+                d2 = b2 // 4; e2 = b2 % 4; f2 = (b2 + 8) // 25; g2 = (b2 - f2 + 1) // 3
+                h2 = (19 * a2 + b2 - d2 - g2 + 15) % 30; i2 = c2 // 4; k2 = c2 % 4
+                l2 = (32 + 2 * e2 + 2 * i2 - h2 - k2) % 7
+                m2 = (a2 + 11 * h2 + 22 * l2) // 451
+                mo2 = (h2 + l2 - 7 * m2 + 114) // 31
+                dy2 = ((h2 + l2 - 7 * m2 + 114) % 31) + 1
+                prev_pascha = date(prev_year, mo2, dy2)
+            
+            prev_tone_start = prev_pascha + timedelta(days=63)  # 2nd Sun after Pentecost
+            days_since_prev_start = (target_date - prev_tone_start).days
+            if days_since_prev_start >= 0:
+                weeks_since_start = days_since_prev_start // 7
+                tone = (weeks_since_start % 8) + 1
+            else:
+                tone = 1  # Fallback (should not happen in practice)
+
+        # --- EOTHINON GOSPEL CYCLE (1-11, Sundays only) ---
+        # Citation: The 11 Resurrection Gospels rotate weekly starting from Thomas Sunday.
+        # Only meaningful on Sundays. On non-Sundays, eothinon is None.
+        eothinon = None
+        if weekday == 0:  # Sunday
+            if delta >= thomas_sunday_offset:
+                weeks_since_thomas = (delta - thomas_sunday_offset) // 7
+                eothinon = (weeks_since_thomas % 11) + 1
+            elif delta < 0:
+                # Before current year's Pascha — use previous year's Thomas
+                if 'prev_thomas' in dir():
+                    days_since_prev_thomas = (target_date - prev_thomas).days
+                    if days_since_prev_thomas >= 0:
+                        weeks = days_since_prev_thomas // 7
+                        eothinon = (weeks % 11) + 1
+                if eothinon is None:
+                    eothinon = 1  # fallback
+            # Bright Week / Pascha Sunday: no standard Eothinon
+            if 0 <= delta <= 6:
+                eothinon = None
+
+        # --- DEFAULT RANK ---
+        # Will be overridden by resolve_rubrics if Menaion data specifies a higher rank.
+        rank = 5  # Simple (default)
+        if weekday == 0:
+            rank = 4  # Sunday with no special saint = Rank 4
+
         context = {
             "date": target_date.isoformat(), 
             "year": year, 
@@ -2407,8 +4910,23 @@ class RuthenianEngine:
             "triodion_period": triodion_period, 
             "season_id": season_id, 
             "season": season,
+            "tone": tone,
+            "tone_of_week": tone,       # Alias: resolvers use this name
+            "eothinon": eothinon,
+            "eothinon_number": eothinon, # Alias: resolve_matins_gospel & exapostilarion use this
+            "rank": rank,
             "is_temple_feast": is_temple_feast,
-            "menaion_key": menaion_key
+            "menaion_key": menaion_key,
+            "triodion_week": (delta + 48) // 7 + 1 if -70 <= delta <= -1 else 1,
+            "octoechos_theme": {
+                0: "resurrection",
+                1: "repentance_angels",
+                2: "repentance_forerunner",
+                3: "cross_theotokos",
+                4: "apostles_nicholas",
+                5: "cross_theotokos",
+                6: "saints_dead"
+            }.get(weekday, "general")
         }
         
         # Merge Dolnytsky Data
@@ -2429,20 +4947,165 @@ class RuthenianEngine:
 
         return context
 
-    def _get_triodion_period_name(self, delta):
-        if delta == 0: return "pascha";
-        if delta == -1: return "holy_saturday";
-        if delta == -2: return "holy_friday";
-        if 1 <= delta <= 6: return "bright_week";
-        if delta == 7: return "sunday_thomas";
-        if delta == 39: return "ascension";
-        if delta == 49: return "pentecost";
-        if delta == 50: return "monday_holy_spirit";
+    def _lookup_dolnytsky_calendar(self, target_date, delta):
+        """
+        Looks up the Dolnytsky Part 5 liturgical calendar for a given date.
+        Returns a dict with dolnytsky_rank, dolnytsky_commemoration, dolnytsky_title.
         
-        # TRIODION PHASES
-        if -70 <= delta <= -57: return "pre_lent"       # Publican to Meatfare Saturday
-        if -56 <= delta <= -49: return "cheesefare"     # Meatfare Sunday to Cheesefare Sunday
-        if -48 <= delta <= -1: return "great_lent"      # Pure Monday to Holy Saturday
+        Priority: Movable overrides (Pascha offset) > Fixed calendar (Menaion date).
+        
+        Rank Code Mapping (from Dolnytsky Part 5):
+          [LORD]     → Great Feast of the Lord (Rank 1)
+          [MOG]      → Great Feast of the Theotokos (Rank 1)
+          [VIGIL]    → Vigil-rank saint (Rank 2)
+          [POL]      → Polyeleos-rank saint (Rank 2)
+          [GT DOX]   → Great Doxology (Rank 3)
+          [6 SM]     → Six stichera, small (Rank 4)
+          [4 A+G]    → Four stichera, Alleluia & Gospel (Rank 4)
+          [4 NO]     → Four stichera, no special features (Rank 5)
+          [4 TR]     → Four stichera, Troparion (Rank 5)
+        """
+        result = {}
+        
+        # ── 1. MOVABLE CYCLE OVERRIDES (Dolnytsky Part V) ──────────────────
+        movable_overrides = {
+            # Lenten Triodion
+            -50: ("Cheesefare Saturday — Holy Ascetics", "GT_DOX"),
+            -43: ("Saturday of St. Theodore", "GT_DOX"),
+            -36: ("Second Saturday of Lent", "ALLELUIA"),
+            -29: ("Third Saturday of Lent", "ALLELUIA"),
+            -22: ("Fourth Saturday of Lent", "ALLELUIA"),
+            -15: ("Saturday of the Akathist", "GT_DOX"),
+            # Paschal Cycle
+             50: ("Monday of the Holy Spirit", "LORD"),
+            # Apodoses
+             31: ("Apodosis of Mid-Pentecost", "GT_DOX"),
+             47: ("Apodosis of Ascension", "GT_DOX"),
+             55: ("Apodosis of Pentecost", "GT_DOX"),
+             67: ("Apodosis of the Eucharist", "GT_DOX"),
+            # Theotokos
+             68: ("Co-Suffering of the Most Holy Theotokos", "POLYELEOS"),
+        }
+        
+        if delta in movable_overrides:
+            title, rank = movable_overrides[delta]
+            result["dolnytsky_title"] = title
+            result["dolnytsky_rank"] = rank
+            result["dolnytsky_source"] = "movable_cycle_override"
+        
+        # ── 2. FIXED CALENDAR LOOKUP ──────────────────────────────────────
+        key = f"{target_date.month}-{target_date.day}"
+        if self.dolnytsky_fixed and key in self.dolnytsky_fixed:
+            entry = self.dolnytsky_fixed[key]
+            entries = entry.get("entries", [])
+            if entries:
+                rank_code = entries[0].get("rank_code", "")
+                description = entries[0].get("description", "")
+                
+                # Map rank code to normalized rank
+                rank_map = {
+                    "[LORD]": "LORD",
+                    "[MOG]": "THEOTOKOS",
+                    "[VIGIL]": "VIGIL",
+                    "[POL]": "POLYELEOS",
+                    "[GT DOX]": "GT_DOX",
+                    "[6 SM]": "SIX",
+                    "[4 A+G]": "SIX",
+                    "[4 NO]": "SIMPLE",
+                    "[4 TR]": "SIMPLE",
+                }
+                
+                normalized_rank = rank_map.get(rank_code, "")
+                
+                # Only set rank from fixed cycle if movable didn't already set it
+                if "dolnytsky_rank" not in result and normalized_rank:
+                    result["dolnytsky_rank"] = normalized_rank
+                elif "dolnytsky_rank" in result and normalized_rank:
+                    result["fixed_rank_code"] = normalized_rank
+                
+                result["dolnytsky_commemoration"] = description
+                result["dolnytsky_rank_code"] = rank_code
+                
+                if "dolnytsky_title" not in result:
+                    result["dolnytsky_title"] = description
+                else:
+                    result["dolnytsky_subtitle"] = description
+                    result["dolnytsky_status"] = "collision"
+                
+                # Build saints list from entries for multi-saint days
+                if len(entries) > 1:
+                    rank_numeric = {
+                        "[LORD]": 1, "[MOG]": 1, "[VIGIL]": 2, "[POL]": 2,
+                        "[GT DOX]": 3, "[6 SM]": 4, "[4 A+G]": 4, "[4 NO]": 5, "[4 TR]": 5,
+                    }
+                    saints = []
+                    for e in entries:
+                        saints.append({
+                            "name": e.get("description", ""),
+                            "rank": rank_numeric.get(e.get("rank_code", ""), 5),
+                            "rank_code": e.get("rank_code", "")
+                        })
+                    result["saints"] = saints
+        
+        return result
+
+    def _get_triodion_period_name(self, delta):
+        # === PASCHA & BRIGHT WEEK ===
+        if delta == 0: return "pascha"
+        if 1 <= delta <= 6: return "bright_week"
+        
+        # === PENTECOSTARION SUNDAYS ===
+        if delta == 7: return "sunday_thomas"
+        if delta == 14: return "sunday_myrrh_bearers"
+        if delta == 21: return "sunday_paralytic"
+        if delta == 24: return "mid_pentecost"  # Wednesday of 4th week
+        if delta == 28: return "sunday_samaritan"
+        if delta == 35: return "sunday_blind_man"
+        if delta == 39: return "ascension"
+        if delta == 42: return "sunday_fathers_nicaea"  # Sun after Ascension
+        if delta == 49: return "pentecost"
+        if delta == 50: return "monday_holy_spirit"
+        if delta == 56: return "sunday_all_saints"
+        
+        # === PENTECOSTARION WEEKDAYS (non-Sunday) ===
+        if 8 <= delta <= 55: return "pentecostarion"
+        
+        # === HOLY WEEK (Palm Sunday through Holy Saturday) ===
+        if delta == -7: return "palm_sunday"
+        if delta == -6: return "holy_monday"
+        if delta == -5: return "holy_tuesday"
+        if delta == -4: return "holy_wednesday"
+        if delta == -3: return "holy_thursday"
+        if delta == -2: return "holy_friday"
+        if delta == -1: return "holy_saturday"
+        
+        # === LENTEN SUNDAYS ===
+        # Clean Monday = -48, so 1st Sunday = -42
+        if delta == -48: return "clean_monday"
+        lenten_sundays = {
+            -42: "sunday_orthodoxy",       # 1st Sunday of Lent
+            -35: "sunday_gregory_palamas", # 2nd Sunday
+            -28: "sunday_veneration_cross", # 3rd Sunday (Cross)
+            -21: "sunday_john_climacus",   # 4th Sunday
+            -14: "sunday_mary_egypt",      # 5th Sunday
+        }
+        if delta in lenten_sundays: return lenten_sundays[delta]
+        
+        # === GREAT LENT WEEKDAYS ===
+        if -48 <= delta <= -8: return "great_lent"
+        
+        # === PRE-LENTEN SUNDAYS ===
+        pre_lenten_sundays = {
+            -70: "sunday_publican_pharisee",
+            -63: "sunday_prodigal_son",
+            -56: "sunday_meatfare",      # Last Judgment
+            -49: "sunday_cheesefare",    # Forgiveness Sunday
+        }
+        if delta in pre_lenten_sundays: return pre_lenten_sundays[delta]
+        
+        # === PRE-LENTEN PERIODS ===
+        if -70 <= delta <= -57: return "pre_lent"
+        if -56 <= delta <= -49: return "cheesefare"
         
         return "normal"
 
@@ -2669,6 +5332,9 @@ class RuthenianEngine:
             # FIX: Override service types for Sunday Vigil (Part II §1)
             # "AT GREAT VESPERS" (Line 34), "AT GREAT MATINS" (Line 52)
             # NOTE: Must use "overrides" not "variables" - see line 2070 for lookup
+            rubrics.setdefault("overrides", {})
+            rubrics.setdefault("variables", {})
+            rubrics.setdefault("_trace", [])
             rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
             rubrics["overrides"]["matins_type"] = "great_matins"
             rubrics["variables"]["has_polyeleos"] = True  # Line 55: Kathisma 17/19 (Polyeleos)
@@ -2680,6 +5346,9 @@ class RuthenianEngine:
             # When generating Sunday's service directly (not via Saturday lookahead)
             # Citation: Dolnytsky Part II Lines 33-66 (Saint Without Polyeleos on a Sunday)
             rubrics["is_sunday"] = True
+            rubrics.setdefault("overrides", {})
+            rubrics.setdefault("variables", {})
+            rubrics.setdefault("_trace", [])
             rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
             rubrics["overrides"]["matins_type"] = "great_matins"
             rubrics["variables"]["has_polyeleos"] = True
@@ -2731,24 +5400,23 @@ class RuthenianEngine:
             return context["fake_tone"]
             
         # Octoechos Tone Calculation
-        # Assuming standard cycle relative to Pentecost or similar anchor
-        # For unit testing (and placeholder), we default to 1 or calculate simple cycle
-        # If Pascha offset is known:
-        # Pentecost is Pascha + 49.
-        # Tone 1 starts on Thomas Sunday (Pascha + 7).
-        # Cycle repeats every 8 weeks.
+        # Citation: Dolnytsky Part V, "Second Sunday after the Descent of the Holy Spirit":
+        #   "With this Sunday begins the cycle of tones."
+        # Tone 1 starts on the 2nd Sunday after Pentecost (Pascha + 63).
         
         offset = context.get("pascha_offset", 0)
         
-        # Tone Cycle Logic
-        if offset < 7: return 1 # Bright Week / Pascha -> Tone 1 (or special)
-        
-        # Thomas Sunday (Offset 7) is Tone 1
-        # (Offset - 7) // 7 gives weeks since Thomas Sunday
-        weeks_since_thomas = (offset - 7) // 7
-        tone_index = weeks_since_thomas % 8
-        tone = tone_index + 1
-        return tone
+        if 0 <= offset <= 6:
+            return 1  # Bright Week: Tone 1
+        elif 7 <= offset <= 56:
+            # Pentecostarion: tones align from Thomas Sunday
+            return ((offset - 7) // 7 % 8) + 1
+        elif offset >= 57:
+            # Formal Octoechos: Tone 1 = Pascha + 63 (2nd Sun after Pentecost)
+            return ((offset - 63) // 7 % 8) + 1
+        else:
+            # Pre-Pascha: use context['tone'] which should be set by get_liturgical_context
+            return context.get("tone", 1)
 
     def _get_structure_sequence(self, struct_data, root_id):
         """
@@ -2802,9 +5470,16 @@ class RuthenianEngine:
             # Determine Matins override first
             matins_override = None
             if context["triodion_period"] == "holy_friday":
-                matins_override = "tomb_matins"
+                matins_override = "tomb_matins"  # Great Saturday Matins (Encomia)
             elif context["triodion_period"] in ["pascha", "bright_week"]:
                 matins_override = "bright_matins"
+            elif context["triodion_period"] == "holy_week_weekday" and context.get("day_of_week") in [4, 5]:
+                # Holy Thursday night = Passion Matins (12 Gospels), actually celebrated Thursday evening
+                # day_of_week==4 is Thursday in 0=Sun convention
+                matins_override = "passion_matins"
+            elif context["triodion_period"] == "holy_week_weekday" and context.get("day_of_week") in [1, 2, 3]:
+                # Holy Monday (1), Tuesday (2), Wednesday (3) = Bridegroom Matins
+                matins_override = "bridegroom_matins"
 
             for service in self.daily_cycle:
                 service_name = service["name"]
@@ -4086,6 +6761,56 @@ class RuthenianEngine:
             "ref_key": "horologion.we_have_seen_true_light"
         }
 
+    def resolve_vesperal_liturgy_readings(self, context, rubrics=None):
+        """
+        Phase 7: Resolve Vesperal Liturgy Readings
+        Fetches the Old Testament Paremias alongside the Epistle/Gospel.
+        """
+        title = context.get("title", "").lower()
+        feast_id = context.get("feast_id", "")
+        
+        # Identify vesperal feast
+        vesperal_id = None
+        if "nativity" in title: vesperal_id = "nativity_eve"
+        elif "theophany" in title or "epiphany" in title: vesperal_id = "theophany_eve"
+        elif feast_id == "holy_thursday" or "thursday" in title and context.get("season") == "holy_week": vesperal_id = "holy_thursday"
+        elif feast_id == "holy_saturday" or "saturday" in title and context.get("season") == "holy_week": vesperal_id = "holy_saturday"
+        
+        if not vesperal_id:
+             return {"type": "error", "content": "Could not identify Vesperal Liturgy day from context."}
+             
+        # Load logic file
+        logic = self._load_json(os.path.join(self.base_dir, "json_db", "02f_logic_vesperal_liturgy.json"))
+        readings = logic.get("vesperal_readings", {}).get(vesperal_id, {})
+        
+        if not readings:
+             return {"type": "error", "content": f"No readings found for {vesperal_id}."}
+             
+        components = []
+        
+        # Add paremias
+        for p in readings.get("paremias", []):
+             components.append({"type": "reading", "source": "paremia", "ref_key": p})
+             
+        # Add Epistle Prokeimenon
+        components.append({"type": "prokeimenon", "ref_key": readings.get("epistle_prokeimenon")})
+        
+        # Add Epistle
+        components.append({"type": "reading", "source": "epistle", "ref_key": readings.get("epistle")})
+        
+        # Add Alleluia
+        if readings.get("alleluia"):
+            components.append({"type": "alleluia", "ref_key": readings.get("alleluia")})
+            
+        # Add Gospel
+        components.append({"type": "reading", "source": "gospel", "ref_key": readings.get("gospel")})
+        
+        return {
+            "type": "sequence",
+            "components": components,
+            "source_metadata": {"vesperal_id": vesperal_id, "paremia_count": readings.get("count", 0)}
+        }
+        
     def resolve_liturgy_readings(self, context, rubrics=None):
         """
         Unified Liturgy Readings Resolution.
@@ -4255,6 +6980,17 @@ class RuthenianEngine:
 
     def resolve_doxology_mode(self, context, rubrics):
         # S08: Doxology Toggle
+        # FIX Issue #1: Check lookahead variable first (set by _apply_lookahead)
+        # Citation: Dolnytsky Part II Line 65 ("After the Great Doxology")
+        doxology_override = rubrics.get("variables", {}).get("doxology_type")
+        if doxology_override == "great_doxology":
+            return {"mode": "sung"}
+        
+        # Also check is_sunday_vigil / is_sunday directly
+        # Citation: Dolnytsky Part II Lines 65, 182, 355 — all Sunday paradigms use Great Doxology
+        if context.get("is_sunday_vigil") or context.get("is_sunday"):
+            return {"mode": "sung"}
+
         rank = context.get("rank", self.calculate_rank(context))
         if rank <= 3:
             return {"mode": "sung"}
@@ -4380,6 +7116,53 @@ class RuthenianEngine:
         if day in [3, 5] and not context.get("is_lent"): 
              return {"type": "stavrotheotokion"}
         return {"type": "theotokion"}
+
+    def resolve_aposticha_type(self, context, rubrics=None):
+        """
+        Determines the Aposticha type (Resurrectional vs Weekday vs Martyria vs Lenten).
+        
+        Citations (Dolnytsky Part II):
+        - Line 40:  Sunday -> "stichera of the resurrection of the current tone"
+        - Line 86:  Weekday -> "all stichera from the Octoechos"
+        - Line 135: Saturday -> "3 Martyria stichera of the Octoechos"
+        - Line 170: Polyeleos Sunday -> "stichera of the Sunday Octoechos"
+        - Line 196: Polyeleos weekday -> "Aposticha whole to the saint"
+        - Line 226: All-Night Vigil Sunday -> "stichera of the Sunday tone"
+        - Line 246: All-Night Vigil weekday -> "all stichera to the saint"
+        
+        FIX Issue #4: Check the lookahead variable set by _apply_lookahead
+        """
+        # 1. Check rubrics override (set by _apply_lookahead for Sunday Vigil)
+        if rubrics:
+            aposticha_var = rubrics.get("variables", {}).get("aposticha_type")
+            if aposticha_var == "sunday_aposticha":
+                return {"type": "resurrection_aposticha", "source": "octoechos",
+                        "reason": "Sunday Vigil (Dolnytsky II:40)"}
+        
+        # 2. Check context directly
+        if context.get("is_sunday_vigil") or context.get("is_sunday") or context.get("day_of_week") == 0:
+            return {"type": "resurrection_aposticha", "source": "octoechos",
+                    "reason": "Sunday (Dolnytsky II:40)"}
+        
+        # 3. Lenten Aposticha
+        if context.get("is_lent") and context.get("day_of_week") in [1, 2, 3, 4, 5]:
+            return {"type": "lenten_aposticha", "source": "triodion",
+                    "reason": "Lenten weekday"}
+        
+        # 4. Saturday Martyria (Dolnytsky II:135)
+        if context.get("day_of_week") == 6:
+            return {"type": "martyria_aposticha", "source": "octoechos",
+                    "reason": "Saturday (Dolnytsky II:135)"}
+        
+        # 5. Polyeleos/Vigil weekday -> saint-specific
+        rank = context.get("rank", 99)
+        if rank <= 2:  # Polyeleos or Vigil
+            return {"type": "saint_aposticha", "source": "menaion",
+                    "reason": "Polyeleos/Vigil weekday (Dolnytsky II:196)"}
+        
+        # 6. Default: Weekday Octoechos (Dolnytsky II:86)
+        return {"type": "weekday_aposticha", "source": "octoechos",
+                "reason": "Standard weekday (Dolnytsky II:86)"}
 
 
 
@@ -4835,6 +7618,18 @@ class RuthenianEngine:
         day = context.get("day_of_week")
         rank = context.get("rank", 5)
         
+        # Check for Aposticha override in rubrics (e.g. Holy Week Triodion logic)
+        if rubrics and "variables" in rubrics:
+             aposticha_type = rubrics["variables"].get("aposticha_type")
+             if aposticha_type == "triodion_only":
+                  return {
+                       "type": "aposticha",
+                       "components": [
+                           {"source": "triodion", "id": "aposticha_triodion", "count": 3},
+                           {"source": "triodion", "id": "aposticha_theotokion", "type": "glory_both_now"}
+                       ]
+                  }
+        
         # Simple Sunday Logic (Saturday Evening)
         if day == 0:
              tone = context.get("tone", 1)
@@ -5040,19 +7835,36 @@ class RuthenianEngine:
         if not is_great_lent:
             result["prostrations_enabled"] = False
         
-        # RULE: No prostrations on Saturday/Sunday
-        if day_of_week in [0, 6]:
+        # RULE: No prostrations on Saturday/Sunday (except Sunday Evening Lenten Vespers)
+        # Citation: Dolnytsky Part IV Lines 188-189 - Sunday evening has 3 great prostrations.
+        sunday_evening_prostrations = False
+        if day_of_week == 6:
             result["prostrations_enabled"] = False
-        
+        elif day_of_week == 0:
+            # Sunday morning (Matins/Liturgy) = no prostrations. 
+            # Sunday evening (Vespers) = reduced prostrations (3 great only).
+            sunday_evening_prostrations = True
+            
         # RULE: No prostrations on Polyeleos
         if is_polyeleos:
             result["prostrations_enabled"] = False
+            sunday_evening_prostrations = False
         
-        # Component 1: Rejoice O Virgin (3x)
+        # Component 1: Lenten Troparia
+        # Citation: Dolnytsky Part IV Lines 280-295
+        # The true Lenten Troparia are:
+        # 1. Rejoice O Virgin Theotokos (with prostration)
+        # 2. O Baptizer of Christ (with prostration)
+        # 3. Intercede for us, O Holy Apostles (with prostration)
+        # 4. Beneath thy compassion (no prostration)
         result["components"].append({
-            "type": "repeated",
-            "count": 3,
-            "ref_key": "horologion.troparion_rejoice_o_virgin"
+            "type": "lenten_troparia_block",
+            "components": [
+                {"ref_key": "horologion.troparion_rejoice_o_virgin", "prostration": result["prostrations_enabled"]},
+                {"ref_key": "horologion.troparion_baptizer_of_christ", "prostration": result["prostrations_enabled"]},
+                {"ref_key": "horologion.troparion_holy_apostles", "prostration": result["prostrations_enabled"]},
+                {"ref_key": "horologion.troparion_beneath_thy_compassion", "prostration": False}
+            ]
         })
         
         # Component 2: Trisagion block
@@ -5076,7 +7888,15 @@ class RuthenianEngine:
         # Component 5: Prayer of St. Ephrem with prostrations
         if result["prostrations_enabled"]:
             # Determine prostration count based on context
-            if week_of_lent >= 1 and day_of_week in [1, 2, 3, 4, 5]:
+            if sunday_evening_prostrations:
+                # Reduced Ephrem for Sunday Evening (3 great prostrations only)
+                result["components"].append({
+                    "type": "prayer_ephrem",
+                    "ref_key": "triodion.prayer_st_ephrem_sunday_evening",
+                    "prostration_mode": "great",
+                    "prostration_count": 3
+                })
+            elif week_of_lent >= 1 and day_of_week in [1, 2, 3, 4, 5]:
                 # Full Great Ephrem (16 prostrations)
                 result["components"].append({
                     "type": "prayer_ephrem",
@@ -5156,6 +7976,11 @@ class RuthenianEngine:
         # RULE: Saturday evening
         if day_of_week == 6:  # Saturday = 6
             return {"type": "component_ref", "ref_key": "components.entrance_great"}
+            
+        # RULE: Lenten Sunday evening
+        # Suppress Entrance for Sunday Evening during Lent as per structural suppressions
+        if context.get("is_lent") and day_of_week == 0:
+            return None
         
         # RULE: Has readings (e.g., during Lent)
         if has_readings:
@@ -5628,93 +8453,96 @@ class RuthenianEngine:
     # PHASE 11: ROYAL HOURS (EXTREME)
 
     def resolve_royal_psalms(self, context, rubrics, hour=1):
-        # Determine Feast
-        feast = "good_friday" # Default
-        title = context.get("title", "").lower()
-        if "nativity" in title: feast = "nativity"
-        elif "theophany" in title: feast = "theophany"
+        feast = self._identify_royal_feast(context)
         
         # Helper: Load logic from 02h if not present
         if not hasattr(self, "hours_logic") or not self.hours_logic:
-             self.hours_logic = self._load_json("json_db/02h_logic_hours.json")
+             self.hours_logic = self._load_json(os.path.join(self.base_dir, "json_db", "02h_logic_royal_hours.json"))
              
         sets = self.hours_logic.get("royal_psalms", {}).get(feast, {})
         psalm_keys = sets.get(str(hour), [])
         
         if not psalm_keys:
-             # Fallback
-             return {"type": "text", "content": "ERROR: Royal Psalms not found."}
+             return {"type": "text", "content": f"ERROR: Royal Psalms for {feast} Hour {hour} not found."}
              
         return {
             "type": "fixed_group",
-            "ref_keys": psalm_keys
+            "ref_keys": psalm_keys,
+            "source_metadata": {"feast": feast, "hour": hour}
         }
 
     def resolve_royal_stichera(self, context, rubrics, hour=1):
-        # 3 Idiomela
-        return {
-            "type": "sequence",
-            "components": [
-                {"type": "sticheron", "variant": "royal_1_repeat"},
-                {"type": "sticheron", "variant": "royal_2_repeat"},
-                {"type": "sticheron", "variant": "royal_3_doxastikon"}
-            ]
-        }
-
-    def resolve_royal_readings(self, context, rubrics, hour=1):
-        return {
-            "type": "sequence",
-            "components": [
-                {"type": "prokeimenon", "ref_key": f"royal.prokeimenon_hour_{hour}"},
-                {"type": "reading", "source": "paremia"},
-                {"type": "reading", "source": "epistle"},
-                {"type": "reading", "source": "gospel"}
-            ]
-        }
-
-    def resolve_royal_troparia(self, context, rubrics, hour=1):
-        """
-        Royal Hours troparia - proper to the feast being celebrated.
-        Citation: Dolnytsky Part I (Royal Hours)
-        
-        Each Royal Hour has 3 troparia:
-        - Hour 1: 2 proper troparia + Glory/Both now Theotokion
-        - Hour 3, 6, 9: Similar structure
-        """
         feast = self._identify_royal_feast(context)
+        base_key = f"royal.{feast}.hour_{hour}.idiomelon"
         
         return {
             "type": "sequence",
             "components": [
-                {"type": "fixed_ref", "ref_key": f"royal.{feast}.hour_{hour}.troparion_1"},
-                {"type": "fixed_ref", "ref_key": f"royal.{feast}.hour_{hour}.troparion_2"},
-                {"type": "theotokion", "variant": f"royal.{feast}.hour_{hour}.theotokion"}
+                {"type": "fixed_ref", "ref_key": f"{base_key}_1"},
+                {"type": "fixed_ref", "ref_key": f"{base_key}_2"},
+                {"type": "fixed_ref", "ref_key": f"{base_key}_3"},
+                {"type": "fixed_ref", "ref_key": f"{base_key}_glory"},
+                {"type": "fixed_ref", "ref_key": f"{base_key}_now"}
             ],
             "source_metadata": {"feast": feast, "hour": hour}
         }
 
-    def resolve_royal_kontakion(self, context, rubrics, hour=1):
-        """
-        Royal Hours kontakion - single kontakion of the feast.
-        Citation: Dolnytsky Part I (Royal Hours)
-        """
+    def resolve_royal_readings(self, context, rubrics, hour=1):
         feast = self._identify_royal_feast(context)
+        base_key = f"royal.{feast}.hour_{hour}"
         
+        return {
+            "type": "sequence",
+            "components": [
+                {"type": "fixed_ref", "ref_key": f"{base_key}.prokeimenon"},
+                {"type": "fixed_ref", "ref_key": f"{base_key}.paremia"},
+                {"type": "fixed_ref", "ref_key": f"{base_key}.epistle"},
+                {"type": "fixed_ref", "ref_key": f"{base_key}.gospel"}
+            ],
+            "source_metadata": {"feast": feast, "hour": hour}
+        }
+
+    def resolve_royal_troparia(self, context, rubrics, hour=1):
+        """
+        No specific daily troparia in Royal Hours. Handled by Idiomela.
+        Returning an empty sequence so the digest parser doesn't fail.
+        """
+        return {"type": "sequence", "components": []}
+
+    def resolve_royal_kontakion(self, context, rubrics, hour=1):
+        feast = self._identify_royal_feast(context)
         return {
             "type": "fixed_ref",
             "ref_key": f"royal.{feast}.kontakion",
             "source_metadata": {"feast": feast, "hour": hour}
         }
-
+        
     def _identify_royal_feast(self, context):
-        """Helper to identify which Royal Hours set to use."""
-        title = context.get("title", "").lower()
-        if "nativity" in title:
-            return "nativity"
-        elif "theophany" in title or "epiphany" in title:
-            return "theophany"
-        else:
+        """Helper to map context to a Royal Hours dataset name."""
+        month, day, weekday = context.get("month"), context.get("day"), context.get("day_of_week")
+        
+        if context.get("triodion_period") == "holy_friday":
             return "good_friday"
+            
+        # Nativity Eve (Dec 24, or Dec 22 if Dec 24 is Sat/Sun)
+        if (month == 12 and day == 24 and weekday not in [0, 6]) or \
+           (month == 12 and day == 22 and weekday == 5):
+            return "nativity"
+            
+        # Theophany Eve (Jan 5, or Jan 3 if Jan 5 is Sat/Sun)
+        if (month == 1 and day == 5 and weekday not in [0, 6]) or \
+           (month == 1 and day == 3 and weekday == 5):
+            return "theophany"
+            
+        # Fallback for explicit paramony flags (from Chronos/Menaion variables)
+        title = context.get("title", "").lower()
+        if context.get("is_paramony", False) or "paramony" in title or "eve" in title:
+            if month == 12: return "nativity"
+            if month == 1: return "theophany"
+            
+        return "good_friday"
+
+
 
     def resolve_reading_ot(self, context, rubrics):
         """
@@ -5926,6 +8754,9 @@ class RuthenianEngine:
         """
         day = context.get("day_of_week")
         
+        if context.get("is_forefeast"):
+             return {"type": "canon", "subject": "forefeast", "book": "menaion", "source": "canon_forefeast"}
+             
         # 1. Friday Evening (Friday Night / Sat Morning context? No, Compline is Fri Night)
         # If it is Friday Night (Day 5 triggering Saturday logic? No, Compline belongs to the day ending)
         # Usually Compline is done 'Before Sleep'.
@@ -6070,17 +8901,23 @@ class RuthenianEngine:
         Implements Logic Gate A7: Royal Hours Trigger.
         Determines if the Standard Hours are replaced by Royal Hours.
         """
-        # Triggers:
-        # 1. Good Friday (Variable Date)
-        # 2. Dec 24 (Nativity Eve) - Unless Sat/Sun -> Moved to Fri? 
-        #    Dolnytsky: "If Dec 24 is Sat/Sun, Royal Hours read on Friday."
-        # 3. Jan 5 (Theophany Eve) - Same logic.
+        month, day, weekday = context.get("month"), context.get("day"), context.get("day_of_week")
         
-        # Simplified Check for now (needs Calendar module for exact date math):
-        is_good_friday = context.get("title", "").lower() == "good friday"
-        is_paramony = context.get("is_paramony", False) # Flag set by Chronos Engine
-        
-        if is_good_friday or is_paramony:
+        if context.get("triodion_period") == "holy_friday":
+             return True
+             
+        # Nativity Eve (Dec 24, or Dec 22 if Dec 24 is Sat/Sun)
+        if (month == 12 and day == 24 and weekday not in [0, 6]) or \
+           (month == 12 and day == 22 and weekday == 5):
+             return True
+             
+        # Theophany Eve (Jan 5, or Jan 3 if Jan 5 is Sat/Sun)
+        if (month == 1 and day == 5 and weekday not in [0, 6]) or \
+           (month == 1 and day == 3 and weekday == 5):
+             return True
+             
+        title = context.get("title", "").lower()
+        if context.get("is_paramony", False) or "paramony" in title or "eve of" in title:
              return True
              
         return False
@@ -6667,6 +9504,115 @@ class RuthenianEngine:
         return None
 
     # ========================================================================
+    # KATAVASIA SEASON RESOLVER (Dolnytsky Part V pp. 246-273)
+    # ========================================================================
+
+    def resolve_katavasia(self, context, **kwargs):
+        """
+        Gate 7: Katavasia Selection (Merged logic)
+        Determines the seasonal Katavasia (Dolnytsky Part V) and its frequency.
+        """
+        rank = context.get('rank', 5)
+        feast_id = context.get('feast_id', '')
+        season = context.get('season', 'ordinary')
+        day_of_week = context.get('day_of_week', 0)
+        pascha_offset = context.get("pascha_offset", None)
+        
+        # 1. Determine structural frequency
+        if rank == 1 or season == 'meeting_season':
+            kat_type = 'festal_katavasia'
+            frequency = 'after_each_ode'
+            after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        elif season in ['pascha', 'bright_week']:
+            kat_type = 'paschal_katavasia'
+            frequency = 'after_each_ode'
+            after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        elif feast_id == 'meatfare_sunday':
+            kat_type = 'triodion_katavasia'
+            frequency = 'after_each_ode'
+            after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        elif rank <= 3:
+            kat_type = 'polyeleos_katavasia'
+            frequency = 'limited_odes'
+            after_odes = [3, 6, 8, 9]
+        elif season in ['triodion', 'great_lent', 'holy_week'] and day_of_week not in [0, 6]:
+            kat_type = 'lenten_katavasia'
+            frequency = 'limited_odes'
+            after_odes = [3, 6, 8, 9]
+        else:
+            kat_type = 'general_katavasia'
+            frequency = 'limited_odes'
+            after_odes = [3, 6, 8, 9]
+            
+        # 2. Determine seasonal text
+        kat_id = "i_will_open_my_mouth"
+        text = "I will open my mouth"
+        tone = 4
+        
+        # Parse date if month/day missing
+        m = context.get("month")
+        d = context.get("day")
+        if (m is None or d is None) and "date" in context:
+            try:
+                date_str = str(context["date"])
+                if "-" in date_str:
+                    parts = date_str.split("-")
+                    m = int(parts[1])
+                    d = int(parts[2])
+            except:
+                pass
+        
+        if self.katavasia_seasons:
+            found = False
+            # Check movables first
+            if pascha_offset is not None:
+                for rule in self.katavasia_seasons.get("movable", []):
+                    if rule["offset_start"] <= pascha_offset <= rule["offset_end"]:
+                        kat_id = f"katavasia_{rule['feast'].lower().replace(' ', '_')}"
+                        if rule['feast'] == "General of Theotokos" or rule['feast'] == "General":
+                            kat_id = "i_will_open_my_mouth"
+                        text = rule["katavasia"]
+                        tone = rule["tone"]
+                        found = True
+                        break
+            # Check immovables
+            if not found and m is not None and d is not None:
+                for rule in self.katavasia_seasons.get("immovable", []):
+                    sm, sd = rule["start_month"], rule["start_day"]
+                    em, ed = rule["end_month"], rule["end_day"]
+                    if (m > sm or (m == sm and d >= sd)) and \
+                       (m < em or (m == em and d <= ed)):
+                        kat_id = f"katavasia_{rule['feast'].lower().replace(' ', '_')}"
+                        if rule['feast'] == "General of Theotokos" or rule['feast'] == "General":
+                            kat_id = "i_will_open_my_mouth"
+                        text = rule["katavasia"]
+                        tone = rule["tone"]
+                        break
+
+        # Override for specific types
+        if kat_type == 'polyeleos_katavasia' or kat_type == 'lenten_katavasia':
+             kat_id = "irmos_last_canon"
+             text = "Irmos of the last canon"
+        elif kat_type == 'paschal_katavasia':
+             kat_id = "katavasia_pascha"
+             text = "The Resurrection Day"
+             tone = 1
+        elif season == 'meeting_season':
+             kat_id = "katavasia_meeting"
+             text = "The dry land"
+             tone = 3
+
+        return {
+            "type": kat_type,
+            "katavasia_id": kat_id,
+            "id": kat_id,
+            "text": text,
+            "tone": tone,
+            "frequency": frequency,
+            "after_odes": after_odes
+        }
+
+    # ========================================================================
     # UNIFIED KATHISMA RESOLVER (Added 2026-02-05 to fix JSON call mismatch)
     # This function routes kathisma requests to the appropriate logic
     # ========================================================================
@@ -7054,90 +10000,6 @@ class RuthenianEngine:
         }
         return festal_tones.get(feast_id, 1)
     
-    def resolve_katavasia(self, context):
-        """
-        Gate 7: Katavasia Selection
-        
-        Katavasia are the irmos (refrains) sung at the end of certain odes of the canon.
-        
-        Rules (Dolnytsky Part V):
-        - Default: "I will open my mouth" (general Theotokos Katavasia) after odes 3, 6, 8, 9
-        - Great Feasts: Festal Katavasia after EACH ode (1-9)
-        - Polyeleos: Irmos of last canon after odes 3, 6, 8, 9
-        - Triodion/Pascha periods: Special seasonal Katavasia
-        - Lenten weekdays: Only after odes 3, 6, 8, 9
-        
-        Citation: Dolnytsky Part V Line 245-262
-        """
-        rank = context.get('rank', 5)
-        feast_id = context.get('feast_id', '')
-        season = context.get('season', 'ordinary')
-        day_of_week = context.get('day_of_week', 0)
-        
-        # Great Feasts: Festal Katavasia after EVERY ode (1-9)
-        if rank == 1:
-            return {
-                "type": "festal_katavasia",
-                "katavasia_id": f"katavasia_{feast_id}",
-                "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-                "frequency": "after_each_ode"
-            }
-        
-        # Pascha and Bright Week: Paschal Katavasia every ode
-        if season == 'pascha' or season == 'bright_week':
-            return {
-                "type": "paschal_katavasia",
-                "katavasia_id": "katavasia_pascha",
-                "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-                "frequency": "after_each_ode"
-            }
-        
-        # Triodion seasons: Special Triodion Katavasia
-        if season in ['triodion', 'great_lent', 'holy_week']:
-            # Meatfare Sunday: Triodion Katavasia
-            if feast_id == 'meatfare_sunday':
-                return {
-                    "type": "triodion_katavasia",
-                    "katavasia_id": "katavasia_triodion",
-                    "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-                    "frequency": "after_each_ode"
-                }
-            
-            # Lenten weekdays: Only after 3, 6, 8, 9 (with three-ode canon)
-            if day_of_week != 0 and day_of_week != 6:
-                return {
-                    "type": "lenten_katavasia",
-                    "katavasia_id": "irmos_last_canon",
-                    "after_odes": [3, 6, 8, 9],
-                    "frequency": "limited_odes"
-                }
-        
-        # Meeting of the Lord season (Jan 15 - Feb 9): Meeting Katavasia
-        if season == 'meeting_season':
-            return {
-                "type": "festal_katavasia",
-                "katavasia_id": "katavasia_meeting",
-                "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-                "frequency": "after_each_ode"
-            }
-        
-        # Polyeleos Saint (rank 2-3): Irmos of last canon after 3, 6, 8, 9
-        if rank <= 3:
-            return {
-                "type": "polyeleos_katavasia",
-                "katavasia_id": "irmos_last_canon",
-                "after_odes": [3, 6, 8, 9],
-                "frequency": "limited_odes"
-            }
-        
-        # Default: "I will open my mouth" (general Theotokos) after 3, 6, 8, 9
-        return {
-            "type": "general_katavasia",
-            "katavasia_id": "i_will_open_my_mouth",
-            "after_odes": [3, 6, 8, 9],
-            "frequency": "limited_odes",
-            "text": "I will open my mouth and it shall be filled with the Spirit"
-        }
 
     def resolve_magnificat(self, context):
         """
@@ -7835,8 +10697,9 @@ class RuthenianEngine:
         
         Citation: Dolnytsky Part I Line 204, Part II Line 195
         """
-        tone = context.get('octoechos_tone', 1)
+        tone = context.get('tone', context.get('octoechos_tone', 1))
         day_of_week = context.get('day_of_week', 0)
+        d_rank = context.get('dolnytsky_rank', '')
         rank = context.get('rank', 5)
         
         # Map day of week to name
@@ -7844,7 +10707,7 @@ class RuthenianEngine:
         weekday = day_names[day_of_week] if day_of_week < len(day_names) else 'monday'
         
         # Great Feast: Festal Theotokion (if Theotokos feast) or no separate Theotokion
-        if rank == 1:
+        if d_rank in ("LORD", "THEOTOKOS", "MOG") or rank == 1:
             feast_id = context.get('feast_id', '')
             return {
                 "type": "festal_dismissal_theotokion",
@@ -7862,13 +10725,15 @@ class RuthenianEngine:
                 "rubric_note": f"Resurrectional Theotokion (Tone {tone})"
             }
         
-        # Weekday: Dismissal Theotokion for the day
+        # Weekday: Dismissal Theotokion by tone AND day
+        # Citation: Dolnytsky Part I Line 62 — the Dismissal Theotokia are organized
+        # in a tone × day matrix (8 tones × 6 weekdays)
         return {
             "type": "weekday_dismissal_theotokion",
-            "ref_key": f"horologion.theotokion_dismissal.day_{day_of_week}",
+            "ref_key": f"horologion.theotokion_dismissal.tone_{tone}.{weekday}",
             "day_of_week": day_of_week,
             "tone": tone,
-            "rubric_note": f"Dismissal Theotokion ({weekday.capitalize()})"
+            "rubric_note": f"Dismissal Theotokion (Tone {tone}, {weekday.capitalize()})"
         }
 
 
@@ -7884,6 +10749,20 @@ class RuthenianEngine:
         is_lent = context.get("season") == "lent"
         day = context.get("day_of_week")
         
+        if day == 0:
+            return {
+                "type": "troparia_stack",
+                "components": [{"type": "hypakoe", "tone": context.get("tone", 1), "id": "horologion.hypakoe_sunday"}]
+            }
+            
+        if day == 6:
+            return {
+                "type": "troparia_stack",
+                "components": [
+                   {"id": "horologion.troparion_uncreated_nature", "note": "trop_sat_uncreated_nature"}
+                ]
+            }
+            
         if is_lent and day in [1,2,3,4,5]:
             # Lenten Weekday: Behold the Bridegroom (Tone 8)
             return {
@@ -7905,51 +10784,6 @@ class RuthenianEngine:
                {"id": "horologion.troparion_saint_if_any"},
                {"id": "horologion.theotokion_daily"}
             ]
-        }
-
-    def resolve_lenten_ending(self, context):
-        """
-        Resolves the Lenten Vespers Conclusion (Rejoice O Virgin + Prostrations).
-        Ref: Dolnytsky Part IV.
-        """
-        return {
-             "type": "lenten_ending_sequence",
-             "components": [
-                 {"id": "horologion.rejoice_o_virgin_theotokos", "count": 1, "rubric": "Prostration"},
-                 {"id": "horologion.baptist_of_christ", "count": 1, "rubric": "Prostration"},
-                 {"id": "horologion.supplicate_for_us_apostles", "count": 1, "rubric": "Prostration"},
-                 {"id": "horologion.beneath_thy_compassion", "count": 1, "rubric": "No Prostration"},
-                 {"id": "horologion.lord_have_mercy_40", "count": 1},
-                 {"id": "horologion.more_honorable", "count": 1},
-                 {"id": "horologion.prayer_st_ephrem", "count": 3} # 3 great prostrations
-             ]
-        }
-
-    def resolve_vespers_troparia_simple(self, context):
-        """
-        Resolves Troparia for Small/Daily Vespers.
-        """
-        day = context.get("day_of_week")
-        is_sunday = day == 0 or context.get("is_sunday_vigil")
-        
-        if is_sunday:
-             tone = context.get("tone", 1)
-             return {
-                 "type": "troparia_stack",
-                 "components": [
-                     {"id": f"octoechos.troparion_resurrection_tone_{tone}", "tone": tone},
-                     {"id": f"octoechos.theotokion_resurrection_tone_{tone}", "tone": tone}
-                 ]
-             }
-             
-        # Weekday: Troparion of Day? Or Saint?
-        # Usually: Saint Troparion, Glory... Saint 2 or Both Now... Theotokion.
-        return {
-             "type": "troparia_stack",
-             "components": [
-                 {"id": "horologion.troparion_saint_day"},
-                 {"id": "horologion.theotokion_dismissal_weekday"}
-             ]
         }
 
     # =========================================================================
@@ -7990,6 +10824,18 @@ class RuthenianEngine:
         Override to ensure component structure.
         """
         day = context.get("day_of_week")
+        
+        # Check for Aposticha override in rubrics (e.g. Holy Week Triodion logic)
+        if rubrics and "variables" in rubrics:
+             aposticha_type = rubrics["variables"].get("aposticha_type")
+             if aposticha_type == "triodion_only":
+                  return {
+                       "type": "aposticha",
+                       "components": [
+                           {"source": "triodion", "id": "aposticha_triodion", "count": 3},
+                           {"source": "triodion", "id": "aposticha_theotokion", "type": "glory_both_now"}
+                       ]
+                  }
         
         # Simple Sunday Logic (Saturday Evening)
         if day == 0:

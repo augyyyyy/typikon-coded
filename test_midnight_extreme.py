@@ -19,7 +19,8 @@ def test_midnight_saturday_structure(engine):
     }
     
     # 1. Troparia
-    res_trop = engine.resolve_midnight_troparia(context, {"type": "saturday"})
+    context["type"] = "saturday"
+    res_trop = engine.resolve_midnight_troparia(context)
     assert "trop_sat_uncreated_nature" in str(res_trop["components"])
     
     # 2. Prayer (Resolver Check)
@@ -43,7 +44,8 @@ def test_midnight_sunday_tone_5(engine):
     assert "tone_5" in res_canon["ref_key"]
     
     # 2. Troparia (Hypakoe)
-    res_trop = engine.resolve_midnight_troparia(context, {"type": "sunday"})
+    context["type"] = "sunday"
+    res_trop = engine.resolve_midnight_troparia(context)
     assert res_trop["components"][0]["type"] == "hypakoe"
     assert res_trop["components"][0]["tone"] == 5
     

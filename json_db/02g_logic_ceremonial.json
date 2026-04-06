@@ -1,0 +1,228 @@
+{
+  "file_metadata": {
+    "filename": "02g_logic_ceremonial.json",
+    "version": "1.0",
+    "last_updated": "2026-03-22",
+    "authority": "Dolnytsky Typikon Appendix, §I–V",
+    "scope": "Ceremonial Rubrics (General Rules, Vespers, Matins, Liturgy Procedures)",
+    "description": "Encodes the 'how' of conducting services: door/curtain state changes, censing patterns, vestments, bows, and concelebration logistics. §I nos. 1-28, §II nos. 29-52, §III nos. 53-73, §IV nos. 74-96, §V nos. 97-215."
+  },
+  "general_rules": {
+    "source": "Appendix §I (nos. 1-28)",
+    "bows_and_sign_of_cross": {
+      "no_1": "The presiding clergyman alone begins and makes the dismissal of the divine services.",
+      "no_2": "Common introductory prayers: in the name of the priest 'AMEN' (not the priest himself), then O Heavenly King, Trisagion, Our Father.",
+      "no_3": "When 'Glory to Thee, O God' is prescribed, the opening blessing is: 'Blessed is our God.'",
+      "no_4": "At Vigil opening: 'Glory to the Holy, Consubstantial.'",
+      "no_5": "Liturgy opening: 'Blessed is the Kingdom.'",
+      "no_6": "Before every prayer the priest says quietly: 'Let us pray to the Lord,' and after: 'Through the prayers of our holy fathers' or the appropriate exclamation.",
+      "no_7": "Great bow = prostration (to the ground). Small bow = inclination of head and shoulders.",
+      "no_8": "Great bows always with sign of cross. Small bows usually without sign of cross except where prescribed.",
+      "no_9": "Never genuflect on Sundays or during Paschal season (Pascha to Pentecost).",
+      "no_10": "Lenten great bows: 3 after each service termination, with Prayer of St. Ephrem.",
+      "no_11": "Sign of cross at beginning and end of prayers, at 'come let us worship,' at Alleluia, at Holy God.",
+      "no_12": "Hands folded at chest when not performing a liturgical action."
+    },
+    "sanctuary_and_doors": {
+      "no_13": "Only clergy may enter the sanctuary through the holy doors; servers through side doors only.",
+      "no_14": "The holy doors are never left open unnecessarily.",
+      "no_15": "During readings and litanies the priest stands before the holy table.",
+      "no_16": "Women may never enter the sanctuary.",
+      "states": {
+        "no_19a": {"service": "Daily Vespers", "doors": "closed", "curtain": "open"},
+        "no_19b": {"service": "Great Vespers without Vigil", "doors": "open_at_entrance", "curtain": "open"},
+        "no_19c": {"service": "Great Vespers with Vigil", "doors": "open_from_psalm_103", "curtain": "open"},
+        "no_19d": {"service": "Great Matins (Sun/Feast)", "doors": "open_at_polyeleos", "curtain": "open"},
+        "no_19e": {"service": "Lenten Matins", "doors": "closed", "curtain": "closed"},
+        "no_19f": {"service": "Divine Liturgy", "doors": "open_at_little_entrance", "curtain": "open_to_great_entrance"},
+        "no_19g": {"service": "Presanctified Liturgy", "doors": "open_at_let_my_prayer", "curtain": "varies"}
+      }
+    },
+    "censing": {
+      "no_20": "Full censing: holy table (4 sides), icons, clergy, choir, people, narthex, return.",
+      "no_21": "Short censing: holy table front and sides only.",
+      "no_22": "Censing of holy gifts: 3 swings, thrice (9 total).",
+      "no_23": "At Presanctified: cense holy gifts 3 times, each with 3 swings.",
+      "no_24": "Deacon censes; if no deacon, priest censes holding censer in right hand."
+    },
+    "vestments": {
+      "no_25": "Daily services: epitrachelion only.",
+      "no_26": "Vespers with Vigil: epitrachelion and phelonion.",
+      "no_27": "Liturgy: full vestments (sticharion, epitrachelion, zone, epimanikia, phelonion).",
+      "no_28": "Deacon: sticharion, orarion; at Presanctified communion: orarion crosswise."
+    }
+  },
+  "vespers_rubric": {
+    "source": "Appendix §II–III (nos. 29-73)",
+    "without_vigil": {
+      "one_deacon": {
+        "source": "nos. 29-38",
+        "sequence": [
+          {"id": "opening_blessing", "actor": "priest", "text": "Blessed is our God"},
+          {"id": "psalm_103", "actor": "reader", "note": "Priest reads Vespers prayers at holy table"},
+          {"id": "great_litany", "actor": "deacon"},
+          {"id": "kathisma", "note": "If appointed"},
+          {"id": "lord_i_have_cried", "note": "Deacon censes during singing"},
+          {"id": "entrance", "condition": "if_appointed", "note": "Deacon carries censer, priest follows"},
+          {"id": "prokimenon", "actor": "reader"},
+          {"id": "readings", "condition": "if_appointed"},
+          {"id": "litany_fervent", "actor": "deacon"},
+          {"id": "vouchsafe", "actor": "reader"},
+          {"id": "litany_supplication", "actor": "deacon"},
+          {"id": "aposticha", "actor": "choir"},
+          {"id": "nunc_dimittis", "actor": "reader"},
+          {"id": "trisagion_our_father", "actor": "reader"},
+          {"id": "troparia", "note": "Variable by day"},
+          {"id": "dismissal", "actor": "priest"}
+        ]
+      },
+      "two_deacons": {"source": "nos. 39-42", "note": "Litanies distributed between deacons; 1st deacon censes, 2nd assists"},
+      "without_deacon": {"source": "nos. 43-46", "note": "Priest says all litanies himself from before holy table"},
+      "with_concelebrants": {"source": "nos. 47-52", "note": "Exclamations distributed among concelebrants in order of dignity"}
+    },
+    "with_vigil": {
+      "source": "nos. 53-73",
+      "additions_over_great_vespers": [
+        "Psalm 103 with doors open from beginning",
+        "Litiya procession to narthex",
+        "Blessing of loaves (Artoklasia)",
+        "Transition to Matins (bridge)"
+      ],
+      "litiya_sequence": [
+        {"id": "procession_to_narthex", "actor": "deacon_with_censer_priest_with_cross"},
+        {"id": "stichera_litiya", "note": "Variable stichera"},
+        {"id": "litany_save_o_god", "actor": "deacon"},
+        {"id": "prayer_bowed_heads", "actor": "priest"}
+      ],
+      "artoklasia_sequence": [
+        {"id": "troparia_blessing", "note": "Variable: feast x2 + Virgin Theotokos x1, or as specified"},
+        {"id": "censing_vessel", "actor": "priest"},
+        {"id": "prayer_of_blessing", "actor": "priest"},
+        {"id": "distribution", "note": "After Matins"}
+      ]
+    }
+  },
+  "matins_rubric": {
+    "source": "Appendix §IV (nos. 74-96)",
+    "great_matins_sunday_feast": {
+      "source": "nos. 74-88",
+      "sequence": [
+        {"id": "six_psalms", "actor": "reader", "note": "Priest reads morning prayers quietly"},
+        {"id": "god_is_the_lord", "actor": "choir", "troparia": "variable"},
+        {"id": "kathismata", "note": "2 or 3 depending on day; Sessional Hymns between"},
+        {"id": "polyeleos", "condition": "if_appointed"},
+        {"id": "megalynaria", "condition": "if_feast"},
+        {"id": "angelic_council", "condition": "if_sunday"},
+        {"id": "sessional_hymns_post_polyeleos", "note": "Variable"},
+        {"id": "gradual_antiphons", "note": "Tone 4 on Sunday; of feast on feast day"},
+        {"id": "prokimenon", "note": "Variable"},
+        {"id": "gospel", "note": "Variable; Eothinon on Sunday"},
+        {"id": "psalm_50"},
+        {"id": "post_gospel_stichera", "note": "Glory: Through intercessions / Both now: Through intercessions of Theotokos"},
+        {"id": "save_o_god_litany"},
+        {"id": "canon", "note": "Variable distribution by rank/period"},
+        {"id": "katavasia", "note": "Lookup by season"},
+        {"id": "magnificat_at_9th_ode", "condition": "unless_suppressed"},
+        {"id": "exaposteilarion", "note": "Variable"},
+        {"id": "praises", "note": "Variable stichera distribution"},
+        {"id": "doxology_great", "note": "Sung on Sundays, feasts, Polyeleos, Doxology rank"},
+        {"id": "troparion_dismissal"},
+        {"id": "litanies_final"},
+        {"id": "dismissal"},
+        {"id": "gospel_sticheron_end", "condition": "if_sunday", "note": "After dismissal on Sundays"}
+      ]
+    },
+    "shortened_matins": {
+      "source": "nos. 89-92",
+      "conditions": "When lack of time requires shortening",
+      "omissions_permitted": [
+        "Reduce kathismata to 1",
+        "Omit megalynaria if not feast",
+        "Shorten canon: read only heirmos + last troparion of each ode",
+        "Read (not sing) katavasia",
+        "Omit sessional hymns after kathismata if needed"
+      ],
+      "never_omit": [
+        "Six Psalms",
+        "God is the Lord with troparia",
+        "Gospel (if appointed)",
+        "Canon (may shorten but never omit)",
+        "Praises",
+        "Doxology (if appointed)"
+      ]
+    }
+  },
+  "liturgy_rubric": {
+    "source": "Appendix §V (nos. 97-215)",
+    "solemn_with_one_deacon": {
+      "source": "nos. 97-163",
+      "proskomedia": {
+        "location": "Table of oblation",
+        "sequence": ["Vesting", "Handwashing", "Lamb preparation", "Particle extraction", "Covering"],
+        "key_rules": {
+          "no_113": "Must cut Lamb at each Liturgy; never use pre-cut or dried Lamb",
+          "no_114": "For larger communion: additional particles placed on diskos"
+        }
+      },
+      "liturgy_sequence_summary": [
+        "Opening blessing: Blessed is the Kingdom",
+        "Great Litany",
+        "Antiphons (1st, 2nd, 3rd) with Small Litanies",
+        "Little Entrance",
+        "Trisagion",
+        "Readings (Prokimenon, Apostle, Alleluia, Gospel)",
+        "Litany of Fervent Supplication",
+        "Litany for Catechumens + Dismissal of Catechumens",
+        "Prayers of the Faithful (1st and 2nd)",
+        "Cherubic Hymn + Great Entrance",
+        "Litany of Completion",
+        "Creed",
+        "Anaphora: Preface, Sanctus, Institution, Epiclesis",
+        "Commemorations",
+        "Our Father",
+        "Elevation: Holy Things to the Holy",
+        "Fraction and Communion",
+        "Thanksgiving Litany",
+        "Prayer Behind the Ambo",
+        "Dismissal"
+      ],
+      "communion_rules": {
+        "no_141": "Priest communicates of Body first, then Blood",
+        "no_142": "Deacon receives particle from priest, then Blood from chalice",
+        "no_143": "Faithful receive by intinction (Body dipped in Blood by spoon)",
+        "no_144": "Formula: 'The precious and most holy Body and Blood of our Lord'"
+      }
+    },
+    "non_solemn_private": {
+      "source": "nos. 175-185",
+      "key_rules": {
+        "no_175": "All rites of solemn Liturgy preserved; exclamations must be audible",
+        "no_177": "Censer use not absolutely required but praiseworthy",
+        "no_178": "Never omit prayer 'O Lord, stretch forth Thy hand'",
+        "no_179": "Proskomedia on side altar, not sacristy; may use one prosphora"
+      }
+    },
+    "concelebration": {
+      "solemn_form": {
+        "source": "nos. 186-205",
+        "key_rules": {
+          "no_186": "Actual concelebrants exclaim words of consecration; non-actual do not",
+          "no_188": "Actual concelebrants recite ALL priestly prayers; assistants only exclamations in turn",
+          "no_193": "Reserved exclamations for principal celebrant listed",
+          "no_201": "All concelebrants point and sing words of consecration simultaneously"
+        },
+        "positioning": {
+          "at_holy_table": "1st to right, 2nd to left, 3rd to right, etc.",
+          "entrances": "Youngest first, principal last"
+        }
+      },
+      "private_form": {
+        "source": "nos. 206-215",
+        "key_rules": {
+          "no_210": "Litanies distributed among concelebrants; 2 priests alternate, 3 priests rotate per scheme",
+          "no_213": "Not all need go out for Great Entrance"
+        }
+      }
+    }
+  }
+}

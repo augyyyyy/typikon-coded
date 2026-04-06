@@ -5,8 +5,8 @@ from enum import Enum
 
 # Config
 INPUT_FILE = r"Data/Service Books/Typikon/dolnytsky_part5_temple.txt"
-OUTPUT_FIXED = r"json_db/stamford/calendar_dolnytsky.json"
-OUTPUT_MOVABLE = r"json_db/stamford/calendar_dolnytsky_movable.json"
+OUTPUT_FIXED = r"json_db/calendar_dolnytsky.json"
+OUTPUT_MOVABLE = r"json_db/calendar_dolnytsky_movable.json"
 
 MONTH_MAP = {
     "September": 9, "October": 10, "November": 11, "December": 12,

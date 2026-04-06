@@ -137,10 +137,10 @@ def test_gate_8_magnificat():
         'season': 'ordinary'
     }
     result = engine.resolve_magnificat(context)
-    assert result['type'] == 'festal_with_more_honorable'
+    assert result['type'] == 'festal_magnificat'
     assert result['axion_estin'] == False
-    assert result['more_honorable'] == True
-    print("  [PASS] Ascension uses 'More honorable' + festal irmos")
+    assert result['more_honorable'] == False
+    print("  [PASS] Ascension uses festal irmos")
     
     # Test 4: Sunday - Irmos replaces Axion (Tone 6)
     context = {

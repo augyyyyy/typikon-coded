@@ -1,3 +1,4 @@
+import os
 import unittest
 from datetime import date
 from ruthenian_engine import RuthenianEngine

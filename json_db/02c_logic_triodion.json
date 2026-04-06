@@ -224,10 +224,25 @@
         "pascha_offset": -35
       },
       "priority": 80,
-      "title": "Sunday of St. Gregory Palamas",
+      "title": "2nd Sunday of Great Lent",
       "variables": {
         "liturgy_type": "liturgy_basil",
-        "text_key": "second_sunday_of_the_great_fast"
+        "text_key": "second_sunday_of_the_great_fast",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
+        }
       }
     },
     "sunday_lent_3": {
@@ -248,10 +263,25 @@
         "pascha_offset": -21
       },
       "priority": 80,
-      "title": "Sunday of St. John Climacus",
+      "title": "4th Sunday of Great Lent",
       "variables": {
         "liturgy_type": "liturgy_basil",
-        "text_key": "fourth_sunday_of_the_great_fast"
+        "text_key": "fourth_sunday_of_the_great_fast",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
+        }
       }
     },
     "sunday_lent_5": {
@@ -259,10 +289,25 @@
         "pascha_offset": -14
       },
       "priority": 80,
-      "title": "Sunday of St. Mary of Egypt",
+      "title": "5th Sunday of Great Lent",
       "variables": {
         "liturgy_type": "liturgy_basil",
-        "text_key": "fifth_sunday_of_the_great_fast"
+        "text_key": "fifth_sunday_of_the_great_fast",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
+        }
       }
     },
     "thursday_great_canon": {
@@ -315,10 +360,23 @@
         ]
       },
       "priority": 95,
+      "title": "Holy Monday, Tuesday, Wednesday",
       "variables": {
-        "matins_type": "passion_matins",
+        "midnight_type": "midnight_weekday",
+        "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
-        "liturgy_type": "liturgy_presanctified"
+        "liturgy_type": "liturgy_presanctified",
+        "season": "holy_week",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 6
+            }
+          ]
+        },
+        "aposticha_type": "triodion_only"
       }
     },
     "holy_thursday": {

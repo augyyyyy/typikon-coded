@@ -14,9 +14,9 @@ def test_LT1_sunday_saint_temple_stack(engine):
     result = engine.resolve_liturgy_hymns(context, {})
     comps = result["components"]
     
-    assert len(comps) == 6 # Res, Tpl, St, ResK, StK, TplK
+    assert len(comps) == 7 # Res, Tpl, St, ResK, StK, TplK + Steadfast Protectress
     assert comps[1]["source"] == "temple" # Trop
-    assert comps[-1]["source"] == "temple" # Both Now should be Temple Kontakion
+    assert comps[-1]["source"] == "steadfast_protectress"
 
 def test_LT2_sunday_theotokos_temple_stack(engine):
     """

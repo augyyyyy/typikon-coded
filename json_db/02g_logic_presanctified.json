@@ -1,0 +1,146 @@
+{
+  "file_metadata": {
+    "filename": "02g_logic_presanctified.json",
+    "version": "1.0",
+    "last_updated": "2026-03-22",
+    "authority": "Dolnytsky Typikon Appendix, §VI (nos. 216-261)",
+    "scope": "Liturgy of Presanctified Gifts",
+    "description": "Complete procedural rubric for the Liturgy of Presanctified Gifts, including Lamb preparation, transfer of Holy Gifts, special censing, and communion rite. Covers concelebration with 1 deacon, 2 deacons, without deacon, and priestly concelebration."
+  },
+  "preparation": {
+    "source": "nos. 216-219",
+    "when": "Proskomedia of the preceding Sunday (or last Liturgy before Presanctified)",
+    "lamb_preparation": {
+      "no_216": "Besides the Lamb for that day, prepare additional Lambs for upcoming Presanctified services",
+      "rites_per_lamb": ["In remembrance", "As a sheep", "Sacrificed", "One of the soldiers"],
+      "arrangement": "Place Lambs near one another on diskos"
+    },
+    "consecration": {
+      "no_217": "Say 'And make this Bread' in SINGULAR (not plural) — Christ is one",
+      "no_218": "Elevate ALL consecrated Lambs simultaneously; break only the first; place IC part in chalice; pour warm water; store remaining Lambs in tabernacle pyx"
+    }
+  },
+  "transfer_of_presanctified_gifts": {
+    "source": "nos. 226-230",
+    "from_tabernacle_on_holy_table": {
+      "no_226": {
+        "when": "During reading of kathisma stichologia",
+        "sequence": [
+          "Deacon brings diskos, star-cover, small veil to holy table",
+          "Priest kisses Gospel, moves it to right side of holy table",
+          "Places diskos on unfolded antimension (left side)",
+          "Opens tabernacle, makes small bow",
+          "Takes chalice with lid (containing Lamb), places on middle of antimension",
+          "Takes Presanctified Bread from pyx, places on diskos",
+          "Adds communion particles if needed (no. 230)",
+          "Returns pyx to tabernacle, closes it",
+          "Centers diskos on antimension, censes star-cover and veil",
+          "Covers diskos with small veil",
+          "Censes around holy table (deacon walks ahead with candle)",
+          "Makes prostrate bow with sign of cross",
+          "Takes covered diskos on head, processes to table of oblation (deacon ahead with candle and censer)"
+        ]
+      }
+    },
+    "from_tabernacle_on_oblation_table": {
+      "no_228": "Same procedure but at table of oblation; no procession needed"
+    },
+    "at_oblation_table": {
+      "no_227": {
+        "sequence": [
+          "Place diskos on unfolded antimension",
+          "Pour wine and water into chalice (saying nothing)",
+          "Cense veil of chalice, cover chalice with it",
+          "Cover diskos and chalice with large veil (aer)",
+          "Say only: 'Through the prayers of our holy fathers'",
+          "Make prostrate bow, return to holy table",
+          "Place Gospel on folded antimension"
+        ]
+      }
+    },
+    "timing_option": {
+      "no_229": "Placing Lamb: during 1st Antiphon; censing: during 2nd; transfer: during 3rd"
+    }
+  },
+  "service_sequence": {
+    "source": "nos. 220-247",
+    "one_deacon": {
+      "pre_liturgy": {
+        "hours": "Priest in epitrachelion stands before holy doors; Reader: 3rd, 6th, 9th Hours + Typika",
+        "vesting": "At end of Typika: vest in sacred vestments saying only 'Let us pray to the Lord' for each"
+      },
+      "vespers_portion": {
+        "opening": "After Typika dismissal, holy doors opened; Priest: 'Wisdom'; regular dismissal",
+        "second_opening": "Three small bows before holy table; kisses; Deacon: 'Bless, Master'; Priest: 'Blessed is the kingdom'",
+        "psalm_103": "Reader: 'Come let us worship' x3 + opening psalm",
+        "vespers_prayers": "Priest reads Vespers prayers 4-8 (first three read later at Antiphons)",
+        "kathisma_18": "With Small Litanies; Vespers prayers 1-3 read during antiphons",
+        "transfer_of_gifts": "During stichologia (see transfer_of_presanctified_gifts)",
+        "lord_i_have_cried": "Deacon censes (censes Presanctified Gifts thrice, each with 3 swings)",
+        "entrance": "As usual; may be with Gospel if readings appointed",
+        "readings": {
+          "paremia_1": "Reader reads from ambo, facing east",
+          "prokimenon_2": "After 2nd Prokimenon",
+          "light_of_christ": {
+            "no_234": "Priest takes candle + censer, faces east, makes sign of cross: 'Wisdom, arise'; turns to west: 'The Light of Christ illumines all'; ALL make 3 great prostrations"
+          },
+          "paremia_2": "Holy doors closed"
+        },
+        "let_my_prayer": {
+          "no_235": "After completion of 2nd Paremia: Priest: 'Peace be to thee'; Deacon: 'Wisdom'",
+          "no_236": {
+            "sequence": "Priest censes holy table on 4 sides while singing 'Let my prayer be set forth' with Psalm 140 verses",
+            "censing_pattern": "3 swings at beginning and end of each verse",
+            "posture": "Choir and faithful on knees during priest's singing; all kneel when choir sings; 3 bows at completion"
+          }
+        }
+      },
+      "liturgy_portion": {
+        "readings_on_saint_day": {
+          "no_237": "If saint/temple feast: Prokimenon, Apostle, Gospel as prescribed"
+        },
+        "litanies": "Let us all say + prayers for catechumens",
+        "from_mid_lent": {
+          "no_239": "From Wed of 4th week: also dismiss those preparing for baptism (illumination)"
+        },
+        "now_the_powers": {
+          "no_240": "Choir sings; deacon opens holy doors, censes front of throne + oblation table + priest; priest and deacon recite hymn x3 with small bows"
+        },
+        "great_entrance": {
+          "no_241": "Priest takes aer, places on deacon's left shoulder; takes diskos on head (right hand), chalice at chest (left hand)",
+          "no_242": "If diskos has no foot: place diskos on covered chalice, hold veil over it with right hand",
+          "no_243": "Exit through northern doors; NO ONE SAYS ANYTHING during procession; deacon censes frequently; enter through holy doors; place diskos on left of throne, chalice on right; cover with aer (censed); 3 great prostrations; close holy doors and curtain"
+        },
+        "communion": {
+          "no_245": "Priest does NOT uncover gifts; reaches under aer to touch Bread; 'The Presanctified Holy Things to the holy'",
+          "no_246": "Communion of Body as usual; deacon wipes chalice saying nothing",
+          "distribution": "Deacon shows chalice at holy doors: 'Draw near'; Choir: 'I will bless the Lord'; communion as at Chrysostom Liturgy; formula: 'The precious and most holy Body and Blood'"
+        },
+        "dismissal": {
+          "no_247": "Author NOT mentioned at dismissal; During Passion Mon-Wed: dismissal of Palm Sunday: 'Christ, our true God, who came to His voluntary Passion'"
+        }
+      }
+    },
+    "two_deacons": {
+      "source": "nos. 248-256",
+      "litany_distribution": "1st and 2nd deacons alternate litanies",
+      "great_entrance": "Both deacons cense frequently before priest",
+      "key_differences": "Readings distributed between deacons; 1st deacon: 'Let us be attentive', 2nd deacon: 'Wisdom' etc."
+    },
+    "without_deacon": {
+      "source": "nos. 257-260",
+      "rule": "Priest exclaims everything belonging to deacon",
+      "server_assists": "With lighted candle during censing, Let my prayer, Great Entrance"
+    },
+    "priestly_concelebration": {
+      "source": "nos. 261",
+      "rules": [
+        "Same as Vespers and Chrysostom concelebration",
+        "Vesting: say only 'Let us pray to the Lord' for each vestment",
+        "Reserved exclamations: 'For to Thee belongs', 'For a merciful', 'According to the gift', 'For Thou art our sanctification'",
+        "At 'Let my prayer': concelebrants step back when principal passes, kneel and rise together",
+        "Great Entrance: concelebrants carry nothing (1st may carry chalice before principal)"
+      ]
+    }
+  }
+}

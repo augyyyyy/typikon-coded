@@ -174,7 +174,8 @@ def test_exapostilarion():
         }
         
         result = engine.resolve_exapostilarion(context)
-        print(f"\nEothinon {eothinon}: {result['exapostilarion_id']}")
+        exap_id = result[1]['ref_key'] if len(result) > 1 else 'none'
+        print(f"\nEothinon {eothinon}: {exap_id}")
     
     print("\n[OK] EXAPOSTILARION TEST COMPLETE\n")
 

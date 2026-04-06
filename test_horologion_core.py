@@ -245,8 +245,8 @@ class TestHorologionCore(unittest.TestCase):
     # =========================================================================
 
     def test_royal_hours_good_friday(self):
-        """Test A7.1: Good Friday triggers Royal Hours."""
-        context = {"title": "Good Friday"}
+        """Test A7.1: Good Friday triggers Royal Hours (via triodion_period)."""
+        context = {"triodion_period": "holy_friday"}
         self.assertTrue(self.engine.check_royal_hours_trigger(context))
 
     def test_royal_hours_standard_day(self):

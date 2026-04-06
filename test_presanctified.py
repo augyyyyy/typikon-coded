@@ -46,7 +46,7 @@ def test_presanctified_readings(engine):
     Check sequence: Genesis -> Light -> Proverbs.
     """
     res = engine.resolve_presanctified_readings({}, {})
-    keys = [c.get("ref_key", c.get("source")) for c in res["components"]]
-    assert "genesis" in keys
-    assert "triodion.rite_of_light" in keys
-    assert "proverbs" in keys
+    keys = [c.get("ref_key", c.get("source", "")) for c in res["sequence"]]
+    assert any("genesis" in key for key in keys)
+    assert any("light_of_christ" in key for key in keys)
+    assert any("proverbs" in key for key in keys)

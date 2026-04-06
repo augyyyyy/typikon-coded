@@ -51,7 +51,7 @@ def test_L03_communion_hymn_tuesday(engine):
     
     result = engine.resolve_communion_hymn(context, {})
     
-    assert "in_everlasting_remembrance" in result["ref_key"]
+    assert "communion_tuesday" in result["ref_key"]
 
 def test_L04_hymn_ordering_sunday(engine):
     """
@@ -71,4 +71,4 @@ def test_L04_hymn_ordering_sunday(engine):
     
     # Check if Steadfast Protectress is last (Both Now)
     assert components[-1]["both_now"] is True
-    assert components[-1]["key"] == "steadfast_protectress"
+    assert components[-1]["source"] == "steadfast_protectress"

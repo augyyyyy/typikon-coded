@@ -38,10 +38,9 @@ def test_lenten_sunday_vespers(engine):
         "is_lent": True
     }
     
-    # 1. Entrance
+    # 1. Entrance (None, based on structural suppressions)
     res_ent = engine.resolve_vespers_entrance(context, {})
-    assert res_ent is not None
-    assert "entrance_great" in res_ent["ref_key"]
+    assert res_ent is None
     
     # 2. Prokeimenon
     res_prok = engine.resolve_lenten_prokeimenon(context, {})
@@ -49,7 +48,8 @@ def test_lenten_sunday_vespers(engine):
     
     # 3. Ending
     res_end = engine.resolve_lenten_ending(context, {})
-    assert "rejoice_o_virgin" in res_end["ref_keys"][0]
+    assert res_end["components"][0]["type"] == "lenten_troparia_block"
+    assert "rejoice_o_virgin" in res_end["components"][0]["components"][0]["ref_key"]
 
 def test_lenten_weekday_vespers(engine):
     """
