@@ -1,0 +1,844 @@
+"""
+Ruthenian Engine - RubricsMixin
+Extracted from ruthenian_engine.py during Phase 1 modularization.
+"""
+
+import json
+import os
+import re
+from datetime import date, timedelta
+import copy
+
+
+class RubricsMixin:
+
+    """Mixin providing rubrics methods for RuthenianEngine."""
+
+
+    def check_collision(self, context):
+        """
+        Checks for a collision between a Fixed Feast and the Movable Cycle.
+        Returns the specific collision rule from 02k_logic_collisions.json if found.
+        """
+        date_str = context.get("date", "")
+        if not date_str: return None
+        
+        # Extract MM-DD
+        try:
+             # YYYY-MM-DD
+             parts = date_str.split("-")
+             if len(parts) == 3:
+                 key = f"{parts[1]}-{parts[2]}"
+             else:
+                 return None
+        except:
+             return None
+             
+        if key not in self.collision_db.get("collisions", {}):
+             return None
+             
+        feast_rules = self.collision_db["collisions"][key].get("rules", [])
+        offset = context.get("pascha_offset")
+        
+        # Mapper Logic
+        movable_match = self._map_offset_to_collision_key(offset)
+        if not movable_match: 
+             return None
+        
+        for rule in feast_rules:
+             if rule.get("movable_day") == movable_match:
+                  # Inject feast name for context
+                  rule["_feast_name"] = self.collision_db["collisions"][key].get("feast_name")
+                  return rule
+                  
+        return None
+
+
+    def _map_offset_to_collision_key(self, offset):
+        """
+        Maps Pascha Offset to the keys used in 02k_logic_collisions.json.
+        """
+        if offset is None: return None
+        
+        if offset == 0: return "Pascha_Sunday"
+        if offset == -1: return "Great_Saturday"
+        if offset == -2: return "Great_Friday"
+        if offset == -3: return "Great_Thursday"
+        if offset in [-6, -5, -4]: return "Great_Monday_Tuesday_Wednesday"
+        if offset == -7: return "Sunday_Palm"
+        if offset == -8: return "Saturday_Lazarus"
+        if offset == -15: return "Saturday_Akathist"
+        if offset == -17: return "Thursday_Great_Canon"
+        if offset == -28: return "Sunday_Veneration_Cross"
+        
+        if offset in [-22, -29]: return "Saturday_3_4" # Sat 4 (-22), Sat 3 (-29)
+        
+        if 1 <= offset <= 6: return "Bright_Week"
+        
+        # Generic Lent Weekday (Mon-Fri)
+        # Ranges: Lent (Great Fast) starts -48. Ends -9 (Fri before Lazarus).
+        if -48 <= offset <= -9:
+             # Exclude Saturdays (-43, -36, -29, -22, -15, -8) and Sundays
+             # Sat 3,4 and Akathist handled above.
+             if offset % 7 not in [0, 6]: 
+                  return "Weekday"
+                  
+        return None
+
+    # --- Phase 12: Dolnytsky Logic Modules ---
+
+
+    def identify_scenario(self, context):
+        """
+        The New Brain: Centralized Logic Resolution.
+        Queries the Universal Scenario Registry to determine the specific Liturgical Occasion.
+        Returns a Scenario ID (e.g., 'triodion_day_-7' or 'temple_case_17_palm_sunday').
+        """
+        offset = context.get("pascha_offset", 0)
+        is_temple = context.get("is_temple_feast", False)
+        day_of_week = context.get("day_of_week", 0)
+        
+        # 1. TRIODION / PENTECOSTARION LOOKUP (Direct Offset Match)
+        # This covers all moveable feasts (Palm Sunday, Pascha, Ascension, etc.)
+        triodion_key = f"triodion_day_{offset}"
+        triodion_domain = self.scenario_registry.get("domains", {}).get("triodion", {}).get("scenarios", {})
+        
+        if triodion_key in triodion_domain:
+            # Check for Collisions (e.g. Annunciation on Palm Sunday/Pascha)
+            collision_rule = self.check_collision(context)
+            if collision_rule:
+                 # Construct specialized scenario ID
+                 # e.g. collision_annunciation_great_friday
+                 feast_name = collision_rule.get("_feast_name", "Feast").replace(" ", "_").lower()
+                 movable_day = collision_rule.get("movable_day", "day").lower()
+                 return f"collision_{feast_name}_{movable_day}"
+
+            return triodion_key
+            
+        # 2. TEMPLE FEAST LOOKUP (Dolnytsky Part V)
+        if is_temple:
+            # Map Part V cases based on date/offset
+            # Case 17: Palm Sunday (handled by offset lookup above usually, but temple overrides?)
+            # Wait, Temple logic OVERRIDES standard days.
+            
+            # Case 17: Temple on Palm Sunday (Offset -7)
+            if offset == -7: return "temple_case_17_palm_sunday"
+            
+            # Case 26: Temple on Pentecost (Offset 49)
+            if offset == 49: return "temple_case_26_pentecost"
+            
+            # Case 16: Lazarus Sat (Offset -8)
+            if offset == -8: return "temple_case_16_lazarus"
+            
+            # Case 15: Akathist Sat (Offset -15)
+            if offset == -15: return "temple_case_15_akathist"
+            
+            # Case 18: Holy Week (Transfer)
+            if -6 <= offset <= -1: return "temple_case_18_passion_week"
+            
+            # Case 19: Bright Week (Transfer)
+            if 1 <= offset <= 6: return "temple_case_19_bright_week"
+            
+            # Case 2, 3, 9, 10, 11 (Lenten Collisions)
+            if -48 <= offset <= -1:
+                if day_of_week == 6 and offset in [-43, -36, -29]: # Sat 1, 2, 3, 4 of Lent
+                     if offset == -43: return "temple_case_09_lenten_weekday" # Actually St Theo is Case 9/10 logic? No Case 10 is Memorial
+                     return "temple_case_10_memorial_sat"
+                if day_of_week == 0: return "temple_case_11_lenten_sunday"
+                if day_of_week in [1,2,3,4,5]:
+                    if offset >= -55 and offset <= -50: return "temple_case_03_cheesefare_week"
+                    return "temple_case_09_lenten_weekday"
+
+            # Case: Standard Temple Feast
+            return "temple_standard"
+
+        return "standard_day"
+
+
+    def identify_paradigm(self, context):
+        """
+        Identifies the Structural Paradigm (The "Rule Frame") for the day (Dolnytsky Part 2).
+        Returns a Paradigm ID (e.g., 'p1_sunday', 'p_feast_lord').
+        """
+        day_of_week = context.get('day_of_week', 0) # 0=Sunday
+        rank = self.calculate_rank(context)
+        
+        # PRIORITY 1: Great Feasts of the Lord (Rank 1)
+        # Dolnytsky: Feast of the Lord on Sunday overrides Sunday.
+        if rank == 1:
+            return "p_feast_lord"
+
+        # PRIORITY 2: Sunday Resurrection (Rank > 1)
+        if day_of_week == 0:
+            return "p1_sunday_resurrection"
+            
+        # P_Weekday (Simple)
+        return "p_weekday_general"
+
+
+    def calculate_rank(self, context):
+        """
+        Calculates the Rank (1-5) of the service based on Menaion/Triodion priority.
+        Rank 1: Great Feasts of Lord/Theotokos
+        Rank 2: Vigil / Polyeleos
+        Rank 3: Great Doxology
+        Rank 4: Six Stichera (Normal)
+        Rank 5: Simple / Small
+        
+        Citation: Dolnytsky Part II - Rank hierarchy determines service structure
+        """
+        # 0. Check Dolnytsky Rank FIRST (Primary Source Authority)
+        # Citation: Dolnytsky Part V — calendar rank is definitive
+        dolnytsky_rank = context.get("dolnytsky_rank")
+        if dolnytsky_rank:
+             if dolnytsky_rank == "LORD": return 1
+             if dolnytsky_rank == "THEOTOKOS": return 1
+             if dolnytsky_rank == "VIGIL": return 2
+             if dolnytsky_rank == "POLYELEOS": return 2
+             if dolnytsky_rank == "GT_DOX": return 3
+             if dolnytsky_rank == "SIX": return 4
+             if dolnytsky_rank == "ALLELUIA": return 5
+             if dolnytsky_rank == "SIMPLE": return 5
+
+        # Testing Bypass (only for unit tests that manually set rank)
+        if "rank" in context and "dolnytsky_rank" not in context:
+            try:
+                return int(context["rank"])
+            except:
+                pass # Fall through to calculation if not integer-compatible
+
+        # 1. Check Triodion Priority (Highest)
+        triodion_prio = context.get("triodion_priority", 0)
+        if triodion_prio >= 100: return 1 # Pascha, Great Friday
+        if triodion_prio >= 90: return 2 # Bright Week
+        
+        # [NEW] Dolnytsky Override
+        # If the API returns a specific rank code, we trust it.
+        dolnytsky_rank = context.get("dolnytsky_rank")
+        if dolnytsky_rank:
+             if dolnytsky_rank == "LORD": return 1
+             if dolnytsky_rank == "THEOTOKOS": return 1
+             if dolnytsky_rank == "VIGIL": return 2
+             if dolnytsky_rank == "POLYELEOS": return 2
+             if dolnytsky_rank == "GT_DOX": return 3
+             if dolnytsky_rank == "SIX": return 4
+             if dolnytsky_rank == "ALLELUIA": return 5 # Lenten/Minor Rank
+        
+        # 2. Check Menaion Rank from rubrics variables
+        # This is populated by resolve_rubrics when Menaion day has a rank field
+        menaion_rank = context.get("variables", {}).get("menaion_rank", "")
+        if not menaion_rank:
+            # Also check direct context (for when rubrics is merged)
+            menaion_rank = context.get("menaion_rank", "")
+        
+        if menaion_rank:
+            # Convert string rank to numeric
+            # Citation: Dolnytsky - rank hierarchy
+            if menaion_rank.startswith("rank_vigil_lord"):
+                return 1  # Great Feast of the Lord
+            if menaion_rank.startswith("rank_vigil_theotokos"):
+                return 1  # Great Feast of the Theotokos
+            if menaion_rank.startswith("rank_vigil"):
+                return 2  # Vigil-rank saint
+            if menaion_rank.startswith("rank_polyeleos"):
+                return 2  # Polyeleos rank
+            if menaion_rank.startswith("rank_doxology"):
+                return 3  # Great Doxology rank
+            if menaion_rank.startswith("rank_simple_6"):
+                return 4  # Six stichera
+        
+        # 3. Check is_sunday_vigil or is_sunday (also high rank)
+        if context.get("is_sunday_vigil") or context.get("is_sunday") or context.get("day_of_week") == 0:
+            return 2  # Sundays are polyeleos-equivalent
+        if context.get("day_of_week") == 6:  # Saturday vigil to Sunday
+            # Only if it's actually a Vigil service (Rank 2)? 
+            # Sunday Vigil is Rank 2. But Saturday *morning* isn't necessarily Rank 2 unless broad logic applies.
+            # Fixed: Saturday Morning is usually Rank 4 or 5.
+            pass
+        
+        # STANDARD PATH: Default to 4 (Simple)
+        return 4
+
+
+    def resolve_general_case(self, context):
+        """
+        Matches content against the General Cases in 02a_logic_general.json.
+        Returns the full case object (or None).
+        """
+        cases = self.general_cases.get("logic_definitions", {})
+        
+        # Calculate derived inputs for matching
+        rank_id = self._get_rank_id(context)
+        day_of_week = context.get("day_of_week", 0)
+        
+        # Enhanced Period/Type Logic
+        period = "normal"
+        feast_type = context.get("feast_level", "unknown")
+        
+        d_rank = context.get("dolnytsky_rank")
+        d_title = context.get("dolnytsky_title", "")
+        d_commem = context.get("dolnytsky_commemoration", "")
+        full_text = f"{d_title} {d_commem}".lower()
+        
+        if d_rank == "LORD":
+             period = "feast"
+             feast_type = "lord"
+             context["feast_level"] = "lord" # Backfill for other logic
+        elif d_rank == "THEOTOKOS" or d_rank == "MOG":
+             period = "feast"
+             feast_type = "theotokos"
+             context["feast_level"] = "theotokos"
+             
+        elif "forefeast" in full_text:
+             period = "forefeast"
+        elif "afterfeast" in full_text:
+             period = "afterfeast"
+        elif "apodosis" in full_text:
+             period = "apodosis" 
+             # Logic cases for Apodosis usually fall under Afterfeast or special case. 
+             # Case 16 is Apodosis. Let's see triggers.
+             pass
+             
+        # Legacy Fallbacks
+        if period == "normal":
+            if context.get("is_fore_or_afterfeast"): period = "forefeast" # Legacy didn't distinguish?
+            elif context.get("feast_level") == "lord": period = "feast" 
+        
+        # Iterating through cases to find best match
+        # 1. Start with Empty or Triodion if applicable (Priority)
+        candidate_cases = {}
+        
+        if context.get("season_id") in ["triodion", "pentecostarion"] and self.triodion_logic:
+             candidate_cases.update(self.triodion_logic.get("logic_map", {}))
+             
+        # 2. specific overrides or merges?
+        # Actually we want General Cases to be checked too, but AFTER Triodion specific matches?
+        # Or merged?
+        # If we use update(), existing keys are overwritten.
+        # We want Triodion keys to come FIRST in iteration order.
+        candidate_cases.update(cases)
+
+        # Sort candidates by priority if available (Triodion has priority field)
+        # We need a stable iteration order.
+        # General cases don't have priority, assume 0.
+        sorted_candidates = sorted(
+            [(k, v) for k, v in candidate_cases.items() if not k.startswith("//")],
+            key=lambda x: x[1].get("priority", 0),
+            reverse=True
+        )
+        
+        # Helper for matching
+        p_offset = context.get("pascha_offset", 0)
+
+        for key, case_def in sorted_candidates:
+            
+            triggers = case_def.get("triggers", {})
+            if not triggers: continue
+            
+            # Check Offset (Exact)
+            if "pascha_offset" in triggers:
+                val = triggers["pascha_offset"]
+                if isinstance(val, list):
+                    if p_offset not in val: continue
+                else:
+                    if p_offset != val: continue
+
+            # Check Offset (Range)
+            if "pascha_offset_range" in triggers:
+                rng = triggers["pascha_offset_range"]
+                if not (rng[0] <= p_offset <= rng[1]): continue
+
+            # Check Period
+            if "period" in triggers and period not in triggers["period"]:
+                continue
+                
+            # Check Day
+            if "day_of_week" in triggers and day_of_week not in triggers["day_of_week"]:
+                continue
+                
+            # Check Rank
+            if "rank_id" in triggers:
+                if rank_id not in triggers["rank_id"]:
+                    continue
+            
+            # Check Type (e.g. Lord vs Theotokos)
+            if "type" in triggers:
+                ctx_type = context.get("feast_level", "unknown")
+                if ctx_type not in triggers["type"]:
+                    continue
+
+            # Handle Inheritance (Base Template)
+            if "base_template" in case_def:
+                base_id = case_def["base_template"]
+                # Find base case in candidate_cases (by checking "id" field)
+                base_case = None
+                for c_key, c_def in candidate_cases.items():
+                    if c_key.startswith("//"): continue
+                    if c_def.get("id") == base_id:
+                        base_case = c_def
+                        break
+                
+                if base_case:
+                     # Merge Variables (Deep Merge or Shallow?)
+                     # Shallow merge of variables dict is usually enough, but distribution logic might be nested.
+                     # For now: Base Variables updated with Child Variables.
+                     merged_case = copy.deepcopy(base_case)
+                     child_vars = case_def.get("variables", {})
+                     
+                     if "variables" not in merged_case: merged_case["variables"] = {}
+                     merged_case["variables"].update(child_vars)
+                     
+                     # Keep Child Attributes (ID, Triggers, Source)
+                     merged_case["id"] = case_def.get("id")
+                     merged_case["triggers"] = case_def.get("triggers")
+                     merged_case["source_ref"] = case_def.get("source_ref")
+                     
+                     return merged_case
+
+            return case_def
+            
+        # FIX Issue #3: Instead of returning None, provide a safe default case
+        # This prevents downstream None errors in resolve_vespers_stichera, resolve_praises_stack, etc.
+        # Citation: Dolnytsky Part II Line 82 (weekday default: 3 Octoechos + 3 Menaion = 6)
+        print(f"WARNING: No General Case match. Period={period}, Day={day_of_week}, Rank={rank_id}, Offset={p_offset}")
+        
+        # Build a minimal default case based on rank
+        default_dist = [{"source": "octoechos", "qty": 3}, {"source": "menaion", "qty": 3}]
+        if rank_id in ["rank_vigil", "rank_polyeleos"]:
+            default_dist = [{"source": "octoechos", "qty": 4}, {"source": "menaion", "qty": 6}]
+        elif day_of_week == 0:  # Sunday: Dolnytsky II:36 -> 7+3
+            default_dist = [{"source": "octoechos", "qty": 7}, {"source": "menaion", "qty": 3}]
+        
+        return {
+            "id": "fallback_default",
+            "source_ref": "Engine Default (no case matched)",
+            "variables": {
+                "vespers_stichera_distribution": {
+                    "total_count": sum(d["qty"] for d in default_dist),
+                    "distribution": default_dist,
+                    "glory": "saint_doxastikon_if_present",
+                    "both_now": "dogmatikon_current_tone"
+                }
+            }
+        }
+
+
+    def _get_base_general_case(self, context):
+        """
+        Looks up ONLY the general cases (02a_logic_general.json), ignoring Triodion overlays.
+        Used to inherit base paradigm data (stichera distribution, canon structure, etc.)
+        when a Triodion case matches but doesn't specify these fields.
+        
+        Citation: Dolnytsky Part II — Triodion Sundays still follow the base Sunday paradigm
+        for service structure; the Triodion adds/replaces specific texts, not the overall framework.
+        """
+        cases = self.general_cases.get("logic_definitions", {})
+        rank_id = self._get_rank_id(context)
+        day_of_week = context.get("day_of_week", 0)
+        
+        for key, case_def in cases.items():
+            if key.startswith("//"): continue
+            triggers = case_def.get("triggers", {})
+            if not triggers: continue
+            
+            # Check day of week
+            if "day_of_week" in triggers and day_of_week not in triggers["day_of_week"]:
+                continue
+            
+            # Check rank — be lenient: if no rank matches, try broadening
+            if "rank_id" in triggers:
+                if rank_id not in triggers["rank_id"]:
+                    # For Triodion Sundays, the underlying saint rank may not match.
+                    # Accept the first Sunday case as fallback regardless of rank.
+                    if day_of_week == 0 and 0 in triggers.get("day_of_week", []):
+                        pass  # Accept this match
+                    else:
+                        continue
+            
+            # Check period — force to 'normal' (we want the base paradigm)
+            if "period" in triggers and "normal" not in triggers["period"]:
+                continue
+
+            return case_def
+        
+        return None
+
+
+    def _get_rank_id(self, context):
+
+        # Helper to convert menaion_rank to string ID used in 02a_logic_general.json
+        
+        # 1. Check Dolnytsky Rank (New System)
+        d_rank = context.get("dolnytsky_rank")
+        if d_rank:
+             if d_rank == "LORD": return "rank_vigil" # Treat as Vigil for General Logic matching if needed
+             if d_rank == "THEOTOKOS" or d_rank == "MOG": return "rank_vigil"
+             if d_rank == "VIGIL": return "rank_vigil"
+             if d_rank == "POLYELEOS": return "rank_polyeleos"
+             if d_rank == "GT_DOX": return "rank_doxology"
+             if d_rank == "SIX" or d_rank == "6 SM": return "rank_simple_6" 
+             if d_rank == "ALLELUIA": return "rank_lent_alleluia"
+             return "rank_simple_4"
+
+        # 2. Check Legacy Menaion Rank
+        menaion_rank = context.get("menaion_rank", "")
+        if not menaion_rank:
+            menaion_rank = context.get("variables", {}).get("menaion_rank", "")
+        
+        if menaion_rank:
+            if menaion_rank.startswith("rank_vigil"):
+                return "rank_vigil"
+            if menaion_rank.startswith("rank_polyeleos"):
+                return "rank_polyeleos"
+            if menaion_rank.startswith("rank_doxology"):
+                return "rank_doxology"
+            if menaion_rank.startswith("rank_simple_6"):
+                return "rank_simple_6"
+        
+        # Default: check saints count for simple rank variant
+        s_count = len(context.get("saints", []))
+        if s_count >= 2: return "rank_simple_6"
+        return "rank_simple_4"
+
+
+    def resolve_saint_transfer(self, context, rubrics=None):
+        """
+        NEW-3: Determines if the saint of the day is transferred to another day.
+        
+        Citation: Dolnytsky Part 4 — During Lent, saints of rank below Polyeleos
+        on weekdays are transferred to the previous Friday at Compline.
+        """
+        season = context.get("season_id", "")
+        day_of_week = context.get("day_of_week", 0)
+        rank = context.get("dolnytsky_rank", "")
+        
+        # Only during Great Lent weekdays
+        if season != "triodion": 
+            return None
+        
+        pascha_offset = context.get("pascha_offset", 0)
+        if not (-48 <= pascha_offset <= -8):
+            return None
+            
+        if day_of_week in (1, 2, 3, 4, 5) and rank not in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
+            saints = context.get("saints", [])
+            if saints:
+                return {
+                    "transferred": True,
+                    "saint_name": saints[0].get("name", saints[0].get("id", "unknown")),
+                    "target": "previous_friday_compline",
+                    "citation": "Dolnytsky Part 4 — Lenten saint transfer to Friday Compline"
+                }
+        
+        return None
+
+
+    def resolve_rubrics(self, context):
+        # ... (This logic is now stable) ...
+        return self._resolve_rubrics_logic(context)
+
+
+    def _resolve_rubrics_logic(self, context):
+        day_str = str(context["day"]).zfill(2)
+        rubrics = {"title": "", "variables": {}, "overrides": {}, "_trace": []}
+
+        # Layer 1: Triodion
+        triodion_map = self.triodion_logic.get("logic_map", {})
+        best_match = None;
+        best_priority = -1
+        best_key = None
+        for key, data in triodion_map.items():
+            if ("triggers" in data and self._check_condition(data["triggers"], context)):
+                p = data.get("priority", 0)
+                if p > best_priority:
+                    best_priority = p
+                    best_match = data
+                    best_key = key
+        
+        # Inject Active Triodion Key (e.g. 'wed_veneration_cross') for Exclusion Checks
+        if best_key:
+            context["triodion_key"] = best_key
+            rubrics["_trace"].append(f"Triodion Logic: Matched '{best_key}' (Priority {best_priority}).")
+
+        if best_match:
+            rubrics["title"] = best_match.get('title', 'Triodion Service')
+            t_vars = best_match.get("variables", {});
+            rubrics["variables"].update(t_vars)
+            for k, v in t_vars.items():
+                if k.endswith("_type"): 
+                    rubrics["overrides"][k] = v
+                    rubrics["_trace"].append(f"Override: Set {k}='{v}' from Triodion.")
+
+        # Layer 2: Menaion
+        menaion_month_logic = self.menaion_logic.get(context["month"], {})
+        # ... (Rest of Menaion logic is fine)
+        day_str = str(context["day"]).zfill(2)
+
+        # Check Floating Feasts (e.g. Sunday of Forefathers)
+        floating_feasts = menaion_month_logic.get("floating_rules", {})
+        for key, rule in floating_feasts.items():
+            date_range = rule.get("date_range", {})
+            if date_range and date_range.get("start") <= context["day"] <= date_range.get("end"):
+                if self._check_condition(rule.get("triggers", {}), context):
+                    rubrics["title"] += f" & {rule.get('title_key', key)}"
+                    rubrics["variables"].update(rule.get("variables", {}))
+                    rubrics["_trace"].append(f"Menaion Floating Logic: Matched '{key}'.")
+                    for k, v in rule.get("variables", {}).items():
+                        if k.endswith("_type"): 
+                            rubrics["overrides"][k] = v
+                            rubrics["_trace"].append(f"Override: Set {k}='{v}' from Floating Rule.")
+                    break
+
+        menaion_day = menaion_month_logic.get("days", {}).get(day_str)
+        if menaion_day:
+            rubrics["title"] = menaion_day.get("title_key", rubrics["title"])
+            rubrics["variables"].update(menaion_day.get("variables", {}))
+            # Populate menaion_rank for Great Feast Vigil detection
+            # Citation: Dolnytsky Part I §1 - Great Feasts use Vigil structure
+            if "rank" in menaion_day:
+                rubrics["variables"]["menaion_rank"] = menaion_day["rank"]
+                rubrics["_trace"].append(f"Menaion Rank: Set '{menaion_day['rank']}'.")
+            rubrics["_trace"].append(f"Menaion Logic: Matched Day '{day_str}'.")
+            if "variants" in menaion_day:
+                for variant in menaion_day["variants"]:
+                    if self._check_condition(variant.get("condition"), context):
+                        rubrics["_trace"].append(f"Menaion Variant: Matched condition '{variant.get('condition')}'.")
+                        action = variant.get("action", {})
+                        if "variables" in action:
+                            var_update = action["variables"];
+                            rubrics["variables"].update(var_update)
+                            for k, v in var_update.items():
+                                if k.endswith("_type"): 
+                                    rubrics["overrides"][k] = v
+                                    rubrics["_trace"].append(f"Override: Set {k}='{v}' from Variant.")
+                        if "type" in action and "vesperal_liturgy" in action["type"]:
+                            rubrics["overrides"]["liturgy_type"] = "vesperal_merge_logic"
+                            rubrics["_trace"].append("Override: Triggered Vesperal Liturgy Merge.")
+                        break
+        elif not rubrics["title"] or rubrics["title"] == "Service for " + str(context["date"]):
+            # FALLBACK: Simple Feast (Missing Data)
+            rubrics["title"] = f"Saint of the Day ({context['month']}-{context['day']})"
+            rubrics["variables"]["rank"] = "rank_simple_6"
+            rubrics["variables"]["vespers_type"] = "daily_vespers"
+            rubrics["_trace"].append("Menaion Logic: No specific match logic found. Using Daily Fallback.")
+
+        # Layer 3: Temple Logic
+        if context["is_temple_feast"]:
+            rubrics["title"] = f"PATRONAL FEAST: {rubrics.get('title', 'Unknown Feast')}"
+            rubrics["variables"]["matins_gospel_source"] = "temple"  # Simplified override
+            rubrics["_trace"].append("Temple Logic: Patronal Feast active.")
+
+        if not rubrics["title"].strip() or "Service for" in rubrics["title"]:
+            rubrics["title"] = f"Service for {context['date']}"
+
+        # Lenten Service Structure Logic (Presanctified / Aliturgical)
+        if context.get("season") == "lent" and context.get("day_of_week") in [1,2,3,4,5]:
+             # Calculate Rank for logic checks
+             rank = self.calculate_rank(context) 
+             # Update context temporarily for check_presanctified (which uses context.get('rank'))
+             # Note: This doesn't persist outside this scope unless we assign to context, which is mutable ref
+             context['rank'] = rank 
+             
+             if self.check_presanctified_trigger(context):
+                 rubrics["overrides"]["liturgy_type"] = "liturgy_presanctified"
+                 rubrics["overrides"]["vespers_type"] = "structure_suppressed"
+                 rubrics["_trace"].append("Lenten Logic: Presanctified Liturgy selected.")
+             elif rank > 3: 
+                 # Not Presanctified, Not Feast -> Aliturgical Day
+                 rubrics["overrides"]["liturgy_type"] = "structure_suppressed"
+                 rubrics["overrides"]["vespers_type"] = "lenten_vespers"
+                 rubrics["_trace"].append("Lenten Logic: Aliturgical Day (Liturgy Suppressed).")
+
+        # [NEW] Lenten Saturday Logic (Alleluia Days -> Daily Matins + Chrysostom)
+        elif context.get("season") == "lent" and context.get("day_of_week") == 6:
+            rubrics["overrides"]["matins_type"] = "daily_matins"
+            rubrics["overrides"]["liturgy_type"] = "liturgy_chrysostom"
+            rubrics["_trace"].append("Lenten Logic: Saturday (Alleluia/Daily Matins + Chrysostom).")
+
+        # Apply Vespers Lookahead (Saturday Evening -> Sunday)
+        self._apply_lookahead(context, rubrics)
+        
+        return rubrics
+
+
+    def _check_condition(self, condition, context):
+        """
+        Evaluates complex triggers (ranges, weeks, exclusions).
+        """
+        if not condition: return True
+
+        # 0. Season ID (Critical for preventing leakage)
+        if "season_id" in condition:
+             if context.get("season_id") != condition["season_id"]: return False
+        
+        # 1. Day of Week
+        if "day_of_week" in condition:
+            allowed = condition["day_of_week"]
+            if isinstance(allowed, int): allowed = [allowed]
+            if context["day_of_week"] not in allowed: return False
+            
+        # 2. Triodion Period
+        if "triodion_period" in condition:
+            allowed = condition["triodion_period"]
+            current = context.get("triodion_period", "")
+            if isinstance(allowed, str): allowed = [allowed]
+            if current not in allowed: return False
+            
+        # 3. Exclude Days (Requires 'triodion_key' injection)
+        if "exclude_days" in condition:
+            excluded = condition["exclude_days"]
+            active_key = context.get("triodion_key", "")
+            if active_key in excluded: return False
+
+        # 4. Pascha Offset
+        if "pascha_offset" in condition:
+            req = condition["pascha_offset"]
+            if context["pascha_offset"] != req: return False
+
+        # 5. Pascha Offset Range
+        if "pascha_offset_range" in condition:
+            rng = condition["pascha_offset_range"]
+            val = context["pascha_offset"]
+            if not (rng[0] <= val <= rng[1]): return False
+
+        # 6. Week (Lenten)
+        if "week" in condition:
+            allowed_weeks = condition["week"]
+            offset = context["pascha_offset"]
+            # Lent Starts -48. Week 1 = [-48, -42].
+            # Week = (Offset + 48) // 7 + 1
+            if offset >= -48:
+                 current_week = (offset + 48) // 7 + 1
+                 if current_week not in allowed_weeks: return False
+            else:
+                 return False # Pre-Lent, no 'week' concept in this schema?
+
+        return True
+
+
+    def resolve_glory_collision(self, context, rubrics):
+        # C05: Glory Collision
+        if context.get("day_of_week") == 0 and context.get("rank") <= 3:
+            return {"glory": "saint", "both_now": "resurrection_theotokion"}
+        return {"glory": "resurrection", "both_now": "dogmatikon"}
+
+
+    def resolve_hours_collision(self, context, hour_num=3):
+        """
+        Resolves troparia and kontakia collision at Minor Hours.
+        Citation: Dolnytsky Part I Lines 209-216 (ORDER OF THE USUAL HOURS)
+        
+        The changeable parts are: troparia, kontakia and the commemoration.
+        - If only one troparion: troparion + Glory/Both now Theotokion
+        - If two troparia: first + Glory: second + Both now: Theotokion  
+        - Kontakia rotate: at 1st and 6th one, at 3rd and 9th the other
+        - Sunday: Resurrectional at every Hour
+        - Great Feast: Feast troparion supremacy
+        """
+        paradigm = context.get("paradigm", "")
+        rank = context.get("rank", 4)
+        saints = context.get("saints", [])
+        tone = context.get("tone", 1)
+        
+        result = {
+            "hour_number": hour_num,
+            "troparia_sequence": [],
+            "kontakion_winner": None
+        }
+        
+        # RULE: Great Feast of Lord - Feast supremacy
+        if paradigm == "p_feast_lord" or rank == 1:
+            result["troparia_sequence"] = [
+                {"type": "feast", "target": "feast_troparion"},
+                {"type": "glory_both_now", "target": "feast_theotokion"}
+            ]
+            result["kontakion_winner"] = "feast_kontakion"
+            return result
+            
+        # RULE: Sunday - Resurrectional at every hour
+        # FIX: Also check is_sunday_vigil for Saturday Vigil
+        if paradigm == "p1_sunday_resurrection" or context.get("day_of_week") == 0 or context.get("is_sunday_vigil"):
+            # If there's a saint, add at Glory
+            if saints:
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
+                    {"type": "glory", "target": {"type": "saint", "name": saints[0].get("name", "")}},
+                    {"type": "both_now", "target": "theotokion"}
+                ]
+            else:
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
+                    {"type": "glory_both_now", "target": "theotokion"}
+                ]
+            result["kontakion_winner"] = "resurrection_kontakion"
+            return result
+            
+        # DEFAULT: Weekday with saint
+        if saints:
+            result["troparia_sequence"] = [
+                {"type": "saint", "name": saints[0].get("name", "")},
+                {"type": "glory_both_now", "target": "dismissal_theotokion"}
+            ]
+            result["kontakion_winner"] = "saint_kontakion"
+        else:
+            result["troparia_sequence"] = [
+                {"type": "weekday", "day": context.get("day_of_week", 1)},
+                {"type": "glory_both_now", "target": "dismissal_theotokion"}
+            ]
+            result["kontakion_winner"] = "weekday_kontakion"
+            
+        return result
+
+
+    def check_footnote_exceptions(self, date, service_type=""):
+        """
+        Gate 13: Check for Dolnytsky footnote exceptions.
+        
+        Returns: dict with exception details or None.
+        """
+        # Parse date
+        if hasattr(date, 'isoformat'):
+            date_str = date.isoformat()
+        else:
+            date_str = str(date)
+        
+        # Known critical exceptions from Dolnytsky
+        exceptions = {
+            # Annunciation on Great Friday
+            "03-25_great_friday": {
+                "override": "Transfer Annunciation to Bright Monday",
+                "note": "Dolnytsky Footnote 47"
+            },
+            # St. George on Holy Saturday
+            "04-23_holy_saturday": {
+                "override": "Transfer to Bright Monday",
+                "note": "Dolnytsky Footnote 52"
+            }
+        }
+        
+        # Create lookup key (month-day)
+        if len(date_str) >= 10:
+            month_day = date_str[5:10]  # MM-DD
+            key = f"{month_day}_{service_type}"
+            return exceptions.get(key)
+        
+        return None
+
+
+    def apply_footnote_exceptions(self, context, rubrics):
+        """
+        Gate 13: Apply any footnote exceptions to rubrics.
+        
+        Modifies rubrics dict in place based on exceptions.
+        """
+        exception = self.check_footnote_exceptions(
+            context.get('date'),
+            context.get('service_type', '')
+        )
+        
+        if exception:
+            rubrics['footnote_exception'] = exception
+            rubrics['warnings'] = rubrics.get('warnings', [])
+            rubrics['warnings'].append(f"FOOTNOTE OVERRIDE: {exception['override']}")
+        
+        return rubrics
