@@ -1,11 +1,12 @@
 {
   "file_metadata": {
     "filename": "02g_logic_presanctified.json",
-    "version": "1.0",
-    "last_updated": "2026-03-22",
-    "authority": "Dolnytsky Typikon Appendix, §VI (nos. 216-261)",
-    "scope": "Liturgy of Presanctified Gifts",
-    "description": "Complete procedural rubric for the Liturgy of Presanctified Gifts, including Lamb preparation, transfer of Holy Gifts, special censing, and communion rite. Covers concelebration with 1 deacon, 2 deacons, without deacon, and priestly concelebration."
+    "version": "1.1",
+    "last_updated": "2026-05-03",
+    "authority": "Ordo Celebrationis 1944 (1996 Keleher/Figel English Translation), §216–§261",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
+    "scope": "Liturgy of Presanctified Gifts — Physical Choreography",
+    "description": "Complete procedural rubric for the Liturgy of Presanctified Gifts, including Lamb preparation, transfer of Holy Gifts, special censing, and communion rite. Covers concelebration with 1 deacon, 2 deacons, without deacon, and priestly concelebration. Originally mislabeled as 'Dolnytsky Appendix' — the §-numbers (216–261) are Ordo Celebrationis section numbers."
   },
   "preparation": {
     "source": "nos. 216-219",

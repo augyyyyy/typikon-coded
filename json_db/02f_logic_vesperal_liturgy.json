@@ -1,85 +1,85 @@
 {
-    "file_metadata": {
-        "filename": "02f_logic_vesperal_liturgy.json",
-        "version": "1.0",
-        "authority": "Dolnytsky Typikon Part II",
-        "scope": "Vesperal Liturgy Old Testament Readings Map"
+  "file_metadata": {
+    "filename": "02f_logic_vesperal_liturgy.json",
+    "version": "1.0",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part II",
+    "scope": "Vesperal Liturgy Old Testament Readings Map"
+  },
+  "vesperal_readings": {
+    "nativity_eve": {
+      "count": 8,
+      "paremias": [
+        "vesperal.nativity_eve.paremia_1",
+        "vesperal.nativity_eve.paremia_2",
+        "vesperal.nativity_eve.paremia_3",
+        "vesperal.nativity_eve.paremia_4",
+        "vesperal.nativity_eve.paremia_5",
+        "vesperal.nativity_eve.paremia_6",
+        "vesperal.nativity_eve.paremia_7",
+        "vesperal.nativity_eve.paremia_8"
+      ],
+      "epistle_prokeimenon": "vesperal.nativity_eve.prokeimenon",
+      "epistle": "vesperal.nativity_eve.epistle",
+      "alleluia": "vesperal.nativity_eve.alleluia",
+      "gospel": "vesperal.nativity_eve.gospel"
     },
-    "vesperal_readings": {
-        "nativity_eve": {
-            "count": 8,
-            "paremias": [
-                "vesperal.nativity_eve.paremia_1",
-                "vesperal.nativity_eve.paremia_2",
-                "vesperal.nativity_eve.paremia_3",
-                "vesperal.nativity_eve.paremia_4",
-                "vesperal.nativity_eve.paremia_5",
-                "vesperal.nativity_eve.paremia_6",
-                "vesperal.nativity_eve.paremia_7",
-                "vesperal.nativity_eve.paremia_8"
-            ],
-            "epistle_prokeimenon": "vesperal.nativity_eve.prokeimenon",
-            "epistle": "vesperal.nativity_eve.epistle",
-            "alleluia": "vesperal.nativity_eve.alleluia",
-            "gospel": "vesperal.nativity_eve.gospel"
-        },
-        "theophany_eve": {
-            "count": 13,
-            "paremias": [
-                "vesperal.theophany_eve.paremia_1",
-                "vesperal.theophany_eve.paremia_2",
-                "vesperal.theophany_eve.paremia_3",
-                "vesperal.theophany_eve.paremia_4",
-                "vesperal.theophany_eve.paremia_5",
-                "vesperal.theophany_eve.paremia_6",
-                "vesperal.theophany_eve.paremia_7",
-                "vesperal.theophany_eve.paremia_8",
-                "vesperal.theophany_eve.paremia_9",
-                "vesperal.theophany_eve.paremia_10",
-                "vesperal.theophany_eve.paremia_11",
-                "vesperal.theophany_eve.paremia_12",
-                "vesperal.theophany_eve.paremia_13"
-            ],
-            "epistle_prokeimenon": "vesperal.theophany_eve.prokeimenon",
-            "epistle": "vesperal.theophany_eve.epistle",
-            "alleluia": "vesperal.theophany_eve.alleluia",
-            "gospel": "vesperal.theophany_eve.gospel"
-        },
-        "holy_thursday": {
-            "count": 3,
-            "paremias": [
-                "vesperal.holy_thursday.paremia_1",
-                "vesperal.holy_thursday.paremia_2",
-                "vesperal.holy_thursday.paremia_3"
-            ],
-            "epistle_prokeimenon": "vesperal.holy_thursday.prokeimenon",
-            "epistle": "vesperal.holy_thursday.epistle",
-            "alleluia": "vesperal.holy_thursday.alleluia",
-            "gospel": "vesperal.holy_thursday.gospel"
-        },
-        "holy_saturday": {
-            "count": 15,
-            "paremias": [
-                "vesperal.holy_saturday.paremia_1",
-                "vesperal.holy_saturday.paremia_2",
-                "vesperal.holy_saturday.paremia_3",
-                "vesperal.holy_saturday.paremia_4",
-                "vesperal.holy_saturday.paremia_5",
-                "vesperal.holy_saturday.paremia_6",
-                "vesperal.holy_saturday.paremia_7",
-                "vesperal.holy_saturday.paremia_8",
-                "vesperal.holy_saturday.paremia_9",
-                "vesperal.holy_saturday.paremia_10",
-                "vesperal.holy_saturday.paremia_11",
-                "vesperal.holy_saturday.paremia_12",
-                "vesperal.holy_saturday.paremia_13",
-                "vesperal.holy_saturday.paremia_14",
-                "vesperal.holy_saturday.paremia_15"
-            ],
-            "epistle_prokeimenon": "vesperal.holy_saturday.prokeimenon",
-            "epistle": "vesperal.holy_saturday.epistle",
-            "alleluia": null,
-            "gospel": "vesperal.holy_saturday.gospel"
-        }
+    "theophany_eve": {
+      "count": 13,
+      "paremias": [
+        "vesperal.theophany_eve.paremia_1",
+        "vesperal.theophany_eve.paremia_2",
+        "vesperal.theophany_eve.paremia_3",
+        "vesperal.theophany_eve.paremia_4",
+        "vesperal.theophany_eve.paremia_5",
+        "vesperal.theophany_eve.paremia_6",
+        "vesperal.theophany_eve.paremia_7",
+        "vesperal.theophany_eve.paremia_8",
+        "vesperal.theophany_eve.paremia_9",
+        "vesperal.theophany_eve.paremia_10",
+        "vesperal.theophany_eve.paremia_11",
+        "vesperal.theophany_eve.paremia_12",
+        "vesperal.theophany_eve.paremia_13"
+      ],
+      "epistle_prokeimenon": "vesperal.theophany_eve.prokeimenon",
+      "epistle": "vesperal.theophany_eve.epistle",
+      "alleluia": "vesperal.theophany_eve.alleluia",
+      "gospel": "vesperal.theophany_eve.gospel"
+    },
+    "holy_thursday": {
+      "count": 3,
+      "paremias": [
+        "vesperal.holy_thursday.paremia_1",
+        "vesperal.holy_thursday.paremia_2",
+        "vesperal.holy_thursday.paremia_3"
+      ],
+      "epistle_prokeimenon": "vesperal.holy_thursday.prokeimenon",
+      "epistle": "vesperal.holy_thursday.epistle",
+      "alleluia": "vesperal.holy_thursday.alleluia",
+      "gospel": "vesperal.holy_thursday.gospel"
+    },
+    "holy_saturday": {
+      "count": 15,
+      "paremias": [
+        "vesperal.holy_saturday.paremia_1",
+        "vesperal.holy_saturday.paremia_2",
+        "vesperal.holy_saturday.paremia_3",
+        "vesperal.holy_saturday.paremia_4",
+        "vesperal.holy_saturday.paremia_5",
+        "vesperal.holy_saturday.paremia_6",
+        "vesperal.holy_saturday.paremia_7",
+        "vesperal.holy_saturday.paremia_8",
+        "vesperal.holy_saturday.paremia_9",
+        "vesperal.holy_saturday.paremia_10",
+        "vesperal.holy_saturday.paremia_11",
+        "vesperal.holy_saturday.paremia_12",
+        "vesperal.holy_saturday.paremia_13",
+        "vesperal.holy_saturday.paremia_14",
+        "vesperal.holy_saturday.paremia_15"
+      ],
+      "epistle_prokeimenon": "vesperal.holy_saturday.prokeimenon",
+      "epistle": "vesperal.holy_saturday.epistle",
+      "alleluia": null,
+      "gospel": "vesperal.holy_saturday.gospel"
     }
+  }
 }

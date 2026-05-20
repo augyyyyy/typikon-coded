@@ -1,8 +1,6 @@
 {
-  "content": {
-    "en": "[STUB] Blessed is our God..."
-  },
-  "_stub": true,
-  "_description": "Blessed is our God...",
+  "title": "Blessing",
+  "content": "Priest: Blessed be our God, always, now and for ever and ever.\nChoir: Amen.",
+  "source": "Stamford",
   "_original_id": "horologion.blessing_common"
 }

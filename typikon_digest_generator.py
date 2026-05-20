@@ -201,14 +201,33 @@ class TypikonDigestGenerator:
                     r = slot["rubric"]
                     title = r
                     source_ref = ""
+                    ordo_ref = ""
+                    roles = {}
+                    
                     if isinstance(r, dict):
                         title = r.get('title') or r.get('description') or r.get('text')
                         source_ref = r.get('source_ref', '')
+                        ordo_ref = r.get('ordo_ref', '')
+                        roles = r.get('roles', {})
                     
                     if source_ref:
                          digest.append(f"> **Primary Source ({source_ref}):** *{title}*")
-                    else:
+                    elif title:
                          digest.append(f"> *Rubric:* {title}")
+                         
+                    if ordo_ref:
+                         digest.append(f"> **Ordo Celebrationis ({ordo_ref})**")
+                         
+                    if roles:
+                         for role, text in roles.items():
+                              digest.append(f"> - **[{role.upper()}]** {text}")
+                              
+                    # Auto-resolve door state if applicable
+                    if hasattr(self.engine, 'resolve_door_state'):
+                         # Attempt to infer moment from slot ID
+                         door_res = self.engine.resolve_door_state(context, moment=slot_id)
+                         if door_res and door_res.get("state") in ["open", "closed"]:
+                              digest.append(f"> *[Ceremonial Auto-Resolution: Royal Doors {door_res['state'].upper()}]*")
 
                 content = slot.get("content", {})
                 if not content and "type" in slot: content = slot

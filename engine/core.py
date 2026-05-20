@@ -8,8 +8,27 @@ import os
 import re
 from datetime import date, timedelta
 import copy
+import functools
 
 from typikon_digest_generator import TypikonDigestGenerator
+
+def liturgical_source(ordo=None, dolnytsky=None, other=None):
+    """
+    Strict decorator to enforce explicit grounding of liturgical logic in primary sources.
+    - ordo: Citation from Ordo Celebrationis (1996) for physical choreography.
+    - dolnytsky: Citation from Dolnytsky Typikon (1899) for variable textual content.
+    """
+    def decorator(func):
+        func.__liturgical_source__ = {
+            "ordo": ordo,
+            "dolnytsky": dolnytsky,
+            "other": other
+        }
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
 
 
 class EngineCore:

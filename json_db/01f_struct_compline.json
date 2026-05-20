@@ -3,7 +3,7 @@
     "filename": "01f_struct_compline.json",
     "version": "4.0 (Great Canon Patch)",
     "last_updated": "2025-01-30",
-    "authority": "Dolnytsky Typikon Parts I & IV",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Parts I & IV",
     "scope": "Small Compline & Great Compline (All Variants)",
     "description": "Defines the structure of Compline. Updated to include specific logic for the Great Canon of St. Andrew (1st Week of Lent) and corrected the Part 1 sequence."
   },

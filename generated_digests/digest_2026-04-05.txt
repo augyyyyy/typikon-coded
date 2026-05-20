@@ -1,0 +1,310 @@
+# TYPIKON: 2026-04-05
+**Logic:** The Resurrection of Our Lord (Pascha)
+
+## 2026 Instance Data
+| Variable | Value |
+|---|---|
+| Civil Date | 2026-04-05 |
+| Season / Period | pascha (pascha) |
+| Octoechos Tone | 1 |
+| Rank | 4 |
+
+
+## DAILY VESPERS
+> **Primary Source (Dolnytsky I:1):** *Vesting and Censing*
+> **Ordo Celebrationis (§29–§30)**
+> - **[PRIEST]** Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.
+> - **[DEACON]** Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing.
+> - **[SUBDEACON]** Light the candles on the Holy Table.
+> **Primary Source (Dolnytsky I:2):** *The Opening*
+> **Ordo Celebrationis (§54)**
+> - **[DEACON]** Stand before the Holy Doors. Exclaim 'Bless, Master!'
+> - **[PRIEST]** Make the sign of the Cross with the censer before the Holy Table. Sing 'Glory to the Holy, Consubstantial...'
+**Priest/Reader:** Blessing Vigil
+> **Primary Source (Dolnytsky I:2):** *The Proemial Psalm*
+> **Ordo Celebrationis (§31)**
+> - **[PRIEST]** Exit Sanctuary via North Door. Read the Prayers of Light silently.
+> - **[DEACON]** Close Holy Doors. Stand before them with a candle.
+> - **[CANTOR]** Sing 'Come let us worship' and Psalm 103.
+**Psalm:** Psalm 103
+**Litany:** Litany Great
+**Psalm:** Psalm 1 Selected
+**Litany:** Litany Small
+At 'Lord, I have cried': 6 stichera
+- menaion.saint.stichera_1
+- menaion.saint.stichera_2
+- menaion.saint.stichera_3
+- octoechos.tone_1.res_1
+- octoechos.tone_1.res_2
+- octoechos.tone_1.res_3
+Glory... (No Saint Doxastikon)
+Both Now... octoechos.dogmatikon_tone_1
+> **Ordo Celebrationis (§34)**
+[Entrance Great]
+**Priest/Reader:** Phos Hilaron
+Readings:
+- 
+**Fixed Group:**
+- *Litany Fervent*
+- *Vouchsafe O Lord*
+- *Litany Supplication*
+> **Primary Source (Dolnytsky I: Vigil Order — Procession to Narthex):** *The Litiya*
+> **Ordo Celebrationis (§57)**
+> - **[DEACON]** Lead procession to narthex. Sing Litiya petitions.
+> - **[PRIEST]** Read Litiya prayer with head bowed.
+> - **[CHOIR]** Sing Litiya stichera.
+Aposticha:
+- 1 x OCTOECHOS (aposticha_theotokion)
+**Fixed Group:**
+- *Nunc Dimittis*
+- *Trisagion Block*
+[Artoklasia]
+**Priest/Reader:** Artoklasia Prayer
+**Priest/Reader:** Dismissal Vigil Sequence
+
+## SMALL COMPLINE
+**Priest/Reader:** Blessing Common
+**Priest/Reader:** Trisagion Block
+**Priest/Reader:** Invitatory 3X
+**Fixed Group:**
+- *Psalm 50*
+- *Psalm 69*
+- *Psalm 142*
+**Priest/Reader:** Doxology Small Read
+**Priest/Reader:** Creed
+Canon Logic: Standard
+**Priest/Reader:** Axion Estin
+**Priest/Reader:** Trisagion Block
+Hymns (resolve_compline_troparia):
+- fixed_ref
+- context_lookup
+- fixed_ref
+**Priest/Reader:** Lord Have Mercy 40
+**Priest/Reader:** Prayer Hours Thou Who
+**Fixed Group:**
+- *Prayer Compline Spotless*
+- *Prayer Compline Grant Us*
+**Priest/Reader:** Dismissal Small Prayers
+**Litany:** Litany Final Compline
+
+## MIDNIGHT OFFICE (SUNDAY)
+**Priest/Reader:** Blessing Common
+**Priest/Reader:** Trisagion Block
+**Psalm:** Psalm 50
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+**Psalm:** Psalm 118 Blameless
+**Priest/Reader:** Creed
+**Priest/Reader:** Trisagion Block
+Hymns (resolve_midnight_troparia):
+- horologion.hypakoe_sunday
+**Priest/Reader:** Prayer Hours Thou Who
+**Priest/Reader:** Invitatory 3X
+**Fixed Group:**
+- *Psalm 120*
+- *Psalm 133*
+**Priest/Reader:** Trisagion Block
+**Fixed Group:**
+- *Trop Repose Remember O Lord*
+- *Trop Repose Mother Holy*
+**Priest/Reader:** Prayer Remember Fathers Brethren
+**Priest/Reader:** Prayer Absolution Dead
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+**Priest/Reader:** Prayer St Ephrem
+**Litany:** Dismissal Small With Litany
+
+## SUNDAY MATINS
+[Conditional Block: check_service_type]
+**Litany:** Litany Great
+> *Rubric:* God is the Lord
+> **Ordo Celebrationis (§77)**
+> - **[DEACON]** Intone verses before the Icon of Christ.
+> - **[CHOIR]** Sing the Troparion of the Feast/Saint.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+**Priest/Reader:** God Is The Lord Verses
+At God is the Lord (Tone 1):
+- troparion_resurrection
+- glory_both_now
+- theotokion_sunday_by_tone
+> *Rubric:* The Kathismata
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+> **Primary Source (Dolnytsky I Line 156):** *None*
+> - **[PRIEST]** Exclaim 'For Thine is the dominion' (quietly, sitting at place)
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+**Litany:** Litany Small
+> **Primary Source (Dolnytsky I Line 156):** *None*
+> - **[PRIEST]** Exclaim 'For Thine is the dominion' (aloud) — this is the one exclamation for the two-kathisma block.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+**Litany:** Litany Small
+> **Primary Source (Dolnytsky I: Matins (Gate 6)):** *Polyeleos or Kathisma 17*
+> **Ordo Celebrationis (§78)**
+> - **[PRIEST]** If Polyeleos: Open Holy Doors, Great Censing. If Kathisma 17: Remain in altar.
+> - **[CHOIR]** Sing Psalms 134-135 (Polyeleos) or Psalms 118-133 (Kathisma 17).
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+> **Primary Source (Dolnytsky I: Matins (Gate 5 & 4b)):** *Hypakoe and Anabathmoi*
+> **Ordo Celebrationis (§78)**
+> - **[CHOIR]** Sing Hypakoe (if Sunday) and Anabathmoi (Antiphons).
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+[Matins Gospel Rite]
+**Priest/Reader:** Let Everything Breath
+**Priest/Reader:** Having Beheld Resurrection
+**Psalm:** Psalm 50
+**Litany:** Litany Save O God Short
+> *Rubric:* The Canon
+> - **[PRIEST]** [Vigil only] Anoint the faithful with blessed oil during the Canon (Dolnytsky I: 'according to custom', applicable at All-Night Vigil form).
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+Ode 1
+  Structure: Octoechos - 4 (including irmos), Octoechos - 3, Octoechos - 3, Menaion - 4
+Katavasia: katavasia_pascha
+Ode 3
+  Structure: Octoechos - 4 (including irmos), Octoechos - 3, Octoechos - 3, Menaion - 4
+Katavasia: katavasia_pascha
+Ode 4
+  Structure: Octoechos - 4 (including irmos), Octoechos - 3, Octoechos - 3, Menaion - 4
+Katavasia: katavasia_pascha
+Ode 5
+  Structure: Octoechos - 4 (including irmos), Octoechos - 3, Octoechos - 3, Menaion - 4
+Katavasia: katavasia_pascha
+Ode 6
+  Structure: Octoechos - 4 (including irmos), Octoechos - 3, Octoechos - 3, Menaion - 4
+Katavasia: katavasia_pascha
+Ode 7
+  Structure: Octoechos - 4 (including irmos), Octoechos - 3, Octoechos - 3, Menaion - 4
+Katavasia: katavasia_pascha
+> **Primary Source (Dolnytsky I Line 174):** *Eighth Ode - Special Refrains*
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+Ode 8
+  Structure: Octoechos - 4 (including irmos), Octoechos - 3, Octoechos - 3, Menaion - 4
+**Priest/Reader:** Let Us Bless
+**Priest/Reader:** We Praise Bless Worship
+Katavasia: katavasia_pascha
+Ode 9
+  Structure: Octoechos - 4 (including irmos), Octoechos - 3, Octoechos - 3, Menaion - 4
+Katavasia: katavasia_pascha
+> **Primary Source (Dolnytsky I Line 176):** *Post-Ode 9 Hymn*
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+**Litany:** Litany Small
+> **Primary Source (Dolnytsky I: Matins (Gate 11)):** *Great Doxology Logic*
+> **Ordo Celebrationis (§82)**
+> - **[PRIEST]** Great Doxology (Sung) or Small Doxology (Read) depending on rank.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+> *Rubric:* Post-Doxology Rite
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+**Fixed Group:**
+- *Litany Fervent*
+- *Litany Supplication*
+**Priest/Reader:** Dismissal Great
+
+## FIRST HOUR
+**Priest/Reader:** Christ Is Risen 3X
+**Priest/Reader:** Having Beheld Resurrection 3X
+**Priest/Reader:** Hypakoe Pascha
+**Priest/Reader:** Kontakion Pascha
+**Priest/Reader:** Troparia Paschal Hours
+**Fixed Group:**
+- *Lord Have Mercy 40*
+- *Dismissal Paschal Hours*
+
+## THIRD HOUR
+**Priest/Reader:** Christ Is Risen 3X
+**Priest/Reader:** Having Beheld Resurrection 3X
+**Priest/Reader:** Hypakoe Pascha
+**Priest/Reader:** Kontakion Pascha
+**Priest/Reader:** Troparia Paschal Hours
+**Fixed Group:**
+- *Lord Have Mercy 40*
+- *Dismissal Paschal Hours*
+
+## SIXTH HOUR
+**Priest/Reader:** Christ Is Risen 3X
+**Priest/Reader:** Having Beheld Resurrection 3X
+**Priest/Reader:** Hypakoe Pascha
+**Priest/Reader:** Kontakion Pascha
+**Priest/Reader:** Troparia Paschal Hours
+**Fixed Group:**
+- *Lord Have Mercy 40*
+- *Dismissal Paschal Hours*
+
+## NINTH HOUR
+**Priest/Reader:** Christ Is Risen 3X
+**Priest/Reader:** Having Beheld Resurrection 3X
+**Priest/Reader:** Hypakoe Pascha
+**Priest/Reader:** Kontakion Pascha
+**Priest/Reader:** Troparia Paschal Hours
+**Fixed Group:**
+- *Lord Have Mercy 40*
+- *Dismissal Paschal Hours*
+
+## DIVINE LITURGY OF ST. JOHN CHRYSOSTOM
+> **Primary Source (Dolnytsky IV:385):** *The Prothesis (Preparation)*
+> **Ordo Celebrationis (§108–§116)**
+> - **[PRIEST]** Prepare the Lamb. On Sundays and Feasts, cut the Lamb for the communicants. On Holy Thursday, prepare two Lambs (one for Presanctified).
+> - **[DEACON]** Pour wine and water into the Chalice. Cover the Gifts.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+[Prothesis Rite]
+> *Rubric:* The Opening
+> - **[DEACON]** Exclaim 'Bless, Master!'
+> - **[PRIEST]** Lift the Gospel Book. Make the sign of the Cross over the Antimension. Exclaim 'Blessed is the Kingdom...'
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+**Priest/Reader:** Blessing Kingdom
+**Litany:** Litany Great
+> **Primary Source (Dolnytsky II:102):** *The Antiphons*
+> - **[CHOIR]** Sing the First Antiphon (or Typical Psalms).
+> - **[DEACON]** Stand at the usual place. Exclaim the Small Litany between Antiphons.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+> *Rubric:* The Little Entrance
+> **Ordo Celebrationis (§122–§123)**
+> - **[PRIEST]** Recite the Prayer of the Entrance silently. Bless the Entrance.
+> - **[DEACON]** Carry the Gospel Book. Exclaim 'Wisdom, Upright!'
+> - **[SUBDEACON]** Precede the Gospel with candles.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+[Little Entrance Rite]
+> *Rubric:* Troparia and Kontakia
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+Hymns (resolve_liturgy_hymns):
+- troparion
+- troparion
+- troparion
+- kontakion
+- kontakion
+- kontakion
+- kontakion
+> *Rubric:* The Trisagion
+> - **[PRIEST]** Recite the Prayer of the Trisagion silently.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+> *Rubric:* The Readings
+> - **[READER]** Intone the Prokeimenon. Read the Epistle.
+> - **[DEACON]** Cense the Altar and People during the Alleluia. Read the Gospel from the Ambo.
+> - **[PRIEST]** Sit during the Epistle. Stand for the Gospel.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+liturgy_prokeimenon: (Variable)
+liturgy_epistle: (Variable)
+liturgy_alleluia: (Variable)
+liturgy_gospel: (Variable)
+**Priest/Reader:** Litanies Catechumens
+> *Rubric:* Cherubic Hymn
+> **Ordo Celebrationis (§128)**
+> - **[PRIEST]** Recite the Prayer of the Cherubic Hymn silently.
+> - **[DEACON]** Cense the Altar, Icons, and People (Psalm 50).
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+> *Rubric:* The Great Entrance
+> **Ordo Celebrationis (§129–§130)**
+> - **[DEACON]** Carry the Diskos (on head or in hands). Exclaim commemorations.
+> - **[PRIEST]** Carry the Chalice. Exclaim commemorations.
+> - **[SUBDEACON]** Hold the Aer and censer.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+[Great Entrance Rite]
+**Priest/Reader:** Anaphora Chrysostom
+**Priest/Reader:** Our Father
+> *Rubric:* Communion
+> **Ordo Celebrationis (§139–§142)**
+> - **[PRIEST]** Break the Lamb. Commune himself and the Deacon.
+> - **[DEACON]** Exclaim 'With fear of God...'
+> - **[CHOIR]** Sing 'Receive the Body of Christ'.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*
+[Communion Rite]
+**Priest/Reader:** Ambo Prayer
+> **Primary Source (Dolnytsky II:102):** *The Dismissal*
+> **Ordo Celebrationis (§145)**
+> - **[PRIEST]** Bless the people with the Hand Cross (if Sunday/Feast) or hand (Weekday).
+> - **[CHOIR]** Sing 'Amen' and 'Eis polla eti despota'.
+> *[Ceremonial Auto-Resolution: Royal Doors OPEN]*

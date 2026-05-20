@@ -1,228 +1,439 @@
 {
   "file_metadata": {
     "filename": "02g_logic_ceremonial.json",
-    "version": "1.0",
-    "last_updated": "2026-03-22",
-    "authority": "Dolnytsky Typikon Appendix, §I–V",
-    "scope": "Ceremonial Rubrics (General Rules, Vespers, Matins, Liturgy Procedures)",
-    "description": "Encodes the 'how' of conducting services: door/curtain state changes, censing patterns, vestments, bows, and concelebration logistics. §I nos. 1-28, §II nos. 29-52, §III nos. 53-73, §IV nos. 74-96, §V nos. 97-215."
+    "version": "2.0",
+    "last_updated": "2026-05-03",
+    "authority": "Ordo Celebrationis 1944 (1996 Keleher/Figel English Translation)",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
+    "scope": "Physical choreography of all services: doors, curtain, censing, vestments, bows, hand positions, clergy movement",
+    "description": "Machine-queryable encoding of the Ordo's General Rules (§1–§28) and per-service door/curtain state protocols. Each rule cites its Ordo §-number. Supersedes all prior Dolnytsky Part I references."
   },
+
   "general_rules": {
-    "source": "Appendix §I (nos. 1-28)",
-    "bows_and_sign_of_cross": {
-      "no_1": "The presiding clergyman alone begins and makes the dismissal of the divine services.",
-      "no_2": "Common introductory prayers: in the name of the priest 'AMEN' (not the priest himself), then O Heavenly King, Trisagion, Our Father.",
-      "no_3": "When 'Glory to Thee, O God' is prescribed, the opening blessing is: 'Blessed is our God.'",
-      "no_4": "At Vigil opening: 'Glory to the Holy, Consubstantial.'",
-      "no_5": "Liturgy opening: 'Blessed is the Kingdom.'",
-      "no_6": "Before every prayer the priest says quietly: 'Let us pray to the Lord,' and after: 'Through the prayers of our holy fathers' or the appropriate exclamation.",
-      "no_7": "Great bow = prostration (to the ground). Small bow = inclination of head and shoulders.",
-      "no_8": "Great bows always with sign of cross. Small bows usually without sign of cross except where prescribed.",
-      "no_9": "Never genuflect on Sundays or during Paschal season (Pascha to Pentecost).",
-      "no_10": "Lenten great bows: 3 after each service termination, with Prayer of St. Ephrem.",
-      "no_11": "Sign of cross at beginning and end of prayers, at 'come let us worship,' at Alleluia, at Holy God.",
-      "no_12": "Hands folded at chest when not performing a liturgical action."
-    },
-    "sanctuary_and_doors": {
-      "no_13": "Only clergy may enter the sanctuary through the holy doors; servers through side doors only.",
-      "no_14": "The holy doors are never left open unnecessarily.",
-      "no_15": "During readings and litanies the priest stands before the holy table.",
-      "no_16": "Women may never enter the sanctuary.",
-      "states": {
-        "no_19a": {"service": "Daily Vespers", "doors": "closed", "curtain": "open"},
-        "no_19b": {"service": "Great Vespers without Vigil", "doors": "open_at_entrance", "curtain": "open"},
-        "no_19c": {"service": "Great Vespers with Vigil", "doors": "open_from_psalm_103", "curtain": "open"},
-        "no_19d": {"service": "Great Matins (Sun/Feast)", "doors": "open_at_polyeleos", "curtain": "open"},
-        "no_19e": {"service": "Lenten Matins", "doors": "closed", "curtain": "closed"},
-        "no_19f": {"service": "Divine Liturgy", "doors": "open_at_little_entrance", "curtain": "open_to_great_entrance"},
-        "no_19g": {"service": "Presanctified Liturgy", "doors": "open_at_let_my_prayer", "curtain": "varies"}
+    "_source": "Ordo §1–§28 (Section I: Preliminary Notes)",
+
+    "sanctuary_arrangement": {
+      "_source": "Ordo §1–§10",
+      "§1": {
+        "rule": "Sanctuary at least one step higher than nave. No steps within sanctuary to Holy Table.",
+        "tags": ["architecture", "sanctuary"]
+      },
+      "§2": {
+        "rule": "Holy Table is square, detached from wall, centered. Prothesis table on north wall, vestment table on south wall.",
+        "tags": ["architecture", "holy_table", "prothesis"]
+      },
+      "§3": {
+        "rule": "Artophorion (tabernacle) centered on Holy Table, shaped like small church or sepulcher. Must not obstruct celebrant or concelebrants.",
+        "tags": ["architecture", "artophorion"]
+      },
+      "§4": {
+        "rule": "Candelabra on Holy Table must not overcrowd it. One candelabrum (1-3 candles) per side of cross or artophorion. Seven-branched oil candelabrum placed behind Holy Table.",
+        "tags": ["architecture", "candelabra"]
+      },
+      "§5": {
+        "rule": "No reliquaries, flowers, or unnecessary items on Holy Table. Service book on pillow upon Holy Table, or on analogion to left side.",
+        "tags": ["architecture", "holy_table"]
+      },
+      "§6": {
+        "rule": "Iconostasis: Savior icon to right of central doors, Theotokos to left. Parecclesiae need own iconostasis; Holy Table without iconostasis is unsuitable.",
+        "tags": ["architecture", "iconostasis"]
+      },
+      "§7": {
+        "rule": "Only priests, deacons, clerics, and servers may enter Altar. No laity, especially women, regardless of status.",
+        "tags": ["access", "sanctuary"]
+      },
+      "§8": {
+        "rule": "Diskarion (paten) must be large, with rim; may have stem-base.",
+        "tags": ["vessels"]
+      },
+      "§9": {
+        "rule": "Thurible has short chains for full-length swing.",
+        "tags": ["vessels", "censing"]
+      },
+      "§10": {
+        "rule": "No vestments or linens beyond those prescribed. No bells, organs, or harmoniums.",
+        "tags": ["vestments", "prohibitions"]
       }
     },
-    "censing": {
-      "no_20": "Full censing: holy table (4 sides), icons, clergy, choir, people, narthex, return.",
-      "no_21": "Short censing: holy table front and sides only.",
-      "no_22": "Censing of holy gifts: 3 swings, thrice (9 total).",
-      "no_23": "At Presanctified: cense holy gifts 3 times, each with 3 swings.",
-      "no_24": "Deacon censes; if no deacon, priest censes holding censer in right hand."
+
+    "bows": {
+      "_source": "Ordo §11–§12",
+      "small_bow": {
+        "§": 11,
+        "description": "Incline head and shoulders while making sign of Cross. Do NOT extend hand to knees or ground.",
+        "occasions": {
+          "single": [
+            {"trigger": "enter_altar", "note": "Also kiss Holy Table"},
+            {"trigger": "depart_altar", "note": "Also kiss Holy Table"},
+            {"trigger": "begin_any_office", "note": "At 'Blessed is our God' or 'Through the prayers'"},
+            {"trigger": "mention_trinity", "note": "Whenever three Persons mentioned together"},
+            {"trigger": "receive_blessing", "note": "From priest"},
+            {"trigger": "before_royal_doors_reading", "note": "When coming before doors for reading/chanting"},
+            {"trigger": "depart_royal_doors_reading", "note": "When departing after reading/chanting"},
+            {"trigger": "pass_holy_table", "note": "Whenever passing before it"},
+            {"trigger": "pass_iconostasis", "note": "Whenever passing before it"},
+            {"trigger": "as_prescribed", "note": "Whenever rubrics prescribe"}
+          ],
+          "triple": [
+            {"trigger": "trisagion", "note": "Holy God (3x)"},
+            {"trigger": "before_thy_cross", "note": "'We bow to Your Cross' (3x)"},
+            {"trigger": "come_let_us_worship", "note": "3 times"},
+            {"trigger": "alleluia_after_stichologia", "note": "Once per each threefold Alleluia (3x total)"}
+          ]
+        },
+        "exceptions": {
+          "gospel_begin_end": "Sign of Cross WITHOUT inclining head/shoulders",
+          "deacon_to_priest": "Deacon inclines head/shoulders to priest before leaving Altar for ektenies and when returning"
+        }
+      },
+      "great_bow_prostration": {
+        "§": 12,
+        "description": "Sign of Cross then prostrate entire body to ground.",
+        "permitted_only": ["great_lent", "presanctified_liturgy"],
+        "never_on": ["sundays", "pascha_to_pentecost"]
+      }
     },
-    "vestments": {
-      "no_25": "Daily services: epitrachelion only.",
-      "no_26": "Vespers with Vigil: epitrachelion and phelonion.",
-      "no_27": "Liturgy: full vestments (sticharion, epitrachelion, zone, epimanikia, phelonion).",
-      "no_28": "Deacon: sticharion, orarion; at Presanctified communion: orarion crosswise."
-    }
-  },
-  "vespers_rubric": {
-    "source": "Appendix §II–III (nos. 29-73)",
-    "without_vigil": {
-      "one_deacon": {
-        "source": "nos. 29-38",
-        "sequence": [
-          {"id": "opening_blessing", "actor": "priest", "text": "Blessed is our God"},
-          {"id": "psalm_103", "actor": "reader", "note": "Priest reads Vespers prayers at holy table"},
-          {"id": "great_litany", "actor": "deacon"},
-          {"id": "kathisma", "note": "If appointed"},
-          {"id": "lord_i_have_cried", "note": "Deacon censes during singing"},
-          {"id": "entrance", "condition": "if_appointed", "note": "Deacon carries censer, priest follows"},
-          {"id": "prokimenon", "actor": "reader"},
-          {"id": "readings", "condition": "if_appointed"},
-          {"id": "litany_fervent", "actor": "deacon"},
-          {"id": "vouchsafe", "actor": "reader"},
-          {"id": "litany_supplication", "actor": "deacon"},
-          {"id": "aposticha", "actor": "choir"},
-          {"id": "nunc_dimittis", "actor": "reader"},
-          {"id": "trisagion_our_father", "actor": "reader"},
-          {"id": "troparia", "note": "Variable by day"},
-          {"id": "dismissal", "actor": "priest"}
+
+    "hand_positions": {
+      "_source": "Ordo §13–§14",
+      "elevated_hands": {
+        "§": 13,
+        "description": "Hands extended and elevated. Elbows must NOT touch sides; hands freely extended on high.",
+        "prescribed_only_at": [
+          "no_one_who_is_bound",
+          "cherubic_hymn",
+          "let_us_lift_up_our_hearts",
+          "lords_prayer"
         ]
       },
-      "two_deacons": {"source": "nos. 39-42", "note": "Litanies distributed between deacons; 1st deacon censes, 2nd assists"},
-      "without_deacon": {"source": "nos. 43-46", "note": "Priest says all litanies himself from before holy table"},
-      "with_concelebrants": {"source": "nos. 47-52", "note": "Exclamations distributed among concelebrants in order of dignity"}
+      "default_positions": {
+        "§": 14,
+        "description": "When no posture prescribed, hands may be: on Holy Table, holding service book, under phelonion, or crossed on breast. NEVER joined finger-to-finger."
+      }
     },
-    "with_vigil": {
-      "source": "nos. 53-73",
-      "additions_over_great_vespers": [
-        "Psalm 103 with doors open from beginning",
-        "Litiya procession to narthex",
-        "Blessing of loaves (Artoklasia)",
-        "Transition to Matins (bridge)"
-      ],
-      "litiya_sequence": [
-        {"id": "procession_to_narthex", "actor": "deacon_with_censer_priest_with_cross"},
-        {"id": "stichera_litiya", "note": "Variable stichera"},
-        {"id": "litany_save_o_god", "actor": "deacon"},
-        {"id": "prayer_bowed_heads", "actor": "priest"}
-      ],
-      "artoklasia_sequence": [
-        {"id": "troparia_blessing", "note": "Variable: feast x2 + Virgin Theotokos x1, or as specified"},
-        {"id": "censing_vessel", "actor": "priest"},
-        {"id": "prayer_of_blessing", "actor": "priest"},
-        {"id": "distribution", "note": "After Matins"}
-      ]
-    }
-  },
-  "matins_rubric": {
-    "source": "Appendix §IV (nos. 74-96)",
-    "great_matins_sunday_feast": {
-      "source": "nos. 74-88",
-      "sequence": [
-        {"id": "six_psalms", "actor": "reader", "note": "Priest reads morning prayers quietly"},
-        {"id": "god_is_the_lord", "actor": "choir", "troparia": "variable"},
-        {"id": "kathismata", "note": "2 or 3 depending on day; Sessional Hymns between"},
-        {"id": "polyeleos", "condition": "if_appointed"},
-        {"id": "megalynaria", "condition": "if_feast"},
-        {"id": "angelic_council", "condition": "if_sunday"},
-        {"id": "sessional_hymns_post_polyeleos", "note": "Variable"},
-        {"id": "gradual_antiphons", "note": "Tone 4 on Sunday; of feast on feast day"},
-        {"id": "prokimenon", "note": "Variable"},
-        {"id": "gospel", "note": "Variable; Eothinon on Sunday"},
-        {"id": "psalm_50"},
-        {"id": "post_gospel_stichera", "note": "Glory: Through intercessions / Both now: Through intercessions of Theotokos"},
-        {"id": "save_o_god_litany"},
-        {"id": "canon", "note": "Variable distribution by rank/period"},
-        {"id": "katavasia", "note": "Lookup by season"},
-        {"id": "magnificat_at_9th_ode", "condition": "unless_suppressed"},
-        {"id": "exaposteilarion", "note": "Variable"},
-        {"id": "praises", "note": "Variable stichera distribution"},
-        {"id": "doxology_great", "note": "Sung on Sundays, feasts, Polyeleos, Doxology rank"},
-        {"id": "troparion_dismissal"},
-        {"id": "litanies_final"},
-        {"id": "dismissal"},
-        {"id": "gospel_sticheron_end", "condition": "if_sunday", "note": "After dismissal on Sundays"}
-      ]
+
+    "deacon_orarion": {
+      "§": 15,
+      "_source": "Ordo §15",
+      "rule": "While reciting ektenies, deacon raises orarion with three fingers of right hand. Priest may begin reading silent prayer as soon as deacon begins petitions."
     },
-    "shortened_matins": {
-      "source": "nos. 89-92",
-      "conditions": "When lack of time requires shortening",
-      "omissions_permitted": [
-        "Reduce kathismata to 1",
-        "Omit megalynaria if not feast",
-        "Shorten canon: read only heirmos + last troparion of each ode",
-        "Read (not sing) katavasia",
-        "Omit sessional hymns after kathismata if needed"
-      ],
-      "never_omit": [
-        "Six Psalms",
-        "God is the Lord with troparia",
-        "Gospel (if appointed)",
-        "Canon (may shorten but never omit)",
-        "Praises",
-        "Doxology (if appointed)"
-      ]
-    }
-  },
-  "liturgy_rubric": {
-    "source": "Appendix §V (nos. 97-215)",
-    "solemn_with_one_deacon": {
-      "source": "nos. 97-163",
-      "proskomedia": {
-        "location": "Table of oblation",
-        "sequence": ["Vesting", "Handwashing", "Lamb preparation", "Particle extraction", "Covering"],
-        "key_rules": {
-          "no_113": "Must cut Lamb at each Liturgy; never use pre-cut or dried Lamb",
-          "no_114": "For larger communion: additional particles placed on diskos"
+
+    "head_bowing": {
+      "§": 16,
+      "_source": "Ordo §16",
+      "rule": "At 'Bow your heads to the Lord' — all incline head and shoulders."
+    },
+
+    "kneeling": {
+      "§": 17,
+      "_source": "Ordo §17",
+      "rule": "Servers do NOT kneel in Altar during Divine Liturgy. People may kneel if they desire."
+    },
+
+    "priestly_blessing_hand": {
+      "§": 18,
+      "_source": "Ordo §18",
+      "rule": "Thumb of right hand over ring finger, index finger extended, middle and little fingers slightly bent. Recipients bow head/shoulders and sign themselves with Cross."
+    },
+
+    "doors_and_curtain": {
+      "_source": "Ordo §19 (a–g)",
+      "§": 19,
+      "description": "General rules for opening/closing royal doors and veil (curtain).",
+
+      "side_doors": {
+        "§": "19a",
+        "rule": "Always closed unless someone must pass through."
+      },
+
+      "royal_doors": {
+        "§": "19b–f",
+        "states_by_service": {
+          "vespers_with_vigil": {
+            "§": "19b",
+            "transitions": [
+              {"moment": "psalm_103_censing", "state": "open", "note": "Opened when priest censes at beginning"},
+              {"moment": "psalm_103_begin", "state": "closed", "note": "Closed when Psalm 103 begins"},
+              {"moment": "all_entrances", "state": "open"},
+              {"moment": "gospel_carried_out", "state": "open"},
+              {"moment": "dismissal", "state": "open"}
+            ]
+          },
+          "orthros": {
+            "§": "19c",
+            "transitions": [
+              {"moment": "before_prokeimenon", "state": "open"},
+              {"moment": "after_by_mercy_and_compassions", "state": "closed"},
+              {"moment": "great_doxology", "state": "open"},
+              {"moment": "after_dismissal", "state": "closed"}
+            ]
+          },
+          "divine_liturgy": {
+            "§": "19d",
+            "transitions": [
+              {"moment": "before_little_entrance", "state": "open"},
+              {"moment": "after_gospel", "state": "closed"},
+              {"moment": "before_great_entrance", "state": "open"},
+              {"moment": "after_great_entrance", "state": "closed"},
+              {"moment": "after_communion_of_clergy", "state": "open"},
+              {"moment": "end_of_liturgy", "state": "closed"}
+            ],
+            "note": "In some places, custom to open/close more often."
+          },
+          "bright_week": {
+            "§": "19e",
+            "rule": "Royal doors AND side doors remain open during entire Bright Week, even during Communion of celebrant."
+          },
+          "hierarchical_service": {
+            "§": "19f",
+            "rule": "Royal doors always remain open while a bishop celebrates."
+          }
         }
       },
-      "liturgy_sequence_summary": [
-        "Opening blessing: Blessed is the Kingdom",
-        "Great Litany",
-        "Antiphons (1st, 2nd, 3rd) with Small Litanies",
-        "Little Entrance",
-        "Trisagion",
-        "Readings (Prokimenon, Apostle, Alleluia, Gospel)",
-        "Litany of Fervent Supplication",
-        "Litany for Catechumens + Dismissal of Catechumens",
-        "Prayers of the Faithful (1st and 2nd)",
-        "Cherubic Hymn + Great Entrance",
-        "Litany of Completion",
-        "Creed",
-        "Anaphora: Preface, Sanctus, Institution, Epiclesis",
-        "Commemorations",
-        "Our Father",
-        "Elevation: Holy Things to the Holy",
-        "Fraction and Communion",
-        "Thanksgiving Litany",
-        "Prayer Behind the Ambo",
-        "Dismissal"
-      ],
-      "communion_rules": {
-        "no_141": "Priest communicates of Body first, then Blood",
-        "no_142": "Deacon receives particle from priest, then Blood from chalice",
-        "no_143": "Faithful receive by intinction (Body dipped in Blood by spoon)",
-        "no_144": "Formula: 'The precious and most holy Body and Blood of our Lord'"
-      }
-    },
-    "non_solemn_private": {
-      "source": "nos. 175-185",
-      "key_rules": {
-        "no_175": "All rites of solemn Liturgy preserved; exclamations must be audible",
-        "no_177": "Censer use not absolutely required but praiseworthy",
-        "no_178": "Never omit prayer 'O Lord, stretch forth Thy hand'",
-        "no_179": "Proskomedia on side altar, not sacristy; may use one prosphora"
-      }
-    },
-    "concelebration": {
-      "solemn_form": {
-        "source": "nos. 186-205",
-        "key_rules": {
-          "no_186": "Actual concelebrants exclaim words of consecration; non-actual do not",
-          "no_188": "Actual concelebrants recite ALL priestly prayers; assistants only exclamations in turn",
-          "no_193": "Reserved exclamations for principal celebrant listed",
-          "no_201": "All concelebrants point and sing words of consecration simultaneously"
+
+      "curtain_veil": {
+        "§": "19g",
+        "vespers_and_orthros": "Open throughout all of Vespers and Orthros.",
+        "divine_liturgy": {
+          "transitions": [
+            {"moment": "after_prothesis", "state": "open"},
+            {"moment": "after_great_entrance", "state": "closed"},
+            {"moment": "the_doors_the_doors", "state": "open"},
+            {"moment": "holy_things_to_the_holy", "state": "closed"},
+            {"moment": "before_communion_of_faithful", "state": "open"},
+            {"moment": "end_of_liturgy", "state": "remains_open"}
+          ]
         },
-        "positioning": {
-          "at_holy_table": "1st to right, 2nd to left, 3rd to right, etc.",
-          "entrances": "Youngest first, principal last"
-        }
-      },
-      "private_form": {
-        "source": "nos. 206-215",
-        "key_rules": {
-          "no_210": "Litanies distributed among concelebrants; 2 priests alternate, 3 priests rotate per scheme",
-          "no_213": "Not all need go out for Great Entrance"
+        "regional_variation": {
+          "note": "Some regions keep royal doors and veil open from beginning to end of Chrysostom/Basil Liturgy. At Presanctified, after 'Let my prayer arise' doors/veil are not closed after Entrance. This practice is NOT to be extended to other regions.",
+          "§_note": "33"
         }
       }
+    },
+
+    "censing_protocol": {
+      "_source": "Ordo §20–§21",
+      "§20": {
+        "incense_loading": "Server or deacon loads thurible and presents to priest for blessing. Priest is NOT the only one who loads incense.",
+        "sign_of_cross": "Laudable for priest/deacon to make sign of Cross with thurible before censing.",
+        "reverence": "When censing any person or object, slightly incline head and shoulders."
+      },
+      "§21": {
+        "first_blessing": "First incense blessing in any service: 'We offer incense to You...'",
+        "subsequent": "All other times in same service: 'Blessed is our God...'"
+      }
+    },
+
+    "vestment_protocol": {
+      "_source": "Ordo §22–§24",
+      "§22": {
+        "rule": "When vesting for any service, vestments are blessed and kissed as at Prothesis (§103-106). Same procedure for other services but prayers omitted."
+      },
+      "§23": {
+        "rule": "Priest not wearing sticharion should wear rason (Greek: rason / Slavonic: riasa) over cassock."
+      },
+      "§24": {
+        "rule": "No one may wear vestment proper to an Order superior to his own."
+      },
+      "required_sets": {
+        "daily_vespers_matins": {
+          "priest": ["epitrachelion"],
+          "note": "Over rason/cassock. Phelonion added at Entrance and other prescribed moments."
+        },
+        "vigil_vespers": {
+          "priest": ["epitrachelion", "phelonion"],
+          "note": "Phelonion blessed and kissed before Entrance."
+        },
+        "divine_liturgy_full": {
+          "priest": ["sticharion", "epitrachelion", "zone", "epimanikia", "phelonion"],
+          "priest_optional": ["epigonation"],
+          "deacon": ["sticharion", "orarion", "epimanikia"],
+          "note": "Per Ordo §103–106. Epigonation on right thigh if entitled."
+        },
+        "presanctified_communion": {
+          "deacon": ["sticharion", "orarion_crosswise"],
+          "note": "Orarion bound crosswise at Communion per §244."
+        }
+      }
+    },
+
+    "deacon_position": {
+      "_source": "Ordo §25–§26",
+      "§25": {
+        "one_deacon": "Stands at priest's right unless otherwise prescribed.",
+        "two_deacons": "First deacon at priest's right, second at priest's left."
+      },
+      "§26": {
+        "rule": "Only ordained deacons may function in the office of a deacon."
+      }
+    },
+
+    "concelebration_voice": {
+      "§": 27,
+      "_source": "Ordo §27",
+      "rule": "Raised-voice phrases by priest/deacon are NOT recited in subdued voice by other concelebrants, except ekphoneses concluding prayers and unless otherwise prescribed."
+    },
+
+    "variant_system": {
+      "§": 28,
+      "_source": "Ordo §28",
+      "rule": "Complete ceremonies explained in section with one deacon. Other sections (two deacons, without deacon, concelebrants) explain only what differs.",
+      "variants": [
+        {"id": "one_deacon", "label": "With the Ministry of One Deacon", "is_normative": true},
+        {"id": "two_deacons", "label": "With the Ministry of Two Deacons"},
+        {"id": "without_deacon", "label": "Without the Ministry of a Deacon"},
+        {"id": "concelebration", "label": "With Concelebrating Priests"}
+      ]
+    }
+  },
+
+  "censing_patterns": {
+    "_source": "Ordo §33 (Vespers), §74 (Orthros), §117 (Liturgy), §128 (Cherubic Hymn)",
+    "full_censing": {
+      "description": "Complete censing of temple",
+      "sequence": [
+        {"target": "holy_table", "sides": 4, "note": "Front, right, back, left"},
+        {"target": "apsidal_icon", "note": "High place icon"},
+        {"target": "altar_icons", "note": "Other icons within sanctuary"},
+        {"target": "priest", "note": "Or celebrant if deacon censes"},
+        {"target": "iconostasis_south", "note": "Beginning with Savior icon, via north door"},
+        {"target": "iconostasis_north", "note": "Beginning with Theotokos icon"},
+        {"target": "right_choir"},
+        {"target": "left_choir"},
+        {"target": "people", "note": "From soleas or by processing down aisle"},
+        {"target": "return_to_altar", "note": "Via south door"}
+      ],
+      "used_at": [
+        "vespers_lord_i_have_cried",
+        "orthros_opening",
+        "orthros_let_everything_that_breathes",
+        "orthros_ode_8",
+        "liturgy_after_proskomede"
+      ]
+    },
+    "holy_table_only": {
+      "description": "Censing of Holy Table only",
+      "sequence": [
+        {"target": "holy_table", "sides": 4}
+      ],
+      "used_at": [
+        "before_gospel",
+        "at_prokeimenon"
+      ]
+    },
+    "gifts_censing": {
+      "description": "Censing of Holy Gifts (3 swings)",
+      "swings": 3,
+      "used_at": [
+        "after_especially_for_most_holy",
+        "before_blessed_is_our_god",
+        "presanctified_gifts_transfer"
+      ]
+    },
+    "two_deacon_coordinated": {
+      "§": "39",
+      "description": "Two deacons cense simultaneously",
+      "sequence": [
+        {"target": "holy_table_front", "both": true},
+        {"target": "holy_table_right", "deacon": "first"},
+        {"target": "holy_table_left", "deacon": "second"},
+        {"target": "holy_table_east", "both": true},
+        {"target": "apsidal_icon", "both": true},
+        {"target": "altar_icons", "both": true},
+        {"target": "priest", "both": true},
+        {"target": "iconostasis", "deacon": "first_from_savior_second_from_theotokos"},
+        {"target": "right_choir", "deacon": "first"},
+        {"target": "left_choir", "deacon": "second"},
+        {"target": "people_from_soleas", "note": "One from right, other from left"}
+      ]
+    }
+  },
+
+  "vespers_choreography": {
+    "_source": "Ordo §29–§52 (Section II: Vespers Without Vigil)",
+
+    "one_deacon": {
+      "§_range": "29–36",
+      "§29": {"moment": "vesting", "deacon": "Holds sticharion and orarion, approaches priest, head bowed: 'Master, bless.' Priest blesses: 'Blessed is our God.' Deacon: 'Amen.' Dons sticharion, kisses orarion, places on left shoulder."},
+      "§30": {"moment": "opening", "priest": "Already wearing rason. Blesses epitrachelion, puts it on. Exits via north door, stands before closed royal doors. Small bow. 'Blessed is our God.' After Our Father: 'For Thine is the kingdom.'"},
+      "§31": {"moment": "psalm_103", "priest": "Quietly reads all Prayers of Light before royal doors.", "deacon": "After Psalm, exits via north door, small bow to priest, begins Great Synapte.", "after_ekphonesis": "Deacon makes small bow, returns via south door, stands at priest's right."},
+      "§32": {"moment": "kathisma", "deacon": "Exits via north door, says Small Synapte. After ekphonesis, small bow, returns to Altar."},
+      "§33": {"moment": "lord_i_have_cried", "deacon": "Takes thurible, presents to priest for blessing. Full censing: Holy Table (4 sides), apsidal icon, altar icons, priest. Exits via north door, censes iconostasis (south from Savior, north from Theotokos), choirs, people from soleas. Returns via south door."},
+      "§34": {"moment": "entrance", "priest": "Blesses and kisses phelonion, vests. At Glory, priest and deacon come before Holy Table. Royal doors opened. Deacon takes thurible, receives blessing. Preceded by candlebearers, they go around Holy Table from right, exit via north door. Stand before royal doors. Deacon says 'Let us pray to the Lord.' Priest says Prayer of Entrance. Deacon points orarion east: 'Master, bless the holy entrance.' Priest blesses: 'Blessed is the entrance.' Deacon makes sign of Cross with thurible or elevates Gospel, exclaims 'Wisdom! Stand aright!' They enter Altar. Deacon censes as at §33."},
+      "§35": {"moment": "after_hymn_prokeimenon_readings", "deacon": "Comes to royal doors: 'Let us be attentive!' Priest blesses: 'Peace be with all.' Deacon: 'Wisdom! Be attentive!' After prokeimenon and lessons, priest returns to Holy Table. Deacon walks around table, exits via north door, says ektene 'Let us all say' and aitisis 'Let us complete.' After ekphonesis, deacon returns via south door."},
+      "§36": {"moment": "dismissal", "note": "After troparia, royal doors opened. Deacon exits via south door, stands near Savior icon, elevates orarion: 'Wisdom!' Priest says Dismissal from center of royal doors. Then returns through royal doors; deacon via south door. Royal doors closed. Small bow before Holy Table. Unvest."}
+    },
+
+    "two_deacons": {
+      "§_range": "37–42",
+      "note": "Litanies distributed: 1st deacon = Great Synapte + ektene, 2nd deacon = Small Synapte + aitisis. Censing coordinated per §39. At Entrance, exit order: 2nd deacon, then 1st deacon, then priest. At Dismissal, both keep oraria raised."
+    },
+
+    "without_deacon": {
+      "§_range": "43–49",
+      "§43": {"rule": "Priest performs all diaconal parts EXCEPT: 'Let us pray to the Lord' and 'Master, bless.'"},
+      "§44": {"moment": "great_synapte", "priest": "Says before royal doors. After ekphonesis, returns to Altar via south door."},
+      "§45": {"moment": "kathisma_and_censing", "priest": "Says Small Synapte. At 'Lord, I have cried' censes as §33. Enters Altar via south door."},
+      "§46": {"moment": "entrance", "priest": "Takes thurible or Gospel. Goes around Holy Table from right, exits via north door. Bows before royal doors. Says Entrance Prayer. Blesses entrance with right hand, kisses Gospel. Makes sign of Cross with thurible or elevates Gospel: 'Wisdom! Stand aright!' Enters Altar through royal doors."},
+      "§47": {"moment": "prokeimenon", "priest": "Comes to royal doors: 'Let us be attentive!' Blesses: 'Peace be with all.' 'Wisdom! Be attentive!' For lessons, turns to Holy Table and exclaims from behind it."},
+      "§48": {"moment": "ektenies", "priest": "Returns to Holy Table. Says ektene and aitisis there."},
+      "§49": {"moment": "dismissal", "priest": "Faces people. 'Wisdom!' Says Dismissal from royal doors."}
+    },
+
+    "concelebration": {
+      "§_range": "50–52",
+      "§50": {"rule": "Concelebrants (usually even number) vest in epitrachelion and phelonion over rason just before Entrance. Stand at sides of Holy Table, NOT in front. Order: 1st to right, 2nd to left, 3rd to right, etc."},
+      "§51": {"moment": "entrance", "rule": "All make small bow. Phelonia hanging freely, hands lowered. Younger priests precede. Exit via north door. Stand in double file at royal doors. Principal celebrant in center behind. Only principal says Entrance Prayer."},
+      "§52": {"moment": "ekphoneses", "rule": "'For You are merciful' by principal. 'For You, O God, are gracious' may be by 1st concelebrant. 'May the might of Your kingdom' by principal."}
+    }
+  },
+
+  "vigil_choreography": {
+    "_source": "Ordo §53–§73 (Section III: Vespers With All-Night Vigil)",
+    "note": "Follows Vespers Without Vigil pattern with additions: opening censing with 'Command!', Litiya procession to narthex, Artoklasia (5 loaves blessing), transition to Orthros.",
+    "one_deacon_key_additions": {
+      "§54": "Priest opens royal doors. Deacon exits via north door with candle: 'Command!' Returns. Priest censes (full). 'Bless, O Lord.' Enter Altar. 'Glory to the Holy Trinity.' Psalm 103.",
+      "§57": "Litiya: Priest with hand cross + deacon with thurible exit to narthex. Stichera, petitions, blessing of loaves.",
+      "§60": "Transition to Orthros: Priest closes doors, removes phelonion. Six Psalms begin."
+    }
+  },
+
+  "orthros_choreography": {
+    "_source": "Ordo §74–§96 (Section IV: Orthros)",
+    "note": "See section_index.md for complete §-by-§ breakdown.",
+    "key_moments": {
+      "§76": "Six Psalms: Priest reads Orthros prayers at Holy Table. After first 3 psalms, exits via north door to read before royal doors.",
+      "§78": "Prokeimenon: Royal doors opened. Priest vests in phelonion. Deacon censes Holy Table (4 sides) and rest per §33.",
+      "§79": "Gospel: Priest takes Gospel through royal doors, stands on soleas, reads facing people on analogion.",
+      "§80": "Anointing (Vigil only): Priest with hand cross exits through royal doors. Deacon takes blessed oil and quill, exits via north door. Priest anoints foreheads at tetrapod.",
+      "§82": "Great Doxology: Royal doors opened. Priest in phelonion before altar."
+    }
+  },
+
+  "liturgy_choreography": {
+    "_source": "Ordo §97–§215 (Section V: Divine Liturgy)",
+    "note": "See section_index.md for complete §-by-§ breakdown.",
+    "key_moments": {
+      "§100": "Preparatory prayers: Priest and deacon make 3 small bows before royal doors, facing east.",
+      "§101": "Enter Altar: Priest via south door, deacon via north door, saying 'I will come into Your house.'",
+      "§105": "Priest vesting order: sticharion, epitrachelion, zone, epimanikia, [epigonation], phelonion.",
+      "§122": "Little Entrance: Candlebearers, then deacon with Gospel, then priest. Prayer of Entrance before royal doors.",
+      "§128": "Cherubic Hymn: Hands elevated. Threefold recitation with small bows. Censing follows.",
+      "§129": "Great Entrance: Deacon carries diskarion on head, priest carries chalice. Enter through royal doors.",
+      "§134": "Institution Narrative: Single blessing over bread. Right hand extended toward diskos: 'Take, eat.' Deep bow with sign of Cross.",
+      "§140": "Communion of priest: Body first, then Blood. Wipes lips and chalice edge with lention."
+    }
+  },
+
+  "presanctified_choreography": {
+    "_source": "Ordo §216–§261 (Section VI: Presanctified Liturgy)",
+    "note": "See section_index.md for complete §-by-§ breakdown.",
+    "key_moments": {
+      "§226": "Transfer of Presanctified Lamb: From artophorion on Holy Table to Prothesis table. Carried on diskarion with veil.",
+      "§234": "'Command!' Light and thurible. 'The Light of Christ illumines all.' Three great prostrations.",
+      "§235": "'Let my prayer ascend': Priest censes Holy Table on 4 sides during Psalm 140 verses.",
+      "§241": "Great Entrance: Priest takes veiled diskarion and chalice. Complete silence maintained.",
+      "§244": "Deacon binds orarion crosswise at Communion."
     }
   }
 }

@@ -1,11 +1,12 @@
 {
   "file_metadata": {
     "filename": "01h_struct_vespers.json",
-    "version": "4.1 (Syntax Fix)",
-    "last_updated": "2026-01-27",
-    "authority": "Dolnytsky Typikon Part I (Vespers)",
+    "version": "4.2 (Ordo Cross-Ref)",
+    "last_updated": "2026-05-03",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part I (Vespers) & Ordo Celebrationis 1944 §29–§73",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
     "scope": "Complete Vespers Matrix (Vigil, Polyeleos, Daily, Small)",
-    "description": "Defines the 4 distinct orders of Vespers prescribed by the Lviv Synod, plus special Lenten/Passion variants."
+    "description": "Defines the 4 distinct orders of Vespers prescribed by the Lviv Synod, plus special Lenten/Passion variants. Choreographic rubrics cross-referenced to Ordo Celebrationis §-numbers."
   },
   "structures": {
     "great_vespers_vigil": {
@@ -17,6 +18,7 @@
           "rubric": {
             "title": "Vesting and Censing",
             "source_ref": "Dolnytsky I:1",
+            "ordo_ref": "§29–§30",
             "roles": {
               "priest": "Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.",
               "deacon": "Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing.",
@@ -29,6 +31,7 @@
           "rubric": {
             "title": "The Opening",
             "source_ref": "Dolnytsky I:2",
+            "ordo_ref": "§54",
             "roles": {
               "deacon": "Stand before the Holy Doors. Exclaim 'Bless, Master!'",
               "priest": "Make the sign of the Cross with the censer before the Holy Table. Sing 'Glory to the Holy, Consubstantial...'"
@@ -44,6 +47,7 @@
           "rubric": {
             "title": "The Proemial Psalm",
             "source_ref": "Dolnytsky I:2",
+            "ordo_ref": "§31",
             "roles": {
               "priest": "Exit Sanctuary via North Door. Read the Prayers of Light silently.",
               "deacon": "Close Holy Doors. Stand before them with a candle.",
@@ -88,6 +92,9 @@
         },
         {
           "id": "entrance_great",
+          "rubric": {
+            "ordo_ref": "§34"
+          },
           "content": {
             "type": "component_ref",
             "ref_key": "components.entrance_great"
@@ -115,9 +122,21 @@
         },
         {
           "id": "litiya_rite",
+          "rubric": {
+            "title": "The Litiya",
+            "source_ref": "Dolnytsky I: Vigil Order — Procession to Narthex",
+            "ordo_ref": "§57",
+            "roles": {
+              "deacon": "Lead procession to narthex. Sing Litiya petitions.",
+              "priest": "Read Litiya prayer with head bowed.",
+              "choir": "Sing Litiya stichera."
+            }
+          },
           "content": {
-            "type": "component_ref",
-            "ref_key": "components.litiya_procession"
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_litya_content"
+            }
           }
         },
         {

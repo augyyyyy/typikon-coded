@@ -1,8 +1,6 @@
 {
-  "content": {
-    "en": "[STUB] Glory to the holy, consubstantial..."
-  },
-  "_stub": true,
-  "_description": "Glory to the holy, consubstantial...",
+  "title": "Exclamation",
+  "content": "Priest: Glory to the holy, consubstantial, life-creating and undivided Trinity, always, now and for ever and ever.\nChoir: Amen.",
+  "source": "Stamford",
   "_original_id": "horologion.glory_to_holy"
 }

@@ -3,7 +3,7 @@
     "filename": "02a_logic_general.json",
     "version": "5.2 (Special Vigil Override)",
     "last_updated": "2026-01-29",
-    "authority": "Dolnytsky Typikon Part II",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part II",
     "scope": "The 20 General Liturgical Cases (Octoechos, Menaion, Triodion/Pentecostion interactions)",
     "description": "Logic controller for daily, Sunday, and Festal services. Handles priority disputes between Octoechos and Menaion based on rank (Simple, Doxology, Polyeleos, Vigil) and Period (Normal, Forefeast, Afterfeast, Apodosis)."
   },
@@ -487,6 +487,19 @@
               "qty": 8
             }
           ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 210",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "theotokion_after_doxastikon"
         }
       }
     },
@@ -513,7 +526,15 @@
         "matins_additions": [
           "anointing",
           "magnification"
-        ]
+        ],
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky Part II Line 226 — same as Polyeleos Sunday",
+          "inherits": "CASE_04"
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 235 — same as Polyeleos Sunday",
+          "inherits": "CASE_04"
+        }
       }
     },
     "case_07_weekday_vigil": {
@@ -540,7 +561,15 @@
         "vespers_additions": [
           "litiya_stichera",
           "blessing_loaves"
-        ]
+        ],
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky Part II Line 246 — same as Polyeleos Weekday",
+          "inherits": "CASE_05"
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 249 — same as Polyeleos Weekday",
+          "inherits": "CASE_05"
+        }
       }
     },
     "special_vigil_override": {
@@ -637,6 +666,25 @@
               "qty": 4
             }
           ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 268",
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint_or_feast",
+              "qty": 4,
+              "note": "4 to saint if he has, otherwise 4 of feast from Aposticha with refrains"
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "most_blessed_art_thou"
         }
       }
     },
@@ -716,6 +764,32 @@
           "source": "menaion",
           "type": "feast"
         },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky Part II Line 319",
+          "total_count": 3,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 3
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "feast_theotokion"
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 326",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 4
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "feast_theotokion"
+        },
         "liturgy_variables": {
           "antiphons": "festal_antiphons",
           "entrance_hymn": "festal_entrance",
@@ -773,6 +847,24 @@
               "qty": 8
             }
           ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 354",
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 4
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "most_blessed_art_thou"
         }
       }
     },
@@ -861,6 +953,25 @@
               "qty": 4
             }
           ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 389",
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 4,
+              "note": "4 feast; if saint has praises stichera, replace feast with 4 saint"
+            }
+          ],
+          "glory": "eothinon_gospel_sticheron",
+          "both_now": "most_blessed_art_thou"
         }
       }
     },
@@ -972,6 +1083,24 @@
               "qty": 6
             }
           ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 449",
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "eothinon_gospel_sticheron",
+          "both_now": "most_blessed_art_thou"
         }
       }
     },
@@ -1025,6 +1154,37 @@
               "qty": 8
             }
           ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 476",
+          "total_count": 4,
+          "logic_switch": {
+            "4_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ]
+            },
+            "6_mixed": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "feast",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "glory": "saint_doxastikon",
+          "both_now": "feast_theotokion"
         }
       }
     },
@@ -1045,7 +1205,11 @@
       "base_template": "CASE_15",
       "variables": {
         "vespers_litiya": "saint_and_feast",
-        "matins_anointing": true
+        "matins_anointing": true,
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 494 — same as Polyeleos Afterfeast Sunday",
+          "inherits": "CASE_15"
+        }
       }
     },
     "case_18_afterfeast_weekday_vigil": {
@@ -1070,7 +1234,11 @@
       "base_template": "CASE_16",
       "variables": {
         "vespers_litiya": "saint_and_feast",
-        "matins_anointing": true
+        "matins_anointing": true,
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 501 — same as Polyeleos Afterfeast Weekday",
+          "inherits": "CASE_16"
+        }
       }
     },
     "//_GROUP_E": "APODOSIS",
@@ -1124,6 +1292,24 @@
               "qty": 8
             }
           ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 521",
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 4
+            }
+          ],
+          "glory": "eothinon_gospel_sticheron",
+          "both_now": "most_blessed_art_thou"
         }
       }
     },
@@ -1157,6 +1343,11 @@
           "type": "feast",
           "qty": 14,
           "note": "Exact repetition of the feast day canon."
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky Part II Line 547 — same as feast day itself",
+          "note": "At Matins of Apodosis weekday, everything from the canon to end is exactly as on the feast. Therefore praises distribution is same as Case 10.",
+          "inherits": "CASE_10"
         }
       }
     }

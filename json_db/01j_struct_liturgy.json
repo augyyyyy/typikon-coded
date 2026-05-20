@@ -1,16 +1,18 @@
 {
   "file_metadata": {
     "filename": "01j_struct_liturgy.json",
-    "version": "3.0 (Dolnytsky Role Injection)",
-    "last_updated": "2026-01-26",
-    "authority": "Dolnytsky Typikon Part I, II & IV",
+    "version": "3.1 (Ordo Cross-Ref)",
+    "last_updated": "2026-05-03",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part I, II & IV & Ordo Celebrationis 1944 §97–§215",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
     "scope": "Divine Liturgy Matrix",
-    "description": "Defines the structural matrix for the Divine Liturgy with role-based rubrics derived directly from Dolnytsky."
+    "description": "Defines the structural matrix for the Divine Liturgy with role-based rubrics. Choreographic rubrics cross-referenced to Ordo Celebrationis §-numbers."
   },
   "structures": {
     "liturgy_chrysostom": {
       "title_key": "titles.liturgy_chrysostom",
       "source_ref": "Dolnytsky I: Appendix V",
+      "ordo_ref": "§97–§145",
       "sequence": [
         {
           "id": "prothesis",
@@ -18,6 +20,7 @@
           "rubric": {
             "title": "The Prothesis (Preparation)",
             "source_ref": "Dolnytsky IV:385",
+            "ordo_ref": "§108–§116",
             "roles": {
               "priest": "Prepare the Lamb. On Sundays and Feasts, cut the Lamb for the communicants. On Holy Thursday, prepare two Lambs (one for Presanctified).",
               "deacon": "Pour wine and water into the Chalice. Cover the Gifts."
@@ -77,6 +80,7 @@
           "section_key": "sections.entrance",
           "rubric": {
             "title": "The Little Entrance",
+            "ordo_ref": "§122–§123",
             "roles": {
               "priest": "Recite the Prayer of the Entrance silently. Bless the Entrance.",
               "deacon": "Carry the Gospel Book. Exclaim 'Wisdom, Upright!'",
@@ -164,6 +168,7 @@
           "section_key": "sections.great_entrance",
           "rubric": {
             "title": "Cherubic Hymn",
+            "ordo_ref": "§128",
             "roles": {
               "priest": "Recite the Prayer of the Cherubic Hymn silently.",
               "deacon": "Cense the Altar, Icons, and People (Psalm 50)."
@@ -181,6 +186,7 @@
           "id": "great_entrance",
           "rubric": {
             "title": "The Great Entrance",
+            "ordo_ref": "§129–§130",
             "roles": {
               "deacon": "Carry the Diskos (on head or in hands). Exclaim commemorations.",
               "priest": "Carry the Chalice. Exclaim commemorations.",
@@ -223,6 +229,7 @@
           "section_key": "sections.communion",
           "rubric": {
             "title": "Communion",
+            "ordo_ref": "§139–§142",
             "roles": {
               "priest": "Break the Lamb. Commune himself and the Deacon.",
               "deacon": "Exclaim 'With fear of God...'",
@@ -266,6 +273,7 @@
           "rubric": {
             "title": "The Dismissal",
             "source_ref": "Dolnytsky II:102",
+            "ordo_ref": "§145",
             "roles": {
               "priest": "Bless the people with the Hand Cross (if Sunday/Feast) or hand (Weekday).",
               "choir": "Sing 'Amen' and 'Eis polla eti despota'."

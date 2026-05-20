@@ -3,7 +3,7 @@
     "filename": "02c_logic_triodion.json",
     "version": "3.4 (Added Missing Sundays + Feasts)",
     "last_updated": "2026-01-29",
-    "authority": "Dolnytsky Typikon Part IV",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part IV",
     "scope": "Moveable Cycle Logic",
     "description": "Final version with all structure IDs aligned to the 01 series files."
   },

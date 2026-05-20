@@ -3,7 +3,7 @@
     "filename": "02d_logic_temple.json",
     "version": "3.0 (Full Part V Detail)",
     "last_updated": "2026-03-22",
-    "authority": "Dolnytsky Typikon Part V, Chapter II",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part V, Chapter II",
     "scope": "Patronal Feast Logic",
     "description": "Complete temple feast conflict-resolution logic: 6 general rules + 31 specific scenarios with full stichera/canon/troparion detail."
   },
@@ -19,7 +19,11 @@
       "G2": {
         "rule": "Temple feast exceeds even saint with Vigil",
         "on_sunday": {
-          "matins_before_canon": ["prokimenon_temple", "gospel_temple", "sticheron_temple"],
+          "matins_before_canon": [
+            "prokimenon_temple",
+            "gospel_temple",
+            "sticheron_temple"
+          ],
           "gospel_sticheron": "transferred_from_praises_to_end_of_matins"
         },
         "on_weekday": {
@@ -96,32 +100,93 @@
       "day_type": "weekday",
       "combined_with": "Indiction",
       "small_vespers": {
-        "lord_i_have_cried": {"count": 4, "source": "temple", "glory": "temple", "both_now": "Indiction"},
-        "aposticha": {"source": "Indiction", "glory": "temple", "both_now": "Indiction"},
-        "troparia": {"troparion": "Indiction", "glory": "temple", "both_now": "Synaxis of Theotokos"}
+        "lord_i_have_cried": {
+          "count": 4,
+          "source": "temple",
+          "glory": "temple",
+          "both_now": "Indiction"
+        },
+        "aposticha": {
+          "source": "Indiction",
+          "glory": "temple",
+          "both_now": "Indiction"
+        },
+        "troparia": {
+          "troparion": "Indiction",
+          "glory": "temple",
+          "both_now": "Synaxis of Theotokos"
+        }
       },
       "great_vespers": {
         "beginning_to_litiya": "as_without_temple",
-        "litiya": {"stichera": "temple", "glory": "temple", "both_now": "Theotokion of tone of Doxastikon (from Aposticha of Sunday Great Vespers)"},
-        "aposticha": {"source": "temple", "glory": "temple", "both_now": "Indiction"},
-        "blessing_of_loaves": ["temple", "temple", "Virgin Theotokos"]
+        "litiya": {
+          "stichera": "temple",
+          "glory": "temple",
+          "both_now": "Theotokion of tone of Doxastikon (from Aposticha of Sunday Great Vespers)"
+        },
+        "aposticha": {
+          "source": "temple",
+          "glory": "temple",
+          "both_now": "Indiction"
+        },
+        "blessing_of_loaves": [
+          "temple",
+          "temple",
+          "Virgin Theotokos"
+        ]
       },
       "great_matins": {
         "beginning_to_polyeleos": "as_without_temple; after 2nd Kathisma no Doxastikon of Kallistos; Glory, Both now: Theotokion of Indiction",
         "polyeleos_to_canon": "all of temple. Prokimenon: Precious in the sight. Gospel: Luke Sec. 24",
-        "canons": {"count": 2, "total_troparia": 14, "distribution": [
-          {"source": "Indiction", "with_heirmos": true, "on": 6},
-          {"source": "temple", "on": 8}
-        ]},
+        "canons": {
+          "count": 2,
+          "total_troparia": 14,
+          "distribution": [
+            {
+              "source": "Indiction",
+              "with_heirmos": true,
+              "on": 6
+            },
+            {
+              "source": "temple",
+              "on": 8
+            }
+          ]
+        },
         "katavasia": "of_the_season",
-        "after_3rd_ode": {"kontakion": "Indiction", "sessional_hymn": "temple", "glory_both_now": "Sessional Hymn of Indiction"},
-        "after_6th_ode": {"kontakion": "temple", "ikos": "temple"},
-        "after_9th_ode": {"exaposteilarion": "temple", "glory_both_now": "Indiction"},
-        "praises": {"count": 8, "distribution": [
-          {"source": "Indiction", "qty": 4},
-          {"source": "temple", "qty": 4}
-        ], "glory": "temple", "both_now": "Indiction"},
-        "after_doxology": {"troparion": "Indiction", "glory": "temple", "both_now": "Theotokion of beginning of year"}
+        "after_3rd_ode": {
+          "kontakion": "Indiction",
+          "sessional_hymn": "temple",
+          "glory_both_now": "Sessional Hymn of Indiction"
+        },
+        "after_6th_ode": {
+          "kontakion": "temple",
+          "ikos": "temple"
+        },
+        "after_9th_ode": {
+          "exaposteilarion": "temple",
+          "glory_both_now": "Indiction"
+        },
+        "praises": {
+          "count": 8,
+          "distribution": [
+            {
+              "source": "Indiction",
+              "qty": 4
+            },
+            {
+              "source": "temple",
+              "qty": 4
+            }
+          ],
+          "glory": "temple",
+          "both_now": "Indiction"
+        },
+        "after_doxology": {
+          "troparion": "Indiction",
+          "glory": "temple",
+          "both_now": "Theotokion of beginning of year"
+        }
       },
       "hours_and_liturgy": "as_without_temple"
     },
@@ -133,38 +198,121 @@
       "combined_with": "Indiction",
       "small_vespers": {
         "lord_i_have_cried": "Sunday stichera of Octoechos",
-        "aposticha": {"sources": ["1 Sunday", "temple"], "glory": "temple", "both_now": "Indiction"},
-        "troparia": {"troparion": "Sunday", "glory": "temple", "both_now": "Indiction"}
+        "aposticha": {
+          "sources": [
+            "1 Sunday",
+            "temple"
+          ],
+          "glory": "temple",
+          "both_now": "Indiction"
+        },
+        "troparia": {
+          "troparion": "Sunday",
+          "glory": "temple",
+          "both_now": "Indiction"
+        }
       },
       "great_vespers": {
-        "lord_i_have_cried": {"count": 10, "distribution": [
-          {"source": "Sunday", "qty": 3},
-          {"source": "Indiction", "qty": 3},
-          {"source": "temple", "qty": 4}
-        ], "glory": "temple", "both_now": "1st Theotokion of tone"},
-        "litiya": {"stichera": "temple (from Praises)", "both_now": "Indiction"},
-        "aposticha": {"source": "Sunday", "glory": "temple", "both_now": "Indiction"},
-        "blessing_of_loaves": ["Virgin Theotokos", "Virgin Theotokos", "temple"]
+        "lord_i_have_cried": {
+          "count": 10,
+          "distribution": [
+            {
+              "source": "Sunday",
+              "qty": 3
+            },
+            {
+              "source": "Indiction",
+              "qty": 3
+            },
+            {
+              "source": "temple",
+              "qty": 4
+            }
+          ],
+          "glory": "temple",
+          "both_now": "1st Theotokion of tone"
+        },
+        "litiya": {
+          "stichera": "temple (from Praises)",
+          "both_now": "Indiction"
+        },
+        "aposticha": {
+          "source": "Sunday",
+          "glory": "temple",
+          "both_now": "Indiction"
+        },
+        "blessing_of_loaves": [
+          "Virgin Theotokos",
+          "Virgin Theotokos",
+          "temple"
+        ]
       },
       "great_matins": {
-        "god_is_the_lord": {"troparion": "Sunday x2", "glory": "temple", "both_now": "Indiction"},
+        "god_is_the_lord": {
+          "troparion": "Sunday x2",
+          "glory": "temple",
+          "both_now": "Indiction"
+        },
         "kathismata_1_2": "Sunday Sessional Hymns of Octoechos",
-        "after_polyeleos": {"sessional_hymns": "temple x1 each", "glory_both_now": "Indiction"},
+        "after_polyeleos": {
+          "sessional_hymns": "temple x1 each",
+          "glory_both_now": "Indiction"
+        },
         "prokimenon_gospel_sticheron": "of_the_temple",
-        "canons": {"count": 3, "total_troparia": 14, "distribution": [
-          {"source": "Sunday", "with_heirmos": true, "on": 4},
-          {"source": "Indiction", "on": 4},
-          {"source": "temple", "on": 6}
-        ]},
+        "canons": {
+          "count": 3,
+          "total_troparia": 14,
+          "distribution": [
+            {
+              "source": "Sunday",
+              "with_heirmos": true,
+              "on": 4
+            },
+            {
+              "source": "Indiction",
+              "on": 4
+            },
+            {
+              "source": "temple",
+              "on": 6
+            }
+          ]
+        },
         "katavasia": "of_the_season",
-        "after_3rd_ode": {"kontakion_ikos": "temple", "kontakion": "Indiction", "sessional_hymn": "temple", "glory_both_now": "Indiction"},
-        "after_6th_ode": {"kontakion_ikos": "Sunday"},
-        "after_9th_ode": {"exaposteilarion": "Sunday", "glory": "temple", "both_now": "Indiction"},
-        "praises": {"count": 8, "distribution": [
-          {"source": "Sunday", "qty": 3},
-          {"source": "Indiction", "qty": 2},
-          {"source": "temple", "qty": 3, "with_verses": true}
-        ], "glory": "temple", "both_now": "Most Blessed"},
+        "after_3rd_ode": {
+          "kontakion_ikos": "temple",
+          "kontakion": "Indiction",
+          "sessional_hymn": "temple",
+          "glory_both_now": "Indiction"
+        },
+        "after_6th_ode": {
+          "kontakion_ikos": "Sunday"
+        },
+        "after_9th_ode": {
+          "exaposteilarion": "Sunday",
+          "glory": "temple",
+          "both_now": "Indiction"
+        },
+        "praises": {
+          "count": 8,
+          "distribution": [
+            {
+              "source": "Sunday",
+              "qty": 3
+            },
+            {
+              "source": "Indiction",
+              "qty": 2
+            },
+            {
+              "source": "temple",
+              "qty": 3,
+              "with_verses": true
+            }
+          ],
+          "glory": "temple",
+          "both_now": "Most Blessed"
+        },
         "after_doxology": "Sunday Troparion (one of two usual)",
         "after_dismissal": "Glory, Both now: Gospel Sticheron"
       },
@@ -180,29 +328,86 @@
     "case_3": {
       "title": "Temple on Sundays of Publican, Prodigal, Meatfare, Cheesefare + Mon of 1st Week",
       "period": "lenten_triodion",
-      "applies_to": ["sunday_publican", "sunday_prodigal", "sunday_meatfare", "sunday_cheesefare", "monday_1st_week"],
+      "applies_to": [
+        "sunday_publican",
+        "sunday_prodigal",
+        "sunday_meatfare",
+        "sunday_cheesefare",
+        "monday_1st_week"
+      ],
       "base_rubric": "as_meeting (pp. 216-217, 220)",
       "overrides": {
         "general": "Troparia/stichera end with usual Theotokia as saint with Vigil",
         "great_vespers": {
-          "litiya": {"stichera": ["Triodion (from Aposticha)", "temple"], "glory": "temple", "both_now": "one Aposticha sticheron of Triodion", "meatfare_cheesefare": "conclude Doxastikon with specific Theotokion of Triodion"},
-          "aposticha": {"source": "Sunday", "glory": "temple", "both_now": "Triodion"},
-          "blessing_of_loaves": ["Virgin Theotokos", "Virgin Theotokos", "temple"]
+          "litiya": {
+            "stichera": [
+              "Triodion (from Aposticha)",
+              "temple"
+            ],
+            "glory": "temple",
+            "both_now": "one Aposticha sticheron of Triodion",
+            "meatfare_cheesefare": "conclude Doxastikon with specific Theotokion of Triodion"
+          },
+          "aposticha": {
+            "source": "Sunday",
+            "glory": "temple",
+            "both_now": "Triodion"
+          },
+          "blessing_of_loaves": [
+            "Virgin Theotokos",
+            "Virgin Theotokos",
+            "temple"
+          ]
         },
         "great_matins": {
-          "canons": {"count": 3, "total_troparia": 14, "distribution": [
-            {"source": "Sunday", "on": 4},
-            {"source": "Triodion", "on": 4},
-            {"source": "temple", "on": 6}
-          ]},
-          "after_3rd_ode": {"kontakion_ikos": "Triodion", "sessional_hymn": "temple", "glory_both_now": "Triodion"},
-          "after_6th_ode": {"kontakion_ikos": "temple"},
-          "after_9th_ode": {"exaposteilarion": "Sunday", "glory": "temple", "both_now": "Triodion"},
+          "canons": {
+            "count": 3,
+            "total_troparia": 14,
+            "distribution": [
+              {
+                "source": "Sunday",
+                "on": 4
+              },
+              {
+                "source": "Triodion",
+                "on": 4
+              },
+              {
+                "source": "temple",
+                "on": 6
+              }
+            ]
+          },
+          "after_3rd_ode": {
+            "kontakion_ikos": "Triodion",
+            "sessional_hymn": "temple",
+            "glory_both_now": "Triodion"
+          },
+          "after_6th_ode": {
+            "kontakion_ikos": "temple"
+          },
+          "after_9th_ode": {
+            "exaposteilarion": "Sunday",
+            "glory": "temple",
+            "both_now": "Triodion"
+          },
           "katavasia": "of_the_season; on Meatfare: Katavasia of Triodion",
-          "praises": {"count": 8, "distribution": [
-            {"source": "Sunday", "qty": 4},
-            {"source": "temple", "qty": 4, "with_verses": true}
-          ], "glory": "temple", "both_now": "Most Blessed"},
+          "praises": {
+            "count": 8,
+            "distribution": [
+              {
+                "source": "Sunday",
+                "qty": 4
+              },
+              {
+                "source": "temple",
+                "qty": 4,
+                "with_verses": true
+              }
+            ],
+            "glory": "temple",
+            "both_now": "Most Blessed"
+          },
           "praises_meatfare_cheesefare": "After 4 temple: Idiomelon of Triodion with 'Arise, O Lord'; Glory: same; Both now: Most Blessed"
         }
       }
@@ -210,13 +415,17 @@
     "case_4": {
       "title": "Temple on Meatfare Saturday",
       "period": "lenten_triodion",
-      "applies_to": ["saturday_meatfare"],
+      "applies_to": [
+        "saturday_meatfare"
+      ],
       "action": "celebrate_temple_saturday; transfer deceased service to previous Thursday"
     },
     "case_5": {
       "title": "Temple in Cheesefare Mon-Fri",
       "period": "lenten_triodion",
-      "applies_to": ["cheesefare_weekdays"],
+      "applies_to": [
+        "cheesefare_weekdays"
+      ],
       "base_rubric": "general_temple_saint (p. 458)",
       "overrides": {
         "aposticha_small_vespers_and_praises": "Both now: Idiomelon of day in Triodion",
@@ -230,105 +439,269 @@
     "case_6": {
       "title": "Temple on Cheesefare Saturday",
       "period": "lenten_triodion",
-      "applies_to": ["saturday_cheesefare"],
+      "applies_to": [
+        "saturday_cheesefare"
+      ],
       "base_rubric": "as_meeting (pp. 218-219)",
       "overrides": {
         "general": "Select usual Theotokia for Troparia/Stichera",
-        "lord_i_have_cried_aposticha_praises": {"glory": "temple_doxastikon", "both_now": "Theotokion of tone of Doxastikon"},
-        "litiya": {"glory": "Fathers_doxastikon", "both_now": "Theotokion (from Aposticha) of tone of Doxastikon"},
-        "blessing_of_loaves": ["temple", "Fathers", "Virgin Theotokos"]
+        "lord_i_have_cried_aposticha_praises": {
+          "glory": "temple_doxastikon",
+          "both_now": "Theotokion of tone of Doxastikon"
+        },
+        "litiya": {
+          "glory": "Fathers_doxastikon",
+          "both_now": "Theotokion (from Aposticha) of tone of Doxastikon"
+        },
+        "blessing_of_loaves": [
+          "temple",
+          "Fathers",
+          "Virgin Theotokos"
+        ]
       }
     },
     "case_7": {
       "title": "Temple on Monday of 1st Week of Lent",
       "period": "great_lent",
-      "applies_to": ["monday_1st_week_lent"],
+      "applies_to": [
+        "monday_1st_week_lent"
+      ],
       "action": "transfer_to_cheesefare_sunday (p. 220)"
     },
     "case_8": {
       "title": "Temple on Tue-Sat of 1st Week of Lent",
       "period": "great_lent",
-      "applies_to": ["tue_through_sat_1st_week_lent"],
+      "applies_to": [
+        "tue_through_sat_1st_week_lent"
+      ],
       "action": "transfer_to_saturday_1st_lent (see case_9)"
     },
     "case_9": {
       "title": "Temple on 1st Saturday of Lent",
       "period": "great_lent",
-      "applies_to": ["saturday_1st_lent"],
+      "applies_to": [
+        "saturday_1st_lent"
+      ],
       "combined_with": "St. Theodore Tyro",
       "base_rubric": "as_finding (p. 232)",
       "great_compline": {
-        "after_1st_trisagion": {"troparion": "temple", "glory": "Theodore", "both_now": "Theotokion (Sunday) of tone of Theodore's Troparion"},
-        "after_2nd_trisagion": {"kontakion": "temple"},
-        "blessing_of_loaves": ["temple", "temple", "Virgin Theotokos"]
+        "after_1st_trisagion": {
+          "troparion": "temple",
+          "glory": "Theodore",
+          "both_now": "Theotokion (Sunday) of tone of Theodore's Troparion"
+        },
+        "after_2nd_trisagion": {
+          "kontakion": "temple"
+        },
+        "blessing_of_loaves": [
+          "temple",
+          "temple",
+          "Virgin Theotokos"
+        ]
       },
       "great_matins": {
         "base": "as_finding (p. 233)",
         "kathismata_1_2": "Sessional Hymn of temple",
-        "canons": {"count": 2, "distribution": [
-          {"source": "temple", "on": 8},
-          {"source": "Theodore", "on": 6}
-        ]},
-        "praises": {"glory": "temple"}
+        "canons": {
+          "count": 2,
+          "distribution": [
+            {
+              "source": "temple",
+              "on": 8
+            },
+            {
+              "source": "Theodore",
+              "on": 6
+            }
+          ]
+        },
+        "praises": {
+          "glory": "temple"
+        }
       }
     },
     "case_10": {
       "title": "Temple on 1st and 3rd Sundays of Lent",
       "period": "great_lent",
-      "applies_to": ["sunday_1st_lent", "sunday_3rd_lent"],
+      "applies_to": [
+        "sunday_1st_lent",
+        "sunday_3rd_lent"
+      ],
       "small_vespers": "general rubric of saint with Vigil on Sunday",
       "great_vespers": {
-        "lord_i_have_cried": {"count": 10, "distribution": [
-          {"source": "Sunday", "qty": 3},
-          {"source": "Triodion", "qty": 3},
-          {"source": "temple", "qty": 4, "with_doxastikon": true}
-        ], "glory": "Triodion", "both_now": "1st Theotokion of tone"},
-        "litiya": {"stichera": ["temple", "Triodion (from Praises)"], "glory": "temple", "both_now": "Triodion"},
-        "aposticha": {"source": "Sunday", "glory": "temple", "both_now": "Triodion"},
-        "blessing_of_loaves": {"sunday_1st": ["Icon", "temple", "Virgin Theotokos"], "sunday_3rd": ["Cross", "temple", "Virgin Theotokos"]}
+        "lord_i_have_cried": {
+          "count": 10,
+          "distribution": [
+            {
+              "source": "Sunday",
+              "qty": 3
+            },
+            {
+              "source": "Triodion",
+              "qty": 3
+            },
+            {
+              "source": "temple",
+              "qty": 4,
+              "with_doxastikon": true
+            }
+          ],
+          "glory": "Triodion",
+          "both_now": "1st Theotokion of tone"
+        },
+        "litiya": {
+          "stichera": [
+            "temple",
+            "Triodion (from Praises)"
+          ],
+          "glory": "temple",
+          "both_now": "Triodion"
+        },
+        "aposticha": {
+          "source": "Sunday",
+          "glory": "temple",
+          "both_now": "Triodion"
+        },
+        "blessing_of_loaves": {
+          "sunday_1st": [
+            "Icon",
+            "temple",
+            "Virgin Theotokos"
+          ],
+          "sunday_3rd": [
+            "Cross",
+            "temple",
+            "Virgin Theotokos"
+          ]
+        }
       },
       "great_matins": {
         "base": "as_finding (p. 234)",
         "gospel_and_sticheron": "of_the_temple",
-        "canons": {"distribution": [
-          {"source": "Sunday", "on": 4},
-          {"source": "Triodion", "on": 4},
-          {"source": "temple", "on": 6}
-        ]},
-        "after_3rd_ode": {"kontakion": "Triodion", "sessional_hymn": "temple", "glory_both_now": "Triodion"},
-        "after_6th_ode": {"kontakion_ikos": "temple"},
-        "praises": {"count": 9, "distribution": [
-          {"source": "Sunday", "qty": 3},
-          {"source": "Triodion", "qty": 2},
-          {"source": "temple", "qty": 3, "with_doxastikon": true, "with_verses": true},
-          {"source": "Triodion_idiomelon", "qty": 1, "verse": "Arise, O Lord"}
-        ], "glory": "same_idiomelon", "both_now": "Most Blessed"}
+        "canons": {
+          "distribution": [
+            {
+              "source": "Sunday",
+              "on": 4
+            },
+            {
+              "source": "Triodion",
+              "on": 4
+            },
+            {
+              "source": "temple",
+              "on": 6
+            }
+          ]
+        },
+        "after_3rd_ode": {
+          "kontakion": "Triodion",
+          "sessional_hymn": "temple",
+          "glory_both_now": "Triodion"
+        },
+        "after_6th_ode": {
+          "kontakion_ikos": "temple"
+        },
+        "praises": {
+          "count": 9,
+          "distribution": [
+            {
+              "source": "Sunday",
+              "qty": 3
+            },
+            {
+              "source": "Triodion",
+              "qty": 2
+            },
+            {
+              "source": "temple",
+              "qty": 3,
+              "with_doxastikon": true,
+              "with_verses": true
+            },
+            {
+              "source": "Triodion_idiomelon",
+              "qty": 1,
+              "verse": "Arise, O Lord"
+            }
+          ],
+          "glory": "same_idiomelon",
+          "both_now": "Most Blessed"
+        }
       }
     },
     "case_11": {
       "title": "Temple on Lenten Weekdays (2nd week through Lazarus Saturday)",
       "period": "great_lent",
-      "applies_to": ["lenten_weekday_2nd_through_lazarus"],
+      "applies_to": [
+        "lenten_weekday_2nd_through_lazarus"
+      ],
       "rule": "Sing as of other great saints during Lent",
       "canon_rules": {
-        "without_triodion_three_odes": {"theotokos": {"with_heirmos": true, "on": 6}, "temple": {"on": 8}, "katavasia": "Theotokos"},
-        "with_triodion_three_odes": {"temple": {"on": 6}, "triodion": {"on": 8}, "katavasia": "Heirmos of Triodion"}
+        "without_triodion_three_odes": {
+          "theotokos": {
+            "with_heirmos": true,
+            "on": 6
+          },
+          "temple": {
+            "on": 8
+          },
+          "katavasia": "Theotokos"
+        },
+        "with_triodion_three_odes": {
+          "temple": {
+            "on": 6
+          },
+          "triodion": {
+            "on": 8
+          },
+          "katavasia": "Heirmos of Triodion"
+        }
       },
       "note": "Feb 24 (Finding of Precious Head) and Mar 9 (40 Martyrs) are Polyeleos only. Arrange Vigil rubric per Annunciation.",
       "sunday_evening_for_monday": {
-        "small_vespers": {"base": "saint with Vigil outside Triodion", "aposticha": "Triodion", "glory": "temple", "both_now": "Theotokion of tone of Glory"},
+        "small_vespers": {
+          "base": "saint with Vigil outside Triodion",
+          "aposticha": "Triodion",
+          "glory": "temple",
+          "both_now": "Theotokion of tone of Glory"
+        },
         "great_vespers": {
           "beginning_to_litiya": "as_finding (p. 235)",
           "litiya_and_aposticha": "stichera of temple",
-          "blessing_of_loaves": ["temple", "temple", "Virgin Theotokos"]
+          "blessing_of_loaves": [
+            "temple",
+            "temple",
+            "Virgin Theotokos"
+          ]
         }
       },
       "mon_through_thu_evening": {
-        "great_vespers": {"base": "as_finding (pp. 235-236)", "lord_i_have_cried": {"triodion": {"qty": 5, "note": "Idiomelon x2 + 3 Prosomoia"}, "temple": {"qty": 5}}},
+        "great_vespers": {
+          "base": "as_finding (pp. 235-236)",
+          "lord_i_have_cried": {
+            "triodion": {
+              "qty": 5,
+              "note": "Idiomelon x2 + 3 Prosomoia"
+            },
+            "temple": {
+              "qty": 5
+            }
+          }
+        },
         "great_compline": {
-          "after_1st_trisagion": {"troparion": "temple", "glory_both_now": "Sunday Theotokion of tone of Glory"},
-          "after_2nd_trisagion": {"kontakion": "temple"},
-          "blessing_of_loaves": ["temple", "temple", "Virgin Theotokos"],
+          "after_1st_trisagion": {
+            "troparion": "temple",
+            "glory_both_now": "Sunday Theotokion of tone of Glory"
+          },
+          "after_2nd_trisagion": {
+            "kontakion": "temple"
+          },
+          "blessing_of_loaves": [
+            "temple",
+            "temple",
+            "Virgin Theotokos"
+          ],
           "litiya_and_aposticha": "stichera of temple"
         }
       },
@@ -337,157 +710,404 @@
     "case_12": {
       "title": "Temple on 2nd, 3rd, 4th Saturdays of Lent",
       "period": "great_lent",
-      "applies_to": ["saturday_2nd_lent", "saturday_3rd_lent", "saturday_4th_lent"],
+      "applies_to": [
+        "saturday_2nd_lent",
+        "saturday_3rd_lent",
+        "saturday_4th_lent"
+      ],
       "vespers_and_compline": "As case_11 Mon-Thu; Lord I have cried: 1st Theotokion of tone being given away",
       "matins_hours_liturgy": "Entire service of temple only, per general rubric saint with Vigil"
     },
     "case_13": {
       "title": "Temple on 2nd, 4th, 5th Sundays of Lent",
       "period": "great_lent",
-      "applies_to": ["sunday_2nd_lent", "sunday_4th_lent", "sunday_5th_lent"],
+      "applies_to": [
+        "sunday_2nd_lent",
+        "sunday_4th_lent",
+        "sunday_5th_lent"
+      ],
       "base": "general rubric of saint with Vigil on Sunday",
       "great_matins": {
         "gospel_and_sticheron": "of_the_temple",
-        "canons": {"distribution": [
-          {"source": "Sunday", "on": 4},
-          {"source": "Triodion", "on": 4},
-          {"source": "temple", "on": 6}
-        ]},
-        "praises": {"count": 9, "distribution": [
-          {"source": "Sunday", "qty": 4},
-          {"source": "temple", "qty": 4, "with_doxastikon": true, "with_verses": true},
-          {"source": "Triodion_idiomelon", "qty": 1, "verse": "Arise"}
-        ], "glory": "same_idiomelon", "both_now": "Most Blessed"},
+        "canons": {
+          "distribution": [
+            {
+              "source": "Sunday",
+              "on": 4
+            },
+            {
+              "source": "Triodion",
+              "on": 4
+            },
+            {
+              "source": "temple",
+              "on": 6
+            }
+          ]
+        },
+        "praises": {
+          "count": 9,
+          "distribution": [
+            {
+              "source": "Sunday",
+              "qty": 4
+            },
+            {
+              "source": "temple",
+              "qty": 4,
+              "with_doxastikon": true,
+              "with_verses": true
+            },
+            {
+              "source": "Triodion_idiomelon",
+              "qty": 1,
+              "verse": "Arise"
+            }
+          ],
+          "glory": "same_idiomelon",
+          "both_now": "Most Blessed"
+        },
         "after_matins": "Gospel Sticheron"
       },
-      "hours": {"kontakia": "temple and Triodion alternately"},
-      "liturgy": {"troparia": ["Sunday", "temple"], "glory": "Kontakion of temple", "both_now": "Triodion"}
+      "hours": {
+        "kontakia": "temple and Triodion alternately"
+      },
+      "liturgy": {
+        "troparia": [
+          "Sunday",
+          "temple"
+        ],
+        "glory": "Kontakion of temple",
+        "both_now": "Triodion"
+      }
     },
     "case_14": {
       "title": "Temple on Sunday of the Cross (3rd Sunday of Lent)",
       "period": "great_lent",
-      "applies_to": ["sunday_3rd_lent_cross"],
+      "applies_to": [
+        "sunday_3rd_lent_cross"
+      ],
       "base": "General Lenten rubric with temple (case_11)",
       "override": "At Lord I have cried, Aposticha, Praises: Both now = Sticheron of Cross (not Theotokion). Praises: one remaining from Lord I have cried"
     },
     "case_15": {
       "title": "Temple on Wednesday of 5th Week (Great Canon displaced)",
       "period": "great_lent",
-      "applies_to": ["wednesday_5th_week"],
+      "applies_to": [
+        "wednesday_5th_week"
+      ],
       "base": "General Lenten rubric with temple (case_11)",
-      "transfers": {"great_canon_stichera": "Monday at Vespers", "great_canon": "Tuesday at Matins with Three-Odes of Tuesday"}
+      "transfers": {
+        "great_canon_stichera": "Monday at Vespers",
+        "great_canon": "Tuesday at Matins with Three-Odes of Tuesday"
+      }
     },
     "case_16": {
       "title": "Temple on Thursday of 5th Week",
       "period": "great_lent",
-      "applies_to": ["thursday_5th_week"],
-      "transfers": {"great_canon": "Tuesday of same week"},
+      "applies_to": [
+        "thursday_5th_week"
+      ],
+      "transfers": {
+        "great_canon": "Tuesday of same week"
+      },
       "service": "Temple on Thursday per case_11"
     },
     "case_17": {
       "title": "Temple on Akathist Saturday (5th Saturday of Lent)",
       "period": "great_lent",
-      "applies_to": ["saturday_akathist"],
+      "applies_to": [
+        "saturday_akathist"
+      ],
       "base": "Rubric of Akathist Saturday",
       "vespers_with_presanctified": {
-        "lord_i_have_cried": {"count": 10, "distribution": [
-          {"source": "Idiomelon_of_day", "qty": 2},
-          {"source": "Akathist", "qty": 4},
-          {"source": "temple", "qty": 4}
-        ], "glory": "temple", "both_now": "Akathist"},
-        "readings": {"count": 5, "distribution": "2 Triodion + 3 temple"}
+        "lord_i_have_cried": {
+          "count": 10,
+          "distribution": [
+            {
+              "source": "Idiomelon_of_day",
+              "qty": 2
+            },
+            {
+              "source": "Akathist",
+              "qty": 4
+            },
+            {
+              "source": "temple",
+              "qty": 4
+            }
+          ],
+          "glory": "temple",
+          "both_now": "Akathist"
+        },
+        "readings": {
+          "count": 5,
+          "distribution": "2 Triodion + 3 temple"
+        }
       },
       "vigil_with_great_compline": {
-        "after_1st_trisagion": {"troparion": "temple", "glory_both_now": "Troparion of Akathist"},
-        "after_2nd_trisagion": {"kontakion": "temple", "glory_both_now": "Kontakion of Akathist"},
-        "blessing_of_loaves": ["temple", "temple", "Akathist"]
+        "after_1st_trisagion": {
+          "troparion": "temple",
+          "glory_both_now": "Troparion of Akathist"
+        },
+        "after_2nd_trisagion": {
+          "kontakion": "temple",
+          "glory_both_now": "Kontakion of Akathist"
+        },
+        "blessing_of_loaves": [
+          "temple",
+          "temple",
+          "Akathist"
+        ]
       },
       "great_matins": {
-        "god_is_the_lord": {"troparion": "Akathist x2", "glory": "temple", "both_now": "Akathist"},
+        "god_is_the_lord": {
+          "troparion": "Akathist x2",
+          "glory": "temple",
+          "both_now": "Akathist"
+        },
         "after_2nd_third_kontakia_ikoi": "Sessional Hymns of temple; everything until Canon of temple",
-        "canons": {"count": 2, "total_troparia": 14, "distribution": [
-          {"source": "Akathist", "on": 8},
-          {"source": "temple", "on": 6}
-        ]},
-        "after_3rd_ode": {"note": "After 3rd third of Kontakia-Ikoi", "kontakion_ikos": "temple", "sessional_hymn": "temple", "glory_both_now": "Sessional Hymn of Akathist"},
-        "after_6th_ode": {"note": "After 4th third of Kontakia-Ikoi", "kontakion_ikos": "Akathist"},
-        "after_9th_ode": {"exaposteilarion": "temple", "glory_both_now": "Akathist"},
-        "praises": {"count": 6, "distribution": [
-          {"source": "Akathist", "qty": 3},
-          {"source": "temple", "qty": 3}
-        ], "glory": "temple", "both_now": "Akathist"},
-        "after_doxology": {"troparion": "temple", "glory_both_now": "Akathist"}
+        "canons": {
+          "count": 2,
+          "total_troparia": 14,
+          "distribution": [
+            {
+              "source": "Akathist",
+              "on": 8
+            },
+            {
+              "source": "temple",
+              "on": 6
+            }
+          ]
+        },
+        "after_3rd_ode": {
+          "note": "After 3rd third of Kontakia-Ikoi",
+          "kontakion_ikos": "temple",
+          "sessional_hymn": "temple",
+          "glory_both_now": "Sessional Hymn of Akathist"
+        },
+        "after_6th_ode": {
+          "note": "After 4th third of Kontakia-Ikoi",
+          "kontakion_ikos": "Akathist"
+        },
+        "after_9th_ode": {
+          "exaposteilarion": "temple",
+          "glory_both_now": "Akathist"
+        },
+        "praises": {
+          "count": 6,
+          "distribution": [
+            {
+              "source": "Akathist",
+              "qty": 3
+            },
+            {
+              "source": "temple",
+              "qty": 3
+            }
+          ],
+          "glory": "temple",
+          "both_now": "Akathist"
+        },
+        "after_doxology": {
+          "troparion": "temple",
+          "glory_both_now": "Akathist"
+        }
       },
       "hours": {
-        "troparia": {"all": "Akathist", "glory": "temple"},
-        "kontakia": {"1st_6th": "Akathist", "3rd_9th": "temple"}
+        "troparia": {
+          "all": "Akathist",
+          "glory": "temple"
+        },
+        "kontakia": {
+          "1st_6th": "Akathist",
+          "3rd_9th": "temple"
+        }
       },
       "liturgy": "All of Akathist, then of temple"
     },
     "case_18": {
       "title": "Temple on Lazarus Saturday",
       "period": "lenten_triodion",
-      "applies_to": ["saturday_lazarus"],
+      "applies_to": [
+        "saturday_lazarus"
+      ],
       "great_vespers": {
         "kathisma": "usual",
-        "lord_i_have_cried": {"count": 10, "distribution": [
-          {"source": "Idiomelon_of_day", "qty": 2},
-          {"source": "Lazarus", "qty": 5, "with_doxastikon": true},
-          {"source": "temple", "qty": 3}
-        ], "glory": "temple", "both_now": "Lazarus"},
-        "readings": {"count": 5, "distribution": "2 Triodion + 3 temple; rest of Presanctified"}
+        "lord_i_have_cried": {
+          "count": 10,
+          "distribution": [
+            {
+              "source": "Idiomelon_of_day",
+              "qty": 2
+            },
+            {
+              "source": "Lazarus",
+              "qty": 5,
+              "with_doxastikon": true
+            },
+            {
+              "source": "temple",
+              "qty": 3
+            }
+          ],
+          "glory": "temple",
+          "both_now": "Lazarus"
+        },
+        "readings": {
+          "count": 5,
+          "distribution": "2 Triodion + 3 temple; rest of Presanctified"
+        }
       },
       "vigil_with_great_compline": {
-        "after_1st_trisagion": {"troparion": "temple", "glory_both_now": "Lazarus"},
-        "after_2nd_trisagion": {"kontakion": "temple", "glory_both_now": "Lazarus"},
-        "litiya": {"stichera": ["Lazarus (first 4 from Praises)", "temple"], "glory": "temple", "both_now": "Lazarus"},
-        "aposticha": {"source": "temple", "both_now": "Lazarus"},
-        "blessing_of_loaves": ["temple", "temple", "Lazarus"]
+        "after_1st_trisagion": {
+          "troparion": "temple",
+          "glory_both_now": "Lazarus"
+        },
+        "after_2nd_trisagion": {
+          "kontakion": "temple",
+          "glory_both_now": "Lazarus"
+        },
+        "litiya": {
+          "stichera": [
+            "Lazarus (first 4 from Praises)",
+            "temple"
+          ],
+          "glory": "temple",
+          "both_now": "Lazarus"
+        },
+        "aposticha": {
+          "source": "temple",
+          "both_now": "Lazarus"
+        },
+        "blessing_of_loaves": [
+          "temple",
+          "temple",
+          "Lazarus"
+        ]
       },
       "great_matins": {
         "troparia": "Per general rubric of Polyeleos saint in midst of feast",
         "kathismata": "Two with Sessional Hymns of Lazarus; then Polyeleos + all 3 Sessional Hymns of temple; until Canon: of temple; after Gospel: Having beheld the Resurrection of Christ",
-        "canons": {"count": 3, "total_troparia": 14, "distribution": [
-          {"source": "Lazarus_1st", "with_heirmos": true, "on": 6},
-          {"source": "temple", "on": 4},
-          {"source": "Lazarus_2nd", "on": 4}
-        ]},
+        "canons": {
+          "count": 3,
+          "total_troparia": 14,
+          "distribution": [
+            {
+              "source": "Lazarus_1st",
+              "with_heirmos": true,
+              "on": 6
+            },
+            {
+              "source": "temple",
+              "on": 4
+            },
+            {
+              "source": "Lazarus_2nd",
+              "on": 4
+            }
+          ]
+        },
         "katavasia": "Heirmos of 2nd Canon of Lazarus",
-        "after_3rd_ode": {"kontakion_ikos": "temple", "sessional_hymn": "temple", "glory_both_now": "Lazarus"},
-        "after_6th_ode": {"kontakion_ikos": "Lazarus"},
+        "after_3rd_ode": {
+          "kontakion_ikos": "temple",
+          "sessional_hymn": "temple",
+          "glory_both_now": "Lazarus"
+        },
+        "after_6th_ode": {
+          "kontakion_ikos": "Lazarus"
+        },
         "at_9th_ode": "Do NOT sing More Honorable",
-        "after_9th_ode": {"holy_is_the_lord": "x3 in 1st tone", "exaposteilarion": "Lazarus", "glory": "temple", "both_now": "Lazarus"},
-        "praises": {"count": 8, "distribution": [
-          {"source": "Lazarus", "qty": 4},
-          {"source": "temple", "qty": 4, "with_verses": true}
-        ], "glory": "temple", "both_now": "Lazarus"},
-        "after_doxology": {"troparion": "temple", "glory_both_now": "Lazarus"}
+        "after_9th_ode": {
+          "holy_is_the_lord": "x3 in 1st tone",
+          "exaposteilarion": "Lazarus",
+          "glory": "temple",
+          "both_now": "Lazarus"
+        },
+        "praises": {
+          "count": 8,
+          "distribution": [
+            {
+              "source": "Lazarus",
+              "qty": 4
+            },
+            {
+              "source": "temple",
+              "qty": 4,
+              "with_verses": true
+            }
+          ],
+          "glory": "temple",
+          "both_now": "Lazarus"
+        },
+        "after_doxology": {
+          "troparion": "temple",
+          "glory_both_now": "Lazarus"
+        }
       },
       "hours_and_liturgy": "Everything first for Lazarus, then temple"
     },
     "case_19": {
       "title": "Temple on Palm Sunday",
       "period": "lenten_triodion",
-      "applies_to": ["palm_sunday"],
+      "applies_to": [
+        "palm_sunday"
+      ],
       "base": "Rubric of Theologian on May 8 with Ascension (pp. 295-296)",
-      "small_vespers": {"aposticha": "of Palm Sunday"},
+      "small_vespers": {
+        "aposticha": "of Palm Sunday"
+      },
       "matins": {
         "no_resurrection_hymn": true,
-        "canons": {"count": 2, "total_troparia": 14, "distribution": [
-          {"source": "Palm Sunday", "with_heirmos": true, "on": 8},
-          {"source": "temple", "on": 6}
-        ]},
-        "after_katavasia_9th": {"holy_is_the_lord": "x3 in 4th tone"},
-        "praises": {"count": 8, "distribution": [
-          {"source": "Palm Sunday", "qty": 4},
-          {"source": "temple", "qty": 4, "with_verses": true}
-        ], "glory": "temple", "both_now": "Palm Sunday"}
+        "canons": {
+          "count": 2,
+          "total_troparia": 14,
+          "distribution": [
+            {
+              "source": "Palm Sunday",
+              "with_heirmos": true,
+              "on": 8
+            },
+            {
+              "source": "temple",
+              "on": 6
+            }
+          ]
+        },
+        "after_katavasia_9th": {
+          "holy_is_the_lord": "x3 in 4th tone"
+        },
+        "praises": {
+          "count": 8,
+          "distribution": [
+            {
+              "source": "Palm Sunday",
+              "qty": 4
+            },
+            {
+              "source": "temple",
+              "qty": 4,
+              "with_verses": true
+            }
+          ],
+          "glory": "temple",
+          "both_now": "Palm Sunday"
+        }
       }
     },
     "case_20": {
       "title": "Temple on Passion Week / Resurrection Sunday",
       "period": "passion_week",
-      "applies_to": ["passion_monday", "passion_tuesday", "passion_wednesday", "passion_thursday", "great_friday", "great_saturday", "pascha"],
+      "applies_to": [
+        "passion_monday",
+        "passion_tuesday",
+        "passion_wednesday",
+        "passion_thursday",
+        "great_friday",
+        "great_saturday",
+        "pascha"
+      ],
       "transfer_rules": {
         "monday_through_thursday": "transfer_to_palm_sunday",
         "friday_saturday_pascha": "transfer_to_bright_monday_or_tuesday"
@@ -496,70 +1116,109 @@
     "case_21": {
       "title": "Temple from Bright Monday to 4th Sunday after Pascha",
       "period": "pentecostarion",
-      "applies_to": ["bright_monday_to_4th_sunday_pascha"],
+      "applies_to": [
+        "bright_monday_to_4th_sunday_pascha"
+      ],
       "rule": "Sing as service of St. George"
     },
     "case_22": {
       "title": "Temple from 4th Sunday after Pascha to Saturday of Pentecost",
       "period": "pentecostarion",
-      "applies_to": ["4th_sunday_to_pentecost_saturday"],
+      "applies_to": [
+        "4th_sunday_to_pentecost_saturday"
+      ],
       "base": "Rubric of Theologian (p. 293)"
     },
     "case_23": {
       "title": "Temple on Wednesday of Apodosis of Pascha",
       "period": "pentecostarion",
-      "applies_to": ["wednesday_apodosis_pascha"],
+      "applies_to": [
+        "wednesday_apodosis_pascha"
+      ],
       "base": "Rubric of Theologian on May 8",
-      "canons": {"distribution": [
-        {"source": "Pascha", "with_heirmos": true, "on": 4},
-        {"source": "Blind Man", "on": 4},
-        {"source": "temple", "on": 6}
-      ]}
+      "canons": {
+        "distribution": [
+          {
+            "source": "Pascha",
+            "with_heirmos": true,
+            "on": 4
+          },
+          {
+            "source": "Blind Man",
+            "on": 4
+          },
+          {
+            "source": "temple",
+            "on": 6
+          }
+        ]
+      }
     },
     "case_24": {
       "title": "Temple on Ascension Thursday",
       "period": "pentecostarion",
-      "applies_to": ["ascension_thursday"],
+      "applies_to": [
+        "ascension_thursday"
+      ],
       "base": "Rubric of Theologian on May 8"
     },
     "case_25": {
       "title": "Temple on 7th Sunday after Pascha",
       "period": "pentecostarion",
-      "applies_to": ["sunday_7th_after_pascha"],
+      "applies_to": [
+        "sunday_7th_after_pascha"
+      ],
       "base": "Rubric of Theologian on May 8",
-      "matins": {"prokimenon_gospel_sticheron": "of_the_temple"}
+      "matins": {
+        "prokimenon_gospel_sticheron": "of_the_temple"
+      }
     },
     "case_26": {
       "title": "Temple with Apodosis of Ascension",
       "period": "pentecostarion",
-      "applies_to": ["apodosis_ascension"],
+      "applies_to": [
+        "apodosis_ascension"
+      ],
       "base": "General rubric of saint with Vigil in midst of feast (p. 104)",
       "note": "No temple Apodosis at Vespers"
     },
     "case_27": {
       "title": "Temple on Soul Saturday (before Pentecost)",
       "period": "pentecostarion",
-      "applies_to": ["soul_saturday_pentecost"],
+      "applies_to": [
+        "soul_saturday_pentecost"
+      ],
       "rule": "Entire service of temple per general rubric saint with Vigil (p. 79) with Apodosis (p. 458). Deceased service transferred to previous Saturday or Thursday."
     },
     "case_28": {
       "title": "Temple on Pentecost Sunday",
       "period": "pentecostarion",
-      "applies_to": ["pentecost_sunday"],
+      "applies_to": [
+        "pentecost_sunday"
+      ],
       "base": "Rubric of Theologian with Ascension (p. 295)",
       "no_resurrection_hymn": true
     },
     "case_29": {
       "title": "Temple on Monday of the Holy Spirit",
       "period": "pentecostarion",
-      "applies_to": ["monday_holy_spirit"],
+      "applies_to": [
+        "monday_holy_spirit"
+      ],
       "rule": "Service of temple in evening; stichera as for Theologian or St. George with Mid-Pentecost",
       "pentecost_sunday_vespers": {
         "entrance": true,
         "great_prokimenon": "Who is so great a God",
-        "readings": {"count": 3, "source": "temple"},
+        "readings": {
+          "count": 3,
+          "source": "temple"
+        },
         "kneeling_prayers": true,
-        "litiya": {"stichera": "temple (if any)", "glory": "temple", "both_now": "feast"},
+        "litiya": {
+          "stichera": "temple (if any)",
+          "glory": "temple",
+          "both_now": "feast"
+        },
         "aposticha": "of feast with its stichera"
       },
       "rest": "As Theologian on Mid-Pentecost"
@@ -567,33 +1226,50 @@
     "case_30": {
       "title": "Temple in midst of Pentecost Feast (except Monday)",
       "period": "pentecostarion",
-      "applies_to": ["pentecost_midweek"],
+      "applies_to": [
+        "pentecost_midweek"
+      ],
       "base": "General rubric of saint with Vigil in Afterfeast (p. 104)"
     },
     "case_31": {
       "title": "Temple on Sunday of All Saints",
       "period": "pentecostarion",
-      "applies_to": ["sunday_all_saints"],
+      "applies_to": [
+        "sunday_all_saints"
+      ],
       "base": "Rubric of Fathers of 7th Sunday after Pascha (p. 441)",
       "override": "Doxastikon of temple: Both now = 1st Theotokion of tone of Doxastikon — not only at Lord I have cried but also at Troparion, instead of Ascension"
     },
     "case_32": {
       "title": "Temple on Sunday of Feast of Eucharist",
       "period": "pentecostarion",
-      "applies_to": ["sunday_corpus_christi"],
+      "applies_to": [
+        "sunday_corpus_christi"
+      ],
       "base": "Rubric of Theologian with Ascension (p. 295)"
     },
     "case_33": {
       "title": "Temple on Compassion of Most Holy Theotokos",
       "period": "pentecostarion",
-      "applies_to": ["compassion_theotokos"],
+      "applies_to": [
+        "compassion_theotokos"
+      ],
       "base": "Rubric of Theologian with Mid-Pentecost (p. 293)",
       "matins": {
         "no_resurrection_hymn": true,
-        "canons": {"distribution": [
-          {"source": "Compassion", "with_heirmos": true, "on": 8},
-          {"source": "temple", "on": 6}
-        ]},
+        "canons": {
+          "distribution": [
+            {
+              "source": "Compassion",
+              "with_heirmos": true,
+              "on": 8
+            },
+            {
+              "source": "temple",
+              "on": 6
+            }
+          ]
+        },
         "katavasia": "I will open",
         "at_9th_ode": "Sing More Honorable"
       }

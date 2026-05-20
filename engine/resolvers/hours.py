@@ -1,3 +1,4 @@
+from engine.core import liturgical_source
 """
 Ruthenian Engine - HoursMixin
 Extracted from ruthenian_engine.py during Phase 1 modularization.
@@ -13,79 +14,6 @@ import copy
 class HoursMixin:
 
     """Mixin providing hours methods for RuthenianEngine."""
-
-
-    def resolve_royal_hours(self, context, hour_num=1, rubrics=None):
-        """
-        Gap 2.9b: Royal Hours.
-        Citation: Dolnytsky Part IV Lines 601-632.
-        
-        Royal Hours are served on Great Friday morning. Each hour has:
-          - 3 specific Psalms
-          - OT Reading (Prophecy)
-          - Apostle (Epistle) Reading
-          - Gospel Reading
-          - Special troparia and stichera
-        
-        Args:
-            hour_num: 1, 3, 6, or 9
-        
-        Returns:
-            dict with Royal Hour configuration.
-        """
-        offset = context.get("pascha_offset", None)
-        
-        if offset is None or offset != -2:
-            return {"is_royal_hours": False}
-        
-        # Royal Hour configurations per Dolnytsky
-        hours = {
-            1: {
-                "psalms": [5, 2, 21],
-                "prophecy": "Zechariah 11:10-13",
-                "apostle": "Galatians 6:14-18",
-                "gospel": "Matthew 27:1-56",
-                "troparion_key": "triodion.royal_hour_1.troparion"
-            },
-            3: {
-                "psalms": [34, 108, 50],
-                "prophecy": "Isaiah 50:4-11",
-                "apostle": "Romans 5:6-10",
-                "gospel": "Mark 15:16-41",
-                "troparion_key": "triodion.royal_hour_3.troparion"
-            },
-            6: {
-                "psalms": [53, 139, 90],
-                "prophecy": "Isaiah 52:13-54:1",
-                "apostle": "Hebrews 2:11-18",
-                "gospel": "Luke 23:32-49",
-                "troparion_key": "triodion.royal_hour_6.troparion"
-            },
-            9: {
-                "psalms": [68, 69, 85],
-                "prophecy": "Jeremiah 11:18-23; 12:1-5,9-15",
-                "apostle": "Hebrews 10:19-31",
-                "gospel": "John 18:28-19:37",
-                "troparion_key": "triodion.royal_hour_9.troparion"
-            }
-        }
-        
-        if hour_num not in hours:
-            return {"is_royal_hours": False, "error": f"Invalid hour: {hour_num}"}
-        
-        config = hours[hour_num]
-        return {
-            "is_royal_hours": True,
-            "hour": hour_num,
-            "psalms": config["psalms"],
-            "readings": {
-                "prophecy": config["prophecy"],
-                "apostle": config["apostle"],
-                "gospel": config["gospel"]
-            },
-            "troparion": {"key": config["troparion_key"]},
-            "citation": f"Dolnytsky IV:601-632 — Royal {self._ordinal(hour_num)} Hour"
-        }
 
 
     def resolve_midnight_office_weekday(self, context):
@@ -227,29 +155,25 @@ class HoursMixin:
 
 
     def resolve_midnight_prayer(self, context, rubrics):
-        # V. Prayer Switch
-        # Ideally this is called by a variable_logic slot, NOT fixed_ref.
-        # But wait, structure uses fixed_ref "prayer_hours". 
-        # Ah, I need to check if I updated 01g to use variable_logic for the prayer?
-        # Checking... 01g uses fixed_ref "horologion.prayer_hours_thou_who".
-        # AND "prayer_st_ephrem".
-        # AND "prayer_hours" in daily.
-        # WAIT. The outline says Daily=Mardarius, Sat=Eustratius, Sun=Trinity.
-        # 01g has "prayer_hours" (Thou who at all times) THEN closing prayer.
-        # I need to CHECK if I have a slot for the Closing Prayer in 01g?
-        # Viewing 01g showed: "prayer_hours", then "prayer_st_ephrem" (conditional).
-        # It MISSES the specific Closing Prayer (Mardarius/Eustratius) in the base structure?
-        # Let me re-read 01g content around line 56-59.
-        # It has "prayer_hours" -> "prayer_st_ephrem".
-        # It seems the Closing Prayer (Mardarius) is MISSING in 01g base!
-        # I MUST ADD IT.
-        pass # Placeholder to remind myself to fix this
+        """
+        Resolves the final closing prayer of the Midnight Office based on the day.
+        Citation: Dolnytsky Part I Lines 100-110 (Midnight Office Variants)
         
-        variant = context.get("midnight_type", "daily")
-        key = self.midnight_logic.get("prayer_map", {}).get(variant, "horologion.prayer_mardarius")
-        return {"type": "prayer", "ref_key": key}
+        - Weekday (Daily): Prayer of St. Mardarius
+        - Saturday: Prayer of St. Eustratius
+        - Sunday: Prayer to the Holy Trinity
+        """
+        day_of_week = context.get("day_of_week", 1)  # Default to Monday (1)
+        
+        if day_of_week == 0:  # Sunday
+            return {"type": "prayer", "ref_key": "horologion.prayer_holy_trinity_all_creating"}
+        elif day_of_week == 6:  # Saturday
+            return {"type": "prayer", "ref_key": "horologion.prayer_eustratius"}
+        else:  # Daily (Mon-Fri)
+            return {"type": "prayer", "ref_key": "horologion.prayer_mardarius"}
 
 
+    @liturgical_source(dolnytsky="Part III, Line 779")
     def resolve_royal_psalms(self, context, rubrics, hour=1):
         feast = self._identify_royal_feast(context)
         
@@ -270,6 +194,7 @@ class HoursMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part III, Line 779")
     def resolve_royal_stichera(self, context, rubrics, hour=1):
         feast = self._identify_royal_feast(context)
         base_key = f"royal.{feast}.hour_{hour}.idiomelon"
@@ -287,6 +212,7 @@ class HoursMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part III, Line 779")
     def resolve_royal_readings(self, context, rubrics, hour=1):
         feast = self._identify_royal_feast(context)
         base_key = f"royal.{feast}.hour_{hour}"
@@ -303,6 +229,7 @@ class HoursMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part III, Line 779")
     def resolve_royal_troparia(self, context, rubrics, hour=1):
         """
         No specific daily troparia in Royal Hours. Handled by Idiomela.
@@ -311,6 +238,7 @@ class HoursMixin:
         return {"type": "sequence", "components": []}
 
 
+    @liturgical_source(dolnytsky="Part III, Line 779")
     def resolve_royal_kontakion(self, context, rubrics, hour=1):
         feast = self._identify_royal_feast(context)
         return {
@@ -470,6 +398,7 @@ class HoursMixin:
     # ref: Dolnytsky Part I (Litya)
 
 
+    @liturgical_source(dolnytsky="Part III, Line 760")
     def check_royal_hours_trigger(self, context):
         """
         Implements Logic Gate A7: Royal Hours Trigger.
@@ -548,3 +477,14 @@ class HoursMixin:
     # =========================================================================
     # VESPERS OVERRIDES (Added Explicitly 2026-02-10)
     # =========================================================================
+
+
+    @liturgical_source(dolnytsky="Part III, Line 797")
+    def resolve_typika_kontakia(self, context):
+        """
+        Typika: Kontakia order
+        """
+        return {
+            "type": "typika_kontakia_stack",
+            "order": ["temple", "day", "saint", "glory_with_the_saints", "both_now_undisputed_intercessor"]
+        }

@@ -232,15 +232,41 @@ class CommonResolverMixin:
 
     def resolve_vigil_polyeleos(self, context, rubrics=None):
         """
-        Retrieves the Polyeleos components for a Vigil service.
-        Included to satisfy test_all_night_vigil.py.
+        Gap 2.7: Vigil Polyeleos Logic
+        Citation: Dolnytsky Part I (Order of Vigil), Part IV (Triodion).
+        
+        Retrieves the Polyeleos components for a Vigil or Festive Matins.
+        - Psalms 134/135
+        - Psalm 136 (if specified by Triodion)
+        - Megalynarion (if Rank <= 3)
+        - Resurrectional Evlogitaria (if Sunday, and not a Lord's Feast)
         """
-        # Part I - Psalms 134/135
-        comps = [{"type": "psalms", "ref_key": "polyeleos_psalms"}]
-        # Part II - Megalynarion calculation
-        has_megalynarion = context.get("rank", 5) <= 2
+        comps = [{"type": "psalms", "ref_key": "horologion.polyeleos_psalms", "note": "Psalms 134 & 135"}]
+        
+        # 1. Triodion Addition (By the Waters of Babylon)
+        if context.get("variables", {}).get("matins_polyeleos_add") == "psalm_136_waters_of_babylon":
+            comps.append({"type": "psalms", "ref_key": "horologion.psalm_136_waters_of_babylon", "note": "Psalm 136"})
+            
+        # 2. Megalynarion
+        rank = context.get("rank", 5)
+        has_megalynarion = rank <= 3
         if has_megalynarion:
-            comps.append({"type": "megalynarion", "source": context.get("feast_id", "saint")})
+            source = "feast" if rank <= 2 else "saint"
+            feast_id = context.get("feast_id", "saint")
+            if source == "saint" and context.get("saints"):
+                 feast_id = context.get("saints")[0].get("id", "saint")
+            comps.append({
+                 "type": "megalynarion", 
+                 "source": source,
+                 "ref_key": f"menaion.{feast_id}.megalynarion"
+            })
+            
+        # 3. Resurrectional Evlogitaria
+        is_sunday = context.get("day_of_week") == 0 or context.get("is_sunday_vigil", False)
+        paradigm = context.get("paradigm", "")
+        if is_sunday and paradigm != "p_feast_lord":
+            comps.append({"type": "evlogitaria", "ref_key": "horologion.resurrectional_evlogitaria"})
+            
         return {"type": "polyeleos_stack", "components": comps}
 
 
@@ -1075,9 +1101,10 @@ class CommonResolverMixin:
         if is_sunday:
              return {"type": "sessional_group", "id": f"sessional_resurrection_tone_{tone}_set_{num}"}
              
-        if context.get("season") == "lent":
+        if context.get("season") == "lent" and not is_sunday:
              # Lenten logic (Triodion sessional)
-             return {"type": "sessional_group", "id": f"sessional_triodion_set_{num}"}
+             # Citation: Dolnytsky IV:320
+             return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
              
         if rank <= 3:
              # Feast Logic

@@ -3,7 +3,7 @@
     "filename": "02b_03_november.json",
     "version": "2.1 (Standardized Keys)",
     "last_updated": "2026-01-26",
-    "authority": "Dolnytsky Typikon Part III (November)",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part III (November)",
     "scope": "Fixed Feast Logic for November"
   },
   "month_settings": {
@@ -15,11 +15,18 @@
         "source_ref": "dolnytsky_part3_nov_8",
         "base_template": "CASE_06",
         "variables": {
-          "vespers_readings": ["joshua_5", "judges_6", "isaiah_14"],
+          "vespers_readings": [
+            "joshua_5",
+            "judges_6",
+            "isaiah_14"
+          ],
           "litiya_stichera": "michael_litiya",
           "matins_gospel": "matthew_13_24_30",
           "liturgy_entrance": "entrance_angels_spirits",
-          "liturgy_readings": ["hebrews_2_2_10", "luke_10_16_21"],
+          "liturgy_readings": [
+            "hebrews_2_2_10",
+            "luke_10_16_21"
+          ],
           "communion_hymn": "making_angels_spirits"
         }
       },
@@ -29,10 +36,17 @@
         "source_ref": "dolnytsky_part3_nov_12",
         "base_template": "CASE_06",
         "variables": {
-          "vespers_readings": ["wisdom_4", "proverbs_10", "wisdom_5"],
+          "vespers_readings": [
+            "wisdom_4",
+            "proverbs_10",
+            "wisdom_5"
+          ],
           "litiya_stichera": "josaphat_litiya",
           "matins_gospel": "john_10_9_16",
-          "liturgy_readings": ["hebrews_4_14_5_6", "john_10_9_16"],
+          "liturgy_readings": [
+            "hebrews_4_14_5_6",
+            "john_10_9_16"
+          ],
           "communion_hymn": "righteous_memory"
         }
       },
@@ -53,7 +67,10 @@
         "rank": "rank_simple_6",
         "source_ref": "dolnytsky_part3_nov_15",
         "base_template": "CASE_02",
-        "system_flags": { "fast_period_start": "advent", "fast_level": "simple" }
+        "system_flags": {
+          "fast_period_start": "advent",
+          "fast_level": "simple"
+        }
       },
       "16": {
         "title_key": "menaion.nov_16.matthew_evangelist",
@@ -67,9 +84,22 @@
         "period": "feast",
         "source_ref": "dolnytsky_part3_nov_21",
         "base_template": "CASE_14",
-        "variants": [ { "condition": { "day_of_week": [0] }, "base_template": "CASE_13" } ],
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_13"
+          }
+        ],
         "variables": {
-          "vespers_readings": ["exodus_40", "1_kings_8", "ezekiel_43"],
+          "vespers_readings": [
+            "exodus_40",
+            "1_kings_8",
+            "ezekiel_43"
+          ],
           "litiya_stichera": "entrance_litiya",
           "matins_gospel": "luke_1_39_49_56",
           "liturgy_antiphons": "typical_psalms_refrain_theotokos",
@@ -91,9 +121,16 @@
         "source_ref": "dolnytsky_part3_nov_30",
         "base_template": "CASE_06",
         "variables": {
-          "vespers_readings": ["1_peter_1", "1_peter_2", "1_peter_4"],
+          "vespers_readings": [
+            "1_peter_1",
+            "1_peter_2",
+            "1_peter_4"
+          ],
           "matins_gospel": "matthew_4_18_23",
-          "liturgy_readings": ["1_corinthians_4_9_16", "john_1_35_51"],
+          "liturgy_readings": [
+            "1_corinthians_4_9_16",
+            "john_1_35_51"
+          ],
           "communion_hymn": "their_sound_has_gone_forth"
         }
       }

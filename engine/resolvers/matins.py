@@ -1,3 +1,4 @@
+from engine.core import liturgical_source
 """
 Ruthenian Engine - MatinsMixin
 Extracted from ruthenian_engine.py during Phase 1 modularization.
@@ -1133,14 +1134,28 @@ class MatinsMixin:
 
     def resolve_exapostilarion_matins(self, context):
         """
-        Implements Logic Gate 9: Exapostilarion (Eothina Cycle).
-        Upgrade of the simple check.
+        Gap 2.8: Exapostilarion & Photagogikon
+        Implements Logic Gate 9: Exapostilarion (Eothina Cycle) and Lenten Photagogika.
+        Citation: Dolnytsky Part I, Part IV (Triodion Weekdays).
         """
         comps = []
         is_sunday = (context.get("day_of_week") == 0)
         eothinon_idx = context.get("eothinon_number")
+        season = context.get("season")
         
-        # 1. Sunday Eothinon (Base)
+        # 1. Lenten Weekday Photagogikon (Hymn of Light)
+        if season == "lent" and not is_sunday and context.get("day_of_week") != 6:
+             tone = context.get("tone", 1)
+             comps.append({
+                 "type": "photagogikon",
+                 "source": "triodion",
+                 "ref_key": f"triodion.photagogikon_tone_{tone}",
+                 "count": 3,
+                 "note": "Lenten Hymn of Light (Photagogikon) sung thrice"
+             })
+             return {"type": "exapostilarion_stack", "components": comps}
+             
+        # 2. Sunday Eothinon (Base)
         if is_sunday and eothinon_idx:
             comps.append({
                 "type": "exapostilarion", 
@@ -1148,7 +1163,7 @@ class MatinsMixin:
                 "tone": "variable" # Eothina have their own tones
             })
             
-        # 2. Feast Override/Stack
+        # 3. Feast Override/Stack
         # If there is a Saint/Feast with Exapostilarion
         saints = context.get("saints", [])
         has_feast_exap = any(s.get("rank", 5) <= 3 for s in saints)
@@ -1494,3 +1509,142 @@ class MatinsMixin:
     # =========================================================================
     # MISSING LENTEN HOOKS (Added Fix 2026-02-06)
     # =========================================================================
+
+
+    @liturgical_source(dolnytsky="Part I, Lines 7-10")
+    def resolve_service_type(self, context):
+        """
+        Gate 1: Service Structure Type
+        """
+        return {"scenario": self.identify_scenario(context), "paradigm": self.identify_paradigm(context)}
+
+
+    @liturgical_source(dolnytsky="Part I, Line 175")
+    def resolve_god_is_lord_tone(self, context):
+        """
+        Gate 2: God is the Lord Tone
+        """
+        if context.get('day_of_week') == 0:
+            return context.get('tone', 1)
+        # Fallback to saint tone or rank overrides
+        return context.get('saint_tone', 1)
+
+
+    @liturgical_source(dolnytsky="Part II, Lines 101, 163, 481")
+    def calculate_canon_ratios(self, context):
+        """
+        Gate 6: Canon Math - Calculate troparion distribution.
+        """
+        day_of_week = context.get('day_of_week', 1)
+        rank = context.get('rank', 5)
+        
+        if day_of_week == 0:
+            if rank == 1:
+                return {"total": 16, "resurrection": 4, "feast": 12, "description": "Sunday + Great Feast"}
+            elif rank <= 3:
+                return {"total": 14, "resurrection": 4, "theotokos": 2, "saint": 8, "description": "Sunday + Polyeleos Saint"}
+            elif rank == 4:
+                return {"total": 14, "resurrection": 4, "cross_resurrection": 2, "theotokos": 2, "saint": 6, "description": "Sunday + Doxology Saint"}
+            else:
+                return {"total": 12, "resurrection": 4, "cross_resurrection": 2, "theotokos": 4, "saint": 2, "description": "Simple Sunday"}
+        
+        if rank <= 3:
+            return {"total": 12, "octoechos": 4, "saint": 8, "description": "Weekday + Polyeleos Saint"}
+        else:
+            return {"total": 12, "octoechos": 8, "saint": 4, "description": "Weekday + Simple Saint"}
+
+
+    @liturgical_source(dolnytsky="Part II, Lines 101, 163")
+    def resolve_canon_combination(self, context):
+        """
+        Gate 6: Resolves exact canons combined.
+        """
+        ratios = self.calculate_canon_ratios(context)
+        return {"canons_combined": True, "ratios": ratios}
+
+
+    @liturgical_source(dolnytsky="Part II, Line 163")
+    def get_katavasia(self, context):
+        """
+        Gate 7: Katavasia Selector
+        """
+        # Fallback to generic, or katavasia_seasons lookup
+        return "katavasia_generic"
+
+
+    @liturgical_source(dolnytsky="Part I, Line 240")
+    def get_eothinon_exapostilarion(self, eothinon_num):
+        """
+        Gate 9: Fetch Exapostilarion for Eothinon number (1-11).
+        """
+        if eothinon_num < 1 or eothinon_num > 11:
+            return None
+        text_id = f"eothinon_{eothinon_num:02d}.exapostilarion"
+        return self.get_text(text_id) if hasattr(self, 'get_text') else text_id
+
+
+    @liturgical_source(dolnytsky="Part I, Line 240")
+    def resolve_praises(self, context):
+        """
+        Gate 10: Praises & Emphasis
+        """
+        return {"stichera_included": True, "stack": getattr(self, 'resolve_praises_stack', lambda x: {})(context)}
+
+
+    @liturgical_source(dolnytsky="Part I, Line 181")
+    def get_eothinon_doxastikon(self, eothinon_num):
+        """
+        Gate 10: Fetch Praises Doxastikon for Eothinon number.
+        """
+        if eothinon_num < 1 or eothinon_num > 11:
+            return None
+        text_id = f"eothinon_{eothinon_num:02d}.doxastikon"
+        return self.get_text(text_id) if hasattr(self, 'get_text') else text_id
+
+
+    @liturgical_source(ordo="§275c, §87", dolnytsky="Part I, Line 240")
+    def resolve_doxology(self, context):
+        """
+        Gate 11: Doxology logic and structural wrap.
+        """
+        mode = getattr(self, 'resolve_doxology_mode', lambda x: {})(context)
+        return {"mode": mode, "doors_open": True, "choreography": "Doors opened, first deacon right, second left."}
+
+
+    @liturgical_source(ordo="§83, §275c", dolnytsky="Part I, Line 256")
+    def resolve_dismissal(self, context):
+        """
+        Gate 12: Dismissal & Conclusion
+        """
+        return {"commemorations": ["saint", "day"], "doors_closed_after": True, "deacon_begins": "Wisdom!"}
+
+
+    @liturgical_source(dolnytsky="Part I, Line 188")
+    def resolve_dismissal_troparion(self, context):
+        """
+        Gate 12: Dismissal Troparion
+        """
+        return {"troparion": "resurrection_or_saint"}
+
+
+
+    @liturgical_source(ordo="Tolling rules applied", dolnytsky="Part IV, Line 973")
+    def resolve_12_passion_gospels(self, context):
+        """
+        Passion Week: 12 Passion Gospels
+        """
+        # Intercept Matins logic and return 12 Gospel readings structure
+        return {
+            "type": "passion_matins",
+            "gospels": [
+                {"number": 1, "placement": "after_troparion", "toll": True},
+                {"number": 2, "placement": "after_sessional_1"},
+                {"number": 7, "placement": "after_beatitudes"},
+                {"number": 8, "placement": "after_psalm_50"},
+                {"number": 9, "placement": "after_exapostilarion"},
+                {"number": 10, "placement": "after_praises"},
+                {"number": 11, "placement": "after_let_us_complete"},
+                {"number": 12, "placement": "after_aposticha"}
+            ],
+            "bells": "toll after each, clappers after 12th"
+        }

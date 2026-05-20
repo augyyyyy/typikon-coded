@@ -15,11 +15,14 @@ def audit_matins_logic():
     """
     
     base_dir = Path(__file__).parent.parent
-    engine_file = base_dir / "ruthenian_engine.py"
+    engine_dir = base_dir / "engine"
     
-    # Read engine code
-    with open(engine_file, 'r', encoding='utf-8') as f:
-        engine_code = f.read()
+    # Read all engine code
+    engine_code_parts = []
+    for path in engine_dir.rglob("*.py"):
+        with open(path, 'r', encoding='utf-8') as f:
+            engine_code_parts.append(f.read())
+    engine_code = "\n".join(engine_code_parts)
     
     # Define the 13 gates from encyclopedia
     gates = [

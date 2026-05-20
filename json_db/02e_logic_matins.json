@@ -1,165 +1,168 @@
 {
-    "file_metadata": {
-        "filename": "02e_logic_matins.json",
-        "version": "2.0",
-        "description": "Rules engine for Matins: Hymn Stacking, Canon Insertions, Lookahead, Bridegroom Canon, Psalm 50 Intercession, and Passion Gospel Formula.",
-        "authority": "Dolnytsky Typikon Part I, III, IV"
-    },
-    "hymn_stacking": {
-        "sidalen_1": [
-            {
-                "condition": "day_of_week == 0 && rank >= 3",
-                "action": "stack",
-                "components": [
-                    "octoechos_sidalen_1",
-                    "menaion_sidalen_1"
-                ],
-                "note": "Sunday + Polyeleos Saint: Stack Resurrectional and Saint Sidalens"
-            },
-            {
-                "condition": "day_of_week != 0 && rank >= 3",
-                "action": "replace",
-                "target": "menaion_sidalen_1",
-                "note": "Weekday Feasts: Menaion replaces Octoechos"
-            },
-            {
-                "condition": "default",
-                "action": "use_octoechos"
-            }
-        ]
-    },
-    "canon_insertions": {
-        "after_3rd": [
-            {
-                "condition": "rank >= 3",
-                "sequence": [
-                    "horologion.litany_small",
-                    "kontakion_saint",
-                    "ikos_saint",
-                    "sidalen_saint",
-                    "theotokion_saint"
-                ],
-                "note": "Polyeleos/Vigil: Full sequence after Ode 3"
-            }
+  "file_metadata": {
+    "filename": "02e_logic_matins.json",
+    "version": "2.0",
+    "description": "Rules engine for Matins: Hymn Stacking, Canon Insertions, Lookahead, Bridegroom Canon, Psalm 50 Intercession, and Passion Gospel Formula.",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part I, III, IV"
+  },
+  "hymn_stacking": {
+    "sidalen_1": [
+      {
+        "condition": "day_of_week == 0 && rank >= 3",
+        "action": "stack",
+        "components": [
+          "octoechos_sidalen_1",
+          "menaion_sidalen_1"
         ],
-        "after_6th": [
-            {
-                "condition": "rank >= 3",
-                "sequence": [
-                    "horologion.litany_small",
-                    "kontakion_feast",
-                    "ikos_feast"
-                ],
-                "note": "Polyeleos/Vigil: Feast/Season Kontakion moves to Ode 6"
-            }
-        ]
-    },
-    "sat_matins_lookahead": {
-        "rules": [
-            {
-                "condition": "day_of_week == 6 && rank >= 3",
-                "target_slot": "praises_both_now",
-                "action": "use_resurrectional_theotokion_next_tone",
-                "note": "Saturday Matins with Polyeleos: 'Both Now' is NOT from Menaion, but next Sunday's Tone."
-            }
-        ]
-    },
-    "bridegroom_canon_type": {
-        "source_ref": "Dolnytsky IV:558-565",
-        "description": "Determines whether Bridegroom Matins canon is a full triodion or a diodion (two-ode), based on the day of Holy Week.",
-        "rules": [
-            {
-                "condition": "holy_week_day == 'Monday'",
-                "canon_type": "triodion",
-                "odes": "all_scheduled",
-                "source_book": "triodion",
-                "suppress_menaion": true,
-                "suppress_octoechos": true,
-                "note": "Holy Monday: full triodion canon from the Holy Week Triodion proper."
-            },
-            {
-                "condition": "holy_week_day == 'Tuesday'",
-                "canon_type": "diodion",
-                "odes": [8, 9],
-                "source_book": "triodion",
-                "suppress_menaion": true,
-                "suppress_octoechos": true,
-                "note": "Holy Tuesday: diodion — only Odes 8 and 9. This is the distinguishing rubric for Tuesday (Dolnytsky IV:561)."
-            },
-            {
-                "condition": "holy_week_day == 'Wednesday'",
-                "canon_type": "triodion",
-                "odes": "all_scheduled",
-                "source_book": "triodion",
-                "suppress_menaion": true,
-                "suppress_octoechos": true,
-                "note": "Holy Wednesday: full triodion canon from the Holy Week Triodion proper."
-            }
-        ]
-    },
-    "psalm_50_intercession": {
-        "source_ref": "Dolnytsky IV:210",
-        "description": "Determines the intercession verse sung at Glory after Psalm 50 at Lenten Matins.",
-        "rules": [
-            {
-                "condition": "rank >= 4",
-                "text_key": "triodion.psalm_50_intercession_saint",
-                "note": "Polyeleos or Vigil saint: 'Glory: Through the prayers of N., O Merciful One, blot out the multitude of my transgressions.'"
-            },
-            {
-                "condition": "rank < 4",
-                "text_key": "triodion.psalm_50_intercession_apostles",
-                "note": "Default (no Polyeleos): 'Glory: Through the prayers of the Holy Apostles, O Merciful One, blot out the multitude of my transgressions.'"
-            }
-        ]
-    },
-    "passion_gospel_formula": {
-        "source_ref": "Dolnytsky IV:635 - substitution formulas for Great Friday Passion Gospels",
-        "description": "Replaces standard Gospel acclamations with Passion-specific texts for all 12 Passion Gospels.",
-        "before_gospel": {
-            "standard": "Glory to Thee, O Lord, glory to Thee.",
-            "passion_replacement": "Glory to Thy Passion, O Lord, glory to Thee.",
-            "ref_key": "triodion.glory_thy_passion"
-        },
-        "after_gospel": {
-            "standard": "Glory to Thee, O Lord, glory to Thee.",
-            "passion_replacement": "Glory to Thy long-suffering, O Lord, glory to Thee.",
-            "ref_key": "triodion.glory_thy_longsuffering"
-        },
-        "special_note": "After the 12th Gospel, bells cease and only wooden clappers are used until the Resurrection (Dolnytsky IV:653)."
-    },
-    "tomb_matins_encomia_stations": {
-        "source_ref": "Dolnytsky IV: Great Saturday Matins — Psalm 118 Stations",
-        "description": "Divides Psalm 118 (Kathisma 17) into three stations with Encomia stichera interspersed.",
-        "stations": [
-            {
-                "station": 1,
-                "psalm_verses": "1-72",
-                "encomia_count": 72,
-                "ref_key": "triodion.encomia_station_1",
-                "note": "First Stasis — Encomia I"
-            },
-            {
-                "station": 2,
-                "psalm_verses": "73-131",
-                "encomia_count": 59,
-                "ref_key": "triodion.encomia_station_2",
-                "note": "Second Stasis — Encomia II"
-            },
-            {
-                "station": 3,
-                "psalm_verses": "132-176",
-                "encomia_count": 44,
-                "ref_key": "triodion.encomia_station_3",
-                "note": "Third Stasis — Encomia III, with Theotokion and Trisagion at end"
-            }
+        "note": "Sunday + Polyeleos Saint: Stack Resurrectional and Saint Sidalens"
+      },
+      {
+        "condition": "day_of_week != 0 && rank >= 3",
+        "action": "replace",
+        "target": "menaion_sidalen_1",
+        "note": "Weekday Feasts: Menaion replaces Octoechos"
+      },
+      {
+        "condition": "default",
+        "action": "use_octoechos"
+      }
+    ]
+  },
+  "canon_insertions": {
+    "after_3rd": [
+      {
+        "condition": "rank >= 3",
+        "sequence": [
+          "horologion.litany_small",
+          "kontakion_saint",
+          "ikos_saint",
+          "sidalen_saint",
+          "theotokion_saint"
         ],
-        "post_encomia": [
-            "triodion.evlogitaria_resurrection",
-            "horologion.litany_small",
-            "octoechos.hypakoe",
-            "octoechos.anabathmoi_tone5_antiphon1",
-            "triodion.prokeimenon_great_saturday"
-        ]
-    }
+        "note": "Polyeleos/Vigil: Full sequence after Ode 3"
+      }
+    ],
+    "after_6th": [
+      {
+        "condition": "rank >= 3",
+        "sequence": [
+          "horologion.litany_small",
+          "kontakion_feast",
+          "ikos_feast"
+        ],
+        "note": "Polyeleos/Vigil: Feast/Season Kontakion moves to Ode 6"
+      }
+    ]
+  },
+  "sat_matins_lookahead": {
+    "rules": [
+      {
+        "condition": "day_of_week == 6 && rank >= 3",
+        "target_slot": "praises_both_now",
+        "action": "use_resurrectional_theotokion_next_tone",
+        "note": "Saturday Matins with Polyeleos: 'Both Now' is NOT from Menaion, but next Sunday's Tone."
+      }
+    ]
+  },
+  "bridegroom_canon_type": {
+    "source_ref": "Dolnytsky IV:558-565",
+    "description": "Determines whether Bridegroom Matins canon is a full triodion or a diodion (two-ode), based on the day of Holy Week.",
+    "rules": [
+      {
+        "condition": "holy_week_day == 'Monday'",
+        "canon_type": "triodion",
+        "odes": "all_scheduled",
+        "source_book": "triodion",
+        "suppress_menaion": true,
+        "suppress_octoechos": true,
+        "note": "Holy Monday: full triodion canon from the Holy Week Triodion proper."
+      },
+      {
+        "condition": "holy_week_day == 'Tuesday'",
+        "canon_type": "diodion",
+        "odes": [
+          8,
+          9
+        ],
+        "source_book": "triodion",
+        "suppress_menaion": true,
+        "suppress_octoechos": true,
+        "note": "Holy Tuesday: diodion — only Odes 8 and 9. This is the distinguishing rubric for Tuesday (Dolnytsky IV:561)."
+      },
+      {
+        "condition": "holy_week_day == 'Wednesday'",
+        "canon_type": "triodion",
+        "odes": "all_scheduled",
+        "source_book": "triodion",
+        "suppress_menaion": true,
+        "suppress_octoechos": true,
+        "note": "Holy Wednesday: full triodion canon from the Holy Week Triodion proper."
+      }
+    ]
+  },
+  "psalm_50_intercession": {
+    "source_ref": "Dolnytsky IV:210",
+    "description": "Determines the intercession verse sung at Glory after Psalm 50 at Lenten Matins.",
+    "rules": [
+      {
+        "condition": "rank >= 4",
+        "text_key": "triodion.psalm_50_intercession_saint",
+        "note": "Polyeleos or Vigil saint: 'Glory: Through the prayers of N., O Merciful One, blot out the multitude of my transgressions.'"
+      },
+      {
+        "condition": "rank < 4",
+        "text_key": "triodion.psalm_50_intercession_apostles",
+        "note": "Default (no Polyeleos): 'Glory: Through the prayers of the Holy Apostles, O Merciful One, blot out the multitude of my transgressions.'"
+      }
+    ]
+  },
+  "passion_gospel_formula": {
+    "source_ref": "Dolnytsky IV:635 - substitution formulas for Great Friday Passion Gospels",
+    "description": "Replaces standard Gospel acclamations with Passion-specific texts for all 12 Passion Gospels.",
+    "before_gospel": {
+      "standard": "Glory to Thee, O Lord, glory to Thee.",
+      "passion_replacement": "Glory to Thy Passion, O Lord, glory to Thee.",
+      "ref_key": "triodion.glory_thy_passion"
+    },
+    "after_gospel": {
+      "standard": "Glory to Thee, O Lord, glory to Thee.",
+      "passion_replacement": "Glory to Thy long-suffering, O Lord, glory to Thee.",
+      "ref_key": "triodion.glory_thy_longsuffering"
+    },
+    "special_note": "After the 12th Gospel, bells cease and only wooden clappers are used until the Resurrection (Dolnytsky IV:653)."
+  },
+  "tomb_matins_encomia_stations": {
+    "source_ref": "Dolnytsky IV: Great Saturday Matins — Psalm 118 Stations",
+    "description": "Divides Psalm 118 (Kathisma 17) into three stations with Encomia stichera interspersed.",
+    "stations": [
+      {
+        "station": 1,
+        "psalm_verses": "1-72",
+        "encomia_count": 72,
+        "ref_key": "triodion.encomia_station_1",
+        "note": "First Stasis — Encomia I"
+      },
+      {
+        "station": 2,
+        "psalm_verses": "73-131",
+        "encomia_count": 59,
+        "ref_key": "triodion.encomia_station_2",
+        "note": "Second Stasis — Encomia II"
+      },
+      {
+        "station": 3,
+        "psalm_verses": "132-176",
+        "encomia_count": 44,
+        "ref_key": "triodion.encomia_station_3",
+        "note": "Third Stasis — Encomia III, with Theotokion and Trisagion at end"
+      }
+    ],
+    "post_encomia": [
+      "triodion.evlogitaria_resurrection",
+      "horologion.litany_small",
+      "octoechos.hypakoe",
+      "octoechos.anabathmoi_tone5_antiphon1",
+      "triodion.prokeimenon_great_saturday"
+    ]
+  }
 }

@@ -1,3 +1,4 @@
+from engine.core import liturgical_source
 """
 Ruthenian Engine - LiturgyMixin
 Extracted from ruthenian_engine.py during Phase 1 modularization.
@@ -246,6 +247,7 @@ class LiturgyMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part II, Trisagion Replacements")
     def resolve_trisagion_type(self, context, rubrics=None):
         """
         Trisagion Type Selection for Liturgy.
@@ -425,6 +427,7 @@ class LiturgyMixin:
         return {"type": "text", "content": "".join(parts)}
 
 
+    @liturgical_source(dolnytsky="Part II, Basil Liturgy")
     def resolve_basil_megalynarion(self, context, rubrics=None):
         """
         Megalynarion for Liturgy of St. Basil.
@@ -466,6 +469,7 @@ class LiturgyMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part II, Communion Cycle")
     def resolve_communion_hymn(self, context, rubrics=None):
         """
         Communion Hymn (Причастен/Koinonikon).
@@ -534,6 +538,7 @@ class LiturgyMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part II, Post-Communion")
     def resolve_post_communion_hymn(self, context, rubrics=None):
         """
         Post-Communion Hymn: "We Have Seen the True Light" replacement.
@@ -589,6 +594,7 @@ class LiturgyMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part IV and Part III, Vesperal Liturgies")
     def resolve_vesperal_liturgy_readings(self, context, rubrics=None):
         """
         Phase 7: Resolve Vesperal Liturgy Readings
@@ -640,6 +646,7 @@ class LiturgyMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part II, Lectionary")
     def resolve_liturgy_readings(self, context, rubrics=None):
         """
         Unified Liturgy Readings Resolution.
@@ -827,6 +834,7 @@ class LiturgyMixin:
         return {"type": "koinonikon_stack", "components": stack}
 
 
+    @liturgical_source(dolnytsky="Part I, Lines 26-28")
     def resolve_reading_ot(self, context, rubrics):
         """
         Resolve Old Testament reading (paremia/prophecy).
@@ -848,6 +856,7 @@ class LiturgyMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part I, Lines 26-28")
     def resolve_reading_epistle(self, context, rubrics):
         """
         Resolve Epistle reading.
@@ -875,6 +884,7 @@ class LiturgyMixin:
         }
 
 
+    @liturgical_source(dolnytsky="Part I, Lines 26-28")
     def resolve_reading_gospel(self, context, rubrics):
         """
         Resolve Gospel reading.
@@ -902,3 +912,20 @@ class LiturgyMixin:
         }
 
     # PHASE 12: ALL-NIGHT VIGIL (EXTREME)
+
+
+    @liturgical_source(dolnytsky="Part II, Line 121 and Appendix Footnote 91")
+    def resolve_beatitudes(self, context):
+        """
+        Gate: Beatitudes (Third Antiphon)
+        """
+        day_of_week = context.get('day_of_week', 0)
+        rank = context.get('rank', 5)
+        
+        if day_of_week == 0:
+            return {"type": "beatitudes", "stichera": [{"source": "octoechos", "count": 4}], "note": "Sunday Beatitudes"}
+            
+        if rank <= 3:
+            return {"type": "beatitudes", "stichera": [{"source": "menaion", "count": 4}], "note": "Festal Beatitudes"}
+            
+        return {"type": "third_antiphon", "note": "Usual Third Antiphon without stichera"}

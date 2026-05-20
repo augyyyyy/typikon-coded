@@ -1,3 +1,4 @@
+from engine.core import liturgical_source
 """
 Ruthenian Engine - VespersMixin
 Extracted from ruthenian_engine.py during Phase 1 modularization.
@@ -870,7 +871,15 @@ class VespersMixin:
             
         if not components:
              day = context.get("day_of_week", 0)
-             if day == 0:
+             season = context.get("season", "ordinary")
+             
+             if season == "lent" and day not in (0, 6):
+                  components = [
+                       {"source": "triodion", "id": "aposticha_idiomelon", "count": 2},
+                       {"source": "octoechos", "id": "aposticha_martyricon", "count": 1},
+                       {"source": "triodion", "id": "aposticha_theotokion", "type": "glory_both_now"}
+                  ]
+             elif day == 0:
                   tone = context.get("tone", 1)
                   components = [
                        {"source": "octoechos", "id": f"aposticha_resurrection_tone_{tone}", "count": 1},
@@ -881,8 +890,22 @@ class VespersMixin:
                        {"source": "octoechos", "id": "aposticha_daily", "count": 3},
                        {"source": "octoechos", "id": "aposticha_theotokion", "type": "glory_both_now"}
                   ]
-                  
         return {
             "type": "aposticha",
             "components": components
+        }
+
+
+    @liturgical_source(dolnytsky="Part IV (Great Friday Entombment)")
+    def resolve_passion_vespers_readings(self, context):
+        """
+        Passion Week: Great Friday Vespers Readings
+        """
+        return {
+            "type": "entombment_readings",
+            "readings": [
+                {"source": "Exodus"},
+                {"source": "Job"},
+                {"source": "Isaiah"}
+            ]
         }

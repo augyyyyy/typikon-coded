@@ -1,16 +1,18 @@
 {
   "file_metadata": {
     "filename": "01i_struct_matins.json",
-    "version": "4.0 (Dolnytsky Encyclopedia Complete)",
-    "last_updated": "2026-01-26",
-    "authority": "Dolnytsky Typikon Part I (Matins) & Part IV (Triodion)",
+    "version": "4.1 (Ordo Cross-Ref)",
+    "last_updated": "2026-05-03",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part I (Matins) & Part IV (Triodion) & Ordo Celebrationis 1944 §74–§96",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
     "scope": "Complete Matins Matrix (Great, Daily, Lenten, Passion, Tomb, Bright)",
-    "description": "Defines the distinct orders of Matins with role-based rubrics derived directly from Dolnytsky."
+    "description": "Defines the distinct orders of Matins with role-based rubrics. Choreographic rubrics cross-referenced to Ordo Celebrationis §-numbers."
   },
   "structures": {
     "great_matins": {
       "title_key": "titles.matins_great",
       "source_ref": "Dolnytsky I: Order of Great Matins",
+      "ordo_ref": "§74–§96",
       "sequence": [
         {
           "id": "matins_opening",
@@ -105,6 +107,7 @@
           "id": "god_is_the_lord",
           "rubric": {
             "title": "God is the Lord",
+            "ordo_ref": "§77",
             "roles": {
               "deacon": "Intone verses before the Icon of Christ.",
               "choir": "Sing the Troparion of the Feast/Saint."
@@ -215,6 +218,7 @@
           "rubric": {
             "title": "Polyeleos or Kathisma 17",
             "source_ref": "Dolnytsky I: Matins (Gate 6)",
+            "ordo_ref": "§78",
             "roles": {
               "priest": "If Polyeleos: Open Holy Doors, Great Censing. If Kathisma 17: Remain in altar.",
               "choir": "Sing Psalms 134-135 (Polyeleos) or Psalms 118-133 (Kathisma 17)."
@@ -232,6 +236,7 @@
           "rubric": {
             "title": "Hypakoe and Anabathmoi",
             "source_ref": "Dolnytsky I: Matins (Gate 5 & 4b)",
+            "ordo_ref": "§78",
             "roles": {
               "choir": "Sing Hypakoe (if Sunday) and Anabathmoi (Antiphons)."
             }
@@ -478,6 +483,7 @@
           "rubric": {
             "title": "Great Doxology Logic",
             "source_ref": "Dolnytsky I: Matins (Gate 11)",
+            "ordo_ref": "§82",
             "roles": {
               "priest": "Great Doxology (Sung) or Small Doxology (Read) depending on rank."
             }
@@ -1466,7 +1472,10 @@
                     "type": "variable_logic",
                     "logic": {
                       "function": "resolve_encomia_station",
-                      "args": { "station": 1, "psalm_range": "1-72" }
+                      "args": {
+                        "station": 1,
+                        "psalm_range": "1-72"
+                      }
                     }
                   }
                 },
@@ -1483,7 +1492,10 @@
                     "type": "variable_logic",
                     "logic": {
                       "function": "resolve_encomia_station",
-                      "args": { "station": 2, "psalm_range": "73-131" }
+                      "args": {
+                        "station": 2,
+                        "psalm_range": "73-131"
+                      }
                     }
                   }
                 },
@@ -1500,7 +1512,10 @@
                     "type": "variable_logic",
                     "logic": {
                       "function": "resolve_encomia_station",
-                      "args": { "station": 3, "psalm_range": "132-176" }
+                      "args": {
+                        "station": 3,
+                        "psalm_range": "132-176"
+                      }
                     }
                   }
                 },
@@ -1514,28 +1529,59 @@
                     "components": [
                       {
                         "id": "evlogitaria",
-                        "rubric": { "note": "Evlogitaria of the Resurrection (Sunday Matins tone)", "source_ref": "Dolnytsky IV" },
-                        "content": { "type": "fixed_ref", "ref_key": "triodion.evlogitaria_resurrection" }
+                        "rubric": {
+                          "note": "Evlogitaria of the Resurrection (Sunday Matins tone)",
+                          "source_ref": "Dolnytsky IV"
+                        },
+                        "content": {
+                          "type": "fixed_ref",
+                          "ref_key": "triodion.evlogitaria_resurrection"
+                        }
                       },
                       {
                         "id": "litany_small_post_encomia",
                         "without_exclamation": false,
-                        "content": { "type": "fixed_ref", "ref_key": "horologion.litany_small" }
+                        "content": {
+                          "type": "fixed_ref",
+                          "ref_key": "horologion.litany_small"
+                        }
                       },
                       {
                         "id": "hypakoe_tomb",
-                        "rubric": { "note": "Hypakoe of the current Octoechos tone", "source_ref": "Dolnytsky IV" },
-                        "content": { "type": "variable_logic", "logic": { "function": "resolve_hypakoe" } }
+                        "rubric": {
+                          "note": "Hypakoe of the current Octoechos tone",
+                          "source_ref": "Dolnytsky IV"
+                        },
+                        "content": {
+                          "type": "variable_logic",
+                          "logic": {
+                            "function": "resolve_hypakoe"
+                          }
+                        }
                       },
                       {
                         "id": "anabathmoi_tone5",
-                        "rubric": { "note": "Anabathmoi — Tone 5 (fixed for Great Saturday)", "source_ref": "Dolnytsky IV" },
-                        "content": { "type": "fixed_ref", "ref_key": "octoechos.anabathmoi_tone5_antiphon1" }
+                        "rubric": {
+                          "note": "Anabathmoi — Tone 5 (fixed for Great Saturday)",
+                          "source_ref": "Dolnytsky IV"
+                        },
+                        "content": {
+                          "type": "fixed_ref",
+                          "ref_key": "octoechos.anabathmoi_tone5_antiphon1"
+                        }
                       },
                       {
                         "id": "prokeimenon_saturday",
-                        "rubric": { "source_ref": "Dolnytsky IV", "roles": { "deacon": "Proclaim the Great Saturday Prokeimenon." } },
-                        "content": { "type": "fixed_ref", "ref_key": "triodion.prokeimenon_great_saturday" }
+                        "rubric": {
+                          "source_ref": "Dolnytsky IV",
+                          "roles": {
+                            "deacon": "Proclaim the Great Saturday Prokeimenon."
+                          }
+                        },
+                        "content": {
+                          "type": "fixed_ref",
+                          "ref_key": "triodion.prokeimenon_great_saturday"
+                        }
                       }
                     ]
                   }
@@ -1571,7 +1617,14 @@
               "logic": {
                 "function": "resolve_tomb_matins_canon",
                 "args": {
-                  "odes": [1, 3, 6, 7, 8, 9],
+                  "odes": [
+                    1,
+                    3,
+                    6,
+                    7,
+                    8,
+                    9
+                  ],
                   "heirmos_twice": true,
                   "source_book": "triodion",
                   "ref_key": "triodion.canon_great_saturday"
@@ -1599,16 +1652,27 @@
               "components": [
                 {
                   "id": "shroud_procession_action",
-                  "content": { "type": "fixed_action", "action": "shroud_procession_around_church" }
+                  "content": {
+                    "type": "fixed_action",
+                    "action": "shroud_procession_around_church"
+                  }
                 },
                 {
                   "id": "shroud_return",
-                  "rubric": { "note": "Return through the Royal Doors. Place shroud on the tetrapod in the center of the church." },
-                  "content": { "type": "fixed_ref", "ref_key": "triodion.shroud_placement_rubric" }
+                  "rubric": {
+                    "note": "Return through the Royal Doors. Place shroud on the tetrapod in the center of the church."
+                  },
+                  "content": {
+                    "type": "fixed_ref",
+                    "ref_key": "triodion.shroud_placement_rubric"
+                  }
                 },
                 {
                   "id": "veneration_troparion",
-                  "content": { "type": "fixed_ref", "ref_key": "triodion.troparion_noble_joseph" }
+                  "content": {
+                    "type": "fixed_ref",
+                    "ref_key": "triodion.troparion_noble_joseph"
+                  }
                 }
               ]
             }
@@ -1633,13 +1697,34 @@
           "content": {
             "type": "sequence",
             "components": [
-              { "type": "fixed_ref", "ref_key": "horologion.blessing_common" },
-              { "type": "fixed_ref", "ref_key": "horologion.trisagion_block" },
-              { "type": "fixed_ref", "ref_key": "horologion.psalm_19" },
-              { "type": "fixed_ref", "ref_key": "horologion.psalm_20" },
-              { "type": "fixed_ref", "ref_key": "horologion.glory_to_holy" },
-              { "type": "fixed_ref", "ref_key": "horologion.hexapsalmos" },
-              { "type": "fixed_ref", "ref_key": "horologion.litany_great" }
+              {
+                "type": "fixed_ref",
+                "ref_key": "horologion.blessing_common"
+              },
+              {
+                "type": "fixed_ref",
+                "ref_key": "horologion.trisagion_block"
+              },
+              {
+                "type": "fixed_ref",
+                "ref_key": "horologion.psalm_19"
+              },
+              {
+                "type": "fixed_ref",
+                "ref_key": "horologion.psalm_20"
+              },
+              {
+                "type": "fixed_ref",
+                "ref_key": "horologion.glory_to_holy"
+              },
+              {
+                "type": "fixed_ref",
+                "ref_key": "horologion.hexapsalmos"
+              },
+              {
+                "type": "fixed_ref",
+                "ref_key": "horologion.litany_great"
+              }
             ]
           }
         },
@@ -1648,7 +1733,10 @@
           "rubric": {
             "source_ref": "Dolnytsky IV:637 — 'Instead of God is the Lord we sing Alleluia in the tone of the troparion'"
           },
-          "content": { "type": "fixed_ref", "ref_key": "triodion.alleluia_passion" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.alleluia_passion"
+          }
         },
         {
           "id": "troparion_glorious_disciples",
@@ -1660,7 +1748,10 @@
               "priest": "During third singing: vest, open Holy Doors, cense, return, sing small litany (without exclamation), process to analogion."
             }
           },
-          "content": { "type": "fixed_ref", "ref_key": "triodion.troparion_glorious_disciples_triple" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.troparion_glorious_disciples_triple"
+          }
         },
         {
           "id": "litany_before_gospel_1",
@@ -1669,7 +1760,10 @@
             "source_ref": "Dolnytsky IV:639 — small litany without exclamation before 1st Gospel",
             "note": "This is the ONLY small litany before a Gospel. Between subsequent Gospels (2-12), no small litany is sung (Dolnytsky IV:634)."
           },
-          "content": { "type": "fixed_ref", "ref_key": "horologion.litany_small" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_small"
+          }
         },
         {
           "id": "gospel_1",
@@ -1700,7 +1794,11 @@
           "content": {
             "type": "antiphonal_sessional",
             "antiphon_group": 1,
-            "antiphons": [1, 2, 3],
+            "antiphons": [
+              1,
+              2,
+              3
+            ],
             "sessional_hymn_num": 1,
             "ref_key": "triodion.passion_antiphons_1_3_sessional_1"
           }
@@ -1708,7 +1806,8 @@
         {
           "id": "gospel_2",
           "content": {
-            "type": "passion_gospel", "gospel_num": 2,
+            "type": "passion_gospel",
+            "gospel_num": 2,
             "pericope": "Matthew 26:1–75",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1719,7 +1818,12 @@
           "id": "antiphon_group_2",
           "content": {
             "type": "antiphonal_sessional",
-            "antiphon_group": 2, "antiphons": [4, 5, 6],
+            "antiphon_group": 2,
+            "antiphons": [
+              4,
+              5,
+              6
+            ],
             "sessional_hymn_num": 2,
             "ref_key": "triodion.passion_antiphons_4_6_sessional_2"
           }
@@ -1727,7 +1831,8 @@
         {
           "id": "gospel_3",
           "content": {
-            "type": "passion_gospel", "gospel_num": 3,
+            "type": "passion_gospel",
+            "gospel_num": 3,
             "pericope": "Matthew 27:1–61",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1738,7 +1843,12 @@
           "id": "antiphon_group_3",
           "content": {
             "type": "antiphonal_sessional",
-            "antiphon_group": 3, "antiphons": [7, 8, 9],
+            "antiphon_group": 3,
+            "antiphons": [
+              7,
+              8,
+              9
+            ],
             "sessional_hymn_num": 3,
             "ref_key": "triodion.passion_antiphons_7_9_sessional_3"
           }
@@ -1746,7 +1856,8 @@
         {
           "id": "gospel_4",
           "content": {
-            "type": "passion_gospel", "gospel_num": 4,
+            "type": "passion_gospel",
+            "gospel_num": 4,
             "pericope": "John 18:28–19:37",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1757,7 +1868,12 @@
           "id": "antiphon_group_4",
           "content": {
             "type": "antiphonal_sessional",
-            "antiphon_group": 4, "antiphons": [10, 11, 12],
+            "antiphon_group": 4,
+            "antiphons": [
+              10,
+              11,
+              12
+            ],
             "sessional_hymn_num": 4,
             "ref_key": "triodion.passion_antiphons_10_12_sessional_4"
           }
@@ -1765,7 +1881,8 @@
         {
           "id": "gospel_5",
           "content": {
-            "type": "passion_gospel", "gospel_num": 5,
+            "type": "passion_gospel",
+            "gospel_num": 5,
             "pericope": "Matthew 27:3–32",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1776,7 +1893,12 @@
           "id": "antiphon_group_5",
           "content": {
             "type": "antiphonal_sessional",
-            "antiphon_group": 5, "antiphons": [13, 14, 15],
+            "antiphon_group": 5,
+            "antiphons": [
+              13,
+              14,
+              15
+            ],
             "sessional_hymn_num": 5,
             "ref_key": "triodion.passion_antiphons_13_15_sessional_5"
           }
@@ -1784,7 +1906,8 @@
         {
           "id": "gospel_6",
           "content": {
-            "type": "passion_gospel", "gospel_num": 6,
+            "type": "passion_gospel",
+            "gospel_num": 6,
             "pericope": "Mark 15:16–41",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1802,11 +1925,17 @@
             "components": [
               {
                 "id": "beatitudes",
-                "content": { "type": "fixed_ref", "ref_key": "triodion.beatitudes_great_friday_9" }
+                "content": {
+                  "type": "fixed_ref",
+                  "ref_key": "triodion.beatitudes_great_friday_9"
+                }
               },
               {
                 "id": "prokeimenon_passion",
-                "content": { "type": "fixed_ref", "ref_key": "triodion.prokeimenon_passion_friday" }
+                "content": {
+                  "type": "fixed_ref",
+                  "ref_key": "triodion.prokeimenon_passion_friday"
+                }
               }
             ]
           }
@@ -1814,7 +1943,8 @@
         {
           "id": "gospel_7",
           "content": {
-            "type": "passion_gospel", "gospel_num": 7,
+            "type": "passion_gospel",
+            "gospel_num": 7,
             "pericope": "Luke 23:32–49",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1827,12 +1957,16 @@
             "source_ref": "Dolnytsky IV:646 — 'Psalm 50 and the eighth Gospel'",
             "note": "No Save O God / Through the Resurrection interpolation here (that belongs to Bridegroom Matins; this is the Passion form)."
           },
-          "content": { "type": "fixed_ref", "ref_key": "horologion.psalm_50" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.psalm_50"
+          }
         },
         {
           "id": "gospel_8",
           "content": {
-            "type": "passion_gospel", "gospel_num": 8,
+            "type": "passion_gospel",
+            "gospel_num": 8,
             "pericope": "Luke 23:44–56",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1854,7 +1988,11 @@
                 "ref_key": "triodion.canon_great_friday",
                 "troparia_count": 12,
                 "heirmos_twice": true,
-                "after_ode_5": ["horologion.litany_small", "triodion.kontakion_great_friday", "triodion.ikos_great_friday"],
+                "after_ode_5": [
+                  "horologion.litany_small",
+                  "triodion.kontakion_great_friday",
+                  "triodion.ikos_great_friday"
+                ],
                 "ode_9_suppress_magnificat": true,
                 "ode_9_suppress_it_is_truly_meet": true,
                 "after_ode_9_katavasia": "horologion.litany_small"
@@ -1867,12 +2005,16 @@
           "rubric": {
             "source_ref": "Dolnytsky IV:647 — 'Exaposteilarion Thy bridal chamber × 3 (with Glory Both now)'"
           },
-          "content": { "type": "fixed_ref", "ref_key": "triodion.exapostilarion_bridal_chamber_3x" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.exapostilarion_bridal_chamber_3x"
+          }
         },
         {
           "id": "gospel_9",
           "content": {
-            "type": "passion_gospel", "gospel_num": 9,
+            "type": "passion_gospel",
+            "gospel_num": 9,
             "pericope": "John 19:25–37",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1884,12 +2026,16 @@
           "rubric": {
             "source_ref": "Dolnytsky IV:648 — 'Stichera of Praises on 4, Glory: one sticheron, Both now: another'"
           },
-          "content": { "type": "fixed_ref", "ref_key": "triodion.praises_great_friday_6" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.praises_great_friday_6"
+          }
         },
         {
           "id": "gospel_10",
           "content": {
-            "type": "passion_gospel", "gospel_num": 10,
+            "type": "passion_gospel",
+            "gospel_num": 10,
             "pericope": "Mark 15:43–47",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1900,26 +2046,43 @@
           "id": "to_thee_belongs_glory",
           "rubric": {
             "source_ref": "Dolnytsky IV:649",
-            "roles": { "priest": "Exclaim 'To Thee belongs glory.'" }
+            "roles": {
+              "priest": "Exclaim 'To Thee belongs glory.'"
+            }
           },
-          "content": { "type": "fixed_ref", "ref_key": "triodion.to_thee_belongs_glory" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.to_thee_belongs_glory"
+          }
         },
         {
           "id": "small_doxology_passion",
-          "rubric": { "source_ref": "Dolnytsky IV:649", "roles": { "reader": "Read the Small Doxology." } },
-          "content": { "type": "fixed_ref", "ref_key": "horologion.doxology_small_read" }
+          "rubric": {
+            "source_ref": "Dolnytsky IV:649",
+            "roles": {
+              "reader": "Read the Small Doxology."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.doxology_small_read"
+          }
         },
         {
           "id": "litany_completion",
           "rubric": {
             "source_ref": "Dolnytsky IV:650 — 'Litany Let us complete... after exclamation — immediately the 11th Gospel'"
           },
-          "content": { "type": "fixed_ref", "ref_key": "horologion.litany_supplication" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_supplication"
+          }
         },
         {
           "id": "gospel_11",
           "content": {
-            "type": "passion_gospel", "gospel_num": 11,
+            "type": "passion_gospel",
+            "gospel_num": 11,
             "pericope": "John 19:38–42",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1931,7 +2094,10 @@
           "rubric": {
             "source_ref": "Dolnytsky IV:651 — 'Aposticha and the 12th Gospel'"
           },
-          "content": { "type": "fixed_ref", "ref_key": "triodion.aposticha_great_friday" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.aposticha_great_friday"
+          }
         },
         {
           "id": "gospel_12",
@@ -1939,7 +2105,8 @@
             "note": "After the 12th Gospel: bells CEASE permanently until the Resurrection. Wooden clappers (bila) used from this point (Dolnytsky IV:634)."
           },
           "content": {
-            "type": "passion_gospel", "gospel_num": 12,
+            "type": "passion_gospel",
+            "gospel_num": 12,
             "pericope": "Matthew 27:62–66",
             "formula_before": "triodion.glory_thy_passion",
             "formula_after": "triodion.glory_thy_longsuffering",
@@ -1949,23 +2116,37 @@
         },
         {
           "id": "good_thing_passion",
-          "rubric": { "source_ref": "Dolnytsky IV:652" },
-          "content": { "type": "fixed_ref", "ref_key": "horologion.it_is_a_good_thing" }
+          "rubric": {
+            "source_ref": "Dolnytsky IV:652"
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.it_is_a_good_thing"
+          }
         },
         {
           "id": "trisagion_passion",
-          "content": { "type": "fixed_ref", "ref_key": "horologion.trisagion_our_father" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.trisagion_our_father"
+          }
         },
         {
           "id": "troparion_thou_hast_redeemed",
           "rubric": {
             "source_ref": "Dolnytsky IV:652 — Troparion 'Thou hast redeemed' (Tone 2, no theotokion)"
           },
-          "content": { "type": "fixed_ref", "ref_key": "triodion.troparion_thou_hast_redeemed" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.troparion_thou_hast_redeemed"
+          }
         },
         {
           "id": "litany_have_mercy_passion",
-          "content": { "type": "fixed_ref", "ref_key": "horologion.litany_have_mercy" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_have_mercy"
+          }
         },
         {
           "id": "dismissal_great_friday",
@@ -1973,11 +2154,13 @@
             "source_ref": "Dolnytsky IV:653 — Intermediate dismissal (not combined with 1st Hour)",
             "note": "'Wisdom!' / 'More honorable…' / 'Glory to Thee, O Christ our God, our hope, glory to Thee.' The 1st Hour is NOT attached."
           },
-          "content": { "type": "fixed_ref", "ref_key": "horologion.dismissal_intermediate_great_friday" }
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.dismissal_intermediate_great_friday"
+          }
         }
       ]
     },
-
     "bright_matins": {
       "title_key": "titles.matins_bright",
       "source_ref": "Dolnytsky IV: Resurrection Matins",

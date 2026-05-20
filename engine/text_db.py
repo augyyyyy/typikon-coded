@@ -107,8 +107,6 @@ class TextDBMixin:
         
         if not os.path.exists(assets_base):
             print(f"Warning: Assets directory not found: {assets_base}")
-            print(f"Falling back to bulk files...")
-            self._load_bulk_files()
             return
         
         # Recursively load all JSON assets
@@ -137,49 +135,7 @@ class TextDBMixin:
         print(f"Engine: Loaded {count} assets from {assets_base}")
 
 
-    def _load_bulk_files(self):
-        """Fallback: Load from legacy bulk JSON files."""
-        try:
-            supplement_db = self._load_text_db("text_horologion_supplement.json")
-            if supplement_db: self.text_db.update(supplement_db)
-        except:
-            self.log("Warning: text_horologion_supplement.json not found")
-            
-        try:
-            octoechos_db = self._load_text_db("text_octoechos.json")
-            if octoechos_db: self.text_db.update(octoechos_db)
-        except:
-            self.log("Warning: text_octoechos.json not found")
 
-        try:
-            eothinon_db = self._load_text_db("text_eothinon.json")
-            if eothinon_db: self.text_db.update(eothinon_db)
-        except:
-            self.log("Warning: text_eothinon.json not found")
-
-        try:
-            triodion_db = self._load_text_db("text_triodion.json")
-            if triodion_db: self.text_db.update(triodion_db)
-        except:
-            self.log("Warning: text_triodion.json not found")
-
-        try:
-            pentecostarion_db = self._load_text_db("text_pentecostarion.json")
-            if pentecostarion_db: self.text_db.update(pentecostarion_db)
-        except:
-            self.log("Warning: text_pentecostarion.json not found")
-
-        try:
-            horologion_db = self._load_text_db("text_horologion.json")
-            if horologion_db: self.text_db.update(horologion_db)
-        except:
-            self.log("Warning: text_horologion.json not found")
-
-        try:
-            liturgikon_db = self._load_text_db("text_liturgikon.json")
-            if liturgikon_db: self.text_db.update(liturgikon_db)
-        except:
-            self.log("Warning: text_liturgikon.json not found")
 
 
     def get_text(self, text_id, logic_requirement=None, context=None):

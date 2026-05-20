@@ -44,7 +44,7 @@ class RuthenianEngine(
     """
     Ruthenian Typikon Engine — Byzantine Rite liturgical constraint-logic engine.
     
-    Dynamically generates service texts according to the Dolnytsky Typikon (1899).
+    Dynamically generates service texts according to the Lviv (Dolnytsky) Typikon (2010).
     This class composes all functionality from domain-specific mixin modules.
     
     Entry points:
