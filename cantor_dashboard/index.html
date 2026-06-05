@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantor Dashboard — Liturgical Book Library & Date Resolver</title>
+    <!-- Google Fonts: Cinzel & Playfair for headings, Cardo for body, Inter for UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <div class="sidebar-header">
+                <span class="cross-icon">✚</span>
+                <h2>Cantor Dashboard</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" id="nav-btn-calendar" data-target="tab-calendar">
+                    <span class="btn-icon">📅</span> Liturgical Calendar
+                </button>
+                <button class="nav-btn" id="nav-btn-browser" data-target="tab-browser">
+                    <span class="btn-icon">📖</span> Book Browser
+                </button>
+                <button class="nav-btn" id="nav-btn-linter" data-target="tab-linter">
+                    <span class="btn-icon">🔍</span> Linguistic Auditor
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="theme-toggle-btn" class="theme-toggle">
+                    <span class="toggle-icon">🌙</span> Dark Mode
+                </button>
+                <div class="recension-badge">Stamford Recension</div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="app-workspace">
+            
+            <!-- TAB 1: CALENDAR RESOLVER -->
+            <section class="tab-panel active" id="tab-calendar">
+                <div class="panel-header">
+                    <h1>Liturgical Date Resolver</h1>
+                    <p class="subtitle">Query resolved propers, service rubrics, and booklets by date</p>
+                </div>
+
+                <div class="control-row glass-container">
+                    <div class="date-picker-group">
+                        <label for="liturgical-date-input">Select Date:</label>
+                        <input type="date" id="liturgical-date-input" value="2026-05-22">
+                        <button id="resolve-date-btn" class="btn btn-primary">Resolve Date</button>
+                    </div>
+                    
+                    <div class="quick-links">
+                        <span class="quick-links-label">Quick Jumps:</span>
+                        <button class="quick-btn" data-date="2026-02-16">Clean Monday (Lent)</button>
+                        <button class="quick-btn" data-date="2026-04-05">Thomas Sunday (Eastertide)</button>
+                        <button class="quick-btn" data-date="2026-05-22">Today</button>
+                        <button class="quick-btn" data-date="2026-08-15">Dormition Feast</button>
+                    </div>
+                </div>
+
+                <div id="calendar-results" class="calendar-layout">
+                    <!-- Column 1: Context & Logic -->
+                    <div class="layout-column context-col">
+                        <div class="card glass-container context-card">
+                            <h3 class="card-title">Liturgical Context</h3>
+                            <div class="context-loading spinner hidden" id="context-spinner"></div>
+                            <div id="context-content" class="context-data">
+                                <!-- Populated dynamically -->
+                                <p class="placeholder-text">Please resolve a date to load context.</p>
+                            </div>
+                        </div>
+
+                        <div class="card glass-container trace-card">
+                            <h3 class="card-title">Engine Logic Trace</h3>
+                            <div id="trace-content" class="trace-logs scrollable">
+                                <p class="placeholder-text">No active trace logs.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Documents (Booklet & Digest) -->
+                    <div class="layout-column document-col">
+                        <div class="card glass-container document-card">
+                            <div class="document-tabs">
+                                <button class="doc-tab-btn active" data-doc-target="doc-booklet">Cantor Service Booklet</button>
+                                <button class="doc-tab-btn" data-doc-target="doc-digest">Typikon Digest</button>
+                            </div>
+                            
+                            <div class="document-content-wrapper">
+                                <!-- Booklet View -->
+                                <div class="doc-panel active" id="doc-booklet">
+                                    <div class="doc-controls">
+                                        <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="booklet-content">📋 Copy Booklet Text</button>
+                                        <button class="btn btn-secondary btn-sm print-btn" id="print-booklet-btn">🖨️ Print View</button>
+                                    </div>
+                                    <div id="booklet-content" class="document-view book-style scrollable">
+                                        <p class="placeholder-text">Propers and service texts will load here...</p>
+                                    </div>
+                                </div>
+
+                                <!-- Digest View -->
+                                <div class="doc-panel" id="doc-digest">
+                                    <div class="doc-controls">
+                                        <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="digest-content">📋 Copy Digest Markdown</button>
+                                    </div>
+                                    <div id="digest-content" class="document-view digest-style scrollable">
+                                        <p class="placeholder-text">Liturgical rubrics and structural instructions will load here...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: BOOK BROWSER & DIFF VIEWER -->
+            <section class="tab-panel" id="tab-browser">
+                <div class="panel-header">
+                    <h1>Liturgical Book Browser</h1>
+                    <p class="subtitle">Inspect individual texts, terminology updates, and pronoun standardizations</p>
+                </div>
+
+                <div class="browser-layout">
+                    <!-- Left: Books & Keys List -->
+                    <div class="browser-sidebar glass-container">
+                        <div class="sidebar-search">
+                            <input type="text" id="key-search-input" placeholder="Search keys or content...">
+                        </div>
+                        
+                        <div class="select-group">
+                            <label for="book-select">Select Liturgical Book:</label>
+                            <select id="book-select">
+                                <option value="">Loading books...</option>
+                            </select>
+                        </div>
+
+                        <div class="key-list-wrapper">
+                            <div class="key-list-header">
+                                <span>Keys (<span id="key-count">0</span>)</span>
+                            </div>
+                            <ul id="key-list" class="key-list scrollable">
+                                <!-- Populated dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right: Side-by-Side Diff -->
+                    <div class="browser-viewer">
+                        <div class="viewer-header glass-container">
+                            <div class="key-info">
+                                <span class="badge" id="viewer-book-badge">Book</span>
+                                <h3 id="viewer-key-id">Select a key to view</h3>
+                            </div>
+                            <div class="viewer-actions">
+                                <button class="btn btn-secondary btn-sm" id="copy-raw-btn">📋 Copy Raw</button>
+                                <button class="btn btn-primary btn-sm" id="copy-clean-btn">✨ Copy Clean Text</button>
+                            </div>
+                        </div>
+
+                        <div class="diff-container">
+                            <!-- Left Card: Original Draft -->
+                            <div class="diff-card original glass-container">
+                                <div class="diff-card-header">
+                                    <h4>Original Draft (Draft Recension)</h4>
+                                    <span class="status-indicator deleted">Draft</span>
+                                </div>
+                                <div class="diff-card-body book-style scrollable" id="diff-original-content">
+                                    <p class="placeholder-text">Select a key to load original draft content.</p>
+                                </div>
+                            </div>
+
+                            <!-- Right Card: Standardized Stamford -->
+                            <div class="diff-card standardized glass-container">
+                                <div class="diff-card-header">
+                                    <h4>Standardized Text (Stamford Divine Office)</h4>
+                                    <span class="status-indicator inserted">Approved Standard</span>
+                                </div>
+                                <div class="diff-card-body book-style scrollable" id="diff-standardized-content">
+                                    <p class="placeholder-text">Select a key to load approved Stamford text.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: LINGUISTIC AUDITOR -->
+            <section class="tab-panel" id="tab-linter">
+                <div class="panel-header">
+                    <h1>Linguistic Auditor & Linter Report</h1>
+                    <p class="subtitle">Real-time terminology drift analysis and database correction metrics</p>
+                </div>
+
+                <div class="linter-stats-row">
+                    <div class="stat-card glass-container" id="stat-total">
+                        <div class="stat-num">0</div>
+                        <div class="stat-label">Total Deviations Detected</div>
+                    </div>
+                    <div class="stat-card glass-container" id="stat-terminology">
+                        <div class="stat-num">0</div>
+                        <div class="stat-label">Terminology Drifts</div>
+                    </div>
+                    <div class="stat-card glass-container" id="stat-pronoun">
+                        <div class="stat-num">0</div>
+                        <div class="stat-label">Deity Pronoun Capitalizations</div>
+                    </div>
+                    <div class="stat-card glass-container" id="stat-hieratic">
+                        <div class="stat-num">0</div>
+                        <div class="stat-label">Holy Objects Capitalization</div>
+                    </div>
+                </div>
+
+                <div class="linter-layout">
+                    <!-- Left Column: File Issue Breakdown -->
+                    <div class="card glass-container file-list-card">
+                        <h3 class="card-title">Database File Breakdown</h3>
+                        <div class="scrollable-wrapper">
+                            <ul id="linter-file-list" class="linter-file-list scrollable">
+                                <!-- Populated dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Issue Details -->
+                    <div class="card glass-container issue-details-card">
+                        <h3 class="card-title">Deviations in Selected File</h3>
+                        <div id="linter-issue-details" class="issue-details-list scrollable">
+                            <p class="placeholder-text">Select a file on the left to inspect linguistic deviations.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">Copied to clipboard!</div>
+
+    <script src="main.js"></script>
+</body>
+</html>

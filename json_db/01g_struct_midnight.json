@@ -71,9 +71,9 @@
           "id": "horologion.kathisma_17",
           "section_key": "sections.psalmody",
           "rubric": {
-            "key": "rubrics.midnight.kathisma_17_rule",
-            "variables": {
-              "part": "entire"
+            "title": "Kathisma 17",
+            "roles": {
+              "reader": "Read the entire Kathisma 17 (Psalm 118)."
             }
           },
           "content": {
@@ -186,9 +186,9 @@
           "section_key": "sections.conclusion",
           "condition": "if_lenten",
           "rubric": {
-            "key": "rubrics.lenten.prayer_ephrem_16",
-            "variables": {
-              "count": 16
+            "title": "Prayer of St. Ephrem",
+            "roles": {
+              "all": "Make 16 prostrations: 3 great, 12 small, 1 great."
             }
           },
           "content": {
@@ -248,7 +248,8 @@
             "id": "triadic_canon",
             "section_key": "sections.canon",
             "rubric": {
-              "key": "rubrics.midnight.triadic_canon_tone"
+              "title": "Triadic Canon",
+              "note": "Sing the Triadic Canon in the Tone of the Week."
             },
             "content": {
               "type": "variable_logic",
@@ -301,7 +302,10 @@
           "section_key": "sections.canon",
           "source_ref": "dolnytsky_part4_great_saturday_midnight_para2",
           "rubric": {
-            "key": "rubrics.passion.canon_tomb_standing"
+            "title": "Tomb Canon",
+            "roles": {
+              "priest": "Stand before the Holy Shroud."
+            }
           },
           "content": {
             "type": "fixed_ref",
@@ -313,7 +317,10 @@
           "section_key": "sections.shroud",
           "source_ref": "dolnytsky_part4_great_saturday_midnight_para5",
           "rubric": {
-            "key": "rubrics.passion.shroud_transfer_to_altar"
+            "title": "Shroud Removal",
+            "roles": {
+              "priest": "During the Troparion 'When Thou didst descend', carry the Shroud to the Holy Table and place it there."
+            }
           },
           "content": {
             "type": "sequence",
@@ -340,7 +347,10 @@
           "id": "dismissal_holy_saturday",
           "section_key": "sections.dismissal",
           "rubric": {
-            "key": "rubrics.passion.vesting_in_bright"
+            "title": "Dismissal and Vesting",
+            "roles": {
+              "priest": "After the dismissal, vest in bright (white) vestments for Paschal Matins."
+            }
           },
           "content": {
             "type": "fixed_ref",

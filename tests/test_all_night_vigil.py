@@ -52,3 +52,19 @@ def test_vigil_polyeleos(engine):
     res = engine.resolve_vigil_polyeleos(context, {})
     assert len(res["components"]) == 2
     assert res["components"][1]["type"] == "megalynarion"
+
+def test_vigil_litya_content(engine):
+    """
+    Scenario: Great Feast of the Lord.
+    Expect: Litiya stichera from feast, glory/both now from feast.
+    """
+    context = {
+        "service_type": "vigil",
+        "rank": 1,
+        "feast_level": "lord"
+    }
+    res = engine.resolve_litya_content(context, {})
+    assert res["included"] is True
+    assert res["stichera"][0]["source"] == "menaion"
+    assert res["stichera"][0]["qty"] == 5
+    assert res["glory"] == "menaion.feast.litiya.glory"

@@ -36,9 +36,9 @@
           "section_key": "sections.psalmody",
           "source_ref": "dolnytsky_part1_typika_para2",
           "rubric": {
-            "key": "rubrics.common.read_plainly",
-            "variables": {
-              "actor": "role.reader"
+            "title": "Psalm 102",
+            "roles": {
+              "reader": "Read plainly."
             }
           },
           "content": {
@@ -68,9 +68,10 @@
           "section_key": "sections.beatitudes",
           "source_ref": "dolnytsky_part1_typika_para3",
           "rubric": {
-            "key": "rubrics.typika.beatitudes_singing",
-            "variables": {
-              "stichera": "variable_if_octoechos"
+            "title": "The Beatitudes",
+            "note": "Sing the Beatitudes, inserting appointed stichera from the Octoechos/Menaion if prescribed.",
+            "roles": {
+              "choir": "Sing the Beatitudes."
             }
           },
           "content": {
@@ -88,8 +89,12 @@
           "id": "readings_module",
           "section_key": "sections.readings",
           "rubric": {
-            "key": "rubrics.typika.readings_if_no_liturgy",
-            "style": "red_italic"
+            "title": "Scripture Readings",
+            "note": "Readings are done if there is no Divine Liturgy.",
+            "roles": {
+              "reader": "Prokeimenon, Epistle, Alleluia.",
+              "priest": "Gospel."
+            }
           },
           "content": {
             "type": "sequence",
@@ -150,9 +155,10 @@
           "section_key": "sections.kontakion",
           "source_ref": "dolnytsky_part1_typika_para_kontakia",
           "rubric": {
-            "key": "rubrics.typika.kontakion_order",
-            "variables": {
-              "order": "temple_day_saint"
+            "title": "Kontakia",
+            "note": "Read the Kontakia in the prescribed order (Temple, Day, Saint).",
+            "roles": {
+              "reader": "Read the Kontakia."
             }
           },
           "content": {
@@ -206,9 +212,9 @@
       "title_key": "titles.typika_lenten",
       "source_ref": "dolnytsky_part4_typika_lenten",
       "rubric": {
-        "key": "rubrics.lenten.typika_general",
-        "variables": {
-          "vesting": "vestment.violet"
+        "title": "Lenten Typika",
+        "roles": {
+          "priest": "Vested in dark/violet Epitrachelion."
         }
       },
       "sequence": [
@@ -217,9 +223,9 @@
           "section_key": "sections.beginning",
           "source_ref": "dolnytsky_part4_typika_para1",
           "rubric": {
-            "key": "rubrics.lenten.beatitudes_sung_fast",
-            "variables": {
-              "posture": "posture.metania_per_verse"
+            "title": "Lenten Beatitudes",
+            "roles": {
+              "all": "Make a metania (small prostration) at each verse."
             }
           },
           "content": {
@@ -231,10 +237,9 @@
           "id": "remember_us_solemn",
           "section_key": "sections.hymns",
           "rubric": {
-            "key": "rubrics.lenten.remember_us_prostration",
-            "variables": {
-              "count": 3,
-              "posture": "posture.prostration_great"
+            "title": "Remember Us O Lord",
+            "roles": {
+              "all": "Make 3 great prostrations."
             }
           },
           "content": {
@@ -276,8 +281,10 @@
           "section_key": "sections.kontakion",
           "source_ref": "dolnytsky_part4_typika_para4",
           "rubric": {
-            "key": "rubrics.lenten.kontakia_reading",
-            "style": "red"
+            "title": "Lenten Kontakia",
+            "roles": {
+              "reader": "Read the appointed Lenten Kontakia plainly."
+            }
           },
           "content": {
             "type": "variable_logic",
@@ -302,12 +309,9 @@
           "section_key": "sections.conclusion",
           "source_ref": "dolnytsky_part4_typika_para5",
           "rubric": {
-            "key": "rubrics.lenten.prayer_ephrem_16",
-            "variables": {
-              "count": 16,
-              "big": 4,
-              "small": 12,
-              "posture": "posture.prostration"
+            "title": "Prayer of St. Ephrem",
+            "roles": {
+              "all": "Make 16 prostrations: 3 great, 12 small, 1 great."
             }
           },
           "content": {
@@ -320,8 +324,8 @@
           "section_key": "sections.conclusion",
           "source_ref": "dolnytsky_part4_typika_para6",
           "rubric": {
-            "key": "rubrics.lenten.prayer_9th_hour_moved",
-            "style": "red_italic"
+            "title": "Prayer of the 9th Hour",
+            "note": "Transferred to the end of Typika during Lent."
           },
           "content": {
             "type": "sequence",

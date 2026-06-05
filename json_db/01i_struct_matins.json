@@ -530,6 +530,13 @@
               "id": "dismissal",
               "type": "fixed_ref",
               "ref_key": "horologion.dismissal_great"
+            },
+            {
+              "id": "displaced_gospel_sticheron",
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_gospel_sticheron_placement"
+              }
             }
           ]
         }

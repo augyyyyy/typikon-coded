@@ -16,6 +16,13 @@
           "id": "opening_prayers",
           "content": {
             "type": "fixed_group",
+            "rubric": {
+              "title": "Opening Prayers",
+              "note": "If preceded by another service without interruption, the initial blessing and Trisagion prayers are omitted.",
+              "roles": {
+                "priest": "If beginning the service, stand before the closed Holy Doors in Epitrachelion and exclaim 'Blessed is our God...'."
+              }
+            },
             "ref_keys": [
               "horologion.blessing_common",
               "horologion.trisagion_block",
@@ -39,6 +46,13 @@
           "content": {
             "type": "generator",
             "generator_method": "generate_hour_troparia",
+            "rubric": {
+              "title": "Troparia",
+              "note": "Sing the Troparia of the Day/Saint according to the Typikon.",
+              "roles": {
+                "reader": "Read the appointed Troparia."
+              }
+            },
             "args": {
               "hour": 6
             }
@@ -62,7 +76,11 @@
           "id": "kontakion_block",
           "content": {
             "type": "slot_variable",
-            "slot_id": "hour_6_kontakion"
+            "slot_id": "hour_6_kontakion",
+            "rubric": {
+              "title": "Kontakion",
+              "note": "Read the appointed Kontakion. If multiple, follow the rotation rule."
+            }
           }
         },
         {
@@ -94,6 +112,7 @@
           "target_id": "opening_prayers",
           "action": "modify",
           "rubric": {
+            "title": "Opening Prayers",
             "roles": {
               "all": "Make 3 small prostrations at 'O come, let us worship'."
             }
@@ -105,6 +124,7 @@
           "new_component": {
             "id": "kathisma_slot",
             "rubric": {
+              "title": "The Kathisma",
               "roles": {
                 "reader": "Read the appointed Kathisma."
               }
@@ -123,6 +143,7 @@
           "new_component": {
             "id": "lenten_troparia_6",
             "rubric": {
+              "title": "Lenten Troparia",
               "source_ref": "Dolnytsky IV:349",
               "roles": {
                 "all": "At each singing of the troparion, bend the knees to the ground."
@@ -187,8 +208,9 @@
           "new_component": {
             "id": "prayer_ephrem",
             "rubric": {
+              "title": "Prayer of St. Ephrem",
               "roles": {
-                "all": "Make 16 prostrations (4 great, 12 small)."
+                "all": "Make 16 prostrations: 3 great, 12 small, 1 great."
               }
             },
             "content": {

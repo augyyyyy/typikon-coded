@@ -480,6 +480,15 @@ class RubricsMixin:
              if d_rank == "ALLELUIA": return "rank_lent_alleluia"
              return "rank_simple_4"
 
+        # 2. Check Integer Rank (from calculate_rank or test context)
+        int_rank = context.get("rank")
+        if int_rank is not None:
+             if int_rank == 1: return "rank_vigil_lord"
+             if int_rank == 2: return "rank_vigil"  # or rank_polyeleos
+             if int_rank == 3: return "rank_doxology"
+             if int_rank == 4: return "rank_simple_6"
+             if int_rank == 5: return "rank_simple_4"
+
         # 2. Check Legacy Menaion Rank
         menaion_rank = context.get("menaion_rank", "")
         if not menaion_rank:

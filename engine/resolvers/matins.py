@@ -156,12 +156,6 @@ class MatinsMixin:
         On Sundays with the Eothinon cycle, the Gospel Sticheron is NOT placed
         in the Praises Glory slot. Instead it is sung AFTER the dismissal of 
         Matins: "Glory: Gospel Sticheron, Both now: Most Blessed art Thou".
-        
-        Returns:
-            dict with placement info:
-            - placement: "in_praises_glory" or "after_dismissal"
-            - key: asset key for the Gospel Sticheron text
-            - both_now: "Most Blessed art Thou" when after dismissal
         """
         is_sunday = context.get("day_of_week") == 0 or context.get("is_sunday_vigil")
         period = context.get("period", "normal")
@@ -171,27 +165,38 @@ class MatinsMixin:
         if is_sunday and period not in ("feast",) and rank not in ("rank_vigil_lord",):
             gospel_data = self.resolve_matins_gospel(context)
             eothinon_num = gospel_data.get("eothinon_number", 1)
+            
             return {
-                "placement": "after_dismissal",
-                "key": f"eothinon.{eothinon_num}.stichera",
-                "glory_text": f"Gospel Sticheron {eothinon_num}",
-                "both_now": "most_blessed_art_thou",
-                "rubric": "Dolnytsky II:357 — After the dismissal: Glory, Gospel Sticheron; Both now, 'Most Blessed'",
-                "source": "eothinon"
+                "type": "sequence",
+                "rubric": {
+                    "source_ref": "Dolnytsky II:357",
+                    "note": "After the dismissal: Glory, Gospel Sticheron; Both now, 'Most Blessed art Thou'"
+                },
+                "components": [
+                    {
+                        "type": "stichera_group",
+                        "stichera": [
+                            {
+                                "position": "glory",
+                                "ref_key": f"eothinon.eothinon_{eothinon_num}_stichera",
+                                "tone": self._get_eothinon_tone(eothinon_num)
+                            },
+                            {
+                                "position": "both_now",
+                                "ref_key": "horologion.most_blessed_art_thou"
+                            }
+                        ]
+                    }
+                ]
             }
         
         # Great Feasts of the Lord: Gospel Sticheron stays in Praises
-        if period == "feast" and context.get("feast_level") == "lord":
-            return {
-                "placement": "in_praises_glory",
-                "key": "feast.stichera_praises.doxastikon",
-                "source": "menaion"
-            }
+        # Handled by resolve_eothinon_doxastikon in Gate 10.
         
-        # Non-Sunday / no Gospel Sticheron
+        # Non-Sunday / no Gospel Sticheron displacement
         return {
-            "placement": "none",
-            "note": "No Gospel Sticheron for this day"
+            "type": "none",
+            "note": "No displaced Gospel Sticheron for this day"
         }
 
 

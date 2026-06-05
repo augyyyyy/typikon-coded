@@ -21,7 +21,7 @@ MANIFEST = {
     },
     "service_structure": {
         "schema": "service_structure.schema.json",
-        "patterns": ["assets/stamford/01*_struct_*.json"]
+        "patterns": ["json_db/01*_struct_*.json"]
     }
 }
 
