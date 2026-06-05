@@ -69,6 +69,11 @@ class CeremonialMixin:
         Returns:
             dict with color and citation.
         """
+        if rubrics and "variables" in rubrics:
+            over = rubrics["variables"].get("vestment_color")
+            if over:
+                return over
+                
         period = context.get("period", "normal")
         feast_level = context.get("feast_level", "unknown")
         rank = self._get_rank_id(context)

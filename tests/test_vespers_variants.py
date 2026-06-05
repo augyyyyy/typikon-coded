@@ -75,3 +75,38 @@ def test_lenten_weekday_vespers(engine):
     # 3. Kathisma
     res_kath = engine.resolve_lenten_kathisma(context, {})
     assert "kathisma_18" in res_kath["ref_key"]
+
+
+def test_small_vespers_resolvers(engine):
+    """
+    Test the newly added Small Vespers resolvers for stichera, aposticha, and troparia.
+    """
+    context = {
+        "service_type": "vespers",
+        "vespers_type": "small_vespers",
+        "day_of_week": 6, # Saturday Vigil
+        "dolnytsky_rank": "VIGIL",
+        "is_sunday_vigil": True,
+        "saints": [{"id": "saint_nicholas", "name": "St. Nicholas"}]
+    }
+    
+    # test case matching
+    case_def = engine.resolve_small_vespers_case(context)
+    assert case_def is not None
+    assert "lord_i_have_cried" in case_def
+    
+    # stichera
+    res_stich = engine.resolve_vespers_stichera({**context, "is_small_vespers": True})
+    assert res_stich["total_count"] == 4
+    assert res_stich["distribution"][0]["source"] == "octoechos"
+    assert res_stich["distribution"][0]["type"] == "resurrection"
+    assert res_stich["distribution"][0]["qty"] == 4
+    
+    # aposticha
+    res_ap = engine.resolve_aposticha({**context, "is_small_vespers": True})
+    # Components should have stichera plus glory and both now
+    assert len(res_ap["components"]) > 0
+    
+    # troparia
+    res_trop = engine.resolve_vespers_troparia_simple({**context, "is_small_vespers": True}, {})
+    assert len(res_trop["components"]) >= 2

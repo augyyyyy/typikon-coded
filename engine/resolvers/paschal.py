@@ -582,62 +582,6 @@ class PaschalMixin:
     # PHASE 13: DIGEST HELPERS
 
 
-    def resolve_passion_vespers_readings(self, context, rubrics=None):
-        """
-        Passion Vespers Readings (Good Friday Evening).
-        Citation: Dolnytsky Part IV (Holy Week)
-        
-        Structure:
-        - Special paremias and readings for burial service
-        - Apostol from I Corinthians
-        - Gospel composite from all four Evangelists (Joseph of Arimathea)
-        """
-        pascha_offset = context.get("pascha_offset", -100)
-        title = context.get("title", "").lower()
-        
-        # Only applies on Good Friday evening (Pascha offset -2 at evening)
-        if pascha_offset != -2 and "good friday" not in title and "great friday" not in title:
-            return None
-        
-        return {
-            "type": "passion_vespers_readings",
-            "prokeimenon": {
-                "text": "They divided my garments among them, and for my vesture they cast lots.",
-                "ref_key": "triodion.prokeimenon_good_friday"
-            },
-            "paremia_1": {
-                "book": "Exodus",
-                "chapter": "33:11-23",
-                "ref_key": "triodion.paremia_gf_1"
-            },
-            "paremia_2": {
-                "book": "Job",
-                "chapter": "42:12-17",
-                "ref_key": "triodion.paremia_gf_2"
-            },
-            "paremia_3": {
-                "book": "Isaiah",
-                "chapter": "52:13 - 54:1",
-                "ref_key": "triodion.paremia_gf_3"
-            },
-            "epistle": {
-                "book": "I Corinthians",
-                "chapter": "1:18 - 2:2",
-                "ref_key": "triodion.epistle_good_friday",
-                "content": "For the word of the Cross is foolishness to those who are perishing..."
-            },
-            "alleluia": {
-                "text": "Save me, O God, for the waters are come in unto my soul.",
-                "ref_key": "triodion.alleluia_good_friday"
-            },
-            "gospel": {
-                "composite": True,
-                "sources": ["Matthew 27:1-38", "Luke 23:39-43", "Matthew 27:39-54", "John 19:31-37", "Matthew 27:55-61"],
-                "ref_key": "triodion.gospel_good_friday_vespers",
-                "content": "The Burial of Christ (Composite Gospel)"
-            }
-        }
-
     # PHASE 6: COMPLINE (EXTREME)
 
 
@@ -651,3 +595,44 @@ class PaschalMixin:
     def resolve_paschal_trisagion(self, context, rubrics):
         # I. Pneumatic Suppression (Omit Heavenly King)
         return {"type": "fixed_ref", "ref_key": "horologion.trisagion_no_heavenly_king"}
+
+
+    def resolve_encomia_station(self, context, rubrics=None):
+        """
+        Three stations of Great Saturday Lamentations.
+        """
+        return {
+            "type": "encomia_station",
+            "rubric_note": "Three Stations of the Lamentations (Encomia) at the Tomb"
+        }
+
+
+    def resolve_tomb_matins_canon(self, context, rubrics=None):
+        """
+        Great Saturday Matins Canon.
+        """
+        return {
+            "type": "tomb_matins_canon",
+            "rubric_note": "Matins Canon of Great Saturday ('Him Who in ancient times hid the pursuing tyrant')"
+        }
+
+
+    def resolve_passion_canon(self, context, rubrics=None):
+        """
+        Holy Thursday / Friday Passion Canon.
+        """
+        return {
+            "type": "passion_canon",
+            "rubric_note": "Passion Canon of Holy Thursday / Great Friday"
+        }
+
+
+    def resolve_bright_praises(self, context, rubrics=None):
+        """
+        Paschal Praises at Bright Matins.
+        """
+        return {
+            "type": "bright_praises",
+            "rubric_note": "Paschal Praises at Bright Matins"
+        }
+

@@ -214,6 +214,13 @@ class LiturgyMixin:
         """
         Resolves the order of Troparia and Kontakia (L-03) with Temple Logic.
         """
+        collision_override = context.get("variables", {}).get("liturgy_hymns_override")
+        if collision_override:
+            return {
+                "type": "hymn_stack",
+                "components": collision_override
+            }
+
         day = context.get("day_of_week", 1)
         temple_type = context.get("temple_type", "saint") # 'saint' or 'theotokos'
         
@@ -660,6 +667,13 @@ class LiturgyMixin:
         
         Handles multiple readings for Sunday + Saint, etc.
         """
+        # Check for explicit override in variables
+        if rubrics:
+            overrides = rubrics.get("variables", {}) or rubrics.get("overrides", {})
+            l_readings = overrides.get("liturgy_readings")
+            if l_readings:
+                return l_readings
+
         day_of_week = context.get("day_of_week", 0)
         rank = context.get("rank", 5)
         paradigm = context.get("paradigm", "")
@@ -919,6 +933,20 @@ class LiturgyMixin:
         """
         Gate: Beatitudes (Third Antiphon)
         """
+        beat_dist = context.get("beatitudes_distribution")
+        if beat_dist:
+            stichera = []
+            for s in beat_dist.get("distribution", []):
+                stichera.append({
+                    "source": s.get("source"),
+                    "count": s.get("count", s.get("qty", 0))
+                })
+            return {
+                "type": "beatitudes",
+                "stichera": stichera,
+                "note": beat_dist.get("note", "Combined Beatitudes")
+            }
+
         day_of_week = context.get('day_of_week', 0)
         rank = context.get('rank', 5)
         
@@ -929,3 +957,23 @@ class LiturgyMixin:
             return {"type": "beatitudes", "stichera": [{"source": "menaion", "count": 4}], "note": "Festal Beatitudes"}
             
         return {"type": "third_antiphon", "note": "Usual Third Antiphon without stichera"}
+
+
+    @liturgical_source(dolnytsky="Part II, Lectionary")
+    def resolve_liturgy_alleluia(self, context, rubrics=None):
+        """
+        Resolve Liturgy Alleluia tone and verses based on readings.
+        Citation: Dolnytsky Part II (Lectionary)
+        """
+        readings_res = self.resolve_liturgy_readings(context, rubrics)
+        if readings_res and readings_res.get("readings"):
+            first_reading = readings_res["readings"][0]
+            return first_reading.get("alleluia")
+        
+        # Fallback: Tone of the week
+        tone = context.get("tone", 1)
+        return {
+            "source": "octoechos",
+            "tone": tone,
+            "ref_key": f"octoechos.alleluia.tone_{tone}"
+        }

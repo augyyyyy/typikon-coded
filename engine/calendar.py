@@ -155,6 +155,7 @@ class CalendarMixin:
                 dy2 = ((h2 + l2 - 7 * m2 + 114) % 31) + 1
                 prev_pascha = date(prev_year, mo2, dy2)
             
+            prev_thomas = prev_pascha + timedelta(days=7)
             prev_tone_start = prev_pascha + timedelta(days=63)  # 2nd Sun after Pentecost
             days_since_prev_start = (target_date - prev_tone_start).days
             if days_since_prev_start >= 0:
@@ -172,12 +173,13 @@ class CalendarMixin:
                 weeks_since_thomas = (delta - thomas_sunday_offset) // 7
                 eothinon = (weeks_since_thomas % 11) + 1
             elif delta < 0:
-                # Before current year's Pascha — use previous year's Thomas
-                if 'prev_thomas' in dir():
-                    days_since_prev_thomas = (target_date - prev_thomas).days
-                    if days_since_prev_thomas >= 0:
-                        weeks = days_since_prev_thomas // 7
-                        eothinon = (weeks % 11) + 1
+                # Before current year's Pascha — use previous year's Pentecost
+                prev_pentecost = prev_pascha + timedelta(days=49)
+                days_since_prev_pentecost = (target_date - prev_pentecost).days
+                if days_since_prev_pentecost >= 0:
+                    weeks = days_since_prev_pentecost // 7
+                    eothinon = weeks % 11
+                    if eothinon == 0: eothinon = 11
                 if eothinon is None:
                     eothinon = 1  # fallback
             # Bright Week / Pascha Sunday: no standard Eothinon
@@ -323,8 +325,8 @@ class CalendarMixin:
                     result["dolnytsky_subtitle"] = description
                     result["dolnytsky_status"] = "collision"
                 
-                # Build saints list from entries for multi-saint days
-                if len(entries) > 1:
+                # Build saints list from entries for all days
+                if len(entries) >= 1:
                     rank_numeric = {
                         "[LORD]": 1, "[MOG]": 1, "[VIGIL]": 2, "[POL]": 2,
                         "[GT DOX]": 3, "[6 SM]": 4, "[4 A+G]": 4, "[4 NO]": 5, "[4 TR]": 5,

@@ -102,6 +102,57 @@ class TestResolvers(unittest.TestCase):
         self.assertEqual(dist[3]["type"], "saint")
         self.assertEqual(dist[3]["qty"], 4)
 
+    def test_new_resolvers_and_checks(self):
+        # 1. Test check_service_continuity
+        ctx = {"is_connected": True}
+        self.assertTrue(self.engine.check_service_continuity(ctx, "is_preceding_service_connected"))
+        ctx = {"is_connected": False}
+        self.assertFalse(self.engine.check_service_continuity(ctx, "is_preceding_service_connected"))
+        self.assertFalse(self.engine.check_service_continuity(ctx, "unknown_check"))
+        
+        # 2. Test check_day_range
+        ctx = {
+            "season": "lent",
+            "pascha_offset": -35,
+            "day_of_week": 0
+        }
+        self.assertTrue(self.engine.check_day_range(ctx, week=2, days=["Sun"]))
+        self.assertFalse(self.engine.check_day_range(ctx, week=1, days=["Sun"]))
+        self.assertFalse(self.engine.check_day_range(ctx, week=2, days=["Mon"]))
+        
+        # 3. Test check_service_type
+        ctx = {"is_vigil": True}
+        self.assertTrue(self.engine.check_service_type(ctx, "vigil"))
+        ctx = {"is_vigil": False}
+        rubrics = {"variables": {"service_type": "vigil"}}
+        self.assertTrue(self.engine.check_service_type(ctx, "vigil", rubrics))
+        
+        # 4. Test resolve_daily_kathisma
+        ctx = {"day_of_week": 0}
+        res = self.engine.resolve_daily_kathisma(ctx)
+        self.assertEqual(res["number"], 1)
+        ctx = {"day_of_week": 1}
+        res = self.engine.resolve_daily_kathisma(ctx)
+        self.assertEqual(res["number"], 0)
+        ctx = {"day_of_week": 3}
+        res = self.engine.resolve_daily_kathisma(ctx)
+        self.assertEqual(res["number"], 18)
+        
+        # 5. Test resolve_canon_ode_troparion
+        ctx = {"tone": 4}
+        res = self.engine.resolve_canon_ode_troparion(ctx, ode=8, position="glory")
+        self.assertEqual(res["position"], "glory")
+        self.assertEqual(res["ode"], 8)
+        self.assertEqual(res["ref_key"], "octoechos.canon_ode_8_troparion.glory.tone_4")
+        
+        # 6. Test resolve_psalm_50_intercession
+        ctx = {"season": "lent"}
+        res = self.engine.resolve_psalm_50_intercession(ctx)
+        self.assertEqual(res["type"], "lenten_psalm_50_intercession")
+        ctx = {"season": "ordinary", "tone": 2}
+        res = self.engine.resolve_psalm_50_intercession(ctx)
+        self.assertEqual(res["type"], "standard_psalm_50_intercession")
+
 
 if __name__ == '__main__':
     unittest.main()

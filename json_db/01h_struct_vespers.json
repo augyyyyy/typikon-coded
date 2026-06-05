@@ -24,6 +24,25 @@
               "deacon": "Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing.",
               "subdeacon": "Light the candles on the Holy Table."
             }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_vestment_set",
+              "args": {
+                "service": "vigil_vespers",
+                "clergy_type": "priest"
+              }
+            }
+          }
+        },
+        {
+          "id": "fasting_rule",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_fasting_rule"
+            }
           }
         },
         {
@@ -40,6 +59,18 @@
           "content": {
             "type": "fixed_ref",
             "ref_key": "horologion.blessing_vigil"
+          }
+        },
+        {
+          "id": "censing_psalm_103",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_censing_annotation",
+              "args": {
+                "service_point": "psalm_103"
+              }
+            }
           }
         },
         {
@@ -81,12 +112,49 @@
           }
         },
         {
+          "id": "censing_lord_i_have_cried",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_censing_annotation",
+              "args": {
+                "service_point": "lord_i_have_cried"
+              }
+            }
+          }
+        },
+        {
           "id": "lord_i_have_cried_10",
           "content": {
             "type": "generator",
             "generator_method": "generate_stichera_sequence",
             "args": {
               "slot_id": "vespers_stichera_distribution"
+            }
+          }
+        },
+        {
+          "id": "censing_entrance",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_censing_annotation",
+              "args": {
+                "service_point": "entrance"
+              }
+            }
+          }
+        },
+        {
+          "id": "doors_entrance",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_door_state",
+              "args": {
+                "service": "vespers_with_vigil",
+                "moment": "all_entrances"
+              }
             }
           }
         },

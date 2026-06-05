@@ -4,7 +4,7 @@ import argparse
 import subprocess
 from datetime import date, datetime
 from ruthenian_engine import RuthenianEngine
-
+from typikon_digest_generator import TypikonDigestGenerator
 
 def open_file(filename):
     """Cross-platform file opener"""
@@ -22,6 +22,7 @@ def main():
     parser.add_argument("--version", type=str, default="stamford_2014", help="Recension Version ID")
     parser.add_argument("--external", type=str, help="Path to external private assets directory")
     parser.add_argument("--no-open", action="store_true", help="Do not open the file automatically")
+    parser.add_argument("--digest", action="store_true", help="Generate a Typikon digest (instructions only) instead of a full text booklet")
     
     args = parser.parse_args()
 
@@ -54,12 +55,16 @@ def main():
             if rubrics['overrides']:
                 print(f"   Overrides: {rubrics['overrides']}")
 
-            # 5. Generate Booklet
+            # 5. Generate Output
             print("   Compiling...")
-            full_text = engine.generate_full_booklet(ctx, rubrics)
+            if args.digest:
+                full_text = TypikonDigestGenerator(engine).generate(ctx, rubrics)
+                filename = f"Digest_{target_date}.txt"
+            else:
+                full_text = engine.generate_full_booklet(ctx, rubrics)
+                filename = f"Service_{target_date}.txt"
 
             # 6. Save and Open
-            filename = f"Service_{target_date}.txt"
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(full_text)
 

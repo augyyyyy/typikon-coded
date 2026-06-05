@@ -201,6 +201,7 @@ class GenerationMixin:
                 elif action == "modify":
                     # Merge logic/rubric into existing slot
                     if "rubric" in override: sequence[idx]["rubric"] = override["rubric"]
+                    if "content" in override: sequence[idx]["content"] = override["content"]
                     if "logic_args" in override:
                         if "content" in sequence[idx] and "logic" in sequence[idx]["content"]:
                              # Safe merge args

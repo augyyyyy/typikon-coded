@@ -3,6 +3,8 @@ Ruthenian Engine - CommonResolverMixin
 Extracted from ruthenian_engine.py during Phase 1 modularization.
 """
 
+from engine.core import liturgical_source
+
 import json
 import os
 import re
@@ -277,6 +279,22 @@ class CommonResolverMixin:
         
         Citation: Dolnytsky Part IV (Triodion Rubrics) & Part I (General Canon Structure)
         """
+        # Check for overridden distribution first (e.g. from collisions)
+        overridden_dist = context.get("variables", {}).get("matins_canon_distribution")
+        if overridden_dist:
+            if isinstance(overridden_dist, dict):
+                # Check for Logic Switch
+                if "logic_switch" in overridden_dist:
+                    s_count = len(context.get("saints", []))
+                    switch_key = "1_saint"
+                    if s_count >= 2: switch_key = "2_saints"
+                    sub_rule = overridden_dist["logic_switch"].get(switch_key, {})
+                    return sub_rule.get("distribution", [])
+                else:
+                    return overridden_dist.get("distribution", [])
+            elif isinstance(overridden_dist, list):
+                return overridden_dist
+
         # 1. Lenten Weekday Logic (Complex varying counts)
         # Citation: Dolnytsky IV:347 - "Canons 3 [making] 14..."
         if context.get("season") == "lent" and context.get("day_of_week") not in [0, 6]: 
@@ -943,6 +961,40 @@ class CommonResolverMixin:
         Gate 7: Katavasia Selection (Merged logic)
         Determines the seasonal Katavasia (Dolnytsky Part V) and its frequency.
         """
+        # Check collision override first
+        collision = self.check_collision(context)
+        if collision and "variables" in collision.get("rubric", {}):
+             overrides = collision["rubric"]["variables"]
+             if "matins_canon_distribution" in overrides and "katavasia" in overrides["matins_canon_distribution"]:
+                  kat_id = overrides["matins_canon_distribution"]["katavasia"]
+                  tone = 4
+                  text = "Seasonal Katavasia"
+                  if "cheesefare" in kat_id:
+                       tone = 6
+                       text = "When Israel passed on foot"
+                  elif "orthodoxy" in kat_id:
+                       tone = 4
+                       text = "Israel of old crossed the depth"
+                  elif "cross" in kat_id:
+                       tone = 1
+                       text = "Moses the servant of God"
+                  elif "lazarus" in kat_id:
+                       tone = 8
+                       text = "Having crossed the water"
+                  elif "theotokos" in kat_id:
+                       tone = 4
+                       text = "I will open my mouth"
+                  
+                  return {
+                      "type": "triodion_katavasia",
+                      "katavasia_id": kat_id,
+                      "id": kat_id,
+                      "text": text,
+                      "tone": tone,
+                      "frequency": "after_each_ode",
+                      "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                  }
+        
         rank = context.get('rank', 5)
         feast_id = context.get('feast_id', '')
         season = context.get('season', 'ordinary')
@@ -1094,6 +1146,16 @@ class CommonResolverMixin:
 
 
     def resolve_sessional(self, context, num=1, **kwargs):
+        # Check for explicit override in variables
+        overridden = context.get("sessional_hymns_override")
+        if overridden:
+            if isinstance(overridden, dict):
+                sessional_id = overridden.get(str(num)) or overridden.get(num)
+                if sessional_id:
+                    return {"type": "sessional_group", "id": sessional_id}
+            elif isinstance(overridden, str):
+                return {"type": "sessional_group", "id": f"{overridden}_set_{num}"}
+
         is_sunday = context["day_of_week"] == 0 or context.get("is_sunday_vigil")
         rank = self.calculate_rank(context)
         tone = self._calculate_tone(context)
@@ -1164,3 +1226,16 @@ class CommonResolverMixin:
             'presentation_theotokos': 4
         }
         return festal_tones.get(feast_id, 1)
+
+    @liturgical_source(dolnytsky="Part I")
+    def resolve_canon_ode_troparion(self, context, ode, position="glory"):
+        """
+        Resolves specific troparion details at a given position within a canon ode (primarily Ode 8).
+        """
+        tone = context.get("tone", 1)
+        return {
+            "type": "canon_ode_troparion",
+            "ode": ode,
+            "position": position,
+            "ref_key": f"octoechos.canon_ode_{ode}_troparion.{position}.tone_{tone}"
+        }

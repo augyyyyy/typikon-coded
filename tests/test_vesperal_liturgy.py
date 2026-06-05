@@ -78,3 +78,35 @@ class TestVesperalLiturgy:
         ctx = _ctx(engine, 2026, 7, 7, title="Random Tuesday")
         result = engine.resolve_vesperal_liturgy_readings(ctx, None)
         assert result["type"] == "error"
+
+    def test_vesperal_liturgy_digest(self, engine):
+        from typikon_digest_generator import TypikonDigestGenerator
+        generator = TypikonDigestGenerator(engine)
+        
+        context = {
+            "date": "2026-04-09",
+            "service_type": "liturgy",
+            "liturgy_type": "vesperal_merge_logic",
+            "pascha_offset": -3,
+            "day_of_week": 4,
+            "is_lent": True,
+            "season": "holy_week",
+            "tone": 1,
+            "feast_id": "holy_thursday",
+            "title": "Great and Holy Thursday"
+        }
+        
+        rubrics = {
+            "title": "Great and Holy Thursday",
+            "variables": {
+                "liturgy_type": "vesperal_merge_logic"
+            }
+        }
+        
+        digest = generator.generate(context, rubrics)
+        assert digest is not None
+        assert "VESPERAL LITURGY READINGS" in digest.upper()
+        assert "Paremia 3" in digest
+        assert "[ERROR:" not in digest
+        assert "[RESOLVE ERROR" not in digest
+        assert "{'" not in digest

@@ -104,6 +104,33 @@ class MatinsMixin:
         Implements Logic Gate 10: Praises (Lauds) Stack.
         Determines the distribution of stichera at the Praises (Psalms 148-150).
         """
+        # Check for overridden distribution first (e.g. from collisions)
+        overridden_dist = context.get("variables", {}).get("praises_distribution")
+        if overridden_dist:
+            praises_logic = overridden_dist
+            
+            # Check for Logic Switch
+            if "logic_switch" in praises_logic:
+                s_count = len(context.get("saints", []))
+                switch_key = "1_saint"
+                if s_count >= 2: switch_key = "2_saints"
+                sub_rule = praises_logic["logic_switch"].get(switch_key, {})
+                return {
+                    "total_count": praises_logic.get("total_count"),
+                    "distribution": sub_rule.get("distribution", []),
+                    "glory": praises_logic.get("glory"),
+                    "both_now": praises_logic.get("both_now"),
+                    "case_id": "overridden_collision"
+                }
+
+            return {
+                "total_count": praises_logic.get("total_count", 8),
+                "distribution": praises_logic.get("distribution", []),
+                "glory": praises_logic.get("glory"),
+                "both_now": praises_logic.get("both_now"),
+                "case_id": "overridden_collision"
+            }
+
         # Logic Gate 10 depends on the general case
         case_def = self.resolve_general_case(context)
         if not case_def:
@@ -164,6 +191,11 @@ class MatinsMixin:
         # Sunday Eothinon cycle: displaced after dismissal
         if is_sunday and period not in ("feast",) and rank not in ("rank_vigil_lord",):
             gospel_data = self.resolve_matins_gospel(context)
+            if not gospel_data:
+                return {
+                    "type": "none",
+                    "note": "No displaced Gospel Sticheron for this day"
+                }
             eothinon_num = gospel_data.get("eothinon_number", 1)
             
             return {
@@ -368,32 +400,44 @@ class MatinsMixin:
         
         # Saints info handling
         saints = context.get("saints", [])
-        saint_count = len(saints)
-        has_saint_polyeleos = any(s.get("rank", 5) <= 3 for s in saints)
+        actual_saints = [
+            s for s in saints
+            if not any(w in s.get("name", "").lower() for w in ["forefeast", "afterfeast", "prefeast", "postfeast", "apodosis", "meeting", "encounter", "leave-taking"])
+        ]
+        saint_count = len(actual_saints)
+        has_saint_polyeleos = any(s.get("rank", 5) <= 3 for s in actual_saints)
         
         selected_rule = None
         
         # Scenario Matching Logic
         if is_feast_lord or is_feast_theotokos:
             selected_rule_id = "feast_lord_theotokos"
-        elif is_sunday and saint_count == 0:
-             selected_rule_id = "sunday_resurrection_only"
-        elif is_sunday and saint_count == 1:
-            selected_rule_id = "sunday_with_saint"
-        elif is_sunday and saint_count >= 2:
-             selected_rule_id = "sunday_with_two_saints"
-        elif is_sunday and context.get("is_fore_or_afterfeast") and saint_count >= 1:
-             selected_rule_id = "sunday_with_feast_and_saint"
-        elif not is_sunday and saint_count == 1:
-             selected_rule_id = "weekday_saint"
-        elif not is_sunday and saint_count >= 2 and not has_saint_polyeleos:
-             selected_rule_id = "weekday_two_non_polyeleos_saints"
-        elif not is_sunday and context.get("is_fore_or_afterfeast") and saint_count == 1:
-              selected_rule_id = "weekday_feast_and_saint"
-        elif not is_sunday and context.get("is_fore_or_afterfeast") and saint_count >= 2:
-              selected_rule_id = "weekday_feast_and_two_saints"
-        else:
-             selected_rule_id = "weekday_saint"
+        elif is_sunday:
+            if context.get("is_fore_or_afterfeast"):
+                if saint_count >= 1:
+                    selected_rule_id = "sunday_with_feast_and_saint"
+                else:
+                    selected_rule_id = "sunday_with_feast"
+            else:
+                if saint_count == 0:
+                    selected_rule_id = "sunday_resurrection_only"
+                elif saint_count == 1:
+                    selected_rule_id = "sunday_with_saint"
+                else:
+                    selected_rule_id = "sunday_with_two_saints"
+        else: # Weekday
+            if context.get("is_fore_or_afterfeast"):
+                if saint_count == 1:
+                    selected_rule_id = "weekday_feast_and_saint"
+                elif saint_count >= 2:
+                    selected_rule_id = "weekday_feast_and_two_saints"
+                else:
+                    selected_rule_id = "weekday_saint"
+            else:
+                if saint_count >= 2 and not has_saint_polyeleos:
+                    selected_rule_id = "weekday_two_non_polyeleos_saints"
+                else:
+                    selected_rule_id = "weekday_saint"
 
         # Find the rule definition
         for r in rules:
@@ -413,9 +457,9 @@ class MatinsMixin:
         elif master_tone_ref == "tone_of_feast":
              resolved_tone = context.get("tone_of_feast", 1)
         elif master_tone_ref == "tone_of_saint":
-             if saints: resolved_tone = saints[0].get("troparion_tone", 1)
+             if actual_saints: resolved_tone = actual_saints[0].get("troparion_tone", 1)
         elif master_tone_ref == "tone_of_first_saint":
-             if saints: resolved_tone = saints[0].get("troparion_tone", 1)
+             if actual_saints: resolved_tone = actual_saints[0].get("troparion_tone", 1)
         
         return {
             "tone": resolved_tone,
@@ -585,11 +629,17 @@ class MatinsMixin:
 
 
     def resolve_exaposteilarion(self, context, rubrics):
+        """
+        Specialized/historical resolver for Eothinon Connection.
+        Note the spelling ('ei'), distinct from 'resolve_exapostilarion'.
+        Used in test_advanced_logic_suite.py.
+        """
         # C12: Eothinon Connection
         eothinon = context.get("eothinon_number")
         if eothinon:
             return {"type": "fixed_ref", "ref_key": f"horologion.eothinon_{eothinon:02d}"}
         return {}
+
 
 
     def resolve_matins_praises_ratio(self, context, rubrics):
@@ -1037,6 +1087,17 @@ class MatinsMixin:
         day_of_week = context.get('day_of_week', 0)
         feast_id = context.get('feast_id', '')
         season = context.get('season', 'ordinary')
+        pascha_offset = context.get('pascha_offset')
+        
+        # Suppress Magnificat on Lazarus Saturday (pascha_offset == -8)
+        if pascha_offset == -8:
+            return {
+                "type": "suppressed_magnificat",
+                "magnificat_id": "suppressed",
+                "axion_estin": False,
+                "more_honorable": False,
+                "text": ""
+            }
         
         # Pascha to Thomas Sunday: NO "It is truly meet", only irmos
         if season in ['pascha', 'bright_week']:
@@ -1122,10 +1183,12 @@ class MatinsMixin:
         """
         rank = self.calculate_rank(context)
         paradigm = self.identify_paradigm(context)
+        pascha_offset = context.get('pascha_offset')
         
         # Suppressed on Rank 1 (Great Feasts)
         # Also suppressed on some days of Holy Week etc.
-        if rank == 1 or paradigm == "p_feast_lord":
+        # Also on Lazarus Saturday (pascha_offset == -8)
+        if rank == 1 or paradigm == "p_feast_lord" or pascha_offset == -8:
             return {
                 "status": "suppressed",
                 "replacement": "megalynaria_refrains" # Zadostoinyk Refrains
@@ -1297,9 +1360,22 @@ class MatinsMixin:
     def resolve_post_gospel_stichera(self, context):
         """
         Resolves the stichera after Psalm 50.
+        Citation: Dolnytsky Part I Line 194.
         """
         day_of_week = context.get("day_of_week")
+        season_id = context.get("season_id", "")
+        pascha_offset = context.get("pascha_offset", 0)
         
+        # From Publican & Pharisee (-70) to 5th Sunday of Lent (-14)
+        is_lenten_sunday = day_of_week == 0 and season_id == "triodion" and -70 <= pascha_offset <= -14
+
+        if is_lenten_sunday:
+            return [
+                "triodion.open_to_me_the_doors_of_repentance",
+                "triodion.prepare_for_me_the_ways_of_salvation",
+                "triodion.if_i_think_upon_the_multitude"
+            ]
+            
         if day_of_week == 0: # Sunday
             return [
                 {"type": "fixed_ref", "ref_key": "horologion.glory_apostles"},
@@ -1314,7 +1390,8 @@ class MatinsMixin:
 
     def resolve_exapostilarion(self, context):
         """
-        Resolves Exapostilarion and Theotokion.
+        Primary resolver for Exapostilarion and Theotokion (spelled 'i').
+        Matched directly by 'resolve_exapostilarion' in JSON struct files.
         """
         day_of_week = context.get("day_of_week")
         items = []
@@ -1540,6 +1617,15 @@ class MatinsMixin:
         """
         Gate 6: Canon Math - Calculate troparion distribution.
         """
+        overridden = context.get("variables", {}).get("matins_canon_distribution")
+        if overridden:
+            if isinstance(overridden, dict):
+                dist = overridden.get("distribution", [])
+            else:
+                dist = overridden
+            total = sum(d.get("qty", d.get("count", 0)) for d in dist) if isinstance(dist, list) else 14
+            return {"total": total, "distribution": dist}
+
         day_of_week = context.get('day_of_week', 1)
         rank = context.get('rank', 5)
         
@@ -1653,3 +1739,121 @@ class MatinsMixin:
             ],
             "bells": "toll after each, clappers after 12th"
         }
+
+    @liturgical_source(dolnytsky="Part I")
+    def check_service_type(self, context, type, rubrics=None):
+        """
+        Checks if the requested service type matches the context or rubrics variables.
+        """
+        target_type = type
+        
+        # Check in context first
+        if target_type == "vigil":
+            if context.get("is_vigil") or context.get("is_sunday_vigil"):
+                return True
+        
+        # Check in rubrics variables/overrides
+        if rubrics:
+            variables = rubrics.get("variables", {})
+            overrides = rubrics.get("overrides", {})
+            
+            # Check generic service_type
+            if variables.get("service_type") == target_type or overrides.get("service_type") == target_type:
+                return True
+                
+            # Check specific matins_type
+            matins_type = variables.get("matins_type") or overrides.get("matins_type")
+            if matins_type and target_type in matins_type:
+                return True
+                
+            # Check vespers_type as vigil indicators
+            vespers_type = variables.get("vespers_type") or overrides.get("vespers_type")
+            if target_type == "vigil" and vespers_type and "vigil" in vespers_type:
+                return True
+
+        # Fallback context check
+        if context.get("matins_type") == target_type:
+            return True
+            
+        return False
+
+    @liturgical_source(dolnytsky="Part I & Part IV")
+    def resolve_psalm_50_intercession(self, context, rubrics=None):
+        """
+        Resolves the intercession stichera/refrains after Psalm 50 in Matins.
+        - Sunday / Great Feast (ordinary): Apostles / Theotokos / Jesus Risen
+        - Lenten (Triodion period): Repentance / Salvation / Multitude of evil
+        """
+        is_lent = context.get("season") == "lent" or context.get("triodion_period") in ("lent", "triodion")
+        
+        if is_lent:
+            return {
+                "type": "lenten_psalm_50_intercession",
+                "glory": {
+                    "text": "Open to me the doors of repentance, O Giver of Life...",
+                    "ref_key": "triodion.repentance_doors"
+                },
+                "both_now": {
+                    "text": "Lead me on the paths of salvation, O Theotokos...",
+                    "ref_key": "triodion.salvation_paths"
+                },
+                "sticheron": {
+                    "text": "When I think of the multitude of evil things I have done...",
+                    "ref_key": "triodion.multitude_evil"
+                }
+            }
+        else:
+            tone = context.get("tone", 1)
+            return {
+                "type": "standard_psalm_50_intercession",
+                "glory": {
+                    "text": "Through the prayers of the holy Apostles, O merciful One, blot out the multitude of our offenses.",
+                    "ref_key": "horologion.prayers_apostles"
+                },
+                "both_now": {
+                    "text": "Through the prayers of the Mother of God, O merciful One, blot out the multitude of our offenses.",
+                    "ref_key": "horologion.prayers_theotokos"
+                },
+                "sticheron": {
+                    "text": "Jesus, having risen from the tomb as He foretold, has given us eternal life and great mercy.",
+                    "ref_key": f"octoechos.sticheron_gospel.tone_{tone}"
+                }
+            }
+
+    def resolve_gradual(self, context, rubrics=None):
+        """
+        Resolves the gradual antiphons (Anabathmoi) for Matins.
+        """
+        res = self.resolve_graduals(context)
+        return {
+            "type": "gradual",
+            "anabathmoi": res.get("anabathmoi"),
+            "hypakoe_slot": res.get("hypakoe_slot")
+        }
+
+    def resolve_matins_prokeimenon(self, context, rubrics=None):
+        """
+        Resolves the Matins Prokeimenon.
+        """
+        tone = context.get("tone", 1)
+        sunday_prokeimena = {
+            1: {"tone": 1, "text": "Arise, Lord, help us, and redeem us for Thy mercy's sake"},
+            2: {"tone": 2, "text": "Arise, O Lord my God, in the precept which Thou hast commanded"},
+            3: {"tone": 3, "text": "Say among the nations: The Lord is King!"},
+            4: {"tone": 4, "text": "Arise, O Lord, help us, and deliver us for Thy name's sake"},
+            5: {"tone": 5, "text": "Arise, O Lord my God, let Thy hand be raised, for Thou reignest forever"},
+            6: {"tone": 6, "text": "O Lord, stir up Thy strength, and come to save us"},
+            7: {"tone": 7, "text": "Arise, O Lord my God, let Thy hand be raised, forget not Thy poor forever"},
+            8: {"tone": 8, "text": "The Lord shall reign forever, thy God, O Zion, unto all generations"}
+        }
+        
+        feast_prok = None
+        if rubrics:
+            feast_prok = rubrics.get("variables", {}).get("matins_prokeimenon") or rubrics.get("overrides", {}).get("matins_prokeimenon")
+            
+        if feast_prok:
+            if isinstance(feast_prok, dict):
+                return feast_prok
+            return {"tone": tone, "text": str(feast_prok)}
+            
+        return sunday_prokeimena.get(tone, {"tone": tone, "text": f"Resurrectional Prokeimenon of Tone {tone}"})

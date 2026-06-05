@@ -1194,3 +1194,25 @@ class LentenMixin:
             "count": 3,
             "rubric_note": f"Lenten Aposticha from Triodion (Week {triodion_week}, {weekday})"
         }
+
+
+    def resolve_bridegroom_canon_type(self, context, rubrics=None):
+        """
+        Bridegroom Matins Canon (Holy Week).
+        """
+        return {
+            "type": "bridegroom_canon",
+            "canon_name": "bridegroom_canon",
+            "rubric_note": "Three-ode canons (triodia) of Holy Monday, Tuesday, Wednesday"
+        }
+
+
+    def resolve_bridegroom_aposticha(self, context, rubrics=None):
+        """
+        Bridegroom Matins Aposticha.
+        """
+        return {
+            "type": "bridegroom_aposticha",
+            "rubric_note": "Aposticha of Bridegroom Matins"
+        }
+

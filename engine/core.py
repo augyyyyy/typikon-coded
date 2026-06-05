@@ -77,10 +77,16 @@ class EngineCore:
         self.assets_map = self._load_json("json_db/03_assets_map.json")
         _comp_data = self._load_json("json_db/00_components.json")
         self.components = _comp_data.get("components", {}) # Unwrapped
+        for k, v in _comp_data.items():
+            if k.startswith("components."):
+                name = k.split("components.", 1)[1]
+                if name not in self.components:
+                    self.components[name] = v
         self.rank_taxonomy = _comp_data.get("system_definitions", {}).get("rank_taxonomy", {})
         self.scenario_registry = self._load_json("json_db/00_master_scenario_registry.json")
         self.triodion_logic = self._load_json("json_db/02c_logic_triodion.json")
         self.vespers_logic = self._load_json("json_db/04_logic_vespers.json")
+        self.small_vespers_logic = self._load_json("json_db/04_logic_small_vespers.json")
         self.matins_logic = self._load_json("json_db/02e_logic_matins.json")
         self.temple_logic = self._load_json("json_db/02d_logic_temple.json")
         self.liturgy_logic = self._load_json("json_db/02f_logic_liturgy.json")

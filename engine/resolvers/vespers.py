@@ -68,6 +68,93 @@ class VespersMixin:
         Determines the Vespers Stichera distribution using the unified General Cases.
         Replaces legacy logic from 04_logic_vespers.json.
         """
+        if context.get("is_small_vespers"):
+            return self.resolve_small_vespers_stichera(context)
+
+        # Check for overridden distribution first (e.g. from collisions)
+        overridden_dist = context.get("vespers_stichera_distribution")
+        if overridden_dist:
+            vespers_logic = overridden_dist
+            count = vespers_logic.get("total_count", 0)
+            dist = vespers_logic.get("distribution", [])
+            glory = vespers_logic.get("glory")
+            both_now = vespers_logic.get("both_now")
+            
+            if glory is None or both_now is None:
+                base_context = context.copy()
+                base_context.pop("season_id", None)
+                base_context.pop("pascha_offset", None)
+                base_case = self._get_base_general_case(base_context)
+                if base_case:
+                    base_vespers = base_case.get("variables", {}).get("vespers_stichera_distribution", {})
+                    if glory is None:
+                        glory = base_vespers.get("glory")
+                    if both_now is None:
+                        both_now = base_vespers.get("both_now")
+            
+            if glory is None:
+                glory = "saint_doxastikon_if_present"
+            if both_now is None:
+                day_of_week = context.get("day_of_week", 0)
+                if day_of_week == 0 or context.get("is_sunday_vigil"):
+                    both_now = "dogmatikon_current_tone"
+                else:
+                    both_now = "theotokion_daily"
+            
+            def resolve_hymn_key(key, context):
+                if key == "dogmatikon_tone_week" or key == "dogmatikon_current_tone":
+                    tone = context.get("tone", 1)
+                    return f"octoechos.dogmatikon_tone_{tone}"
+                if key == "theotokion_daily":
+                     return "octoechos.theotokion_daily"
+                if (key == "saint" or key == "saint_doxastikon_if_present"):
+                     if context.get("saints"):
+                          s = context["saints"][0]
+                          return f"menaion.{s.get('id')}.glory"
+                     return "menaion.general.doxastikon" if key == "saint" else "(No Saint Doxastikon)"
+                return key
+
+            def expand_distribution(dist_list, context):
+                 expanded = []
+                 tone = context.get("tone", 1)
+                 for group in dist_list:
+                      source = group.get("source", group.get("type", "unknown"))
+                      qty = group.get("qty", group.get("count", 0))
+                      if source == "octoechos" or source == "resurrection":
+                           for i in range(1, qty + 1):
+                                expanded.append(f"octoechos.tone_{tone}.res_{i}")
+                      elif source == "menaion" or source == "saint":
+                           s_id = "saint"
+                           if context.get("saints"): s_id = context["saints"][0].get("id", "saint")
+                           for i in range(1, qty + 1):
+                                expanded.append(f"menaion.{s_id}.stichera_{i}")
+                      elif source == "triodion":
+                           for i in range(1, qty + 1):
+                                expanded.append(f"triodion.stichera_{i}")
+                      else:
+                           for i in range(1, qty + 1):
+                                expanded.append(f"{source}.stichera_{i}")
+                 return expanded
+
+            resolved_glory = resolve_hymn_key(glory, context)
+            if resolved_glory == "(No Saint Doxastikon)" and (context.get("day_of_week") == 0 or context.get("is_sunday_vigil")) and context.get("pascha_offset") is not None:
+                resolved_glory = "triodion.doxasticon"
+
+            resolved_both_now = resolve_hymn_key(both_now, context)
+            if (not resolved_both_now or resolved_both_now == "None") and (context.get("day_of_week") == 0 or context.get("is_sunday_vigil")):
+                resolved_both_now = f"octoechos.dogmatikon_tone_{context.get('tone', 1)}"
+
+            expanded_items = expand_distribution(dist, context)
+
+            return {
+                "total_count": count,
+                "distribution": dist,
+                "items": expanded_items,
+                "glory": resolved_glory,
+                "both_now": resolved_both_now,
+                "case_id": "overridden_collision"
+            }
+
         # RULE: Lenten Sunday Evening Override
         # Citation: Dolnytsky Part IV (2nd and 5th Sunday Evening Vespers rubrics)
         # Even Sundays (2nd, 4th): 6 Octoechos + 4 Menaion
@@ -209,7 +296,13 @@ class VespersMixin:
 
         # RESOLVE
         resolved_glory = resolve_hymn_key(glory, context)
+        if resolved_glory == "(No Saint Doxastikon)" and (context.get("day_of_week") == 0 or context.get("is_sunday_vigil")) and context.get("pascha_offset") is not None:
+            resolved_glory = "triodion.doxasticon"
+
         resolved_both_now = resolve_hymn_key(both_now, context)
+        if (not resolved_both_now or resolved_both_now == "None") and (context.get("day_of_week") == 0 or context.get("is_sunday_vigil")):
+            resolved_both_now = f"octoechos.dogmatikon_tone_{context.get('tone', 1)}"
+
         expanded_items = expand_distribution(dist, context)
 
         return {
@@ -607,6 +700,185 @@ class VespersMixin:
         return {"type": "prokeimenon", "ref_key": "psalm_92_lord_is_king"}
 
 
+    def resolve_small_vespers_case(self, context):
+        """
+        Returns the small vespers case definition from 04_logic_small_vespers.json
+        based on the resolved general case ID.
+        """
+        if not hasattr(self, "small_vespers_logic") or not self.small_vespers_logic:
+            return None
+        lookup_context = context.copy()
+        if context.get("is_sunday_vigil") and context.get("day_of_week") == 6:
+            lookup_context["day_of_week"] = 0
+            
+        general_case = self.resolve_general_case(lookup_context)
+        if not general_case:
+            return None
+        case_id = general_case.get("id")
+        id_map = {
+            "CASE_06": "case_06_sunday_vigil",
+            "CASE_07": "case_07_weekday_vigil",
+            "CASE_10": "case_10_feast_lord",
+            "CASE_11": "case_11_theotokos_sunday",
+            "CASE_12": "case_12_theotokos_weekday",
+            "CASE_17": "case_17_afterfeast_sunday_vigil",
+            "CASE_18": "case_18_afterfeast_weekday_vigil"
+        }
+        mapped_id = id_map.get(case_id, case_id)
+        dist_map = self.small_vespers_logic.get("small_vespers_distribution", {})
+        
+        # Check direct match
+        case_def = dist_map.get(mapped_id)
+        if not case_def:
+            # Safe fallbacks if case_id not explicitly mapped
+            day = context.get("day_of_week", 0)
+            if day == 0 or context.get("is_sunday_vigil"):
+                mapped_id = "case_06_sunday_vigil"
+            else:
+                mapped_id = "case_07_weekday_vigil"
+            case_def = dist_map.get(mapped_id)
+            
+        visited = set()
+        while case_def and "inherits" in case_def:
+            inherit_target = case_def["inherits"]
+            if inherit_target in visited:
+                break
+            visited.add(inherit_target)
+            next_def = dist_map.get(inherit_target)
+            if not next_def:
+                # Fallback if inherited target doesn't exist
+                if "sunday" in inherit_target or "case_01" in inherit_target:
+                    next_def = dist_map.get("case_06_sunday_vigil")
+                else:
+                    next_def = dist_map.get("case_07_weekday_vigil")
+            case_def = next_def
+            
+        return case_def
+
+
+    def resolve_small_vespers_stichera(self, context):
+        """
+        Resolves stichera for Small Vespers.
+        """
+        case_def = self.resolve_small_vespers_case(context)
+        if not case_def or "lord_i_have_cried" not in case_def:
+            return {
+                "total_count": 4,
+                "distribution": [{"source": "menaion", "type": "saint", "qty": 4}],
+                "glory": "saint",
+                "both_now": "theotokion"
+            }
+            
+        lc = case_def["lord_i_have_cried"]
+        counts = []
+        for dist in lc.get("distribution", []):
+            counts.append({
+                "source": dist.get("source"),
+                "type": dist.get("type"),
+                "qty": dist.get("qty")
+            })
+            
+        return {
+            "total_count": lc.get("total_count", 4),
+            "distribution": counts,
+            "glory": lc.get("glory"),
+            "both_now": lc.get("both_now")
+        }
+
+
+    def resolve_small_vespers_aposticha(self, context):
+        case_def = self.resolve_small_vespers_case(context)
+        if not case_def or "aposticha" not in case_def:
+            return {
+                "type": "aposticha",
+                "components": [
+                    {"source": "octoechos", "id": "aposticha_daily", "count": 3},
+                    {"source": "octoechos", "id": "aposticha_theotokion", "type": "glory_both_now"}
+                ]
+            }
+        
+        ac = case_def["aposticha"]
+        components = []
+        for group in ac.get("distribution", []):
+            source = group.get("source")
+            b_type = group.get("type", "resurrection")
+            qty = group.get("qty", 1)
+            for i in range(1, qty + 1):
+                item_id = f"aposticha_{b_type}_{i}"
+                components.append({"source": source, "id": item_id, "count": 1})
+                
+        glory_type = ac.get("glory", "none")
+        if glory_type != "none":
+            components.append({
+                "source": "menaion" if "saint" in glory_type or "feast" in glory_type else "octoechos",
+                "id": glory_type,
+                "type": "glory"
+            })
+            
+        both_now_type = ac.get("both_now", "none")
+        if both_now_type != "none":
+            components.append({
+                "source": "menaion" if "forefeast" in both_now_type or "feast" in both_now_type or "afterfeast" in both_now_type else "octoechos",
+                "id": both_now_type,
+                "type": "both_now" if glory_type != "none" else "glory_both_now"
+            })
+            
+        return {
+            "type": "aposticha",
+            "components": components
+        }
+
+
+    def resolve_small_vespers_troparia(self, context):
+        case_def = self.resolve_small_vespers_case(context)
+        if not case_def or "troparia" not in case_def:
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "fixed_ref", "ref_key": "feast.troparion"},
+                    {"type": "glory_both_now", "ref_key": "feast.theotokion"}
+                ]
+            }
+        
+        tc = case_def["troparia"]
+        saints = context.get("saints", [])
+        tone = context.get("tone", 1)
+        day_of_week = context.get("day_of_week", 0)
+        
+        components = []
+        troparion_val = tc.get("troparion")
+        if troparion_val == "saint" and saints:
+            components.append({"type": "saint", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"})
+        elif troparion_val == "feast":
+            components.append({"type": "feast", "ref_key": "feast.troparion"})
+        elif troparion_val == "sunday":
+            components.append({"type": "resurrectional", "ref_key": f"octoechos.troparion.tone_{tone}"})
+            
+        glory_val = tc.get("glory", "none")
+        if glory_val == "saint" and saints:
+            components.append({"type": "glory", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"})
+        elif glory_val == "feast":
+            components.append({"type": "glory", "ref_key": "feast.troparion"})
+            
+        both_now_val = tc.get("both_now", "none")
+        if both_now_val == "resurrection_theotokion":
+            components.append({"type": "both_now", "ref_key": f"octoechos.theotokion_dismissal.tone_{tone}"})
+        elif both_now_val == "theotokion":
+            components.append({"type": "both_now", "ref_key": f"horologion.theotokion_dismissal.day_{day_of_week}"})
+        elif both_now_val == "dogmatikon":
+            components.append({"type": "both_now", "ref_key": f"octoechos.dogmatikon.tone_{tone}"})
+        elif both_now_val == "feast":
+            components.append({"type": "both_now", "ref_key": "feast.theotokion"})
+            
+        if glory_val == "none" and len(components) == 2:
+            components[1]["type"] = "glory_both_now"
+            
+        return {
+            "type": "troparia_stack",
+            "components": components
+        }
+
+
     def resolve_vespers_troparia_simple(self, context, rubrics):
         """
         Small/Daily Vespers Troparia after Nunc Dimittis.
@@ -617,6 +889,8 @@ class VespersMixin:
         - Feast: Feast troparion, Glory/Both now: Feast Theotokion
         - Weekday: Saint troparion, Glory/Both now: Dismissal Theotokion
         """
+        if context.get("is_small_vespers"):
+            return self.resolve_small_vespers_troparia(context)
         paradigm = context.get("paradigm", "")
         rank = context.get("rank", 5)
         tone = context.get("tone", 1)
@@ -838,8 +1112,24 @@ class VespersMixin:
 
 
     def resolve_aposticha(self, context, rubrics=None):
-        variables = self.resolve_general_case(context).get("variables", {})
-        distribution_config = variables.get("aposticha_distribution", {})
+        if context.get("is_small_vespers"):
+            return self.resolve_small_vespers_aposticha(context)
+        
+        # Check collision override first
+        distribution_config = context.get("variables", {}).get("aposticha_distribution")
+        if not distribution_config:
+            variables = self.resolve_general_case(context).get("variables", {})
+            distribution_config = variables.get("aposticha_distribution", {})
+        
+        # Fall back to base case if empty
+        if not distribution_config or distribution_config.get("total_count", 0) == 0:
+            base_context = context.copy()
+            base_context.pop("season_id", None)
+            base_context.pop("pascha_offset", None)
+            base_case = self._get_base_general_case(base_context)
+            if base_case:
+                distribution_config = base_case.get("variables", {}).get("aposticha_distribution", {}) or {}
+
         total_count = distribution_config.get("total_count", 0)
         distribution = distribution_config.get("distribution", [])
         
@@ -853,21 +1143,22 @@ class VespersMixin:
                 item_id = f"aposticha_{b_type}_{i}"
                 components.append({"source": source, "id": item_id, "count": 1})
         
-        glory_type = distribution_config.get("glory", "none")
-        if glory_type != "none":
-            components.append({
-                "source": "menaion" if "saint" in glory_type or "feast" in glory_type else "octoechos",
-                "id": glory_type,
-                "type": "glory"
-            })
-            
-        both_now_type = distribution_config.get("both_now", "aposticha_theotokion")
-        if both_now_type != "none":
-            components.append({
-                 "source": "menaion" if "forefeast" in both_now_type or "feast" in both_now_type or "afterfeast" in both_now_type else "octoechos",
-                 "id": both_now_type,
-                 "type": "both_now" if glory_type != "none" else "glory_both_now"
-            })
+        if distribution_config:
+            glory_type = distribution_config.get("glory", "none")
+            if glory_type != "none":
+                components.append({
+                    "source": "menaion" if "saint" in glory_type or "feast" in glory_type else "octoechos",
+                    "id": glory_type,
+                    "type": "glory"
+                })
+                
+            both_now_type = distribution_config.get("both_now", "aposticha_theotokion")
+            if both_now_type != "none":
+                components.append({
+                     "source": "menaion" if "forefeast" in both_now_type or "feast" in both_now_type or "afterfeast" in both_now_type else "octoechos",
+                     "id": both_now_type,
+                     "type": "both_now" if glory_type != "none" else "glory_both_now"
+                })
             
         if not components:
              day = context.get("day_of_week", 0)
@@ -897,15 +1188,75 @@ class VespersMixin:
 
 
     @liturgical_source(dolnytsky="Part IV (Great Friday Entombment)")
-    def resolve_passion_vespers_readings(self, context):
+    def resolve_passion_vespers_readings(self, context, rubrics=None):
         """
-        Passion Week: Great Friday Vespers Readings
+        Passion Vespers Readings (Good Friday Evening).
+        Citation: Dolnytsky Part IV (Holy Week)
+        
+        Structure:
+        - Special paremias and readings for burial service
+        - Apostol from I Corinthians
+        - Gospel composite from all four Evangelists (Joseph of Arimathea)
         """
+        pascha_offset = context.get("pascha_offset", -100)
+        title = context.get("title", "").lower()
+        
+        # Only applies on Good Friday evening (Pascha offset -2 at evening)
+        if pascha_offset != -2 and "good friday" not in title and "great friday" not in title:
+            return None
+        
         return {
-            "type": "entombment_readings",
-            "readings": [
-                {"source": "Exodus"},
-                {"source": "Job"},
-                {"source": "Isaiah"}
-            ]
+            "type": "passion_vespers_readings",
+            "prokeimenon": {
+                "text": "They divided my garments among them, and for my vesture they cast lots.",
+                "ref_key": "triodion.prokeimenon_good_friday"
+            },
+            "paremia_1": {
+                "book": "Exodus",
+                "chapter": "33:11-23",
+                "ref_key": "triodion.paremia_gf_1"
+            },
+            "paremia_2": {
+                "book": "Job",
+                "chapter": "42:12-17",
+                "ref_key": "triodion.paremia_gf_2"
+            },
+            "paremia_3": {
+                "book": "Isaiah",
+                "chapter": "52:13 - 54:1",
+                "ref_key": "triodion.paremia_gf_3"
+            },
+            "epistle": {
+                "book": "I Corinthians",
+                "chapter": "1:18 - 2:2",
+                "ref_key": "triodion.epistle_good_friday",
+                "content": "For the word of the Cross is foolishness to those who are perishing..."
+            },
+            "alleluia": {
+                "text": "Save me, O God, for the waters are come in unto my soul.",
+                "ref_key": "triodion.alleluia_good_friday"
+            },
+            "gospel": {
+                "composite": True,
+                "sources": ["Matthew 27:1-38", "Luke 23:39-43", "Matthew 27:39-54", "John 19:31-37", "Matthew 27:55-61"],
+                "ref_key": "triodion.gospel_good_friday_vespers",
+                "content": "The Burial of Christ (Composite Gospel)"
+            }
         }
+
+
+    @liturgical_source(dolnytsky="Part I")
+    def resolve_daily_kathisma(self, context, rubrics=None):
+        """
+        Resolves the daily kathisma for Vespers.
+        - Sunday (0) (Saturday evening Vespers): Kathisma 1.
+        - Monday (1) (Sunday evening Vespers): None.
+        - Other weekdays (Tuesday-Saturday, 2-6): Kathisma 18.
+        """
+        day = context.get("day_of_week", 0)
+        if day == 0:
+            return {"type": "kathisma", "number": 1, "ref_key": "horologion.kathisma_1"}
+        elif day == 1:
+            return {"type": "none", "number": 0, "ref_key": None}
+        else:
+            return {"type": "kathisma", "number": 18, "ref_key": "horologion.kathisma_18"}

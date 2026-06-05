@@ -169,6 +169,30 @@
         "note": "Feast troparion replaces Theotokion at Both Now"
       },
       {
+        "id": "sunday_with_feast",
+        "condition": "Sunday AND Feast (Fore/Afterfeast), no Saint",
+        "source_ref": "Dolnytsky I",
+        "sequence": [
+          {
+            "slot": 1,
+            "content": "troparion_resurrection",
+            "count": 2
+          },
+          {
+            "slot": 2,
+            "content": "glory_both_now",
+            "type": "combined"
+          },
+          {
+            "slot": 3,
+            "content": "troparion_feast",
+            "count": 1
+          }
+        ],
+        "total_troparia": 3,
+        "master_tone": "tone_of_week"
+      },
+      {
         "id": "weekday_saint",
         "condition": "Weekday AND single Saint",
         "source_ref": "Dolnytsky I Line 151",

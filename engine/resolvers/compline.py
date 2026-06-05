@@ -3,6 +3,8 @@ Ruthenian Engine - ComplineMixin
 Extracted from ruthenian_engine.py during Phase 1 modularization.
 """
 
+from engine.core import liturgical_source
+
 import json
 import os
 import re
@@ -235,3 +237,30 @@ class ComplineMixin:
              
         # Default
         return "small_compline"
+
+    @liturgical_source(dolnytsky="Part IV")
+    def check_day_range(self, context, week=None, days=None):
+        """
+        Checks if the current day falls within the specified Lenten week and days.
+        """
+        if context.get("season") != "lent":
+            return False
+            
+        offset = context.get("pascha_offset", None)
+        if offset is None:
+            return False
+            
+        # Lent starts on Clean Monday, which is offset -48
+        # Clean Week is Week 1
+        lent_week = ((offset + 48) // 7) + 1
+        
+        if week is not None and lent_week != week:
+            return False
+            
+        if days is not None:
+            day_map = {1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 0: "Sun"}
+            current_day_str = day_map.get(context.get("day_of_week"))
+            if current_day_str not in days:
+                return False
+                
+        return True

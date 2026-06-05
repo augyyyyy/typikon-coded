@@ -3,11 +3,64 @@
 You are an AI assistant working on **Typikon Coded**, a Ruthenian Typikon Logic Engine.
 Your primary goal is to help automate Byzantine liturgical service generation based on the Isidor Dolnytsky Typikon (Lviv, 2010).
 
+---
+
+## ⛔ AGENT BEHAVIORAL COMPLIANCE (READ BEFORE ANYTHING ELSE)
+
+> Multiple AI agents have destroyed work on this project through confirmation bias — fabricating narratives of progress, claiming work is complete when it isn't, and bending facts to fit an optimistic story. The rules below are MANDATORY. Violating them wastes the user's time, tokens, and money. See `.agent/brain/AGENT_COMPLIANCE.md` for the full hall of shame with exact quotes from past failures.
+
+### 1. The Honesty Protocol
+- If you do not know something, say **"I don't know."** Do not invent an explanation.
+- If you lost context due to a restart, compaction, or checkpoint, say **"I lost context and need to re-verify."** Do not reconstruct a plausible-sounding narrative from partial clues.
+- If you are unsure whether a change was made, run `git diff` or `git log` and cite the exact output. Do not say "I believe the change was..." without evidence.
+- If a subagent or background task has not reported back, say **"No response received yet, status unknown."** Do not narrate what the subagent "found."
+
+### 2. The Evidence Gate
+Every claim of "done", "fixed", "working", or "complete" MUST be accompanied by **terminal output proving it**. Acceptable evidence:
+- `git diff --stat` showing exactly which files changed and line counts
+- `python -m pytest tests/ -v` output showing pass/fail counts
+- The actual generated digest output for a specific date
+- A line-by-line diff against the PDF gold standard
+- **If you cannot produce evidence, you MUST say: "I have not verified this claim."**
+
+### 3. Banned Phrases Without Evidence
+These phrases are **FORBIDDEN** unless immediately followed by a command output or file diff that proves them:
+- "Everything is working"
+- "I've successfully…"
+- "The output correctly reflects…"
+- "This has been fixed"
+- "The changes are complete"
+- "As expected…"
+- "I've verified…" (without showing the verification output)
+
+### 4. The Pre-Flight Checklist (Before Writing ANY Code)
+1. Read `.cursorrules` (this file).
+2. Read `.ai/learnings.md`.
+3. Read `.agent/brain/project_brainprint.md`.
+4. Cite at least **ONE specific rule** from each file that is relevant to the work you're about to do.
+5. If you cannot cite a relevant rule, state: "I found no directly relevant rule, proceeding with caution."
+
+### 5. The Post-Flight Checklist (After ANY Code Change)
+1. Run `git diff --stat` and paste the output.
+2. Run `python -m pytest tests/ -v` and report the exact pass/fail count.
+3. If you changed `typikon_digest_generator.py`, run: `python generate_typikon_service.py --date 2026-02-01 --digest --no-open` and paste at least the first 30 lines of output.
+4. State explicitly: **"X tests pass, Y tests fail, Z files changed."**
+
+### 6. The "I Don't Know" Protocol
+When you encounter ANY of these situations, you MUST stop and say so:
+- A method you're trying to call doesn't exist → say `[NOT FOUND: method_name]`
+- A file you expected to find is missing → say `File not found: path`
+- You can't remember what happened before a context compaction → say `Context was compacted, I need to re-read the state`
+- A subagent or background task hasn't reported back → say `No response received yet, status unknown`
+- You're unsure if a change was committed → run `git status` and report the output
+
+---
+
 ## On Startup — Read These Files
 
 1. **THIS FILE** (`.cursorrules`) — Operational rules (you're reading it now).
-2. **`.ai/learnings.md`** — Deep encyclopedic memory: 20 Paradigms, 13 Matins Gates, data schemas.
-3. **`.agent/brain/project_brainprint.md`** — Authoritative baseline: directory structure, test counts, architecture, known issues. **Always read this before making structural changes.**
+2. **`.ai/learnings.md`** — Deep encyclopedic memory: 20 Paradigms, 13 Matins Gates, data schemas, ANTI-PATTERNS.
+3. **`.agent/brain/project_brainprint.md`** — Authoritative baseline: directory structure, test counts, architecture, known issues.
 4. **`.agent/brain/AGENT_STARTUP_CONTEXT.md`** — Hierarchy of authority (Ordo > Dolnytsky > Liturgicon).
 
 ## Core Architectural Principles
@@ -16,6 +69,82 @@ Your primary goal is to help automate Byzantine liturgical service generation ba
 2. **Asset Agnosticism**: The Logic Engine only knows unique IDs, not text strings. This allows swapping translations (e.g., Stamford vs. Ruthenian) without changing code.
 3. **Strict Hierarchical Overrides**: Rules apply in layers: Universal (Octoechos) -> Fixed (Menaion) -> Dynamic (Triodion/Pentecostarion) -> Local (Temple).
 4. **Modular Engine**: The engine lives in `engine/` as domain-specific mixin modules. `ruthenian_engine.py` at root is a 15-line backward-compat shim. Never add logic to the shim.
+
+---
+
+## ⛔ ANTI-PATTERN BLACKLIST (CRITICAL — READ BEFORE ANY WORK)
+
+These anti-patterns have caused repeated regressions. Violating ANY of these is unacceptable.
+
+### 1. NO HARDCODED STRINGS PRETENDING TO BE RESOLVED OUTPUT
+**BAD**: `digest.append("After Ode III: Sessional hymns (and Kontakion if transferred).")`
+**WHY**: This is a static sentence. It does NOT call any resolver. It will print the same string regardless of the liturgical context. It is a lie — it claims to describe what happens after Ode III, but it never asks the engine.
+**GOOD**: Call `self.engine.resolve_canon_interludes(3, enriched)` and format whatever it returns.
+
+### 2. NO BARE `except: pass`
+**BAD**: `try: res = self.engine.resolve_something(ctx) except: pass`
+**WHY**: This silently swallows ALL errors — including bugs, wrong argument counts, typos in method names, and data errors. You will NEVER know the resolver is broken. This is the #1 cause of "the output looks fine" when it is actually empty.
+**GOOD**: `except Exception as e: digest.append(f"[RESOLVE ERROR: {method_name}: {e}]")`
+At minimum, log the error. In production, use a debug flag to suppress error display, but NEVER silently discard the error during development.
+
+### 3. NO RAW INTERNAL KEYS IN USER-FACING OUTPUT
+**BAD**: `Eothinon_1_theotokion`, `saint_1`, `Tone_1`, `Open_to_me_the_doors_of_repentance`
+**WHY**: These are machine-internal reference keys. The user sees `Eothinon_1_theotokion` instead of "Theotokion of Eothinon I". The `_format_ref()` method is supposed to humanize these, but currently it only does `split('.').[-1].capitalize()` which is not enough.
+**GOOD**: Either resolve the key to its actual text via `get_text()`, or maintain a human-readable label table.
+
+### 4. NO VAGUE STUBS DISGUISED AS IMPLEMENTATIONS
+**BAD**: `digest.append("At the Aposticha: We sing the aposticha.")`
+**WHY**: This says nothing. The whole point of the digest is to tell the user WHAT aposticha, from WHICH source, in WHICH tone, with what Glory/Both now. Compare to the PDF gold standard: "We sing the resurrectional aposticha in the tone of the week, from the Octoechos; Glory… Triodion; Both now… forefeast."
+**GOOD**: Call the aposticha resolver, iterate over its distribution, and print each source and count.
+
+### 5. NO CONFIRMATION BIAS IN PROGRESS REPORTING
+**BAD**: "Everything is working great! The output correctly reflects the Polyeleos and Communion Hymn!"
+**WHY**: Claiming 2 correct lines out of 30 proves nothing. You MUST compare every line of the generated output against the PDF gold standard examples in `C:\Users\augus\OneDrive\Desktop\Typikon digest\`. If there is a discrepancy, SAY SO.
+**GOOD**: Do a line-by-line diff against the PDF reference. Count correct vs. wrong vs. missing lines. Report both numbers.
+
+### 6. NO `hasattr` GUARD THAT HIDES MISSING METHODS
+**BAD**: `if hasattr(self.engine, "resolve_some_method"): ...` (with no else branch)
+**WHY**: If the method doesn't exist, the section silently disappears from the output. The user never knows it was supposed to be there. This allows sections of the digest to vanish without warning.
+**GOOD**: If the method doesn't exist, output `[NOT IMPLEMENTED: resolve_some_method]` so that gaps are visible.
+
+### 7. NO CLAIMING A SECTION IS "DONE" WITHOUT VERIFYING AGAINST THE PDF
+A section is "done" when its output matches the PDF gold standard for that date. Not before.
+
+---
+
+## The PDF Gold Standard
+
+The directory `C:\Users\augus\OneDrive\Desktop\Typikon digest\` contains human-authored PDF digests that represent the correct output format. These are the **authoritative reference** for what the generator should produce.
+
+**Before marking any resolver or section as "complete", you MUST:**
+1. Generate the digest for the SAME date as one of the PDF examples.
+2. Extract the PDF text (using `fitz`/PyMuPDF).
+3. Do a line-by-line comparison.
+4. Report every discrepancy.
+
+---
+
+## Complete Liturgical Day: Required Services
+
+A FULL liturgical day digest must account for ALL of these services (where applicable):
+
+1. **9th Hour** (of the previous day, read before Vespers)
+2. **Small Vespers** (if Vigil is served)
+3. **Great Vespers** (or Daily Vespers on non-festal days)
+4. **Compline** (Great or Small, depending on season)
+5. **Midnight Office** (Weekday, Saturday, or Sunday variant)
+6. **Matins** (Daily or Great/Festal)
+7. **1st Hour** (appended to the end of Matins)
+8. **3rd Hour**
+9. **6th Hour**
+10. **9th Hour** (of the current day)
+11. **Divine Liturgy** (Chrysostom, Basil, Presanctified, Vesperal, or Typika)
+
+Currently the generator traverses all 9 services in the `daily_cycle` (defined in `engine/core.py`). Small Vespers is conditionally added.
+The active implementation plan to bring resolver utilization to 100% is at:
+`C:\Users\augus\.gemini\antigravity\brain\d3732588-375b-4ff8-b136-9081fb3c4696\implementation_plan.md`
+
+---
 
 ## Development Rules
 
@@ -26,12 +155,15 @@ Your primary goal is to help automate Byzantine liturgical service generation ba
    - Update `.agent/brain/project_brainprint.md` when test counts, file structure, or resolver counts change.
 2. **Dolnytsky Citations**: All liturgical logic changes MUST cite Dolnytsky line numbers or specific rules from the 20 Paradigms. No vague assumptions.
 3. **Master Keys**: Text IDs must follow the flattened schema format (e.g., `tone_1.sat_vespers.stichera_lord_i_call`). Do not use deeply nested dictionaries for text lookup if flat keys are available.
+4. **No Abbreviations in Output**: The generated digest must use full, unabbreviated liturgical terms. The end user decides their own abbreviations.
+5. **Vestment Colours**: Must include ALL valid options for the day (e.g., "Bright [blue for the forefeast or gold]"), not just a single colour.
+6. **Transfer Notes**: When saints are transferred, the digest must state WHERE they are transferred to and WHY.
 
 ## Validation & Testing
 
 Run these commands before committing any major logic changes:
 ```bash
-# Full test suite (248 tests expected)
+# Full test suite (252 tests expected)
 python -m pytest tests/ -v
 
 # Validate JSON schemas (24/24 files expected)
@@ -42,6 +174,13 @@ python -m pytest tests/test_matins_stress_2_saints.py -v
 python -m pytest tests/test_matins_gold_standard.py -v
 ```
 
+### Digest Validation (NEW — MANDATORY)
+After any change to `typikon_digest_generator.py`, run:
+```bash
+python generate_typikon_service.py --date 2026-02-01 --digest --no-open
+```
+Then compare the output against the PDF: `C:\Users\augus\OneDrive\Desktop\Typikon digest\TYPICON February 1 Prodigal Son.pdf`
+
 ## Reference Map
 
 - **Engine Package**: `engine/` (core.py, text_db.py, calendar.py, rubrics.py, generation.py, resolvers/)
@@ -49,5 +188,25 @@ python -m pytest tests/test_matins_gold_standard.py -v
 - **Logic Rules**: `json_db/02*_logic_*.json`
 - **Service Structures**: `json_db/01*_struct_*.json`
 - **Text Assets**: `json_db/stamford/` and `assets/`
+- **PDF Gold Standards**: `C:\Users\augus\OneDrive\Desktop\Typikon digest\`
 - **Deep Context**: See `.ai/learnings.md` for the 20 Paradigms, Data Structures, and Matins Logic Gates.
 - **Full Baseline**: See `.agent/brain/project_brainprint.md` for the complete directory tree, metrics, and known issues.
+
+---
+
+## Model-Switching Protocol
+
+When the user switches from a thinking/planning model (e.g., Claude Opus) to an execution model (e.g., Gemini Flash):
+
+1. **The execution model MUST read** all 5 control files AND the active implementation plan before writing any code.
+2. **The execution model MUST cite** at least one rule from each control file.
+3. **The implementation plan is the single source of truth** for what to implement. Do not improvise or add features not in the plan.
+4. **After each phase**, run the Post-Flight Checklist.
+5. **If the plan becomes obsolete** or needs significant changes, update the plan and request user approval before continuing.
+
+### Verified Resolver Metrics (Updated: 2026-06-05)
+- **207** `resolve_` methods exist in engine
+- **79** unique resolvers referenced by JSON struct files
+- **0** resolvers missing from engine
+- **146** formatters exist in digest generator
+- **0** formatters still needed

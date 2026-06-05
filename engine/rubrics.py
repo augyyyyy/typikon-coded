@@ -71,6 +71,16 @@ class RubricsMixin:
         if offset == -17: return "Thursday_Great_Canon"
         if offset == -28: return "Sunday_Veneration_Cross"
         
+        # Pre-Lenten & Lenten Sundays
+        if offset == -70: return "Sunday_Publican_Pharisee"
+        if offset == -63: return "Sunday_Prodigal_Son"
+        if offset == -56: return "Sunday_Meatfare"
+        if offset == -49: return "Sunday_Cheesefare"
+        if offset == -42: return "Sunday_Orthodoxy"
+        if offset == -35: return "Sunday_Gregory_Palamas"
+        if offset == -21: return "Sunday_John_Climacus"
+        if offset == -14: return "Sunday_Mary_of_Egypt"
+        
         if offset in [-22, -29]: return "Saturday_3_4" # Sat 4 (-22), Sat 3 (-29)
         
         if 1 <= offset <= 6: return "Bright_Week"
@@ -521,6 +531,29 @@ class RubricsMixin:
         day_of_week = context.get("day_of_week", 0)
         rank = context.get("dolnytsky_rank", "")
         
+        # Sundays of Triodion with simple saints
+        if day_of_week == 0 and season == "triodion":
+            saints = context.get("transferred_saints", context.get("saints", []))
+            simple_saints = [
+                s for s in saints 
+                if s.get("rank_code", "") not in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]", "[POLUELEOS]")
+                and not any(w in s.get("name", "").lower() for w in ("forefeast", "afterfeast", "apodosis", "meeting", "encounter"))
+            ]
+            if simple_saints:
+                formatted_names = []
+                for s in simple_saints:
+                    name = s.get("name", s.get("id", ""))
+                    if not name.startswith("St.") and not name.startswith("Ven.") and not name.startswith("Holy"):
+                        name = "St. " + name
+                    formatted_names.append(name)
+                names_str = " or ".join(formatted_names)
+                return {
+                    "transferred": True,
+                    "saint_name": names_str,
+                    "target": "the previous Friday at Compline, or another convenient time, whenever the ecclesiarch so wishes",
+                    "citation": "Dolnytsky Part 3 — Triodion Sunday saint transfer"
+                }
+
         # Only during Great Lent weekdays
         if season != "triodion": 
             return None
@@ -530,11 +563,16 @@ class RubricsMixin:
             return None
             
         if day_of_week in (1, 2, 3, 4, 5) and rank not in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
-            saints = context.get("saints", [])
-            if saints:
+            saints = context.get("transferred_saints", context.get("saints", []))
+            simple_saints = [
+                s for s in saints
+                if s.get("rank_code", "") not in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]", "[POLUELEOS]")
+                and not any(w in s.get("name", "").lower() for w in ("forefeast", "afterfeast", "apodosis", "meeting", "encounter"))
+            ]
+            if simple_saints:
                 return {
                     "transferred": True,
-                    "saint_name": saints[0].get("name", saints[0].get("id", "unknown")),
+                    "saint_name": simple_saints[0].get("name", simple_saints[0].get("id", "unknown")),
                     "target": "previous_friday_compline",
                     "citation": "Dolnytsky Part 4 — Lenten saint transfer to Friday Compline"
                 }
@@ -550,6 +588,40 @@ class RubricsMixin:
     def _resolve_rubrics_logic(self, context):
         day_str = str(context["day"]).zfill(2)
         rubrics = {"title": "", "variables": {}, "overrides": {}, "_trace": []}
+
+        # --- Collision Override Layer ---
+        collision_rule = self.check_collision(context)
+        is_transferred = False
+        if collision_rule:
+            rubrics["_trace"].append(f"Collision Detected: {collision_rule.get('_feast_name', 'Feast')} on {collision_rule.get('movable_day')}.")
+            rubric_data = collision_rule.get("rubric", {})
+            if rubric_data.get("action") == "TRANSFER_FIXED":
+                is_transferred = True
+                rubrics["_trace"].append("Collision Action: Fixed Feast Transferred (Menaion Suppressed for today).")
+            elif "variables" in rubric_data:
+                context["_collision_variables"] = rubric_data["variables"]
+                
+        # --- Transfer Lookback (e.g. St George on Bright Monday) ---
+        if not is_transferred and context.get("pascha_offset") == 1:
+            try:
+                # Calculate if April 23rd fell on Great Friday, Saturday, or Pascha
+                ctx_date = date.fromisoformat(context.get("date", ""))
+                st_george_date = date(ctx_date.year, 4, 23)
+                diff_days = (ctx_date - st_george_date).days
+                if diff_days in [1, 2, 3]:  # Pascha (diff 1), G. Sat (diff 2), G. Fri (diff 3)
+                    rubrics["_trace"].append("Transfer Lookback: St. George transferred to Bright Monday.")
+                    cg = self.collision_db.get("collisions", {}).get("04-23", {}).get("rules", [])
+                    for rule in cg:
+                        if rule.get("movable_day") == "Bright_Week":
+                            context["_collision_variables"] = rule.get("rubric", {}).get("variables", {})
+                            break
+                    # Force Menaion to load St George (04-23) instead of today's saint
+                    context["month"] = "04"
+                    context["day"] = 23
+                    day_str = "23"
+            except Exception:
+                pass
+
 
         # Layer 1: Triodion
         triodion_map = self.triodion_logic.get("logic_map", {})
@@ -579,57 +651,57 @@ class RubricsMixin:
                     rubrics["_trace"].append(f"Override: Set {k}='{v}' from Triodion.")
 
         # Layer 2: Menaion
-        menaion_month_logic = self.menaion_logic.get(context["month"], {})
-        # ... (Rest of Menaion logic is fine)
-        day_str = str(context["day"]).zfill(2)
-
-        # Check Floating Feasts (e.g. Sunday of Forefathers)
-        floating_feasts = menaion_month_logic.get("floating_rules", {})
-        for key, rule in floating_feasts.items():
-            date_range = rule.get("date_range", {})
-            if date_range and date_range.get("start") <= context["day"] <= date_range.get("end"):
-                if self._check_condition(rule.get("triggers", {}), context):
-                    rubrics["title"] += f" & {rule.get('title_key', key)}"
-                    rubrics["variables"].update(rule.get("variables", {}))
-                    rubrics["_trace"].append(f"Menaion Floating Logic: Matched '{key}'.")
-                    for k, v in rule.get("variables", {}).items():
-                        if k.endswith("_type"): 
-                            rubrics["overrides"][k] = v
-                            rubrics["_trace"].append(f"Override: Set {k}='{v}' from Floating Rule.")
-                    break
-
-        menaion_day = menaion_month_logic.get("days", {}).get(day_str)
-        if menaion_day:
-            rubrics["title"] = menaion_day.get("title_key", rubrics["title"])
-            rubrics["variables"].update(menaion_day.get("variables", {}))
-            # Populate menaion_rank for Great Feast Vigil detection
-            # Citation: Dolnytsky Part I §1 - Great Feasts use Vigil structure
-            if "rank" in menaion_day:
-                rubrics["variables"]["menaion_rank"] = menaion_day["rank"]
-                rubrics["_trace"].append(f"Menaion Rank: Set '{menaion_day['rank']}'.")
-            rubrics["_trace"].append(f"Menaion Logic: Matched Day '{day_str}'.")
-            if "variants" in menaion_day:
-                for variant in menaion_day["variants"]:
-                    if self._check_condition(variant.get("condition"), context):
-                        rubrics["_trace"].append(f"Menaion Variant: Matched condition '{variant.get('condition')}'.")
-                        action = variant.get("action", {})
-                        if "variables" in action:
-                            var_update = action["variables"];
-                            rubrics["variables"].update(var_update)
-                            for k, v in var_update.items():
-                                if k.endswith("_type"): 
-                                    rubrics["overrides"][k] = v
-                                    rubrics["_trace"].append(f"Override: Set {k}='{v}' from Variant.")
-                        if "type" in action and "vesperal_liturgy" in action["type"]:
-                            rubrics["overrides"]["liturgy_type"] = "vesperal_merge_logic"
-                            rubrics["_trace"].append("Override: Triggered Vesperal Liturgy Merge.")
+        if is_transferred:
+            rubrics["_trace"].append("Menaion Layer: Skipped due to TRANSFER_FIXED.")
+        else:
+            menaion_month_logic = self.menaion_logic.get(context["month"], {})
+            # Check Floating Feasts (e.g. Sunday of Forefathers)
+            floating_feasts = menaion_month_logic.get("floating_rules", {})
+            for key, rule in floating_feasts.items():
+                date_range = rule.get("date_range", {})
+                if date_range and date_range.get("start") <= context["day"] <= date_range.get("end"):
+                    if self._check_condition(rule.get("triggers", {}), context):
+                        rubrics["title"] += f" & {rule.get('title_key', key)}"
+                        rubrics["variables"].update(rule.get("variables", {}))
+                        rubrics["_trace"].append(f"Menaion Floating Logic: Matched '{key}'.")
+                        for k, v in rule.get("variables", {}).items():
+                            if k.endswith("_type"): 
+                                rubrics["overrides"][k] = v
+                                rubrics["_trace"].append(f"Override: Set {k}='{v}' from Floating Rule.")
                         break
-        elif not rubrics["title"] or rubrics["title"] == "Service for " + str(context["date"]):
-            # FALLBACK: Simple Feast (Missing Data)
-            rubrics["title"] = f"Saint of the Day ({context['month']}-{context['day']})"
-            rubrics["variables"]["rank"] = "rank_simple_6"
-            rubrics["variables"]["vespers_type"] = "daily_vespers"
-            rubrics["_trace"].append("Menaion Logic: No specific match logic found. Using Daily Fallback.")
+
+            menaion_day = menaion_month_logic.get("days", {}).get(day_str)
+            if menaion_day:
+                rubrics["title"] = menaion_day.get("title_key", rubrics["title"])
+                rubrics["variables"].update(menaion_day.get("variables", {}))
+                # Populate menaion_rank for Great Feast Vigil detection
+                # Citation: Dolnytsky Part I §1 - Great Feasts use Vigil structure
+                if "rank" in menaion_day:
+                    rubrics["variables"]["menaion_rank"] = menaion_day["rank"]
+                    rubrics["_trace"].append(f"Menaion Rank: Set '{menaion_day['rank']}'.")
+                rubrics["_trace"].append(f"Menaion Logic: Matched Day '{day_str}'.")
+                if "variants" in menaion_day:
+                    for variant in menaion_day["variants"]:
+                        if self._check_condition(variant.get("condition"), context):
+                            rubrics["_trace"].append(f"Menaion Variant: Matched condition '{variant.get('condition')}'.")
+                            action = variant.get("action", {})
+                            if "variables" in action:
+                                var_update = action["variables"];
+                                rubrics["variables"].update(var_update)
+                                for k, v in var_update.items():
+                                    if k.endswith("_type"): 
+                                        rubrics["overrides"][k] = v
+                                        rubrics["_trace"].append(f"Override: Set {k}='{v}' from Variant.")
+                            if "type" in action and "vesperal_liturgy" in action["type"]:
+                                rubrics["overrides"]["liturgy_type"] = "vesperal_merge_logic"
+                                rubrics["_trace"].append("Override: Triggered Vesperal Liturgy Merge.")
+                            break
+            elif not rubrics["title"] or rubrics["title"] == "Service for " + str(context["date"]):
+                # FALLBACK: Simple Feast (Missing Data)
+                rubrics["title"] = f"Saint of the Day ({context['month']}-{context['day']})"
+                rubrics["variables"]["rank"] = "rank_simple_6"
+                rubrics["variables"]["vespers_type"] = "daily_vespers"
+                rubrics["_trace"].append("Menaion Logic: No specific match logic found. Using Daily Fallback.")
 
         # Layer 3: Temple Logic
         if context["is_temple_feast"]:
@@ -667,6 +739,37 @@ class RubricsMixin:
         # Apply Vespers Lookahead (Saturday Evening -> Sunday)
         self._apply_lookahead(context, rubrics)
         
+        # --- Apply Collision Overrides LAST ---
+        c_vars = context.get("_collision_variables")
+        if c_vars:
+            rubrics["_trace"].append("Applying Collision Overrides.")
+            rubrics["variables"].update(c_vars)
+            if "title" in c_vars:
+                rubrics["title"] = c_vars["title"]
+            for k, v in c_vars.items():
+                if k.endswith("_type"):
+                    rubrics["overrides"][k] = v
+                    rubrics["_trace"].append(f"Collision Override: Set {k}='{v}'.")
+        
+        # Suppress/transfer simple saints from the active context if transferred
+        transfer_info = self.resolve_saint_transfer(context, rubrics)
+        if transfer_info and transfer_info.get("transferred"):
+            saints = context.get("saints", [])
+            simple_saints = [
+                s for s in saints 
+                if s.get("rank_code", "") not in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]", "[POLUELEOS]")
+                and not any(w in s.get("name", "").lower() for w in ("forefeast", "afterfeast", "apodosis", "meeting", "encounter"))
+            ]
+            if simple_saints:
+                context["transferred_saints"] = simple_saints
+                context["saints"] = [s for s in saints if s not in simple_saints]
+                rubrics["_trace"].append(f"Transferred saints suppressed from active context: {[s.get('name') for s in simple_saints]}")
+        
+        # Check for explicit suppress_saints variable from collision overrides
+        if rubrics.get("variables", {}).get("suppress_saints"):
+            context["saints"] = []
+            rubrics["_trace"].append("Collision Override: Suppressed all saints from active context.")
+         
         return rubrics
 
 
