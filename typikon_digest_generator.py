@@ -304,7 +304,31 @@ class TypikonDigestGenerator:
             self._process_skeleton(skeleton, context, rubrics, digest)
             digest.append("")
 
-        return "\n".join(digest)
+        formatted_md = []
+        for line in digest:
+            line_str = line.strip()
+            if not line_str:
+                formatted_md.append("")
+                continue
+            
+            if line_str.startswith("TYPICON:"):
+                formatted_md.append(f"# {line_str}")
+            elif line_str.startswith("===") and line_str.endswith("==="):
+                title = line_str.replace("===", "").strip()
+                formatted_md.append(f"## {title}")
+            elif line_str.startswith("RUBRIC:"):
+                rubric_text = line_str.replace("RUBRIC:", "").strip()
+                formatted_md.append(f"> [!NOTE]\n> **Rubric**: {rubric_text}")
+            elif any(line_str.startswith(prefix) for prefix in (
+                "Kontakion:", "Troparion:", "Prokimenon:", "Epistle:", "Alleluia:", 
+                "Gospel:", "Communion Hymn:", "Sessional Hymns:", "Triadic Canon:", 
+                "Exapostilarion:", "Vespers:", "Matins:", "Canon:", "Doxology:", "Dismissal:"
+            )):
+                formatted_md.append(f"- **{line_str}**")
+            else:
+                formatted_md.append(line_str)
+                
+        return "\n".join(formatted_md)
 
     def _apply_link_overrides(self, sequence, overrides):
         seq = copy.deepcopy(sequence)

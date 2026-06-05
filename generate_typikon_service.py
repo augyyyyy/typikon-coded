@@ -59,7 +59,7 @@ def main():
             print("   Compiling...")
             if args.digest:
                 full_text = TypikonDigestGenerator(engine).generate(ctx, rubrics)
-                filename = f"Digest_{target_date}.txt"
+                filename = f"Digest_{target_date}.md"
             else:
                 full_text = engine.generate_full_booklet(ctx, rubrics)
                 filename = f"Service_{target_date}.txt"

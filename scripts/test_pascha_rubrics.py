@@ -35,7 +35,7 @@ def test_pascha_rubrics():
     print(f"2. Paschal Hours (Compline): {'YES' if has_paschal_hours else 'NO'}")
     
     # Save to File
-    output_path = os.path.join("generated_digests", f"digest_{dt.strftime('%Y-%m-%d')}.txt")
+    output_path = os.path.join("generated_digests", f"digest_{dt.strftime('%Y-%m-%d')}.md")
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(digest)
     print(f"\n[Saved Digest]: {output_path}")
