@@ -304,29 +304,44 @@ class TypikonDigestGenerator:
             self._process_skeleton(skeleton, context, rubrics, digest)
             digest.append("")
 
+        # Flatten all lines and split by \n
+        raw_lines = []
+        for item in digest:
+            if not item:
+                raw_lines.append("")
+            elif isinstance(item, str):
+                raw_lines.extend(item.splitlines())
+            else:
+                raw_lines.append(str(item))
+                
         formatted_md = []
-        for line in digest:
+        for line in raw_lines:
             line_str = line.strip()
             if not line_str:
                 formatted_md.append("")
                 continue
-            
+                
             if line_str.startswith("TYPICON:"):
+                if formatted_md and formatted_md[-1] != "":
+                    formatted_md.append("")
                 formatted_md.append(f"# {line_str}")
+                formatted_md.append("")
             elif line_str.startswith("===") and line_str.endswith("==="):
                 title = line_str.replace("===", "").strip()
+                if formatted_md and formatted_md[-1] != "":
+                    formatted_md.append("")
                 formatted_md.append(f"## {title}")
+                formatted_md.append("")
             elif line_str.startswith("RUBRIC:"):
                 rubric_text = line_str.replace("RUBRIC:", "").strip()
-                formatted_md.append(f"> [!NOTE]\n> **Rubric**: {rubric_text}")
-            elif any(line_str.startswith(prefix) for prefix in (
-                "Kontakion:", "Troparion:", "Prokimenon:", "Epistle:", "Alleluia:", 
-                "Gospel:", "Communion Hymn:", "Sessional Hymns:", "Triadic Canon:", 
-                "Exapostilarion:", "Vespers:", "Matins:", "Canon:", "Doxology:", "Dismissal:"
-            )):
-                formatted_md.append(f"- **{line_str}**")
+                if formatted_md and formatted_md[-1] != "":
+                    formatted_md.append("")
+                formatted_md.append("> [!NOTE]")
+                formatted_md.append(f"> **Rubric**: {rubric_text}")
+                formatted_md.append("") # Close the blockquote
             else:
-                formatted_md.append(line_str)
+                # Add two spaces at the end of the line to force a line break in Markdown
+                formatted_md.append(f"{line_str}  ")
                 
         return "\n".join(formatted_md)
 
