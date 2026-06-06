@@ -23,6 +23,7 @@ def main():
     parser.add_argument("--external", type=str, help="Path to external private assets directory")
     parser.add_argument("--no-open", action="store_true", help="Do not open the file automatically")
     parser.add_argument("--digest", action="store_true", help="Generate a Typikon digest (instructions only) instead of a full text booklet")
+    parser.add_argument("--full", action="store_true", help="Generate full service skeleton instead of quick-reference guide")
     
     args = parser.parse_args()
 
@@ -58,7 +59,8 @@ def main():
             # 5. Generate Output
             print("   Compiling...")
             if args.digest:
-                full_text = TypikonDigestGenerator(engine).generate(ctx, rubrics)
+                mode = "full" if args.full else "quick"
+                full_text = TypikonDigestGenerator(engine).generate(ctx, rubrics, mode=mode)
                 filename = f"Digest_{target_date}.md"
             else:
                 full_text = engine.generate_full_booklet(ctx, rubrics)

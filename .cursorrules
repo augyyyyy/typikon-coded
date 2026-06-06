@@ -163,7 +163,7 @@ The active implementation plan to bring resolver utilization to 100% is at:
 
 Run these commands before committing any major logic changes:
 ```bash
-# Full test suite (252 tests expected)
+# Full test suite (255 tests expected)
 python -m pytest tests/ -v
 
 # Validate JSON schemas (24/24 files expected)

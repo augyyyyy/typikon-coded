@@ -1,1727 +1,1843 @@
 {
-    "metadata": {
-        "version": "1.0",
-        "source": "Dolnytsky Typikon Part III (Menaion) & IV (Triodion)",
-        "description": "Collision rules for Fixed Feasts falling on Movable Cycle days (Double Feasts)."
-    },
-    "collisions": {
-        "03-25": {
-            "feast_name": "Annunciation",
-            "rules": [
-                {
-                    "movable_cycle": "Lent",
-                    "movable_day": "Weekday",
-                    "rubric": {
-                        "vespers_param": "Great Vespers (Sun Eve) or Presanctified (Mon-Fri). 10 Stichera: 5 Triodion, 5 Feast.",
-                        "matins_canon": "Feast on 6, Triodion on 8. Refrain of Feast at 9th Ode.",
-                        "liturgy_type": "Chrysostom (if with Vespers) or Presanctified",
-                        "notes": "If Presanctified is not served, Vespers stichera adjusted.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 5
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 5
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 6,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_presanctified"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Lent",
-                    "movable_day": "Saturday_3_4",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 2 Triodion, 8 Feast.",
-                        "liturgy_type": "Chrysostom",
-                        "notes": "Matins is Feast only. Triodion omitted.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 8,
-                                        "irmos": true
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Lent",
-                    "movable_day": "Sunday_Cross",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 3 Res, 3 Cross, 4 Feast.",
-                        "matins_canon": "Res 4, Cross 4, Feast 6. Katavasia of Feast.",
-                        "liturgy_type": "Basl",
-                        "notes": "Cross Veneration takes precedence at Doxology.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 3
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "type": "cross",
-                                        "qty": 3
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "type": "cross",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 6
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_basil"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Lent",
-                    "movable_day": "Thursday_Great_Canon",
-                    "rubric": {
-                        "action": "TRANSFER_MOVABLE",
-                        "target_day": "Tuesday_5",
-                        "notes": "Great Canon transferred to Tuesday. Thursday becomes Apodosis of Feast.",
-                        "variables": {}
-                    }
-                },
-                {
-                    "movable_cycle": "Lent",
-                    "movable_day": "Saturday_Akathist",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 2 Triodion, 8 Feast.",
-                        "matins_canon": "Feast 6, Akathist 8. 9th Ode: Feast Refrain.",
-                        "liturgy_type": "Chrysostom",
-                        "notes": "Akathist 4-ode canon sung at Compline.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 6,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "type": "akathist",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Lent",
-                    "movable_day": "Saturday_Lazarus",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 2 Triodion, 3 Lazarus, 5 Feast.",
-                        "matins_canon": "Lazarus 8, Feast 6. Katavasia Lazarus.",
-                        "liturgy_type": "Chrysostom",
-                        "notes": "Entrance Verse: Feast + Lazarus. Trisagion: 'As many as have been baptized'.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "type": "lazarus",
-                                        "qty": 3
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 5
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "type": "lazarus",
-                                        "qty": 8,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 6
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom",
-                            "trisagion_override": "as_many_as_baptized"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Lent",
-                    "movable_day": "Sunday_Palm",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 6 Feast, 4 Palm.",
-                        "matins_canon": "Feast 8, Palm 8. Katavasia Both.",
-                        "liturgy_type": "Chrysostom",
-                        "notes": "Gospel of Feast + Palm.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 6
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "type": "palm",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 8,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "type": "palm",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Great_Week",
-                    "movable_day": "Great_Monday_Tuesday_Wednesday",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 5 Triodion, 5 Feast.",
-                        "matins_canon": "Feast 12 (Irmos 14), Triodion 2-3 ode.",
-                        "liturgy_type": "Chrysostom (with Vespers)",
-                        "notes": "Readings: 2 Triodion, 2 Feast. Gospel Feast.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 5
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 5
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 12,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 2
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom_vesperal"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Great_Week",
-                    "movable_day": "Great_Thursday",
-                    "rubric": {
-                        "vespers_param": "Presanctified not laid down. Vesper-Liturgy Basil.",
-                        "matins_canon": "Feast 8, Triodion 8.",
-                        "liturgy_type": "Basil",
-                        "notes": "Washing of Feet omitted? Readings: Day + Feast.",
-                        "variables": {
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 8,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_basil_vesperal"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Great_Week",
-                    "movable_day": "Great_Friday",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 6 Triodion, 4 Feast.",
-                        "matins_canon": "Feast 12. Passion Gospels read.",
-                        "liturgy_type": "Chrysostom (Unique)",
-                        "notes": "Liturgy served on Great Friday! Readings: 3 Triodion, 2 Feast.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 6
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 12,
-                                        "irmos": true
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom_vesperal"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Great_Week",
-                    "movable_day": "Great_Saturday",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 6 Triodion, 4 Feast.",
-                        "matins_canon": "Feast 6, Triodion 8 (Noble Joseph).",
-                        "liturgy_type": "Basil",
-                        "notes": "Readings: Day (15) + Feast.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 6
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 6,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_basil_vesperal"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Pascha",
-                    "movable_day": "Pascha_Sunday",
-                    "rubric": {
-                        "name": "Kyrio-Pascha",
-                        "matins_canon": "Pascha 8, Feast 8.",
-                        "liturgy_type": "Chrysostom",
-                        "notes": "Gospel Feast read after 6th Ode of Matins or at Liturgy? Dolnytsky: Gospel of Feast at Matins after 6th. Liturgy: Gospel Day + Feast.",
-                        "variables": {
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "type": "pascha",
-                                        "qty": 8,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom"
-                        }
-                    }
-                },
-                {
-                    "movable_cycle": "Pascha",
-                    "movable_day": "Bright_Week",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 4 Triodion, 6 Feast.",
-                        "matins_canon": "Pascha 6, Feast 8.",
-                        "liturgy_type": "Chrysostom",
-                        "notes": "Paschal Commemoration.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "type": "pascha",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 6
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "type": "pascha",
-                                        "qty": 6,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom"
-                        }
-                    }
-                }
-            ]
+  "metadata": {
+    "version": "1.0",
+    "source": "Dolnytsky Typikon Part III (Menaion) & IV (Triodion)",
+    "description": "Collision rules for Fixed Feasts falling on Movable Cycle days (Double Feasts)."
+  },
+  "collisions": {
+    "03-25": {
+      "feast_name": "Annunciation",
+      "rules": [
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Weekday",
+          "rubric": {
+            "vespers_param": "Great Vespers (Sun Eve) or Presanctified (Mon-Fri). 10 Stichera: 5 Triodion, 5 Feast.",
+            "matins_canon": "Feast on 6, Triodion on 8. Refrain of Feast at 9th Ode.",
+            "liturgy_type": "Chrysostom (if with Vespers) or Presanctified",
+            "notes": "If Presanctified is not served, Vespers stichera adjusted.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 5
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 5
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_presanctified"
+            }
+          }
         },
-        "04-23": {
-            "feast_name": "St. George",
-            "rules": [
-                {
-                    "movable_cycle": "Great_Week",
-                    "movable_day": "Great_Friday",
-                    "rubric": {
-                        "action": "TRANSFER_FIXED",
-                        "target_day": "Bright_Monday",
-                        "notes": "Transferred to Bright Monday.",
-                        "variables": {}
-                    }
-                },
-                {
-                    "movable_cycle": "Great_Week",
-                    "movable_day": "Great_Saturday",
-                    "rubric": {
-                        "action": "TRANSFER_FIXED",
-                        "target_day": "Bright_Monday",
-                        "notes": "Transferred to Bright Monday.",
-                        "variables": {}
-                    }
-                },
-                {
-                    "movable_cycle": "Pascha",
-                    "movable_day": "Pascha_Sunday",
-                    "rubric": {
-                        "action": "TRANSFER_FIXED",
-                        "target_day": "Bright_Monday",
-                        "notes": "Transferred to Bright Monday.",
-                        "variables": {}
-                    }
-                },
-                {
-                    "movable_cycle": "Pascha",
-                    "movable_day": "Bright_Week",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 4 Triodion, 6 Saint.",
-                        "matins_canon": "Pascha 8, Saint 6.",
-                        "liturgy_type": "Chrysostom",
-                        "notes": "Combined service.",
-                        "variables": {
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "type": "pascha",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "saint",
-                                        "qty": 6
-                                    }
-                                ]
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "type": "pascha",
-                                        "qty": 8,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "saint",
-                                        "qty": 6
-                                    }
-                                ]
-                            },
-                            "liturgy_type": "liturgy_chrysostom"
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Saturday_3_4",
+          "rubric": {
+            "vespers_param": "10 Stichera: 2 Triodion, 8 Feast.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Matins is Feast only. Triodion omitted.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 2
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 8
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 8,
+                    "irmos": true
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
         },
-        "02-01": {
-            "feast_name": "Forefeast of the Meeting",
-            "rules": [
-                {
-                    "movable_cycle": "Triodion",
-                    "movable_day": "Sunday_Prodigal_Son",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 4 Res, 3 Triodion, 3 Forefeast.",
-                        "matins_canon": "Res 4, Theotokos 2, Triodion 4, Forefeast 4. Katavasia of the Meeting.",
-                        "liturgy_type": "Chrysostom",
-                        "variables": {
-                            "title": "FOREFEAST OF THE ENCOUNTER - SUNDAY OF THE PRODIGAL SON",
-                            "feast_id": "meeting",
-                            "is_fore_or_afterfeast": true,
-                            "is_forefeast": true,
-                            "suppress_saints": true,
-                            "matins_polyeleos_add": "psalm_136_waters_of_babylon",
-                            "hours_troparia": {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_feast"]},
-                            "hours_kontakion": {"1": "resurrection", "3": "saint_or_feast", "6": "resurrection", "9": "saint_or_feast"},
-                            "vestment_color": {"color": "gold", "alt": "blue_for_the_forefeast", "citation": "Dolnytsky: Bright gold or blue for forefeast"},
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 3
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "forefeast",
-                                        "qty": 3
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "dogmatikon_current_tone"
-                            },
-                            "aposticha_distribution": {
-                                "total_count": 4,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "menaion.forefeast.doxasticon"
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "octoechos",
-                                        "type": "theotokos",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "forefeast",
-                                        "qty": 4
-                                    }
-                                ],
-                                "katavasia": "katavasia_meeting"
-                            },
-                            "praises_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 5
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 3
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "most_blessed_art_thou"
-                            },
-                            "liturgy_hymns_override": [
-                                {
-                                    "type": "troparion",
-                                    "source": "resurrection_tone"
-                                },
-                                {
-                                    "type": "troparion",
-                                    "source": "forefeast"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "triodion",
-                                    "glory": true
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "forefeast",
-                                    "both_now": true
-                                }
-                            ],
-                            "liturgy_readings": {
-                                "type": "liturgy_readings",
-                                "readings": [
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 1,
-                                            "ref_key": "Let Your mercy, O Lord"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "1 Cor 6:12-20"
-                                        },
-                                        "alleluia": {
-                                            "tone": 1,
-                                            "ref_key": "Alleluia"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Lk 15:11-32"
-                                        }
-                                    }
-                                ]
-                            },
-                            "beatitudes_distribution": {
-                                "total_count": 12,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "forefeast",
-                                        "qty": 4
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_Cross",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 3 Cross, 4 Feast.",
+            "matins_canon": "Res 4, Cross 4, Feast 6. Katavasia of Feast.",
+            "liturgy_type": "Basl",
+            "notes": "Cross Veneration takes precedence at Doxology.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "cross",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "cross",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_basil"
+            }
+          }
         },
-        "02-08": {
-            "feast_name": "Afterfeast of the Meeting",
-            "rules": [
-                {
-                    "movable_cycle": "Triodion",
-                    "movable_day": "Sunday_Meatfare",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 3 Res, 4 Triodion, 3 Feast.",
-                        "matins_canon": "Res 4, Theotokos 2, Triodion 4, Feast 4. Katavasia of the Meeting.",
-                        "liturgy_type": "Chrysostom",
-                        "variables": {
-                            "title": "AFTERFEAST OF THE ENCOUNTER & SUNDAY OF THE LAST JUDGEMENT",
-                            "feast_id": "meeting",
-                            "is_afterfeast": true,
-                            "is_fore_or_afterfeast": true,
-                            "suppress_saints": true,
-                            "matins_polyeleos_add": "psalm_136_waters_of_babylon",
-                            "hours_troparia": {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_feast"]},
-                            "hours_kontakion": {"1": "resurrection", "3": "feast", "6": "resurrection", "9": "feast"},
-                            "vestment_color": {"color": "gold", "alt": "blue_for_the_feast", "citation": "Dolnytsky: Bright gold or blue for feast"},
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 3
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 3
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "dogmatikon_current_tone"
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "octoechos",
-                                        "type": "theotokos",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 4
-                                    }
-                                ],
-                                "katavasia": "katavasia_meeting"
-                            },
-                            "praises_distribution": {
-                                "total_count": 9,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 5
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "most_blessed_art_thou"
-                            },
-                            "beatitudes_distribution": {
-                                "total_count": 12,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "menaion",
-                                        "type": "feast",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "aposticha_distribution": {
-                                "total_count": 4,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "menaion.feast.doxasticon"
-                            },
-                            "liturgy_hymns_override": [
-                                {
-                                    "type": "troparion",
-                                    "source": "resurrection_tone"
-                                },
-                                {
-                                    "type": "troparion",
-                                    "source": "feast"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "triodion",
-                                    "glory": true
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "feast",
-                                    "both_now": true
-                                }
-                            ],
-                            "liturgy_readings": {
-                                "type": "liturgy_readings",
-                                "readings": [
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 2,
-                                            "ref_key": "The Lord is my strength"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "1 Cor 8:8 - 9:2"
-                                        },
-                                        "alleluia": {
-                                            "tone": 2,
-                                            "ref_key": "Alleluia"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Mt 25:31-46"
-                                        }
-                                    },
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 3,
-                                            "ref_key": "My soul magnifies the Lord"
-                                        },
-                                        "alleluia": {
-                                            "tone": 8,
-                                            "ref_key": "Alleluia"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Thursday_Great_Canon",
+          "rubric": {
+            "action": "TRANSFER_MOVABLE",
+            "target_day": "Tuesday_5",
+            "notes": "Great Canon transferred to Tuesday. Thursday becomes Apodosis of Feast.",
+            "variables": {}
+          }
         },
-        "02-15": {
-            "feast_name": "Cheesefare Sunday",
-            "rules": [
-                {
-                    "movable_cycle": "Triodion",
-                    "movable_day": "Sunday_Cheesefare",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
-                        "matins_canon": "Res 4, Cross & Res 2, Theotokos 2, Triodion 6. Katavasia of Cheesefare.",
-                        "liturgy_type": "Chrysostom",
-                        "variables": {
-                            "title": "CHEESEFARE - FORGIVENESS SUNDAY: EXPULSION OF ADAM FROM PARADISE",
-                            "vestment_color": {"color": "gold", "alt": "deep_gold", "citation": "Dolnytsky: Bright gold"},
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 6
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "dogmatikon_current_tone"
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "octoechos",
-                                        "type": "cross_resurrection",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "octoechos",
-                                        "type": "theotokos",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 6
-                                    }
-                                ],
-                                "katavasia": "katavasia_cheesefare"
-                            },
-                            "praises_distribution": {
-                                "total_count": 9,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 5
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "most_blessed_art_thou"
-                            },
-                            "beatitudes_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "aposticha_distribution": {
-                                "total_count": 4,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "theotokion_aposticha_tone_6"
-                            },
-                            "liturgy_hymns_override": [
-                                {
-                                    "type": "troparion",
-                                    "source": "resurrection_tone"
-                                },
-                                {
-                                    "type": "troparion",
-                                    "source": "temple"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "temple"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "triodion",
-                                    "glory": true
-                                },
-                                {
-                                    "type": "theotokion",
-                                    "source": "steadfast_protectress",
-                                    "both_now": true
-                                }
-                            ],
-                            "hours_troparia": {"mode": "standard", "components": ["trop_resurrection"]},
-                            "hours_kontakion": "triodion",
-                            "liturgy_readings": {
-                                "type": "liturgy_readings",
-                                "readings": [
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 8,
-                                            "ref_key": "Pray and give praise"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "Rom 13:11 - 14:4"
-                                        },
-                                        "alleluia": {
-                                            "tone": 6,
-                                            "ref_key": "Alleluia"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Mt 6:14-21"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Saturday_Akathist",
+          "rubric": {
+            "vespers_param": "10 Stichera: 2 Triodion, 8 Feast.",
+            "matins_canon": "Feast 6, Akathist 8. 9th Ode: Feast Refrain.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Akathist 4-ode canon sung at Compline.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 2
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 8
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "akathist",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
         },
-        "02-22": {
-            "feast_name": "Sunday of Orthodoxy",
-            "rules": [
-                {
-                    "movable_cycle": "Triodion",
-                    "movable_day": "Sunday_Orthodoxy",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
-                        "matins_canon": "Res 4, Cross & Res 2, Theotokos 2, Triodion 6. Katavasia of Orthodoxy.",
-                        "liturgy_type": "Basil",
-                        "variables": {
-                            "title": "SUNDAY OF ORTHODOXY: RESTORATION OF THE HOLY ICONS",
-                            "liturgy_type": "liturgy_basil",
-                            "vestment_color": {"color": "gold", "alt": "purple_or_deep_gold", "citation": "Dolnytsky: Bright deep gold or gold with purple"},
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 6
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "dogmatikon_current_tone"
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "octoechos",
-                                        "type": "cross_resurrection",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "octoechos",
-                                        "type": "theotokos",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 6
-                                    }
-                                ],
-                                "katavasia": "katavasia_orthodoxy"
-                            },
-                            "praises_distribution": {
-                                "total_count": 9,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 5
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "most_blessed_art_thou"
-                            },
-                            "beatitudes_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "aposticha_distribution": {
-                                "total_count": 4,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "theotokion_aposticha_tone_6_exceeding_wonder"
-                            },
-                            "liturgy_hymns_override": [
-                                {
-                                    "type": "troparion",
-                                    "source": "resurrection_tone"
-                                },
-                                {
-                                    "type": "troparion",
-                                    "source": "triodion"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "triodion",
-                                    "glory": true
-                                },
-                                {
-                                    "type": "theotokion",
-                                    "source": "to_you_mother_of_god",
-                                    "both_now": true
-                                }
-                            ],
-                            "hours_troparia": {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_triodion"]},
-                            "hours_kontakion": "triodion",
-                            "liturgy_readings": {
-                                "type": "liturgy_readings",
-                                "readings": [
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 4,
-                                            "ref_key": "Blessed are You, O Lord, God of our Fathers"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "Heb 11:24-26, 32-40; 12:1-2"
-                                        },
-                                        "alleluia": {
-                                            "tone": 8,
-                                            "ref_key": "Alleluia"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Jn 1:43-51"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Saturday_Lazarus",
+          "rubric": {
+            "vespers_param": "10 Stichera: 2 Triodion, 3 Lazarus, 5 Feast.",
+            "matins_canon": "Lazarus 8, Feast 6. Katavasia Lazarus.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Entrance Verse: Feast + Lazarus. Trisagion: 'As many as have been baptized'.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "lazarus",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 5
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "lazarus",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom",
+              "trisagion_override": "as_many_as_baptized"
+            }
+          }
         },
-        "03-01": {
-            "feast_name": "Sunday of Gregory Palamas",
-            "rules": [
-                {
-                    "movable_cycle": "Triodion",
-                    "movable_day": "Sunday_Gregory_Palamas",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
-                        "matins_canon": "Res 4, Triodion 4, Triodion Saint 6. Katavasia of the Theotokos.",
-                        "liturgy_type": "Basil",
-                        "variables": {
-                            "title": "SUNDAY II OF THE GREAT FAST: ST. GREGORY PALAMAS",
-                            "liturgy_type": "liturgy_basil",
-                            "vestment_color": {"color": "gold", "alt": "purple_or_deep_gold", "citation": "Dolnytsky: Bright deep gold or gold with purple"},
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 6
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "dogmatikon_current_tone"
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion_saint",
-                                        "qty": 6
-                                    }
-                                ],
-                                "katavasia": "katavasia_theotokos"
-                            },
-                            "praises_distribution": {
-                                "total_count": 9,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 5
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "most_blessed_art_thou"
-                            },
-                            "beatitudes_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion_saint",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "aposticha_distribution": {
-                                "total_count": 4,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "theotokion_aposticha_tone_8"
-                            },
-                            "liturgy_hymns_override": [
-                                {
-                                    "type": "troparion",
-                                    "source": "resurrection_tone"
-                                },
-                                {
-                                    "type": "troparion",
-                                    "source": "triodion_saint"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "triodion_saint"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "triodion",
-                                    "glory": true
-                                },
-                                {
-                                    "type": "theotokion",
-                                    "source": "to_you_mother_of_god",
-                                    "both_now": true
-                                }
-                            ],
-                            "hours_troparia": {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_triodion_saint"]},
-                            "hours_kontakion": {"1": "triodion", "3": "triodion_saint", "6": "triodion", "9": "triodion_saint"},
-                            "liturgy_readings": {
-                                "type": "liturgy_readings",
-                                "readings": [
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 5,
-                                            "ref_key": "You, O Lord, will guard us"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "Heb 1:10 - 2:3"
-                                        },
-                                        "alleluia": {
-                                            "tone": 5,
-                                            "ref_key": "Alleluia"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Mk 2:1-5"
-                                        }
-                                    },
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 1,
-                                            "ref_key": "My mouth shall speak wisdom"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "Heb 7:26 - 8:2"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Jn 10:9-16"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_Palm",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Feast, 4 Palm.",
+            "matins_canon": "Feast 8, Palm 8. Katavasia Both.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Gospel of Feast + Palm.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "palm",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "palm",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
         },
-        "03-08": {
-            "feast_name": "Sunday of the Veneration of the Cross",
-            "rules": [
-                {
-                    "movable_cycle": "Triodion",
-                    "movable_day": "Sunday_Veneration_Cross",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
-                        "matins_canon": "Res 4, Theotokos 2, Triodion 8. Katavasia of the Cross.",
-                        "liturgy_type": "Basil",
-                        "variables": {
-                            "title": "SUNDAY III OF THE GREAT FAST: VENERATION OF THE PRECIOUS CROSS",
-                            "liturgy_type": "liturgy_basil",
-                            "vestment_color": {"color": "red", "alt": "burgundy_or_purple", "citation": "Dolnytsky: Crimson/red or purple"},
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 6
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "dogmatikon_current_tone"
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "octoechos",
-                                        "type": "theotokos",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 8
-                                    }
-                                ],
-                                "katavasia": "katavasia_cross"
-                            },
-                            "praises_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "most_blessed_art_thou"
-                            },
-                            "beatitudes_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "aposticha_distribution": {
-                                "total_count": 4,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory_both_now": "triodion.doxasticon"
-                            },
-                            "liturgy_hymns_override": [
-                                {
-                                    "type": "troparion",
-                                    "source": "resurrection_tone"
-                                },
-                                {
-                                    "type": "troparion",
-                                    "source": "cross"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "cross",
-                                    "glory_both_now": true
-                                }
-                            ],
-                            "hours_troparia": {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_triodion"]},
-                            "hours_kontakion": "triodion",
-                            "liturgy_readings": {
-                                "type": "liturgy_readings",
-                                "readings": [
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 6,
-                                            "ref_key": "Save Your people"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "Heb 4:14 - 5:6"
-                                        },
-                                        "alleluia": {
-                                            "tone": 2,
-                                            "ref_key": "Alleluia"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Mk 8:34 - 9:1"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Great_Week",
+          "movable_day": "Great_Monday_Tuesday_Wednesday",
+          "rubric": {
+            "vespers_param": "10 Stichera: 5 Triodion, 5 Feast.",
+            "matins_canon": "Feast 12 (Irmos 14), Triodion 2-3 ode.",
+            "liturgy_type": "Chrysostom (with Vespers)",
+            "notes": "Readings: 2 Triodion, 2 Feast. Gospel Feast.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 5
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 5
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 12,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 2
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom_vesperal"
+            }
+          }
         },
-        "03-15": {
-            "feast_name": "Sunday of St. John Climacus",
-            "rules": [
-                {
-                    "movable_cycle": "Triodion",
-                    "movable_day": "Sunday_John_Climacus",
-                    "rubric": {
-                        "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
-                        "matins_canon": "Res 4, Theotokos 2, Triodion 8. Katavasia of the Theotokos.",
-                        "liturgy_type": "Basil",
-                        "variables": {
-                            "title": "SUNDAY IV OF THE GREAT FAST: VEN. JOHN OF THE LADDER",
-                            "liturgy_type": "liturgy_basil",
-                            "vestment_color": {"color": "gold", "alt": "green_for_ascetics", "citation": "Dolnytsky: Gold or green for ascetics"},
-                            "vespers_stichera_distribution": {
-                                "total_count": 10,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 6
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "dogmatikon_current_tone"
-                            },
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "octoechos",
-                                        "type": "theotokos",
-                                        "qty": 2
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 8
-                                    }
-                                ],
-                                "katavasia": "katavasia_theotokos"
-                            },
-                            "praises_distribution": {
-                                "total_count": 9,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 8
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 1
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "most_blessed_art_thou"
-                            },
-                            "beatitudes_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "qty": 4
-                                    },
-                                    {
-                                        "source": "triodion",
-                                        "qty": 4
-                                    }
-                                ]
-                            },
-                            "aposticha_distribution": {
-                                "total_count": 4,
-                                "distribution": [
-                                    {
-                                        "source": "octoechos",
-                                        "type": "resurrection",
-                                        "qty": 4
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "theotokion_aposticha_tone_2"
-                            },
-                            "liturgy_hymns_override": [
-                                {
-                                    "type": "troparion",
-                                    "source": "resurrection_tone"
-                                },
-                                {
-                                    "type": "troparion",
-                                    "source": "triodion_saint"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "triodion_saint",
-                                    "glory": true
-                                },
-                                {
-                                    "type": "theotokion",
-                                    "source": "to_you_mother_of_god",
-                                    "both_now": true
-                                }
-                            ],
-                            "hours_troparia": {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_triodion_saint"]},
-                            "hours_kontakion": "triodion_saint",
-                            "liturgy_readings": {
-                                "type": "liturgy_readings",
-                                "readings": [
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 7,
-                                            "ref_key": "The Lord will give strength"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "Heb 6:13-20"
-                                        },
-                                        "alleluia": {
-                                            "tone": 7,
-                                            "ref_key": "Alleluia"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Mk 9:17-31"
-                                        }
-                                    },
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 7,
-                                            "ref_key": "The venerable ones"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "Eph 5:9-19"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Mt 4:25 - 5:12"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Great_Week",
+          "movable_day": "Great_Thursday",
+          "rubric": {
+            "vespers_param": "Presanctified not laid down. Vesper-Liturgy Basil.",
+            "matins_canon": "Feast 8, Triodion 8.",
+            "liturgy_type": "Basil",
+            "notes": "Washing of Feet omitted? Readings: Day + Feast.",
+            "variables": {
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_basil_vesperal"
+            }
+          }
         },
-        "03-28": {
-            "feast_name": "Lazarus Saturday",
-            "rules": [
-                {
-                    "movable_cycle": "Triodion",
-                    "movable_day": "Saturday_Lazarus",
-                    "rubric": {
-                        "vespers_param": "8 Stichera: 8 Triodion.",
-                        "matins_canon": "Lazarus 8, Lazarus II 6. Katavasia Lazarus.",
-                        "liturgy_type": "Chrysostom",
-                        "variables": {
-                            "title": "SATURDAY OF THE RIGHTEOUS LAZARUS",
-                            "feast_id": "lazarus_saturday",
-                            "dolnytsky_rank": "LORD",
-                            "suppress_saints": true,
-                            "hours_troparia": {"mode": "standard", "components": ["trop_feast"]},
-                            "hours_kontakion": "feast",
-                            "sessional_hymns_override": "sessional_triodion",
-                            "liturgy_readings": {
-                                "type": "liturgy_readings",
-                                "readings": [
-                                    {
-                                        "prokeimenon": {
-                                            "tone": 3,
-                                            "ref_key": "The Lord is my Light"
-                                        },
-                                        "epistle": {
-                                            "ref_key": "Heb 12:28 - 13:8"
-                                        },
-                                        "alleluia": {
-                                            "tone": 5,
-                                            "ref_key": "Psalm 92"
-                                        },
-                                        "gospel": {
-                                            "ref_key": "Jn 11:1-45"
-                                        }
-                                    }
-                                ]
-                            },
-                            "vestment_color": {"color": "gold", "alt": "bright_gold", "citation": "Dolnytsky: Bright gold"},
-                            "matins_canon_distribution": {
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 8,
-                                        "irmos": true
-                                    },
-                                    {
-                                        "source": "triodion_ii",
-                                        "qty": 6
-                                    }
-                                ],
-                                "katavasia": "katavasia_lazarus"
-                            },
-                            "praises_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 8
-                                    }
-                                ],
-                                "glory": "triodion.doxasticon",
-                                "both_now": "most_blessed_art_thou"
-                            },
-                            "beatitudes_distribution": {
-                                "total_count": 8,
-                                "distribution": [
-                                    {
-                                        "source": "triodion",
-                                        "qty": 8
-                                    }
-                                ]
-                            },
-                            "liturgy_hymns_override": [
-                                {
-                                    "type": "troparion",
-                                    "source": "triodion"
-                                },
-                                {
-                                    "type": "kontakion",
-                                    "source": "triodion",
-                                    "glory_both_now": true
-                                }
-                            ]
-                        }
-                    }
-                }
-            ]
+        {
+          "movable_cycle": "Great_Week",
+          "movable_day": "Great_Friday",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Triodion, 4 Feast.",
+            "matins_canon": "Feast 12. Passion Gospels read.",
+            "liturgy_type": "Chrysostom (Unique)",
+            "notes": "Liturgy served on Great Friday! Readings: 3 Triodion, 2 Feast.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 12,
+                    "irmos": true
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom_vesperal"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Great_Week",
+          "movable_day": "Great_Saturday",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Triodion, 4 Feast.",
+            "matins_canon": "Feast 6, Triodion 8 (Noble Joseph).",
+            "liturgy_type": "Basil",
+            "notes": "Readings: Day (15) + Feast.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_basil_vesperal"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pascha",
+          "movable_day": "Pascha_Sunday",
+          "rubric": {
+            "name": "Kyrio-Pascha",
+            "matins_canon": "Pascha 8, Feast 8.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Gospel Feast read after 6th Ode of Matins or at Liturgy? Dolnytsky: Gospel of Feast at Matins after 6th. Liturgy: Gospel Day + Feast.",
+            "variables": {
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "pascha",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pascha",
+          "movable_day": "Bright_Week",
+          "rubric": {
+            "vespers_param": "10 Stichera: 4 Triodion, 6 Feast.",
+            "matins_canon": "Pascha 6, Feast 8.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Paschal Commemoration.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "pascha",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "pascha",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
         }
+      ]
+    },
+    "04-23": {
+      "feast_name": "St. George",
+      "rules": [
+        {
+          "movable_cycle": "Great_Week",
+          "movable_day": "Great_Friday",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Bright_Monday",
+            "notes": "Transferred to Bright Monday.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Great_Week",
+          "movable_day": "Great_Saturday",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Bright_Monday",
+            "notes": "Transferred to Bright Monday.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Pascha",
+          "movable_day": "Pascha_Sunday",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Bright_Monday",
+            "notes": "Transferred to Bright Monday.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Pascha",
+          "movable_day": "Bright_Week",
+          "rubric": {
+            "vespers_param": "10 Stichera: 4 Triodion, 6 Saint.",
+            "matins_canon": "Pascha 8, Saint 6.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Combined service.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "pascha",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 6
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "pascha",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 6
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        }
+      ]
+    },
+    "02-01": {
+      "feast_name": "Forefeast of the Meeting",
+      "rules": [
+        {
+          "movable_cycle": "Triodion",
+          "movable_day": "Sunday_Prodigal_Son",
+          "rubric": {
+            "vespers_param": "10 Stichera: 4 Res, 3 Triodion, 3 Forefeast.",
+            "matins_canon": "Res 4, Theotokos 2, Triodion 4, Forefeast 4. Katavasia of the Meeting.",
+            "liturgy_type": "Chrysostom",
+            "variables": {
+              "title": "FOREFEAST OF THE ENCOUNTER - SUNDAY OF THE PRODIGAL SON",
+              "feast_id": "meeting",
+              "is_fore_or_afterfeast": true,
+              "is_forefeast": true,
+              "suppress_saints": true,
+              "matins_polyeleos_add": "psalm_136_waters_of_babylon",
+              "hours_troparia": {
+                "mode": "standard",
+                "components": [
+                  "trop_resurrection",
+                  "glory",
+                  "trop_feast"
+                ]
+              },
+              "hours_kontakion": {
+                "1": "triodion",
+                "3": "feast",
+                "6": "triodion",
+                "9": "feast"
+              },
+              "vestment_color": {
+                "color": "gold",
+                "alt": "blue_for_the_forefeast",
+                "citation": "Dolnytsky: Bright gold or blue for forefeast"
+              },
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forefeast",
+                    "qty": 3
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "dogmatikon_current_tone"
+              },
+              "aposticha_distribution": {
+                "total_count": 4,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "menaion.forefeast.doxasticon"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "theotokos",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forefeast",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_meeting"
+              },
+              "praises_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 5
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "liturgy_hymns_override": [
+                {
+                  "type": "troparion",
+                  "source": "resurrection_tone"
+                },
+                {
+                  "type": "troparion",
+                  "source": "forefeast"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "triodion",
+                  "glory": true
+                },
+                {
+                  "type": "kontakion",
+                  "source": "forefeast",
+                  "both_now": true
+                }
+              ],
+              "liturgy_readings": {
+                "type": "liturgy_readings",
+                "readings": [
+                  {
+                    "prokeimenon": {
+                      "tone": 1,
+                      "ref_key": "Let Your mercy, O Lord"
+                    },
+                    "epistle": {
+                      "ref_key": "1 Cor 6:12-20"
+                    },
+                    "alleluia": {
+                      "tone": 1,
+                      "ref_key": "Alleluia"
+                    },
+                    "gospel": {
+                      "ref_key": "Lk 15:11-32"
+                    }
+                  }
+                ]
+              },
+              "beatitudes_distribution": {
+                "total_count": 12,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forefeast",
+                    "qty": 4
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "02-08": {
+      "feast_name": "Afterfeast of the Meeting",
+      "rules": [
+        {
+          "movable_cycle": "Triodion",
+          "movable_day": "Sunday_Meatfare",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Triodion, 3 Feast.",
+            "matins_canon": "Res 4, Theotokos 2, Triodion 4, Feast 4. Katavasia of the Meeting.",
+            "liturgy_type": "Chrysostom",
+            "variables": {
+              "title": "AFTERFEAST OF THE ENCOUNTER & SUNDAY OF THE LAST JUDGEMENT",
+              "feast_id": "meeting",
+              "is_afterfeast": true,
+              "is_fore_or_afterfeast": true,
+              "suppress_saints": true,
+              "matins_polyeleos_add": "psalm_136_waters_of_babylon",
+              "hours_troparia": {
+                "mode": "standard",
+                "components": [
+                  "trop_resurrection",
+                  "glory",
+                  "trop_feast"
+                ]
+              },
+              "hours_kontakion": {
+                "1": "triodion",
+                "3": "feast",
+                "6": "triodion",
+                "9": "feast"
+              },
+              "vestment_color": {
+                "color": "gold",
+                "alt": "blue_for_the_feast",
+                "citation": "Dolnytsky: Bright gold or blue for feast"
+              },
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 3
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "dogmatikon_current_tone"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "theotokos",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_meeting"
+              },
+              "praises_distribution": {
+                "total_count": 9,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 5
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "beatitudes_distribution": {
+                "total_count": 12,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  }
+                ]
+              },
+              "aposticha_distribution": {
+                "total_count": 4,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "menaion.feast.doxasticon"
+              },
+              "liturgy_hymns_override": [
+                {
+                  "type": "troparion",
+                  "source": "resurrection_tone"
+                },
+                {
+                  "type": "troparion",
+                  "source": "feast"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "triodion",
+                  "glory": true
+                },
+                {
+                  "type": "kontakion",
+                  "source": "feast",
+                  "both_now": true
+                }
+              ],
+              "liturgy_readings": {
+                "type": "liturgy_readings",
+                "readings": [
+                  {
+                    "prokeimenon": {
+                      "tone": 2,
+                      "ref_key": "The Lord is my strength"
+                    },
+                    "epistle": {
+                      "ref_key": "1 Cor 8:8 - 9:2"
+                    },
+                    "alleluia": {
+                      "tone": 2,
+                      "ref_key": "Alleluia"
+                    },
+                    "gospel": {
+                      "ref_key": "Mt 25:31-46"
+                    }
+                  },
+                  {
+                    "prokeimenon": {
+                      "tone": 3,
+                      "ref_key": "My soul magnifies the Lord"
+                    },
+                    "alleluia": {
+                      "tone": 8,
+                      "ref_key": "Alleluia"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "02-15": {
+      "feast_name": "Cheesefare Sunday",
+      "rules": [
+        {
+          "movable_cycle": "Triodion",
+          "movable_day": "Sunday_Cheesefare",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
+            "matins_canon": "Res 4, Cross & Res 2, Theotokos 2, Triodion 6. Katavasia of Cheesefare.",
+            "liturgy_type": "Chrysostom",
+            "variables": {
+              "title": "CHEESEFARE - FORGIVENESS SUNDAY: EXPULSION OF ADAM FROM PARADISE",
+              "vestment_color": {
+                "color": "gold",
+                "alt": "deep_gold",
+                "citation": "Dolnytsky: Bright gold"
+              },
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 6
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "dogmatikon_current_tone"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "cross_resurrection",
+                    "qty": 2
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "theotokos",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_cheesefare"
+              },
+              "praises_distribution": {
+                "total_count": 9,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 5
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "beatitudes_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ]
+              },
+              "aposticha_distribution": {
+                "total_count": 4,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "theotokion_aposticha_tone_6"
+              },
+              "liturgy_hymns_override": [
+                {
+                  "type": "troparion",
+                  "source": "resurrection_tone"
+                },
+                {
+                  "type": "troparion",
+                  "source": "temple"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "temple"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "triodion",
+                  "glory": true
+                },
+                {
+                  "type": "theotokion",
+                  "source": "steadfast_protectress",
+                  "both_now": true
+                }
+              ],
+              "hours_troparia": {
+                "mode": "standard",
+                "components": [
+                  "trop_resurrection"
+                ]
+              },
+              "hours_kontakion": "triodion",
+              "liturgy_readings": {
+                "type": "liturgy_readings",
+                "readings": [
+                  {
+                    "prokeimenon": {
+                      "tone": 8,
+                      "ref_key": "Pray and give praise"
+                    },
+                    "epistle": {
+                      "ref_key": "Rom 13:11 - 14:4"
+                    },
+                    "alleluia": {
+                      "tone": 6,
+                      "ref_key": "Alleluia"
+                    },
+                    "gospel": {
+                      "ref_key": "Mt 6:14-21"
+                    }
+                  }
+                ]
+              }
+            },
+            "notes": [
+              "The Muscovite Typicon, the Antholody for Worship, and the Triodion of Mother Maria and Metropolitan Kallistos (Ware), all conclude with the kontakion of from the Triodion after the Resurrectional troparion, as if it were [a feastal] one of the Lord; however, our service books prescribe the Theotokion, because the kontakion of the Triodion is penitential, not festal."
+            ]
+          }
+        }
+      ]
+    },
+    "02-22": {
+      "feast_name": "Sunday of Orthodoxy",
+      "rules": [
+        {
+          "movable_cycle": "Triodion",
+          "movable_day": "Sunday_Orthodoxy",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
+            "matins_canon": "Res 4, Cross & Res 2, Theotokos 2, Triodion 6. Katavasia of Orthodoxy.",
+            "liturgy_type": "Basil",
+            "variables": {
+              "title": "SUNDAY OF ORTHODOXY: RESTORATION OF THE HOLY ICONS",
+              "liturgy_type": "liturgy_basil",
+              "vestment_color": {
+                "color": "gold",
+                "alt": "purple_or_deep_gold",
+                "citation": "Dolnytsky: Bright deep gold or gold with purple"
+              },
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 6
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "dogmatikon_current_tone"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "cross_resurrection",
+                    "qty": 2
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "theotokos",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_orthodoxy"
+              },
+              "praises_distribution": {
+                "total_count": 9,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 5
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "beatitudes_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ]
+              },
+              "aposticha_distribution": {
+                "total_count": 4,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "theotokion_aposticha_tone_6_exceeding_wonder"
+              },
+              "liturgy_hymns_override": [
+                {
+                  "type": "troparion",
+                  "source": "resurrection_tone"
+                },
+                {
+                  "type": "troparion",
+                  "source": "triodion"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "triodion",
+                  "glory": true
+                },
+                {
+                  "type": "theotokion",
+                  "source": "to_you_mother_of_god",
+                  "both_now": true
+                }
+              ],
+              "hours_troparia": {
+                "mode": "standard",
+                "components": [
+                  "trop_resurrection",
+                  "glory",
+                  "trop_triodion"
+                ]
+              },
+              "hours_kontakion": "triodion",
+              "liturgy_readings": {
+                "type": "liturgy_readings",
+                "readings": [
+                  {
+                    "prokeimenon": {
+                      "tone": 4,
+                      "ref_key": "Blessed are You, O Lord, God of our Fathers"
+                    },
+                    "epistle": {
+                      "ref_key": "Heb 11:24-26, 32-40; 12:1-2"
+                    },
+                    "alleluia": {
+                      "tone": 8,
+                      "ref_key": "Alleluia"
+                    },
+                    "gospel": {
+                      "ref_key": "Jn 1:43-51"
+                    }
+                  }
+                ]
+              }
+            },
+            "notes": [
+              "In the refectory we eat food prepared with oil, but no fish. If it is the custom, we are permitted to drink two cups of wine to the Glory of God; and at the evening meal, two cups. (This instruction is given in the Lviv Triodion of 1906).",
+              "This, according to the Lenten Triodion of Mother Maria and Metropolitan Kallistos (Ware). The Lviv Triodion of 1906 prescribes 10 troparia: six from the Octoechos and 4 from the Triodion. Since the custom of taking the troparia at the Beatitudes has fallen out of practice in most places, it is prudent to adhere to the minimum, until such time as it is fully restored and appreciated.",
+              "The Muscovite Typicon, the Antholody for Worship, and the Triodion of Mother Maria and Metropolitan Kallistos (Ware), all conclude with the kontakion of from the Triodion after the Resurrectional troparion, as if it were [a feastal] one of the Lord; however, our service books prescribe the Theotokion, because the kontakion of the Triodion is penitential, not festal. (This instruction given in Dol'nytsky)."
+            ]
+          }
+        }
+      ]
+    },
+    "03-01": {
+      "feast_name": "Sunday of Gregory Palamas",
+      "rules": [
+        {
+          "movable_cycle": "Triodion",
+          "movable_day": "Sunday_Gregory_Palamas",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
+            "matins_canon": "Res 4, Triodion 4, Triodion Saint 6. Katavasia of the Theotokos.",
+            "liturgy_type": "Basil",
+            "variables": {
+              "title": "SUNDAY II OF THE GREAT FAST: ST. GREGORY PALAMAS",
+              "liturgy_type": "liturgy_basil",
+              "vestment_color": {
+                "color": "gold",
+                "alt": "purple_or_deep_gold",
+                "citation": "Dolnytsky: Bright deep gold or gold with purple"
+              },
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 6
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "dogmatikon_current_tone"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion_saint",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_theotokos"
+              },
+              "praises_distribution": {
+                "total_count": 9,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 5
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "beatitudes_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion_saint",
+                    "qty": 4
+                  }
+                ]
+              },
+              "aposticha_distribution": {
+                "total_count": 4,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "theotokion_aposticha_tone_8"
+              },
+              "liturgy_hymns_override": [
+                {
+                  "type": "troparion",
+                  "source": "resurrection_tone"
+                },
+                {
+                  "type": "troparion",
+                  "source": "triodion_saint"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "triodion_saint"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "triodion",
+                  "glory": true
+                },
+                {
+                  "type": "theotokion",
+                  "source": "to_you_mother_of_god",
+                  "both_now": true
+                }
+              ],
+              "hours_troparia": {
+                "mode": "standard",
+                "components": [
+                  "trop_resurrection",
+                  "glory",
+                  "trop_triodion_saint"
+                ]
+              },
+              "hours_kontakion": {
+                "1": "triodion",
+                "3": "triodion_saint",
+                "6": "triodion",
+                "9": "triodion_saint"
+              },
+              "liturgy_readings": {
+                "type": "liturgy_readings",
+                "readings": [
+                  {
+                    "prokeimenon": {
+                      "tone": 5,
+                      "ref_key": "You, O Lord, will guard us"
+                    },
+                    "epistle": {
+                      "ref_key": "Heb 1:10 - 2:3"
+                    },
+                    "alleluia": {
+                      "tone": 5,
+                      "ref_key": "Alleluia"
+                    },
+                    "gospel": {
+                      "ref_key": "Mk 2:1-5"
+                    }
+                  },
+                  {
+                    "prokeimenon": {
+                      "tone": 1,
+                      "ref_key": "My mouth shall speak wisdom"
+                    },
+                    "epistle": {
+                      "ref_key": "Heb 7:26 - 8:2"
+                    },
+                    "gospel": {
+                      "ref_key": "Jn 10:9-16"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "03-08": {
+      "feast_name": "Sunday of the Veneration of the Cross",
+      "rules": [
+        {
+          "movable_cycle": "Triodion",
+          "movable_day": "Sunday_Veneration_Cross",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
+            "matins_canon": "Res 4, Theotokos 2, Triodion 8. Katavasia of the Cross.",
+            "liturgy_type": "Basil",
+            "variables": {
+              "title": "SUNDAY III OF THE GREAT FAST: VENERATION OF THE PRECIOUS CROSS",
+              "liturgy_type": "liturgy_basil",
+              "vestment_color": {
+                "color": "red",
+                "alt": "burgundy_or_purple",
+                "citation": "Dolnytsky: Crimson/red or purple"
+              },
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 6
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "dogmatikon_current_tone"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "theotokos",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ],
+                "katavasia": "katavasia_cross"
+              },
+              "praises_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "beatitudes_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ]
+              },
+              "aposticha_distribution": {
+                "total_count": 4,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  }
+                ],
+                "glory_both_now": "triodion.doxasticon"
+              },
+              "liturgy_hymns_override": [
+                {
+                  "type": "troparion",
+                  "source": "resurrection_tone"
+                },
+                {
+                  "type": "troparion",
+                  "source": "cross"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "cross",
+                  "glory_both_now": true
+                }
+              ],
+              "hours_troparia": {
+                "mode": "standard",
+                "components": [
+                  "trop_resurrection",
+                  "glory",
+                  "trop_triodion"
+                ]
+              },
+              "hours_kontakion": "triodion",
+              "liturgy_readings": {
+                "type": "liturgy_readings",
+                "readings": [
+                  {
+                    "prokeimenon": {
+                      "tone": 6,
+                      "ref_key": "Save Your people"
+                    },
+                    "epistle": {
+                      "ref_key": "Heb 4:14 - 5:6"
+                    },
+                    "alleluia": {
+                      "tone": 2,
+                      "ref_key": "Alleluia"
+                    },
+                    "gospel": {
+                      "ref_key": "Mk 8:34 - 9:1"
+                    }
+                  }
+                ]
+              }
+            },
+            "notes": [
+              "This instruction is given in the Lviv Typicon of 1899, which assumes that Matins will be sung separately from Vespers. If Vigil is served, then the transfer should occur before the beginning of Vespers, as indicated in the Triodion.",
+              "The Lviv Typicon of 1899 prescribes 9 stichera - 5 being from the Triodion, however, the Triodion of metropolitan Kallistos provides for only 4 stichera, prescribing a total of 8."
+            ]
+          }
+        }
+      ]
+    },
+    "03-15": {
+      "feast_name": "Sunday of St. John Climacus",
+      "rules": [
+        {
+          "movable_cycle": "Triodion",
+          "movable_day": "Sunday_John_Climacus",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Res, 4 Triodion.",
+            "matins_canon": "Res 4, Theotokos 2, Triodion 8. Katavasia of the Theotokos.",
+            "liturgy_type": "Basil",
+            "variables": {
+              "title": "SUNDAY IV OF THE GREAT FAST: VEN. JOHN OF THE LADDER",
+              "liturgy_type": "liturgy_basil",
+              "vestment_color": {
+                "color": "gold",
+                "alt": "green_for_ascetics",
+                "citation": "Dolnytsky: Gold or green for ascetics"
+              },
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 6
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "dogmatikon_current_tone"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "theotokos",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ],
+                "katavasia": "katavasia_theotokos"
+              },
+              "praises_distribution": {
+                "total_count": 9,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 8
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 1
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "beatitudes_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ]
+              },
+              "aposticha_distribution": {
+                "total_count": 4,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "theotokion_aposticha_tone_2"
+              },
+              "liturgy_hymns_override": [
+                {
+                  "type": "troparion",
+                  "source": "resurrection_tone"
+                },
+                {
+                  "type": "troparion",
+                  "source": "triodion_saint"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "triodion_saint",
+                  "glory": true
+                },
+                {
+                  "type": "theotokion",
+                  "source": "to_you_mother_of_god",
+                  "both_now": true
+                }
+              ],
+              "hours_troparia": {
+                "mode": "standard",
+                "components": [
+                  "trop_resurrection",
+                  "glory",
+                  "trop_triodion_saint"
+                ]
+              },
+              "hours_kontakion": "triodion_saint",
+              "liturgy_readings": {
+                "type": "liturgy_readings",
+                "readings": [
+                  {
+                    "prokeimenon": {
+                      "tone": 7,
+                      "ref_key": "The Lord will give strength"
+                    },
+                    "epistle": {
+                      "ref_key": "Heb 6:13-20"
+                    },
+                    "alleluia": {
+                      "tone": 7,
+                      "ref_key": "Alleluia"
+                    },
+                    "gospel": {
+                      "ref_key": "Mk 9:17-31"
+                    }
+                  },
+                  {
+                    "prokeimenon": {
+                      "tone": 7,
+                      "ref_key": "The venerable ones"
+                    },
+                    "epistle": {
+                      "ref_key": "Eph 5:9-19"
+                    },
+                    "gospel": {
+                      "ref_key": "Mt 4:25 - 5:12"
+                    }
+                  }
+                ]
+              }
+            },
+            "notes": [
+              "The Lvov Triodion of 1906, as well as that of Mother Maria and Metropolitan Kallistos, prescribe the verse \"Arise, O Lord my God...\", however, this is already one of the usual verses added on Sunday, and if 9 stichera are to be sung, an additional verse is required. The verse from Psalm 111 has been provided here as an option, but is not specifically prescribed in any book.",
+              "The Lvov Triodion prescribes 8 troparia in the tone of the week (Resurrectional, from the Octoechos), and does not mention any from the Triodion.",
+              "The Anthology for Worship concludes with the kontakion of the saint (from the Triodion), as if it were [a festal] one of the Lord; however, concerning this, Dol'nytsky mentions that: \"our service books prescribe the Theotokion, because the kontakion of the Triodion is penitential, not festal.\" While the kontakion of St. John is not a penitential one, we can apply the same logic here, using the pattern set forth for a polyeleos or vigil-rank feast. In common Galician practice, the Theotokion is sung in the same tone as the \"Glory\". Other books prescribe Undaunted patroness... in Tone VI. However, in anticipation of Akathist Saturday, during the season of the Triodion it seems appropriate to use the kontakion of the Theotokos in Tone VIII."
+            ]
+          }
+        }
+      ]
+    },
+    "03-28": {
+      "feast_name": "Lazarus Saturday",
+      "rules": [
+        {
+          "movable_cycle": "Triodion",
+          "movable_day": "Saturday_Lazarus",
+          "rubric": {
+            "vespers_param": "8 Stichera: 8 Triodion.",
+            "matins_canon": "Lazarus 8, Lazarus II 6. Katavasia Lazarus.",
+            "liturgy_type": "Chrysostom",
+            "variables": {
+              "title": "SATURDAY OF THE RIGHTEOUS LAZARUS",
+              "feast_id": "lazarus_saturday",
+              "dolnytsky_rank": "LORD",
+              "suppress_saints": true,
+              "hours_troparia": {
+                "mode": "standard",
+                "components": [
+                  "trop_feast"
+                ]
+              },
+              "hours_kontakion": "feast",
+              "sessional_hymns_override": "sessional_triodion",
+              "liturgy_readings": {
+                "type": "liturgy_readings",
+                "readings": [
+                  {
+                    "prokeimenon": {
+                      "tone": 3,
+                      "ref_key": "The Lord is my Light"
+                    },
+                    "epistle": {
+                      "ref_key": "Heb 12:28 - 13:8"
+                    },
+                    "alleluia": {
+                      "tone": 5,
+                      "ref_key": "Psalm 92"
+                    },
+                    "gospel": {
+                      "ref_key": "Jn 11:1-45"
+                    }
+                  }
+                ]
+              },
+              "vestment_color": {
+                "color": "gold",
+                "alt": "bright_gold",
+                "citation": "Dolnytsky: Bright gold"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion_ii",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_lazarus"
+              },
+              "praises_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "beatitudes_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_hymns_override": [
+                {
+                  "type": "troparion",
+                  "source": "triodion"
+                },
+                {
+                  "type": "kontakion",
+                  "source": "triodion",
+                  "glory_both_now": true
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
+  }
 }

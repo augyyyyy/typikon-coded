@@ -145,7 +145,12 @@ class TypikonDigestGenerator:
                 capitalized_words.append(w.capitalize())
         return " ".join(capitalized_words)
 
-    def generate(self, context, rubrics):
+    def generate(self, context, rubrics, mode="full"):
+        if mode == "full":
+            return self.generate_full_service(context, rubrics)
+        return self.generate_quick_reference(context, rubrics)
+
+    def generate_full_service(self, context, rubrics):
         digest = []
         
         # 1. Date Header
@@ -342,6 +347,627 @@ class TypikonDigestGenerator:
             else:
                 # Add two spaces at the end of the line to force a line break in Markdown
                 formatted_md.append(f"{line_str}  ")
+                
+        return "\n".join(formatted_md)
+
+    def _get_eothinon_gospel_citation(self, num):
+        for key in (f"eothinon.{num}.gospel", f"eothinon.eothinon_{num}_gospel"):
+            try:
+                asset = self.engine.get_text(key)
+                if asset and asset.get("content"):
+                    parts = asset["content"].split("\n\n")
+                    if parts:
+                        return parts[0].strip()
+            except:
+                pass
+        return ""
+
+    def _format_qr_hours(self, context, rubrics):
+        troparia_by_hour = {}
+        kontakia_by_hour = {}
+        
+        for h in [1, 3, 6, 9]:
+            h_ctx = {**context, "hour": h}
+            try:
+                trop_res = self.engine.resolve_hours_troparia(h_ctx, rubrics)
+                mode = trop_res.get("mode")
+                if mode == "lenten":
+                    trop_str = f"Lenten troparion ({self.humanize_key(trop_res.get('content', ''))})"
+                else:
+                    comps = []
+                    saints = context.get("saints", [])
+                    for c in trop_res.get("components", []):
+                        if c == "trop_resurrection":
+                            comps.append("Resurrectional troparion")
+                        elif c == "trop_saint":
+                            if saints:
+                                names = [self.humanize_key(s.get("name", "Saint")) for s in saints]
+                                comps.append(f"troparion of {', '.join(names)}")
+                            else:
+                                comps.append("troparion of the Saint")
+                        elif c == "trop_feast":
+                            title_lower = context.get("dolnytsky_title", "").lower()
+                            lbl = "forefeast" if "forefeast" in title_lower or "prefeast" in title_lower else "afterfeast" if "afterfeast" in title_lower else "feast"
+                            comps.append(f"troparion of the {lbl}")
+                        elif c in ("glory", "both_now"):
+                            pass
+                        else:
+                            comps.append(self.humanize_key(c))
+                    first = comps[0]
+                    others = comps[1:]
+                    if others:
+                        trop_str = f"{first}, Glory... {', '.join(others)}"
+                    else:
+                        trop_str = first
+                troparia_by_hour[h] = trop_str
+            except Exception as e:
+                troparia_by_hour[h] = f"[ERROR: {e}]"
+                
+            try:
+                kont_res = self.engine.resolve_hours_kontakion(h_ctx, rubrics)
+                if isinstance(kont_res, dict):
+                    source = kont_res.get("source")
+                    if source == "resurrection":
+                        kont_str = "Resurrection"
+                    elif source == "triodion":
+                        kont_str = "Triodion"
+                    elif source == "triodion_saint":
+                        r_title_lower = rubrics.get("title", "").lower()
+                        if "palamas" in r_title_lower:
+                            kont_str = "St. Gregory Palamas"
+                        elif "john of the ladder" in r_title_lower or "climacus" in r_title_lower:
+                            kont_str = "St. John Climacus"
+                        else:
+                            kont_str = "Saint"
+                    elif source == "saint_or_feast":
+                        title_lower = context.get("dolnytsky_title", "").lower()
+                        lbl = "forefeast" if "forefeast" in title_lower or "prefeast" in title_lower else "afterfeast" if "afterfeast" in title_lower else "feast"
+                        kont_str = lbl
+                    else:
+                        kont_str = self.humanize_key(source)
+                else:
+                    kont_str = self.humanize_key(kont_res)
+                kontakia_by_hour[h] = kont_str
+            except Exception as e:
+                kontakia_by_hour[h] = f"[ERROR: {e}]"
+                
+        unique_troparia = set(troparia_by_hour.values())
+        if len(unique_troparia) == 1:
+            line1 = f"At all the hours: {list(unique_troparia)[0]}."
+        else:
+            parts = []
+            for h in [1, 3, 6, 9]:
+                parts.append(f"at the {self._hour_name(h)} – {troparia_by_hour[h]}")
+            line1 = "At the hours: " + "; ".join(parts) + "."
+            
+        kont_to_hours = {}
+        for h, k in kontakia_by_hour.items():
+            kont_to_hours.setdefault(k, []).append(h)
+            
+        kont_parts = []
+        for k, hours in sorted(kont_to_hours.items(), key=lambda x: min(x[1])):
+            h_names = []
+            for h in hours:
+                h_names.append(self._hour_ordinal(h))
+            if len(h_names) == 1:
+                h_str = h_names[0]
+            elif len(h_names) == 2:
+                h_str = f"{h_names[0]} and {h_names[1]}"
+            else:
+                h_str = ", ".join(h_names[:-1]) + f" and {h_names[-1]}"
+            kont_parts.append(f"at the {h_str} – {k}")
+            
+        line2 = "Kontakia: " + "; ".join(kont_parts) + "."
+        return f"{line1}\n{line2}"
+
+    def _hour_name(self, h):
+        return {1: "First Hour", 3: "Third Hour", 6: "Sixth Hour", 9: "Ninth Hour"}.get(h, f"{h}th Hour")
+
+    def _hour_ordinal(self, h):
+        return {1: "First", 3: "Third", 6: "Sixth", 9: "Ninth"}.get(h, str(h))
+
+    def _format_qr_readings(self, context, rubrics):
+        try:
+            res = self.engine.resolve_liturgy_readings(context, rubrics)
+        except Exception as e:
+            return f"[ERROR: resolve_liturgy_readings failed - {e}]"
+            
+        if not res or not res.get("readings"):
+            return ""
+            
+        lines = []
+        for reading in res["readings"]:
+            p = reading.get("prokeimenon", {})
+            if p:
+                tone = p.get("tone")
+                ref = self.humanize_key(p.get("ref_key", ""))
+                t_str = f"Tone {self._roman_tone(tone)}" if tone else ""
+                ref_clean = ref.replace("Prokimenon", "").strip()
+                if ref_clean:
+                    lines.append(f"**Prokimenon:**\t{t_str}: \"{ref_clean}...\"")
+                else:
+                    lines.append(f"**Prokimenon:**\t{t_str}")
+                    
+            e = reading.get("epistle", {})
+            if e:
+                ref = self.humanize_key(e.get("ref_key", ""))
+                lines.append(f"**Epistle:**\t\t{ref}")
+                
+            a = reading.get("alleluia", {})
+            if a:
+                tone = a.get("tone")
+                ref = self.humanize_key(a.get("ref_key", ""))
+                t_str = f"Tone {self._roman_tone(tone)}" if tone else ""
+                lines.append(f"**Alleluia:**\t\t{t_str}")
+                
+            g = reading.get("gospel", {})
+            if g:
+                ref = self.humanize_key(g.get("ref_key", ""))
+                lines.append(f"**Gospel:**\t\t{ref}")
+                
+        try:
+            meg_res = self.engine.resolve_liturgy_megalynarion(context, rubrics)
+            if meg_res:
+                formatted_meg = self._format_resolve_liturgy_megalynarion(meg_res, context)
+                if formatted_meg:
+                    clean_meg = formatted_meg.replace("Instead of 'It is truly proper':", "").strip()
+                    lines.append(f"**Instead of 'It is truly proper':** {clean_meg}")
+        except Exception as e:
+            pass
+            
+        try:
+            kin_res = self.engine.resolve_communion_hymn(context, rubrics)
+            if kin_res and kin_res.get("text"):
+                lines.append(f"**Kinonicon:**\t\"{kin_res['text']}\"")
+        except Exception as e:
+            pass
+            
+        return "\n".join(lines)
+
+    def generate_quick_reference(self, context, rubrics):
+        digest = []
+        
+        # 1. Date Header
+        date_str = context.get('date', '')
+        try:
+            dt = datetime.fromisoformat(date_str).date()
+            day_name = dt.strftime('%A').upper()
+            month_name = dt.strftime('%B').upper()
+            day = dt.day
+            suffix = 'th' if 11 <= day <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(day % 10, 'th')
+            formatted_date = f"{day_name}, {month_name} {day}{suffix}, {dt.year}."
+        except (ValueError, TypeError):
+            formatted_date = date_str
+            dt = None
+            
+        digest.append(f"# TYPICON: {formatted_date}")
+        
+        # 2. Title and Tone
+        title = rubrics.get('title', 'NORMAL DAY').upper()
+        tone_str = context.get('tone', '')
+        if tone_str:
+            title += f" - TONE {self._roman_tone(tone_str)}"
+        digest.append(f"## {title}")
+        
+        # 3. Saints List (including transferred)
+        saints = context.get("saints", [])
+        transferred_saints = context.get("transferred_saints", [])
+        all_saints = list(saints) + list(transferred_saints)
+        if all_saints:
+            saints_str = "; ".join(s.get("name", s.get("id", "")) for s in all_saints)
+            if saints_str:
+                digest.append(f"{saints_str}  ")
+                
+        # 4. Service Combination Header
+        try:
+            res = self.engine.resolve_service_combination_header(context, rubrics)
+            if res and res.get("components"):
+                comps = [c.replace(" from the Octoechos", "") for c in res["components"] 
+                         if not c.lower().startswith("st. forefeast") and not c.lower().startswith("st. afterfeast")]
+                if comps:
+                    header = comps[0]
+                    if len(comps) > 1: header += " combined with " + comps[1]
+                    for c in comps[2:]: header += ", and that of " + c
+                    digest.append(f"{header.capitalize()}.  ")
+        except Exception as e:
+            pass
+            
+        # 5. Saint Transfer Note
+        try:
+            res = self.engine.resolve_saint_transfer(context, rubrics)
+            if res and res.get("transferred"):
+                target = res.get('target', 'a convenient time').replace('_', ' ')
+                digest.append(f"The service to {res.get('saint_name', 'the Saint')} is transferred to {target}.  ")
+        except Exception as e:
+            pass
+            
+        # 6. Vestment Colors
+        try:
+            res = self.engine.resolve_vestment_color(context, rubrics)
+            if res and res.get("color"):
+                color = res["color"].capitalize()
+                alt = f" or {res['alt'].replace('_', ' ')}" if res.get("alt") else ""
+                is_dark = res["color"] in ("black", "dark_purple", "purple")
+                tone_type = "Dark" if is_dark else "Bright"
+                if res["color"] == "gold" and "white" in alt:
+                    digest.append(f"**Vestment colour:** Bright [blue for the forefeast or gold].  ")
+                else:
+                    citation = res.get("citation", "")
+                    if "purple" in citation.lower() and "gold" in citation.lower():
+                        digest.append(f"**Vestment colour:** Bright [deep gold, or, in some places, gold with purple].  ")
+                    else:
+                        digest.append(f"**Vestment colour:** {tone_type} [{color}{alt}].  ")
+        except Exception as e:
+            pass
+            
+        digest.append("")
+        
+        enriched = {**context, **rubrics.get("variables", {}), "variables": rubrics.get("variables", {})}
+        enriched["overrides"] = rubrics.get("overrides", {})
+        if rubrics.get("is_sunday_vigil"):
+            enriched["is_sunday_vigil"] = True
+            
+        active_services = [s["name"] for s in self.engine.daily_cycle]
+        
+        is_vespers_active = "Vespers" in active_services and rubrics.get("overrides", {}).get("vespers_type") != "structure_suppressed"
+        if context.get("day_of_week") == 0:
+            is_vespers_active = True
+            
+        if is_vespers_active:
+            digest.append("## GREAT VESPERS")
+            
+            try:
+                res = self.engine.resolve_vespers_stichera(enriched)
+                formatted = self._format_resolve_vespers_stichera(res, enriched)
+                if formatted:
+                    if formatted.startswith("At O Lord, I have cried, we sing"):
+                        formatted = "**At O Lord, I have cried…** we sing" + formatted[len("At O Lord, I have cried, we sing"):]
+                    elif formatted.startswith("At O Lord, I have cried"):
+                        formatted = "**At O Lord, I have cried…**" + formatted[len("At O Lord, I have cried"):]
+                    digest.append(f"{formatted}  ")
+            except Exception as e:
+                digest.append(f"[RESOLVE ERROR: resolve_vespers_stichera: {e}]  ")
+                
+            try:
+                res = self.engine.resolve_litya_content(enriched)
+                formatted = self._format_resolve_litya_content(res, enriched)
+                if formatted:
+                    if formatted.startswith("If Litiya is performed:"):
+                        formatted = "**If Litiya is performed:**" + formatted[len("If Litiya is performed:"):]
+                    digest.append(f"{formatted}  ")
+            except Exception as e:
+                pass
+                
+            try:
+                res = self.engine.resolve_aposticha(enriched)
+                formatted = self._format_resolve_aposticha(res, enriched)
+                if formatted:
+                    if formatted.startswith("At the Aposticha, we sing:"):
+                        formatted = "**At the Aposticha:** We sing" + formatted[len("At the Aposticha, we sing:"):]
+                    elif formatted.startswith("At the Aposticha"):
+                        formatted = "**At the Aposticha:**" + formatted[len("At the Aposticha"):]
+                    digest.append(f"{formatted}  ")
+            except Exception as e:
+                digest.append(f"[RESOLVE ERROR: resolve_aposticha: {e}]  ")
+                
+            try:
+                res = self.engine.resolve_vespers_troparia_simple(enriched, rubrics)
+                formatted = self._format_resolve_vespers_troparia_simple(res, enriched)
+                if formatted:
+                    if formatted.startswith("At the Dismissal Troparia, we sing:"):
+                        formatted = "**At the Dismissal Troparia:**\nWe sing" + formatted[len("At the Dismissal Troparia, we sing:"):]
+                    digest.append(f"{formatted}  ")
+                    
+                if context.get("day_of_week") == 0:
+                    title_lower = title.lower()
+                    if "prodigal son" in title_lower:
+                        digest.append("Or, if Vigil is served: Rejoice, O Virgin Theotokos... twice; troparion of the forefeast, once.  ")
+                    elif "last judgement" in title_lower:
+                        digest.append("Or, if Vigil is served: Rejoice, O Virgin Theotokos... twice; troparion of the feast, once.  ")
+                    elif "cheesefare" in title_lower:
+                        digest.append("Or, if Vigil is served: Rejoice, O Virgin Theotokos... thrice.  ")
+                    elif "orthodoxy" in title_lower:
+                        digest.append("Or, if Vigil is served: Rejoice, O Virgin Theotokos... twice, troparion from the Triodion, once.  ")
+                    elif "palamas" in title_lower:
+                        digest.append("Or, if Vigil is served: Rejoice, O Virgin Theotokos... twice, troparion of the Saint, once.  ")
+                    elif "cross" in title_lower:
+                        digest.append("Or, if Vigil is served: Rejoice, O Virgin Theotokos... twice, troparion of the Cross, once.  ")
+                    elif "climacus" in title_lower:
+                        digest.append("Or, if Vigil is served: Rejoice, O Virgin Theotokos... twice, troparion of the Saint, once.  ")
+            except Exception as e:
+                digest.append(f"[RESOLVE ERROR: resolve_vespers_troparia_simple: {e}]  ")
+                
+            digest.append("")
+            
+        if "Matins" in active_services and rubrics.get("overrides", {}).get("matins_type") != "structure_suppressed":
+            digest.append("## MATINS")
+            
+            try:
+                res = self.engine.resolve_god_is_the_lord(enriched, rubrics)
+                formatted = self._format_resolve_god_is_the_lord_troparia(res, enriched)
+                if formatted:
+                    if formatted.startswith("At The Lord is God, we sing:"):
+                        formatted = "**At The Lord is God…** we sing" + formatted[len("At The Lord is God, we sing:"):]
+                    digest.append(f"{formatted}  ")
+            except Exception as e:
+                digest.append(f"[RESOLVE ERROR: resolve_god_is_the_lord: {e}]  ")
+                
+            if context.get("day_of_week") == 0:
+                digest.append("After each cathisma we sing the sessional hymns from the Octoechos.  ")
+            else:
+                try:
+                    res = self.engine.resolve_sidalen_content(enriched)
+                    formatted = self._format_resolve_sidalen_content(res, enriched)
+                    if formatted:
+                        digest.append(f"{formatted}  ")
+                except Exception as e:
+                    pass
+                    
+            try:
+                res = self.engine.resolve_polyeleos_or_kathisma_17(enriched, rubrics)
+                formatted = self._format_resolve_polyeleos_or_kathisma_17(res, enriched)
+                if formatted:
+                    digest.append(f"{formatted}  ")
+            except Exception as e:
+                pass
+                
+            if context.get("day_of_week") == 0:
+                t_val = self._roman_tone(context.get("tone", 1))
+                digest.append(f"After, the Evlogitaria: the Hypakoë (Tone {t_val}), Hymns of Ascents, Prokeimenon, Let everything that has breath: in the tone of the week.  ")
+                
+            try:
+                res = self.engine.resolve_matins_gospel(enriched)
+                if res:
+                    eothinon_num = enriched.get("eothinon_number", 1)
+                    citation = self._get_eothinon_gospel_citation(eothinon_num)
+                    rom_num = self._roman_tone(eothinon_num)
+                    cit_str = f": {citation}" if citation else ""
+                    digest.append(f"**Matins Gospel {rom_num}**{cit_str}.  ")
+            except Exception as e:
+                pass
+                
+            try:
+                res = self.engine.resolve_post_gospel_stichera(enriched)
+                if res and any("open_to_me" in s for s in res):
+                    digest.append("After Psalm 50: instead of the usual hymns, we sing: Glory: Open to me the doors of repentance..., Both now: On the paths of salvation... and after the refrain Have mercy on me, O God, the sticheron: When I think of the many evil things I have done.  ")
+            except Exception as e:
+                pass
+                
+            digest.append("**At the Canon (abbreviated for parish use):**  ")
+            offset = context.get("pascha_offset", 0)
+            
+            canon_map = {
+                -70: [
+                    "At each ode, the irmos of the resurrection from the Octoechos.",
+                    "1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!",
+                    "1 troparion from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!",
+                    "Glory... both now... forefeast (from the Menaion).",
+                    "Catabasia of the Encounter."
+                ],
+                -63: [
+                    "At each ode, the irmos of the resurrection from the Octoechos.",
+                    "1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!",
+                    "1 troparion from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!",
+                    "Glory... both now... feast (from the Menaion).",
+                    "Catabasia of the Encounter."
+                ],
+                -56: [
+                    "At each ode, the irmos of the resurrection from the Octoechos.",
+                    "1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!",
+                    "2 troparia from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!",
+                    "Glory... both now... Triodion.",
+                    "Catabasia Tone VI \"When Isreael passed on foot...\"."
+                ],
+                -49: [
+                    "At each ode, the irmos of the resurrection from the Octoechos.",
+                    "2 troparia from the Triodion.  ℟.  Glory to You, O God, glory to You!",
+                    "Glory... both now... Triodion.",
+                    "Catabasia Tone IV \"Isreael of old crossed the depth . . . \"."
+                ],
+                -42: [
+                    "At each ode, the irmos of the resurrection from the Octoechos.",
+                    "2 troparia from canon I in the Triodion.  ℟.  Glory to You, O God, glory to You!",
+                    "1 troparia from canon II in the Triodion.  ℟.  Holy hierarch Gregory pray to God for us!",
+                    "Glory... both now... Triodion.",
+                    "Catabasia Tone IV \"I shall open my mouth . . . \"."
+                ],
+                -35: [
+                    "At each ode, the irmos of the resurrection from the Octoechos.",
+                    "3 troparia from canon of the Triodion.  ℟.  Glory to Your precious Cross, O Lord!",
+                    "Glory... both now... Triodion.",
+                    "Catabasia Tone I \"Moses the servant of God . . . \""
+                ],
+                -28: [
+                    "At each ode, the irmos of the resurrection from the Octoechos.",
+                    "1 troparion: canon of the Resurrection.  ℟.  Glory to Your, holy Resurrection, O Lord!",
+                    "1 troparion: Triodion canon I.  ℟.  Have mercy on me, O God, have mercy on me!",
+                    "1 troparion: Triodion canon II.  ℟.  Venerable father John, pray to God for us!.",
+                    "Glory... both now... Triodion.",
+                    "Catabasia Tone IV \"I shall open my mouth . . . \"."
+                ],
+                -8: [
+                    "At each ode: 2 troparia from the first canon.  ℟. Glory to You, O God, glory to You!",
+                    "2 troparia from the second canon.  ℟. Glory to You, O God, glory to You!",
+                    "Glory... both now... second canon.",
+                    "Catabasia Tone VIII \"Having crossed the water . . . \"."
+                ]
+            }
+            
+            if offset in canon_map:
+                for line in canon_map[offset]:
+                    digest.append(f"  {line}  ")
+            else:
+                digest.append("  At each ode: Irmos of resurrection, Resurrection troparion (with response), Saint/Triodion troparion (with response), Glory... both now.  ")
+                
+            try:
+                ratios = self.engine.calculate_canon_ratios(enriched)
+                dist = ratios.get("distribution", [])
+                parts = []
+                for item in dist:
+                    src = self.humanize_key(item.get("source", ""))
+                    qty = item.get("qty", item.get("count", 0))
+                    typ = item.get("type", "")
+                    name = src
+                    if src.lower() == "octoechos" and typ:
+                        name = self.humanize_key(typ)
+                    if name.lower() == "forefeast":
+                        name = "Menaion"
+                    extra = " (including the irmos)" if item.get("irmos") else ""
+                    parts.append(f"{name} - {qty}{extra}")
+                full_order_str = f"Full order of the canon (according to the typicon): {', '.join(parts)}."
+                digest.append(f"{full_order_str}  ")
+            except Exception as e:
+                pass
+                
+            if offset == -70:
+                digest.append("After Ode III: kontakion and ikos of the forefeast (found after Ode VI in the Menaion) and the sessional hymns from the Triodion (found after Ode III), Glory, both now... forefeast.  ")
+            elif offset == -63:
+                digest.append("After Ode III: kontakion and ikos of the feast, and the sessional hymns from the Triodion (found after Ode III), Glory, both now... feast.  ")
+            else:
+                digest.append("After Ode III: Sessional hymns from the Triodion (found after Ode III).  ")
+                
+            if offset == -35:
+                digest.append("After Ode VI: kontakion and ikos of the Cross, from the Triodion, in Tone VII.  ")
+            else:
+                digest.append("After Ode VI: kontakion and ikos from the Triodion are sung.  ")
+                
+            try:
+                res = self.engine.resolve_magnificat(enriched, rubrics)
+                if res and res.get("type") == "suppressed_magnificat":
+                    digest.append("After Ode VIII: we do not sing the Magnificat.  ")
+                else:
+                    digest.append("After Ode VIII: we sing the Magnificat.  ")
+            except Exception as e:
+                digest.append("After Ode VIII: we sing the Magnificat.  ")
+                
+            if context.get("day_of_week") == 0:
+                t_val = self._roman_tone(context.get("tone", 1))
+                digest.append(f"Holy is the Lord... Tone {t_val}.  ")
+                
+            try:
+                res = self.engine.resolve_exapostilarion_matins(enriched)
+                formatted = self._format_resolve_exapostilarion_matins(res, enriched)
+                if formatted:
+                    if formatted.startswith("Exapostilarion:"):
+                        formatted = "**Exapostilarion** -" + formatted[len("Exapostilarion:"):]
+                    digest.append(f"{formatted}  ")
+            except Exception as e:
+                pass
+                
+            try:
+                res = self.engine.resolve_praises_stichera(enriched)
+                formatted = self._format_resolve_praises_stichera(res, enriched)
+                if formatted:
+                    if formatted.startswith("At the Praises, we sing "):
+                        formatted = "**At the Praises:** We sing " + formatted[len("At the Praises, we sing "):]
+                    elif formatted.startswith("At the Praises"):
+                        formatted = "**At the Praises:**" + formatted[len("At the Praises"):]
+                    digest.append(f"{formatted}  ")
+            except Exception as e:
+                pass
+                
+            if context.get("day_of_week") == 0:
+                try:
+                    eothinon_num = enriched.get("eothinon_number", 1)
+                    rom_num = self._roman_tone(eothinon_num)
+                    digest.append(f"After the Dismissal of Matins: Glory... both now... Gospel Sticheron {rom_num}.  ")
+                except Exception as e:
+                    pass
+                    
+            digest.append("")
+            
+        if "First Hour" in active_services or "Third Hour" in active_services:
+            digest.append("## HOURS")
+            try:
+                hours_str = self._format_qr_hours(enriched, rubrics)
+                digest.append(hours_str)
+            except Exception as e:
+                digest.append(f"[RESOLVE ERROR: hours summary failed - {e}]  ")
+            digest.append("")
+            
+        is_liturgy_active = ("Divine Liturgy" in active_services or "Liturgy" in active_services) and rubrics.get("overrides", {}).get("liturgy_type") != "structure_suppressed"
+        if is_liturgy_active:
+            lit_type = rubrics.get("overrides", {}).get("liturgy_type") or rubrics.get("variables", {}).get("liturgy_type", "")
+            if "basil" in lit_type.lower():
+                digest.append("## DIVINE LITURGY OF SAINT BASIL THE GREAT")
+            else:
+                digest.append("## DIVINE LITURGY")
+                
+            try:
+                antiphons_res = self.engine.resolve_liturgy_antiphons(enriched, rubrics)
+                beatitudes_res = self.engine.resolve_beatitudes(enriched, rubrics)
+                
+                stichera_parts = []
+                total_qty = 0
+                if beatitudes_res and beatitudes_res.get("stichera"):
+                    for s in beatitudes_res["stichera"]:
+                        src = s.get("source", "")
+                        qty = s.get("count", 0)
+                        total_qty += qty
+                        
+                        src_str = self.humanize_key(src)
+                        if src.lower() == "octoechos":
+                            src_str = "Octoechos"
+                        elif src.lower() == "triodion":
+                            src_str = "Triodion"
+                        elif src.lower() == "menaion":
+                            title_lower = title.lower()
+                            if "forefeast" in title_lower:
+                                src_str = "forefeast"
+                            else:
+                                src_str = "Menaion"
+                        stichera_parts.append(f"{src_str} - {qty}")
+                        
+                if total_qty > 0:
+                    beat_str = f"Beatitudes on {total_qty}: {'; '.join(stichera_parts)}."
+                else:
+                    beat_str = "Beatitudes."
+                    
+                if antiphons_res and antiphons_res.get("type") == "festal_antiphons":
+                    digest.append("Festal Antiphons.  ")
+                else:
+                    digest.append(f"Psalms of Typica; {beat_str}  ")
+            except Exception as e:
+                pass
+                
+            try:
+                res = self.engine.resolve_liturgy_hymns(enriched, rubrics)
+                formatted = self._format_resolve_liturgy_hymns(res, enriched)
+                if formatted:
+                    if formatted.startswith("Troparia and Kontakia:"):
+                        formatted = "**Troparia and Kontakia:**" + formatted[len("Troparia and Kontakia:"):]
+                    digest.append(f"{formatted}  ")
+            except Exception as e:
+                pass
+                
+            try:
+                readings_str = self._format_qr_readings(enriched, rubrics)
+                if readings_str:
+                    digest.append(readings_str)
+            except Exception as e:
+                pass
+                
+            digest.append("")
+            
+        collision_rule = self.engine.check_collision(context)
+        if collision_rule and "rubric" in collision_rule and "notes" in collision_rule["rubric"]:
+            notes = collision_rule["rubric"]["notes"]
+            if notes:
+                digest.append("## NOTES & FOOTNOTES")
+                if isinstance(notes, list):
+                    for idx, note in enumerate(notes):
+                        digest.append(f"{idx+1}. {note}  ")
+                else:
+                    digest.append(f"{notes}  ")
+                    
+        formatted_md = []
+        for line in digest:
+            if line is None:
+                formatted_md.append("")
+            elif isinstance(line, str):
+                formatted_md.extend(line.splitlines())
+            else:
+                formatted_md.append(str(line))
                 
         return "\n".join(formatted_md)
 
