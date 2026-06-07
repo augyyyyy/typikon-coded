@@ -8,7 +8,7 @@
   "theotokia_tables": {
     "sunday_theotokia": {
       "description": "Sunday Theotokia (Dogmatika) - used for Polyeleos Saints on weekdays and all Sundays",
-      "source_ref": "Dolnytsky I: 'Theotokion from the Sunday ones, according to tone of Saint'",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L178",
       "by_tone": {
         "1": "theotokion.sunday.tone_1",
         "2": "theotokion.sunday.tone_2",
@@ -22,7 +22,7 @@
     },
     "dismissal_theotokia": {
       "description": "Daily Dismissal Theotokia - 8 tones × 7 days matrix for non-Polyeleos weekdays",
-      "source_ref": "Dolnytsky I: 'Dismissal Theotokion according to tone and day of week'",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L181",
       "by_tone_and_day": {
         "1": {
           "monday": "theotokion.dismissal.tone_1.monday",
@@ -100,7 +100,7 @@
     },
     "stavrotheotokia": {
       "description": "Cross-Theotokia (Stavrotheotokia) - Used on Wed/Fri evenings and Tue/Thu mornings",
-      "source_ref": "Dolnytsky II: Stavrotheotokion Toggle",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L207",
       "by_tone": {
         "1": "theotokion.stavro.tone_1",
         "2": "theotokion.stavro.tone_2",
@@ -125,7 +125,7 @@
   },
   "aposticha_theotokia": {
     "description": "Theotokion at the Both now of the Aposticha. On Sunday: from the Octoechos (Sunday Aposticha Theotokion in the tone of the week). On weekdays with Glory Doxastikon: Theotokion in the tone of that Doxastikon from Sunday Aposticha.",
-    "source_ref": "Dolnytsky Part II — Aposticha Both Now",
+    "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L332",
     "sunday_by_tone": {
       "1": "theotokion.aposticha.sunday.tone_1",
       "2": "theotokion.aposticha.sunday.tone_2",

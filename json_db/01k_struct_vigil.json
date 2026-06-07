@@ -10,7 +10,7 @@
   "structures": {
     "all_night_vigil": {
       "title_key": "titles.all_night_vigil",
-      "source_ref": "Dolnytsky I: Order of Vigil",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L13",
       "sequence": [
         {
           "id": "opening_vigil",

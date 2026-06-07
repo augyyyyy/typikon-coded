@@ -148,7 +148,7 @@ class LentenMixin:
             return {"is_lenten": False, "hour": hour_num}
         
         # Kathisma assignment logic
-        # Per Dolnytsky: Psalter is divided into 20 kathismata, 
+        # Per Final_Dolnytsky_part1_structure.txt:L187: Psalter is divided into 20 kathismata, 
         # read through twice per Lenten week (Mon-Fri)
         # Matins reads 3, then Hours read in sequence
         kathisma_map = {
@@ -427,7 +427,7 @@ class LentenMixin:
     def resolve_lenten_ending(self, context, rubrics):
         """
         Lenten Conclusion after Aposticha at Vespers.
-        Citation: Dolnytsky Part IV Lines 280-295 (Lenten Conclusion)
+        Citation: Final_Dolnytsky_part4_triodion.txt:L304 (Lenten Conclusion)
         
         Structure:
         1. "Rejoice, O Virgin Theotokos" (3x)
@@ -452,14 +452,14 @@ class LentenMixin:
         }
         
         # RULE: Only in Great Lent (pascha_offset <= -49 = Clean Monday onward)
-        # Citation: Dolnytsky Part IV Lines 280-295 - Ephrem begins Clean Monday
+        # Citation: Final_Dolnytsky_part4_triodion.txt:L304 - Ephrem begins Clean Monday
         pascha_offset = context.get("pascha_offset", 0)
         is_great_lent = pascha_offset <= -49 and pascha_offset >= -7  # Clean Monday to Lazarus Saturday
         if not is_great_lent:
             result["prostrations_enabled"] = False
         
         # RULE: No prostrations on Saturday/Sunday (except Sunday Evening Lenten Vespers)
-        # Citation: Dolnytsky Part IV Lines 188-189 - Sunday evening has 3 great prostrations.
+        # Citation: Final_Dolnytsky_part4_triodion.txt:L322
         sunday_evening_prostrations = False
         if day_of_week == 6:
             result["prostrations_enabled"] = False
@@ -474,7 +474,7 @@ class LentenMixin:
             sunday_evening_prostrations = False
         
         # Component 1: Lenten Troparia
-        # Citation: Dolnytsky Part IV Lines 280-295
+        # Citation: Final_Dolnytsky_part4_triodion.txt:L304
         # The true Lenten Troparia are:
         # 1. Rejoice O Virgin Theotokos (with prostration)
         # 2. O Baptizer of Christ (with prostration)
@@ -787,7 +787,7 @@ class LentenMixin:
         # I. Alleluia Logic
         # If Lenten Weekday -> Alleluia + Trinity Hymns
         if context.get("is_lent") and context.get("day_of_week") in [1,2,3,4,5]:
-             # Dolnytsky Part IV, Line 206:
+             # Final_Dolnytsky_part4_triodion.txt:L326:
              # "At each first one we make a commemoration of the weekday service...
              #  at the second - all saints, at the third - Theotokos."
              

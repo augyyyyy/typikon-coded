@@ -296,7 +296,7 @@ class CommonResolverMixin:
                 return overridden_dist
 
         # 1. Lenten Weekday Logic (Complex varying counts)
-        # Citation: Dolnytsky IV:347 - "Canons 3 [making] 14..."
+        # Citation: Final_Dolnytsky_part4_triodion.txt:L347
         if context.get("season") == "lent" and context.get("day_of_week") not in [0, 6]: 
             day = str(context.get("day_of_week"))
             lenten_maps = self.triodion_logic.get("lenten_logic_maps", {})
@@ -1165,7 +1165,7 @@ class CommonResolverMixin:
              
         if context.get("season") == "lent" and not is_sunday:
              # Lenten logic (Triodion sessional)
-             # Citation: Dolnytsky IV:320
+             # Citation: Final_Dolnytsky_part4_triodion.txt:L330
              return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
              
         if rank <= 3:
@@ -1227,7 +1227,7 @@ class CommonResolverMixin:
         }
         return festal_tones.get(feast_id, 1)
 
-    @liturgical_source(dolnytsky="Part I")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L166-173")
     def resolve_canon_ode_troparion(self, context, ode, position="glory"):
         """
         Resolves specific troparion details at a given position within a canon ode (primarily Ode 8).

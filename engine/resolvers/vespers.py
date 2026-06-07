@@ -24,12 +24,16 @@ class VespersMixin:
         """
         # 1. Check for specific dates (Theophany Eve, Nativity Eve)
         # Note: context['date'] is a string "YYYY-MM-DD"
+        day_of_week = context.get("day_of_week")
+        
         if context.get("date", "").endswith("-01-05"):
-            # Eve of Theophany (Jan 5). In 2031 (Mon Theophany), Jan 5 is Sunday.
-            # Dolnytsky: Vesperal Liturgy of St. Basil served on Eve.
+            if day_of_week in [0, 6]:
+                return "great_vespers_simple"
             return "vesperal_liturgy_basil"
             
         if context.get("date", "").endswith("-12-24"):
+            if day_of_week in [0, 6]:
+                return "great_vespers_simple"
             return "vesperal_liturgy_basil"
             
         # 3. Pascha (Holy Saturday Vespers + Basil Liturgy)
@@ -73,7 +77,7 @@ class VespersMixin:
 
         # Check for overridden distribution first (e.g. from collisions)
         overridden_dist = context.get("vespers_stichera_distribution")
-        if overridden_dist:
+        if overridden_dist and isinstance(overridden_dist, dict):
             vespers_logic = overridden_dist
             count = vespers_logic.get("total_count", 0)
             dist = vespers_logic.get("distribution", [])
@@ -183,7 +187,7 @@ class VespersMixin:
                 }
 
         # FIX: For Saturday Vigil, use Sunday's stichera distribution (10 stichera)
-        # Citation: Dolnytsky Part II Lines 33-40 (Vespers stichera on Sunday = 10)
+        # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L62
         lookup_context = context.copy()
         if context.get("is_sunday_vigil") and context.get("day_of_week") == 6:
             lookup_context["day_of_week"] = 0  # Pretend it's Sunday for case matching
@@ -237,6 +241,8 @@ class VespersMixin:
              return expanded
 
         vespers_logic = case_def.get("variables", {}).get("vespers_stichera_distribution", {})
+        if not isinstance(vespers_logic, dict):
+            vespers_logic = {}
     
         # BUG-1 FIX: If matched case (typically Triodion overlay) has no vespers_stichera_distribution,
         # fall back to the base general case for this day type.
@@ -420,7 +426,7 @@ class VespersMixin:
         if not is_vigil and not context.get("force_litiya"):
             return {"included": False}
         
-        # Troparia distribution per Ordo §58
+        # Troparia distribution per Ordo_Celebrationis_1996_CLEAN.txt:L453
         rank_num = context.get("rank")
         day_of_week = context.get("day_of_week")
         
@@ -557,7 +563,7 @@ class VespersMixin:
             return {"type": "lenten_aposticha", "source": "triodion",
                     "reason": "Lenten weekday"}
         
-        # 4. Saturday Martyria (Dolnytsky II:135)
+        # Final_Dolnytsky_part2_general_rubrics.txt:L223
         if context.get("day_of_week") == 6:
             return {"type": "martyria_aposticha", "source": "octoechos",
                     "reason": "Saturday (Dolnytsky II:135)"}
@@ -568,7 +574,7 @@ class VespersMixin:
             return {"type": "saint_aposticha", "source": "menaion",
                     "reason": "Polyeleos/Vigil weekday (Dolnytsky II:196)"}
         
-        # 6. Default: Weekday Octoechos (Dolnytsky II:86)
+        # Final_Dolnytsky_part2_general_rubrics.txt:L132
         return {"type": "weekday_aposticha", "source": "octoechos",
                 "reason": "Standard weekday (Dolnytsky II:86)"}
 
@@ -1014,7 +1020,7 @@ class VespersMixin:
         }
 
     # MODULE A7: ROYAL HOURS TRIGGERS
-    # ref: Dolnytsky Part III (Royal Hours)
+    # ref: Final_Dolnytsky_part3_menaion.txt:L770
 
 
     def resolve_prokeimenon(self, context):
@@ -1187,7 +1193,7 @@ class VespersMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part IV (Great Friday Entombment)")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.txt:L1819")
     def resolve_passion_vespers_readings(self, context, rubrics=None):
         """
         Passion Vespers Readings (Good Friday Evening).
@@ -1245,7 +1251,7 @@ class VespersMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part I")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L13")
     def resolve_daily_kathisma(self, context, rubrics=None):
         """
         Resolves the daily kathisma for Vespers.
@@ -1260,3 +1266,14 @@ class VespersMixin:
             return {"type": "none", "number": 0, "ref_key": None}
         else:
             return {"type": "kathisma", "number": 18, "ref_key": "horologion.kathisma_18"}
+
+    def check_litiya_trigger(self, context, rubrics=None):
+        """
+        Check if Litiya should be triggered.
+        Returns:
+            bool: True if rank is vigil/vigil_lord or force_litiya is True, else False.
+        """
+        rank = self._get_rank_id(context)
+        is_vigil = rank in ("rank_vigil", "rank_vigil_lord")
+        return is_vigil or bool(context.get("force_litiya"))
+

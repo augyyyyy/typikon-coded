@@ -204,9 +204,51 @@ When the user switches from a thinking/planning model (e.g., Claude Opus) to an 
 4. **After each phase**, run the Post-Flight Checklist.
 5. **If the plan becomes obsolete** or needs significant changes, update the plan and request user approval before continuing.
 
-### Verified Resolver Metrics (Updated: 2026-06-05)
+### Verified Resolver Metrics & State (Updated: 2026-06-06)
+- **The Hub and Spoke Model**: Typikon Coded is the Hub. It only handles logic and structure. It awaits text from Spokes (e.g., Translation, Revitalize) via `Data/Inbox/`.
+- **Hub Logic State**: 100% Complete. (Even complex edge cases like Small Vespers and Great Compline are fully wired).
 - **207** `resolve_` methods exist in engine
-- **79** unique resolvers referenced by JSON struct files
+- **83** unique resolvers referenced by JSON struct files
 - **0** resolvers missing from engine
-- **146** formatters exist in digest generator
+- **150** formatters exist in digest generator
 - **0** formatters still needed
+
+---
+
+## ⛔ ST. SERGIUS PARSING & CONVERSION RULES (THE GOLDEN ENGINE LAWS)
+
+These rules are MANDATORY for all St. Sergius parsing, extraction, and comparison operations:
+
+### 1. The No-Regex Parser Mandate
+- **Rule**: All St. Sergius text-structuring parsers (such as `parsers/st_sergius_03_structurer.py`) must be built using **purely procedural Python string methods** (`.startswith()`, `.split()`, `.strip()`, `.find()`, and standard substring checks).
+- **Why**: OCR errors and variations in the raw text (e.g. slight punctuation/whitespace differences) make regular expressions extremely fragile. Procedural line-by-line state machines are significantly more resilient.
+- **Strict Prohibition**: Under no circumstances should the `re` module be used for line-by-line tokenization or boundary checking.
+
+### 2. Atomic Flat-Key Schema With Suffixes
+- **Output Database**: Stored in `json_db/st_sergius/text_st_sergius.json` as a single flat dictionary.
+- **Keys**: Must use the Stamford hierarchical slug path followed by a suffix (e.g., `tone_1.sat_vespers_great.stichera_lord_i_call_1` or `general.venerable.troparion_1`).
+- **Suffixes**: Must use numeric indices (`_1`, `_2`) or specific liturgical suffixes (`_glory`, `_both_now`, `_glory_both_now`, `_dogmatic`, `_anatolius`, etc.).
+- **Values**: Each entry must map to an object containing:
+  - `"content"`: The verbatim liturgical text (with doxology prefix stripped if applicable).
+  - `"source"`: The source name (e.g., `"St. Sergius Unabridged (Tone 1)"` or `"St. Sergius Unabridged"`).
+  - Optional fields: `"verse"`, `"tone"`, `"special_melody"`, or `"rubric"` if present.
+
+### 3. Stamford Terminology Translation Map
+- When importing/parsing raw General Menaion files, translate their names to align with the Stamford namespace:
+  - `Monastic` -> `venerable`
+  - `Monastics` -> `venerables`
+  - `Nun` -> `venerable_woman`
+  - `Nuns` -> `venerable_women`
+  - `NunMartyr` -> `venerable_woman_martyr`
+  - `MonasticMartyr` -> `venerable_martyr`
+  - `MonasticMartyrs` -> `venerable_martyrs`
+  - `Martyress` -> `woman_martyr`
+  - `Martyresses` -> `women_martyrs`
+  - `Heirarch` -> `hierarch`
+  - `Heirarchs` -> `hierarchs`
+  - `Hieromartyr` / `Heiromartyrs` -> `hieromartyr` / `hieromartyrs`
+  - `Unmercenaries` -> `unmercenaries`
+  - `Cross` -> `cross`
+  - `Angels` -> `angels`
+  - `Fools` -> `fools_for_christ`
+  - `St John Baptist` -> `forerunner`

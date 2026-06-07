@@ -7,7 +7,7 @@
   },
   "katavasia_seasons": {
     "description": "Seasonal Katavasiae sung after each Ode at Great Matins",
-    "source_ref": "Dolnytsky I: 'The current Katavasia... limits defined by the Typikon'",
+    "source_ref": "Final_Dolnytsky_part1_structure.txt:L195",
     "seasons": [
       {
         "id": "nativity_forefeast",
@@ -157,7 +157,7 @@
   },
   "daily_matins_override": {
     "description": "For Daily (non-Great) Matins, Katavasia is the irmos of the LAST canon, not seasonal",
-    "source_ref": "Dolnytsky I Line 203: 'Katavasia not current, only after Ode 3, 6, 8, 9 - irmos of last canon'",
+    "source_ref": "Final_Dolnytsky_part1_structure.txt:L240",
     "applies_to": "daily_matins",
     "odes_with_katavasia": [
       3,

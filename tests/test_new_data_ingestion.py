@@ -58,5 +58,25 @@ def test_ingestion():
     else:
         print(f"[FAIL] Triodion missing. Got: {tri_text}")
 
+    print("\n--- 5. Testing General Menaion Stichera and Sessionals (via Fallback) ---")
+    ctx = {
+        "saint_class": "Apostle",
+        "st_name": "Timothy"
+    }
+    # Look up a missing stichera key to trigger fallback to general.apostle.stichera_lord_i_call
+    stichera = engine.get_text("menaion.01_22.vespers.stichera_lord_i_call", context=ctx)
+    if stichera and "What shall we call you, O apostle" in stichera["content"]:
+        print("[PASS] General Apostle Vespers Stichera Lord I Call fallback found.")
+    else:
+        print(f"[FAIL] General Apostle Vespers Stichera Lord I Call fallback missing or incorrect. Got: {stichera}")
+
+    # Look up a missing sessional key to trigger fallback to general.apostle.sessional
+    sessional = engine.get_text("menaion.01_22.matins.sessional", context=ctx)
+    if sessional and "Having gone to the very ends" in sessional["content"]:
+        print("[PASS] General Apostle Matins Sessional fallback found.")
+    else:
+        print(f"[FAIL] General Apostle Matins Sessional fallback missing or incorrect. Got: {sessional}")
+
 if __name__ == "__main__":
     test_ingestion()
+

@@ -360,8 +360,8 @@ class TextDBMixin:
              elif ref_key == "canon_menaion":
                   target_key = f"{menaion_key}.matins.canon"
              
-             if target_key and target_key in self.text_db:
-                  return self.text_db[target_key]
+             if target_key:
+                  return self.get_text(target_key, context=context)
 
         # Pentecostarion Mapping
         pentecostarion_key = context.get('pentecostarion_day_key')
@@ -381,8 +381,8 @@ class TextDBMixin:
 
         if ref_key in mapping:
              concrete_key = mapping[ref_key]
-             if concrete_key in self.text_db:
-                  return self.text_db[concrete_key]
+             if concrete_key:
+                  return self.get_text(concrete_key, context=context)
         
         return None
 

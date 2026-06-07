@@ -157,6 +157,19 @@
           "both_now": true
         }
       ]
+    },
+    "festal_only": {
+      "description": "Great Feast of the Lord",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "feast"
+        },
+        {
+          "type": "kontakion",
+          "source": "feast"
+        }
+      ]
     }
   },
   "dismissal_preambles": {

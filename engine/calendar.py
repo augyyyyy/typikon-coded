@@ -270,6 +270,7 @@ class CalendarMixin:
             -22: ("Fourth Saturday of Lent", "ALLELUIA"),
             -15: ("Saturday of the Akathist", "GT_DOX"),
             # Paschal Cycle
+              0: ("Pascha: RESURRECTION OF CHRIST", "LORD"),
              50: ("Monday of the Holy Spirit", "LORD"),
             # Apodoses
              31: ("Apodosis of Mid-Pentecost", "GT_DOX"),
@@ -434,7 +435,7 @@ class CalendarMixin:
 
     def _apply_lookahead(self, context, rubrics):
         # 1. Vespers LOOKAHEAD (Saturday Evening -> Sunday)
-        # Citation: Dolnytsky Part II Lines 33-66 (Saint Without Polyeleos on a Sunday)
+        # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L57
         if context["day_of_week"] == 6: # Saturday
             current_date = date(context["year"], context["month"], context["day"])
             next_date = current_date + timedelta(days=1)
@@ -460,7 +461,7 @@ class CalendarMixin:
         
         elif context["day_of_week"] == 0: # Sunday - direct check
             # When generating Sunday's service directly (not via Saturday lookahead)
-            # Citation: Dolnytsky Part II Lines 33-66 (Saint Without Polyeleos on a Sunday)
+            # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L57
             rubrics["is_sunday"] = True
             rubrics.setdefault("overrides", {})
             rubrics.setdefault("variables", {})
@@ -473,10 +474,10 @@ class CalendarMixin:
             rubrics["_trace"].append("Sunday: Services set to Great Vespers/Matins with Vigil structure.")
 
         # 3. Great Feast LOOKAHEAD (Menaion Rank-Based Vigil)
-        # Citation: Dolnytsky Part I §1 (Great Vespers with All-Night Vigil)
+        # Citation: Final_Dolnytsky_part1_structure.txt:L13
         # Great Feasts (rank_vigil_lord, rank_vigil_theotokos, rank_vigil_saint) use Vigil structure
         menaion_rank = rubrics.get("variables", {}).get("menaion_rank", "")
-        if menaion_rank.startswith("rank_vigil"):
+        if isinstance(menaion_rank, str) and menaion_rank.startswith("rank_vigil"):
             rubrics["is_great_feast_vigil"] = True
             rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
             rubrics["overrides"]["matins_type"] = "great_matins"

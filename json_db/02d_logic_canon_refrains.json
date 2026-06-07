@@ -7,7 +7,7 @@
   },
   "canon_refrains": {
     "description": "Refrains sung before each troparion of the Canon at Matins",
-    "source_ref": "Dolnytsky I Lines 166-173",
+    "source_ref": "Final_Dolnytsky_part1_structure.txt:L166-173",
     "by_canon_type": {
       "resurrection": {
         "text_key": "refrain.resurrection",

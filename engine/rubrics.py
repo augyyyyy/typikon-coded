@@ -409,14 +409,14 @@ class RubricsMixin:
             
         # FIX Issue #3: Instead of returning None, provide a safe default case
         # This prevents downstream None errors in resolve_vespers_stichera, resolve_praises_stack, etc.
-        # Citation: Dolnytsky Part II Line 82 (weekday default: 3 Octoechos + 3 Menaion = 6)
+        # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L138
         print(f"WARNING: No General Case match. Period={period}, Day={day_of_week}, Rank={rank_id}, Offset={p_offset}")
         
         # Build a minimal default case based on rank
         default_dist = [{"source": "octoechos", "qty": 3}, {"source": "menaion", "qty": 3}]
         if rank_id in ["rank_vigil", "rank_polyeleos"]:
             default_dist = [{"source": "octoechos", "qty": 4}, {"source": "menaion", "qty": 6}]
-        elif day_of_week == 0:  # Sunday: Dolnytsky II:36 -> 7+3
+        elif day_of_week == 0:  # Sunday: Final_Dolnytsky_part2_general_rubrics.txt:L62
             default_dist = [{"source": "octoechos", "qty": 7}, {"source": "menaion", "qty": 3}]
         
         return {
@@ -674,8 +674,12 @@ class RubricsMixin:
             if menaion_day:
                 rubrics["title"] = menaion_day.get("title_key", rubrics["title"])
                 rubrics["variables"].update(menaion_day.get("variables", {}))
+                # Copy saint metadata if present
+                for key in ["saint_class", "st_name", "feast_title"]:
+                    if key in menaion_day:
+                        rubrics["variables"][key] = menaion_day[key]
                 # Populate menaion_rank for Great Feast Vigil detection
-                # Citation: Dolnytsky Part I §1 - Great Feasts use Vigil structure
+                # Citation: Final_Dolnytsky_part1_structure.txt:L13
                 if "rank" in menaion_day:
                     rubrics["variables"]["menaion_rank"] = menaion_day["rank"]
                     rubrics["_trace"].append(f"Menaion Rank: Set '{menaion_day['rank']}'.")

@@ -329,7 +329,7 @@ class CeremonialMixin:
         if not doors_data:
             return {"state": "unknown", "note": "Ceremonial logic not loaded"}
         
-        # Bright Week override — Ordo §19e
+        # Bright Week override — Ordo_Celebrationis_1996_CLEAN.txt:L281-282
         offset = context.get("pascha_offset")
         if offset is not None and 0 <= offset <= 6:
             bright_rule = doors_data.get("states_by_service", {}).get("bright_week", {})
@@ -339,7 +339,7 @@ class CeremonialMixin:
                 "note": bright_rule.get("rule", "Royal doors and side doors remain open during entire Bright Week.")
             }
         
-        # Hierarchical override — Ordo §19f
+        # Hierarchical override — Ordo_Celebrationis_1996_CLEAN.txt:L284
         if context.get("is_hierarchical"):
             hier_rule = doors_data.get("states_by_service", {}).get("hierarchical_service", {})
             return {
@@ -764,4 +764,4 @@ class CeremonialMixin:
         return False
 
     # MODULE A10: HIERARCHY (LITANY LOGIC)
-    # ref: Dolnytsky Part V (Hierarchical)
+    # ref: Final_Dolnytsky_part5_temple.txt:L2

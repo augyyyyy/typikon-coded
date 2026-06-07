@@ -345,7 +345,7 @@
                   }
                 ]
               },
-              "liturgy_type": "liturgy_basil_vesperal"
+              "liturgy_type": "vesperal_merge_logic"
             }
           }
         },
@@ -423,7 +423,7 @@
                   }
                 ]
               },
-              "liturgy_type": "liturgy_basil_vesperal"
+              "liturgy_type": "vesperal_merge_logic"
             }
           }
         },

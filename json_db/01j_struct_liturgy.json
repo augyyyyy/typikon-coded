@@ -11,7 +11,7 @@
   "structures": {
     "liturgy_chrysostom": {
       "title_key": "titles.liturgy_chrysostom",
-      "source_ref": "Dolnytsky I: Appendix V",
+      "source_ref": "Final_Dolnytsky_appendix.txt:L340",
       "ordo_ref": "§97–§145",
       "sequence": [
         {
@@ -19,7 +19,7 @@
           "section_key": "sections.prothesis",
           "rubric": {
             "title": "The Prothesis (Preparation)",
-            "source_ref": "Dolnytsky IV:385",
+            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L941",
             "ordo_ref": "§108–§116",
             "roles": {
               "priest": "Prepare the Lamb. On Sundays and Feasts, cut the Lamb for the communicants. On Holy Thursday, prepare two Lambs (one for Presanctified).",
@@ -62,7 +62,7 @@
           "section_key": "sections.hymns",
           "rubric": {
             "title": "The Antiphons",
-            "source_ref": "Dolnytsky II:102",
+            "source_ref": "Final_footnotes.txt:L782",
             "roles": {
               "choir": "Sing the First Antiphon (or Typical Psalms).",
               "deacon": "Stand at the usual place. Exclaim the Small Litany between Antiphons."
@@ -272,7 +272,7 @@
           "id": "dismissal",
           "rubric": {
             "title": "The Dismissal",
-            "source_ref": "Dolnytsky II:102",
+            "source_ref": "Final_footnotes.txt:L782",
             "ordo_ref": "§145",
             "roles": {
               "priest": "Bless the people with the Hand Cross (if Sunday/Feast) or hand (Weekday).",
@@ -290,7 +290,7 @@
     },
     "liturgy_basil": {
       "title_key": "titles.liturgy_basil",
-      "source_ref": "Dolnytsky I: Appendix V",
+      "source_ref": "Final_Dolnytsky_appendix.txt:L340",
       "inherits_from": "liturgy_chrysostom",
       "overrides": [
         {
@@ -326,7 +326,7 @@
     },
     "liturgy_presanctified": {
       "title_key": "titles.liturgy_presanctified",
-      "source_ref": "Dolnytsky IV: Lenten Presanctified",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L447",
       "sequence": [
         {
           "id": "vespers_portion",
@@ -354,7 +354,7 @@
           "id": "great_entrance_presanctified",
           "rubric": {
             "title": "Great Entrance (Presanctified)",
-            "source_ref": "Dolnytsky IV:349",
+            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L363",
             "roles": {
               "choir": "Sing 'Now the Powers of Heaven'.",
               "all": "Prostrate in silence as the Gifts are transferred.",
@@ -391,7 +391,7 @@
     },
     "vesperal_merge_logic": {
       "title_key": "titles.vesperal_basil",
-      "source_ref": "Dolnytsky III: Christmas Eve",
+      "source_ref": "Final_Dolnytsky_part3_menaion.txt:L760",
       "description": "Structural bridge for Christmas Eve, Theophany Eve, Holy Thursday, and Holy Saturday.",
       "sequence": [
         {

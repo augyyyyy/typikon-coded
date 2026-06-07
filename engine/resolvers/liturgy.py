@@ -128,9 +128,20 @@ class LiturgyMixin:
         
         basil_dates = ["01-01", "12-24", "01-05"]  # Jan 1, Nativity Eve, Theophany Eve
         if mmdd in basil_dates:
+            if mmdd in ["12-24", "01-05"] and day_of_week in [0, 6]:
+                return {
+                    "type": "liturgy_chrysostom",
+                    "citation": f"Dolnytsky — Chrysostom Liturgy on {mmdd} (Saturday/Sunday)"
+                }
             return {
                 "type": "liturgy_basil",
                 "citation": f"Dolnytsky — Basil Liturgy on {mmdd}"
+            }
+            
+        if mmdd in ["12-25", "01-06"] and day_of_week in [0, 1]:
+            return {
+                "type": "liturgy_basil",
+                "citation": f"Dolnytsky — Basil Liturgy on {mmdd} falling on Sunday/Monday"
             }
         
         # Lenten Sundays (offsets -42 through -7, excluding Palm Sunday which is -7)
@@ -225,7 +236,9 @@ class LiturgyMixin:
         temple_type = context.get("temple_type", "saint") # 'saint' or 'theotokos'
         
         template_key = "weekday_standard"
-        if day == 0:
+        if context.get("dolnytsky_rank") == "LORD" or context.get("paradigm") == "p_feast_lord":
+            template_key = "festal_only"
+        elif day == 0:
             if temple_type == "theotokos":
                 template_key = "sunday_theotokos_temple"
             else:
@@ -254,7 +267,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part II, Trisagion Replacements")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L533")
     def resolve_trisagion_type(self, context, rubrics=None):
         """
         Trisagion Type Selection for Liturgy.
@@ -434,7 +447,7 @@ class LiturgyMixin:
         return {"type": "text", "content": "".join(parts)}
 
 
-    @liturgical_source(dolnytsky="Part II, Basil Liturgy")
+    @liturgical_source(dolnytsky="Final_footnotes.txt:L807")
     def resolve_basil_megalynarion(self, context, rubrics=None):
         """
         Megalynarion for Liturgy of St. Basil.
@@ -476,7 +489,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part II, Communion Cycle")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L207")
     def resolve_communion_hymn(self, context, rubrics=None):
         """
         Communion Hymn (Причастен/Koinonikon).
@@ -545,7 +558,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part II, Post-Communion")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L129")
     def resolve_post_communion_hymn(self, context, rubrics=None):
         """
         Post-Communion Hymn: "We Have Seen the True Light" replacement.
@@ -601,7 +614,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part IV and Part III, Vesperal Liturgies")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L760")
     def resolve_vesperal_liturgy_readings(self, context, rubrics=None):
         """
         Phase 7: Resolve Vesperal Liturgy Readings
@@ -653,7 +666,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part II, Lectionary")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L207")
     def resolve_liturgy_readings(self, context, rubrics=None):
         """
         Unified Liturgy Readings Resolution.
@@ -672,6 +685,8 @@ class LiturgyMixin:
             overrides = rubrics.get("variables", {}) or rubrics.get("overrides", {})
             l_readings = overrides.get("liturgy_readings")
             if l_readings:
+                if isinstance(l_readings, list):
+                    return {"type": "liturgy_readings", "readings": l_readings}
                 return l_readings
 
         day_of_week = context.get("day_of_week", 0)
@@ -848,7 +863,7 @@ class LiturgyMixin:
         return {"type": "koinonikon_stack", "components": stack}
 
 
-    @liturgical_source(dolnytsky="Part I, Lines 26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L26-28")
     def resolve_reading_ot(self, context, rubrics):
         """
         Resolve Old Testament reading (paremia/prophecy).
@@ -870,7 +885,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part I, Lines 26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L26-28")
     def resolve_reading_epistle(self, context, rubrics):
         """
         Resolve Epistle reading.
@@ -898,7 +913,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part I, Lines 26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L26-28")
     def resolve_reading_gospel(self, context, rubrics):
         """
         Resolve Gospel reading.
@@ -928,7 +943,7 @@ class LiturgyMixin:
     # PHASE 12: ALL-NIGHT VIGIL (EXTREME)
 
 
-    @liturgical_source(dolnytsky="Part II, Line 121 and Appendix Footnote 91")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L121,L192")
     def resolve_beatitudes(self, context):
         """
         Gate: Beatitudes (Third Antiphon)
@@ -959,7 +974,7 @@ class LiturgyMixin:
         return {"type": "third_antiphon", "note": "Usual Third Antiphon without stichera"}
 
 
-    @liturgical_source(dolnytsky="Part II, Lectionary")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L207")
     def resolve_liturgy_alleluia(self, context, rubrics=None):
         """
         Resolve Liturgy Alleluia tone and verses based on readings.

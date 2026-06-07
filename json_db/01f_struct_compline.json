@@ -10,7 +10,7 @@
   "structures": {
     "small_compline": {
       "title_key": "titles.compline_small",
-      "source_ref": "dolnytsky_part1_compline_small",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L139",
       "rubric": {
         "key": "rubrics.compline.vesting_epitrakhelion"
       },
@@ -144,7 +144,7 @@
     },
     "great_compline_lenten": {
       "title_key": "titles.compline_great_lenten",
-      "source_ref": "dolnytsky_part1_compline_great",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L142",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -169,7 +169,7 @@
         },
         {
           "id": "great_canon_insertion",
-          "source_ref": "dolnytsky_part4_lent_week1_compline",
+          "source_ref": "Final_Dolnytsky_part4_triodion.txt:L304",
           "rubric": {
             "key": "rubrics.lenten.great_canon_divided"
           },
@@ -341,7 +341,7 @@
     },
     "great_compline_vigil": {
       "title_key": "titles.compline_great_vigil",
-      "source_ref": "dolnytsky_part1_compline_vigil",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L152",
       "inherits_from": "great_compline_lenten",
       "overrides": [
         {
@@ -428,7 +428,7 @@
     },
     "structure_paschal": {
       "title_key": "titles.paschal_hours",
-      "source_ref": "dolnytsky_part4_pascha_hours",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1159-1160",
       "sequence": [
         {
           "id": "opening_blessing",

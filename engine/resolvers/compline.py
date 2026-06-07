@@ -132,11 +132,11 @@ class ComplineMixin:
         }
         day_key = day_map.get(day, "monday")
         
-        # In Lent (Clean Week), we might have different rules, but Typikon line 292 suggests Great Compline structure.
+        # In Lent (Clean Week), we might have different rules, but Typikon Final_Dolnytsky_part4_triodion.txt:L304 suggests Great Compline structure.
         # If Small Compline is used in Lent (Friday), logic might differ.
         
         # Standard Weekday Logic (Cheesefare, etc.)
-        # Typikon Line 107: "of the weekday, of the Temple, and 'O God of our fathers'"
+        # Typikon Final_Dolnytsky_part1_structure.txt:L132: "of the weekday, of the Temple, and 'O God of our fathers'"
         
         # A. Day Troparion
         sequence.append({
@@ -193,7 +193,7 @@ class ComplineMixin:
         # Logic:
         # Mon-Thu: Canon to the Theotokos (from Octoechos).
         # Friday: Canon to the Departed (unless Forefeast?) ? 
-        # Actually Dolnytsky (p. 238) says:
+        # Actually Dolnytsky (Final_Dolnytsky_part1_structure.txt:L139) says:
         # "On periods without Great Feast... Mon, Tue, Wed, Thu -> Canon to Theotokos from Octoechos."
         # "Friday -> Canon to Jesus Christ (Akathist?) OR Canon of Departed?" 
         # Let's stick to the common Ruthenian usage:
@@ -211,7 +211,7 @@ class ComplineMixin:
         return {"type": "canon", "subject": "theotokos", "book": "octoechos"}
 
     # MODULE A5: MIDNIGHT OFFICE LOGIC (NOCTURNS)
-    # ref: Dolnytsky Part I (Nocturns)
+    # ref: Final_Dolnytsky_part1_structure.txt:L154
 
 
     def resolve_compline_type(self, context):
@@ -238,7 +238,7 @@ class ComplineMixin:
         # Default
         return "small_compline"
 
-    @liturgical_source(dolnytsky="Part IV")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.txt:L207")
     def check_day_range(self, context, week=None, days=None):
         """
         Checks if the current day falls within the specified Lenten week and days.

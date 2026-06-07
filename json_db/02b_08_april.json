@@ -13,7 +13,7 @@
       "01": {
         "title_key": "menaion.apr_01.mary_egypt",
         "rank": "rank_polyeleos",
-        "source_ref": "dolnytsky_part3_apr_1",
+        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L3118",
         "base_template": "CASE_05",
         "variants": [
           {
@@ -34,7 +34,7 @@
       "23": {
         "title_key": "menaion.apr_23.george_great_martyr",
         "rank": "rank_vigil_saint",
-        "source_ref": "dolnytsky_part3_apr_23",
+        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L3119",
         "base_template": "CASE_06",
         "variants": [
           {
@@ -82,7 +82,7 @@
       "25": {
         "title_key": "menaion.apr_25.mark_evangelist",
         "rank": "rank_polyeleos",
-        "source_ref": "dolnytsky_part3_apr_25",
+        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L3336",
         "base_template": "CASE_05",
         "variants": [
           {
@@ -101,7 +101,7 @@
       "30": {
         "title_key": "menaion.apr_30.james_brother_john",
         "rank": "rank_polyeleos",
-        "source_ref": "dolnytsky_part3_apr_30",
+        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L3118",
         "base_template": "CASE_05"
       }
     }

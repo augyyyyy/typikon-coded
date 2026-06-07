@@ -11,13 +11,13 @@
   "structures": {
     "great_vespers_vigil": {
       "title_key": "titles.vespers_great_vigil",
-      "source_ref": "Dolnytsky I: Vespers with Vigil",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L13",
       "sequence": [
         {
           "id": "vesting_rite",
           "rubric": {
             "title": "Vesting and Censing",
-            "source_ref": "Dolnytsky I:1",
+            "source_ref": "Final_Dolnytsky_part1_structure.txt:L15",
             "ordo_ref": "§29–§30",
             "roles": {
               "priest": "Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.",
@@ -49,7 +49,7 @@
           "id": "opening_vigil",
           "rubric": {
             "title": "The Opening",
-            "source_ref": "Dolnytsky I:2",
+            "source_ref": "Final_Dolnytsky_part1_structure.txt:L24",
             "ordo_ref": "§54",
             "roles": {
               "deacon": "Stand before the Holy Doors. Exclaim 'Bless, Master!'",
@@ -77,7 +77,7 @@
           "id": "horologion.psalm_103_vigil",
           "rubric": {
             "title": "The Proemial Psalm",
-            "source_ref": "Dolnytsky I:2",
+            "source_ref": "Final_Dolnytsky_part1_structure.txt:L24",
             "ordo_ref": "§31",
             "roles": {
               "priest": "Exit Sanctuary via North Door. Read the Prayers of Light silently.",
@@ -190,21 +190,17 @@
         },
         {
           "id": "litiya_rite",
-          "rubric": {
-            "title": "The Litiya",
-            "source_ref": "Dolnytsky I: Vigil Order — Procession to Narthex",
-            "ordo_ref": "§57",
-            "roles": {
-              "deacon": "Lead procession to narthex. Sing Litiya petitions.",
-              "priest": "Read Litiya prayer with head bowed.",
-              "choir": "Sing Litiya stichera."
-            }
-          },
           "content": {
-            "type": "variable_logic",
+            "type": "conditional_block",
             "logic": {
-              "function": "resolve_litya_content"
-            }
+              "function": "check_litiya_trigger"
+            },
+            "true_content": {
+              "type": "structure_ref",
+              "file": "json_db/01j_struct_litiya.json",
+              "root_id": "litiya"
+            },
+            "false_content": null
           }
         },
         {
@@ -227,13 +223,6 @@
           }
         },
         {
-          "id": "artoklasia_rite",
-          "content": {
-            "type": "component_ref",
-            "ref_key": "components.artoklasia"
-          }
-        },
-        {
           "id": "dismissal_vigil",
           "content": {
             "type": "fixed_ref",
@@ -251,8 +240,8 @@
           "action": "delete"
         },
         {
-          "target_id": "artoklasia_rite",
-          "action": "replace",
+          "target_id": "nunc_dimittis_trisagion",
+          "action": "insert_after",
           "new_component": {
             "id": "troparia_resurrectional",
             "content": {
@@ -535,7 +524,7 @@
     },
     "lenten_vespers": {
       "title_key": "titles.vespers_lenten",
-      "source_ref": "Dolnytsky IV: Triodion Vespers",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L406",
       "sequence": [
         {
           "id": "opening_lenten",
@@ -637,7 +626,7 @@
     },
     "presanctified_vespers": {
       "title_key": "titles.vespers_presanctified",
-      "source_ref": "Dolnytsky IV: Presanctified",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L447",
       "inherits_from": "lenten_vespers",
       "overrides": [
         {
@@ -734,7 +723,7 @@
     },
     "passion_burial_vespers": {
       "title_key": "titles.vespers_passion_burial",
-      "source_ref": "Dolnytsky Part IV: Good Friday Vespers",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1819",
       "sequence": [
         {
           "id": "opening",
@@ -883,7 +872,7 @@
   },
   "kneeling_vespers": {
     "title_key": "titles.vespers_kneeling",
-    "source_ref": "Pentecostarion: Pentecost Evening",
+    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1567",
     "inherits_from": "great_vespers_vigil",
     "overrides": [
       {

@@ -10,7 +10,7 @@
   "structures": {
     "midnight_weekday": {
       "title_key": "titles.midnight_weekday",
-      "source_ref": "dolnytsky_part1_midnight_weekday",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L154",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -41,7 +41,7 @@
     },
     "midnight_daily": {
       "title_key": "titles.midnight_daily",
-      "source_ref": "dolnytsky_part1_midnight_daily",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L154",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -208,7 +208,7 @@
     },
     "midnight_saturday": {
       "title_key": "titles.midnight_saturday",
-      "source_ref": "dolnytsky_part1_midnight_saturday",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L154",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -238,7 +238,7 @@
     },
     "midnight_sunday": {
       "title_key": "titles.midnight_sunday",
-      "source_ref": "dolnytsky_part1_midnight_sunday",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L154",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -274,7 +274,7 @@
     },
     "midnight_holy_saturday": {
       "title_key": "titles.midnight_holy_saturday",
-      "source_ref": "dolnytsky_part4_great_saturday_midnight",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1103",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -300,7 +300,7 @@
         {
           "id": "tomb_canon",
           "section_key": "sections.canon",
-          "source_ref": "dolnytsky_part4_great_saturday_midnight_para2",
+          "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1110",
           "rubric": {
             "title": "Tomb Canon",
             "roles": {
@@ -315,7 +315,7 @@
         {
           "id": "shroud_removal_rite",
           "section_key": "sections.shroud",
-          "source_ref": "dolnytsky_part4_great_saturday_midnight_para5",
+          "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1117",
           "rubric": {
             "title": "Shroud Removal",
             "roles": {

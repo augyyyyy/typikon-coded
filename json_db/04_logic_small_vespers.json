@@ -6,18 +6,32 @@
   },
   "small_vespers_distribution": {
     "case_06_sunday_vigil": {
-      "source_ref": "Dolnytsky Part II Line 216",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L352-356",
       "lord_i_have_cried": {
         "total_count": 4,
-        "distribution": [{"source": "octoechos", "type": "resurrection", "qty": 4}],
+        "distribution": [
+          {
+            "source": "octoechos",
+            "type": "resurrection",
+            "qty": 4
+          }
+        ],
         "glory": "saint",
         "both_now": "dogmatikon"
       },
       "aposticha": {
         "total_count": 4,
         "distribution": [
-          {"source": "octoechos", "type": "resurrection", "qty": 1},
-          {"source": "menaion", "type": "saint", "qty": 3}
+          {
+            "source": "octoechos",
+            "type": "resurrection",
+            "qty": 1
+          },
+          {
+            "source": "menaion",
+            "type": "saint",
+            "qty": 3
+          }
         ],
         "glory": "saint",
         "both_now": "theotokion"
@@ -29,16 +43,28 @@
       }
     },
     "case_07_weekday_vigil": {
-      "source_ref": "Dolnytsky Part II Line 238",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L389-391",
       "lord_i_have_cried": {
         "total_count": 4,
-        "distribution": [{"source": "menaion", "type": "saint", "qty": 4}],
+        "distribution": [
+          {
+            "source": "menaion",
+            "type": "saint",
+            "qty": 4
+          }
+        ],
         "glory": "none",
         "both_now": "theotokion"
       },
       "aposticha": {
         "total_count": 4,
-        "distribution": [{"source": "menaion", "type": "saint", "qty": 4}],
+        "distribution": [
+          {
+            "source": "menaion",
+            "type": "saint",
+            "qty": 4
+          }
+        ],
         "glory": "saint",
         "both_now": "theotokion"
       },
@@ -49,16 +75,28 @@
       }
     },
     "case_10_feast_lord": {
-      "source_ref": "Dolnytsky Part II Line 312",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L501",
       "lord_i_have_cried": {
         "total_count": 4,
-        "distribution": [{"source": "menaion", "type": "feast", "qty": 4}],
+        "distribution": [
+          {
+            "source": "menaion",
+            "type": "feast",
+            "qty": 4
+          }
+        ],
         "glory": "none",
         "both_now": "feast"
       },
       "aposticha": {
         "total_count": 3,
-        "distribution": [{"source": "menaion", "type": "feast", "qty": 3}],
+        "distribution": [
+          {
+            "source": "menaion",
+            "type": "feast",
+            "qty": 3
+          }
+        ],
         "glory": "feast",
         "both_now": "feast"
       },
@@ -69,18 +107,32 @@
       }
     },
     "case_11_theotokos_sunday": {
-      "source_ref": "Dolnytsky Part II Line 336",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L540-544",
       "lord_i_have_cried": {
         "total_count": 4,
-        "distribution": [{"source": "octoechos", "type": "resurrection", "qty": 4}],
+        "distribution": [
+          {
+            "source": "octoechos",
+            "type": "resurrection",
+            "qty": 4
+          }
+        ],
         "glory": "feast",
         "both_now": "feast"
       },
       "aposticha": {
         "total_count": 4,
         "distribution": [
-          {"source": "octoechos", "type": "resurrection", "qty": 1},
-          {"source": "menaion", "type": "feast", "qty": 3}
+          {
+            "source": "octoechos",
+            "type": "resurrection",
+            "qty": 1
+          },
+          {
+            "source": "menaion",
+            "type": "feast",
+            "qty": 3
+          }
         ],
         "glory": "feast",
         "both_now": "feast"
@@ -92,15 +144,15 @@
       }
     },
     "case_12_theotokos_weekday": {
-      "source_ref": "inherits_case_10",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L497",
       "inherits": "case_10_feast_lord"
     },
     "case_17_afterfeast_sunday_vigil": {
-      "source_ref": "Dolnytsky Part II Line 487 - Everything as without the Afterfeast",
-      "inherits": "case_01_sunday_simple_scaled_vigil" 
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L791",
+      "inherits": "case_01_sunday_simple_scaled_vigil"
     },
     "case_18_afterfeast_weekday_vigil": {
-      "source_ref": "Dolnytsky Part II Line 496",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L804",
       "inherits": "case_07_weekday_vigil"
     }
   }

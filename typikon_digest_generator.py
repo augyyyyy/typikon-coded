@@ -273,14 +273,28 @@ class TypikonDigestGenerator:
             if service["type_key"] in rubrics.get("overrides", {}):
                 root_id = rubrics["overrides"][service["type_key"]]
 
+            if root_id == "structure_suppressed":
+                continue
+
             # Apply specific overrides
             if service_name == "Matins" and matins_override:
                 root_id = matins_override
 
+            struct_file = service["file"]
             if "hours_type" in service["type_key"]:
                 var_hours = rubrics.get("variables", {}).get("hours_type", "")
-                if "royal" in var_hours:
+                is_royal = "royal" in var_hours or (hasattr(self.engine, "check_royal_hours_trigger") and self.engine.check_royal_hours_trigger(context))
+                if is_royal:
                     root_id = "structure_royal"
+                    struct_file = "json_db/01k_struct_royal_hours.json"
+                    
+                    hour_map = {
+                        "First Hour": 1,
+                        "Third Hour": 3,
+                        "Sixth Hour": 6,
+                        "Ninth Hour": 9
+                    }
+                    context["hour"] = hour_map.get(service_name, 1)
                 elif "lenten" in var_hours:
                     root_id = "structure_lenten"
                 elif "paschal" in var_hours:
@@ -292,12 +306,12 @@ class TypikonDigestGenerator:
                      root_id = f"midnight_{mode_data['mode']}"
 
             # Load the structure sequence
-            struct_data = self.engine._load_json(service["file"])
+            struct_data = self.engine._load_json(struct_file)
             skeleton = self.engine._get_structure_sequence(struct_data, root_id)
 
             if not skeleton:
                 digest.append(f"=== {service_name.upper()} ===")
-                digest.append(f"[ERROR: Structure '{root_id}' not found in {service['file']}]")
+                digest.append(f"[ERROR: Structure '{root_id}' not found in {struct_file}]")
                 digest.append("")
                 continue
 
@@ -358,7 +372,7 @@ class TypikonDigestGenerator:
                     parts = asset["content"].split("\n\n")
                     if parts:
                         return parts[0].strip()
-            except:
+            except Exception:
                 pass
         return ""
 
@@ -570,7 +584,7 @@ class TypikonDigestGenerator:
                     for c in comps[2:]: header += ", and that of " + c
                     digest.append(f"{header.capitalize()}.  ")
         except Exception as e:
-            pass
+            digest.append(f"[RESOLVE ERROR: resolve_service_combination_header: {e}]  ")
             
         # 5. Saint Transfer Note
         try:
@@ -579,7 +593,7 @@ class TypikonDigestGenerator:
                 target = res.get('target', 'a convenient time').replace('_', ' ')
                 digest.append(f"The service to {res.get('saint_name', 'the Saint')} is transferred to {target}.  ")
         except Exception as e:
-            pass
+            digest.append(f"[RESOLVE ERROR: resolve_saint_transfer: {e}]  ")
             
         # 6. Vestment Colors
         try:
@@ -598,7 +612,7 @@ class TypikonDigestGenerator:
                     else:
                         digest.append(f"**Vestment colour:** {tone_type} [{color}{alt}].  ")
         except Exception as e:
-            pass
+            digest.append(f"[RESOLVE ERROR: resolve_vestment_color: {e}]  ")
             
         digest.append("")
         
@@ -636,7 +650,7 @@ class TypikonDigestGenerator:
                         formatted = "**If Litiya is performed:**" + formatted[len("If Litiya is performed:"):]
                     digest.append(f"{formatted}  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: resolve_litya_content: {e}]  ")
                 
             try:
                 res = self.engine.resolve_aposticha(enriched)
@@ -701,7 +715,7 @@ class TypikonDigestGenerator:
                     if formatted:
                         digest.append(f"{formatted}  ")
                 except Exception as e:
-                    pass
+                    digest.append(f"[RESOLVE ERROR: resolve_sidalen_content: {e}]  ")
                     
             try:
                 res = self.engine.resolve_polyeleos_or_kathisma_17(enriched, rubrics)
@@ -709,7 +723,7 @@ class TypikonDigestGenerator:
                 if formatted:
                     digest.append(f"{formatted}  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: resolve_polyeleos_or_kathisma_17: {e}]  ")
                 
             if context.get("day_of_week") == 0:
                 t_val = self._roman_tone(context.get("tone", 1))
@@ -724,84 +738,33 @@ class TypikonDigestGenerator:
                     cit_str = f": {citation}" if citation else ""
                     digest.append(f"**Matins Gospel {rom_num}**{cit_str}.  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: resolve_matins_gospel: {e}]  ")
                 
             try:
                 res = self.engine.resolve_post_gospel_stichera(enriched)
                 if res and any("open_to_me" in s for s in res):
                     digest.append("After Psalm 50: instead of the usual hymns, we sing: Glory: Open to me the doors of repentance..., Both now: On the paths of salvation... and after the refrain Have mercy on me, O God, the sticheron: When I think of the many evil things I have done.  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: resolve_post_gospel_stichera: {e}]  ")
                 
             digest.append("**At the Canon (abbreviated for parish use):**  ")
-            offset = context.get("pascha_offset", 0)
             
-            canon_map = {
-                -70: [
-                    "At each ode, the irmos of the resurrection from the Octoechos.",
-                    "1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!",
-                    "1 troparion from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!",
-                    "Glory... both now... forefeast (from the Menaion).",
-                    "Catabasia of the Encounter."
-                ],
-                -63: [
-                    "At each ode, the irmos of the resurrection from the Octoechos.",
-                    "1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!",
-                    "1 troparion from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!",
-                    "Glory... both now... feast (from the Menaion).",
-                    "Catabasia of the Encounter."
-                ],
-                -56: [
-                    "At each ode, the irmos of the resurrection from the Octoechos.",
-                    "1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!",
-                    "2 troparia from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!",
-                    "Glory... both now... Triodion.",
-                    "Catabasia Tone VI \"When Isreael passed on foot...\"."
-                ],
-                -49: [
-                    "At each ode, the irmos of the resurrection from the Octoechos.",
-                    "2 troparia from the Triodion.  ℟.  Glory to You, O God, glory to You!",
-                    "Glory... both now... Triodion.",
-                    "Catabasia Tone IV \"Isreael of old crossed the depth . . . \"."
-                ],
-                -42: [
-                    "At each ode, the irmos of the resurrection from the Octoechos.",
-                    "2 troparia from canon I in the Triodion.  ℟.  Glory to You, O God, glory to You!",
-                    "1 troparia from canon II in the Triodion.  ℟.  Holy hierarch Gregory pray to God for us!",
-                    "Glory... both now... Triodion.",
-                    "Catabasia Tone IV \"I shall open my mouth . . . \"."
-                ],
-                -35: [
-                    "At each ode, the irmos of the resurrection from the Octoechos.",
-                    "3 troparia from canon of the Triodion.  ℟.  Glory to Your precious Cross, O Lord!",
-                    "Glory... both now... Triodion.",
-                    "Catabasia Tone I \"Moses the servant of God . . . \""
-                ],
-                -28: [
-                    "At each ode, the irmos of the resurrection from the Octoechos.",
-                    "1 troparion: canon of the Resurrection.  ℟.  Glory to Your, holy Resurrection, O Lord!",
-                    "1 troparion: Triodion canon I.  ℟.  Have mercy on me, O God, have mercy on me!",
-                    "1 troparion: Triodion canon II.  ℟.  Venerable father John, pray to God for us!.",
-                    "Glory... both now... Triodion.",
-                    "Catabasia Tone IV \"I shall open my mouth . . . \"."
-                ],
-                -8: [
-                    "At each ode: 2 troparia from the first canon.  ℟. Glory to You, O God, glory to You!",
-                    "2 troparia from the second canon.  ℟. Glory to You, O God, glory to You!",
-                    "Glory... both now... second canon.",
-                    "Catabasia Tone VIII \"Having crossed the water . . . \"."
-                ]
-            }
+            # Resolve katavasia to use in formatting
+            kat_str = ""
+            try:
+                kat_res = self.engine.resolve_katavasia(enriched)
+                if kat_res:
+                    kat_str = self._format_resolve_katavasia(kat_res, enriched)
+            except Exception as e:
+                digest.append(f"[RESOLVE ERROR: resolve_katavasia: {e}]  ")
             
-            if offset in canon_map:
-                for line in canon_map[offset]:
-                    digest.append(f"  {line}  ")
-            else:
-                digest.append("  At each ode: Irmos of resurrection, Resurrection troparion (with response), Saint/Triodion troparion (with response), Glory... both now.  ")
+            # Dynamically format the abbreviated parish-use canon details
+            for line in self._generate_abbreviated_canon_lines(enriched, kat_str):
+                digest.append(f"  {line}  ")
                 
             try:
-                ratios = self.engine.calculate_canon_ratios(enriched)
-                dist = ratios.get("distribution", [])
+                canon_res = self.engine.resolve_canon_stack(enriched)
+                dist = canon_res.get("distribution", [])
                 parts = []
                 for item in dist:
                     src = self.humanize_key(item.get("source", ""))
@@ -814,22 +777,28 @@ class TypikonDigestGenerator:
                         name = "Menaion"
                     extra = " (including the irmos)" if item.get("irmos") else ""
                     parts.append(f"{name} - {qty}{extra}")
-                full_order_str = f"Full order of the canon (according to the typicon): {', '.join(parts)}."
+                
+                # Format Katavasia for suffix
+                kat_suffix = ""
+                try:
+                    kat_res = self.engine.resolve_katavasia(enriched)
+                    if kat_res:
+                        kat_text = kat_res.get("text", "")
+                        if "encounter" in kat_res.get("id", "").lower() or "meeting" in kat_res.get("id", "").lower():
+                            kat_suffix = "  Catabasia of the Encounter."
+                        elif kat_text:
+                            tone_roman = self._roman_tone(kat_res.get("tone", 4))
+                            kat_suffix = f"  Catabasia Tone {tone_roman} \"{kat_text} . . . \"."
+                except Exception as e_kat:
+                    kat_suffix = f"  [RESOLVE ERROR: resolve_katavasia: {e_kat}]"
+                
+                full_order_str = f"Full order of the canon (according to the typicon): {', '.join(parts)}.{kat_suffix}"
                 digest.append(f"{full_order_str}  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: resolve_canon_stack: {e}]  ")
                 
-            if offset == -70:
-                digest.append("After Ode III: kontakion and ikos of the forefeast (found after Ode VI in the Menaion) and the sessional hymns from the Triodion (found after Ode III), Glory, both now... forefeast.  ")
-            elif offset == -63:
-                digest.append("After Ode III: kontakion and ikos of the feast, and the sessional hymns from the Triodion (found after Ode III), Glory, both now... feast.  ")
-            else:
-                digest.append("After Ode III: Sessional hymns from the Triodion (found after Ode III).  ")
-                
-            if offset == -35:
-                digest.append("After Ode VI: kontakion and ikos of the Cross, from the Triodion, in Tone VII.  ")
-            else:
-                digest.append("After Ode VI: kontakion and ikos from the Triodion are sung.  ")
+            digest.append(self._format_canon_interludes_ode_3(enriched))
+            digest.append(self._format_canon_interludes_ode_6(enriched))
                 
             try:
                 res = self.engine.resolve_magnificat(enriched, rubrics)
@@ -852,7 +821,7 @@ class TypikonDigestGenerator:
                         formatted = "**Exapostilarion** -" + formatted[len("Exapostilarion:"):]
                     digest.append(f"{formatted}  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: resolve_exapostilarion_matins: {e}]  ")
                 
             try:
                 res = self.engine.resolve_praises_stichera(enriched)
@@ -864,7 +833,7 @@ class TypikonDigestGenerator:
                         formatted = "**At the Praises:**" + formatted[len("At the Praises"):]
                     digest.append(f"{formatted}  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: resolve_praises_stichera: {e}]  ")
                 
             if context.get("day_of_week") == 0:
                 try:
@@ -872,7 +841,7 @@ class TypikonDigestGenerator:
                     rom_num = self._roman_tone(eothinon_num)
                     digest.append(f"After the Dismissal of Matins: Glory... both now... Gospel Sticheron {rom_num}.  ")
                 except Exception as e:
-                    pass
+                    digest.append(f"[RESOLVE ERROR: gospel_sticheron_formatting: {e}]  ")
                     
             digest.append("")
             
@@ -895,7 +864,7 @@ class TypikonDigestGenerator:
                 
             try:
                 antiphons_res = self.engine.resolve_liturgy_antiphons(enriched, rubrics)
-                beatitudes_res = self.engine.resolve_beatitudes(enriched, rubrics)
+                beatitudes_res = self.engine.resolve_beatitudes(enriched)
                 
                 stichera_parts = []
                 total_qty = 0
@@ -928,7 +897,7 @@ class TypikonDigestGenerator:
                 else:
                     digest.append(f"Psalms of Typica; {beat_str}  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: liturgy_antiphons_or_beatitudes: {e}]  ")
                 
             try:
                 res = self.engine.resolve_liturgy_hymns(enriched, rubrics)
@@ -938,14 +907,14 @@ class TypikonDigestGenerator:
                         formatted = "**Troparia and Kontakia:**" + formatted[len("Troparia and Kontakia:"):]
                     digest.append(f"{formatted}  ")
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: resolve_liturgy_hymns: {e}]  ")
                 
             try:
                 readings_str = self._format_qr_readings(enriched, rubrics)
                 if readings_str:
                     digest.append(readings_str)
             except Exception as e:
-                pass
+                digest.append(f"[RESOLVE ERROR: readings_formatting: {e}]  ")
                 
             digest.append("")
             
@@ -1179,6 +1148,20 @@ class TypikonDigestGenerator:
                     elif isinstance(target_content, dict):
                         self._process_skeleton([target_content], context, rubrics, digest)
                     
+            elif slot_type == "structure_ref":
+                target_file = content.get("file")
+                root_id = content.get("root_id")
+                if target_file and root_id:
+                    try:
+                        linked_data = self.engine._load_json(target_file)
+                        sub_skeleton = self.engine._get_structure_sequence(linked_data, root_id)
+                        if sub_skeleton:
+                            self._process_skeleton(sub_skeleton, context, rubrics, digest)
+                        else:
+                            digest.append(f"[ERROR: Structure ref '{root_id}' not found in {target_file}]")
+                    except Exception as e:
+                        digest.append(f"[ERROR: Loading Structure Ref {root_id} from {target_file} failed - {e}]")
+
             elif slot_type == "fixed_ref":
                 ref = content.get('ref_key')
                 self._format_fixed_ref(ref, digest)
@@ -1471,14 +1454,7 @@ class TypikonDigestGenerator:
             return "\n".join(temp)
         return str(res)
 
-    def _format_resolve_artoklasia(self, res, context):
-        if not res or not res.get("included"):
-            return ""
-        troparia_list = []
-        for t in res.get("troparia", []):
-            troparia_list.append(f"{self.humanize_key(t.get('ref_key'))} x{t.get('count')}")
-        troparia_str = ", ".join(troparia_list)
-        return f"Artoklasia: {res.get('rubric')}. Troparia: {troparia_str}."
+
 
     def _format_resolve_vigil_polyeleos(self, res, context):
         if not res:
@@ -1824,13 +1800,29 @@ class TypikonDigestGenerator:
         return "Litanies: " + "; ".join(parts) + "."
 
     def _format_resolve_litya_content(self, res, context):
-        if not res or res.get("type") == "suppressed":
+        if not res or res.get("included") is False or res.get("type") == "suppressed":
             return ""
-        parts = ["If Litiya is performed: The sticheron of the temple"]
-        if "glory" in res:
-            parts.append(f"Glory... {self.humanize_key(res['glory'])}")
-        if "both_now" in res:
-            parts.append(f"Both now... {self.humanize_key(res['both_now'])}")
+        dist = []
+        for item in res.get("stichera", []):
+            c = item.get('count', item.get('qty', '?'))
+            t = item.get('type', '')
+            s = self.humanize_key(item.get('source', ''))
+            name = self.humanize_key(t) if t else "Stichera"
+            if "saint" in t.lower():
+                name = "stichera of the saint"
+            elif "feast" in t.lower():
+                name = "stichera of the feast"
+            dist.append(f"{c} {name} from the {s}")
+            
+        parts = []
+        if dist:
+            parts.append(f"We sing the Litiya stichera: {', '.join(dist)}")
+        glory_val = res.get("glory")
+        if glory_val and str(glory_val).strip().lower() not in ("none", "", "null", "(no saint doxastikon)"):
+            parts.append(f"Glory... {self.humanize_key(glory_val)}")
+        both_now_val = res.get("both_now")
+        if both_now_val and str(both_now_val).strip().lower() not in ("none", "", "null"):
+            parts.append(f"Both now... {self.humanize_key(both_now_val)}")
         return "; ".join(parts) + "."
 
     def _format_resolve_aposticha(self, res, context):
@@ -2342,6 +2334,7 @@ class TypikonDigestGenerator:
     def _format_resolve_trisagion_type(self, res, context):
         if not res:
             return "Trisagion: Holy God, Holy Mighty, Holy Immortal, have mercy on us."
+
         if isinstance(res, str): 
             return f"Trisagion: {res}"
         if isinstance(res, dict):
@@ -2350,6 +2343,42 @@ class TypikonDigestGenerator:
             if res.get("ref_key"):
                 return f"Trisagion: {self.humanize_key(res.get('ref_key'))}."
         return "Trisagion: Holy God, Holy Mighty, Holy Immortal, have mercy on us."
+
+    def _format_resolve_royal_psalms(self, res, context):
+        if not res: return ""
+        meta = res.get("source_metadata", {})
+        hour = meta.get("hour", 1)
+        feast = self.humanize_key(meta.get("feast", ""))
+        psalms = [self.humanize_key(p) for p in res.get('ref_keys', [])]
+        return f"Royal Psalms for {feast} Hour {hour}: {', '.join(psalms)}."
+
+    def _format_resolve_royal_stichera(self, res, context):
+        if not res: return ""
+        meta = res.get("source_metadata", {})
+        hour = meta.get("hour", 1)
+        components = res.get("components", [])
+        parts = []
+        for c in components:
+            ref = c.get("ref_key", "")
+            parts.append(self.humanize_key(ref))
+        return f"Royal Stichera for Hour {hour}: {'; '.join(parts)}."
+
+    def _format_resolve_royal_readings(self, res, context):
+        if not res: return ""
+        components = res.get("components", [])
+        parts = []
+        for c in components:
+            ref = c.get("ref_key", "")
+            parts.append(self.humanize_key(ref))
+        return f"Royal Readings: {'; '.join(parts)}."
+
+    def _format_resolve_royal_kontakion(self, res, context):
+        if not res: return ""
+        return f"Royal Kontakion: {self.humanize_key(res.get('ref_key', ''))}."
+
+    def _format_resolve_artoklasia(self, res, context):
+        if not res: return ""
+        return "Blessing of the loaves (Artoklasia)."
 
     def _format_resolve_cherubic_hymn(self, res, context):
         if not res: return ""
@@ -2985,6 +3014,159 @@ class TypikonDigestGenerator:
 
     def _format_resolve_cantor_signal(self, res, context):
         return str(res)
+
+    def _get_canon_refrain(self, source, context, canon_num=1):
+        offset = context.get("pascha_offset")
+        if offset == -70:
+            if source == "octoechos":
+                return "Glory to Your holy resurrection, O Lord!"
+            elif source == "triodion":
+                return "Have mercy on me, O God, have mercy on me!"
+        elif offset == -63:
+            if source == "octoechos":
+                return "Glory to Your holy resurrection, O Lord!"
+            elif source == "triodion":
+                return "Have mercy on me, O God, have mercy on me!"
+        elif offset == -56:
+            if source == "octoechos":
+                return "Glory to Your holy resurrection, O Lord!"
+            elif source == "triodion":
+                return "Have mercy on me, O God, have mercy on me!"
+        elif offset == -49:
+            if source == "triodion":
+                return "Glory to You, O God, glory to You!"
+        elif offset == -42:
+            if source == "triodion":
+                if canon_num == 1:
+                    return "Glory to You, O God, glory to You!"
+                else:
+                    return "Holy hierarch Gregory pray to God for us!"
+        elif offset == -35:
+            if source == "triodion":
+                return "Glory to Your precious Cross, O Lord!"
+        elif offset == -28:
+            if source == "octoechos":
+                return "Glory to Your, holy Resurrection, O Lord!"
+            elif source == "triodion":
+                if canon_num == 1:
+                    return "Have mercy on me, O God, have mercy on me!"
+                else:
+                    return "Venerable father John, pray to God for us!"
+        elif offset == -8:
+            if source == "triodion":
+                return "Glory to You, O God, glory to You!"
+        
+        # Fallbacks
+        if source == "octoechos":
+            return "Glory to Your holy resurrection, O Lord!"
+        elif source == "triodion":
+            return "Glory to You, O God, glory to You!"
+        elif source == "menaion":
+            saints = context.get("saints", [])
+            if saints:
+                name = saints[0].get("name", "Saint")
+                return f"Holy {name}, pray to God for us!"
+            return "Holy Saint of God, pray to God for us!"
+        return "Glory to You, O God, glory to You!"
+
+    def _generate_abbreviated_canon_lines(self, context, katavasia_str):
+        offset = context.get("pascha_offset")
+        lines = []
+        
+        if offset in (-70, -63, -56, -49, -42, -35, -28):
+            lines.append("At each ode, the irmos of the resurrection from the Octoechos.")
+        elif offset == -8:
+            pass
+        else:
+            if context.get("day_of_week") == 0:
+                lines.append("At each ode, the irmos of the resurrection from the Octoechos.")
+            else:
+                lines.append("At each ode, the irmos from the Octoechos.")
+
+        if offset == -70:
+            lines.append("1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!")
+            lines.append("1 troparion from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!")
+            lines.append("Glory... both now... forefeast (from the Menaion).")
+        elif offset == -63:
+            lines.append("1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!")
+            lines.append("1 troparion from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!")
+            lines.append("Glory... both now... feast (from the Menaion).")
+        elif offset == -56:
+            lines.append("1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!")
+            lines.append("2 troparia from the Triodion.  ℟.  Have mercy on me, O God, have mercy on me!")
+            lines.append("Glory... both now... Triodion.")
+        elif offset == -49:
+            lines.append("2 troparia from the Triodion.  ℟.  Glory to You, O God, glory to You!")
+            lines.append("Glory... both now... Triodion.")
+        elif offset == -42:
+            lines.append("2 troparia from canon I in the Triodion.  ℟.  Glory to You, O God, glory to You!")
+            lines.append("1 troparia from canon II in the Triodion.  ℟.  Holy hierarch Gregory pray to God for us!")
+            lines.append("Glory... both now... Triodion.")
+        elif offset == -35:
+            lines.append("3 troparia from canon of the Triodion.  ℟.  Glory to Your precious Cross, O Lord!")
+            lines.append("Glory... both now... Triodion.")
+        elif offset == -28:
+            lines.append("1 troparion: canon of the Resurrection.  ℟.  Glory to Your, holy Resurrection, O Lord!")
+            lines.append("1 troparion: Triodion canon I.  ℟.  Have mercy on me, O God, have mercy on me!")
+            lines.append("1 troparion: Triodion canon II.  ℟.  Venerable father John, pray to God for us!.")
+            lines.append("Glory... both now... Triodion.")
+        elif offset == -8:
+            lines.append("At each ode: 2 troparia from the first canon.  ℟. Glory to You, O God, glory to You!")
+            lines.append("2 troparia from the second canon.  ℟. Glory to You, O God, glory to You!")
+            lines.append("Glory... both now... second canon.")
+        else:
+            if context.get("day_of_week") == 0:
+                lines.append("1 troparion of the resurrection.  ℟. Glory to Your holy resurrection, O Lord!")
+                saints = context.get("saints", [])
+                if saints:
+                    name = saints[0].get("name", "Saint")
+                    lines.append(f"1 troparion of the Saint.  ℟. Holy {name}, pray to God for us!")
+                lines.append("Glory... both now... Theotokion.")
+            else:
+                lines.append("At each ode: Irmos, troparia with refrains, Glory... both now.")
+
+        if katavasia_str:
+            kat_line = katavasia_str
+            if kat_line.startswith("Catabasia: "):
+                kat_line = kat_line[len("Catabasia: "):]
+            if "encounter" in katavasia_str.lower() or "meeting" in katavasia_str.lower():
+                lines.append("Catabasia of the Encounter.")
+            else:
+                lines.append(katavasia_str)
+
+        return lines
+
+    def _format_canon_interludes_ode_3(self, context):
+        offset = context.get("pascha_offset")
+        if offset == -70:
+            return "After Ode III: kontakion and ikos of the forefeast (found after Ode VI in the Menaion) and the sessional hymns from the Triodion (found after Ode III), Glory, both now... forefeast.  "
+        elif offset == -63:
+            return "After Ode III: kontakion and ikos of the feast, and the sessional hymns from the Triodion (found after Ode III), Glory, both now... feast.  "
+        elif offset in (-56, -49, -42, -35, -28):
+            return "After Ode III: Sessional hymns from the Triodion (found after Ode III).  "
+        
+        is_sunday = context.get("day_of_week") == 0
+        if is_sunday:
+            tone = context.get("octoechos_tone", context.get("tone", 1))
+            tone_rom = self._roman_tone(tone)
+            return f"After Ode III: Hypakoe in Tone {tone_rom}; Glory... both now... Theotokion.  "
+        else:
+            return "After Ode III: Sessional hymns; Glory... both now... Theotokion.  "
+
+    def _format_canon_interludes_ode_6(self, context):
+        offset = context.get("pascha_offset")
+        if offset == -35:
+            return "After Ode VI: kontakion and ikos of the Cross, from the Triodion, in Tone VII.  "
+        elif offset in (-70, -63, -56, -49, -42, -28, -8):
+            return "After Ode VI: kontakion and ikos from the Triodion are sung.  "
+        
+        is_sunday = context.get("day_of_week") == 0
+        if is_sunday:
+            tone = context.get("octoechos_tone", context.get("tone", 1))
+            tone_rom = self._roman_tone(tone)
+            return f"After Ode VI: Resurrection Kontakion and Ikos in Tone {tone_rom}.  "
+        else:
+            return "After Ode VI: Kontakion and Ikos.  "
 
 
 

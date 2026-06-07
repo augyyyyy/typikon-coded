@@ -191,8 +191,10 @@ class HoursMixin:
             return {"type": "prayer", "ref_key": "horologion.prayer_mardarius"}
 
 
-    @liturgical_source(dolnytsky="Part III, Line 779")
-    def resolve_royal_psalms(self, context, rubrics, hour=1):
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L779")
+    def resolve_royal_psalms(self, context, rubrics, hour=None):
+        if hour is None:
+            hour = context.get("hour", 1)
         feast = self._identify_royal_feast(context)
         
         # Helper: Load logic from 02h if not present
@@ -212,8 +214,10 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part III, Line 779")
-    def resolve_royal_stichera(self, context, rubrics, hour=1):
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L779")
+    def resolve_royal_stichera(self, context, rubrics, hour=None):
+        if hour is None:
+            hour = context.get("hour", 1)
         feast = self._identify_royal_feast(context)
         base_key = f"royal.{feast}.hour_{hour}.idiomelon"
         
@@ -230,8 +234,10 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part III, Line 779")
-    def resolve_royal_readings(self, context, rubrics, hour=1):
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L779")
+    def resolve_royal_readings(self, context, rubrics, hour=None):
+        if hour is None:
+            hour = context.get("hour", 1)
         feast = self._identify_royal_feast(context)
         base_key = f"royal.{feast}.hour_{hour}"
         
@@ -247,8 +253,8 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Part III, Line 779")
-    def resolve_royal_troparia(self, context, rubrics, hour=1):
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L779")
+    def resolve_royal_troparia(self, context, rubrics, hour=None):
         """
         No specific daily troparia in Royal Hours. Handled by Idiomela.
         Returning an empty sequence so the digest parser doesn't fail.
@@ -256,8 +262,10 @@ class HoursMixin:
         return {"type": "sequence", "components": []}
 
 
-    @liturgical_source(dolnytsky="Part III, Line 779")
-    def resolve_royal_kontakion(self, context, rubrics, hour=1):
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L779")
+    def resolve_royal_kontakion(self, context, rubrics, hour=None):
+        if hour is None:
+            hour = context.get("hour", 1)
         feast = self._identify_royal_feast(context)
         return {
             "type": "fixed_ref",
@@ -320,7 +328,7 @@ class HoursMixin:
         }
 
     # MODULE A6: TYPIKA ENGINE
-    # ref: Dolnytsky Part I (Typika)
+    # ref: Final_Dolnytsky_part3_menaion.txt:L801
 
 
     def resolve_typika_beatitudes(self, context):
@@ -369,7 +377,7 @@ class HoursMixin:
         }
 
     # MODULE A4: COMPLINE LOGIC
-    # ref: Dolnytsky Part I (Compline)
+    # ref: Final_Dolnytsky_part1_structure.txt:L139
 
 
     def resolve_midnight_office_mode(self, context):
@@ -413,10 +421,10 @@ class HoursMixin:
              }
 
     # MODULE A8: VIGIL COMMONS (LITYA & ARTOKLASIA)
-    # ref: Dolnytsky Part I (Litya)
+    # ref: Final_Dolnytsky_part1_structure.txt:L43
 
 
-    @liturgical_source(dolnytsky="Part III, Line 760")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L760")
     def check_royal_hours_trigger(self, context):
         """
         Implements Logic Gate A7: Royal Hours Trigger.
@@ -444,7 +452,7 @@ class HoursMixin:
         return False
 
     # MODULE A9: INTER-HOURS (MESHCHORIE)
-    # ref: Dolnytsky Part III (Ch 9)
+    # ref: Final_Dolnytsky_part3_menaion.txt:L770
 
 
     def resolve_midnight_troparia(self, context):
@@ -497,7 +505,7 @@ class HoursMixin:
     # =========================================================================
 
 
-    @liturgical_source(dolnytsky="Part III, Line 797")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L797")
     def resolve_typika_kontakia(self, context):
         """
         Typika: Kontakia order
@@ -507,7 +515,7 @@ class HoursMixin:
             "order": ["temple", "day", "saint", "glory_with_the_saints", "both_now_undisputed_intercessor"]
         }
 
-    @liturgical_source(ordo="Ordo Celebrationis 1944 §54", dolnytsky="Part I")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.txt:L453", dolnytsky="Final_Dolnytsky_part1_structure.txt:L13")
     def check_service_continuity(self, context, check="is_preceding_service_connected"):
         """
         Check if the preceding service is connected to skip opening blessing.
