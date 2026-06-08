@@ -234,6 +234,7 @@ class TypikonDigestGenerator:
             matins_override = "bridegroom_matins"
 
         for service in self.engine.daily_cycle:
+            context["overrides"] = rubrics.get("overrides", {})
             service_name = service["name"]
             
             # Suppression logic for Vesperal Liturgy & Presanctified
@@ -263,6 +264,7 @@ class TypikonDigestGenerator:
                         digest.append("=== SMALL VESPERS ===")
                         small_context = context.copy()
                         small_context["is_small_vespers"] = True
+                        small_context["active_structure_id"] = "small_vespers"
                         self._process_skeleton(skeleton, small_context, rubrics, digest)
                         digest.append("")
 
@@ -320,7 +322,9 @@ class TypikonDigestGenerator:
             digest.append(f"=== {expanded_name} ===")
 
             # Walk sequence
-            self._process_skeleton(skeleton, context, rubrics, digest)
+            service_context = context.copy()
+            service_context["active_structure_id"] = root_id
+            self._process_skeleton(skeleton, service_context, rubrics, digest)
             digest.append("")
 
         # Flatten all lines and split by \n
@@ -395,10 +399,18 @@ class TypikonDigestGenerator:
                             comps.append("Resurrectional troparion")
                         elif c == "trop_saint":
                             if saints:
-                                names = [self.humanize_key(s.get("name", "Saint")) for s in saints]
-                                comps.append(f"troparion of {', '.join(names)}")
+                                comps.append(f"troparion of {self.humanize_key(saints[0].get('name', 'Saint'))}")
                             else:
                                 comps.append("troparion of the Saint")
+                        elif c == "trop_saint_2":
+                            if len(saints) >= 2:
+                                comps.append(f"troparion of {self.humanize_key(saints[1].get('name', 'second Saint'))}")
+                            else:
+                                comps.append("troparion of the second Saint")
+                        elif c == "trop_day":
+                            comps.append("troparion of the Day")
+                        elif c == "trop_temple":
+                            comps.append("troparion of the Temple")
                         elif c == "trop_feast":
                             title_lower = context.get("dolnytsky_title", "").lower()
                             lbl = "forefeast" if "forefeast" in title_lower or "prefeast" in title_lower else "afterfeast" if "afterfeast" in title_lower else "feast"
@@ -486,11 +498,15 @@ class TypikonDigestGenerator:
         except Exception as e:
             return f"[ERROR: resolve_liturgy_readings failed - {e}]"
             
-        if not res or not res.get("readings"):
+        readings_data = res.get("readings")
+        if not readings_data:
             return ""
             
+        if isinstance(readings_data, str):
+            return f"**Readings:** {self.humanize_key(readings_data)}"
+            
         lines = []
-        for reading in res["readings"]:
+        for reading in readings_data:
             p = reading.get("prokeimenon", {})
             if p:
                 tone = p.get("tone")
@@ -973,6 +989,10 @@ class TypikonDigestGenerator:
 
     def _process_skeleton(self, skeleton, context, rubrics, digest):
         for slot in skeleton:
+            # Output matins canon description if defined
+            if slot.get("id") in ("canon_pascha", "canon_block") and rubrics.get("variables", {}).get("matins_canon_description"):
+                digest.append(f"At the Canon: {rubrics['variables']['matins_canon_description']}")
+
             # 1. Print rubric info if any
             if "rubric" in slot:
                 r = slot["rubric"]
@@ -1076,6 +1096,25 @@ class TypikonDigestGenerator:
                                     digest.append("Kontakion: of the Saint (St. John Climacus)")
                                 else:
                                     digest.append("Kontakion: of the Saint")
+                            elif source == "day":
+                                digest.append("Kontakion: of the Day")
+                            elif source == "temple":
+                                digest.append("Kontakion: of the Temple")
+                            elif source == "feast":
+                                if enriched_hour.get("feast_id"):
+                                    digest.append(f"Kontakion: of the Feast ({self.humanize_key(enriched_hour['feast_id'])})")
+                                else:
+                                    digest.append("Kontakion: of the Feast")
+                            elif source == "saints":
+                                if enriched_hour.get("saints"):
+                                    digest.append(f"Kontakion: of {self.humanize_key(enriched_hour['saints'][0].get('name', 'Saint'))}")
+                                else:
+                                    digest.append("Kontakion: of the Saint")
+                            elif source == "saints_2":
+                                if len(enriched_hour.get("saints", [])) >= 2:
+                                    digest.append(f"Kontakion: of {self.humanize_key(enriched_hour['saints'][1].get('name', 'second Saint'))}")
+                                else:
+                                    digest.append("Kontakion: of the second Saint")
                             else:
                                 if enriched_hour.get("feast_id"):
                                     digest.append(f"Kontakion: of the Feast ({self.humanize_key(enriched_hour['feast_id'])})")
@@ -1184,6 +1223,16 @@ class TypikonDigestGenerator:
                                 linked_data = json.load(f)
                             sub_skeleton = self.engine._get_structure_sequence(linked_data, target_id)
                             if sub_skeleton:
+                                if "start_at_component" in slot:
+                                    start_id = slot["start_at_component"]
+                                    start_idx = next((i for i, s in enumerate(sub_skeleton) if s.get("id") == start_id), -1)
+                                    if start_idx != -1:
+                                        sub_skeleton = sub_skeleton[start_idx:]
+                                if "stop_after_component" in slot:
+                                    stop_id = slot["stop_after_component"]
+                                    stop_idx = next((i for i, s in enumerate(sub_skeleton) if s.get("id") == stop_id), -1)
+                                    if stop_idx != -1:
+                                        sub_skeleton = sub_skeleton[:stop_idx + 1]
                                 if "overrides" in slot:
                                     sub_skeleton = self._apply_link_overrides(sub_skeleton, slot["overrides"])
                                 self._process_skeleton(sub_skeleton, context, rubrics, digest)
@@ -1237,6 +1286,13 @@ class TypikonDigestGenerator:
             "resolve_megalynaria": "resolve_angelic_council"
         }
         actual_func_name = redirects.get(func_name, func_name)
+        
+        # Resolver registry validation for context safety
+        active_structure = context.get("active_structure_id")
+        if hasattr(self.engine, "resolver_registry"):
+            if not self.engine.resolver_registry.is_allowed(active_structure, actual_func_name):
+                digest.append(f"[ERROR: Logic resolver {actual_func_name} is not permitted in structure {active_structure}]")
+                return
         
         if not hasattr(self.engine, actual_func_name):
             # Known internal checking hooks that do not yield instructions
@@ -1706,10 +1762,38 @@ class TypikonDigestGenerator:
     def _format_resolve_vespers_readings_logic(self, res, context):
         if not res or not isinstance(res, list):
             return ""
+        
+        parts = []
+        
+        # 1. Format the Prokeimenon if present
+        for item in res:
+            if isinstance(item, dict) and item.get("type") in ("prokeimenon", "sunday_prokeimenon", "daily_prokeimenon", "festal_prokeimenon"):
+                p_type = item.get("type")
+                tone = item.get("tone")
+                tone_roman = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
+                text = item.get("text") or item.get("content")
+                
+                if p_type == "prokeimenon" and item.get("ref_key") == "prokeimenon.saturday_evening":
+                    parts.append("Prokeimenon: The Lord is King (Tone VI).")
+                elif p_type == "sunday_prokeimenon":
+                    parts.append(f"Prokeimenon: {text} (Tone {tone_roman}).")
+                elif p_type == "festal_prokeimenon":
+                    parts.append(f"Prokeimenon: Festal prokeimenon in Tone {tone_roman}.")
+                elif p_type == "daily_prokeimenon":
+                    day_names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                    day_idx = item.get("day_of_week", 0)
+                    day_str = day_names[day_idx]
+                    parts.append(f"Prokeimenon: Daily prokeimenon for {day_str} evening in Tone {tone_roman}.")
+                else:
+                    parts.append(f"Prokeimenon: {text or 'sung according to the Typikon'} (Tone {tone_roman}).")
+                break
+        
+        # 2. Format the Readings
         readings = [f"Reading: {r.get('citation', 'Unknown')}" for r in res if r.get('type') == 'ot_reading']
         if readings:
-            return "Readings: " + "; ".join(readings) + "."
-        return ""
+            parts.append("Readings: " + "; ".join(readings) + ".")
+            
+        return "\n".join(parts)
 
     def _format_resolve_presanctified_transfer(self, res, context):
         if not res:
@@ -2203,6 +2287,8 @@ class TypikonDigestGenerator:
 
     def _format_resolve_kathisma(self, res, context):
         if not res: return ""
+        if res.get('type') == 'lenten_hours':
+            return f"We read Kathisma {res.get('kathisma_number')}."
         return f"We read {self.humanize_key(res.get('id', 'Kathisma'))}."
 
     def _format_resolve_sessional(self, res, context):
@@ -2407,10 +2493,18 @@ class TypikonDigestGenerator:
                     mapped.append("Both now...")
                 elif c == "trop_saint":
                     if saints:
-                        names = [self.humanize_key(s.get("name", "Saint")) for s in saints]
-                        mapped.append(f"Troparion of {', '.join(names)}")
+                        mapped.append(f"Troparion of {self.humanize_key(saints[0].get('name', 'Saint'))}")
                     else:
                         mapped.append("Troparion of the Saint")
+                elif c == "trop_saint_2":
+                    if len(saints) >= 2:
+                        mapped.append(f"Troparion of {self.humanize_key(saints[1].get('name', 'second Saint'))}")
+                    else:
+                        mapped.append("Troparion of the second Saint")
+                elif c == "trop_day":
+                    mapped.append("Troparion of the Day")
+                elif c == "trop_temple":
+                    mapped.append("Troparion of the Temple")
                 elif c == "trop_feast":
                     mapped.append("Troparion of the Feast")
                 else:

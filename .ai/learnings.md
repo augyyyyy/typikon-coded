@@ -64,6 +64,8 @@ Before claiming ANY digest section is "done":
 
 12. **RETROACTIVE CONTEXT FABRICATION** — After a server restart or context compaction, reconstructing what "must have happened" based on file timestamps and git history, then presenting this reconstruction as direct memory. The model MUST say **"I lost context and need to re-verify"** instead of fabricating a plausible backstory.
 
+13. **LITURGICAL AUTHORITY CONFLATION (CONFIRMATION BIAS)** — Confusing a textual compilation (e.g., the 2014 Stamford Divine Office) with the rubrical authority (Dolnytsky/Ordo) simply because a configuration string is named `stamford_2014`. Never invent non-existent rulebooks (e.g., claiming there is a "Stamford Typikon"). The math/logic is *always* Dolnytsky/Ordo; the text profile/database is what corresponds to the Stamford compilation.
+
 ---
 
 ## I. Data Structure & Dictionary
@@ -288,3 +290,12 @@ When switching models:
 2. **Master Citation Matrix**: The system programmatically proves its canonical accuracy by cross-referencing logic calls against the physical text of the rule in `.agent/brain/encyclopedia/master_citation_matrix.md`.
 3. **Hierarchy of Truth**: Engine resolution relies on `Ordo > Dolnytsky > Liturgicon`. Any new logic added to the system MUST use the `@liturgical_source` decorator in Python or the `source_ref` property in JSON structures to trace back to these exact sources.
 4. **Pascha Collision**: Movable feast collisions (like Pascha vs. fixed Menaion feasts) are handled via explicit overrides (`movable_overrides`) in `engine/calendar.py` to prevent the fixed calendar from asserting dominance over the Resurrection of Christ.
+
+## X. Formalizing Resolvers and Hardening the General Case (2026-06-08)
+
+1. **Maximum Resolvers Per Service Type**: Defining constraints on which `resolve_X` functions are permitted to execute in different service environments (e.g., Daily Vespers vs. Great Vespers vs. Small Vespers) to prevent illegal logic branch execution (e.g., running high-level feast logic in generic weekday services).
+2. **Immediate Type-Safety Fixes**: Addressing crashes when comparing string-based ranks (e.g., `"rank_simple_6"`) with integers in mathematical operations, using safe parsing functions like `parse_rank_integer`.
+3. **Property-Based Fuzz Testing**: Hardening the engine's reliability through automated property-based testing across 500+ random dates spanning multiple centuries to catch edge cases, crash bugs, or unhandled exceptions.
+4. **Registry Override Resolution**: Discovered that structures can modify components via root-level `overrides` specifying direct `content` blocks rather than nesting inside `new_component`. The `ResolverRegistry` was updated to scan both the `override` object itself and nested `new_component` objects to comprehensively extract allowed resolvers, and recursively traverse only authentic `type == "link"` targets to pull in their registry entries.
+
+

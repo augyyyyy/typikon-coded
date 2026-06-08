@@ -632,7 +632,7 @@ class PaschalMixin:
         Paschal Praises at Bright Matins.
         """
         return {
-            "type": "bright_praises",
-            "rubric_note": "Paschal Praises at Bright Matins"
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.pascha.matins.praises"
         }
 

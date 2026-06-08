@@ -463,7 +463,8 @@ class LiturgyMixin:
         - January 1 (St. Basil's Day)
         """
         liturgy_type = context.get("liturgy_type", "chrysostom")
-        rank = context.get("rank", 5)
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get("rank", 5))
         paradigm = context.get("paradigm", "")
         feast_id = context.get("feast_id", None)
         
@@ -501,7 +502,8 @@ class LiturgyMixin:
         Weekday: Tone-appropriate or proper of day
         """
         day_of_week = context.get("day_of_week", 0)
-        rank = context.get("rank", 5)
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get("rank", 5))
         paradigm = context.get("paradigm", "")
         feast_id = context.get("feast_id", None)
         tone = context.get("tone", 1)
@@ -625,10 +627,26 @@ class LiturgyMixin:
         
         # Identify vesperal feast
         vesperal_id = None
-        if "nativity" in title: vesperal_id = "nativity_eve"
-        elif "theophany" in title or "epiphany" in title: vesperal_id = "theophany_eve"
-        elif feast_id == "holy_thursday" or "thursday" in title and context.get("season") == "holy_week": vesperal_id = "holy_thursday"
-        elif feast_id == "holy_saturday" or "saturday" in title and context.get("season") == "holy_week": vesperal_id = "holy_saturday"
+        date_str = context.get("date", "")
+        # Check by fixed date
+        if date_str.endswith("-12-24"):
+            vesperal_id = "nativity_eve"
+        elif date_str.endswith("-01-05"):
+            vesperal_id = "theophany_eve"
+        # Check by Pascha offset
+        elif context.get("pascha_offset") == -3:
+            vesperal_id = "holy_thursday"
+        elif context.get("pascha_offset") == -1:
+            vesperal_id = "holy_saturday"
+        # Fallbacks for safety
+        elif "nativity" in title: 
+            vesperal_id = "nativity_eve"
+        elif "theophany" in title or "epiphany" in title: 
+            vesperal_id = "theophany_eve"
+        elif feast_id == "holy_thursday" or "thursday" in title: 
+            vesperal_id = "holy_thursday"
+        elif feast_id == "holy_saturday" or "saturday" in title: 
+            vesperal_id = "holy_saturday"
         
         if not vesperal_id:
              return {"type": "error", "content": "Could not identify Vesperal Liturgy day from context."}
@@ -686,11 +704,62 @@ class LiturgyMixin:
             l_readings = overrides.get("liturgy_readings")
             if l_readings:
                 if isinstance(l_readings, list):
+                    if l_readings and isinstance(l_readings[0], str):
+                        feast_id = context.get("feast_id", "")
+                        if not feast_id and context.get("saints"):
+                            feast_id = context["saints"][0].get("id", "")
+                        
+                        epistle_key = l_readings[0]
+                        gospel_key = l_readings[1] if len(l_readings) > 1 else ""
+                        
+                        structured_reading = {
+                            "prokeimenon": {
+                                "source": "menaion",
+                                "ref_key": f"menaion.{feast_id}.prokeimenon" if feast_id else ""
+                            },
+                            "epistle": {
+                                "source": "menaion",
+                                "ref_key": epistle_key
+                            },
+                            "alleluia": {
+                                "source": "menaion",
+                                "ref_key": f"menaion.{feast_id}.alleluia" if feast_id else ""
+                            },
+                            "gospel": {
+                                "source": "menaion",
+                                "ref_key": gospel_key
+                            }
+                        }
+                        return {"type": "liturgy_readings", "readings": [structured_reading]}
                     return {"type": "liturgy_readings", "readings": l_readings}
+                elif isinstance(l_readings, str):
+                    feast_id = context.get("feast_id", "")
+                    if not feast_id and context.get("saints"):
+                        feast_id = context["saints"][0].get("id", "")
+                    structured_reading = {
+                        "prokeimenon": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{feast_id}.prokeimenon" if feast_id else ""
+                        },
+                        "epistle": {
+                            "source": "menaion",
+                            "ref_key": l_readings
+                        },
+                        "alleluia": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{feast_id}.alleluia" if feast_id else ""
+                        },
+                        "gospel": {
+                            "source": "menaion",
+                            "ref_key": ""
+                        }
+                    }
+                    return {"type": "liturgy_readings", "readings": [structured_reading]}
                 return l_readings
 
         day_of_week = context.get("day_of_week", 0)
-        rank = context.get("rank", 5)
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get("rank", 5))
         paradigm = context.get("paradigm", "")
         feast_id = context.get("feast_id", None)
         saints = context.get("saints", [])
@@ -748,8 +817,8 @@ class LiturgyMixin:
                 }
             })
             
-            # Secondary: Saint of the day (if Polyeleos)
-            if saints and rank <= 3:
+            # Secondary: Saint of the day (if Polyeleos or higher)
+            if saints and rank <= 4:
                 saint_id = saints[0].get("id", "saint")
                 result["readings"].append({
                     "prokeimenon": {
@@ -963,7 +1032,8 @@ class LiturgyMixin:
             }
 
         day_of_week = context.get('day_of_week', 0)
-        rank = context.get('rank', 5)
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get('rank', 5))
         
         if day_of_week == 0:
             return {"type": "beatitudes", "stichera": [{"source": "octoechos", "count": 4}], "note": "Sunday Beatitudes"}

@@ -4,6 +4,7 @@ Extracted from ruthenian_engine.py during Phase 1 modularization.
 """
 
 from engine.core import liturgical_source
+from engine.utils.type_utils import parse_rank_integer
 
 import json
 import os
@@ -43,28 +44,56 @@ class CommonResolverMixin:
     def construct_dismissal(self, context, temple_saint="St. Nicholas"):
         """
         Constructs the Hierarchical Dismissal string (Dolnytsky Part 1).
-        Structure: Preamble -> Intercessors -> Saint(s) of Day -> Temple Patron -> Conclusion.
+        Structure: Preamble -> Intercessors -> Saint(s) of Day -> Temple Patron -> Ancestors of God -> Conclusion.
         """
         paradigm = self.identify_paradigm(context)
         day_of_week = context.get('day_of_week', 0)
+        rank = parse_rank_integer(context.get('rank', 5))
+        
+        # Override default temple saint if specified in context
+        if temple_saint == "St. Nicholas" and "temple_patron" in context:
+            temple_saint = context["temple_patron"]
         
         # 1. Preamble
-        if paradigm == "p1_sunday_resurrection" or day_of_week == 0:
+        if context.get("is_festal_dismissal") and context.get("festal_preamble"):
+            preamble = context.get("festal_preamble")
+            if not preamble.endswith(","):
+                preamble += ","
+        elif paradigm == "p1_sunday_resurrection" or day_of_week == 0:
             preamble = "May Christ our true God, risen from the dead,"
-        elif paradigm == "p_feast_lord":
-             # Placeholder for specific Feast preambles (Nativity, Transfiguration, etc.)
-            preamble = "May Christ our true God," 
         else:
             preamble = "May Christ our true God,"
 
-        # 2. Intercessors (Theotokos is standard)
-        intercessors = "through the prayers of His most pure Mother;"
+        # 2. Intercessors
+        # Check weekly theme suppression rule: suppressed on Great Feast of the Lord/Theotokos (Rank 1),
+        # or when is_festal_dismissal is True, or when paradigm is p_feast_lord.
+        suppress_weekly = (
+            context.get("is_festal_dismissal", False) or 
+            rank == 1 or 
+            paradigm == "p_feast_lord"
+        )
         
+        intercessors = "through the prayers of His most pure Mother;"
+        if not suppress_weekly:
+            if day_of_week == 1: # Monday: Angels
+                intercessors = "through the prayers of His most pure Mother; of the honorable, bodiless Powers of heaven;"
+            elif day_of_week == 2: # Tuesday: John the Baptist
+                intercessors = "through the prayers of His most pure Mother; of the honorable, glorious Prophet, Forerunner and Baptist John;"
+            elif day_of_week in [3, 5]: # Wednesday & Friday: Cross
+                intercessors = "through the prayers of His most pure Mother; by the power of the precious and life-giving Cross;"
+            elif day_of_week == 4: # Thursday: Apostles & Nicholas
+                intercessors = "through the prayers of His most pure Mother; of the holy, glorious, and all-praiseworthy Apostles; of our father among the saints Nicholas, Archbishop of Myra in Lycia, the wonderworker;"
+            elif day_of_week == 6: # Saturday: All Saints, Martyrs, Monastics
+                intercessors = "through the prayers of His most pure Mother; of the holy, glorious, and all-praiseworthy Apostles; of the holy, glorious, and right-victorious Martyrs; of our venerable and God-bearing Fathers;"
+
         # 3. Saints of Day
-        # Ideally, fetch from context['saints']
         saints = context.get("saints", [])
         if saints:
-            saint_names = ", ".join([s.get("title", {}).get("en", "Saint") for s in saints])
+            names = []
+            for s in saints:
+                name = s.get("title", {}).get("en") or s.get("name") or "Saint"
+                names.append(name)
+            saint_names = ", ".join(names)
             saint_of_day = f"of the holy {saint_names};"
         else:
             saint_of_day = "of the holy (Saint of the Day);" 
@@ -72,13 +101,18 @@ class CommonResolverMixin:
         # 4. Temple Patron
         # RULE: On Feast of Lord, Temple Patron is OMITTED (Dolnytsky)
         temple_phrase = f"of our father among the saints {temple_saint}, patron of this holy temple;"
-        if paradigm == "p_feast_lord":
+        if paradigm == "p_feast_lord" or rank == 1:
              temple_phrase = ""
 
-        # 5. Conclusion
+        # 5. Ancestors of God
+        ancestors_of_god = "of the holy and righteous Ancestors of God, Joachim and Anna;"
+
+        # 6. Conclusion
         conclusion = "and of all the saints, have mercy on us and save us, for He is good and loves mankind."
         
-        return f"{preamble} {intercessors} {saint_of_day} {temple_phrase} {conclusion}"
+        # Combine parts cleanly by removing empty strings and joining with single spaces
+        parts = [p for p in [preamble, intercessors, saint_of_day, temple_phrase, ancestors_of_god, conclusion] if p]
+        return " ".join(parts)
 
 
     def resolve_dismissal_universal(self, context, service="matins"):
@@ -139,13 +173,43 @@ class CommonResolverMixin:
             text = rendered["content"]
             
             # 1. Names Substitution (Common for Litany of Peace/Fervent)
+            hierarchy_stack = self.resolve_litany_hierarchy(context)
+            
+            pope_val = context.get("pope_name", "N.")
+            if "pope" not in hierarchy_stack:
+                pope_val = "vacant Apostolic See"
+                
+            patriarch_val = context.get("patriarch_name", "N.")
+            if "patriarch" not in hierarchy_stack:
+                patriarch_val = context.get("patriarch_admin_name", "Patriarchal Administrator")
+                
+            metro_val = context.get("metropolitan_name", "N.")
+            if "metropolitan" not in hierarchy_stack:
+                metro_val = context.get("metropolitan_admin_name", "Metropolitan Administrator")
+                
+            bishop_val = context.get("bishop_name", "N.")
+            if "bishop" not in hierarchy_stack:
+                bishop_val = context.get("administrator_name", context.get("bishop_name", "N."))
+            
             hierarchy = {
-                "Pontiff, N.": context.get("pope_name", "N."),
-                "Patriarch, N.": context.get("patriarch_name", "N."),
-                "Metropolitan, N.": context.get("metropolitan_name", "N."),
-                "Bishop, N.": context.get("bishop_name", "N.")
+                "Pontiff, N.": pope_val,
+                "Patriarch, N.": patriarch_val,
+                "Metropolitan, N.": metro_val,
+                "Bishop, N.": bishop_val
             }
             
+            # Apply Sede Vacante text substitutions for titles if keys are replaced
+            if "bishop" not in hierarchy_stack:
+                text = text.replace("God-loving Bishop, N.", f"diocesan administrator, {bishop_val}")
+                text = text.replace("Bishop, N.", f"Administrator, {bishop_val}")
+            if "metropolitan" not in hierarchy_stack:
+                text = text.replace("Metropolitan, N.", f"Metropolitan Administrator, {metro_val}")
+            if "patriarch" not in hierarchy_stack:
+                text = text.replace("Patriarch, N.", f"Patriarchal Administrator, {patriarch_val}")
+            if "pope" not in hierarchy_stack:
+                text = text.replace("universal Pontiff, N., Pope of Rome", "vacant Apostolic See of Rome")
+                text = text.replace("Pontiff, N.", "vacant Apostolic See")
+                
             for rank_n, actual_name in hierarchy.items():
                 if rank_n in text:
                     text = text.replace(rank_n, rank_n.replace("N.", actual_name))
@@ -250,7 +314,7 @@ class CommonResolverMixin:
             comps.append({"type": "psalms", "ref_key": "horologion.psalm_136_waters_of_babylon", "note": "Psalm 136"})
             
         # 2. Megalynarion
-        rank = context.get("rank", 5)
+        rank = parse_rank_integer(context.get("rank", 5))
         has_megalynarion = rank <= 3
         if has_megalynarion:
             source = "feast" if rank <= 2 else "saint"
@@ -878,7 +942,7 @@ class CommonResolverMixin:
         # H12: Hypakoe Retrieval
         comps = []
         day = context.get("day_of_week")
-        rank = context.get("rank", self.calculate_rank(context))
+        rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
         if day == 0 and rank >= 3:
              comps.append({"type": "hypakoe"})
         else:
@@ -918,23 +982,28 @@ class CommonResolverMixin:
         Implements Logic Gate A10: Hierarchical Commemorations.
         Returns the list of hierarchs to commemorate in the Great Litany.
         """
-        # Default Stack:
-        # 1. Ecumenical Pontiff (Pope)
-        # 2. Patriarch / Major Archbishop
-        # 3. Metropolitan
-        # 4. God-loving Bishop
-        
-        # Sede Vacante overrides?
+        stack = []
+        if context.get("sede_vacante_pope", False):
+            stack.append("administrator_of_apostolic_see")
+        else:
+            stack.append("pope")
+            
+        if context.get("sede_vacante_patriarch", False):
+            stack.append("administrator_of_patriarchate")
+        else:
+            stack.append("patriarch")
+            
+        if context.get("sede_vacante_metropolitan", False):
+            stack.append("administrator_of_metropolis")
+        else:
+            stack.append("metropolitan")
+            
         if context.get("sede_vacante_bishop", False):
-             return ["pope", "patriarch", "metropolitan", "administrator_of_diocese"]
-             
-        return ["pope", "patriarch", "metropolitan", "bishop"]
-
-        # Sede Vacante overrides?
-        if context.get("sede_vacante_bishop", False):
-             return ["pope", "patriarch", "metropolitan", "administrator_of_diocese"]
-             
-        return ["pope", "patriarch", "metropolitan", "bishop"]
+            stack.append("administrator_of_diocese")
+        else:
+            stack.append("bishop")
+            
+        return stack
 
     # =========================================================================
     # SECTION B: THE DEEP LOGIC (LENTEN CANONS etc.)
@@ -995,7 +1064,8 @@ class CommonResolverMixin:
                       "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9]
                   }
         
-        rank = context.get('rank', 5)
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get('rank', 5))
         feast_id = context.get('feast_id', '')
         season = context.get('season', 'ordinary')
         day_of_week = context.get('day_of_week', 0)
@@ -1102,7 +1172,35 @@ class CommonResolverMixin:
 
 
     def resolve_kathisma(self, context, num=1, **kwargs):
-        # Placeholder for Psalter reading schedule
+        # 1. Check Psalter Suspension Period: Holy Thursday (delta -3) through Bright Week (delta 6)
+        delta = context.get("pascha_offset")
+        if delta is not None and -3 <= delta <= 6:
+            return None
+
+        # 2. Check if called from Lenten Hours on Weekdays
+        hour = context.get("hour")
+        is_lent = context.get("season") == "lent" or context.get("is_lent")
+        day_of_week = context.get("day_of_week", 1)
+        is_weekend = (day_of_week == 0 or day_of_week == 6)
+
+        if hour in [1, 3, 6, 9] and is_lent and not is_weekend:
+            # Major Feast (rank <= 3) suspends Lenten Hours and Psalter in Hours
+            rank = context.get("rank", 5)
+            if isinstance(rank, str):
+                from engine.utils.type_utils import parse_rank_integer
+                rank = parse_rank_integer(rank)
+            else:
+                try:
+                    rank = self.calculate_rank(context)
+                except:
+                    pass
+            if rank <= 3:
+                return None
+
+            week_number = context.get("triodion_week", 1)
+            return self._resolve_kathisma_hours(context, hour, day_of_week, week_number)
+
+        # 3. Default Matins / Ordinary Kathisma placeholder
         return {"type": "psalms", "id": f"kathisma_{num}"}
 
 

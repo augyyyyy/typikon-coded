@@ -47,18 +47,23 @@ class TestHorologionCore(unittest.TestCase):
             "saints": [{"name": "St. Nicholas", "troparion_tone": 4}]
         }
         
-        result = self.engine.resolve_hours_collision(context, hour_num=1)
-        
-        # Kontakion should still be Resurrectional (Sunday > Simple Saint)
-        self.assertEqual(result["kontakion_winner"], "resurrection_kontakion")
-        
-        # Verify Troparia: Res -> Glory Saint -> Both Now
-        troparia = result["troparia_sequence"]
-        self.assertEqual(len(troparia), 3)
-        self.assertEqual(troparia[0]["type"], "resurrectional")
-        self.assertEqual(troparia[1]["type"], "glory")
-        self.assertEqual(troparia[1]["target"]["type"], "saint") # The saint target
-        self.assertEqual(troparia[2]["type"], "both_now")
+        # At 1st Hour: Resurrectional only (No saint troparion, Resurrectional kontakion)
+        result_1 = self.engine.resolve_hours_collision(context, hour_num=1)
+        self.assertEqual(result_1["kontakion_winner"], "resurrection_kontakion")
+        troparia_1 = result_1["troparia_sequence"]
+        self.assertEqual(len(troparia_1), 2)
+        self.assertEqual(troparia_1[0]["type"], "resurrectional")
+        self.assertEqual(troparia_1[1]["type"], "glory_both_now")
+
+        # At 3rd Hour: Resurrectional + Saint (Resurrectional troparion, Glory Saint, Saint kontakion)
+        result_3 = self.engine.resolve_hours_collision(context, hour_num=3)
+        self.assertEqual(result_3["kontakion_winner"], "saint_kontakion")
+        troparia_3 = result_3["troparia_sequence"]
+        self.assertEqual(len(troparia_3), 3)
+        self.assertEqual(troparia_3[0]["type"], "resurrectional")
+        self.assertEqual(troparia_3[1]["type"], "glory")
+        self.assertEqual(troparia_3[1]["target"]["type"], "saint")
+        self.assertEqual(troparia_3[2]["type"], "both_now")
 
     def test_hours_great_feast_lord(self):
         """Test A1.3: Great Feast of Lord (Supremacy)."""
@@ -187,7 +192,30 @@ class TestHorologionCore(unittest.TestCase):
         self.assertEqual(result["source_1"]["book"], "octoechos")
         self.assertEqual(result["source_1"]["count"], 8) # Full Octoechos
 
-        self.assertEqual(result["source_1"]["count"], 8) # Full Octoechos
+    def test_typika_weekday_polyeleos(self):
+        """Test A6.4: Weekday + Polyeleos Saint (Ode 3 + Ode 6)."""
+        context = {
+            "paradigm": "p2_weekday",
+            "day_of_week": 2, # Tuesday
+            "rank": 3, # Polyeleos Saint
+            "tone": 4
+        }
+        result = self.engine.resolve_typika_beatitudes(context)
+        self.assertEqual(result["source_1"]["book"], "menaion")
+        self.assertEqual(result["source_1"]["location"], "ode_3")
+        self.assertEqual(result["source_2"]["location"], "ode_6")
+
+    def test_typika_weekday_ordinary(self):
+        """Test A6.5: Ordinary Weekday (Octoechos 6)."""
+        context = {
+            "paradigm": "p2_weekday",
+            "day_of_week": 3, # Wednesday
+            "rank": 4, # Simple weekday
+            "tone": 4
+        }
+        result = self.engine.resolve_typika_beatitudes(context)
+        self.assertEqual(result["source_1"]["book"], "octoechos")
+        self.assertEqual(result["source_1"]["count"], 6)
 
     # =========================================================================
     # MODULE A4: COMPLINE TESTS
@@ -236,9 +264,29 @@ class TestHorologionCore(unittest.TestCase):
         }
         result = self.engine.resolve_litya_artoklasia(context)
         self.assertEqual(result["artoklasia"]["mode"], "rejoice_o_virgin_3x")
-        # In actual implementation check if logic matches usage
+        self.assertEqual(result["litya_stichera"][0]["source"], "temple_patron")
 
+    def test_vigil_artoklasia_great_feast(self):
+        """Test A8.2: Great Feast Artoklasia (Festal Troparion x3)."""
+        context = {
+            "rank": 1,
+            "day_of_week": 2,
+            "paradigm": "p_feast_lord"
+        }
+        result = self.engine.resolve_litya_artoklasia(context)
+        self.assertEqual(result["artoklasia"]["mode"], "festal_troparion_3x")
+        self.assertEqual(result["litya_stichera"][0]["source"], "feast")
+
+    def test_vigil_artoklasia_weekday_vigil(self):
+        """Test A8.3: Weekday Vigil Litya (Saint only)."""
+        context = {
+            "rank": 2,
+            "day_of_week": 3, # Wednesday
+            "paradigm": "p2_weekday"
+        }
+        result = self.engine.resolve_litya_artoklasia(context)
         self.assertEqual(result["artoklasia"]["mode"], "rejoice_o_virgin_3x")
+        self.assertEqual(result["litya_stichera"][0]["source"], "saint")
 
     # =========================================================================
     # MODULE A7: ROYAL HOURS TESTS
@@ -268,6 +316,21 @@ class TestHorologionCore(unittest.TestCase):
         context = {"season": "lent", "day_of_week": 6} # Saturday
         self.assertFalse(self.engine.check_meshchorie_trigger(context))
 
+    def test_inter_hours_major_feast(self):
+        """Test A9.3: Major Feast weekday in Lent does NOT trigger Inter-Hours."""
+        context = {"season": "lent", "day_of_week": 2, "rank": 3} # Tuesday, Rank 3
+        self.assertFalse(self.engine.check_meshchorie_trigger(context))
+
+    def test_inter_hours_holy_week(self):
+        """Test A9.4: Great Tuesday of Holy Week DOES trigger Inter-Hours."""
+        context = {
+            "season": "lent",
+            "day_of_week": 2, # Tuesday
+            "pascha_offset": -5, # Great Tuesday
+            "rank": 5
+        }
+        self.assertTrue(self.engine.check_meshchorie_trigger(context))
+
     # =========================================================================
     # MODULE A10: HIERARCHY TESTS
     # =========================================================================
@@ -285,6 +348,58 @@ class TestHorologionCore(unittest.TestCase):
         result = self.engine.resolve_litany_hierarchy(context)
         self.assertIn("administrator_of_diocese", result)
         self.assertNotIn("bishop", result)
+
+    def test_censing_protocols(self):
+        """Test Topic 16: Censing protocols and rank modifications."""
+        # 1. Great feast (Rank 3) -> Magnificat censing should be great/full
+        ctx_feast = {"rank": 3, "day_of_week": 2}
+        res_feast = self.engine.resolve_censing_annotation(ctx_feast, service_point="magnificat")
+        self.assertTrue(res_feast["has_censing"])
+        self.assertEqual(res_feast["protocol"]["type"], "great")
+        self.assertEqual(res_feast["protocol"]["scope"], "full")
+
+        # 2. Simple weekday (Rank 5) -> Magnificat censing should be small/altar_only
+        ctx_simple = {"rank": 5, "day_of_week": 2}
+        res_simple = self.engine.resolve_censing_annotation(ctx_simple, service_point="magnificat")
+        self.assertTrue(res_simple["has_censing"])
+        self.assertEqual(res_simple["protocol"]["type"], "small")
+        self.assertEqual(res_simple["protocol"]["scope"], "altar_only")
+
+        # 3. Simple weekday (Rank 5) -> Polyeleos censing should be suppressed (no censing)
+        res_poly = self.engine.resolve_censing_annotation(ctx_simple, service_point="polyeleos")
+        self.assertFalse(res_poly["has_censing"])
+
+    def test_fasting_rules(self):
+        """Test Topic 18: Fasting Levels and relaxations."""
+        # 1. Great Lent weekday (Wednesday, offset -18) -> xerophagy
+        ctx_lent = {"season_id": "triodion", "pascha_offset": -18, "day_of_week": 3}
+        res_lent = self.engine.resolve_fasting_rule(ctx_lent)
+        self.assertEqual(res_lent["type"], "xerophagy")
+
+        # 2. Great Lent Sunday (offset -14) -> oil_and_wine
+        ctx_lent_sun = {"season_id": "triodion", "pascha_offset": -14, "day_of_week": 0}
+        res_lent_sun = self.engine.resolve_fasting_rule(ctx_lent_sun)
+        self.assertEqual(res_lent_sun["type"], "oil_and_wine")
+
+        # 3. Lenten Annunciation (offset -18, Wednesday) -> fish_permitted
+        ctx_ann = {"season_id": "triodion", "pascha_offset": -18, "day_of_week": 3, "title": "Annunciation"}
+        res_ann = self.engine.resolve_fasting_rule(ctx_ann)
+        self.assertEqual(res_ann["type"], "fish_permitted")
+
+        # 4. Publican and Pharisee Wednesday (offset -73) -> no_fast
+        ctx_free = {"season_id": "triodion", "pascha_offset": -73, "day_of_week": 3}
+        res_free = self.engine.resolve_fasting_rule(ctx_free)
+        self.assertEqual(res_free["type"], "no_fast")
+
+        # 5. Normal Wednesday (ordinary season, Rank 5) -> fast_day
+        ctx_norm = {"season_id": "ordinary", "pascha_offset": 100, "day_of_week": 3, "rank": 5}
+        res_norm = self.engine.resolve_fasting_rule(ctx_norm)
+        self.assertEqual(res_norm["type"], "fast_day")
+
+        # 6. Normal Wednesday with Polyeleos Feast (Rank 4) -> oil_and_wine
+        ctx_poly = {"season_id": "ordinary", "pascha_offset": 100, "day_of_week": 3, "rank": 4}
+        res_poly = self.engine.resolve_fasting_rule(ctx_poly)
+        self.assertEqual(res_poly["type"], "oil_and_wine")
 
 if __name__ == '__main__':
     unittest.main()

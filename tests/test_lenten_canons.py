@@ -54,6 +54,24 @@ class TestLentenDeepLogic(unittest.TestCase):
         # Ode 1: Menaion Active (Triodic is 2, not 1)
         self.assertEqual(stack[1]["source"], "menaion")
 
+    def test_lenten_canon_saturday(self):
+        """
+        Test B1.3: Lenten Saturday (Four-Ode Tetraodion 6, 7, 8, 9).
+        """
+        context = {"day_of_week": 6} # Saturday
+        
+        result = self.engine.resolve_lenten_canon_merger(context)
+        stack = result["stack"]
+        
+        # Ode 6, 7, 8, 9: Triodion Wins
+        self.assertEqual(stack[6]["source"], "triodion")
+        self.assertEqual(stack[7]["source"], "triodion")
+        self.assertEqual(stack[8]["source"], "triodion")
+        self.assertEqual(stack[9]["source"], "triodion")
+        
+        # Ode 1: Menaion Active
+        self.assertEqual(stack[1]["source"], "menaion")
+
     # =========================================================================
     # MODULE B5: LENTEN INTERLUDES (SIDALEN)
     # =========================================================================
@@ -124,6 +142,10 @@ class TestLentenDeepLogic(unittest.TestCase):
         # Case 5: 40 Martyrs on Tuesday (Should return True)
         ctx_40_martyrs = {"season": "lent", "day_of_week": 2, "title": "40 Martyrs", "rank": 4}
         self.assertTrue(self.engine.check_presanctified_trigger(ctx_40_martyrs))
+        
+        # Case 6: Generic Rank 4 Feast on Thursday (Should return True)
+        ctx_john = {"season": "lent", "day_of_week": 4, "title": "Finding of the Head", "rank": 4}
+        self.assertTrue(self.engine.check_presanctified_trigger(ctx_john))
 
 if __name__ == '__main__':
     unittest.main()

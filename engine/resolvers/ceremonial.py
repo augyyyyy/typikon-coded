@@ -24,36 +24,70 @@ class CeremonialMixin:
         season = context.get("season_id", "")
         day_of_week = context.get("day_of_week", 0)
         pascha_offset = context.get("pascha_offset", 0)
-        rank = context.get("dolnytsky_rank", "")
+        rank_code = context.get("dolnytsky_rank", "")
+        rank_val = context.get("rank")
+        if rank_val is None:
+            try:
+                rank_val = self.calculate_rank(context)
+            except Exception:
+                rank_val = 5
+                
+        month = context.get("month", 0)
+        day = context.get("day", 0)
         
-        # Great Lent
-        if season == "triodion" and -48 <= pascha_offset <= -1:
+        # 1. Fast-Free Weeks (Splotnyye Sedmitsy)
+        # Publican and Pharisee Week: -76 <= pascha_offset <= -70
+        # Bright Week: 0 <= pascha_offset <= 6
+        # Trinity Week: 49 <= pascha_offset <= 55
+        # Post-Nativity: month == 12 and day >= 25 or month == 1 and day <= 4
+        is_fast_free = False
+        if -76 <= pascha_offset <= -70:
+            is_fast_free = True
+        elif 0 <= pascha_offset <= 6:
+            is_fast_free = True
+        elif 49 <= pascha_offset <= 55:
+            is_fast_free = True
+        elif (month == 12 and day >= 25) or (month == 1 and day <= 4):
+            is_fast_free = True
+            
+        if is_fast_free:
+            return {"type": "no_fast", "note": "Fast-free week, no fasting restrictions",
+                    "citation": "Dolnytsky Appendix — Fast-free week"}
+
+        # 2. Great Lent
+        if (season == "triodion" or context.get("season") == "lent") and -48 <= pascha_offset <= -1:
+            # Annunciation Exception during Lent
+            if "Annunciation" in context.get("title", "") or "annunciation" in context.get("feast_id", ""):
+                return {"type": "fish_permitted", "note": "Fish and wine permitted on the Annunciation",
+                        "citation": "Dolnytsky Appendix — Annunciation in Lent"}
+                        
             if day_of_week in (6, 0):  # Sat/Sun
                 return {"type": "oil_and_wine", "note": "Oil and wine permitted on Lenten Saturdays and Sundays",
-                        "citation": "Dolnytsky Appendix — Lenten Fasting"}
-            elif day_of_week == 5:  # Friday
-                return {"type": "xerophagy", "note": "Dry eating (bread, raw vegetables, fruit)",
-                        "citation": "Dolnytsky Appendix — Lenten Friday"}
+                        "citation": "Dolnytsky Appendix — Lenten Saturdays and Sundays"}
             else:
                 return {"type": "xerophagy", "note": "Dry eating",
                         "citation": "Dolnytsky Appendix — Lenten weekday"}
 
-        # Cheesefare week + Sunday (no meat, dairy/eggs OK)
-        if season == "triodion" and -55 <= pascha_offset <= -49:
+        # 3. Cheesefare week + Sunday (no meat, dairy/eggs OK)
+        if -55 <= pascha_offset <= -49:
             return {"type": "dairy_and_eggs", "note": "Dairy and eggs permitted, no meat",
                     "citation": "Dolnytsky Appendix — Cheesefare Week"}
         
-        # Normal Wed/Fri
-        if day_of_week in (3, 5) and season not in ("pentecostarion",):
-            return {"type": "fast_day", "note": "Abstinence from meat and dairy",
-                    "citation": "Dolnytsky — Wednesday and Friday fast"}
+        # 4. Normal Wed/Fri
+        if day_of_week in (3, 5):
+            # Great Feasts (Rank 1/2) and Vigils (Rank 3) -> Fish
+            if rank_val <= 3 or any(r in rank_code for r in ("LORD", "THEOTOKOS", "MOG", "VIGIL")):
+                return {"type": "fish_permitted", "note": "Fish and wine permitted for the feast",
+                        "citation": "Dolnytsky Appendix — Festal relaxation"}
+            # Polyeleos Feasts (Rank 4) -> Oil and Wine
+            elif rank_val == 4 or "POL" in rank_code or "POLUELEOS" in rank_code:
+                return {"type": "oil_and_wine", "note": "Oil and wine permitted for the feast",
+                        "citation": "Dolnytsky Appendix — Festal relaxation"}
+            else:
+                return {"type": "fast_day", "note": "Abstinence from meat and dairy",
+                        "citation": "Dolnytsky — Wednesday and Friday fast"}
         
-        # Fish feast
-        if rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
-            return {"type": "fish_permitted", "note": "Fish and wine permitted for the feast",
-                    "citation": "Dolnytsky Appendix — Festal relaxation"}
-        
-        # Default
+        # 5. Default
         return {"type": "no_fast", "note": "No fasting restrictions",
                 "citation": "Dolnytsky Appendix — Normal day"}
 
@@ -298,8 +332,32 @@ class CeremonialMixin:
         }
         
         if service_point and service_point in protocols:
-            return {"has_censing": True, "protocol": protocols[service_point]}
-        
+            rank = context.get("rank")
+            if rank is None:
+                try:
+                    rank = self.calculate_rank(context)
+                except Exception:
+                    rank = 5
+            
+            # Rule 3.1: Polyeleos censing is only active if Rank <= 4
+            if service_point == "polyeleos" and rank > 4:
+                return {"has_censing": False, "note": "No Polyeleos (and no censing) on this rank day"}
+                
+            protocol = protocols[service_point].copy()
+            
+            # Rule 3.2: Magnificat censing is simplified to small on minor weekday rank days
+            if service_point == "magnificat" and rank > 4 and context.get("day_of_week", 0) != 0:
+                protocol["type"] = "small"
+                protocol["scope"] = "altar_only"
+                protocol["description"] = "Small censing during the Magnificat"
+                
+            deacon_count = context.get("deacon_count", 1)
+            # If no deacon is present, the priest performs all censing
+            if deacon_count == 0 and protocol.get("who") == "deacon":
+                protocol["who"] = "priest"
+                protocol["description"] = protocol["description"].replace("deacon", "priest").replace("Deacon", "Priest")
+            return {"has_censing": True, "protocol": protocol}
+            
         return {"has_censing": False, "note": "No censing prescribed at this point"}
 
     # --- Phase 21: Ordo Celebrationis Ceremonial Resolvers (2026-05-03) ---
@@ -752,16 +810,29 @@ class CeremonialMixin:
         Implements Logic Gate A9: Inter-Hours Trigger.
         The 'Meshchorie' (Between-Hours) are read only on strict Lenten days.
         """
-        # Logic: 
-        # 1. Must be Lenten Season.
-        # 2. Must be Weekday (Mon-Fri).
-        # 3. NOT on days with Presanctified? Actually Inter-hours usually read on Aliturgical days.
-        #    Dolnytsky: "First Hour with Inter-hour..."
+        from engine.utils.type_utils import parse_rank_integer
         
-        if context.get("season") == "lent" and context.get("day_of_week") in [1,2,3,4,5]:
-             return True
+        is_lent = (
+            context.get("season") == "lent" or 
+            context.get("is_lent") or 
+            (context.get("pascha_offset") is not None and -48 <= context.get("pascha_offset") <= -8)
+        )
+        day_of_week = context.get("day_of_week", 1)
+        rank = parse_rank_integer(context.get("rank", 5))
+        is_presanctified = context.get("is_presanctified", False) or (day_of_week in [3, 5] and is_lent)
+        is_holy_week = context.get("is_holy_week", False) or (context.get("pascha_offset") is not None and -6 <= context.get("pascha_offset") <= -4)
+
+        if not is_lent:
+             return False
              
-        return False
+        if day_of_week in [0, 6]: # Sunday, Saturday
+             return False
+             
+        # Omit on Presanctified / Major feast weekdays except in Holy Week
+        if (is_presanctified or rank <= 3) and not is_holy_week:
+             return False
+             
+        return True
 
     # MODULE A10: HIERARCHY (LITANY LOGIC)
     # ref: Final_Dolnytsky_part5_temple.txt:L2

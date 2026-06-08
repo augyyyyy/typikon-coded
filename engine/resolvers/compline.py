@@ -181,33 +181,28 @@ class ComplineMixin:
         Implements Logic Gate A4: Compline Canon Selector.
         Determines which canon is read at Small Compline.
         """
-        day = context.get("day_of_week")
+        day = context.get("day_of_week", 0)
         
+        # 1. Forefeast / Afterfeast / Feast overrides
         if context.get("is_forefeast"):
              return {"type": "canon", "subject": "forefeast", "book": "menaion", "source": "canon_forefeast"}
+        elif context.get("is_afterfeast") or context.get("is_feast"):
+             return {"type": "canon", "subject": "feast", "book": "menaion", "source": "canon_feast"}
              
-        # 1. Friday Evening (Friday Night / Sat Morning context? No, Compline is Fri Night)
-        # If it is Friday Night (Day 5 triggering Saturday logic? No, Compline belongs to the day ending)
-        # Usually Compline is done 'Before Sleep'.
-        
-        # Logic:
-        # Mon-Thu: Canon to the Theotokos (from Octoechos).
-        # Friday: Canon to the Departed (unless Forefeast?) ? 
-        # Actually Dolnytsky (Final_Dolnytsky_part1_structure.txt:L139) says:
-        # "On periods without Great Feast... Mon, Tue, Wed, Thu -> Canon to Theotokos from Octoechos."
-        # "Friday -> Canon to Jesus Christ (Akathist?) OR Canon of Departed?" 
-        # Let's stick to the common Ruthenian usage:
-        # Fri: Canon to the Departed (usually).
-        
-        if day == 5: # Friday
+        # 2. Friday Night: Canon to the Departed
+        if day == 5:
              return {"type": "canon", "subject": "departed", "book": "octoechos"}
              
-        # Lenten Mode? 
-        if context.get("season") == "lent" and day in [1,2,3,4]:
+        # 3. Lenten Mode weekdays
+        is_lent = (
+            context.get("season") == "lent" or 
+            context.get("is_lent") or 
+            (context.get("pascha_offset") is not None and -48 <= context.get("pascha_offset") <= -8)
+        )
+        if is_lent and day in [1, 2, 3, 4]:
              return {"type": "canon", "subject": "great_canon_segment", "book": "triodion"}
              
-        # Default (Mon-Thu, Sat, Sun): 
-        # Sunday Night (Mon Morning): Canon to Theotokos
+        # Default (Mon-Thu, Sat, Sun nights) -> Canon to the Theotokos
         return {"type": "canon", "subject": "theotokos", "book": "octoechos"}
 
     # MODULE A5: MIDNIGHT OFFICE LOGIC (NOCTURNS)

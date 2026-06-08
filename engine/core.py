@@ -73,6 +73,10 @@ class EngineCore:
 
         self.temple_feast_date = temple_feast_date
         self.trace_log = []
+        
+        # Instantiate resolver registry for logic safety
+        from engine.resolver_registry import ResolverRegistry
+        self.resolver_registry = ResolverRegistry(self.base_dir)
 
         self.assets_map = self._load_json("json_db/03_assets_map.json")
         _comp_data = self._load_json("json_db/00_components.json")

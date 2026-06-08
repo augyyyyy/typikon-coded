@@ -104,6 +104,13 @@ class RubricsMixin:
         Queries the Universal Scenario Registry to determine the specific Liturgical Occasion.
         Returns a Scenario ID (e.g., 'triodion_day_-7' or 'temple_case_17_palm_sunday').
         """
+        # 0. Check for Collisions first (takes highest precedence unless transferred)
+        collision_rule = self.check_collision(context)
+        if collision_rule and collision_rule.get("rubric", {}).get("action") != "TRANSFER_FIXED":
+             feast_name = collision_rule.get("_feast_name", "Feast").replace(" ", "_").lower()
+             movable_day = collision_rule.get("movable_day", "day").lower()
+             return f"collision_{feast_name}_{movable_day}"
+
         offset = context.get("pascha_offset", 0)
         is_temple = context.get("is_temple_feast", False)
         day_of_week = context.get("day_of_week", 0)
@@ -114,15 +121,6 @@ class RubricsMixin:
         triodion_domain = self.scenario_registry.get("domains", {}).get("triodion", {}).get("scenarios", {})
         
         if triodion_key in triodion_domain:
-            # Check for Collisions (e.g. Annunciation on Palm Sunday/Pascha)
-            collision_rule = self.check_collision(context)
-            if collision_rule:
-                 # Construct specialized scenario ID
-                 # e.g. collision_annunciation_great_friday
-                 feast_name = collision_rule.get("_feast_name", "Feast").replace(" ", "_").lower()
-                 movable_day = collision_rule.get("movable_day", "day").lower()
-                 return f"collision_{feast_name}_{movable_day}"
-
             return triodion_key
             
         # 2. TEMPLE FEAST LOOKUP (Dolnytsky Part V)
@@ -212,10 +210,8 @@ class RubricsMixin:
 
         # Testing Bypass (only for unit tests that manually set rank)
         if "rank" in context and "dolnytsky_rank" not in context:
-            try:
-                return int(context["rank"])
-            except:
-                pass # Fall through to calculation if not integer-compatible
+             from engine.utils.type_utils import parse_rank_integer
+             return parse_rank_integer(context["rank"])
 
         # 1. Check Triodion Priority (Highest)
         triodion_prio = context.get("triodion_priority", 0)
@@ -755,6 +751,28 @@ class RubricsMixin:
                     rubrics["overrides"][k] = v
                     rubrics["_trace"].append(f"Collision Override: Set {k}='{v}'.")
         
+        # --- Evaluate Internal Logic Switches ---
+        # e.g., vespers_liturgy_logic_switch
+        switch = rubrics.get("variables", {}).get("vespers_liturgy_logic_switch")
+        if switch:
+            is_match = False
+            if "if_day" in switch:
+                days_map = {"Sunday": 0, "Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5, "Saturday": 6}
+                allowed_days = [days_map.get(d, -1) for d in switch["if_day"]]
+                if context.get("day_of_week") in allowed_days:
+                    is_match = True
+                    
+            target = switch.get("then") if is_match else switch.get("else")
+            if target and isinstance(target, dict):
+                if "merge_logic" in target:
+                    rubrics["overrides"]["liturgy_type"] = target["merge_logic"]
+                    rubrics["overrides"]["vespers_type"] = "structure_suppressed" # or maybe not suppressed here, but the generator does it
+                if "type" in target:
+                    if target["type"] == "standard_liturgy_chrysostom":
+                        rubrics["overrides"]["liturgy_type"] = "liturgy_chrysostom"
+            elif target and isinstance(target, str):
+                rubrics["overrides"]["hours_type"] = target
+
         # Suppress/transfer simple saints from the active context if transferred
         transfer_info = self.resolve_saint_transfer(context, rubrics)
         if transfer_info and transfer_info.get("transferred"):
@@ -843,65 +861,175 @@ class RubricsMixin:
         """
         Resolves troparia and kontakia collision at Minor Hours.
         Citation: Dolnytsky Part I Lines 209-216 (ORDER OF THE USUAL HOURS)
-        
-        The changeable parts are: troparia, kontakia and the commemoration.
-        - If only one troparion: troparion + Glory/Both now Theotokion
-        - If two troparia: first + Glory: second + Both now: Theotokion  
-        - Kontakia rotate: at 1st and 6th one, at 3rd and 9th the other
-        - Sunday: Resurrectional at every Hour
-        - Great Feast: Feast troparion supremacy
         """
-        paradigm = context.get("paradigm", "")
-        rank = context.get("rank", 4)
+        day = context.get("day_of_week", 1)
+        rank = context.get("rank", 5)
+        if isinstance(rank, str):
+            from engine.utils.type_utils import parse_rank_integer
+            rank = parse_rank_integer(rank)
+        else:
+            try:
+                rank = self.calculate_rank(context)
+            except:
+                pass
+
+        is_sunday = day == 0 or context.get("is_sunday_vigil") or "sunday" in context.get("paradigm", "").lower()
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"]
+        )
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
+            is_fore_after = True
+
         saints = context.get("saints", [])
         tone = context.get("tone", 1)
         
         result = {
             "hour_number": hour_num,
             "troparia_sequence": [],
-            "kontakion_winner": None
+            "kontakion_winner": "saint_kontakion"
         }
-        
-        # RULE: Great Feast of Lord - Feast supremacy
-        if paradigm == "p_feast_lord" or rank == 1:
+
+        # Case F: Great Feast of Lord/Theotokos (Rank 1)
+        if rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"]:
             result["troparia_sequence"] = [
                 {"type": "feast", "target": "feast_troparion"},
                 {"type": "glory_both_now", "target": "feast_theotokion"}
             ]
             result["kontakion_winner"] = "feast_kontakion"
             return result
-            
-        # RULE: Sunday - Resurrectional at every hour
-        # FIX: Also check is_sunday_vigil for Saturday Vigil
-        if paradigm == "p1_sunday_resurrection" or context.get("day_of_week") == 0 or context.get("is_sunday_vigil"):
-            # If there's a saint, add at Glory
-            if saints:
+
+        # Case E: Weekday + Polyeleos/Vigil Saint (Rank <= 3 on weekday)
+        if not is_sunday and rank <= 3:
+            name = saints[0].get("name", "") if saints else "Saint"
+            result["troparia_sequence"] = [
+                {"type": "saint", "name": name},
+                {"type": "glory_both_now", "target": "dismissal_theotokion"}
+            ]
+            result["kontakion_winner"] = "saint_kontakion"
+            return result
+
+        # Case D: Sunday + Afterfeast + Major Saint
+        if is_sunday and is_fore_after and rank <= 3:
+            name = saints[0].get("name", "") if saints else "Saint"
+            if hour_num in [1, 6]:
                 result["troparia_sequence"] = [
                     {"type": "resurrectional", "tone": tone},
-                    {"type": "glory", "target": {"type": "saint", "name": saints[0].get("name", "")}},
+                    {"type": "glory", "target": {"type": "feast", "name": "Feast"}},
                     {"type": "both_now", "target": "theotokion"}
                 ]
             else:
                 result["troparia_sequence"] = [
                     {"type": "resurrectional", "tone": tone},
+                    {"type": "glory", "target": {"type": "saint", "name": name}},
+                    {"type": "both_now", "target": "theotokion"}
+                ]
+            
+            if hour_num in [1, 9]:
+                result["kontakion_winner"] = "resurrection_kontakion"
+            elif hour_num == 3:
+                result["kontakion_winner"] = "feast_kontakion"
+            elif hour_num == 6:
+                result["kontakion_winner"] = "saint_kontakion"
+            return result
+
+        # Case C: Sunday + Afterfeast (simple or no saint)
+        if is_sunday and is_fore_after:
+            name = saints[0].get("name", "") if saints else ""
+            if hour_num in [1, 6]:
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
+                    {"type": "glory", "target": {"type": "feast", "name": "Feast"}},
+                    {"type": "both_now", "target": "theotokion"}
+                ]
+                result["kontakion_winner"] = "feast_kontakion"
+            else:
+                target_type = "saint" if name else "feast"
+                target_name = name if name else "Feast"
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
+                    {"type": "glory", "target": {"type": target_type, "name": target_name}},
+                    {"type": "both_now", "target": "theotokion"}
+                ]
+                result["kontakion_winner"] = "resurrection_kontakion"
+            return result
+
+        # Case A: Sunday + Simple/Double Saint (Ordinary Sunday)
+        if is_sunday:
+            if not saints:
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
                     {"type": "glory_both_now", "target": "theotokion"}
                 ]
-            result["kontakion_winner"] = "resurrection_kontakion"
+                result["kontakion_winner"] = "resurrection_kontakion"
+                return result
+            if hour_num == 1:
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
+                    {"type": "glory_both_now", "target": "theotokion"}
+                ]
+                result["kontakion_winner"] = "resurrection_kontakion"
+            elif hour_num == 3:
+                name = saints[0].get("name", "") if saints else "Saint"
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
+                    {"type": "glory", "target": {"type": "saint", "name": name}},
+                    {"type": "both_now", "target": "theotokion"}
+                ]
+                result["kontakion_winner"] = "saint_kontakion"
+            elif hour_num == 6:
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
+                    {"type": "glory", "target": {"type": "temple"}},
+                    {"type": "both_now", "target": "theotokion"}
+                ]
+                result["kontakion_winner"] = "temple_kontakion"
+            elif hour_num == 9:
+                name = saints[1].get("name", saints[0].get("name", "Saint")) if saints else "Saint"
+                result["troparia_sequence"] = [
+                    {"type": "resurrectional", "tone": tone},
+                    {"type": "glory", "target": {"type": "saint", "name": name}},
+                    {"type": "both_now", "target": "theotokion"}
+                ]
+                if len(saints) >= 2:
+                    result["kontakion_winner"] = "saint_kontakion_2"
+                else:
+                    result["kontakion_winner"] = "resurrection_kontakion"
             return result
-            
-        # DEFAULT: Weekday with saint
-        if saints:
+
+        # Case B: Weekday + Simple Saint (Ordinary Weekday)
+        if hour_num == 1:
             result["troparia_sequence"] = [
-                {"type": "saint", "name": saints[0].get("name", "")},
-                {"type": "glory_both_now", "target": "dismissal_theotokion"}
-            ]
-            result["kontakion_winner"] = "saint_kontakion"
-        else:
-            result["troparia_sequence"] = [
-                {"type": "weekday", "day": context.get("day_of_week", 1)},
+                {"type": "weekday", "day": day},
                 {"type": "glory_both_now", "target": "dismissal_theotokion"}
             ]
             result["kontakion_winner"] = "weekday_kontakion"
+        elif hour_num == 3:
+            name = saints[0].get("name", "") if saints else "Saint"
+            result["troparia_sequence"] = [
+                {"type": "saint", "name": name},
+                {"type": "glory_both_now", "target": "dismissal_theotokion"}
+            ]
+            result["kontakion_winner"] = "saint_kontakion"
+        elif hour_num == 6:
+            result["troparia_sequence"] = [
+                {"type": "temple"},
+                {"type": "glory_both_now", "target": "dismissal_theotokion"}
+            ]
+            result["kontakion_winner"] = "temple_kontakion"
+        elif hour_num == 9:
+            name = saints[1].get("name", saints[0].get("name", "Saint")) if saints else "Saint"
+            result["troparia_sequence"] = [
+                {"type": "saint", "name": name},
+                {"type": "glory_both_now", "target": "dismissal_theotokion"}
+            ]
+            if len(saints) >= 2:
+                result["kontakion_winner"] = "saint_kontakion_2"
+            else:
+                result["kontakion_winner"] = "saint_kontakion"
             
         return result
 

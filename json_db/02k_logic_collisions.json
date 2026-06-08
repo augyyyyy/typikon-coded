@@ -436,6 +436,7 @@
             "liturgy_type": "Chrysostom",
             "notes": "Gospel Feast read after 6th Ode of Matins or at Liturgy? Dolnytsky: Gospel of Feast at Matins after 6th. Liturgy: Gospel Day + Feast.",
             "variables": {
+              "matins_canon_description": "Paschal Canon with irmos on 8 and of the Annunciation with irmos on 8",
               "matins_canon_distribution": {
                 "distribution": [
                   {

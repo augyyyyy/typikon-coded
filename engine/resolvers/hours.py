@@ -63,21 +63,96 @@ class HoursMixin:
         if context.get("hours_troparia"):
             return context.get("hours_troparia")
             
-        hour = context.get("hour")
-        if context.get("is_lent"):
-             # Mode A: Lenten
-             # Hardcoded minimal content for verification
-             content_map = {
-                 6: "O Thou Who on the sixth day",
-                 9: "O Thou Who at the ninth hour"
-             }
-             return {"mode": "lenten", "content": content_map.get(hour, "Lenten Troparion")}
-             
-        # Mode B: Standard
-        is_sunday = context.get("day_of_week") == 0 or context.get("is_sunday_vigil")
-        if is_sunday and context.get("is_fore_or_afterfeast"):
-            return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_feast"]}
-        return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint"]}
+        hour = context.get("hour", 1)
+        if context.get("is_lent") or context.get("season") == "lent":
+             # Lenten Mode (weekdays only)
+             day = context.get("day_of_week", 1)
+             if day not in [0, 6]:
+                 content_map = {
+                     1: "O order my steps",
+                     3: "O Lord, Who at the third hour",
+                     6: "O Thou Who on the sixth day",
+                     9: "O Thou Who at the ninth hour"
+                 }
+                 return {"mode": "lenten", "content": content_map.get(hour, "Lenten Troparion")}
+
+        # Determine rank
+        rank = context.get("rank", 5)
+        if isinstance(rank, str):
+            from engine.utils.type_utils import parse_rank_integer
+            rank = parse_rank_integer(rank)
+        else:
+            try:
+                rank = self.calculate_rank(context)
+            except:
+                pass
+
+        is_sunday = context.get("day_of_week") == 0 or context.get("is_sunday_vigil") or "sunday" in context.get("paradigm", "").lower()
+        
+        # Check for Forefeast / Afterfeast / Apodosis period
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"]
+        )
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
+            is_fore_after = True
+
+        saints = context.get("saints", [])
+
+        # Case F: Great Feast of Lord/Theotokos (Rank 1)
+        if rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"]:
+            return {"mode": "standard", "components": ["trop_feast"]}
+
+        # Case E: Weekday + Polyeleos/Vigil Saint (Rank <= 3 on weekday)
+        if not is_sunday and rank <= 3:
+            return {"mode": "standard", "components": ["trop_saint"]}
+
+        # Case D & C: Sunday + Fore/Afterfeast
+        if is_sunday and is_fore_after:
+            if rank <= 3:  # Major Saint during Afterfeast
+                if hour in [1, 6]:
+                    return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_feast"]}
+                else:
+                    return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint"]}
+            else:  # Simple Saint or no Saint during Afterfeast
+                if hour in [1, 6]:
+                    return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_feast"]}
+                else:
+                    target_trop = "trop_saint" if saints else "trop_feast"
+                    return {"mode": "standard", "components": ["trop_resurrection", "glory", target_trop]}
+
+        # Case A: Sunday + Simple/Double Saint (Ordinary Sunday)
+        if is_sunday:
+            if not saints:
+                return {"mode": "standard", "components": ["trop_resurrection"]}
+            if hour == 1:
+                return {"mode": "standard", "components": ["trop_resurrection"]}
+            elif hour == 3:
+                return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint"]}
+            elif hour == 6:
+                return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_temple"]}
+            elif hour == 9:
+                if len(saints) >= 2:
+                    return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint_2"]}
+                else:
+                    return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint"]}
+
+        # Case B: Weekday + Simple Saint (Ordinary Weekday)
+        if hour == 1:
+            return {"mode": "standard", "components": ["trop_day"]}
+        elif hour == 3:
+            return {"mode": "standard", "components": ["trop_saint"]}
+        elif hour == 6:
+            return {"mode": "standard", "components": ["trop_temple"]}
+        elif hour == 9:
+            if len(saints) >= 2:
+                return {"mode": "standard", "components": ["trop_saint_2"]}
+            return {"mode": "standard", "components": ["trop_saint"]}
+
+        return {"mode": "standard", "components": ["trop_day"]}
 
 
     def resolve_hours_kontakion(self, context, rubrics):
@@ -93,18 +168,87 @@ class HoursMixin:
             elif isinstance(overridden, str):
                 return {"type": "kontakion", "source": overridden}
             
-        hour = str(context.get("hour"))
-        day = context.get("day_of_week")
-        rank = self.calculate_rank(context)
+        hour = context.get("hour", 1)
+        day = context.get("day_of_week", 1)
         
-        # Sundays with Collision (Rank 3+)
-        if day == 0 and rank >= 3:
-             rotation = self.hours_logic.get("rotation_logic", {}).get("sunday_collision", {})
-             source = rotation.get(hour, "saint_or_feast")
-             return {"type": "kontakion", "source": source}
-             
-        # Default
-        return {"type": "kontakion", "source": "saint_or_feast"}
+        # Determine rank
+        rank = context.get("rank", 5)
+        if isinstance(rank, str):
+            from engine.utils.type_utils import parse_rank_integer
+            rank = parse_rank_integer(rank)
+        else:
+            try:
+                rank = self.calculate_rank(context)
+            except:
+                pass
+
+        is_sunday = day == 0 or context.get("is_sunday_vigil") or "sunday" in context.get("paradigm", "").lower()
+        
+        # Check for Forefeast / Afterfeast / Apodosis period
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"]
+        )
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
+            is_fore_after = True
+
+        saints = context.get("saints", [])
+
+        # Case F: Great Feast of Lord/Theotokos (Rank 1)
+        if rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"]:
+            return {"type": "kontakion", "source": "feast"}
+
+        # Case E: Weekday + Polyeleos/Vigil Saint (Rank <= 3 on weekday)
+        if not is_sunday and rank <= 3:
+            return {"type": "kontakion", "source": "saints"}
+
+        # Case D: Sunday + Afterfeast + Polyeleos/Vigil Saint
+        if is_sunday and is_fore_after and rank <= 3:
+            if hour in [1, 9]:
+                return {"type": "kontakion", "source": "resurrection"}
+            elif hour == 3:
+                return {"type": "kontakion", "source": "feast"}
+            elif hour == 6:
+                return {"type": "kontakion", "source": "saints"}
+            elif hour == 9:
+                return {"type": "kontakion", "source": "resurrection"}
+
+        # Case C: Sunday + Afterfeast (simple or no saint)
+        if is_sunday and is_fore_after:
+            if hour in [1, 6]:
+                return {"type": "kontakion", "source": "feast"}
+            else:
+                return {"type": "kontakion", "source": "resurrection"}
+
+        # Case A: Sunday + Simple/Double Saint (Ordinary Sunday)
+        if is_sunday:
+            if not saints:
+                return {"type": "kontakion", "source": "resurrection"}
+            if hour in [1, 9]:
+                if hour == 9 and len(saints) >= 2:
+                    return {"type": "kontakion", "source": "saints_2"}
+                return {"type": "kontakion", "source": "resurrection"}
+            elif hour == 3:
+                return {"type": "kontakion", "source": "saints"}
+            elif hour == 6:
+                return {"type": "kontakion", "source": "temple"}
+
+        # Case B: Weekday + Simple Saint (Ordinary Weekday)
+        if hour == 1:
+            return {"type": "kontakion", "source": "triodion" if context.get("season") == "lent" else "day"}
+        elif hour == 3:
+            return {"type": "kontakion", "source": "saints"}
+        elif hour == 6:
+            return {"type": "kontakion", "source": "temple"}
+        elif hour == 9:
+            if len(saints) >= 2:
+                return {"type": "kontakion", "source": "saints_2"}
+            return {"type": "kontakion", "source": "saints"}
+
+        return {"type": "kontakion", "source": "saints"}
 
 
     def resolve_hours_theotokion(self, context, rubrics):
@@ -303,7 +447,7 @@ class HoursMixin:
     def apply_lenten_hours_rules(self, context):
         """
         Implements Logic Gate A2: Lenten Hours Transformation.
-        Switches the Hours from 'Festal/Sunday' mode to ' Penitential' mode.
+        Switches the Hours from 'Festal/Sunday' mode to 'Penitential' mode.
         """
         is_lent = context.get("season") == "lent"
         day = context.get("day_of_week")
@@ -314,34 +458,44 @@ class HoursMixin:
         if not is_lent or is_weekend:
              return {"mode": "standard"}
              
+        # Determine rank
+        rank = context.get("rank", 5)
+        if isinstance(rank, str):
+            from engine.utils.type_utils import parse_rank_integer
+            rank = parse_rank_integer(rank)
+        else:
+            try:
+                rank = self.calculate_rank(context)
+            except:
+                pass
+
+        if rank <= 3:
+             return {"mode": "standard"}
+
         # Lenten Mode Active
-        # Changes:
-        # 1. Troparion of the Day is replaced by the Fixed Lenten Troparion of the Hour (with prostrations).
-        # 2. The Kontakion is replaced by the "Kontakion of the Transfiguration" (Wait, no, it's "To Thee the Champion Leader" or specific Hypsipistis?)
-        #    Actual Check: Dolnytsky says "On Lenten weekdays... we read the Idiomelon of the Hour..."
-        
         return {
             "mode": "lenten",
             "troparion_override": "lenten_troparion_fixed",
             "insertions": ["prayer_st_ephrem_3x"],
-            "kontakion_replacement": "horologion.kontakion_theotokos_unfailing" # "To Thee the Champion Leader" often used
+            "kontakion_replacement": "horologion.kontakion_theotokos_unfailing"
         }
 
     # MODULE A6: TYPIKA ENGINE
     # ref: Final_Dolnytsky_part3_menaion.txt:L801
-
 
     def resolve_typika_beatitudes(self, context):
         """
         Implements Logic Gate A6: Typika Beatitudes Mapper.
         Resolves which hymns are sung at the Beatitudes (`Blazhenna`).
         """
+        from engine.utils.type_utils import parse_rank_integer
         paradigm = context.get("paradigm", "p1_sunday_resurrection")
-        rank = context.get("rank", 4)
+        rank = parse_rank_integer(context.get("rank", 5))
         tone = context.get("tone", 1)
+        day_of_week = context.get("day_of_week", 0)
         
         # 1. Great Feasts (Rank 1): 4 from Ode 3 + 4 from Ode 6
-        if rank == 1:
+        if rank == 1 or paradigm == "p_feast_lord" or paradigm == "p_feast_theotokos":
              return {
                  "type": "beatitudes_stack",
                  "source_1": {"book": "menaion", "location": "ode_3", "count": 4},
@@ -352,10 +506,8 @@ class HoursMixin:
         # Standard: 8 Resurrectional (Octoechos).
         # Sunday + Polyeleos: 4 Res + 4 Saint (Ode 6).
         # Sunday + Feast (Theotokos): 4 Res + 4 Feast (Ode 6).
-        
-        if paradigm.startswith("p1_sunday"):
-             has_polyeleos = (rank <= 3)
-             if has_polyeleos:
+        if paradigm.startswith("p1_sunday") or day_of_week == 0:
+             if rank <= 3:
                   return {
                       "type": "beatitudes_stack",
                       "source_1": {"book": "octoechos", "tone": tone, "count": 4},
@@ -367,10 +519,16 @@ class HoursMixin:
                       "type": "beatitudes_stack",
                       "source_1": {"book": "octoechos", "tone": tone, "count": 8}
                   }
-                  
-        # 3. Simple Weekday Typika? (Rare, usually Liturgy)
-        # If Typika served on weekday w/o Polyeleos:
-        # Usually regular Octoechos or specific psalmody.
+                   
+        # 3. Weekday with Major Saint (Rank <= 3)
+        if rank <= 3:
+             return {
+                 "type": "beatitudes_stack",
+                 "source_1": {"book": "menaion", "location": "ode_3", "count": 4},
+                 "source_2": {"book": "menaion", "location": "ode_6", "count": 4}
+             }
+
+        # 4. Ordinary Weekday
         return {
             "type": "beatitudes_stack",
             "source_1": {"book": "octoechos", "tone": tone, "count": 6} # Fallback
@@ -379,17 +537,17 @@ class HoursMixin:
     # MODULE A4: COMPLINE LOGIC
     # ref: Final_Dolnytsky_part1_structure.txt:L139
 
-
     def resolve_midnight_office_mode(self, context):
         """
         Implements Logic Gate A5: Nocturns Mode Selector.
         """
-        day = context.get("day_of_week")
+        day = context.get("day_of_week", 1)
         t_period = context.get("triodion_period", "")
         title = context.get("title", "").upper()
         
         # 0. Pascha (Midnight Office = Shroud Service)
-        if t_period == "pascha" or "PASCHA" in title:
+        is_pascha = context.get("is_pascha", False) or t_period == "pascha" or "PASCHA" in title or context.get("pascha_offset") == 0
+        if is_pascha or context.get("pascha_offset") == -1:
              return {
                  "mode": "paschal_nocturns",
                  "readings": "canon_holy_saturday",
@@ -414,10 +572,15 @@ class HoursMixin:
              
         # 3. Weekday (Mon-Fri)
         else:
+             is_lent = (
+                 context.get("season") == "lent" or 
+                 context.get("is_lent") or 
+                 (context.get("pascha_offset") is not None and -48 <= context.get("pascha_offset") <= -8)
+             )
              return {
                  "mode": "daily",
                  "readings": "psalm_118",
-                 "troparia": "behold_the_bridegroom"
+                 "troparia": "behold_the_bridegroom" if is_lent else "daily_troparia_stack"
              }
 
     # MODULE A8: VIGIL COMMONS (LITYA & ARTOKLASIA)
@@ -431,20 +594,29 @@ class HoursMixin:
         Determines if the Standard Hours are replaced by Royal Hours.
         """
         month, day, weekday = context.get("month"), context.get("day"), context.get("day_of_week")
+        pascha_offset = context.get("pascha_offset")
         
-        if context.get("triodion_period") == "holy_friday":
+        if pascha_offset == -2 or context.get("triodion_period") == "holy_friday":
              return True
              
-        # Nativity Eve (Dec 24, or Dec 22 if Dec 24 is Sat/Sun)
-        if (month == 12 and day == 24 and weekday not in [0, 6]) or \
-           (month == 12 and day == 22 and weekday == 5):
-             return True
+        # Nativity Eve (Dec 24, or Dec 22/23 if Dec 24 is Sun/Sat)
+        if month == 12:
+            if day == 24 and weekday not in [0, 6]:
+                 return True
+            if day == 23 and weekday == 5: # Dec 24 is Saturday, so Friday is Dec 23
+                 return True
+            if day == 22 and weekday == 5: # Dec 24 is Sunday, so Friday is Dec 22
+                 return True
              
-        # Theophany Eve (Jan 5, or Jan 3 if Jan 5 is Sat/Sun)
-        if (month == 1 and day == 5 and weekday not in [0, 6]) or \
-           (month == 1 and day == 3 and weekday == 5):
-             return True
-             
+        # Theophany Eve (Jan 5, or Jan 3/4 if Jan 5 is Sun/Sat)
+        if month == 1:
+            if day == 5 and weekday not in [0, 6]:
+                 return True
+            if day == 4 and weekday == 5: # Jan 5 is Saturday, so Friday is Jan 4
+                 return True
+            if day == 3 and weekday == 5: # Jan 5 is Sunday, so Friday is Jan 3
+                 return True
+              
         title = context.get("title", "").lower()
         if context.get("is_paramony", False) or "paramony" in title or "eve of" in title:
              return True
@@ -460,8 +632,12 @@ class HoursMixin:
         Resolves Troparia for Midnight Office.
         Fixes empty list issue in Lenten trace.
         """
-        is_lent = context.get("season") == "lent"
-        day = context.get("day_of_week")
+        is_lent = (
+            context.get("season") == "lent" or 
+            context.get("is_lent") or 
+            (context.get("pascha_offset") is not None and -48 <= context.get("pascha_offset") <= -8)
+        )
+        day = context.get("day_of_week", 1)
         
         if day == 0:
             return {

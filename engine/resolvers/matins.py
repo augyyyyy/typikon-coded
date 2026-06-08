@@ -1,4 +1,5 @@
 from engine.core import liturgical_source
+from engine.utils.type_utils import parse_rank_integer
 """
 Ruthenian Engine - MatinsMixin
 Extracted from ruthenian_engine.py during Phase 1 modularization.
@@ -259,7 +260,7 @@ class MatinsMixin:
             
         # 2. Saint Overrides (Polyeleos+)
         saints = context.get("saints", [])
-        has_polyeleos = any(s.get("rank", 5) <= 3 for s in saints)
+        has_polyeleos = any(parse_rank_integer(s.get("rank", 5)) <= 3 for s in saints)
         
         if has_polyeleos:
             # Polyeleos Logic (Rank 3+) ... (Existing logic)
@@ -405,7 +406,7 @@ class MatinsMixin:
             if not any(w in s.get("name", "").lower() for w in ["forefeast", "afterfeast", "prefeast", "postfeast", "apodosis", "meeting", "encounter", "leave-taking"])
         ]
         saint_count = len(actual_saints)
-        has_saint_polyeleos = any(s.get("rank", 5) <= 3 for s in actual_saints)
+        has_saint_polyeleos = any(parse_rank_integer(s.get("rank", 5)) <= 3 for s in actual_saints)
         
         selected_rule = None
         
@@ -545,7 +546,7 @@ class MatinsMixin:
         order.append("kathismata")
         order.append("polyeleos")
         
-        rank = context.get("rank", self.calculate_rank(context))
+        rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
         day = context.get("day_of_week", 0) # Default Sunday
         
         if day == 0: # Sunday
@@ -615,7 +616,7 @@ class MatinsMixin:
         if context.get("is_sunday_vigil") or context.get("is_sunday"):
             return {"mode": "sung"}
 
-        rank = context.get("rank", self.calculate_rank(context))
+        rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
         if rank <= 3:
             return {"mode": "sung"}
         return {"mode": "read"}
@@ -709,7 +710,7 @@ class MatinsMixin:
         - False on Lenten Weekdays
         """
         # Check for major feast
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         if rank <= 3:  # Polyeleos rank or higher
             return True
         
@@ -762,7 +763,7 @@ class MatinsMixin:
 
     def _get_magnification(self, context):
         """Helper for Polyeleos magnification text."""
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         if rank == 1:  # Great Feast of Lord
             return f"magnification_feast_{context.get('feast_id', 'generic')}"
         elif rank == 2:  # Theotokos Feast
@@ -783,7 +784,7 @@ class MatinsMixin:
         Citation: Dolnytsky Part I Line 157
         """
         day_of_week = context.get('day_of_week', 0)
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         eothinon = context.get('eothinon', 1)
         
         # Great Feast overrides
@@ -857,7 +858,7 @@ class MatinsMixin:
         'Holy is the Lord our God' (3)."
         """
         day_of_week = context.get('day_of_week', 0)
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         season = context.get('season_id', '')
         
         # Special: Bright Week (Paschal season) skips both
@@ -908,7 +909,7 @@ class MatinsMixin:
         if not self.check_polyeleos(context):
             return {"type": "none", "text": None}
         
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         
         # If Great Feast or Polyeleos Saint, use Magnification
         if rank <= 3:  # Great Feast, Theotokos Feast, Polyeleos Saint
@@ -973,7 +974,7 @@ class MatinsMixin:
         
         Citation: Dolnytsky Part I Lines 157-159, Part II Line 267
         """
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         day_of_week = context.get('day_of_week', 0)
         
         # Great Feast: Always Great Doxology
@@ -1083,7 +1084,7 @@ class MatinsMixin:
         
         Citation: Dolnytsky Part I Line 157, Appendix Line 205
         """
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         day_of_week = context.get('day_of_week', 0)
         feast_id = context.get('feast_id', '')
         season = context.get('season', 'ordinary')
@@ -1263,7 +1264,7 @@ class MatinsMixin:
         
         Citation: Dolnytsky Part I Line 159
         """
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         day_of_week = context.get('day_of_week', 0)
         
         troparia = []
@@ -1416,7 +1417,7 @@ class MatinsMixin:
         Returns False for simple Weekdays (Daily Matins).
         """
         day = context.get("day_of_week") # 0=Sunday
-        rank = context.get("rank", 0) # 0=Simple, ...
+        rank = parse_rank_integer(context.get("rank", 0)) # 0=Simple, ...
         
         # Sundays always have Gospel
         if day == 0:
@@ -1539,25 +1540,25 @@ class MatinsMixin:
     def resolve_dismissal_theotokion(self, context):
         """
         Dismissal Theotokion at Matins.
+        Citation: Dolnytsky Part II — Theotokion Matrix.
         
         The Theotokion sung after the Dismissal Troparion at the end of Matins.
-        Varies by:
-        - Tone of the service
-        - Day of week (weekday set vs Sunday set)
-        - Presence of saints (uses saint's tone)
-        
-        Citation: Dolnytsky Part I Line 204, Part II Line 195
+        Rules:
+        1. Great Feasts: None (or Festal Theotokion).
+        2. Vigil/Polyeleos/Great Doxology: Resurrectional Theotokion in the tone of the preceding Troparion.
+        3. Six Stichera / Simple: Daily Theotokion of the current tone and day of week.
+        4. Sunday: Resurrectional Theotokion of the tone of the week.
         """
         tone = context.get('tone', context.get('octoechos_tone', 1))
         day_of_week = context.get('day_of_week', 0)
         d_rank = context.get('dolnytsky_rank', '')
-        rank = context.get('rank', 5)
+        rank = parse_rank_integer(context.get('rank', 5))
         
         # Map day of week to name
         day_names = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
         weekday = day_names[day_of_week] if day_of_week < len(day_names) else 'monday'
         
-        # Great Feast: Festal Theotokion (if Theotokos feast) or no separate Theotokion
+        # 1. Great Feast: Festal Theotokion (if Theotokos feast) or no separate Theotokion
         if d_rank in ("LORD", "THEOTOKOS", "MOG") or rank == 1:
             feast_id = context.get('feast_id', '')
             return {
@@ -1567,18 +1568,41 @@ class MatinsMixin:
                 "rubric_note": "Great Feast Dismissal Theotokion"
             }
         
-        # Sunday: Resurrectional Theotokion of the tone
-        if day_of_week == 0:
+        # 2. Sunday: Resurrectional Theotokion of the tone
+        if day_of_week == 0 or context.get('is_sunday_vigil'):
             return {
                 "type": "sunday_dismissal_theotokion",
                 "ref_key": f"octoechos.dismissal_theotokion.sunday.tone_{tone}",
                 "tone": tone,
                 "rubric_note": f"Resurrectional Theotokion (Tone {tone})"
             }
+
+        # 3. Vigil, Polyeleos, Great Doxology on Weekday (Rank 2, 3, 4)
+        # Uses Resurrectional Theotokion in the tone of the Saint's Troparion
+        if rank <= 4:
+            saints = context.get("saints", [])
+            saint_tone = saints[0].get("tone", 1) if saints else tone
+            return {
+                "type": "resurrectional_dismissal_theotokion",
+                "ref_key": f"octoechos.dismissal_theotokion.sunday.tone_{saint_tone}",
+                "tone": saint_tone,
+                "rubric_note": f"Resurrectional Theotokion in Tone of Saint (Tone {saint_tone})"
+            }
+
+        # 4. Six Stichera / Simple Rank Weekday (Rank 5, 6)
+        # Uses the Daily Dismissal Theotokion based on Tone of the Week and Day of Week
         
-        # Weekday: Dismissal Theotokion by tone AND day
-        # Citation: Final_Dolnytsky_part1_structure.txt:L62
-        # in a tone × day matrix (8 tones × 6 weekdays)
+        # Exception for Wednesday and Friday: Stavrotheotokion
+        if day_of_week in [3, 5] and not context.get("is_lent"):
+            return {
+                "type": "weekday_dismissal_stavrotheotokion",
+                "ref_key": f"horologion.theotokion_dismissal.tone_{tone}.{weekday}",
+                "day_of_week": day_of_week,
+                "tone": tone,
+                "rubric_note": f"Dismissal Stavrotheotokion (Tone {tone}, {weekday.capitalize()})"
+            }
+
+        # Normal Daily Theotokion
         return {
             "type": "weekday_dismissal_theotokion",
             "ref_key": f"horologion.theotokion_dismissal.tone_{tone}.{weekday}",
@@ -1627,7 +1651,8 @@ class MatinsMixin:
             return {"total": total, "distribution": dist}
 
         day_of_week = context.get('day_of_week', 1)
-        rank = context.get('rank', 5)
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get('rank', 5))
         
         if day_of_week == 0:
             if rank == 1:
@@ -1640,9 +1665,11 @@ class MatinsMixin:
                 return {"total": 12, "resurrection": 4, "cross_resurrection": 2, "theotokos": 4, "saint": 2, "description": "Simple Sunday"}
         
         if rank <= 3:
-            return {"total": 12, "octoechos": 4, "saint": 8, "description": "Weekday + Polyeleos Saint"}
+            return {"total": 14, "octoechos": 6, "saint": 8, "description": "Weekday + Polyeleos Saint"}
+        elif rank == 4:
+            return {"total": 14, "octoechos": 8, "saint": 6, "description": "Weekday + Saint on 6"}
         else:
-            return {"total": 12, "octoechos": 8, "saint": 4, "description": "Weekday + Simple Saint"}
+            return {"total": 14, "octoechos": 10, "saint": 4, "description": "Weekday + Simple Saint on 4"}
 
 
     @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L101,L163")

@@ -398,7 +398,8 @@
           "id": "vespers_start",
           "type": "link",
           "target_file": "01h_struct_vespers.json",
-          "target_id": "great_vespers_vigil"
+          "target_id": "great_vespers_vigil",
+          "stop_after_component": "entrance_great"
         },
         {
           "id": "vesperal_readings_extended",
@@ -427,6 +428,49 @@
           "type": "link",
           "target_file": "01j_struct_liturgy.json",
           "target_id": "liturgy_basil",
+          "start_at_component": "trisagion_module"
+        }
+      ]
+    },
+    "liturgy_chrysostom_vesperal": {
+      "title_key": "titles.vesperal_chrysostom",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L358",
+      "description": "Structural bridge for Annunciation on Great Friday.",
+      "sequence": [
+        {
+          "id": "vespers_start",
+          "type": "link",
+          "target_file": "01h_struct_vespers.json",
+          "target_id": "great_vespers_vigil",
+          "stop_after_component": "entrance_great"
+        },
+        {
+          "id": "vesperal_readings_extended",
+          "rubric": {
+            "key": "rubrics.vespers.extended_readings_count"
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_vesperal_liturgy_readings"
+            }
+          }
+        },
+        {
+          "id": "small_litany_merge",
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_small"
+          }
+        },
+        {
+          "id": "liturgy_transition",
+          "rubric": {
+            "key": "rubrics.vesperal.transition_to_liturgy"
+          },
+          "type": "link",
+          "target_file": "01j_struct_liturgy.json",
+          "target_id": "liturgy_chrysostom",
           "start_at_component": "trisagion_module"
         }
       ]

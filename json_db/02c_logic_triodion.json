@@ -293,7 +293,7 @@
         "pascha_offset": -21
       },
       "priority": 80,
-      "title": "4th Sunday of Great Lent",
+      "title": "4th Sunday of Great Lent (St. John Climacus)",
       "variables": {
         "liturgy_type": "liturgy_basil",
         "text_key": "fourth_sunday_of_the_great_fast",
@@ -319,7 +319,7 @@
         "pascha_offset": -14
       },
       "priority": 80,
-      "title": "5th Sunday of Great Lent",
+      "title": "5th Sunday of Great Lent (St. Mary of Egypt)",
       "variables": {
         "liturgy_type": "liturgy_basil",
         "text_key": "fifth_sunday_of_the_great_fast",

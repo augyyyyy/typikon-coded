@@ -1667,71 +1667,85 @@
         "source": "Stamford"
     },
     "pentecostarion.christ_is_risen_3x": {
-        "content": {
-            "en": "[STUB] Christ is risen! (3x)"
-        },
-        "_stub": true,
+        "content": "Christ is risen from the dead, trampling down death by death, and upon those in the tombs bestowing life (3x).",
+        "_stub": false,
         "_description": "Christ is risen! (3x)",
         "source": "Stamford"
     },
     "pentecostarion.dismissal_paschal_full": {
-        "content": {
-            "en": "[STUB] May He who rose from the dead..."
-        },
-        "_stub": true,
+        "content": "Priest: Glory to You, O Christ, our God, our hope, glory be to You.\nChoir: Christ is risen from the dead, trampling death by death, and to those in the tombs giving life! Lord, have mercy (3x). Give the blessing.\nPriest: May Christ our true God, who is risen from the dead, trampling death by death and to those in the tombs giving life, through the prayers of His most pure Mother and of all the saints, have mercy on us and save us, for He is good and loves mankind.\nChoir: Amen.",
+        "_stub": false,
         "_description": "May He who rose from the dead...",
         "source": "Stamford"
     },
     "pentecostarion.dismissal_paschal_hours": {
-        "content": {
-            "en": "[STUB] Paschal Hours Dismissal"
-        },
-        "_stub": true,
+        "content": "Lord, have mercy (40 times).\nGlory... Now...\nMore honorable than the Cherubim...\nIn the name of the Lord, Father, bless.\nPriest: Through the prayers of our holy fathers...\nChoir: Amen.\nPriest: Christ is risen... (3x)\nGlory... Now... Lord have mercy (3x), Give the blessing.",
+        "_stub": false,
         "_description": "Paschal Hours Dismissal",
         "source": "Stamford"
     },
     "pentecostarion.having_beheld_resurrection_3x": {
-        "content": {
-            "en": "[STUB] Having beheld the resurrection... (3x)"
-        },
-        "_stub": true,
+        "content": "Having beheld the resurrection of Christ, let us adore the holy Lord Jesus Who alone is sinless. We bow to Your cross, O Christ, and we praise and glorify Your holy resurrection. You are our God and besides You we recognize no other, and we invoke Your name. Come, all you faithful, and let us bow to the holy resurrection of Christ, since, through the cross, joy has come to all the world. Ever praising the Lord, let us extol His resurrection, since He, having endured the crucifixion, has destroyed Death by His death (3x).",
+        "_stub": false,
         "_description": "Having beheld the resurrection... (3x)",
         "source": "Stamford"
     },
     "pentecostarion.hypakoe_pascha": {
-        "content": {
-            "en": "[STUB] Paschal Hypakoe"
-        },
-        "_stub": true,
+        "content": "The women with Mary, before the dawn, found the stone rolled away from the tomb, and they heard the angel say: Why do you seek among the dead, as a mortal, the One Who abides in everlasting light? Behold the linens of burial. Go in haste and proclaim to the world that, having conquered Death, the Lord is risen; for He is the Son of God, and Savior of mankind.",
+        "_stub": false,
         "_description": "Paschal Hypakoe",
         "source": "Stamford"
     },
     "pentecostarion.kontakion_pascha": {
-        "content": {
-            "en": "[STUB] Though Thou didst descend into the grave..."
-        },
-        "_stub": true,
-        "_description": "Though Thou didst descend into the grave...",
+        "content": "Although You descended into the grave, O immortal One, You destroyed the power of Death. You arose again as a victor, O Christ God. You announced to the women bearing ointment: Rejoice! You gave peace to Your apostles and resurrection to the fallen.",
+        "_stub": false,
+        "_description": "Paschal Kontakion",
         "source": "Stamford"
     },
     "pentecostarion.opening_let_god_arise": {
-        "content": {
-            "en": "[STUB] Let God arise..."
-        },
-        "_stub": true,
-        "_description": "Let God arise...",
+        "content": "Verse: Let God arise, and let His enemies be scattered; let those who hate Him flee from before His face.\nTroparion: Christ is risen from the dead, trampling death by death, and to those in the tombs giving life!\n\nVerse: As smoke vanishes, let them vanish; as wax melts before the fire.\nTroparion: Christ is risen...\n\nVerse: So let the wicked perish at the presence of God, but let the righteous rejoice.\nTroparion: Christ is risen...\n\nVerse: This is the day which the Lord has made; let us rejoice and be glad in it.\nTroparion: Christ is risen...",
+        "_stub": false,
+        "_description": "Let God arise (Paschal Opening)",
         "source": "Stamford"
     },
     "pentecostarion.troparia_paschal_hours": {
-        "content": {
-            "en": "[STUB] Paschal Hours Troparia"
-        },
-        "_stub": true,
+        "content": "In the tomb with the body, in Hades with the soul as God, in Paradise with the thief, and on the throne with the Father and the Spirit, wast Thou, O Christ, filling all things, Thyself uncircumscribed.\nGlory: As a life-bearing tomb, more splendid than Paradise, and verily more radiant than any royal chamber, O Christ, is Your tomb shown to be, the source of our resurrection.\nNow: Rejoice, O holy, divine dwelling of the Most High, for through you, O Mother of God, joy has been given to those who cry: Blessed are you among women, O Lady all-pure!",
+        "_stub": false,
         "_description": "Paschal Hours Troparia",
         "source": "Stamford"
     },
     "file_metadata": {
         "source": "Stamford Floral Triodion (Pentecostarion) OCR",
         "generator": "parse_triodia_modern.py"
+    },
+    "pentecostarion.ikos_pascha": {
+        "content": "Early in the morning before sunrise, as if it were already day, myrrh-bearing virgins were seeking the Sun, previously descended into the grave; and they cried out one to another: Come, O friends! Let us anoint with fragrant spices the life-giving and yet already buried body of Christ Who has resurrected the fallen Adam. Let us hasten, as did the Magi, and adore Christ and bring our myrrh as a gift to Him Who is wrapped not in swaddling clothes but in a shroud. Let us weep and exclaim: Arise, O Master, granting resurrection to the fallen!",
+        "_stub": false,
+        "_description": "Paschal Ikos",
+        "source": "Stamford"
+    },
+    "pentecostarion.paschal_hours": {
+        "content": "Christ is risen from the dead, trampling down death by death, and upon those in the tombs bestowing life. (3x)\nHaving beheld the Resurrection of Christ, * let us worship the holy Lord Jesus, * the only sinless One. * We worship Thy Cross, O Christ, * and Thy holy Resurrection we hymn and glorify. * For Thou art our God, * and we know none other beside Thee; * we call upon Thy name. * O come, all ye faithful, * let us worship Christ’s holy Resurrection, * for, behold, through the Cross joy hath come to all the world. * Ever blessing the Lord, * we hymn His Resurrection; * for, having endured crucifixion, ** He hath destroyed death by death. (Thrice)\nBefore the dawn, Mary and the women... (Hypakoe)\nAlthough Thou didst descend... (Kontakion)\nIn the tomb with the body... (Troparia)\nMore honorable than the Cherubim...\nDismissal",
+        "_stub": false,
+        "_description": "Paschal Hours",
+        "source": "Stamford"
+    },
+    "pentecostarion.canon_pascha_odes_1_3": {
+        "content": "Ode 1\nIt is the day of the resurrection, O people, let us be enlightened by it. The passover is the Lord's Passover, since Christ, our God, has brought us from death to life and from earth to heaven. Therefore, we sing the hymn of victory.\nRefrain: Christ is risen from the dead!\nLet us cleanse our senses* that we may see the risen Christ* in the glory of His resurrection* and clearly hear Him greeting us:* Rejoice! as we sing the hymn of victory.\nRefrain: Christ is risen from the dead!\nLet the heavens properly rejoice,* and let the earth be glad,* and let the whole visible and invisible world celebrate;* for Christ, our everlasting joy is risen.\nKatabasia: It is the day of resurrection,* O people, let us be enlightened by it.*\n\nOde 3\nCome let us partake of a new drink, not miraculously produced from the barren rock, but from the Fountain of immortality, springing up from the tomb of Christ. In Him is our firm strength.\nRefrain: Christ is risen from the dead!\nToday all things are filled with light,* earth and heaven and the world beneath.* Then let all creation celebrate the resurrection of Christ.* In Him is the firm foundation of all things.\nRefrain: Christ is risen from the dead!\nI was buried yesterday with You, O Christ;* but today I rise, resurrected with You.* Yesterday I crucified myself with You, O Savior.* Now glorify me with You in Your kingdom.\nKatabasia: Come let us partake of a new drink,*",
+        "_stub": false,
+        "_description": "Paschal Canon Odes 1-3",
+        "source": "Stamford"
+    },
+    "pentecostarion.canon_pascha_odes_4_6": {
+        "content": "Ode 4\nLet Habakkuk, speaking on behalf of God stand with us at the divine watch, let him show us the brilliant angel who proclaims: Today salvation comes to the world, for Christ, being almighty, is risen.\nRefrain: Christ is risen from the dead!\nLet Habakkuk,* speaking in behalf of God,* stand with us at the divine watch;* let him show us the brilliant angel who proclaims:* Today salvation comes to the world,* for Christ, being almighty, is risen.\nChrist had appeared as a man* when He was born of the Virgin.* As a mortal, He was called Lamb.* Being undefiled and without blemish,* He is our Passover;* and as true God,* He is proclaimed perfect.\nRefrain: Christ is risen from the dead!\nChrist, our blessed crown, was sacrificed of His own will* like a yearling lamb for all of us,* and so became our cleansing Pasch.*\nRefrain: Christ is risen from the dead!\nDavid, ancestor of the Lord,* danced and made music before the Ark*\nKatabasia: Let Habakkuk,*\n\nOde 5\nLet us rise at early dawn and bring to our Master a hymn instead of myrrh, and we shall see Christ, the Sun of righteousness Who enlightens the life of all.\nRefrain: Christ is risen from the dead!\nWhen those bound by chains in the realm of Death* saw Your boundless mercy, O Christ,* they hastened to the light with joy,* praising the eternal Pasch.\nRefrain: Christ is risen from the dead!\nBearing torches let us meet the bridegroom, Christ,* as He comes forth from His tomb;\nKatabasia: Let us rise at early dawn*\n\nOde 6\nYou have descended into the realm of Death, O Christ, and have broken ancient bonds which held the captive. You arose from the tomb on the third day like Jonah from the whale.\nRefrain: Christ is risen from the dead!\nWhen You arose from the tomb, O Christ,* You preserved its seals intact,* just as in Your holy birth* a virgin’s vow was unbroken.* You opened to us the gates of paradise.\nRefrain: Christ is risen from the dead!\nO my Savior, being God,* willingly You offered Yourself.\nKatabasia: You have descended into the realm of Death, O Christ,*",
+        "_stub": false,
+        "_description": "Paschal Canon Odes 4-6",
+        "source": "Stamford"
+    },
+    "pentecostarion.canon_pascha_odes_7_9": {
+        "content": "Ode 7\nGod, Who saved the three youths from the furnace, has become man and suffered as any mortal, but His passion clothed His mortality with the splendor of incorruption. He is the only blessed One, God of our fathers, and is worthy of all praise.\nRefrain: Christ is risen from the dead!\nPious women ran in tears to You, O Christ,* bringing myrrh to You as to the dead;* but instead, they adored You in joy as the living God* and announced Your mystical passover to Your disciples.\nRefrain: Christ is risen from the dead!\nWe celebrate the victory over Death,* the destruction of the deep Abyss,*\nKatabasia: God, Who saved the three youths from the furnace,*\n\nOde 8\nThis is that chosen and holy day, feast of feasts, most solemn day, only King and Lord of all Sabbaths, on which we ever praise Christ.\nRefrain: Christ is risen from the dead!\nCome, on this glorious day of resurrection,* and partake of the fruit of the new vine,* the divine joy of Christ’s kingdom,* ever praising Him, our God.\nRefrain: Christ is risen from the dead!\nLift up your eyes, O Zion, and behold.*\nRefrain: Let us bless the Lord, Father, Son, and Holy Spirit,\nRefrain: Let us bless, praise, and worship the Lord, singing\nKatabasia: This is that chosen and holy day,*\n\nOde 9\nThe angel exclaimed to her, full of grace: Rejoice, O pure Virgin! Again I say: Rejoice! Your Son is risen from the grave on the third day, and has raised all the dead. Let all the nations rejoice. Shine in splendor, O New Jerusalem! Sing with joy and rejoice, O Zion! And you, pure Mother of God, rejoice in the resurrection of your Son.\nRefrain: Christ is risen from the dead!\nHow pleasingly divine and sweet* was Your voice, O Christ,* when You promised without fail, to remain with us* until the end of time.*\nRefrain: Christ is risen from the dead!\nO Christ, great and sacred Pasch,* Wisdom, Power, and Word of God,\nKatabasia: Shine in splendor,* O New Jerusalem!*",
+        "_stub": false,
+        "_description": "Paschal Canon Odes 7-9",
+        "source": "Stamford"
     }
 }

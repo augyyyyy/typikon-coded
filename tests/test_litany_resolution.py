@@ -55,3 +55,29 @@ def test_missing_litany_fallback(engine):
     result = engine.resolve_litany_universal(context, litany_type="unknown_litany")
     assert "MISSING_LITANY" in result["content"]
     assert result.get("is_missing") is True
+
+def test_resolve_litany_sede_vacante_bishop(engine):
+    context = {
+        "pope_name": "Francis",
+        "patriarch_name": "Sviatoslav",
+        "metropolitan_name": "Borys",
+        "bishop_name": "Paul",
+        "sede_vacante_bishop": True
+    }
+    result = engine.resolve_litany_universal(context, litany_type="peace")
+    content = result["content"]
+    assert "diocesan administrator, Paul" in content or "Administrator, Paul" in content
+    assert "Bishop, Paul" not in content
+
+def test_resolve_litany_sede_vacante_pope(engine):
+    context = {
+        "pope_name": "Francis",
+        "patriarch_name": "Sviatoslav",
+        "metropolitan_name": "Borys",
+        "bishop_name": "Paul",
+        "sede_vacante_pope": True
+    }
+    result = engine.resolve_litany_universal(context, litany_type="peace")
+    content = result["content"]
+    assert "vacant Apostolic See of Rome" in content
+    assert "Pontiff, Francis" not in content

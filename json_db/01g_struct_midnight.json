@@ -358,6 +358,10 @@
           }
         }
       ]
+    },
+    "midnight_paschal_nocturns": {
+      "title_key": "titles.midnight_paschal_nocturns",
+      "inherits_from": "midnight_holy_saturday"
     }
   }
 }

@@ -1,16 +1,207 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://ruthenian-engine.org/schemas/service_structure.schema.json",
-    "title": "Ruthenian Service Structure",
-    "description": "Schema for defining the structural flow of a service (e.g., 01i_struct_matins.json).",
-    "type": "object",
-    "properties": {
-        "file_metadata": {
-            "type": "object"
-        },
-        "structures": {
-            "type": "object"
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://ruthenian-engine.org/schemas/service_structure.schema.json",
+  "title": "Ruthenian Service Structure",
+  "description": "Schema for defining the structural flow of a service (e.g., 01i_struct_matins.json).",
+  "type": "object",
+  "properties": {
+    "file_metadata": {
+      "type": "object",
+      "properties": {
+        "filename": { "type": "string" },
+        "version": { "type": "string" },
+        "last_updated": { "type": "string" },
+        "authority": { "type": "string" },
+        "authority_file": { "type": "string" },
+        "scope": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["filename"]
     },
-    "required": ["file_metadata", "structures"]
+    "structures": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "title_key": { "type": "string" },
+          "description": { "type": "string" },
+          "description_key": { "type": "string" },
+          "note": { "type": "string" },
+          "ordo_ref": { "type": "string" },
+          "source_ref": { "type": "string" },
+          "inherits_from": { "type": "string" },
+          "rubric": { "type": "object" },
+          "sequence": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/structure_item" }
+          },
+          "overrides": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/structure_item" }
+          }
+        }
+      }
+    }
+  },
+  "required": ["file_metadata", "structures"],
+  "definitions": {
+    "structure_item": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "target_id": { "type": "string" },
+        "action": { "type": "string", "enum": ["replace", "insert_before", "insert_after", "delete", "modify", "remove"] },
+        "condition": { "type": "string" },
+        "rubric": { "type": "object" },
+        "section_key": { "type": "string" },
+        "source_ref": { "type": "string" },
+        "start_at_component": { "type": "string" },
+        "state_change": { "type": "object" },
+        "stop_after_component": { "type": "string" },
+        "target_file": { "type": "string" },
+        "type": { "type": "string" },
+        "without_exclamation": { "type": "boolean" },
+        "new_component": { "$ref": "#/definitions/structure_item" },
+        "sequence": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/structure_item" }
+        },
+        "overrides": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/structure_item" }
+        },
+        "content": {
+          "type": ["object", "array", "string"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "antiphonal_sessional",
+                "complex_structure",
+                "component_ref",
+                "conditional_block",
+                "fixed_action",
+                "fixed_group",
+                "fixed_ref",
+                "generator",
+                "link",
+                "passion_gospel",
+                "sequence",
+                "slot_variable",
+                "variable_logic"
+              ]
+            },
+            "ref_key": { "type": "string" },
+            "ref_keys": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "generator_method": { "type": "string" },
+            "slot_id": { "type": "string" },
+            "hour": { "type": "integer" },
+            "logic": {
+              "type": "object",
+              "properties": {
+                "function": {
+                  "type": "string",
+                  "enum": [
+                    "check_day_range",
+                    "check_gospel_service",
+                    "check_litiya_trigger",
+                    "check_service_continuity",
+                    "check_service_type",
+                    "resolve_alleluia_vs_god_is_lord",
+                    "resolve_anabathmoi",
+                    "resolve_aposticha",
+                    "resolve_artoklasia",
+                    "resolve_basil_megalynarion",
+                    "resolve_beatitudes",
+                    "resolve_bridegroom_aposticha",
+                    "resolve_bridegroom_canon_type",
+                    "resolve_bright_praises",
+                    "resolve_canon_insertion",
+                    "resolve_canon_ode_troparion",
+                    "resolve_censing_annotation",
+                    "resolve_cherubic_hymn",
+                    "resolve_communion_hymn",
+                    "resolve_compline_canon",
+                    "resolve_compline_lord_of_hosts",
+                    "resolve_compline_troparia",
+                    "resolve_daily_kathisma",
+                    "resolve_dismissal_theotokion",
+                    "resolve_door_state",
+                    "resolve_doxology_type",
+                    "resolve_encomia_station",
+                    "resolve_exapostilarion",
+                    "resolve_fasting_rule",
+                    "resolve_god_is_the_lord_troparia",
+                    "resolve_god_is_with_us",
+                    "resolve_gospel_sticheron_placement",
+                    "resolve_great_canon_portion",
+                    "resolve_hypakoe",
+                    "resolve_katavasia",
+                    "resolve_kathisma",
+                    "resolve_kathisma_choice",
+                    "resolve_lenten_aposticha",
+                    "resolve_lenten_ending",
+                    "resolve_lenten_exapostilarion",
+                    "resolve_lenten_kathisma",
+                    "resolve_lenten_prokeimenon",
+                    "resolve_lenten_sessional",
+                    "resolve_lenten_triodic_canon",
+                    "resolve_liturgy_antiphons",
+                    "resolve_liturgy_dismissal",
+                    "resolve_liturgy_hymns",
+                    "resolve_liturgy_megalynarion",
+                    "resolve_litya_content",
+                    "resolve_magnificat",
+                    "resolve_matins_dismissal_troparion",
+                    "resolve_midnight_prayer",
+                    "resolve_midnight_troparia",
+                    "resolve_passion_canon",
+                    "resolve_passion_vespers_readings",
+                    "resolve_photizomenoi_litany",
+                    "resolve_post_communion_hymn",
+                    "resolve_post_doxology_event",
+                    "resolve_post_ode9_hymn",
+                    "resolve_praises_stichera",
+                    "resolve_presanctified_entrance",
+                    "resolve_presanctified_readings",
+                    "resolve_presanctified_transfer",
+                    "resolve_prokeimenon",
+                    "resolve_prophecy_prok_1",
+                    "resolve_prophecy_prok_2",
+                    "resolve_prophecy_reading",
+                    "resolve_psalm_50_intercession",
+                    "resolve_royal_kontakion",
+                    "resolve_royal_psalms",
+                    "resolve_royal_readings",
+                    "resolve_royal_stichera",
+                    "resolve_sessional",
+                    "resolve_small_vespers_prokeimenon",
+                    "resolve_tomb_matins_canon",
+                    "resolve_triadic_canon",
+                    "resolve_trinity_hymns",
+                    "resolve_trisagion_type",
+                    "resolve_typika_kontakia",
+                    "resolve_vesperal_liturgy_readings",
+                    "resolve_vespers_entrance",
+                    "resolve_vespers_readings_logic",
+                    "resolve_vespers_troparia_simple",
+                    "resolve_vestment_set",
+                    "resolve_vigil_kontakion",
+                    "resolve_vigil_opening",
+                    "resolve_vigil_polyeleos",
+                    "resolve_vigil_troparion"
+                  ]
+                },
+                "args": { "type": "object" }
+              },
+              "required": ["function"]
+            }
+          }
+        }
+      }
+    }
+  }
 }

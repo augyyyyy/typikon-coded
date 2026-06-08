@@ -880,26 +880,26 @@ class LentenMixin:
     def resolve_lenten_canon_merger(self, context):
         """
         Implements Logic Gate B1: The Lenten Canon Merger.
-        Merges Menaion and Triodion Canons based on the specific Lenten Weekday.
+        Merges Menaion and Triodion Canons based on the specific Lenten Weekday/Saturday.
         """
         day = context.get("day_of_week")
         
-        # 1. Define the Triodic Ode Schedule (The "Three Odes")
-        # Mon=1, Tue=2, Wed=3, Thu=4, Fri=5
-        # All include 8 and 9.
-        # Note: Saturday is distinct (Quadro-odion?), handling separately if needed.
+        # 1. Define the Triodic Ode Schedule (The "Three Odes" / "Four Odes")
+        # Mon=1, Tue=2, Wed=3, Thu=4, Fri=5 (Three Odes)
+        # Sat=6 (Four Odes: Tetraodion)
         
         triodic_schedule = {
             1: [1, 8, 9],
             2: [2, 8, 9],
             3: [3, 8, 9],
             4: [4, 8, 9],
-            5: [5, 8, 9]
+            5: [5, 8, 9],
+            6: [6, 7, 8, 9]
         }
         
         active_triodic_odes = triodic_schedule.get(day, [])
         if not active_triodic_odes:
-             # Fallback/Weekend: Return standard stack trigger or empty to signal standard handling
+             # Fallback/Weekend (Sunday): Return standard stack trigger or empty to signal standard handling
              return {"mode": "standard_weekend"}
              
         # 2. Build the Hybrid Stack (Odes 1-9)
@@ -968,7 +968,7 @@ class LentenMixin:
         
         if rank <= 3: 
             return False 
-
+            
         if is_lent:
             # Rule 1: Holy Week Mon/Tue/Wed (Line 311)
             if is_holy_week and day in [1, 2, 3]: # Mon, Tue, Wed
@@ -978,8 +978,8 @@ class LentenMixin:
             if not is_holy_week and day in [3, 5]: # Wed, Fri
                 return True
                 
-            # Rule 3: 40 Martyrs (Line 303) - If on Weekday
-            if "40 Martyrs" in context.get("title", "") and day in [1,2,3,4,5]:
+            # Rule 3: Polyeleos (Rank 4) Feast on a Weekday (e.g. 40 Martyrs, John the Baptist)
+            if (rank == 4 or "40 Martyrs" in context.get("title", "")) and day in [1, 2, 3, 4, 5]:
                  return True
 
         return False

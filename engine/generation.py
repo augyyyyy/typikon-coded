@@ -79,6 +79,7 @@ class GenerationMixin:
              elif even_type == "great_vespers_simple": return "Great Vespers"
              elif even_type == "vesperal_liturgy_basil": return "Vesperal Liturgy of St. Basil"
              elif even_type == "vesperal_liturgy_chrysostom": return "Vesperal Liturgy of St. John Chrysostom"
+             elif even_type == "paschal_vespers": return "Paschal Vespers"
              
              # Fallback logic
              rank = context.get("rank", 5)
@@ -152,13 +153,19 @@ class GenerationMixin:
         if base_name == "Liturgy":
              if context.get("is_aliturgical"): return "Typika (Aliturgical)"
              
+             # Check explicit type first
+             even_type = context.get("overrides", {}).get("liturgy_type") or context.get("variables", {}).get("liturgy_type") or context.get("liturgy_type")
+             if even_type == "vesperal_merge_logic": return "Vesperal Divine Liturgy of St. Basil the Great"
+             if even_type == "liturgy_chrysostom_vesperal": return "Vesperal Divine Liturgy of St. John Chrysostom"
+             if even_type == "liturgy_presanctified": return "Liturgy of the Presanctified Gifts"
+             
              is_lent = context.get("season") == "lent"
              day = context.get("day_of_week")
              rank = context.get("rank", 5)
              
              if is_lent and day in [3, 5] and rank > 3: return "Liturgy of the Presanctified Gifts"
              
-             if is_lent and day == 0: return "Divine Liturgy of St. Basil the Great"
+             if is_lent and day == 0 and context.get("pascha_offset", 0) <= -8: return "Divine Liturgy of St. Basil the Great"
              if context.get("date", "").endswith("-01-01"): return "Divine Liturgy of St. Basil the Great"
              
              return "Divine Liturgy of St. John Chrysostom"
@@ -722,14 +729,45 @@ class GenerationMixin:
         elif slot_type == "variable_logic":
             logic = content.get("logic", {})
             func_name = logic.get("function")
+            args = logic.get("args", {})
             
             if hasattr(self, func_name):
                 try:
                     # Execute Logic
                     func = getattr(self, func_name)
-                    # Many logic functions require context. 
                     if context:
-                        result = func(context, rubrics) if func.__code__.co_argcount > 2 else func(context)
+                        import inspect
+                        sig = inspect.signature(func)
+                        call_kwargs = {}
+                        
+                        # Enrich context
+                        enriched = {**context, **rubrics.get("variables", {}), "variables": rubrics.get("variables", {})}
+                        enriched["overrides"] = rubrics.get("overrides", {})
+                        if rubrics.get("is_sunday_vigil"):
+                            enriched["is_sunday_vigil"] = True
+                            
+                        normalized_args = {}
+                        for k, v in args.items():
+                            if k == "pos":
+                                normalized_args["position"] = v
+                            elif k == "num":
+                                normalized_args["num"] = v
+                            else:
+                                normalized_args[k] = v
+                                
+                        if "rubrics" in sig.parameters:
+                            call_kwargs["rubrics"] = rubrics
+                            
+                        for param_name in sig.parameters:
+                            if param_name in normalized_args:
+                                call_kwargs[param_name] = normalized_args[param_name]
+                                
+                        params = list(sig.parameters.values())
+                        has_context = len(params) > 0
+                        if has_context:
+                            result = func(enriched, **call_kwargs)
+                        else:
+                            result = func()
                     else:
                         # Fallback for when context isn't passed (legacy calls)
                         result = f"[PENDING EXECUTION: {func_name}]"

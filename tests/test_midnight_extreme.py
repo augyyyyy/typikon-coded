@@ -70,3 +70,32 @@ def test_nocturns_paschal(engine):
     # 2. Shroud Action Check
     res_shroud = engine.resolve_shroud_action(context, {})
     assert "[ACTION: MOVE SHROUD TO ALTAR]" in res_shroud["metadata_tag"]
+
+def test_nocturns_daily_lenten(engine):
+    context = {
+        "service_type": "midnight",
+        "day_of_week": 2, # Tuesday
+        "season": "lent"
+    }
+    mode_data = engine.resolve_midnight_office_mode(context)
+    assert mode_data["mode"] == "daily"
+    assert mode_data["readings"] == "psalm_118"
+    assert mode_data["troparia"] == "behold_the_bridegroom"
+
+    res_trop = engine.resolve_midnight_troparia(context)
+    assert "troparion_behold_the_bridegroom" in res_trop["components"][0]["id"]
+
+def test_nocturns_daily_ordinary(engine):
+    context = {
+        "service_type": "midnight",
+        "day_of_week": 3, # Wednesday
+        "season": "normal"
+    }
+    mode_data = engine.resolve_midnight_office_mode(context)
+    assert mode_data["mode"] == "daily"
+    assert mode_data["readings"] == "psalm_118"
+    assert mode_data["troparia"] == "daily_troparia_stack"
+
+    res_trop = engine.resolve_midnight_troparia(context)
+    assert "troparion_day_of_week" in res_trop["components"][0]["id"]
+

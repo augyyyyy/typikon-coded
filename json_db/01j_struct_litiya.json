@@ -1,0 +1,71 @@
+{
+  "file_metadata": {
+    "filename": "01j_struct_litiya.json",
+    "version": "1.0",
+    "last_updated": "2026-06-05",
+    "authority": "Lviv (Dolnytsky) Typikon (2010)",
+    "scope": "Litiya Service Matrix"
+  },
+  "structures": {
+    "litiya": {
+      "title_key": "titles.litiya",
+      "source_ref": "Final_Dolnytsky_part1_structure.txt:L43",
+      "sequence": [
+        {
+          "id": "litiya_stichera",
+          "rubric": {
+            "title": "Stichera of the Litiya",
+            "roles": {
+              "choir": "Sing the Stichera of the Litiya."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_litya_content"
+            }
+          }
+        },
+        {
+          "id": "litiya_intercessors",
+          "rubric": {
+            "title": "The Intercessory Prayers",
+            "roles": {
+              "deacon": "Read the petitions.",
+              "choir": "Sing Lord, have mercy."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litiya_prayers"
+          }
+        },
+        {
+          "id": "artoklasia_rite",
+          "rubric": {
+            "title": "Blessing of Loaves",
+            "roles": {
+              "priest": "Blesses the five loaves, wheat, wine, and oil."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_artoklasia"
+            }
+          }
+        },
+        {
+          "id": "litiya_dismissal",
+          "rubric": {
+            "title": "Dismissal of Litiya"
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litiya_dismissal"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -868,35 +868,48 @@
           }
         }
       ]
-    }
-  },
-  "kneeling_vespers": {
-    "title_key": "titles.vespers_kneeling",
-    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1567",
-    "inherits_from": "great_vespers_vigil",
-    "overrides": [
-      {
-        "target_id": "prokeimenon_readings",
-        "action": "replace",
-        "new_component": {
-          "id": "kneeling_prayers_block",
+    },
+    "paschal_vespers": {
+      "title_key": "titles.vespers_paschal",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1142",
+      "sequence": [
+        {
+          "id": "paschal_vespers_content",
           "content": {
-            "type": "component_ref",
-            "ref_key": "components.kneeling_prayers"
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.bright_week_vespers.general"
           }
         }
-      },
-      {
-        "target_id": "entrance_great",
-        "action": "modify",
-        "rubric": {
-          "title": "Great Entrance with Censer"
+      ]
+    },
+    "kneeling_vespers": {
+      "title_key": "titles.vespers_kneeling",
+      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1567",
+      "inherits_from": "great_vespers_vigil",
+      "overrides": [
+        {
+          "target_id": "prokeimenon_readings",
+          "action": "replace",
+          "new_component": {
+            "id": "kneeling_prayers_block",
+            "content": {
+              "type": "component_ref",
+              "ref_key": "components.kneeling_prayers"
+            }
+          }
+        },
+        {
+          "target_id": "entrance_great",
+          "action": "modify",
+          "rubric": {
+            "title": "Great Entrance with Censer"
+          }
         }
-      }
-    ]
-  },
-  "structure_suppressed": {
-    "title_key": "titles.suppressed",
-    "sequence": []
+      ]
+    },
+    "structure_suppressed": {
+      "title_key": "titles.suppressed",
+      "sequence": []
+    }
   }
 }

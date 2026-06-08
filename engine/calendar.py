@@ -208,6 +208,7 @@ class CalendarMixin:
             "eothinon_number": eothinon, # Alias: resolve_matins_gospel & exapostilarion use this
             "rank": rank,
             "is_temple_feast": is_temple_feast,
+            "is_after_lucan_jump": self.is_after_lucan_jump(target_date),
             "menaion_key": menaion_key,
             "triodion_week": (delta + 48) // 7 + 1 if -70 <= delta <= -1 else 1,
             "octoechos_theme": {
@@ -218,7 +219,9 @@ class CalendarMixin:
                 4: "apostles_nicholas",
                 5: "cross_theotokos",
                 6: "saints_dead"
-            }.get(weekday, "general")
+            }.get(weekday, "general"),
+            "deacon_count": 1,
+            "concelebrating": False
         }
         
         # Merge Dolnytsky Data
@@ -441,43 +444,48 @@ class CalendarMixin:
             next_date = current_date + timedelta(days=1)
             next_ctx = self.get_liturgical_context(next_date)
             
-            # Set is_sunday_vigil in BOTH rubrics and context for resolver access
-            rubrics["is_sunday_vigil"] = True
-            context["is_sunday_vigil"] = True  # FIX: Also set in context for resolver functions
-            rubrics["next_day_tone"] = self._calculate_tone(next_ctx)
-            
-            # FIX: Override service types for Sunday Vigil (Part II §1)
-            # "AT GREAT VESPERS" (Line 34), "AT GREAT MATINS" (Line 52)
-            # NOTE: Must use "overrides" not "variables" - see line 2070 for lookup
-            rubrics.setdefault("overrides", {})
-            rubrics.setdefault("variables", {})
-            rubrics.setdefault("_trace", [])
-            rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
-            rubrics["overrides"]["matins_type"] = "great_matins"
-            rubrics["variables"]["has_polyeleos"] = True  # Line 55: Kathisma 17/19 (Polyeleos)
-            rubrics["variables"]["doxology_type"] = "great_doxology"  # Line 65: "After the Great Doxology"
-            rubrics["variables"]["aposticha_type"] = "sunday_aposticha"  # Line 40: "stichera of the resurrection"
-            rubrics["_trace"].append("Lookahead: Saturday → Sunday. Services upgraded to Great Vespers/Matins with Vigil structure.")
+            # Check if next day is Pascha Sunday
+            if next_ctx.get("pascha_offset") != 0:
+                # Set is_sunday_vigil in BOTH rubrics and context for resolver access
+                rubrics["is_sunday_vigil"] = True
+                context["is_sunday_vigil"] = True  # FIX: Also set in context for resolver functions
+                rubrics["next_day_tone"] = self._calculate_tone(next_ctx)
+                
+                # FIX: Override service types for Sunday Vigil (Part II §1)
+                # "AT GREAT VESPERS" (Line 34), "AT GREAT MATINS" (Line 52)
+                # NOTE: Must use "overrides" not "variables" - see line 2070 for lookup
+                rubrics.setdefault("overrides", {})
+                rubrics.setdefault("variables", {})
+                rubrics.setdefault("_trace", [])
+                rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
+                rubrics["overrides"]["matins_type"] = "great_matins"
+                rubrics["variables"]["has_polyeleos"] = True  # Line 55: Kathisma 17/19 (Polyeleos)
+                rubrics["variables"]["doxology_type"] = "great_doxology"  # Line 65: "After the Great Doxology"
+                rubrics["variables"]["aposticha_type"] = "sunday_aposticha"  # Line 40: "stichera of the resurrection"
+                rubrics["_trace"].append("Lookahead: Saturday → Sunday. Services upgraded to Great Vespers/Matins with Vigil structure.")
         
         elif context["day_of_week"] == 0: # Sunday - direct check
             # When generating Sunday's service directly (not via Saturday lookahead)
             # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L57
-            rubrics["is_sunday"] = True
-            rubrics.setdefault("overrides", {})
-            rubrics.setdefault("variables", {})
-            rubrics.setdefault("_trace", [])
-            rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
-            rubrics["overrides"]["matins_type"] = "great_matins"
-            rubrics["variables"]["has_polyeleos"] = True
-            rubrics["variables"]["doxology_type"] = "great_doxology"
-            rubrics["variables"]["aposticha_type"] = "sunday_aposticha"
-            rubrics["_trace"].append("Sunday: Services set to Great Vespers/Matins with Vigil structure.")
+            if context.get("pascha_offset") != 0:
+                rubrics["is_sunday"] = True
+                rubrics.setdefault("overrides", {})
+                rubrics.setdefault("variables", {})
+                rubrics.setdefault("_trace", [])
+                rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
+                rubrics["overrides"]["matins_type"] = "great_matins"
+                rubrics["variables"]["has_polyeleos"] = True
+                rubrics["variables"]["doxology_type"] = "great_doxology"
+                rubrics["variables"]["aposticha_type"] = "sunday_aposticha"
+                rubrics["_trace"].append("Sunday: Services set to Great Vespers/Matins with Vigil structure.")
 
         # 3. Great Feast LOOKAHEAD (Menaion Rank-Based Vigil)
         # Citation: Final_Dolnytsky_part1_structure.txt:L13
         # Great Feasts (rank_vigil_lord, rank_vigil_theotokos, rank_vigil_saint) use Vigil structure
         menaion_rank = rubrics.get("variables", {}).get("menaion_rank", "")
-        if isinstance(menaion_rank, str) and menaion_rank.startswith("rank_vigil"):
+        # Bypass for Pascha Sunday and Bright Week (offsets 0-6)
+        is_paschal_week = context.get("pascha_offset") is not None and 0 <= context.get("pascha_offset") <= 6
+        if isinstance(menaion_rank, str) and menaion_rank.startswith("rank_vigil") and not is_paschal_week:
             rubrics["is_great_feast_vigil"] = True
             rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
             rubrics["overrides"]["matins_type"] = "great_matins"
@@ -585,3 +593,21 @@ class CalendarMixin:
             
         month_logic = self.menaion_logic[month]
         return month_logic.get('days', {}).get(day_str)
+
+    def calculate_lucan_jump_date(self, year):
+        """Calculates the start date of the Lucan Jump for the given year (the Monday after the Sunday after Sept 14)."""
+        elev = date(year, 9, 14)
+        if elev.weekday() == 6: # Sunday
+            sun_after = elev
+        else:
+            sun_after = elev + timedelta(days=(6 - elev.weekday()))
+        return sun_after + timedelta(days=1)
+
+    def is_after_lucan_jump(self, target_date):
+        """Returns True if target_date is on or after the Lucan Jump date for its liturgical cycle."""
+        if target_date.month >= 9:
+            jump_date = self.calculate_lucan_jump_date(target_date.year)
+            return target_date >= jump_date
+        else:
+            # For Jan-Aug, it falls after the previous year's jump
+            return True

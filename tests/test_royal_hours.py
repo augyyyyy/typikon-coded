@@ -72,3 +72,38 @@ class TestRoyalHours:
         result = engine.resolve_royal_troparia(ctx, None, hour=1)
         assert result["type"] == "sequence"
         assert len(result["components"]) == 0
+
+    def test_nativity_eve_shift_saturday(self, engine):
+        # 2028-12-24 is Sunday. Friday is Dec 22.
+        # 2022-12-24 is Saturday. Friday is Dec 23.
+        ctx_friday_23 = engine.get_liturgical_context(datetime.date(2022, 12, 23))
+        assert engine.check_royal_hours_trigger(ctx_friday_23) is True
+        
+        ctx_sat_24 = engine.get_liturgical_context(datetime.date(2022, 12, 24))
+        assert engine.check_royal_hours_trigger(ctx_sat_24) is False
+
+    def test_nativity_eve_shift_sunday(self, engine):
+        ctx_friday_22 = engine.get_liturgical_context(datetime.date(2028, 12, 22))
+        assert engine.check_royal_hours_trigger(ctx_friday_22) is True
+        
+        ctx_sun_24 = engine.get_liturgical_context(datetime.date(2028, 12, 24))
+        assert engine.check_royal_hours_trigger(ctx_sun_24) is False
+
+    def test_theophany_eve_shift_saturday(self, engine):
+        # 2029-01-05 is Friday.
+        # 2028-01-05 is Wednesday.
+        # 2025-01-05 is Sunday. Friday is Jan 3.
+        # 2019-01-05 is Saturday. Friday is Jan 4.
+        ctx_friday_4 = engine.get_liturgical_context(datetime.date(2019, 1, 4))
+        assert engine.check_royal_hours_trigger(ctx_friday_4) is True
+        
+        ctx_sat_5 = engine.get_liturgical_context(datetime.date(2019, 1, 5))
+        assert engine.check_royal_hours_trigger(ctx_sat_5) is False
+
+    def test_theophany_eve_shift_sunday(self, engine):
+        ctx_friday_3 = engine.get_liturgical_context(datetime.date(2025, 1, 3))
+        assert engine.check_royal_hours_trigger(ctx_friday_3) is True
+        
+        ctx_sun_5 = engine.get_liturgical_context(datetime.date(2025, 1, 5))
+        assert engine.check_royal_hours_trigger(ctx_sun_5) is False
+

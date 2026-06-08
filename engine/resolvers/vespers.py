@@ -1,4 +1,5 @@
 from engine.core import liturgical_source
+from engine.utils.type_utils import parse_rank_integer
 """
 Ruthenian Engine - VespersMixin
 Extracted from ruthenian_engine.py during Phase 1 modularization.
@@ -22,6 +23,22 @@ class VespersMixin:
         Standard: 'great_vespers' or 'daily_vespers'.
         Hybrid: 'vesperal_liturgy_basil' or 'vesperal_liturgy_chrysostom'.
         """
+        # First, check overrides and variables for explicit vesperal liturgies
+        overrides = context.get("overrides", {})
+        variables = context.get("variables", {})
+        liturgy = overrides.get("liturgy_type") or variables.get("liturgy_type") or ""
+        
+        if "vesperal" in liturgy or "merge_logic" in liturgy:
+            if "basil" in liturgy or "basil" in str(context.get("title", "")).lower():
+                return "vesperal_liturgy_basil"
+            if "chrysostom" in liturgy or "chrysostom" in str(context.get("title", "")).lower():
+                return "vesperal_liturgy_chrysostom"
+            if context.get("pascha_offset") == -1:
+                return "vesperal_liturgy_basil"
+            if context.get("pascha_offset") == -2:
+                return "vesperal_liturgy_chrysostom"
+            return "vesperal_liturgy_basil"
+
         # 1. Check for specific dates (Theophany Eve, Nativity Eve)
         # Note: context['date'] is a string "YYYY-MM-DD"
         day_of_week = context.get("day_of_week")
@@ -36,12 +53,13 @@ class VespersMixin:
                 return "great_vespers_simple"
             return "vesperal_liturgy_basil"
             
-        # 3. Pascha (Holy Saturday Vespers + Basil Liturgy)
-        # Check Triodion Period OR Title
+        # 3. Holy Saturday (Vespers + Basil Liturgy) vs Pascha (Paschal Vespers)
         t_period = context.get("triodion_period", "")
-        title = context.get("title", "").upper()
-        if t_period == "pascha" or "PASCHA" in title:
+        if t_period == "holy_saturday":
              return "vesperal_liturgy_basil"
+        
+        if t_period in ["pascha", "bright_week"]:
+             return "paschal_vespers"
 
         # 2. Check Rubrics or Next Day Rank
         rank = context.get("rank")
@@ -57,13 +75,11 @@ class VespersMixin:
             # Sunday (Sat Eve) - Default to Vigil if not specified? 
             # Actually, standard parish practice is often Great Vespers without Litiya/Vigil.
             # But the "Type" is Great Vespers.
-            # Let's map to 'great_vespers_vigil' if explicitly set, else 'great_vespers_simple'
             return "great_vespers_vigil" if context.get("is_vigil") else "great_vespers_simple"
-
-        if context.get("is_vigil"): return "great_vespers_vigil"
-        
-        # Default (Days 1-6: Mon-Sat)
-        # Note: Day 6 is Saturday (Fri Eve) -> Daily Vespers
+            
+        if context.get("is_vigil"): 
+            return "great_vespers_vigil"
+            
         return "daily_vespers"
 
 
@@ -427,7 +443,7 @@ class VespersMixin:
             return {"included": False}
         
         # Troparia distribution per Ordo_Celebrationis_1996_CLEAN.txt:L453
-        rank_num = context.get("rank")
+        rank_num = parse_rank_integer(context.get("rank"))
         day_of_week = context.get("day_of_week")
         
         if rank_num == 1:
@@ -474,6 +490,10 @@ class VespersMixin:
         Returns:
             dict indicating if Small Vespers should occur and its structure.
         """
+        t_period = context.get("triodion_period", "")
+        if t_period in ("pascha", "bright_week") or context.get("season") == "pascha":
+            return {"needed": False, "reason": "No Small Vespers during the Paschal season"}
+
         rank = self._get_rank_id(context)
         is_vigil = rank in ("rank_vigil", "rank_vigil_lord")
         
@@ -898,7 +918,7 @@ class VespersMixin:
         if context.get("is_small_vespers"):
             return self.resolve_small_vespers_troparia(context)
         paradigm = context.get("paradigm", "")
-        rank = context.get("rank", 5)
+        rank = parse_rank_integer(context.get("rank", 5))
         tone = context.get("tone", 1)
         day_of_week = context.get("day_of_week", 0)
         saints = context.get("saints", [])
@@ -982,37 +1002,34 @@ class VespersMixin:
         Implements Logic Gate A8: Vigil Commons.
         Calculates Litya Stichera stack and Artoklasia content.
         """
-        rank = context.get("rank", 4)
-        is_vigil = (rank <= 2) or (context.get("day_of_week") == 0 and context.get("vigil_served", False))
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get("rank", 5))
+        paradigm = context.get("paradigm", "")
+        day_of_week = context.get("day_of_week", 0)
+        
+        is_vigil = (rank <= 2) or (day_of_week == 0 and context.get("vigil_served", False))
         
         if not is_vigil:
              return None # No Litya/Artoklasia on non-vigil days
              
         # Litya Stichera Logic
-        # 1. Temple Patron (if not Lord's Feast)
-        # 2. Saint of Day (if distinct)
-        # 3. Feast (if Feast)
-        
         stichera = []
-        if rank == 1: # Great Feast
+        if rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"]:
              stichera.append({"source": "feast", "count": "all"})
         else:
              # Standard Vigil (Sunday + Saint)
-             stichera.append({"source": "temple_patron", "count": 1})
-             stichera.append({"source": "saint", "count": 3})
+             if day_of_week == 0:
+                  stichera.append({"source": "temple_patron", "count": 1})
+                  stichera.append({"source": "saint", "count": 3})
+             else:
+                  stichera.append({"source": "saint", "count": "all"})
              
         # Artoklasia Logic
         # Common Ruthenian: Rejoice O Virgin x3 (Major Feasts: Troparion x3)
         artoklasia = {"mode": "rejoice_o_virgin_3x"}
-        if rank == 1:
+        if rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"]:
              artoklasia = {"mode": "festal_troparion_3x"}
              
-        return {
-            "type": "vigil_commons",
-            "litya_stichera": stichera,
-            "artoklasia": artoklasia
-        }
-
         return {
             "type": "vigil_commons",
             "litya_stichera": stichera,
@@ -1035,7 +1052,8 @@ class VespersMixin:
         Citation: Dolnytsky Part I Lines 157-159
         """
         day_of_week = context.get('day_of_week', 0)  # 0 = Sunday
-        rank = context.get('rank', 5)
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get('rank', 5))
         eothinon = context.get('eothinon', 1)  # 1-11 cycle
         
         # Great Feast overrides all
@@ -1110,7 +1128,7 @@ class VespersMixin:
 
         # 2. Readings
         readings = []
-        rank = context.get("rank", 5)
+        rank = parse_rank_integer(context.get("rank", 5))
         if rank <= 3: # Vigil/Feast
              pass
         

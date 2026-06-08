@@ -938,7 +938,8 @@
                 {
                   "id": "sessional_1_octoechos",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330"
+                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330",
+                    "note": "First sessional from Octoechos. If two saints are commemorated, their sessionals are sung after the first and second Kathismata, deferring or merging as prescribed."
                   },
                   "content": {
                     "type": "variable_logic",
@@ -967,7 +968,8 @@
                 {
                   "id": "sessional_2_triodion",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330"
+                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330",
+                    "note": "Second sessional from Triodion. If two saints are commemorated, the sessional of the second saint may be sung here or deferred to Compline."
                   },
                   "content": {
                     "type": "variable_logic",
@@ -2201,8 +2203,61 @@
         {
           "id": "canon_pascha",
           "content": {
+            "type": "sequence",
+            "components": [
+              {
+                "id": "canon_odes_1_3",
+                "type": "fixed_ref",
+                "ref_key": "pentecostarion.canon_pascha_odes_1_3"
+              },
+              {
+                "id": "litany_small_ode_3",
+                "type": "fixed_ref",
+                "ref_key": "horologion.litany_small"
+              },
+              {
+                "id": "hypakoe_pascha",
+                "type": "fixed_ref",
+                "ref_key": "pentecostarion.hypakoe_pascha"
+              },
+              {
+                "id": "canon_odes_4_6",
+                "type": "fixed_ref",
+                "ref_key": "pentecostarion.canon_pascha_odes_4_6"
+              },
+              {
+                "id": "litany_small_ode_6",
+                "type": "fixed_ref",
+                "ref_key": "horologion.litany_small"
+              },
+              {
+                "id": "kontakion_pascha",
+                "type": "fixed_ref",
+                "ref_key": "pentecostarion.kontakion_pascha"
+              },
+              {
+                "id": "ikos_pascha",
+                "type": "fixed_ref",
+                "ref_key": "pentecostarion.ikos_pascha"
+              },
+              {
+                "id": "canon_odes_7_9",
+                "type": "fixed_ref",
+                "ref_key": "pentecostarion.canon_pascha_odes_7_9"
+              },
+              {
+                "id": "litany_small_ode_9",
+                "type": "fixed_ref",
+                "ref_key": "horologion.litany_small"
+              }
+            ]
+          }
+        },
+        {
+          "id": "exapostilarion_pascha",
+          "content": {
             "type": "fixed_ref",
-            "ref_key": "pentecostarion.canon_pascha"
+            "ref_key": "pentecostarion.pascha.matins.exapostilarion"
           }
         },
         {
@@ -2228,10 +2283,34 @@
           }
         },
         {
+          "id": "homily_chrysostom",
+          "rubric": {
+            "title": "Catechetical Homily of St. John Chrysostom",
+            "roles": {
+              "priest": "Read the homily from the ambo."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.homily_chrysostom"
+          }
+        },
+        {
           "id": "dismissal_pascha",
           "content": {
             "type": "fixed_ref",
             "ref_key": "pentecostarion.dismissal_paschal_full"
+          }
+        },
+        {
+          "id": "paschal_hours",
+          "rubric": {
+            "title": "The Paschal Hours",
+            "note": "Replaces the ordinary First Hour."
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "pentecostarion.paschal_hours"
           }
         }
       ]

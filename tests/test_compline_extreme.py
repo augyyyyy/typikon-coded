@@ -58,3 +58,48 @@ def test_GC_clean_tuesday_lent(engine):
     # 3. Praises
     res_praises = engine.resolve_compline_lord_of_hosts(context, {})
     assert res_praises["ref_key"] == "lord_of_hosts_tone_6"
+
+def test_SC_afterfeast_canon(engine):
+    context = {
+        "day_of_week": 2, # Tuesday
+        "is_afterfeast": True
+    }
+    res = engine.resolve_compline_canon(context)
+    assert res["subject"] == "feast"
+    assert res["book"] == "menaion"
+    assert res["source"] == "canon_feast"
+
+def test_SC_feast_canon(engine):
+    context = {
+        "day_of_week": 3, # Wednesday
+        "is_feast": True
+    }
+    res = engine.resolve_compline_canon(context)
+    assert res["subject"] == "feast"
+    assert res["book"] == "menaion"
+
+def test_SC_friday_night_canon(engine):
+    context = {
+        "day_of_week": 5 # Friday
+    }
+    res = engine.resolve_compline_canon(context)
+    assert res["subject"] == "departed"
+    assert res["book"] == "octoechos"
+
+def test_SC_monday_night_canon(engine):
+    context = {
+        "day_of_week": 1 # Monday
+    }
+    res = engine.resolve_compline_canon(context)
+    assert res["subject"] == "theotokos"
+    assert res["book"] == "octoechos"
+
+def test_SC_friday_night_afterfeast_priority(engine):
+    context = {
+        "day_of_week": 5, # Friday
+        "is_afterfeast": True
+    }
+    res = engine.resolve_compline_canon(context)
+    assert res["subject"] == "feast"
+    assert res["book"] == "menaion"
+
