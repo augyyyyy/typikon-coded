@@ -1,215 +1,133 @@
-# Data Structure & Dictionary
+# Schema & Data Structure Specification
 
-**Typikon Coded** (The Liturgical Intelligence Engine) relies on a structured JSON database to store both logic and content. This document details the schema for the various file types found in `json_db/` and `assets/`.
+The **Typikon Coded** engine separates layout logic from content by utilizing a structured, schema-validated JSON database. 
 
-## 1. Text Assets
+This document defines the strict schemas for liturgical text databases, service flow skeletons, case paradigms, and key naming conventions.
 
-Every liturgical distinct unit (Troparion, Kontakion, Stichera, etc.) is stored as a self-contained JSON object.
+---
 
-**File Location**: `assets/<book>/<category>/<filename>.json` (Mapped via `text_db`)
+## 1. Liturgical Text Database Schema (`text_asset.schema.json`)
 
-**Schema (`_template_asset.json`)**:
+Liturgical texts (both fixed ordinaries and variable propers) are stored in flat JSON dictionaries where keys represent logical liturgical variables, and values define the associated texts and metadata.
 
+*   **JSON Schema ID**: `http://ruthenian-engine.org/schemas/text_asset.schema.json`
+*   **Key Validation Pattern**: `^[a-z0-9_]+(\.[a-z0-9_]+){1,5}$`
+    *   *Rules*: Keys must be lower-case, start with a character, and use dot notation to represent paths (e.g., `octoechos.tone_1.vespers.stichera_1`).
+
+### Properties
+*   `content` (Required, String or Object): The actual translation text. If an object, it supports localized language keys (e.g., `"en"`, `"sl"`, `"uk"`).
+*   `source` (Required, String): Provenance identifier. Must be one of:
+    *   `Stamford` (Stamford Ukrainian Catholic Recension)
+    *   `Ruthenian` (Traditional Lviv/Rome Ruthenian Recension)
+    *   `Common` (Shared Byzantine texts)
+    *   `Other` (Alternative translations)
+    *   `System Logic` (Engine-generated labels)
+*   `tone` (Optional, String): Musical tone designation. Must match the regex `^Tone [1-8]$|^[1-8]$|^Variable$`.
+*   `rubric` (Optional, String): Specific instructions or rubrics associated with the text block.
+
+### Example Asset Entry
 ```json
 {
-  "id": "unique_logical_id",
-  "metadata": {
-    "title": "Human Readable Title",
-    "type": "troparion|kontakion|stichera|etc",
-    "tone": 1, // Optional (int)
-    "tags": ["sunday", "octoechos"],
-    "source": "Book/Publisher Name"
-  },
-  "rubrics": {
-    "pre_hymn_instruction": "Instruction before the text (e.g., 'Glory...')",
-    "post_hymn_instruction": "Instruction after (e.g., 'Twice.')"
-  },
+  "octoechos.tone_2.vespers.troparion": {
+    "content": {
+      "en": "When You descended unto death, O Life Immortal, then You destroyed Hades by the brilliance of Your divinity...",
+      "sl": "Jegda snishel jesi k smerti, Zhivote bezsmertnyj..."
+    },
+    "tone": "Tone 2",
+    "source": "Stamford",
+    "rubric": "Troparion of the Resurrection"
+  }
+}
+```
+
+---
+
+## 2. Service Flow Skeleton Schema (`service_structure.schema.json`)
+
+Service skeletons define the structural sequence of liturgical slots and sub-litanies. They are parsed and recursively expanded by the engine.
+
+*   **JSON Schema ID**: `http://ruthenian-engine.org/schemas/service_structure.schema.json`
+
+### Properties
+*   `file_metadata` (Required, Object): File provenance info.
+*   `structures` (Required, Object): A map of named service structures (e.g. `great_vespers`).
+
+Each structure object supports:
+*   `inherits_from` (Optional, String): Parent structure ID to resolve sequences and apply overrides recursively.
+*   `sequence` (Optional, Array): Ordered list of `structure_item` slots.
+*   `overrides` (Optional, Array): Override operations targeting parent structure sequences.
+
+### The 13 Component Types (`structure_item`)
+Each slot in a sequence or override must specify a `type` in its `content` field. The 13 permitted component type enums are:
+
+1.  **`fixed_ref`**: Static reference to a unique ID in the text database (e.g. `horologion.vespers.come_let_us_worship`).
+2.  **`fixed_group`**: Iterates through multiple text database keys in sequence (requires `ref_keys` array).
+3.  **`variable_logic`**: Invokes a Python logic resolver to determine slot content dynamically (requires `logic.function` and optional `logic.args` map).
+4.  **`generator`**: Calls a procedural list generator (e.g., `generate_stichera_sequence`).
+5.  **`link`**: Recursively nests another structure sequence from a secondary file (requires `target_id` and `target_file`).
+6.  **`conditional_block`**: A boolean switch evaluating context variables to branch between a `true_content` or `false_content` sub-sequence.
+7.  **`sequence`**: Groups multiple nested slots together.
+8.  **`component_ref`**: Points directly to a component definition block from `00_components.json`.
+9.  **`slot_variable`**: Reads a string from the resolved rubrics variables.
+10. **`antiphonal_sessional`**: Specific sessional alternating sequence.
+11. **`complex_structure`**: Complex custom layout wrapper.
+12. **`fixed_action`**: Choreographic instructions for clergy or choir.
+13. **`passion_gospel`**: Specific Holy Week matins Gospel block.
+
+### Example Sequence Item (Variable Logic)
+```json
+{
+  "id": "canon_ode_3_interludes",
   "content": {
-    "text": {
-      "en": "English Text...",
-      "sl": "Church Slavonic Text (Transliterated)",
-      "uk": "Ukrainian Text (Cyrillic)"
-    }
-  },
-  "media": {
-    "audio": { ... },
-    "score": { ... }
-  }
-}
-```
-
-## 2. Service Structures (`01_struct_*.json`)
-
-These files define the **skeletal order** of a service. They are sequences of "Slots".
-
-**Schema**:
-```json
-{
-  "id": "vespers_structure",
-  "structures": {
-    "great_vespers": [
-      {
-        "id": "opening_blessing",
-        "type": "fixed_ref",
-        "source": "horologion_opening_blessing"
-      },
-      {
-        "id": "psalm_103",
-        "type": "fixed_ref",
-        "source": "psalm_103"
-      },
-      {
-        "id": "lord_i_call",
-        "type": "dynamic_slot", // Requires Logic Resolution
-        "logic_function": "resolve_stichera_distribution" 
-      }
-    ]
-  }
-}
-```
-
-## 3. Logic Modules (`02_logic_*.json`)
-
-These files contain the decision trees (The "Paradigms").
-
-**Schema**:
-```json
-{
-  "logic_definitions": {
-    "case_01_sunday_simple": {
-      "triggers": {
-        "day_of_week": [0], // 0=Sunday
-        "rank_id": ["rank_simple"]
-      },
-      "variables": {
-        "stichera_distribution": {
-           "octoechos": 7,
-           "menaion": 3
-        },
-        "entrance": "required",
-        "readings": "none"
+    "type": "variable_logic",
+    "logic": {
+      "function": "resolve_canon_interludes",
+      "args": {
+        "ode_number": 3
       }
     }
   }
 }
 ```
 
-## 4. ID Standardization
+---
 
-The project uses a standard ID format to ensure uniqueness and findability.
+## 3. General Case Logic Schema (`02a_logic_general.json`)
 
-`[BOOK]_[TYPE]_[TONE/NAME]_[SUBTYPE]`
+Logic modules define the triggers and output variables for the 20 Dolnytsky paradigms.
 
-*   `octoechos_stichera_tone_1_vespers`: Sticker for Vespers, Tone 1.
-*   `menaion_troparion_jan_01_basil`: Troparion for St. Basil (Jan 1).
-*   `triodion_kontakion_pascha`: Kontakion of Pascha.
-*   `horologion_prayer_trisagion`: The Trisagion prayers.
+### Properties
+*   `triggers` (Required, Object): Criteria to match the liturgical day:
+    *   `day_of_week` (Array of Integers, `0` = Sunday, `6` = Saturday)
+    *   `rank_id` (Array of Strings matching rank identifiers, e.g., `rank_polyeleos`)
+    *   `period` (Array of Strings matching active seasons, e.g., `normal`, `forefeast`, `afterfeast`, `apodosis`)
+    *   `type` (Optional, Array of Strings indicating Great Feast types, e.g., `lord`, `theotokos`)
+*   `variables` (Required, Object): Rubrical parameters injected into the generation pipeline:
+    *   `vespers_stichera_distribution`: Maps the total stichera count and distributions (including `logic_switch` objects separating 1 vs 2 Saints, or Friday overrides).
+    *   `matins_canon_distribution`: Canon ode splits.
+    *   `praises_distribution`: Praises stichera counts.
+    *   `liturgy_variables`: Dictates the type of antiphons, troparia, and kontakia to merge.
 
-## 5. Adding New Content
+---
 
-To add a new Feasts or Saint:
+## 4. Standardized Naming Conventions (Master Keys)
 
-1.  **Create the Text Assets**: Create JSON files for the Troparion, Kontakion, and Stichera in `assets/menaion/<month>/`.
-2.  **Register IDs**: Ensure the IDs are unique.
+To allow recensions to be swapped out seamlessly, assets must adhere to these normalized master keys:
 
-## 6. Recension Architecture
-
-The system distinguishes between **two types** of recension data to allow for maximum flexibility:
-
-### 6.1. Fixed Recension (Structure & Ordinaries)
-*   **Definition**: Controls the "Skeleton" of the service and the fixed prayers (Ordinaries).
-*   **Examples**: "Abridged Stamford Horologion", "Unabridged Monastic Horologion", "Ruthenian Recension".
-*   **Content**:
-    *   `structure_*.json`: Defines which slots exist (e.g., does Matins have a Gospel reading?).
-    *   `horologion_*.json`: Defines the text for fixed prayers (Trisagion, Psalm 103, Gladsome Light).
-
-### 6.2. Variable Recension (Propers)
-*   **Definition**: Controls the changeable parts of the service (Propers) without altering the structure.
-*   **Examples**: "Stamford Translation", "Ponomar Project Translation", "Metropolitan Cantor Institute".
-*   **Content**:
-    *   `octoechos_*.json`
-    *   `menaion_*.json`
-    *   `triodion_*.json`
-
-### 6.3 Loading Logic
-The Engine accepts two configuration parameters:
-1.  `fixed_recension_path`: Points to the folder containing structural/fixed JSONs.
-2.  `variable_recension_path`: Points to the folder containing variable propers.
-
-*   **Fallback**: If a key is missing in the requested Variable Recension, it falls back to the default internal assets.
-*   **Override**: A Variable Recension can legally override a Fixed Text if it provides a key that matches a fixed asset ID (rare, but allowed).
-
-## 7. Master Key List (Standardized IDs)
-
-To enable swapping recensions, all assets must adhere to these **Master Keys**.
-
-### Fixed Keys (Horologion)
+### Fixed Ordinaries (Horologion)
 *   `horologion.vespers.opening_doxology`
-*   `horologion.vespers.come_let_us_worship`
 *   `horologion.vespers.psalm_103`
 *   `horologion.vespers.great_litany`
-*   `horologion.vespers.kathisma_hymn`
-*   `horologion.vespers.small_litany`
-*   `horologion.vespers.o_lord_i_have_cried` (The Psalm verses themselves, not stichera)
 *   `horologion.vespers.gladsome_light`
-*   `horologion.vespers.prokeimenon_intro`
-*   `horologion.vespers.vouchsafe_o_lord`
-*   `horologion.vespers.litany_supplication`
 *   `horologion.vespers.prayer_bowing_heads`
 *   `horologion.vespers.dismissal`
+*   `horologion.matins.hexapsalmos`
+*   `horologion.matins.magnificat`
 
-### Variable Keys (Octoechos/Menaion)
-*   `tone_<N>.sat_vespers.stichera_lord_i_call`
-*   `tone_<N>.sat_vespers.stichera_aposticha`
+### Variable Propers (Octoechos & Menaion)
+*   `tone_<N>.sat_vespers.stichera_lord_i_call` (Resurrection stichera, Tone 1-8)
 *   `tone_<N>.sat_vespers.troparion`
-*   `tone_<N>.sat_vespers.theotokion`
-*   `menaion.<MONTH>_<DAY>.vespers.stichera_lord_i_call`
+*   `menaion.<MONTH>_<DAY>.vespers.stichera_lord_i_call` (Saint propers)
 *   `menaion.<MONTH>_<DAY>.vespers.troparion`
+*   `triodion.<PASCHA_OFFSET>.vespers.stichera` (Triodion propers)
 
-**Rule**: Parsing scripts must normalize source text into these specific keys.
-
-## 8. Atomic Component Structures (v0.3.0+)
-
-To support complex, non-linear liturgical rendering (e.g. Canons, interleaved Stichera), the engine now supports "Atomic" structured objects within the asset database.
-
-### 8.1 Stichera Group (`stichera_group`)
-Used for "Lord I Call", "Aposticha", "Praises".
-```json
-{
-  "type": "stichera_group",
-  "items": [
-    {
-      "type": "sticheron",
-      "text": "The text of the hymn...",
-      "verse": "The psalm verse preceding it..." // Optional
-    },
-    {
-      "type": "doxastichon",
-      "text": "Glory...",
-      "rubric": "Tone 6"
-    },
-    {
-      "type": "theotokion",
-      "text": "Both now..."
-    }
-  ]
-}
-```
-
-### 8.2 Canon (`canon`)
-A recursive structure defining the Odes.
-```json
-{
-  "type": "canon",
-  "title": "Canon of the Resurrection",
-  "acrostic": "An acrostic signature...",
-  "odes": {
-    "1": {
-      "irmos": { "text": "..." },
-      "troparia": [ { "text": "..." }, { "text": "..." } ],
-      "katavasia": { "text": "..." } // Optional override
-    },
-    "3": { ... }
-  }
-}
-```
