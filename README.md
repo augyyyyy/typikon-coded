@@ -6,10 +6,10 @@ The **Liturgical Intelligence Engine** is a Python-based system designed to dyna
 
 ## Key Features
 
-- **Logic-First Architecture**: Rubrics drive the text generation. The system first resolves *what* should be said before fetching *how* it should be said.
-- **Dolnytsky Typikon Implementation**: Core logic is based on the 20 Paradigms of the Dolnytsky Typikon (Part II).
-- **Dynamic Text Construction**: Generates strict-service booklets ("The Common") or full-text user booklets.
-- **Multi-Recension Support**: Capable of handling different textual traditions (Stamford vs St Sergius, Julian vs Gregorian, etc.) through a unique ID system.
+- **Logic-First Architecture**: Rubrics drive the text generation. The system first resolves *what* should be said before fetching *how* it should be said. The engine itself is 100% logic-complete.
+- **Hub-and-Spoke Ecosystem**: `Typikon Coded` acts purely as the "Hub" (the brain). The actual liturgical texts are hydrated from external "Spoke" projects (e.g., Parish Administration, Kyivan Musicology).
+- **Dolnytsky Typikon Implementation**: Core logic perfectly implements the 20 Paradigms of the Dolnytsky Typikon (Part II).
+- **DeepSeek API Ingestion**: Uses automated Python pipelines powered by `DeepSeek-V4-Pro` to parse, structure, and translate massive volumes of Old Church Slavonic/English OCR directly into the Hub's JSON inbox.
 - **Verification Suite**: Includes automated stress tests to ensure rubrical accuracy across the liturgical year.
 
 ## Quick Start
@@ -99,6 +99,12 @@ For more detailed information, please refer to:
 - [Data Structure](DATA_STRUCTURE.md): Explanation of the JSON database schema and asset management.
 - [Contributing](CONTRIBUTING.md): How to contribute code or textual corrections.
 - [Academic Alignment](docs/thesis_alignment_analysis.md): A comparative analysis of this engine against the 2011 Master's Thesis "Automating the Byzantine Typikon".
+
+### v1.0.0 (2026-06-08) - The Hub & Spoke Paradigm
+*   **Logic Engine 100% Complete**: The core mathematical engine is hermetically sealed. All structural edge-cases, including Small Vespers and Great Compline Lenten variants, are perfectly modeled.
+*   **DeepSeek API Integration**: Standardized the entire ecosystem to use the DeepSeek-V4-Pro API via `.env` for massive, token-heavy OCR extraction and parsing in the Spoke projects.
+*   **Hub & Spoke Architecture**: Separated the ecosystem. `Typikon Coded` is purely the logic hub. All text hydration now occurs through external data ingestion pipelines.
+*   **De-Branded Local RTX**: Purged all historic dependencies on local LM Studio/RTX hardware in favor of the hyper-efficient DeepSeek cache-hit pipeline.
 
 ### v0.5.0 (2026-02-05) - Logic Core Complete
 *   **Full Service Logic Coverage**: Completed logic gates for all major services:

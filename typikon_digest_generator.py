@@ -1928,18 +1928,28 @@ class TypikonDigestGenerator:
                 glory_both_now = item.get("id")
             else:
                 source = self.humanize_key(item.get("source", ""))
-                item_id = self.humanize_key(item.get("id", "Stichera"))
-                key = (source, item_id)
+                raw_id = item.get("id", "Stichera")
+                
+                # Strip numeric suffix for grouping (e.g., aposticha_resurrection_1 -> aposticha_resurrection)
+                base_id = re.sub(r'_\d+$', '', raw_id)
+                key = (source, base_id)
                 counts[key] = counts.get(key, 0) + item.get("count", 1)
                 
-        for (source, item_id), c in counts.items():
-            stichera_parts.append(f"{c} {item_id} from the {source}")
+        for (source, base_id), c in counts.items():
+            if "resurrection" in base_id.lower() and "octoechos" in source.lower():
+                stichera_parts.append(f"the resurrectional aposticha in the tone of the week, from the Octoechos")
+            else:
+                name = self.humanize_key(base_id)
+                if c > 1:
+                    stichera_parts.append(f"{c} {name} from the {source}")
+                else:
+                    stichera_parts.append(f"{name} from the {source}")
             
         parts = []
         if stichera_parts:
-            parts.append(f"At the Aposticha, we sing: {', '.join(stichera_parts)}")
+            parts.append(f"We sing {', '.join(stichera_parts)}")
         else:
-            parts.append("At the Aposticha, we sing the Aposticha")
+            parts.append("We sing the Aposticha")
             
         if glory:
             parts.append(f"Glory... {self.humanize_key(glory)}")
@@ -1958,7 +1968,7 @@ class TypikonDigestGenerator:
             typ = c.get("type", "")
             ref = self.humanize_key(c.get("ref_key", ""))
             if "resurrectional" in typ:
-                parts.append("We sing the Sunday (resurrectional) troparion in the tone of the week")
+                parts.append("the Sunday (resurrectional) troparion in the tone of the week")
             elif typ == "glory":
                 parts.append(f"Glory... {ref}")
             elif typ == "both_now":
@@ -2293,7 +2303,16 @@ class TypikonDigestGenerator:
 
     def _format_resolve_sessional(self, res, context):
         if not res: return ""
-        return f"Sessional Hymns: {self.humanize_key(res.get('id', 'Sessional'))}."
+        val = res.get('id', 'Sessional')
+        if "octoechos" in val.lower():
+            if "sunday" in val.lower() or "resurrection" in val.lower():
+                return "We sing the resurrectional sessional hymns in the tone of the week, from the Octoechos."
+            return "We sing the sessional hymns from the Octoechos."
+        if "triodion" in val.lower():
+            return "We sing the sessional hymns from the Triodion."
+        if "menaion" in val.lower() or "saint" in val.lower():
+            return "We sing the sessional hymns of the Saint."
+        return f"Sessional Hymns: {self.humanize_key(val)}."
 
     def _format_resolve_kathisma_choice(self, res, context):
         if not res: return ""

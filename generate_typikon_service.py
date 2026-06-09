@@ -24,6 +24,7 @@ def main():
     parser.add_argument("--no-open", action="store_true", help="Do not open the file automatically")
     parser.add_argument("--digest", action="store_true", help="Generate a Typikon digest (instructions only) instead of a full text booklet")
     parser.add_argument("--full", action="store_true", help="Generate full service skeleton instead of quick-reference guide")
+    parser.add_argument("--html", action="store_true", help="Wrap the digest in a premium HTML/CSS design instead of raw markdown")
     
     args = parser.parse_args()
 
@@ -61,7 +62,39 @@ def main():
             if args.digest:
                 mode = "full" if args.full else "quick"
                 full_text = TypikonDigestGenerator(engine).generate(ctx, rubrics, mode=mode)
-                filename = f"Digest_{target_date}.md"
+                
+                if getattr(args, 'html', False):
+                    import markdown
+                    import re
+                    
+                    # Convert markdown to HTML
+                    html_body = markdown.markdown(full_text)
+                    
+                    # Add basic support for the [!NOTE] blockquotes used in the digest
+                    html_body = re.sub(r'<blockquote>\s*<p>\[!NOTE\]', '<blockquote class="markdown-alert"><div class="markdown-alert-title">✦ Note</div><p>', html_body)
+                    
+                    css_path = os.path.join(os.path.dirname(__file__), 'assets', 'digest_theme.css')
+                    css_content = ""
+                    if os.path.exists(css_path):
+                        with open(css_path, 'r', encoding='utf-8') as cf:
+                            css_content = cf.read()
+                            
+                    full_text = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Typikon Digest: {target_date.isoformat()}</title>
+    <style>{css_content}</style>
+</head>
+<body>
+    <div class="digest-container">
+        {html_body}
+    </div>
+</body>
+</html>"""
+                    filename = f"Digest_{target_date}.html"
+                else:
+                    filename = f"Digest_{target_date}.md"
             else:
                 full_text = engine.generate_full_booklet(ctx, rubrics)
                 filename = f"Service_{target_date}.txt"

@@ -66,6 +66,16 @@ Before claiming ANY digest section is "done":
 
 13. **LITURGICAL AUTHORITY CONFLATION (CONFIRMATION BIAS)** — Confusing a textual compilation (e.g., the 2014 Stamford Divine Office) with the rubrical authority (Dolnytsky/Ordo) simply because a configuration string is named `stamford_2014`. Never invent non-existent rulebooks (e.g., claiming there is a "Stamford Typikon"). The math/logic is *always* Dolnytsky/Ordo; the text profile/database is what corresponds to the Stamford compilation.
 
+### 0.5 Anti-Pattern #8: Context Window Dilution (The "Fog of War")
+
+> [!CAUTION]
+> **CONTEXT WINDOW DILUTION** is a lethal failure mode where the AI forgets its core operational constraints (e.g., "cite Dolnytsky for everything", "never fabricate progress") because the immediate context window is flooded with recent task noise (like fixing a Python syntax error or formatting markdown). The AI's base generative nature takes over, and it starts behaving like a generic assistant rather than the strict Liturgical Architect.
+
+**The Anti-Dilution Protocol:**
+1. **Periodic Snapping:** If a conversation exceeds 10 turns, or immediately after a long coding/debugging session, the AI MUST forcibly "zoom out" and re-read `.cursorrules` and `.agent/brain/encyclopedia/encyclopedia_persona_and_rules.md`.
+2. **The "Dolnytsky Test":** If you find yourself writing a rubric or making a decision *without* actively recalling the Dolnytsky Typikon paragraph, you are suffering from Dilution. STOP. Read the persona rules. Realign your context.
+3. **No Drift:** Never assume you "remember" the constraints. The LLM attention mechanism mathematically guarantees that older tokens (the system prompt and early constraints) lose weight compared to recent tokens (the current debugging task). Combat this by actively injecting the constraints back into your immediate context by reading them again.
+
 ---
 
 ## I. Data Structure & Dictionary
