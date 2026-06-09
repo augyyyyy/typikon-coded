@@ -185,22 +185,54 @@ class ComplineMixin:
         
         # 1. Forefeast / Afterfeast / Feast overrides
         if context.get("is_forefeast"):
-             return {"type": "canon", "subject": "forefeast", "book": "menaion", "source": "canon_forefeast"}
+             return {"type": "canon", "subject": "canon_forefeast", "book": "menaion", "source": "canon_forefeast"}
         elif context.get("is_afterfeast") or context.get("is_feast"):
              return {"type": "canon", "subject": "feast", "book": "menaion", "source": "canon_feast"}
              
-        # 2. Friday Night: Canon to the Departed
+        # 2. Friday Night: Canon to the Departed (Preceded by the Theotokos Canon)
         if day == 5:
-             return {"type": "canon", "subject": "departed", "book": "octoechos"}
+             return {
+                 "type": "canon", 
+                 "subject": "departed", 
+                 "book": "octoechos",
+                 "note": "We sing the Theotokion Canon of the Octoechos, and then the Canon to the Departed",
+                 "include_theotokos": True
+             }
              
         # 3. Lenten Mode weekdays
+        offset = context.get("pascha_offset")
         is_lent = (
             context.get("season") == "lent" or 
             context.get("is_lent") or 
-            (context.get("pascha_offset") is not None and -48 <= context.get("pascha_offset") <= -8)
+            (offset is not None and -48 <= offset <= -8)
         )
         if is_lent and day in [1, 2, 3, 4]:
-             return {"type": "canon", "subject": "great_canon_segment", "book": "triodion"}
+             # Calculate Lenten Week
+             offset_val = offset if offset is not None else -48
+             lent_week = ((offset_val + 48) // 7) + 1
+             if lent_week == 1:
+                  quarter_map = {1: "quarter_1", 2: "quarter_2", 3: "quarter_3", 4: "quarter_4"}
+                  q = quarter_map.get(day, "quarter_1")
+                  return {
+                      "type": "great_canon_quarter",
+                      "subject": f"great_canon_{q}",
+                      "book": "triodion",
+                      "note": f"Great Canon of St. Andrew, {q.replace('_', ' ')}"
+                  }
+             elif lent_week == 5 and day == 4:
+                  return {
+                      "type": "great_canon_full",
+                      "subject": "great_canon_full",
+                      "book": "triodion",
+                      "note": "Entire Great Canon of St. Andrew of Crete with Life of St. Mary of Egypt"
+                  }
+             else:
+                  return {
+                      "type": "triodion_compline_canon",
+                      "subject": "triodion_compline_canon",
+                      "book": "triodion",
+                      "note": f"Triodion Compline Canon for Week {lent_week}, Day {day}"
+                  }
              
         # Default (Mon-Thu, Sat, Sun nights) -> Canon to the Theotokos
         return {"type": "canon", "subject": "theotokos", "book": "octoechos"}

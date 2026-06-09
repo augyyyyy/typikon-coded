@@ -817,8 +817,8 @@ class LiturgyMixin:
                 }
             })
             
-            # Secondary: Saint of the day (if Polyeleos or higher)
-            if saints and rank <= 4:
+            # Secondary: Saint of the day (if Polyeleos or higher, R <= 3)
+            if saints and rank <= 3:
                 saint_id = saints[0].get("id", "saint")
                 result["readings"].append({
                     "prokeimenon": {

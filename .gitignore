@@ -73,6 +73,7 @@ test_execution_log.json
 # Tooling & Config (local only)
 # ----------------------------------------------------------
 .agent/
+.ai/
 .gemini/
 .antigravityignore
 config_local.json

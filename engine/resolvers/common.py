@@ -70,7 +70,8 @@ class CommonResolverMixin:
         suppress_weekly = (
             context.get("is_festal_dismissal", False) or 
             rank == 1 or 
-            paradigm == "p_feast_lord"
+            paradigm == "p_feast_lord" or
+            (rank <= 3 and day_of_week != 0)
         )
         
         intercessors = "through the prayers of His most pure Mother;"
@@ -409,39 +410,100 @@ class CommonResolverMixin:
         Resolves Sessional Hymns (Ode 3) and Kontakion/Ikos (Ode 6).
         
         Citation: Dolnytsky Part I Lines 175-180:
-        After Ode 3: Sessional Hymns. On Sunday, includes Hypakoe.
+        After Ode 3: Sessional Hymns. On Sunday, includes Hypakoe/displaced Saint Kontakion.
         After Ode 6: Kontakion & Ikos. On Sunday, Resurrection Kontakion.
         """
         if ode_number not in [3, 6]:
              return None
 
         result = {"type": "canon_interlude", "pos": ode_number, "components": []}
-        is_sunday = context.get("day_of_week") == 0
+        day = context.get("day_of_week", 0)
+        is_sunday = (day == 0)
+        
         rank = context.get("rank", 5)
+        if isinstance(rank, str):
+             rank = parse_rank_integer(rank)
+        else:
+             try:
+                  rank = self.calculate_rank(context)
+             except:
+                  pass
+                  
+        paradigm = self.identify_paradigm(context)
+        saints = context.get("saints", [])
+        has_polyeleos = any(parse_rank_integer(s.get("rank", 5)) <= 3 for s in saints)
+        is_feast = (rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"])
 
         # ODE 3 Logic
         if ode_number == 3:
-            if is_sunday:
-                # Sunday: Hypakoe of the tone
+            if is_feast:
+                # Scenario 2: Feast of Lord/Theotokos on Sunday or weekday
+                result["components"].append({
+                    "type": "sessional", "id": "feast_sidalen_ode_3",
+                    "source": "menaion", "note": "Sessional of the Feast"
+                })
+                result["components"].append({
+                    "type": "glory_both_now", "id": "glory_both_now_feast_theotokion",
+                    "source": "theotokion"
+                })
+            elif is_sunday:
+                # Always start with Hypakoe of the Tone
                 tone = context.get("octoechos_tone", context.get("tone", 1))
                 result["components"].append({
                     "type": "hymn", "id": f"hypakoe_tone_{tone}",
                     "source": "octoechos", "note": "Hypakoe of the Tone"
                 })
-            else:
-                # Weekday/Feast: Sessional Hymn from Menaion
+                
+                # If there's a Polyeleos or higher Saint (Scenario 1), we do the Kontakion Shift in addition:
+                if has_polyeleos and saints:
+                    saint_id = saints[0].get("id", "saint")
+                    result["components"].append({
+                        "type": "kontakion", "id": f"kontakion_{saint_id}",
+                        "source": "menaion", "note": "Kontakion of the Saint (shifted from Ode 6)"
+                    })
+                    result["components"].append({
+                        "type": "ikos", "id": f"ikos_{saint_id}",
+                        "source": "menaion", "note": "Ikos of the Saint"
+                    })
+                    result["components"].append({
+                        "type": "sessional", "id": f"sessional_{saint_id}",
+                        "source": "menaion", "note": "Sessional of the Saint"
+                    })
                 result["components"].append({
-                    "type": "sessional", "id": "sessional_menaion",
-                    "source": "menaion", "count": 1
+                    "type": "glory_both_now", "id": "glory_both_now_theotokion",
+                    "source": "theotokion"
                 })
-            result["components"].append({
-                "type": "glory_both_now", "id": "glory_both_now_theotokion",
-                "source": "theotokion"
-            })
+            else:
+                # Weekday (Scenario 3): Sessional of the Saint
+                if saints:
+                    saint_id = saints[0].get("id", "saint")
+                    result["components"].append({
+                        "type": "sessional", "id": f"sessional_{saint_id}",
+                        "source": "menaion", "note": "Sessional of the Saint"
+                    })
+                else:
+                    result["components"].append({
+                        "type": "sessional", "id": "sessional_menaion",
+                        "source": "menaion", "count": 1
+                    })
+                result["components"].append({
+                    "type": "glory_both_now", "id": "glory_both_now_theotokion",
+                    "source": "theotokion"
+                })
              
         # ODE 6 Logic
         elif ode_number == 6:
-            if is_sunday:
+            if is_feast:
+                # Great Feast: Kontakion & Ikos of the Feast
+                result["components"].append({
+                    "type": "kontakion", "id": "kontakion_feast",
+                    "source": "menaion", "note": "Kontakion of the Feast"
+                })
+                result["components"].append({
+                    "type": "ikos", "id": "ikos_feast",
+                    "source": "menaion", "note": "Ikos of the Feast"
+                })
+            elif is_sunday:
                 # Sunday: Resurrection Kontakion & Ikos
                 tone = context.get("octoechos_tone", context.get("tone", 1))
                 result["components"].append({
@@ -453,15 +515,26 @@ class CommonResolverMixin:
                     "source": "octoechos", "note": "Resurrection Ikos"
                 })
             else:
-                # Weekday/Feast: Kontakion & Ikos from Menaion
-                result["components"].append({
-                    "type": "kontakion", "id": "kontakion_menaion",
-                    "source": "menaion"
-                })
-                result["components"].append({
-                    "type": "ikos", "id": "ikos_menaion",
-                    "source": "menaion"
-                })
+                # Weekday: Kontakion & Ikos of the Saint
+                if saints:
+                    saint_id = saints[0].get("id", "saint")
+                    result["components"].append({
+                        "type": "kontakion", "id": f"kontakion_{saint_id}",
+                        "source": "menaion", "note": "Kontakion of the Saint"
+                    })
+                    result["components"].append({
+                        "type": "ikos", "id": f"ikos_{saint_id}",
+                        "source": "menaion", "note": "Ikos of the Saint"
+                    })
+                else:
+                    result["components"].append({
+                        "type": "kontakion", "id": "kontakion_menaion",
+                        "source": "menaion"
+                    })
+                    result["components"].append({
+                        "type": "ikos", "id": "ikos_menaion",
+                        "source": "menaion"
+                    })
 
         # Alias: expose as "items" for backward-compatible access
         result["items"] = result["components"]
@@ -1214,6 +1287,19 @@ class CommonResolverMixin:
         - Hour 6: Kathisma 10, 11, 12 (rotating)
         - Hour 9: Kathisma 13, 14, 15 (rotating)
         """
+        # 1. Holy Week Omissions: 1st and 9th Hours have no Kathisma during Holy Week (offsets -6, -5, -4)
+        delta = context.get("pascha_offset")
+        if delta is not None and -6 <= delta <= -4:
+            if hour in [1, 9]:
+                return None
+
+        # 2. Specific weekday omissions (Dolnytsky L365):
+        # Monday 1st Hour, Friday 1st and 9th Hours
+        if day_of_week == 1 and hour == 1:
+            return None
+        if day_of_week == 5 and hour in [1, 9]:
+            return None
+
         # Base kathisma for each hour
         hour_base = {1: 4, 3: 7, 6: 10, 9: 13}
         base = hour_base.get(hour, 4)

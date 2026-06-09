@@ -15,10 +15,10 @@ class TestProkeimenonPrecedence(unittest.TestCase):
         self.assertEqual(res["prokeimenon_id"], "prokeimenon_eothinon_1")
 
     def test_liturgy_double_readings_sunday_polyeleos_saint(self):
-        # Sunday with a Polyeleos saint (rank <= 4)
+        # Sunday with a Polyeleos saint (rank <= 3)
         context = {
             "day_of_week": 0,
-            "rank": 4,
+            "rank": 3,
             "tone": 2,
             "saints": [{"id": "saint_nicholas", "name": "St. Nicholas"}],
             "moveable_cycle": {"epistle": "apostol.sunday", "gospel": "evangelion.sunday"}

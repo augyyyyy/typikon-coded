@@ -249,6 +249,25 @@ class MatinsMixin:
         rank = self.calculate_rank(context)
         is_sunday = (day == 0)
         
+        # Check for Great Feast Supremacy (Scenario 2: rank == 1 or paradigm starts with p_feast)
+        paradigm = context.get("paradigm")
+        if not paradigm:
+            try:
+                paradigm = self.identify_paradigm(context)
+            except:
+                paradigm = "p1_sunday_resurrection"
+        
+        is_feast = (rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"])
+        if is_feast:
+             sidalen_1 = ["feast_sidalen_1", {"type": "glory_both_now", "content": "feast_sidalen_1_theotokion"}]
+             sidalen_2 = ["feast_sidalen_2", {"type": "glory_both_now", "content": "feast_sidalen_2_theotokion"}]
+             sidalen_3 = ["magnification_feast", "feast_sidalen_3", {"type": "glory_both_now", "content": "feast_sidalen_3_theotokion"}]
+             return {
+                 "sidalen_1": sidalen_1,
+                 "sidalen_2": sidalen_2,
+                 "sidalen_3": sidalen_3
+             }
+
         # 1. Base Octoechos (Resurrectional)
         sidalen_1 = ["octoechos_sidalen_1", "octoechos_sidalen_1_glory", "octoechos_sidalen_1_theotokion"]
         sidalen_2 = ["octoechos_sidalen_2", "octoechos_sidalen_2_glory", "octoechos_sidalen_2_theotokion"]

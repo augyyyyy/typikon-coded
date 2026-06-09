@@ -124,8 +124,9 @@ class CalendarMixin:
         thomas_sunday_offset = 7  # Thomas Sunday = Pascha + 7
         
         if 0 <= delta <= 6:
-            # Bright Week: always Tone 1 (special Paschal services)
-            tone = 1
+            # Bright Week daily rotation (skipping Tone 7 on Bright Saturday)
+            bright_week_tones = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 8}
+            tone = bright_week_tones[delta]
         elif 7 <= delta <= 56:
             # Pentecostarion (Thomas Sunday through All Saints):
             # Tones align 1-8 numerically from Thomas Sunday
@@ -533,7 +534,8 @@ class CalendarMixin:
         offset = context.get("pascha_offset", 0)
         
         if 0 <= offset <= 6:
-            return 1  # Bright Week: Tone 1
+            bright_week_tones = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 8}
+            return bright_week_tones[offset]
         elif 7 <= offset <= 56:
             # Pentecostarion: tones align from Thomas Sunday
             return ((offset - 7) // 7 % 8) + 1

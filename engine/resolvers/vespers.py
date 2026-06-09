@@ -1111,17 +1111,44 @@ class VespersMixin:
         Resolves the Prokeimenon and Old Testament Readings for Vespers.
         """
         # 1. Prokeimenon
-        # Default Saturday Evening: "The Lord is King" (Tone 6)
         day = context.get("day_of_week")
+        offset = context.get("pascha_offset")
+        is_lent = context.get("season") == "lent" or context.get("is_lent") or (offset is not None and -48 <= offset <= -8)
+        rank = parse_rank_integer(context.get("rank", 5))
+        paradigm = self.identify_paradigm(context)
         prokeimenon = None
         
-        if day == 0: # Sunday (Sat Eve)
+        # Check for Great Prokeimenon Precedence (Rule 1)
+        if is_lent and day == 1: # Sunday evening in Great Lent (liturgically Monday)
              prokeimenon = {
                  "type": "prokeimenon",
-                 "source": "horologion_saturday_evening",
-                 "ref_key": "prokeimenon.saturday_evening",
-                 "content": "The Lord is King, He is clothed with majesty."
+                 "variant": "great",
+                 "ref_key": "triodion.great_prokeimenon_sunday_lent",
+                 "content": "Turn not away Thy face from Thy servant..."
              }
+        elif offset is not None and 0 <= offset <= 6: # Bright Week daily
+             bright_tones = {0: 8, 1: 7, 2: 8, 3: 7, 4: 8, 5: 7, 6: 8}
+             t = bright_tones.get(offset, 8)
+             prokeimenon = {
+                 "type": "prokeimenon",
+                 "variant": "great",
+                 "ref_key": f"pentecostarion.great_prokeimenon_bright_week_tone_{t}",
+                 "content": "Who is so great a God as our God..." if t == 8 else "Our God is in heaven and on earth..."
+             }
+        elif context.get("is_feast_evening") and (paradigm == "p_feast_lord" or rank == 1):
+             prokeimenon = {
+                 "type": "prokeimenon",
+                 "variant": "great",
+                 "ref_key": "menaion.great_prokeimenon_feast_evening",
+                 "content": "Who is so great a God as our God..."
+             }
+        elif day == 0: # Sunday (Sat Eve)
+             prokeimenon = {
+                  "type": "prokeimenon",
+                  "source": "horologion_saturday_evening",
+                  "ref_key": "prokeimenon.saturday_evening",
+                  "content": "The Lord is King, He is clothed with majesty."
+              }
         else:
              # Daily Prokeimenon
              prokeimenon = self.resolve_prokeimenon(context)

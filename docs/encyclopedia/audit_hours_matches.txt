@@ -1,0 +1,329 @@
+Final_Dolnytsky_appendix.txt:L268
+84. After the dismissal, the Reader immediately begins the 1st Hour: "Come, let us worship" (3) and the psalms. After "Our Father," the Priest in the epitrachelion: "For Thine is the kingdom." Reader - Kontakion and "Lord, have mercy" (40). The Priest goes out of the sanctuary through the northern doors and before the holy [doors], turned to the east, loudly: "Thou Who at all times". Reader: "Lord, have mercy" (3), "Glory, Both now", "More honorable than the Cherubim", "In the name of the Lord, bless, father." Priest: "God be merciful to us." Reader: "Amen." Priest recites the prayer "O Christ, the True Light", "Glory to Thee, O Christ God." Reader: "Glory, Both now", "Lord, have mercy" (3), "Bless." The Priest imparts the Small Dismissal, returns into the sanctuary and takes off the epitrachelion.
+
+Final_Dolnytsky_part1_structure.txt:L223
+Upon the conclusion of the troparia the Priest sings two litanies, namely 'Have mercy on us, O God' and 'Let us complete,' with the giving of peace, as given at Vespers, and also the dismissal, according to the model given at Great Vespers without Vigil. When the choirs begin the 1st Hour from 'Come, let us worship' with bows alternately, then the Priest also, having bowed twice with the first choir, closes the Holy Doors, having bowed low in the direction of the Holy Table, exits to the sacristy and, having removed the phelonion, sits at his place behind the Holy Table."
+
+Final_Dolnytsky_part1_structure.txt:L240
+"From the beginning of Matins to the second Sessional Hymn inclusive everything happens just as at Great Matins without Vigil, with the exception of the censing at the beginning, which is prescribed in the Typikon, however, according to our custom of many years, is not practiced[^40]. After the second (or even the third)[^41] Sessional Hymn the 50th Psalm is taken and immediately the Canon just as given at Great Matins, except for the Katavasia, which will not be the current one, nor after every ode, but only after the 3rd, 6th, 8th and 9th - the heirmos of the last canon. At its 9th Ode, that is at 'My soul magnifies,' the Priest censes just as at Great Matins. After the Canon - 'It is truly meet'; after the Exaposteilarion - the Psalms of the Praises, simply, without singing and without the addition to the first two verses of the words: 'Let everything that hath breath' and 'To Thee belongs'; after Glory, Both now usually the Small Doxology is read, before which the Priest, having exited to the front of the Holy Doors says in the Forty Days: 'To Thee belongs glory' and exclaims: 'Glory to Thee Who Hast shown us the light.' Outside the Forty Days, He does not say 'To Thee belongs glory,' but immediately exclaims: 'Glory to Thee Who Hast shown us the light' and then the choirs read the Doxology. The Priest stands there until the end of the litany 'Let us complete,' which follows after the Doxology, at it he also gives the peace, as at Vespers. After 'Let us complete' the Priest withdraws to his place, having bowed low. The Aposticha is sung, and after it - 'It is a good thing,' Trisagion and the rest with 'Our Father.' After this the Priest exclaims, standing at his place: 'For Thine is the kingdom,' also the troparion of the Saint is sung and Glory, Both now: the Dismissal Theotokion, according to the tone of the troparion of the Saint and according to the day of the week. In the Fore- and Afterfeast the Theotokion is not taken, but instead of it the troparion of the Feast is sung[^42]. When this troparion ends, the Priest comes out to the front of the Holy Doors and sings the litany 'Have mercy on us, O God' and after its exclamation says: 'Wisdom,' the Choir responds: 'Bless,' the Priest sings: 'Blessed is He Who Is and is pre-glorified... unto ages of ages,' choir: 'Amen' and immediately: 'Confirm, O God' with small bows. The Priest after the last low bow withdraws to his place and the 1st Hour begins."
+
+Final_Dolnytsky_part1_structure.txt:L247
+"The Order of these Hours is given in the Chasoslovets i Molitvoslov. The changeable parts are: troparia, kontakia and the commemoration of the current service at the dismissal.
+
+Final_Dolnytsky_part1_structure.txt:L250
+1.	If at the Hours there is only one troparion, then it is taken with the refrain 'Glory,' then - the Theotokion of the Hours with the refrain 'Both now.' If there are two troparia and two kontakia, then the first troparion is taken simply, without a refrain, after [it] - the second with the refrain 'Glory,' and at the end - 'Both now' and the Theotokion of the Hour. The Kontakia are taken alternately, that is at the 1st and 6th - one, and at the 3rd and 9th - the second.
+
+Final_Dolnytsky_part1_structure.txt:L252
+2.	At one Hour there cannot be more than two troparia and one kontakion. If in the Typikon more than two troparia and more than one kontakion are given, then they are taken alternately, that is: at the 1st and 6th Hour - the troparion of the first service, then Glory: troparion of the second service; at the 3rd and 9th - the troparion of the first service, and after - Glory: troparion of the third service. Kontakia, if there are two, are taken: one - at the 1st and 6th Hour, and the second - at the 3rd and 9th; if there are three, then at the 1st - the first, at the 3rd - the second, at the 6th - the third, and at the 9th - again the first.
+
+Final_Dolnytsky_part1_structure.txt:L254
+3.	In older Menaia, which our Menaia also follow, troparia and kontakia are not given to every Saint, but in closer times we find them given in our Horologia. Therefore one should not wonder if regarding the use of troparia at the Hours the rubrics in some way do not agree with the Menaion and our Chasoslovets i Molitvoslov. For when a Saint had a troparion and kontakion, according to the ancient Typikon, they were taken at all Hours; but according to the Typikon of our Chasoslovtsi i Molitvoslovy (lit. "Horo- and Prayer Books"), in order not to repeat at all Hours on all days one and the same troparion and kontakion, for a certain variety at the 1st Hour - the troparion and kontakion of the day of the week, at the 3rd and 9th - of the Saint, and at the 6th - of the Temple.
+
+Final_Dolnytsky_part1_structure.txt:L255
+The aforesaid concerns daily troparia and kontakia; on Sundays it is proper to take the Sunday troparion of the current tone at every Hour in this manner: at the 1st - the Sunday troparion alone, at the 3rd and 9th - the Sunday troparion, then Glory: to the Saint; at the 6th - the Sunday troparion and Glory: troparion of the Temple; kontakia - alternately, that is at the 1st - Sunday, at the 3rd - to the Saint, at the 6th - of the Temple and at the 9th - again Sunday. Similarly also in Fore- and Afterfeasts of the Lord and of the Theotokos, as also for Polyeleos Saints, their troparia are taken at every Hour, and the troparion of the Temple is not taken.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L114
+1.	Troparia: Sunday - at all hours, also "Glory" at the 3rd and 9th - also to the saint, at the 6th - to the patron[^64] of the church. Kontakia: at the 1st and 9th - Sunday, at the 3rd - to the saint, at the 6th - to the patron.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L115
+o	If two saints occur, then the Sunday troparion - at all hours, also "Glory" at the 3rd and 6th - to the saint, at the 6th - to the patron, at the 9th - to the second. Kontakia - alternating, that is: at the 1st - Sunday, at the 3rd - to the first, at the 6th - to the patron, at the 9th - to the second saint[^65].
+
+Final_Dolnytsky_part2_general_rubrics.txt:L302
+At all hours: Sunday Troparion, also Glory: to the saint, Kontakia - alternating, that is: at the 1st and 6th - Sunday, at the 3rd and 9th - to the saint[^129].
+
+Final_Dolnytsky_part2_general_rubrics.txt:L346
+AT THE HOURS: At all hours: Troparion and Kontakion of the saint.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L530
+AT THE HOURS: At all hours - Troparion and Kontakion of the feast. Dismissal with the commemoration of the feast.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L891
+AT THE HOURS: At all: Troparion and Kontakion only of the feast, as on the feast itself.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L918
+[^65]: Peremyshl Typikon, page 81. -- According to the ancient typikon there was to be a Sunday troparion at all hours, also "Glory" at the 1st and 6th -- Goes also to the first saint, at the 3rd and 9th -- to the second; Kontakia -- alternating: at the 1st and 6th -- to the first, at the 3rd and 9th -- to the second saint (compare John the Theologian on the Sunday of the Holy Fathers). When the Kontakion is only for one saint, then it alone is taken at all [hours]; and when for neither, nor for the feast, then the Hypakoe of the tone is taken; for general Greek editions do not have Sunday Kontakia. Regarding the Hypakoe, you have the rubric in Greek Horologions at the 1st Hour, it and at the other hours must be observed.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L940
+[^87]: Lviv Synod in the Order of the Hours: according to the previous typikon troparion and Kontakion -- only to the saint at all hours (Moscow Octoechos, fol. 358). If the saint did not have a troparion or Kontakion, then the troparia given in the Horologion in the Order of the Hours (which today we limit to Great Lent) were taken, as follows from Greek Horologions.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L941
+[^88]: Peremyshl Typikon, page 116. According to the previous typikon at all hours -- troparion of the first saint, Glory: of the second; Kontakia -- alternating, that is: at the 1st and 6th -- to the first, at the 3rd and 9th -- to the second saint. (Moscow Typikon, chapter 58).
+
+Final_Dolnytsky_part2_general_rubrics.txt:L966
+[^113]: According to the previous typikon at all hours -- troparion and Kontakion only to the saint, if there be. If two saints occur, then at all hours there will be the troparion to the first saint, Glory: to the second. Kontakia -- alternating: at the 1st and 6th -- to the first, at the 3rd and 9th -- to the second. (Moscow Octoechos at the end fol. 355, on the verso).
+
+Final_Dolnytsky_part2_general_rubrics.txt:L982
+[^129]: Moscow Typikon, chapter 4; and Peremyshl at the 6th Hour prescribes the troparion and Kontakion of the temple, however, the Lviv Synod orders in this case to discard the temple (in the Order of Ordinary Hours). Footnotes
+
+Final_Dolnytsky_part2_general_rubrics.txt:L1014
+[^161]: Peremyshl Typikon prescribes Hypakoe, also Glory, Both now: of the feast. The Greek Typikon does not give anything, for the All-Night Vigil is implied, which excludes Compline. But because in Greek Horologions at the Hours the Kontakion of the feast excludes the Hypakoe, similarly as chapter 77 of Mark, then one can also here at Compline take one Kontakion of the Forefeast without Hypakoe. Similarly and at the Apodosis of the feast the Kontakion of the feast excludes the Hypakoe (Menaion January 14).
+
+Final_Dolnytsky_part2_general_rubrics.txt:L1018
+[^165]: E. g. September 7; so also Mark: however, since according to the Greek Typikon there are no Sunday Kontakia, then at all hours only the Kontakion of the Forefeast is taken (Καιφ. οζ/chapter 77).
+
+Final_Dolnytsky_part2_general_rubrics.txt:L1032
+[^179]: According to the previous typikon at all hours: troparion of the Forefeast, also Glory: to the saint, and Kontakion -- only of the Forefeast (Tserkovne Oko, Mark, chapters 128 and 129, and this "if some saint has a Doxology"); similarly and the Manuscript Typikon in chapter 27. In the case of two saints we do not find a typikon, but it is easy to understand, that at the 1st and 6th Hour at Glory belongs to take the troparion of the first saint, and at the 3rd and 9th -- of the second; and the Kontakion at all -- only of the Forefeast.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L1044
+[^191]: According to the Greek Typikon, the Kontakion at all hours -- only of the feast.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L1052
+[^199]: E. g. our Menaia September 8; Moscow Typikon September 8 and November 21; and Mark, because in the general Greek Typikon there is no Sunday Kontakion, prescribes at all [Hours] only the Kontakion of the feast.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L1061
+[^208]: According to the previous typikon at all hours: troparion of the feast and Glory: to the saint, if he has; and Kontakion -- only of the feast (Tserkovne Oko in chapters 128 and 129 of Mark). In the case of two saints after the troparion of the feast is taken on Glory alternating troparion to the first and second saint, and Kontakion -- only of the feast.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L1068
+[^215]: The Typikon of the Slavonic Menaion November 21, and chapter οσ /76/ of Mark of the Greek Typikon and 8 of Tserkovne Oko prescribes at all hours only the Kontakion of the feast.
+
+Final_Dolnytsky_part2_general_rubrics.txt:L1087
+[^234]: According to the general Greek Typikon and Mark, chapter 63, at all hours -- only Kontakion of the feast.
+
+Final_Dolnytsky_part3_menaion.txt:L294
+Note: Although this service is without Polyeleos, nevertheless, because some of its parts have the appearance of [one with] Polyeleos, it should not be omitted at the Liturgy; better not to take the service of the day. Likewise at the hours, except Sunday. On Sunday, although the typikon has nothing, one should adhere to the general rule of a Saint with Doxology on 6 and take the Kontakion to the Saint at Compline and at the Hours just as for a Saint with Polyeleos, according to the above.
+
+Final_Dolnytsky_part3_menaion.txt:L439
+On all: Troparion of the feast, also Glory: on the 3rd and 9th - also to the saints, if there is one common one. If the saints have two troparia, then on the 3rd - Glory: to Clement, and on the 9th - Glory: to Peter[^285]. Kontakion on all hours - only of the feast[^286].
+
+Final_Dolnytsky_part3_menaion.txt:L445
+The service of St. Peter is transferred to another day, at the decision of the Superior. Here is sung the Resurrectional, of the Feast and of Clement, according to the general rule of a saint on 4, that falls with Afterfeast on a Sunday. Only at the Hours the troparion of the saint is not said, but only Resurrectional and Glory: of the feast. Kontakia - alternating: on the 1st and 6th - Resurrectional, on the 3rd and 9th - of the feast. At the Liturgy - everything only of the Sunday and of the feast with the Apostle-Gospel of the feast itself[^287].
+
+Final_Dolnytsky_part3_menaion.txt:L779
+4.	The composition and form of the Great Hours is the same as of the usual Hours, with the exception of three troparia and three readings, given after the Theotokion "What shall we call Thee" at the 1st Hour and after the corresponding ones at the other Hours. Regarding the essence, the Royal Hours differ from the usual ones also by the tripalm, which at the Royal Hours is special, appropriate to the given feast[^311].
+
+Final_Dolnytsky_part3_menaion.txt:L789
+When, after the Troparion of the Forefeast "Once Mary was registered", the Theotokion is also read, the choirs sing three stichera idiomesa[^314]  on 6, that is twice each. The first stichera both the first and the second time is sung without a refrain; the second - the first time with a separate refrain, and the second - with another separate refrain; the third - the first time with the refrain "Glory", and the second - with the refrain "Both now". All four above-mentioned refrains at all Hours - are the same. At the 9th Hour the third stichera is taken three times, that is the first time it is read loudly and piously by the canonarch in the middle of the church, without a refrain, then the second time - by one choir with the refrain "Glory", and the third - by the other with the refrain "Both now"[^315].
+
+Final_Dolnytsky_part3_menaion.txt:L794
+Question: When the Royal Hours are transferred from Sunday or Saturday back, to Friday, should one take on them the Troparion of the Eve or of the Forefeast, 22 or 23 December?
+
+Final_Dolnytsky_part3_menaion.txt:L797
+After the concluding prayer of the 9th Hour we immediately read the Typika just as in the Horologion, however, without the introductory verse that is before the first psalm, without the stichera on the "Beatitudes", without the Apostle-Gospel; also, if there be Liturgy, then also without the "Creed" and without "Blessed be the name of the Lord", and without the following 33rd Psalm, for all this will be taken at the Liturgy. When the Royal Hours are transferred back, to Friday, then since then there will be no Liturgy, here both the "Creed" and "Blessed be the name of the Lord" with the 33rd Psalm is read. Instead of the kontakia of the temple, of the day and others, one Kontakion of the Eve is taken. Here is the detailed rule for you.
+
+Final_Dolnytsky_part3_menaion.txt:L1386
+AT THE HOURS: On all: Troparion of the Feast; also Glory: of the Synaxis. Kontakia: on the 1st and 6th - of the Feast, on the 3rd and 9th - of the Synaxis.
+
+Final_Dolnytsky_part3_menaion.txt:L1675
+1.	Three great prostrations we make without the Prayer of Ephraim at the end of Vespers and at the end of Matins immediately after the concluding litany, and at Compline - after the Kontakion of the Forefeast, and at each Hour - after "More honorable".
+
+Final_Dolnytsky_part3_menaion.txt:L1710
+AT THE HOURS: On all - Troparion of the Forefeast, Glory: of the Fathers. Kontakia: on the 1st and 6th - of the Forefeast; on the 3rd and 9th - of the Fathers.
+
+Final_Dolnytsky_part3_menaion.txt:L1755
+AT THE HOURS: On all: Resurrectional Troparion, Glory: of the Feast. Kontakia: on the 1st and 6th - of the Feast, on the 3rd and 9th - of the Triodion.
+
+Final_Dolnytsky_part3_menaion.txt:L1773
+Everything, as in the previous case, only at the end of Vespers, Matins and each Hour we make three great prostrations, and at the 6th Hour there will be the Troparion and Paremia of the Triodion.
+
+Final_Dolnytsky_part3_menaion.txt:L1809
+AT THE HOURS: On all: Troparion of the Feast, Glory: of the fathers, and Kontakion - to the Feast[^374].
+
+Final_Dolnytsky_part3_menaion.txt:L2043
+AT THE HOURS: On all: Troparion and Kontakion to the Forerunner.
+
+Final_Dolnytsky_part3_menaion.txt:L2201
+Everything - according to the general rule of a Saint with Polyeleos, as also outside the Fast, only after the Kontakion of the Forerunner we make three great prostrations (without prayer); at the 3rd, 6th and 9th Hour we read the Kathisma; at the 6th we read also the Paremia.
+
+Final_Dolnytsky_part3_menaion.txt:L2355
+AT THE HOURS: On all: Troparion and Kontakion - of the Forefeast.
+
+Final_Dolnytsky_part3_menaion.txt:L2430
+AT THE HOURS: On all - Resurrectional Troparion, Glory: of the Forefeast. Kontakia: on the 1st and 6th - of the Triodion, on the 3rd and 9th - of the Forefeast.
+
+Final_Dolnytsky_part3_menaion.txt:L2457
+AT THE HOURS: On all: Troparion of the Akathist, Glory: of the Forefeast. Kontakia: on the 1st and 6th - of the Akathist, on the 3rd and 9th - of the Forefeast.
+
+Final_Dolnytsky_part3_menaion.txt:L2826
+On all: Troparion of the Feast, Glory: of the day "When the glorious". Kontakia: on the 1st and 6th - of the Feast, on the 3rd and 9th - of the day. At the 1st hour, before "Order my steps": Troparion of the Prophecy and Paremia. At "The Beatitudes": Kontakion of the Feast and after "O All-Holy Trinity" - Dismissal.
+
+Final_Dolnytsky_part3_menaion.txt:L3024
+AT THE HOURS: On all: Troparion of the Feast and of the Archangel. Kontakia: on the 1st and 6th - of the Feast; on the 3rd and 9th - of the Archangel.
+
+Final_Dolnytsky_part3_menaion.txt:L3080
+AT THE HOURS: Instead of the Sunday one there will be the Kontakion of the Triodion.
+
+Final_Dolnytsky_part3_menaion.txt:L3105
+AT THE HOURS: On all: Troparion and Kontakion only of the Feast.
+
+Final_Dolnytsky_part3_menaion.txt:L3286
+AT THE HOURS: On all - Troparion of the Feast, Glory: to the Saint. Kontakion: on the 1st and 6th - of the Feast, on the 3rd and 9th - of the Saint.
+
+Final_Dolnytsky_part3_menaion.txt:L3379
+AT THE HOURS: On all - Troparion of the Feast, Glory: to the Cross. Kontakion: on the 1st and 6th - of the Feast; on the 3rd and 9th - of the Cross.
+
+Final_Dolnytsky_part3_menaion.txt:L3485
+AT THE HOURS: On all - Troparion of the Feast, Glory: of the Theologian. Kontakion: on the 1st and 6th - of the Feast, on the 3rd and 9th - of the Theologian.
+
+Final_Dolnytsky_part3_menaion.txt:L3643
+AT THE HOURS: On all: Troparion of the Feast, Glory: to the Saint. Kontakion: on the 1st and 6th - of the Feast; on the 3rd and 9th - of the Saint.
+
+Final_Dolnytsky_part3_menaion.txt:L3696
+3.	Their service is not celebrated in one day, but in two; however, on the second day their service - is of the daily type and combined with the service of the Octoechos and of the sequential saint so, that the Octoechos takes the first place, the Forerunner or the Chiefs [of the Apostles] - the second, according to the rule of a Saint on 4, and the sequential saint - the third. It is also proper to take their Troparion and Kontakion of the day at the Hours and at the Liturgy.
+
+Final_Dolnytsky_part3_menaion.txt:L3873
+AT THE HOURS: On all - Troparion of the Image, Glory: of the Dormition. Kontakion: on the 1st and 6th - of the Image, on the 3rd and 9th - of the Dormition.
+
+Final_Dolnytsky_part4_triodion.txt:L30
+AT THE HOURS: At all [Hours], the Sunday Troparion, and the Kontakion is of the Triodion.
+
+Final_Dolnytsky_part4_triodion.txt:L102
+AT THE HOURS: At all - Troparion and Kontakion for the dead.
+
+Final_Dolnytsky_part4_triodion.txt:L196
+2.	After the conclusion of the three psalms with Alleluia, the troparion is sung, called also the Prokimenon, with two verses in the tone of the Prokimenon. "The appointed reader (or priest) sings in the middle of the church the Troparion 'In the morning' (at the 1st Hour, and at the others - the specific one), and we sing loudly the same and bend our knees to the ground. Exactly so at the other two verses and again the same troparion"[^496]. This bending of the knees is done three times: once - after the singing of the troparion before the verse, once - after the singing of the troparion after the 1st verse, and once - after the singing of the troparion after the 2nd verse[^497]. After singing the troparion with its verses, we say Glory, Both now: Theotokion and make three prostrations. (At the 6th Hour, immediately after the Theotokion, there will be the Troparion of the Prophecy and one reading of the Prophecy between two Prokimena in the Triodion).
+
+Final_Dolnytsky_part4_triodion.txt:L198
+3.	Then we sing "Direct my steps" with 4 verses, that is: "Direct my steps" twice, "Deliver me" twice, "Make Thy face to shine" twice and "Let my mouth be filled" three times. These verses - only at the 1st Hour, and at the others - only one troparion without verses.
+
+Final_Dolnytsky_part4_triodion.txt:L271
+AT THE HOURS: At all - Troparion and Kontakion of the Fathers.
+
+Final_Dolnytsky_part4_triodion.txt:L359
+3.	"It is a good thing" twice; at the Trisagion - 3 prostrations and, after "Our Father", - Troparion "Standing in the temple"; then "Lord, have mercy" (40) and the rest with 16 prostrations at the prayer of St. Ephrem and, after the last prostration, immediately - "O come, let us worship" three times and the 1st Hour.
+
+Final_Dolnytsky_part4_triodion.txt:L367
+3.	Troparion ("In the morning" at the 1st Hour, and at the others - the other one specific to the Hour) with two verses and with the bending of knees at each of the three singings of the troparion, then Glory, Both now: Theotokion ("What shall we call Thee" at the 1st, and at the others - the other, specific to the Hour).
+
+Final_Dolnytsky_part4_triodion.txt:L369
+4.	Selected verses from the Holy Scripture of the Old Testament, that is: at the 1st Hour - "Direct my steps", at the 3rd - "Blessed is the Lord God", at the 6th Hour - "Let Thy compassions come quickly", at the 9th - "Forsake us not". At the 1st Hour "Direct my steps" is divided into 4 verses, of which we sing the first 3 twice, and the 4th - three times. At the 6th Hour between the Theotokion and the Old Testament verses we sing the Troparion of the Prophecy of the Triodion and one prophecy between two Prokimena there.
+
+Final_Dolnytsky_part4_triodion.txt:L371
+5.	After the Trisagion, instead of the Kontakion, we read three Lenten troparia, according to the order of the Hours in the Horologion, adding to the 2nd "Glory", and to the 3rd - "Both now".
+
+Final_Dolnytsky_part4_triodion.txt:L501
+AT THE HOURS: At all: Troparion and Kontakion to the Saint.
+
+Final_Dolnytsky_part4_triodion.txt:L533
+AT THE HOURS: At all - Sunday Troparion, Glory: "We venerate Thy most pure image", Kontakion of the Triodion.
+
+Final_Dolnytsky_part4_triodion.txt:L585
+AT THE HOURS: At all - Troparion of the day ("Apostles, prophets"), Glory: "Remember, O Lord", Kontakion "With the saints give rest".
+
+Final_Dolnytsky_part4_triodion.txt:L607
+AT THE HOURS: Instead of the Sunday Kontakion we read the Kontakion of the Triodion, the rest - according to the general rubric.
+
+Final_Dolnytsky_part4_triodion.txt:L656
+AT THE HOURS: At all - Sunday Troparion, Glory: of the Cross. Kontakion - only of the Cross.
+
+Final_Dolnytsky_part4_triodion.txt:L713
+Everything - according to the usual Lenten rubric, however, after the Trisagion we recite at all Hours only the one Kontakion of the Canon, and the 1st Hour - without Kathisma.
+
+Final_Dolnytsky_part4_triodion.txt:L721
+The service of this feast is of the small type; it has only the Katavasia at Matins after each ode and the Great Doxology and is combined with the usual service of Lenten Saturday and with the Temple Canon at Matins. The peculiarity of this feast lies in that at its Matins the whole order of the Akathist to the Most Pure Virgin Mary is sung, the 12 ikos-Kontakia of which are divided into four quarters, the first of which is sung instead of the Sessional Hymn after the first Kathisma, the second - instead of the Sessional Hymn - after the second Kathisma, the third - after the 3rd, and the fourth - after the 6th Ode of the Canon; the initial Kontakion is sung at the beginning and at the end of each quarter, and before the last singing of it - once more the first Ikos[^556]. This Matins, according to the rubric, is sung at the 4th hour of the night, but we sing it at the usual time[^557]. The service of the regular saint, according to the rubric of the Greek Triodion, is sung at Compline.
+
+Final_Dolnytsky_part4_triodion.txt:L893
+2.	Immediately after the Theotokion "O Theotokos, Thou Art the vine" at the 3rd Hour and, after the corresponding Theotokia, at the other two Hours, the rubrics prescribe the reading of the Four Gospels, which today among us is read only in cathedral, or conciliar, churches[^573]. At the 6th Hour we read the Gospel not immediately after the Theotokion, but after the conclusion of the Troparion of the Prophecy and the Paremia with its Prokimena. The reading of the Four Gospels covers all the Evangelists, that is Matthew, Mark and Luke in full, and John - only up to the "Passion of Christ", that is up to "Now is the Son of man glorified", Section 46, verse 13.32. All the Evangelists, taken together, are divided into 9 readings, according to the number of the three Hours (3, 6, 9) and three days (Monday, Tuesday, Wednesday). Matthew is divided into 2 readings, Mark - into 2, John - into 2, and Luke - into 3. The first reading covers the first half of Matthew, the second - the second half of Matthew, the third - the first half of Mark, the fourth - the second half of Mark, the fifth - the first part of Luke, the sixth - the second part of Luke, the seventh - the third part of Luke, the eighth - the first half of John, the ninth - the second half of John. The rubric does not indicate where the first half of the three Evangelists and the first and second parts of Luke end. But since Matthew has 28 chapters, its half ends with the 14th chapter, Mark - 16 chapters, so its half ends with the 8th chapter, Luke - 24 chapters, so its first part ends with the 8th chapter, and the second - with the 16th. John, up to "Now is [the Son of man] glorified", has 12 chapters and part of the 13th chapter, therefore its half ends with the 6th chapter and part of the 7th.
+
+Final_Dolnytsky_part4_triodion.txt:L929
+1.	At all: Troparion and Kontakion of Great Thursday, however, at the 1st Hour, after the Theotokion "What shall we call Thee", we read the Troparion of the Prophecy, Prokimenon, Paremia and 2nd Prokimenon.
+
+Final_Dolnytsky_part4_triodion.txt:L1226
+Exactly as on the day of Resurrection, only on Bright Saturday the 9th Hour is read already with three psalms, as usual, and at it - Resurrection Troparion of Tone 8 "From the height", and Kontakion - to the Resurrection "Though Thou didst descend into the grave".
+
+Final_Dolnytsky_part4_triodion.txt:L1290
+AT THE HOURS: At all - Sunday Troparion, Glory: "The noble Joseph"; Kontakion - of the Myrrh-bearers.
+
+Final_Dolnytsky_part4_triodion.txt:L1333
+AT THE HOURS: At all - Sunday Troparion and Kontakion of the Paralytic.
+
+Final_Dolnytsky_part4_triodion.txt:L1341
+At all Hours: Sunday Troparion, and at the 3rd and 9th - also Glory: of the saint. Kontakia: at the 1st and 6th - of the Paralytic, at the 3rd and 9th - of the saint.
+
+Final_Dolnytsky_part4_triodion.txt:L1374
+AT THE HOURS: At all - Troparion and Kontakion of the feast.
+
+Final_Dolnytsky_part4_triodion.txt:L1388
+4.	At all Hours: Troparion of Mid-Pentecost, and at the 3rd and 9th - Glory: of the saint; Kontakia: at the 1st and at the 6th - to Mid-Pentecost, and at the 3rd and 9th - to the saint.
+
+Final_Dolnytsky_part4_triodion.txt:L1476
+AT THE HOURS: At all - Troparion "Let us the faithful praise" and Kontakion of the Blind Man[^653].
+
+Final_Dolnytsky_part4_triodion.txt:L1587
+AT THE HOURS: At all - Troparion and Kontakion of the feast.
+
+Final_Dolnytsky_part4_triodion.txt:L1629
+AT THE HOURS: At all - Sunday Troparion, Glory: of the Saints, Kontakion - only of the Saints.
+
+Final_Dolnytsky_part4_triodion.txt:L1766
+[^549]: According to the rubric of the Triodion this veneration next week will be only on Monday, Wednesday and Friday, and only at the 1st Hour. Instead of "Direct my steps" the troparion "Before Thy Cross" is sung.
+
+Final_Dolnytsky_part4_triodion.txt:L1819
+[^602]: According to the rubric of the new Constantinopolitan Typikon, the placing of the Shroud into the tomb takes place during the singing of the Aposticha, in the following way: "The Aposticha are sung, and six priests with uncovered heads, dressed in priestly vestments, go out from the left door of the sanctuary, carrying with reverence on their heads the Epitaphios /Shroud/, of whom the Archimandrite holds also the Holy Gospel, preceded by singers, the Primicerius holding the Divamboulon (a type of candlestick with two lamps), the Deacons with lamps and censers, and thus proceed up to the prepared canopy, and the singers stand in order, singing the Aposticha, and the Deacons censing go around 3 times with the Priests around the canopy. Then they place the Epitaphios inside the canopy, the doorkeeper sprinkles fragrant flowers upon the Epitaphios, and having approached the Patriarch venerates the Epitaphios, blesses the Christians, and ascends the throne. Then the doorkeeper offers him flowers prepared. Then also the holy hierarchs, two by two, venerating the Epitaphios, receive flowers from the Patriarch, likewise also the Ecclesiastical officials. This being done, the 2nd choir sings the Doxastikon, and from the Doxastikon... Now lettest Thou" and the rest. The description which we have from the island of Corfu gives this: "The icon of the Epitaphios is carried on Holy and Great Friday from the sanctuary at the end of Vespers, while the Dismissal Troparia 'The noble Joseph', etc. are sung, and is placed on a prepared table in the middle of the presbyterium, where there are already and remain lit candles with vessels of flowers throughout the whole day until the hour of Matins of Great Saturday (which is usually celebrated on the evening of Great Friday). Where again at the end of the Great Doxology at 'Holy God', the Epitaphios is carried out, but inside the church and, if circumstances permit, -- outside and again is placed on this same table until the time of the Liturgy of Great Saturday, when one priest privately in an epitrachelion places it in the sanctuary in the usual place".
+
+Final_Dolnytsky_part4_triodion.txt:L1865
+[^648]: Moscow Typikon, fol. 363 verso. To a saint without Polyeleos nothing is taken, only to one with Polyeleos thus: at the 1st - "The noble Joseph", Glory: to the saint; at the 3rd - Sunday, Glory: to the saint; at the 6th - to the Myrrh-bearers, Glory: to the saint; at the 9th - again "The noble Joseph", Glory: to the saint. We suppose that, according to the previous rubric, should be taken thus: Troparion to the saint even without Polyeleos, if he has one. Among us today the saint without Polyeleos is limited to the 3rd and 9th Hours.
+
+Final_Dolnytsky_part5_temple.txt:L144
+2.	On Wednesday and Friday at the end of Vespers, Matins and every Hour, we make 3 great prostrations; at the 6th Hour there will be the Troparion of the Prophecy and the Reading (Paremia); Liturgy is of Chrysostom[^680].
+
+Final_Dolnytsky_part5_temple.txt:L239
+Everything is according to the general rubric of a saint with Vigil on Sunday, only at Matins there will be the Gospel and Sticheron of the temple, Canons: Sunday on 4, Triodion on 4 and temple on 6. Stichera at the Praises - 9, that is 4 Sunday, 4 of the temple with the Doxastikon with its verses, then - Idiomelon of the Triodion with the verse "Arise," Glory: the same, Both now: "Most Blessed"; and after Matins - Gospel Sticheron. At the Hours: Kontakia of the temple and Triodion, alternately. At the Liturgy: Troparia Sunday and of the temple, Glory: Kontakion of the temple, Both now: of the Triodion.
+
+Final_Dolnytsky_part5_temple.txt:L304
+1.	Troparia at "God is the Lord," at the end of Matins, at the Hours and at the Liturgy we sing according to the general rubric of a Polyeleos saint in the midst of a feast.
+
+Final_footnotes.txt:L68
+[^65]: Peremyshl Typikon, page 81. -- According to the ancient typikon there was to be a Sunday troparion at all hours, also "Glory" at the 1st and 6th -- Goes also to the first saint, at the 3rd and 9th -- to the second; Kontakia -- alternating: at the 1st and 6th -- to the first, at the 3rd and 9th -- to the second saint (compare John the Theologian on the Sunday of the Holy Fathers). When the Kontakion is only for one saint, then it alone is taken at all [hours]; and when for neither, nor for the feast, then the Hypakoe of the tone is taken; for general Greek editions do not have Sunday Kontakia. Regarding the Hypakoe, you have the rubric in Greek Horologions at the 1st Hour, it and at the other hours must be observed.
+
+Final_footnotes.txt:L90
+[^87]: Lviv Synod in the Order of the Hours: according to the previous typikon troparion and Kontakion -- only to the saint at all hours (Moscow Octoechos, fol. 358). If the saint did not have a troparion or Kontakion, then the troparia given in the Horologion in the Order of the Hours (which today we limit to Great Lent) were taken, as follows from Greek Horologions.
+
+Final_footnotes.txt:L91
+[^88]: Peremyshl Typikon, page 116. According to the previous typikon at all hours -- troparion of the first saint, Glory: of the second; Kontakia -- alternating, that is: at the 1st and 6th -- to the first, at the 3rd and 9th -- to the second saint. (Moscow Typikon, chapter 58).
+
+Final_footnotes.txt:L116
+[^113]: According to the previous typikon at all hours -- troparion and Kontakion only to the saint, if there be. If two saints occur, then at all hours there will be the troparion to the first saint, Glory: to the second. Kontakia -- alternating: at the 1st and 6th -- to the first, at the 3rd and 9th -- to the second. (Moscow Octoechos at the end fol. 355, on the verso).
+
+Final_footnotes.txt:L132
+[^129]: Moscow Typikon, chapter 4; and Peremyshl at the 6th Hour prescribes the troparion and Kontakion of the temple, however, the Lviv Synod orders in this case to discard the temple (in the Order of Ordinary Hours). Footnotes
+
+Final_footnotes.txt:L164
+[^161]: Peremyshl Typikon prescribes Hypakoe, also Glory, Both now: of the feast. The Greek Typikon does not give anything, for the All-Night Vigil is implied, which excludes Compline. But because in Greek Horologions at the Hours the Kontakion of the feast excludes the Hypakoe, similarly as chapter 77 of Mark, then one can also here at Compline take one Kontakion of the Forefeast without Hypakoe. Similarly and at the Apodosis of the feast the Kontakion of the feast excludes the Hypakoe (Menaion January 14).
+
+Final_footnotes.txt:L168
+[^165]: E. g. September 7; so also Mark: however, since according to the Greek Typikon there are no Sunday Kontakia, then at all hours only the Kontakion of the Forefeast is taken (Καιφ. οζ/chapter 77).
+
+Final_footnotes.txt:L182
+[^179]: According to the previous typikon at all hours: troparion of the Forefeast, also Glory: to the saint, and Kontakion -- only of the Forefeast (Tserkovne Oko, Mark, chapters 128 and 129, and this "if some saint has a Doxology"); similarly and the Manuscript Typikon in chapter 27. In the case of two saints we do not find a typikon, but it is easy to understand, that at the 1st and 6th Hour at Glory belongs to take the troparion of the first saint, and at the 3rd and 9th -- of the second; and the Kontakion at all -- only of the Forefeast.
+
+Final_footnotes.txt:L194
+[^191]: According to the Greek Typikon, the Kontakion at all hours -- only of the feast.
+
+Final_footnotes.txt:L202
+[^199]: E. g. our Menaia September 8; Moscow Typikon September 8 and November 21; and Mark, because in the general Greek Typikon there is no Sunday Kontakion, prescribes at all [Hours] only the Kontakion of the feast.
+
+Final_footnotes.txt:L211
+[^208]: According to the previous typikon at all hours: troparion of the feast and Glory: to the saint, if he has; and Kontakion -- only of the feast (Tserkovne Oko in chapters 128 and 129 of Mark). In the case of two saints after the troparion of the feast is taken on Glory alternating troparion to the first and second saint, and Kontakion -- only of the feast.
+
+Final_footnotes.txt:L218
+[^215]: The Typikon of the Slavonic Menaion November 21, and chapter οσ /76/ of Mark of the Greek Typikon and 8 of Tserkovne Oko prescribes at all hours only the Kontakion of the feast.
+
+Final_footnotes.txt:L237
+[^234]: According to the general Greek Typikon and Mark, chapter 63, at all hours -- only Kontakion of the feast.
+
+Final_footnotes.txt:L259
+[^256]: The Tserkovne Oko (in the menologion, fol. 268), and after it the Moscow Typikon (fol. 54, on the reverse) give at the hours only the Troparion of the Renovation and Glory: to the Forefeast, kontakia to the Renovation and to the Forefeast -- alternating, and to the saint -- nothing. We think that this rule will be good if the saint does not have a troparion and kontakion. In those editions where a troparion and kontakion to the saint are given, there is no reason not to take them at the hours.
+
+Final_footnotes.txt:L283
+[^280]: In the typikon there is nothing about the hours, so we give it ourselves, taking the kontakia alternatingly, following the model of the rule of 1 September, when it falls on a Sunday.
+
+Final_footnotes.txt:L288
+[^285]: According to the ancient rule the troparion of the saints is taken with Glory, also on the 1st and 6th hours; but with us today -- only the one of the day.
+
+Final_footnotes.txt:L424
+[^421]: About the troparia here, at Compline, and afterwards, at the Liturgy, the typikons do not give anything; however, since at the Hours they give only of the Feast of the Annunciation, then here too it will be sufficient to take only of the Feast, for the order of the Akathist and of the Feast -- is about the Annunciation.
+
+Final_footnotes.txt:L440
+[^437]: At the 1st hour the Moscow Typikon has the Resurrectional Kontakion, but it is not given either by the Tserkovne Oko (chapter 114 of Mark), or by our Menaion.
+
+Final_footnotes.txt:L552
+[^549]: According to the rubric of the Triodion this veneration next week will be only on Monday, Wednesday and Friday, and only at the 1st Hour. Instead of "Direct my steps" the troparion "Before Thy Cross" is sung.
+
+Final_footnotes.txt:L605
+[^602]: According to the rubric of the new Constantinopolitan Typikon, the placing of the Shroud into the tomb takes place during the singing of the Aposticha, in the following way: "The Aposticha are sung, and six priests with uncovered heads, dressed in priestly vestments, go out from the left door of the sanctuary, carrying with reverence on their heads the Epitaphios /Shroud/, of whom the Archimandrite holds also the Holy Gospel, preceded by singers, the Primicerius holding the Divamboulon (a type of candlestick with two lamps), the Deacons with lamps and censers, and thus proceed up to the prepared canopy, and the singers stand in order, singing the Aposticha, and the Deacons censing go around 3 times with the Priests around the canopy. Then they place the Epitaphios inside the canopy, the doorkeeper sprinkles fragrant flowers upon the Epitaphios, and having approached the Patriarch venerates the Epitaphios, blesses the Christians, and ascends the throne. Then the doorkeeper offers him flowers prepared. Then also the holy hierarchs, two by two, venerating the Epitaphios, receive flowers from the Patriarch, likewise also the Ecclesiastical officials. This being done, the 2nd choir sings the Doxastikon, and from the Doxastikon... Now lettest Thou" and the rest. The description which we have from the island of Corfu gives this: "The icon of the Epitaphios is carried on Holy and Great Friday from the sanctuary at the end of Vespers, while the Dismissal Troparia 'The noble Joseph', etc. are sung, and is placed on a prepared table in the middle of the presbyterium, where there are already and remain lit candles with vessels of flowers throughout the whole day until the hour of Matins of Great Saturday (which is usually celebrated on the evening of Great Friday). Where again at the end of the Great Doxology at 'Holy God', the Epitaphios is carried out, but inside the church and, if circumstances permit, -- outside and again is placed on this same table until the time of the Liturgy of Great Saturday, when one priest privately in an epitrachelion places it in the sanctuary in the usual place".
+
+Final_footnotes.txt:L651
+[^648]: Moscow Typikon, fol. 363 verso. To a saint without Polyeleos nothing is taken, only to one with Polyeleos thus: at the 1st - "The noble Joseph", Glory: to the saint; at the 3rd - Sunday, Glory: to the saint; at the 6th - to the Myrrh-bearers, Glory: to the saint; at the 9th - again "The noble Joseph", Glory: to the saint. We suppose that, according to the previous rubric, should be taken thus: Troparion to the saint even without Polyeleos, if he has one. Among us today the saint without Polyeleos is limited to the 3rd and 9th Hours.
+
+Final_footnotes.txt:L766
+[^763]: These gifts are arranged according to such a scheme so that the blessing of the priest depicts upon them the sign of the cross: loaf • wine • • oil • wheat **Chunk 74** **IV. Rubric of Matins in Sundays and Feasts** **1. In Concelebration of One Deacon** **74.** If before this there was no Vigil, then Matins begins thus^[764]: **75.** The priest puts on the *ryasa* the epitrachelion, having previously blessed it, goes before the holy doors and begins: "Blessed is our God." Choir: "Amen," "Glory to Thee, our God, glory to Thee," "O Heavenly King," Trisagion, "Most Holy Trinity," "Our Father." Priest: "For Thine is the kingdom." Choir: "Amen," "Lord, have mercy" (12), "Glory, Both now," "Come, let us worship" (3). The priest enters the sanctuary through the southern doors, recites the Prayer of the Censer, takes the censer, censes the throne from the four sides, the icon behind the altar and other icons of the sanctuary. Then he goes out of the sanctuary through the northern doors, comes before the holy doors and, bowing, censes the icons of the southern part of the iconostasis, beginning from the image of the Savior, the icons of the northern part, beginning from the icon of the Theotokos, then -- the choirs, right and left. He censes the people either from the solea or crossing the whole temple, while the choir reads the 20th(19th) Psalm "The Lord hear thee" and the 21st(20th) "The King shall joy." When the choir begins the Trisagion, the priest returns before the holy doors, censes them and after "Our Father" exclaims: "For Thine is the kingdom," enters the sanctuary through the southern doors, stands before the holy table and, after the completion of the troparia "O Lord, save Thy people," exclaims the Litany for Emperors. After the exclamation "For a merciful," Choir: "Amen," "In the name of the Lord, bless, father." The priest exclaims^[765]: "Glory to the Holy, Consubstantial." Choir: "Amen," "Glory to God in the highest" (3) with small bows and "O Lord, open my lips" (2). The Six Psalms are read. **76.** During the reading of the Six Psalms^[766] the priest, standing before the holy table, begins to recite the Matins Prayers. After the first three psalms, he goes out through the northern doors and, having stood before the holy doors, continues to read the Matins Prayers. After the completion of the psalms, the priest responds to the bow of the deacon and, having returned through the southern doors into the sanctuary, stands before the holy table. At the end of the Six Psalms, the deacon, dressed in the sticharion with the orarion, goes out through the northern doors, pays respect to the priest, stands on his usual place and exclaims the Great Litany. The priest exclaims: "For to Thee belongs." During the singing by the choir of "God is the Lord," the deacon recites the verses and, after a small bow, returns through the southern doors into the sanctuary. **77.** After the Troparia, the reader reads the regular Kathisma, after which the deacon [exclaims] before the holy doors -- the Small Litany, and the priest exclaims: "For Thine is the dominion." Then the reader reads the second regular Kathisma, the deacon -- the second Small Litany, and the priest -- the exclamation "For Thou art a good God." After the Troparia "The Angelic Council," if it is Sunday, or after the Magnification [*Velychannya*], if it is a feast, the deacon again reads the Small Litany, and the priest exclaims: "For blessed." **78.** After the Gradual [*Stepenna*], the holy doors are opened, and the deacon approaches the holy doors and, looking at the people, exclaims: "Let us be attentive." The priest, dressed in the phelonion, blesses the people: "Peace be to all." Deacon: "Wisdom, let us be attentive." The choir sings the Prokimenon. Deacon: "Let us pray to the Lord." Choir: "Lord, have mercy." The priest exclaims: "For Holy art Thou, our God." The deacon censes the holy table from the four sides and everything else, according to custom (see no. 33). Choir: "Let everything that has breath praise the Lord." The deacon recites both verses, and the choir repeats: "Let everything that has breath," after which the deacon: "And that we may be vouchsafed." Choir: "Lord, have mercy" (3). The priest takes the Gospel, goes out before the holy doors, stands at a slight distance before them on the solea, places the Gospel on the analogion and reads it, turned to the people. Deacon: "Wisdom, arise, let us hear the Holy Gospel," and the priest blesses: "Peace be to all." Choir: "And to thy spirit." Priest: "The reading from the Holy Gospel according to (Name)." Deacon: "Let us be attentive." The priest reads the Matins Gospel. **79.** After the reading, the priest kisses the closed book and carries it to the middle of the temple, where he places it on the tetrapod, and he himself returns through the holy doors into the sanctuary. The deacon reads "Having beheld the Resurrection of Christ," if it is Sunday, or the reader -- the 50th Psalm "Have mercy on me, O God." After the sticheron, the deacon [is] at his usual place: "O God, save Thy people." Choir: "Lord, have mercy" (12) and the priest exclaims: "By the grace and compassions." Choir: "Amen." The Canon begins. The holy doors, if there was no Vigil, are closed. **80.** If there was a Vigil, the priest after the exclamation "By the grace," holding the cross in his hands, goes out through the holy [doors], and the deacon with the oil, blessed at Vespers, and the anointing brush, -- through the northern doors and they stand on the right side of the tetrapod. There the priest anoints crosswise the forehead of everyone who approaches to kiss the Holy Gospel. After the completion of the anointing [*Myrovanne*] they return to the sanctuary: the priest -- through the holy, and the deacon -- through the southern doors and, having closed the holy doors, the priest takes off the phelonion. **81.** After the third and sixth Odes, the deacon sings the Small Litany either before the holy doors, or near the tetrapod, if the anointing was not yet finished, and the priest exclaims the exclamation either from the sanctuary, or from the tetrapod. After the singing of the Katavasia of the eighth Ode, the deacon takes the censer and, having stood before the icon of the Theotokos, says: "The Theotokos and Mother of Light let us magnify in songs" and, having returned through the southern doors into the sanctuary, censes the holy table from four sides and everything else, according to the prescription (see no. 33). After the ninth Ode and after the recitation by the choir of "It is truly meet," if it is not Sunday, but if it is Sunday or a feast, after the singing of the Heirmos, the deacon exclaims from his place the Small Litany. The priest exclaims: "For all the powers of heaven praise Thee." The choir sings the Exaposteilarion. **82.** After the Praises stichera, at "Glory," the deacon opens the holy doors. The priest in the phelonion stands before the throne, the deacon stands to his right and, after the completion of the last sticheron, the priest, turned to the east, exclaims: "Glory to Thee, who hast shown us the Light." The Great Doxology is sung. Then, also according to custom, the Troparion is recited, and the priest, preceded by the deacon, carries the Holy Gospel from the tetrapod into the sanctuary and places it on the holy table. **83.** After this, the deacon stands at his usual place and exclaims the litanies "Have mercy on us, O God" and "Let us complete." The priest blesses the people and exclaims: "Peace be to all." Choir: "And to thy spirit." Deacon: "Bow your heads unto the Lord." Choir: "To Thee, O Lord." The priest recites quietly the prayer "O Holy Lord," after which he exclaims: "For Thine it is." The dismissal follows, which the deacon begins: "Wisdom" (see no. 36). **84.** After the dismissal, the reader immediately begins the 1st Hour: "Come, let us worship" (3) and the psalms. After "Our Father," the priest in the epitrachelion: "For Thine is the kingdom." Reader -- Kontakion and "Lord, have mercy" (40). The priest goes out of the sanctuary through the northern doors and before the holy [doors], turned to the east, loudly: "Thou who at all times". Reader: "Lord, have mercy" (3), "Glory, Both now", "More honorable than the Cherubim", "In the name of the Lord, bless, father." Priest: "God be merciful to us." Reader: "Amen." Priest recites the prayer "O Christ, the True Light", "Glory to Thee, O Christ God." Reader: "Glory, Both now", "Lord, have mercy" (3), "Bless." The priest imparts the Small Dismissal, returns into the sanctuary and takes off the epitrachelion. **2. In Concelebration of Two Deacons** **85.** At the end of the Six Psalms, the 1st deacon goes out through the northern doors and exclaims the Great Litany, as well as the verses at "God is the Lord" and, having made a small bow, returns into the sanctuary through the southern doors. After the first Kathisma the 2nd deacon, and after the second Kathisma the 1st deacon, sing the Small Litany. After the Troparia "The Angelic Council" or after the Magnifications, the 2nd deacon likewise sings the Small Litany. After the Gradual [*Stepenna*], the 1st deacon: "Let us be attentive." Priest: "Peace be to all." 2nd deacon: "Wisdom, let us be attentive." 1st deacon: "Let us pray to the Lord." Both deacons cense the holy table, the iconostasis, the choirs and the people, as noted in the rubric of Vespers in concelebration with two deacons (see no. 40). At "Let everything that has breath," the 1st deacon recites the first verse, and the 2nd deacon -- the second. **86.** For the anointing of the faithful, the 1st deacon goes out with the priest, and the 2nd exclaims the Small Litany after the third Ode, and also -- after the sixth Ode. After the Katavasia of the eighth Ode, the 1st deacon takes the censer, goes out through the northern doors, stands before the icon of the Theotokos and calls: "The Theotokos and Mother of Light," then returns through the southern doors into the sanctuary and, together with the 2nd deacon, censes the throne and everything else, as noted above (see no. 39), and after the censing they return into the sanctuary: the 1st deacon -- through the southern, and the 2nd -- through the northern doors. After the ninth Ode, the 1st deacon exclaims the Small Litany. **87.** After the Praises stichera, the holy doors are opened. The 1st deacon stands before the holy table to the right of the priest, and the 2nd -- to the left. After the Great Doxology, all, having made a small bow, go to the tetrapod, the priest takes the Holy Gospel and, preceded by the deacons, returns into the sanctuary. **88.** After this, the deacons go out: the 1st deacon exclaims the first litany "Have mercy on us, O God," and the 2nd -- the second "Let us complete." 1st deacon: "Bow your heads unto the Lord." The dismissal follows, which the 1st deacon begins: "Wisdom" (see no. 36, note). **3. Without a Deacon** **89.** A priest who serves Matins without a deacon does and says everything that belongs to the deacon, considering this: **90.** After the completion of the Six Psalms, he does not return into the sanctuary, but, standing before the holy doors, exclaims the Great Litany and its exclamation: "For to Thee belongs," as well as the verses during the singing by the choir of "God is the Lord." After the completion of this, he makes a small bow and returns through the southern doors into the sanctuary. It should be noted that when the priest does not have enough time to recite all the Matins Prayers before the iconostasis, he may finish them in the sanctuary during the reading of the Kathismata. After the Prokimenon, he himself exclaims: "Let us pray to the Lord"; reads the verses at "Let everything that has breath"; before the reading of the Gospel, exclaims: "Let us be attentive," and after the Gospel reads "Having beheld the Resurrection of Christ." After the 3rd and 6th Odes of the Canon -- Small Litanies and exclaims from the throne or from the place where he anoints. After the anointing, he returns through the holy doors into the sanctuary and takes off the phelonion. **91.** After the Katavasia of the 8th Ode, he goes out in the epitrachelion through the northern doors, stands before the icon of the Theotokos and calls: "The Theotokos and Mother of Light," then censes, as noted above (see no. 33). After the censing, he returns through the southern doors into the sanctuary, exclaims the Small Litany and its exclamation. **92.** After the Praises stichera, at "Glory," he puts on the phelonion, opens the holy doors and, after the last sticheron, exclaims: "Glory to Thee, who hast shown us the Light." Everything else takes place as was presented (see nos. 82-83). **93.** After the dismissal, the priest closes the holy doors, takes off the phelonion and the 1st Hour begins. **4. In Concelebration of Priests** **94.** Concelebrants, in an even number, put on epitrachelia over their *ryasas* and put on phelons during the reading of the Kathisma and stand on the sides of the holy table, as at Vespers (see no. 50). During the singing of the Polyeleos, all go out, having made a small bow, through the holy doors, having lowered the phelonion and hands down, in front -- the younger ones. Two first ones carry the icon of the feast or saint, if it has not yet been placed on the left side of the tetrapod between both choirs, and place it on the tetrapod; all stand on the sides of the tetrapod in two rows, facing one another, the principal celebrant stands in the middle before the tetrapod, and to his right -- the deacon. **
