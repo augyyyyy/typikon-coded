@@ -190,6 +190,68 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 
 ---
 
+### Group F: The Triodion Moveable Cycle (Lent & Holy Week)
+Defined in [02c_logic_triodion.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02c_logic_triodion.json).
+
+#### Pre-Lenten Sundays
+*   **Sunday of the Publican and Pharisee** (offset -70): 7 Resurrection + 3 Triodion stichera at Vespers. Matins Praises contain 4 Triodion stichera.
+*   **Sunday of the Prodigal Son** (offset -63): Adds Psalm 136 ("By the waters of Babylon") to the Polyeleos.
+*   **Soul Saturday (Meatfare)** (offset -57): Celebrated using the dead-commemoration template (`soul_saturday_template`).
+*   **Sunday of Meatfare (Last Judgment)** (offset -56): Focuses on the Second Coming; Triodion texts override normal Saint variables.
+*   **Sunday of Cheesefare (Forgiveness)** (offset -49): Vespers changes to Forgiveness Vespers format with the Rite of Mutual Forgiveness.
+
+#### Great Lent Weekdays and Saturdays
+*   **Clean Week** (offset -48 to -43): First week of Lent. Compline becomes Great Compline with the Canon of St. Andrew of Crete. Matins, Hours, and Vespers are served in strict Lenten format.
+*   **Lenten Weekdays** (offset -48 to -1, Mon-Fri): Structure is Lenten; the Liturgy is aliturgical except on Wednesdays/Fridays when the Presanctified Liturgy is served. Vespers stichera are split: 3 Triodion + 3 Menaion.
+*   **Saturday of St. Theodore the Recruit** (offset -43): First Saturday of Lent. Liturgy readings are specific to the Saint.
+*   **Memorial Saturdays (Lent 2, 3, 4)** (offset -36, -29, -22): Soul Saturdays commemorating the departed.
+*   **Thursday of the Great Canon** (offset -17): Matins contains the full Great Canon of St. Andrew of Crete with prostrations.
+*   **Saturday of the Akathist** (offset -15): Matins incorporates the Akathist to the Mother of God split into four stations.
+
+#### Lenten Sundays
+*   **1st Sunday of Lent (Orthodoxy)** (offset -42): Vespers: 6 Resurrection + 4 Triodion. Liturgy Trisagion is standard, but Prokeimenon is of the Fathers.
+*   **2nd, 4th, 5th Sundays** (offset -35, -21, -14): Sunday of St. Gregory Palamas, St. John Climacus, and St. Mary of Egypt. Standard Liturgy is St. Basil the Great.
+*   **3rd Sunday (Veneration of the Cross)** (offset -28): Matins ends with the Procession and Veneration of the Holy Cross. Liturgy Trisagion is replaced by "Before Thy Cross".
+
+#### Holy Week
+*   **Saturday of Lazarus** (offset -8): Focuses on the resurrection of Lazarus. Liturgy Trisagion is replaced by "As many as have been baptized".
+*   **Palm Sunday** (offset -7): Great Feast of the Lord. Matins contains the blessing of palms. Liturgy uses Festal Antiphons.
+*   **Holy Monday, Tuesday, Wednesday** (offset -6 to -4): Services are strictly Lenten with Presanctified Liturgies. Stichera at Vespers are 6 Triodion only.
+*   **Great and Holy Thursday** (offset -3): Liturgy is Vesperal Liturgy of St. Basil. Cherubic Hymn is replaced by "Of Thy Mystical Supper".
+*   **Great and Holy Friday** (offset -2): Aliturgical day (no Liturgy). Hours are Royal Hours. Vespers contains the burial/shroud placement (*Plashchanitsya*). Matins is Tomb Matins (*Jerusalem Matins*).
+*   **Great and Holy Saturday** (offset -1): Vesperal Divine Liturgy of St. Basil the Great. Cherubic Hymn replaced by "Let All Mortal Flesh Keep Silence". Matins is served early with a procession around the church.
+
+---
+
+### Group G: The Pentecostarion Moveable Cycle
+Defined in [02c_logic_triodion.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02c_logic_triodion.json).
+
+#### Pascha and Bright Week
+*   **Pascha (Resurrection Sunday)** (offset 0): Absolute liturgical supremacy. Services are entirely Paschal (Bright Matins, Paschal Hours, Paschal Vespers).
+*   **Bright Week** (offset 1 to 6): Services continue in the Paschal style. The Octoechos is suppressed. Liturgy Trisagion replaced by "As many as have been baptized".
+
+#### Pentecostarion Sundays
+*   **Sunday of St. Thomas** (offset 7): Commemorates the Apostle Thomas. Matins contains a specific Magnification.
+*   **Sunday of the Myrrh-bearing Women** (offset 14): Troparia sequence includes "Noble Joseph" and "When Thou didst descend".
+*   **Sundays of the Paralytic, Samaritan, and Blind Man** (offset 21, 28, 35): Respective healing Gospels and Pentecostarion propers combined with Sunday Resurrection hymns.
+*   **Sunday of the Fathers of the 1st Council** (offset 42): Sunday between Ascension and Pentecost.
+*   **Sunday of All Saints** (offset 56): Concludes the Pentecostarion period.
+
+#### Pentecostarion Feasts
+*   **Mid-Pentecost** (offset 24): Halfway point of the season. Liturgy uses specific Festal Antiphons.
+*   **Ascension of Our Lord** (offset 39): Great Feast of the Lord. Suppresses Sunday/resurrection elements. Liturgy uses Festal Antiphons.
+*   **Pentecost (Trinity Sunday)** (offset 49): Great Feast. Vespers contains the kneeling prayers (*Kneeling Vespers*).
+*   **Monday of the Holy Spirit** (offset 50): High-ranking commemoration of the Third Person of the Trinity.
+
+---
+
+### Group H: Ruthenian Mandates
+Moveable feasts unique to the Ruthenian Recension, mandated by the Lviv Synod and documented in Dolnytsky Part IV:
+*   **Feast of the Most Holy Eucharist (Corpus Christi)** (offset 60): Celebrated on the Thursday after Trinity Sunday. Features a Eucharistic Procession with four altars and four Gospel readings.
+*   **Friday of the Co-suffering of the Most Holy Theotokos** (offset 65): Celebrated on the Friday after the leave-taking of the Feast of the Eucharist.
+
+---
+
 ## 3. Advanced Algorithmic Implementations
 
 ### A. The Lenten Canon Merger Algorithm
@@ -239,4 +301,29 @@ The engine builds the final Dismissal (*Otpušt*) dynamically based on the resol
 2.  **Temple Patron**: The patron of the local church is appended, *unless* it is a Feast of the Lord (which suppresses patronal commemoration).
 3.  **Menaion Commemorations**: The saint of the day (Menaion) is retrieved and formatted.
 4.  **Liturgy Writer**: Appends St. John Chrysostom, St. Basil the Great, or St. Gregory Dialogos depending on the active Liturgy type.
+
+### D. Katavasia Seasonal Selector Matrix
+The engine resolves which Katavasia (irmos of the seasonal canon) to sing at Matins using the logic defined in [02e_logic_katavasia.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02e_logic_katavasia.json) and [katavasia_seasons.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/katavasia_seasons.json):
+1.  **Daily Matins Rule**: For daily (non-Great) Matins, Katavasia is restricted to Odes 3, 6, 8, and 9 and is taken from the irmos of the last canon, not the season.
+2.  **Immovable Ranges**: The year is split into 10 seasonal blocks (e.g., Nov 21 - Dec 31: "Christ is born"; Jan 1 - Jan 14: "The depths").
+3.  **Movable Ranges**: Overrides for the Pentecostarion period (Pascha to All Saints) map specific offsets to movable Katavasiae (e.g., Pascha to Thomas Sunday: "The Resurrection Day"; Ascension: "To the Savior").
+
+### E. Temple/Patronal Override Logic
+Defined in [02d_logic_temple.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02d_logic_temple.json), the engine executes complex patronal overrides when the parish's patron feast is celebrated:
+*   **General Rules (G1–G6)**: A Temple Feast forces an All-Night Vigil rank even if the saint is daily. On Sundays, the Temple's Matins Gospel and Prokimenon take precedence over the Resurrection.
+*   **Specific Cases (1–31)**: Dictates exact stichera, canon, and Liturgy variables for every potential collision throughout the year (e.g., Case 3: Temple on Pre-Lenten Sundays; Case 10: Temple on Lenten Sundays; Case 18: Transfers during Holy Week/Pascha).
+*   **Eucharistic Procession**: Triggers the Ruthenian custom of carrying the Eucharist around the church at the end of Liturgy.
+
+### F. Collision Logic and Precedence Rules
+The engine handles fixed dates falling on movable days (Double Feasts) via rules in [02k_logic_collisions.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02k_logic_collisions.json):
+*   **Annunciation (03-25)**: Evaluates complex overlaps. If it falls on a Lenten weekday, Saturday, Sunday, Thursday of the Great Canon (transfers the canon), Lazarus Saturday, Palm Sunday, Holy Week days (includes Great Friday Vesperal Liturgy), Pascha (Kyrio-Pascha), or Bright Week.
+*   **St. George (04-23)**: Automatically resolves transfer to Bright Monday if St. George falls on Great Friday, Great Saturday, or Pascha.
+*   **Forefeast/Afterfeast Collisions**: E.g., Feb 1 (Meeting Forefeast) falling on Sunday of the Prodigal Son (`02-01` rule) resolves stichera ratios, vestment colors, and Liturgy hymns accordingly.
+
+### G. Secondary Services
+In addition to Great Vespers, Matins, and Liturgy, the engine parses structures for:
+*   **Small Vespers**: Executed if a Vigil is served.
+*   **Litiya**: Contains the stichera stack and prayers for the Blessing of Loaves.
+*   **Midnight Office**: Resolves Weekday, Saturday, or Sunday structures based on the day of the week.
+*   **Royal Hours**: Served on Great Friday, Royal Hours Eve (Nativity/Theophany), with specific Prophecies, Epistles, and Gospels.
 
