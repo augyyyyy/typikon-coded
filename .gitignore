@@ -3,14 +3,13 @@
 # ============================================================
 
 # ----------------------------------------------------------
-# Python
+# Python & OS
 # ----------------------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 *.pyd
-.Python
 build/
 develop-eggs/
 dist/
@@ -30,6 +29,9 @@ wheels/
 *.spec
 pip-log.txt
 pip-delete-this-directory.txt
+.DS_Store
+Thumbs.db
+desktop.ini
 
 # ----------------------------------------------------------
 # Virtual Environments
@@ -49,9 +51,6 @@ venv.bak/
 *.swp
 *.swo
 *~
-.DS_Store
-Thumbs.db
-desktop.ini
 *.sublime-project
 *.sublime-workspace
 
@@ -68,6 +67,7 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
+test_execution_log.json
 
 # ----------------------------------------------------------
 # Tooling & Config (local only)
@@ -75,23 +75,19 @@ coverage.xml
 .agent/
 .gemini/
 .antigravityignore
-AGENT_CONTEXT.md
-PROJECT_STATE.json
 config_local.json
 secrets.json
 
 # ----------------------------------------------------------
-# Private / Copyrighted Assets
+# Private / Copyrighted / Raw Data Workspaces
 # ----------------------------------------------------------
 json_db/private_assets/
 json_db/external/
-Data/system_instructions.txt
+Data/
 
 # ----------------------------------------------------------
 # Internal Development Notes
 # ----------------------------------------------------------
-# Session logs, task histories, and working notes
-# that are not part of the public documentation.
 MASTER_SESSION_LOG.md
 MASTER_TASK_HISTORY.md
 MASTER_KNOWN_ISSUES.md
@@ -109,6 +105,7 @@ _explore_*.py
 repro_*.py
 reproducing_*.py
 isolate_*.py
+scratch/
 
 # ----------------------------------------------------------
 # Temporary & Generated Output
@@ -117,14 +114,17 @@ isolate_*.py
 *.tmp
 tmp_*.txt
 cantor_prototypes/
+generated_digests/
+final_results/
+verification_examples/
 cantor_output_example.txt
 missing_materials.txt
+archive/
+audit_results/
 
 # ----------------------------------------------------------
 # Trace & Verification Artifacts
 # ----------------------------------------------------------
-# Large machine-generated trace files used during
-# development to verify rubrical accuracy.
 Logic_Trace_*.txt
 *_Trace.txt
 *_Trace_*.txt
@@ -136,8 +136,3 @@ Abstract_*.txt
 Service_*.txt
 digest_output.*
 digest_vespers_*.txt
-
-# ----------------------------------------------------------
-# Audit Results (internal only)
-# ----------------------------------------------------------
-audit_results/

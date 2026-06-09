@@ -275,7 +275,7 @@ class TypikonDigestGenerator:
             if service["type_key"] in rubrics.get("overrides", {}):
                 root_id = rubrics["overrides"][service["type_key"]]
 
-            if root_id == "structure_suppressed":
+            if root_id in ["structure_suppressed", "no_liturgy"]:
                 continue
 
             # Apply specific overrides

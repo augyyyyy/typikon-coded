@@ -430,7 +430,7 @@
         "hours_type": "structure_royal",
         "vespers_type": "passion_burial_vespers",
         "matins_type": "tomb_matins",
-        "liturgy_type": "no_liturgy"
+        "liturgy_type": "structure_suppressed"
       }
     },
     "holy_saturday": {

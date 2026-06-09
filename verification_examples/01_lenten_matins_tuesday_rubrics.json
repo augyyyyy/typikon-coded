@@ -1,9 +1,0 @@
-{
-  "title": "Clean Week",
-  "variables": {
-    "compline_type": "great_compline_lenten"
-  },
-  "overrides": {
-    "compline_type": "great_compline_lenten"
-  }
-}
