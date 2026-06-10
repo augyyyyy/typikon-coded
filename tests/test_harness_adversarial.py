@@ -41,8 +41,17 @@ def run_decade_sweep(start_year, end_year):
             
             # Structural integrity checks
             if "great_vespers_vigil" in rubrics.get("overrides", {}).get("vespers_type", ""):
-                if "Prokeimenon" not in booklet:
-                    failures.append({"date": curr.isoformat(), "service": "vespers", "reason": "Missing Prokeimenon in Great Vespers"})
+                is_vesperal = (
+                    "vesperal_merge_logic" in rubrics.get("overrides", {}).get("liturgy_type", "") or
+                    "vesperal_merge_logic" in rubrics.get("variables", {}).get("liturgy_type", "")
+                )
+                is_presanctified = (
+                    rubrics.get("variables", {}).get("liturgy_type") == "liturgy_presanctified" or 
+                    rubrics.get("overrides", {}).get("liturgy_type") == "liturgy_presanctified"
+                )
+                if not (is_vesperal or is_presanctified):
+                    if "Prokeimenon" not in booklet and "Prokimenon" not in booklet:
+                        failures.append({"date": curr.isoformat(), "service": "vespers", "reason": "Missing Prokeimenon in Great Vespers"})
             if ctx.get("day_of_week") == 0 and "Matins Gospel" not in booklet and ctx.get("season_id") != "pentecostarion":
                 # Rough check for Sunday Matins Gospel
                 if rubrics.get("variables", {}).get("has_gospel", False) and "Gospel" not in booklet:

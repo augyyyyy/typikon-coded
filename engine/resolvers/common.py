@@ -352,7 +352,12 @@ class CommonResolverMixin:
                 if "logic_switch" in overridden_dist:
                     s_count = len(context.get("saints", []))
                     switch_key = "1_saint"
-                    if s_count >= 2: switch_key = "2_saints"
+                    if s_count >= 2: 
+                        switch_key = "2_saints"
+                    else:
+                        rank_id = self._get_rank_id(context)
+                        if rank_id == "rank_simple_6" or rank_id == "rank_doxology":
+                            switch_key = "saint_on_6_doxology"
                     sub_rule = overridden_dist["logic_switch"].get(switch_key, {})
                     return sub_rule.get("distribution", [])
                 else:
@@ -1145,6 +1150,7 @@ class CommonResolverMixin:
         pascha_offset = context.get("pascha_offset", None)
         
         # 1. Determine structural frequency
+        rank_id = self._get_rank_id(context)
         if rank == 1 or season == 'meeting_season':
             kat_type = 'festal_katavasia'
             frequency = 'after_each_ode'
@@ -1157,7 +1163,7 @@ class CommonResolverMixin:
             kat_type = 'triodion_katavasia'
             frequency = 'after_each_ode'
             after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        elif rank <= 3:
+        elif rank <= 3 or rank_id == "rank_simple_6":
             kat_type = 'polyeleos_katavasia'
             frequency = 'limited_odes'
             after_odes = [3, 6, 8, 9]
@@ -1273,8 +1279,23 @@ class CommonResolverMixin:
             week_number = context.get("triodion_week", 1)
             return self._resolve_kathisma_hours(context, hour, day_of_week, week_number)
 
-        # 3. Default Matins / Ordinary Kathisma placeholder
-        return {"type": "psalms", "id": f"kathisma_{num}"}
+        # 3. Default Matins / Ordinary Kathisma:
+        try:
+            matins_kathismas = self.resolve_matins_kathisma(context)
+            if matins_kathismas and isinstance(matins_kathismas, list):
+                idx = num - 1
+                if 0 <= idx < len(matins_kathismas):
+                    k_id = matins_kathismas[idx]
+                    num_match = re.search(r'\d+', k_id)
+                    if num_match:
+                        k_num = int(num_match.group(0))
+                        return {"type": "psalms", "id": k_id, "kathisma_number": k_num}
+                else:
+                    return None
+        except Exception:
+            pass
+
+        return {"type": "psalms", "id": f"kathisma_{num}", "kathisma_number": num}
 
 
     def _resolve_kathisma_hours(self, context, hour, day_of_week, week_number):
@@ -1330,6 +1351,14 @@ class CommonResolverMixin:
 
 
     def resolve_sessional(self, context, num=1, **kwargs):
+        try:
+            matins_kathismas = self.resolve_matins_kathisma(context)
+            if matins_kathismas and isinstance(matins_kathismas, list):
+                if num > len(matins_kathismas):
+                    return None
+        except Exception:
+            pass
+
         # Check for explicit override in variables
         overridden = context.get("sessional_hymns_override")
         if overridden:

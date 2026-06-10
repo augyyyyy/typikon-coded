@@ -62,9 +62,10 @@ class VespersMixin:
              return "paschal_vespers"
 
         # 2. Check Rubrics or Next Day Rank
-        rank = context.get("rank")
-        if rank is None:
-            rank = self.calculate_rank(context)
+        rank_val = context.get("rank")
+        if rank_val is None:
+            rank_val = self.calculate_rank(context)
+        rank = parse_rank_integer(rank_val)
         
         day = context.get("day_of_week")
         
@@ -118,8 +119,14 @@ class VespersMixin:
                 day_of_week = context.get("day_of_week", 0)
                 if day_of_week == 0 or context.get("is_sunday_vigil"):
                     both_now = "dogmatikon_current_tone"
+                elif day_of_week in (3, 5):
+                    both_now = "stavrotheotokion"
                 else:
                     both_now = "theotokion_daily"
+            
+            day_of_week = context.get("day_of_week", 0)
+            if both_now == "theotokion_daily" and day_of_week in (3, 5):
+                both_now = "stavrotheotokion"
             
             def resolve_hymn_key(key, context):
                 if key == "dogmatikon_tone_week" or key == "dogmatikon_current_tone":
@@ -304,12 +311,21 @@ class VespersMixin:
             else:
                 both_now = "theotokion_daily"
 
+        day_of_week = context.get("day_of_week", 0)
+        if both_now == "theotokion_daily" and day_of_week in (3, 5):
+            both_now = "stavrotheotokion"
+
     
         # Check for Logic Switch
         if "logic_switch" in vespers_logic:
             s_count = len(context.get("saints", []))
             switch_key = "1_saint"
-            if s_count >= 2: switch_key = "2_saints"
+            if s_count >= 2: 
+                switch_key = "2_saints"
+            else:
+                rank_id = self._get_rank_id(context)
+                if rank_id == "rank_simple_6" or rank_id == "rank_doxology":
+                    switch_key = "saint_on_6_doxology"
         
             sub_rule = vespers_logic["logic_switch"].get(switch_key, {})
             dist = sub_rule.get("distribution", [])
@@ -971,10 +987,21 @@ class VespersMixin:
         
         # DEFAULT: Weekday with saint
         if saints:
-            result["components"] = [
-                {"type": "saint", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"},
-                {"type": "glory_both_now", "ref_key": f"horologion.theotokion_dismissal.day_{day_of_week}"}
-            ]
+            # Under Ruthenian (Dolnytsky) practice, simple saints (including [4 NO]) who have troparia
+            # are prioritized over weekday Octoechos troparia. Since minor saint troparia are not fully
+            # pre-loaded in the standard text_db, we default to setting is_no_troparion to False when a saint
+            # is commemorated, allowing the digest formatter to print the saint's troparion.
+            is_no_troparion = False
+            if is_no_troparion:
+                result["components"] = [
+                    {"type": "weekday", "ref_key": f"octoechos.troparion.weekday.day_{day_of_week}"},
+                    {"type": "glory_both_now", "ref_key": f"horologion.theotokion_dismissal.day_{day_of_week}"}
+                ]
+            else:
+                result["components"] = [
+                    {"type": "saint", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"},
+                    {"type": "glory_both_now", "ref_key": f"horologion.theotokion_dismissal.day_{day_of_week}"}
+                ]
         else:
             # No saint - weekday tone from Octoechos
             result["components"] = [
@@ -1094,16 +1121,30 @@ class VespersMixin:
                 "prokeimenon_id": f"prokeimenon_eothinon_{eothinon}"
             }
         
-        # Weekday - tone of the week
-        octoechos_week = context.get('octoechos_week', 1)  # 1-8
-        tone = ((octoechos_week - 1) % 8) + 1
+        # Weekday - fixed daily prokeimena
+        weekday_prokeimena = {
+            0: {"tone": 8, "text": "Behold now, bless the Lord, all ye servants of the Lord.", "prokeimenon_id": "prokeimenon_weekday_tone_8"},
+            1: {"tone": 1, "text": "Thy mercy, O Lord, shall follow me all the days of my life.", "prokeimenon_id": "prokeimenon_weekday_tone_1"},
+            2: {"tone": 5, "text": "Save me, O God, by Thy name, and judge me by Thy strength.", "prokeimenon_id": "prokeimenon_weekday_tone_5"},
+            3: {"tone": 7, "text": "My help cometh from the Lord, Who hath made heaven and earth.", "prokeimenon_id": "prokeimenon_weekday_tone_7"},
+            4: {"tone": 7, "text": "O God, Thou art my defender, and Thy mercy shall go before me.", "prokeimenon_id": "prokeimenon_weekday_tone_7"},
+            5: {"tone": 7, "text": "O God, Thou art my strength; Haste Thee to help me.", "prokeimenon_id": "prokeimenon_weekday_tone_7_sat"}
+        }
         
+        data = weekday_prokeimena.get(day_of_week, {"tone": 1, "text": "Thy mercy, O Lord, shall follow me all the days of my life.", "prokeimenon_id": "prokeimenon_weekday_tone_1"})
         return {
             "type": "daily_prokeimenon",
-            "tone": tone,
-            "prokeimenon_id": f"prokeimenon_weekday_tone_{tone}",
+            "tone": data["tone"],
+            "text": data["text"],
+            "prokeimenon_id": data["prokeimenon_id"],
             "day_of_week": day_of_week
         }
+
+    def resolve_vespers_prokeimenon(self, context, rubrics=None):
+        """
+        Resolves the prokeimenon for Vespers.
+        """
+        return self.resolve_prokeimenon(context)
 
 
     def resolve_vespers_readings_logic(self, context, rubrics=None):
@@ -1142,7 +1183,7 @@ class VespersMixin:
                  "ref_key": "menaion.great_prokeimenon_feast_evening",
                  "content": "Who is so great a God as our God..."
              }
-        elif day == 0: # Sunday (Sat Eve)
+        elif day == 0 or context.get("is_sunday_vigil"): # Sunday (Sat Eve)
              prokeimenon = {
                   "type": "prokeimenon",
                   "source": "horologion_saturday_evening",

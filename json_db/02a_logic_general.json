@@ -205,7 +205,8 @@
         ],
         "rank_id": [
           "rank_simple_4",
-          "rank_doxology"
+          "rank_doxology",
+          "rank_simple_6"
         ],
         "period": [
           "normal"
@@ -296,6 +297,26 @@
                   "source": "menaion",
                   "type": "saint_2",
                   "qty": 4
+                }
+              ]
+            },
+            "saint_on_6_doxology": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "canon_1",
+                  "qty": 4,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "canon_2",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 6
                 }
               ]
             }

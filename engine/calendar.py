@@ -212,6 +212,7 @@ class CalendarMixin:
             "is_after_lucan_jump": self.is_after_lucan_jump(target_date),
             "menaion_key": menaion_key,
             "triodion_week": (delta + 48) // 7 + 1 if -70 <= delta <= -1 else 1,
+            "weeks_after_pentecost": (delta - 49) // 7 + 1 if delta >= 49 else None,
             "octoechos_theme": {
                 0: "resurrection",
                 1: "repentance_angels",
@@ -309,7 +310,7 @@ class CalendarMixin:
                     "[GT DOX]": "GT_DOX",
                     "[6 SM]": "SIX",
                     "[4 A+G]": "SIX",
-                    "[4 NO]": "SIMPLE",
+                    "[4 NO]": "NO",
                     "[4 TR]": "SIMPLE",
                 }
                 

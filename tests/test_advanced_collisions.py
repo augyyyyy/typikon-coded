@@ -8,7 +8,7 @@ import os
 import inspect
 print(f"DEBUG: Check Condition Source:\n{inspect.getsource(RuthenianEngine._check_condition)}")
 print("--- Starting Advanced Collision Test ---")
-base_dir = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 engine = RuthenianEngine(base_dir=base_dir)
 
 # Helper to verify internal helper _check_condition directly

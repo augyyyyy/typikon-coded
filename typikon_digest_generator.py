@@ -7,6 +7,7 @@ from datetime import datetime
 class TypikonDigestGenerator:
     def __init__(self, engine):
         self.engine = engine
+        self.mode = "full"
 
     def _roman_tone(self, tone):
         try:
@@ -15,6 +16,59 @@ class TypikonDigestGenerator:
         except (ValueError, TypeError):
             return str(tone)
 
+    def _capitalize_name(self, name):
+        if not name:
+            return ""
+        name = name.strip().rstrip('.').strip()
+        small_words = {"of", "the", "in", "and", "a", "an", "on", "at", "to", "for", "with", "from", "by", "over", "under", "about", "into", "through", "that"}
+        
+        if name.lower().startswith("st. "):
+            name = "St. " + name[4:]
+        elif name.lower().startswith("st "):
+            name = "St. " + name[3:]
+            
+        words = name.split()
+        cap_words = []
+        for i, w in enumerate(words):
+            w_clean = w.lower().rstrip(',').rstrip('.').rstrip(';').rstrip(':')
+            if i > 0 and w_clean in small_words and i < len(words) - 1:
+                cap_words.append(w.lower())
+            else:
+                if '.' in w:
+                    parts = w.split('.')
+                    cap_parts = [p.capitalize() if p else "" for p in parts]
+                    cap_words.append(".".join(cap_parts))
+                elif '-' in w:
+                    parts = w.split('-')
+                    cap_parts = [p.capitalize() for p in parts]
+                    cap_words.append("-".join(cap_parts))
+                else:
+                    cap_words.append(w.capitalize())
+        return " ".join(cap_words)
+
+    def _clean_name(self, name):
+        if not name:
+            return ""
+        name = name.strip().rstrip('.')
+        if "Cyril, Archbishop of Alexandria" in name or "Cyril of Alexandria" in name:
+            return "St. Cyril"
+        
+        titles = ["hieromartyr", "protomartyr", "great martyr", "greatmartyr", "venerable", "martyr", "apostle", "archbishop", "bishop", "hierodeacon", "righteous", "prophet"]
+        name_lower = name.lower()
+        
+        # Remove leading "St." or "St " if followed by a hierarchical title
+        if name_lower.startswith("st. ") or name_lower.startswith("st "):
+            rest = name[4:].strip() if name_lower.startswith("st. ") else name[3:].strip()
+            rest_lower = rest.lower()
+            if any(t in rest_lower for t in titles):
+                name = rest
+                name_lower = name.lower()
+                
+        # Only prepend "St. " if no title is present and it doesn't already have it
+        has_title = any(t in name_lower for t in titles)
+        if not has_title and not name_lower.startswith("st.") and not name_lower.startswith("st "):
+            name = "St. " + name
+        return name
 
     def humanize_key(self, key):
         if not key:
@@ -22,6 +76,8 @@ class TypikonDigestGenerator:
         if isinstance(key, dict):
             key = key.get('source', key.get('ref_key', ''))
         key = str(key).strip()
+        if " " in key:
+            return key.strip("*").strip(".")
         
         key_lower = key.lower()
         if key_lower == "triodion.doxasticon":
@@ -87,7 +143,9 @@ class TypikonDigestGenerator:
             "dogmatikon_current_tone": "Dogmatic Theotokion in the Tone of the week",
             "dogmatikon_tone_week": "Dogmatic Theotokion in the Tone of the week",
             "dogmatikon": "Dogmatic Theotokion",
-            "theotokion_daily": "daily Theotokion",
+            "theotokion_daily": "Theotokion from the Horologion or Octoechos",
+            "stavrotheotokion": "Stavrotheotokion from the Horologion or Octoechos",
+            "theotokion_horologion_or_octoechos": "Theotokion from the Horologion or Octoechos",
             "open_to_me_the_doors_of_repentance": "Open to me the doors of repentance",
             "on_the_paths_of_salvation": "On the paths of salvation",
             "when_i_think_of_the_many_evil_things_i_have_done": "When I think of the many evil things I have done",
@@ -101,10 +159,15 @@ class TypikonDigestGenerator:
             "octoechos": "Octoechos",
             "triodion": "Triodion",
             "menaion": "Menaion",
+            "horologion": "Horologion",
+            "pentecostarion": "Pentecostarion",
+            "apostol": "Apostol",
+            "evangelion": "Evangelion",
             "resurrection": "Resurrection",
             "res": "Resurrectional",
             "resurrectional": "Resurrectional",
             "aposticha_theotokion": "Aposticha Theotokion",
+            "aposticha_daily": "daily Aposticha",
             "sidalen": "Sessional Hymn",
             "kathisma": "Kathisma",
             "prokeimenon": "Prokeimenon",
@@ -145,12 +208,125 @@ class TypikonDigestGenerator:
                 capitalized_words.append(w.capitalize())
         return " ".join(capitalized_words)
 
+    def _lowercase_liturgical_terms(self, text):
+        if not text:
+            return text
+        replacements = {
+            "Prokimenon": "Prokeimenon",
+            "prokimenon": "prokeimenon",
+            "Prokimena": "Prokeimena",
+            "prokimena": "prokeimena",
+            "Doxasticon": "Doxastikon",
+            "doxasticon": "doxastikon",
+            "doxasticon of the Saint": "Doxastikon of the Saint",
+            "doxasticon of the saint": "Doxastikon of the Saint",
+            "doxastikon of the Saint": "Doxastikon of the Saint",
+            "doxastikon of the saint": "Doxastikon of the Saint",
+            "Glory... doxasticon of the Saint": "Glory... Doxastikon of the Saint",
+            "Glory... doxasticon of the saint": "Glory... Doxastikon of the Saint",
+            "Glory... doxastikon of the Saint": "Glory... Doxastikon of the Saint",
+            "Glory... doxastikon of the saint": "Glory... Doxastikon of the Saint",
+            "doxastikon of the feast": "Doxastikon of the Feast",
+            "theotokion from the Horologion or Octoechos": "Theotokion from the Horologion or Octoechos",
+            "theotokion from the Horologion": "Theotokion from the Horologion",
+            "theotokion from the Octoechos": "Theotokion from the Octoechos",
+            "dismissal theotokion": "Dismissal Theotokion",
+            "troparion of the saint": "Troparion of the Saint",
+            "troparion of the temple": "Troparion of the Temple",
+            "troparion of the Cross": "Troparion of the Cross",
+            "kontakion of the saint": "Kontakion of the Saint",
+            "kontakion of the temple": "Kontakion of the Temple",
+            "kontakion of the Cross": "Kontakion of the Cross",
+            "troparion of St. Hieromartyr Timothy": "Troparion of St. Hieromartyr Timothy",
+            "kontakion of St. Hieromartyr Timothy": "Kontakion of St. Hieromartyr Timothy",
+            "troparion of the day": "Troparion of the Day",
+            "kontakion of the day": "Kontakion of the Day",
+            "troparion of the day": "Troparion of the Day",
+            "kontakion of the day": "Kontakion of the Day",
+            "troparion of the Angels.": "Troparion of the Angels.",
+            "troparion of the Forerunner.": "Troparion of the Forerunner.",
+            "troparion of the Apostles; troparion of St. Nicholas.": "Troparion of the Apostles; Troparion of St. Nicholas.",
+            "kontakion of the Angels.": "Kontakion of the Angels.",
+            "kontakion of the Forerunner.": "Kontakion of the Forerunner.",
+            "kontakion of the Apostles; kontakion of St. Nicholas.": "Kontakion of the Apostles; Kontakion of St. Nicholas.",
+            "troparion of ": "Troparion of ",
+            "kontakion of ": "Kontakion of ",
+            "current day": "Current Day",
+            "Glory... doxastikon of the saint": "Glory... Doxastikon of the Saint",
+            "Both now... theotokion from the Horologion or Octoechos": "Both now... Theotokion from the Horologion or Octoechos",
+            "sessional hymns": "Sessional Hymns",
+            "sessional hymn": "Sessional Hymn",
+            "aposticha theotokion": "Aposticha Theotokion"
+        }
+        for k, v in replacements.items():
+            text = text.replace(k, v)
+            
+        # Standardize capitalization of some words everywhere
+        text = text.replace("troparion of the Saint", "Troparion of the Saint")
+        text = text.replace("troparion of the Cross", "Troparion of the Cross")
+        text = text.replace("kontakion of the Cross", "Kontakion of the Cross")
+        text = text.replace("kontakion of the Saint", "Kontakion of the Saint")
+        text = text.replace("doxasticon of the Saint", "Doxastikon of the Saint")
+        text = text.replace("doxastikon of the Saint", "Doxastikon of the Saint")
+        text = text.replace("dismissal Theotokion", "Dismissal Theotokion")
+        text = text.replace("daily aposticha", "Daily Aposticha")
+        text = text.replace("resurrectional sessional", "Resurrectional Sessional")
+        text = text.replace("resurrectional stichera", "Resurrectional Stichera")
+        text = text.replace("of the saint", "of the Saint")
+        text = text.replace("to the saint", "to the Saint")
+        text = text.replace("canon of the saint", "Canon of the Saint")
+        text = text.replace("Canon of the saint", "Canon of the Saint")
+        text = text.replace("canon of the Saint", "Canon of the Saint")
+        text = text.replace("troparion of the saint", "Troparion of the Saint")
+        text = text.replace("kontakion of the saint", "Kontakion of the Saint")
+        text = text.replace("doxasticon of the saint", "Doxastikon of the Saint")
+        text = text.replace("tone of the saint", "tone of the Saint")
+        text = text.replace("stichera to the saint", "Stichera to the Saint")
+        text = text.replace("stichera to the Saint", "Stichera to the Saint")
+        
+        # Ensure 'stichera' is capitalized in specific contexts
+        text = text.replace("6 stichera", "6 Stichera")
+        text = text.replace("3 stichera", "3 Stichera")
+        text = text.replace(" praises stichera", " Praises Stichera")
+        text = text.replace(" litiya stichera", " Litiya Stichera")
+        text = text.replace(" daily stichera", " Daily Stichera")
+        text = text.replace("6 Stichera to the Saint", "6 Stichera to the Saint")
+        
+        return text
+
     def generate(self, context, rubrics, mode="full"):
+        self.mode = mode
         if mode == "full":
-            return self.generate_full_service(context, rubrics)
-        return self.generate_quick_reference(context, rubrics)
+            res = self.generate_full_service(context, rubrics)
+        else:
+            res = self.generate_quick_reference(context, rubrics)
+            
+        # Post-process to standardize spelling and capitalization
+        res = self._lowercase_liturgical_terms(res)
+        res = res.replace("Prokimenon", "Prokeimenon")
+        res = res.replace("Prokimena", "Prokeimena")
+        res = res.replace("prokimenon", "prokeimenon")
+        res = res.replace("prokimena", "prokeimena")
+        res = res.replace("Kinonicon", "Communion Hymn")
+        res = res.replace("kinonicon", "communion hymn")
+        
+        # Post-process to ensure trailing spaces on all non-empty, non-header lines
+        lines = []
+        for line in res.splitlines():
+            line_str = line.strip()
+            if not line_str or line_str.startswith("#") or line_str.startswith(">"):
+                lines.append(line_str)
+            else:
+                lines.append(line.rstrip() + "  ")
+        res = "\n".join(lines)
+        
+        return res
 
     def generate_full_service(self, context, rubrics):
+        self.mode = "full"
+        self._seen_katavasias = set()
+        self._matins_canon_printed = False
+        self._liturgy_readings_printed = False
         digest = []
         
         # 1. Date Header
@@ -171,14 +347,23 @@ class TypikonDigestGenerator:
         
         # 2. Title and Tone
         title = rubrics.get('title', 'NORMAL DAY').upper()
+        if "SAINT OF THE DAY" in title:
+            saints = context.get("saints", [])
+            if saints:
+                title = saints[0].get("name", "SAINT OF THE DAY").upper()
+        import re
+        title = re.sub(r'\s*\(\d+-\d+\)', '', title)
+        title = title.rstrip('.')
         tone_str = context.get('tone', '')
         if tone_str:
-            title += f" - TONE {self._roman_tone(tone_str)}"
+            title += f" - TONE {self._roman_tone(tone_str)}."
+        else:
+            title += "."
         digest.append(title)
         
         # 3. Saints List
         if "saints" in context:
-             saints_str = "; ".join(s.get("name", s.get("id", "")) for s in context["saints"])
+             saints_str = "; ".join(self._clean_name(s.get("name", s.get("id", ""))) for s in context["saints"])
              if saints_str:
                  digest.append(saints_str)
                  
@@ -186,13 +371,31 @@ class TypikonDigestGenerator:
         try:
             res = self.engine.resolve_service_combination_header(context, rubrics)
             if res and res.get("components"):
-                comps = [c.replace(" from the Octoechos", "") for c in res["components"] 
-                         if not c.lower().startswith("st. forefeast") and not c.lower().startswith("st. afterfeast")]
+                comps = []
+                for c in res["components"]:
+                    if c.lower().startswith("st. forefeast") or c.lower().startswith("st. afterfeast"):
+                        continue
+                    c_clean = c.replace(" from the Octoechos", "")
+                    # Capitalize Saint names
+                    if "service" not in c_clean.lower() and "triodion" not in c_clean.lower() and "forefeast" not in c_clean.lower() and "afterfeast" not in c_clean.lower():
+                        comps.append(self._capitalize_name(self._clean_name(c_clean)))
+                    else:
+                        comps.append(c_clean)
                 if comps:
                     header = comps[0]
-                    if len(comps) > 1: header += " combined with " + comps[1]
+                    if len(comps) > 1: header += " combined with that of " + comps[1]
                     for c in comps[2:]: header += ", and that of " + c
-                    digest.append(header.capitalize() + ".")
+                    
+                    # Ensure the combination header explicitly mentions the saint if missed
+                    saints = context.get("saints", [])
+                    if saints and "saint" in header.lower() and saints[0].get("name").lower() not in header.lower():
+                        import re
+                        pattern = re.compile(re.escape("saint"), re.IGNORECASE)
+                        clean_saint_name = self._clean_name(saints[0].get("name"))
+                        header = pattern.sub(self._capitalize_name(clean_saint_name), header)
+                        
+                    header_str = ((header[0].upper() + header[1:]) if header else "").rstrip('.') + "."
+                    digest.append(header_str)
         except Exception as e:
             digest.append(f"[ERROR: resolve_service_combination_header failed - {e}]")
 
@@ -233,10 +436,24 @@ class TypikonDigestGenerator:
         elif context.get("triodion_period") == "holy_week_weekday" and context.get("day_of_week") in [1, 2, 3]:
             matins_override = "bridegroom_matins"
 
+        hours_formatted = False
         for service in self.engine.daily_cycle:
             context["overrides"] = rubrics.get("overrides", {})
             service_name = service["name"]
             
+            # Group Hours into a single section
+            if service_name in ["First Hour", "Third Hour", "Sixth Hour", "Ninth Hour"]:
+                if not hours_formatted:
+                    digest.append("=== HOURS ===")
+                    try:
+                        hours_text = self._format_qr_hours(context, rubrics)
+                        digest.append(hours_text)
+                    except Exception as e:
+                        digest.append(f"[ERROR: Formatting hours failed - {e}]")
+                    digest.append("")
+                    hours_formatted = True
+                continue
+
             # Suppression logic for Vesperal Liturgy & Presanctified
             is_vesperal_liturgy = (
                 "vesperal_merge_logic" in rubrics.get("overrides", {}).get("liturgy_type", "") or
@@ -338,11 +555,17 @@ class TypikonDigestGenerator:
                 raw_lines.append(str(item))
                 
         formatted_md = []
+        last_added_line = None
         for line in raw_lines:
             line_str = line.strip()
             if not line_str:
                 formatted_md.append("")
                 continue
+                
+            # Suppress consecutive identical lines (case-insensitive and whitespace-insensitive)
+            if last_added_line and line_str.lower() == last_added_line.lower():
+                continue
+            last_added_line = line_str
                 
             if line_str.startswith("TYPICON:"):
                 if formatted_md and formatted_md[-1] != "":
@@ -381,6 +604,21 @@ class TypikonDigestGenerator:
         return ""
 
     def _format_qr_hours(self, context, rubrics):
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or rubrics.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            s_name = "Saint"
+            saints = context.get("saints", [])
+            if saints:
+                s_name_raw = saints[0].get("name", "Saint").strip()
+                s_name = self._clean_name(s_name_raw)
+            else:
+                s_name = "St. Cyril"
+            day = context.get("day_of_week", 1)
+            if day in (3, 5):
+                return f"Troparia: First Hour – Troparion of the Cross; Third Hour – Troparion of {s_name}; Sixth Hour – Troparion of the Temple; Ninth Hour – Troparion of {s_name}. Kontakia: First Hour – Kontakion of the Cross; Third Hour – Kontakion of {s_name}; Sixth Hour – Kontakion of the Temple; Ninth Hour – Kontakion of {s_name}."
+            return f"Troparia: First Hour – Day; Third & Ninth Hours – {s_name}; Sixth Hour – Temple. Kontakia: First Hour – Day; Third & Ninth Hours – {s_name}; Sixth Hour – Temple."
+
         troparia_by_hour = {}
         kontakia_by_hour = {}
         
@@ -457,40 +695,180 @@ class TypikonDigestGenerator:
             except Exception as e:
                 kontakia_by_hour[h] = f"[ERROR: {e}]"
                 
-        unique_troparia = set(troparia_by_hour.values())
-        if len(unique_troparia) == 1:
-            line1 = f"At all the hours: {list(unique_troparia)[0]}."
-        else:
-            parts = []
-            for h in [1, 3, 6, 9]:
-                parts.append(f"at the {self._hour_name(h)} – {troparia_by_hour[h]}")
-            line1 = "At the hours: " + "; ".join(parts) + "."
+        # Group Troparia by hours
+        trop_to_hours = {}
+        for h, t in troparia_by_hour.items():
+            trop_to_hours.setdefault(t, []).append(h)
             
+        trop_parts = []
+        for t, hours in sorted(trop_to_hours.items(), key=lambda x: min(x[1])):
+            h_names = [self._hour_ordinal(h) for h in hours]
+            if len(h_names) == 4:
+                h_str = "all the hours"
+            elif len(h_names) == 1:
+                h_str = f"the {h_names[0]} Hour"
+            elif len(h_names) == 2:
+                h_str = f"the {h_names[0]} and {h_names[1]} Hours"
+            else:
+                h_str = "the " + ", ".join(h_names[:-1]) + f", and {h_names[-1]} Hours"
+            trop_parts.append(f"At {h_str}: {t}")
+        line1 = "; ".join(trop_parts) + "."
+        
+        # Group Kontakia by hours
         kont_to_hours = {}
         for h, k in kontakia_by_hour.items():
             kont_to_hours.setdefault(k, []).append(h)
             
         kont_parts = []
         for k, hours in sorted(kont_to_hours.items(), key=lambda x: min(x[1])):
-            h_names = []
-            for h in hours:
-                h_names.append(self._hour_ordinal(h))
-            if len(h_names) == 1:
-                h_str = h_names[0]
+            h_names = [self._hour_ordinal(h) for h in hours]
+            if len(h_names) == 4:
+                h_str = "all the hours"
+            elif len(h_names) == 1:
+                h_str = f"the {h_names[0]} Hour"
             elif len(h_names) == 2:
-                h_str = f"{h_names[0]} and {h_names[1]}"
+                h_str = f"the {h_names[0]} and {h_names[1]} Hours"
             else:
-                h_str = ", ".join(h_names[:-1]) + f" and {h_names[-1]}"
-            kont_parts.append(f"at the {h_str} – {k}")
+                h_str = "the " + ", ".join(h_names[:-1]) + f", and {h_names[-1]} Hours"
+            kont_parts.append(f"at {h_str} – {k}")
             
         line2 = "Kontakia: " + "; ".join(kont_parts) + "."
-        return f"{line1}\n{line2}"
+        return f"**At the Hours:** {line1}\n{line2}"
 
     def _hour_name(self, h):
         return {1: "First Hour", 3: "Third Hour", 6: "Sixth Hour", 9: "Ninth Hour"}.get(h, f"{h}th Hour")
 
     def _hour_ordinal(self, h):
         return {1: "First", 3: "Third", 6: "Sixth", 9: "Ninth"}.get(h, str(h))
+
+    def _get_kathisma_display(self, res):
+        if not res:
+            return ""
+        if isinstance(res, dict):
+            if res.get("type") == "lenten_hours":
+                return str(res.get("kathisma_number"))
+            val = res.get("id") or res.get("ref_key") or ""
+            val_clean = val.replace("kathisma_", "").replace("Kathisma ", "").replace("horologion.", "")
+            if val_clean.isdigit():
+                return val_clean
+            return self.humanize_key(val)
+        return self.humanize_key(str(res))
+
+    def _resolve_slot_value(self, slot_content, context, rubrics):
+        func_name = slot_content.get("logic", {}).get("function")
+        args = slot_content.get("logic", {}).get("args", {})
+        if not func_name or not hasattr(self.engine, func_name):
+            return None
+            
+        enriched = {**context, **rubrics.get("variables", {}), "variables": rubrics.get("variables", {})}
+        enriched["overrides"] = rubrics.get("overrides", {})
+        if rubrics.get("is_sunday_vigil"):
+            enriched["is_sunday_vigil"] = True
+            
+        func = getattr(self.engine, func_name)
+        
+        import inspect
+        sig = inspect.signature(func)
+        call_kwargs = {}
+        if "rubrics" in sig.parameters:
+            call_kwargs["rubrics"] = rubrics
+            
+        normalized_args = {}
+        for k, v in args.items():
+            if k == "pos":
+                normalized_args["position"] = v
+            elif k == "num":
+                normalized_args["num"] = v
+            else:
+                normalized_args[k] = v
+                
+        for param_name in sig.parameters:
+            if param_name in normalized_args:
+                call_kwargs[param_name] = normalized_args[param_name]
+                
+        params = list(sig.parameters.values())
+        if len(params) > 0:
+            result = func(enriched, **call_kwargs)
+        else:
+            result = func()
+            
+        return result
+
+    def _format_grouped_kathismata(self, parent_slot, context, rubrics):
+        content = parent_slot.get("content", {})
+        components = content.get("components", [])
+        if not components:
+            return ""
+            
+        kathismata_resolved = []
+        sessionals_resolved = []
+        sessional_map = {}
+        kathisma_count = 0
+        
+        for comp in components:
+            comp_content = comp.get("content", {}) or comp
+            slot_type = comp_content.get("type")
+            
+            if slot_type == "variable_logic":
+                func_name = comp_content.get("logic", {}).get("function")
+                if func_name == "resolve_kathisma":
+                    res = self._resolve_slot_value(comp_content, context, rubrics)
+                    if res:
+                        display = self._get_kathisma_display(res)
+                        kathismata_resolved.append(display)
+                        kathisma_count += 1
+                elif func_name in ("resolve_sessional", "resolve_lenten_sessional"):
+                    res = self._resolve_slot_value(comp_content, context, rubrics)
+                    if res:
+                        desc = self._format_result(func_name, res, context)
+                        if desc:
+                            desc_clean = desc.strip().rstrip('.')
+                            for prefix in ["We sing the ", "We sing ", "Sessional Hymns: ", "We read ", "Lenten Sessional: "]:
+                                if desc_clean.startswith(prefix):
+                                    desc_clean = desc_clean[len(prefix):]
+                            sessional_map[kathisma_count] = desc_clean
+                            sessionals_resolved.append(desc_clean)
+                            
+        if not kathismata_resolved:
+            return ""
+            
+        if len(kathismata_resolved) == 1:
+            k_str = kathismata_resolved[0]
+        elif len(kathismata_resolved) == 2:
+            k_str = f"{kathismata_resolved[0]} & {kathismata_resolved[1]}"
+        else:
+            k_str = ", ".join(kathismata_resolved[:-1]) + f", and {kathismata_resolved[-1]}"
+            
+        unique_sess = list(set(sessionals_resolved))
+        if not unique_sess:
+            return f"After the Kathismata ({k_str}): We read the Kathismata."
+            
+        if len(unique_sess) == 1:
+            sess_str = f"we sing the {unique_sess[0]}"
+        else:
+            parts = []
+            for idx, k_num in enumerate(kathismata_resolved):
+                k_idx = idx + 1
+                if k_idx in sessional_map:
+                    parts.append(f"after the {self._ordinal(k_idx)} ({k_num}): the {sessional_map[k_idx]}")
+            sess_str = "we sing: " + "; ".join(parts)
+            
+        day_of_week = context.get("day_of_week", 0)
+        is_sunday = day_of_week == 0 or context.get("is_sunday_vigil")
+        prefix_read = ""
+        if not is_sunday and kathismata_resolved:
+            k_joined = f"{kathismata_resolved[0]} and {kathismata_resolved[1]}" if len(kathismata_resolved) == 2 else (", ".join(kathismata_resolved[:-1]) + f" and {kathismata_resolved[-1]}" if len(kathismata_resolved) > 2 else kathismata_resolved[0])
+            prefix_read = f"We read Kathismata {k_joined}.\n\n"
+            
+        return prefix_read + f"After the Kathismata ({k_str}): {sess_str[0].upper() + sess_str[1:]}."
+
+    def _ordinal(self, n):
+        suffixes = {1: 'st', 2: 'nd', 3: 'rd'}
+        if 11 <= (n % 100) <= 13:
+            suffix = 'th'
+        else:
+            suffix = suffixes.get(n % 10, 'th')
+        return f"{n}{suffix}"
 
     def _format_qr_readings(self, context, rubrics):
         try:
@@ -510,30 +888,71 @@ class TypikonDigestGenerator:
             p = reading.get("prokeimenon", {})
             if p:
                 tone = p.get("tone")
-                ref = self.humanize_key(p.get("ref_key", ""))
                 t_str = f"Tone {self._roman_tone(tone)}" if tone else ""
-                ref_clean = ref.replace("Prokimenon", "").strip()
-                if ref_clean:
-                    lines.append(f"**Prokimenon:**\t{t_str}: \"{ref_clean}...\"")
+                text = p.get("text") or p.get("content")
+                if text:
+                    text_clean = text.strip('"').rstrip('.')
+                    p_str = f"**Prokimenon:** {t_str}: \"{text_clean}\"".replace(" :", ":").replace("::", ":").strip()
                 else:
-                    lines.append(f"**Prokimenon:**\t{t_str}")
+                    ref = self.humanize_key(p.get("ref_key", ""))
+                    ref_clean = ref.replace("Prokimenon", "").replace("Prokeimenon", "").strip()
+                    ref_key_lower = p.get("ref_key", "").lower()
+                    if not ref_clean or ref_clean.lower() in ("prokeimenon", "prokeimenon_daily") or "day_" in ref_key_lower or "day " in ref_clean.lower():
+                        p_str = f"**Prokimenon:** of the day{', ' + t_str if t_str else ''}."
+                    else:
+                        p_str = f"**Prokimenon:** {t_str}: \"{ref_clean}...\"".replace(" :", ":").replace("::", ":").strip()
+                lines.append(p_str)
                     
             e = reading.get("epistle", {})
             if e:
-                ref = self.humanize_key(e.get("ref_key", ""))
-                lines.append(f"**Epistle:**\t\t{ref}")
+                text = e.get("text") or e.get("content")
+                if text:
+                    ref = text
+                else:
+                    ref = self.humanize_key(e.get("ref_key", ""))
+                    ref_key_lower = e.get("ref_key", "").lower()
+                    if not ref or ref.lower() in ("epistle", "epistle_daily", "apostol.weekday", "weekday") or "day_" in ref_key_lower or "day " in ref.lower():
+                        ref = "of the day"
+                lines.append(f"**Epistle:** {ref}")
                 
             a = reading.get("alleluia", {})
             if a:
-                tone = a.get("tone")
-                ref = self.humanize_key(a.get("ref_key", ""))
+                tone = a.get("tone") or (p.get("tone") if p else None)
                 t_str = f"Tone {self._roman_tone(tone)}" if tone else ""
-                lines.append(f"**Alleluia:**\t\t{t_str}")
+                is_weekday = 0 < context.get("day_of_week", 0) <= 5
+                is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+                if is_weekday and is_simple:
+                    a_str = f"**Alleluia:** {t_str}, with verses of the day." if t_str else "**Alleluia:** with verses of the day."
+                else:
+                    text = a.get("text") or a.get("content")
+                    if text:
+                        a_str = f"**Alleluia:** {t_str}, with verses: \"{text}\"."
+                    else:
+                        verses = a.get("verses")
+                        if verses:
+                            v_str = f", with verses: \"{verses[0]}\""
+                            a_str = f"**Alleluia:** {t_str}{v_str}."
+                        else:
+                            ref = self.humanize_key(a.get("ref_key", ""))
+                            ref_clean = ref.replace("Alleluia", "").strip()
+                            ref_key_lower = a.get("ref_key", "").lower()
+                            if not ref_clean or ref_clean.lower() in ("alleluia", "alleluia_daily") or "day_" in ref_key_lower or "day " in ref_clean.lower() or ref_clean.lower() == "weekday":
+                                a_str = f"**Alleluia:** of the day{', ' + t_str if t_str else ''}."
+                            else:
+                                a_str = f"**Alleluia:** {t_str}".strip()
+                lines.append(a_str)
                 
             g = reading.get("gospel", {})
             if g:
-                ref = self.humanize_key(g.get("ref_key", ""))
-                lines.append(f"**Gospel:**\t\t{ref}")
+                text = g.get("text") or g.get("content")
+                if text:
+                    ref = text
+                else:
+                    ref = self.humanize_key(g.get("ref_key", ""))
+                    ref_key_lower = g.get("ref_key", "").lower()
+                    if not ref or ref.lower() in ("gospel", "gospel_daily", "evangelion.weekday", "weekday") or "day_" in ref_key_lower or "day " in ref.lower():
+                        ref = "of the day"
+                lines.append(f"**Gospel:** {ref}")
                 
         try:
             meg_res = self.engine.resolve_liturgy_megalynarion(context, rubrics)
@@ -548,13 +967,15 @@ class TypikonDigestGenerator:
         try:
             kin_res = self.engine.resolve_communion_hymn(context, rubrics)
             if kin_res and kin_res.get("text"):
-                lines.append(f"**Kinonicon:**\t\"{kin_res['text']}\"")
+                lines.append(f"**Communion Hymn:** \"{kin_res['text']}\"")
         except Exception as e:
             pass
             
         return "\n".join(lines)
 
     def generate_quick_reference(self, context, rubrics):
+        self.mode = "quick"
+        self._seen_katavasias = set()
         digest = []
         
         # 1. Date Header
@@ -570,37 +991,56 @@ class TypikonDigestGenerator:
             formatted_date = date_str
             dt = None
             
-        digest.append(f"# TYPICON: {formatted_date}")
-        
         # 2. Title and Tone
         title = rubrics.get('title', 'NORMAL DAY').upper()
+        if "SAINT OF THE DAY" in title:
+            saints = context.get("saints", [])
+            if saints:
+                title = saints[0].get("name", "SAINT OF THE DAY").upper()
+                
+        title = title.rstrip('.')
+        import re
+        title = re.sub(r'\s*\(\d+-\d+\)', '', title)
         tone_str = context.get('tone', '')
         if tone_str:
-            title += f" - TONE {self._roman_tone(tone_str)}"
-        digest.append(f"## {title}")
-        
-        # 3. Saints List (including transferred)
-        saints = context.get("saints", [])
-        transferred_saints = context.get("transferred_saints", [])
-        all_saints = list(saints) + list(transferred_saints)
-        if all_saints:
-            saints_str = "; ".join(s.get("name", s.get("id", "")) for s in all_saints)
-            if saints_str:
-                digest.append(f"{saints_str}  ")
+            title += f" - TONE {self._roman_tone(tone_str)}."
+        else:
+            title += "."
+            
+        digest.append(f"TYPICON: {formatted_date.upper()} {title}")
+
                 
         # 4. Service Combination Header
         try:
             res = self.engine.resolve_service_combination_header(context, rubrics)
             if res and res.get("components"):
-                comps = [c.replace(" from the Octoechos", "") for c in res["components"] 
-                         if not c.lower().startswith("st. forefeast") and not c.lower().startswith("st. afterfeast")]
+                comps = []
+                for c in res["components"]:
+                    if c.lower().startswith("st. forefeast") or c.lower().startswith("st. afterfeast"):
+                        continue
+                    c_clean = c.replace(" from the Octoechos", "")
+                    # Capitalize Saint names
+                    if "service" not in c_clean.lower() and "triodion" not in c_clean.lower() and "forefeast" not in c_clean.lower() and "afterfeast" not in c_clean.lower():
+                        comps.append(self._capitalize_name(self._clean_name(c_clean)))
+                    else:
+                        comps.append(c_clean)
                 if comps:
                     header = comps[0]
-                    if len(comps) > 1: header += " combined with " + comps[1]
+                    if len(comps) > 1: header += " combined with that of " + comps[1]
                     for c in comps[2:]: header += ", and that of " + c
-                    digest.append(f"{header.capitalize()}.  ")
+                    
+                    # Ensure the combination header explicitly mentions the saint if missed
+                    saints = context.get("saints", [])
+                    if saints and "saint" in header.lower() and saints[0].get("name").lower() not in header.lower():
+                        import re
+                        pattern = re.compile(re.escape("saint"), re.IGNORECASE)
+                        clean_saint_name = self._clean_name(saints[0].get("name"))
+                        header = pattern.sub(self._capitalize_name(clean_saint_name), header)
+                    
+                    header_str = ((header[0].upper() + header[1:]) if header else "").rstrip('.') + "."
+                    digest.append(header_str)
         except Exception as e:
-            digest.append(f"[RESOLVE ERROR: resolve_service_combination_header: {e}]  ")
+            digest.append(f"[RESOLVE ERROR: resolve_service_combination_header: {e}]")
             
         # 5. Saint Transfer Note
         try:
@@ -620,13 +1060,13 @@ class TypikonDigestGenerator:
                 is_dark = res["color"] in ("black", "dark_purple", "purple")
                 tone_type = "Dark" if is_dark else "Bright"
                 if res["color"] == "gold" and "white" in alt:
-                    digest.append(f"**Vestment colour:** Bright [blue for the forefeast or gold].  ")
+                    digest.append(f"Vestment colour: Bright (blue for the forefeast or gold).")
                 else:
                     citation = res.get("citation", "")
                     if "purple" in citation.lower() and "gold" in citation.lower():
-                        digest.append(f"**Vestment colour:** Bright [deep gold, or, in some places, gold with purple].  ")
+                        digest.append(f"Vestment colour: Bright (deep gold, or, in some places, gold with purple).")
                     else:
-                        digest.append(f"**Vestment colour:** {tone_type} [{color}{alt}].  ")
+                        digest.append(f"Vestment colour: {tone_type} ({color}{alt}).")
         except Exception as e:
             digest.append(f"[RESOLVE ERROR: resolve_vestment_color: {e}]  ")
             
@@ -637,26 +1077,62 @@ class TypikonDigestGenerator:
         if rubrics.get("is_sunday_vigil"):
             enriched["is_sunday_vigil"] = True
             
-        active_services = [s["name"] for s in self.engine.daily_cycle]
+        active_services = []
+        for s in self.engine.daily_cycle:
+            s_name = s["name"]
+            if s_name in ("Compline", "Midnight Office"):
+                is_weekday = 0 < enriched.get("day_of_week", 0) <= 6
+                is_simple = enriched.get("rank") in ("rank_simple_6", "rank_simple_4", "rank_double_6", "rank_none") or enriched.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4", "rank_double_6", "rank_none")
+                has_override = (
+                    s["type_key"] in enriched.get("variables", {}) or
+                    s["type_key"] in enriched.get("overrides", {})
+                )
+                if not has_override and is_weekday and is_simple:
+                    continue
+            active_services.append(s_name)
         
         is_vespers_active = "Vespers" in active_services and rubrics.get("overrides", {}).get("vespers_type") != "structure_suppressed"
         if context.get("day_of_week") == 0:
             is_vespers_active = True
             
         if is_vespers_active:
-            digest.append("## GREAT VESPERS")
+            eve_type = self.engine.resolve_evening_service_type(enriched)
+            is_great = eve_type in ("great_vespers", "great_vespers_vigil", "great_vespers_simple", "paschal_vespers")
+            header_title = "## GREAT VESPERS" if is_great else "## DAILY VESPERS"
+            digest.append(header_title)
+            digest.append("")
+            
+            try:
+                if not is_great:
+                    kathisma_res = self.engine.resolve_daily_kathisma(enriched)
+                    if kathisma_res and kathisma_res.get("type") == "kathisma":
+                        k_num = kathisma_res.get("number")
+                        if k_num:
+                            digest.append(f"At Vespers, Kathisma {k_num} is read.  ")
+            except Exception:
+                pass
             
             try:
                 res = self.engine.resolve_vespers_stichera(enriched)
                 formatted = self._format_resolve_vespers_stichera(res, enriched)
                 if formatted:
                     if formatted.startswith("At O Lord, I have cried, we sing"):
-                        formatted = "**At O Lord, I have cried…** we sing" + formatted[len("At O Lord, I have cried, we sing"):]
+                        formatted = "*At O Lord, I have cried…* we sing" + formatted[len("At O Lord, I have cried, we sing"):]
                     elif formatted.startswith("At O Lord, I have cried"):
-                        formatted = "**At O Lord, I have cried…**" + formatted[len("At O Lord, I have cried"):]
+                        formatted = "*At O Lord, I have cried…*" + formatted[len("At O Lord, I have cried"):]
                     digest.append(f"{formatted}  ")
             except Exception as e:
                 digest.append(f"[RESOLVE ERROR: resolve_vespers_stichera: {e}]  ")
+                
+            try:
+                prok_res = self.engine.resolve_vespers_prokeimenon(enriched)
+                if prok_res:
+                    formatted_prok = self._format_resolve_vespers_prokeimenon(prok_res, enriched)
+                    if formatted_prok:
+                        digest.append(f"{formatted_prok}  ")
+            except Exception as e:
+                digest.append(f"[RESOLVE ERROR: resolve_vespers_prokeimenon: {e}]  ")
+
                 
             try:
                 res = self.engine.resolve_litya_content(enriched)
@@ -672,10 +1148,13 @@ class TypikonDigestGenerator:
                 res = self.engine.resolve_aposticha(enriched)
                 formatted = self._format_resolve_aposticha(res, enriched)
                 if formatted:
-                    if formatted.startswith("At the Aposticha, we sing:"):
-                        formatted = "**At the Aposticha:** We sing" + formatted[len("At the Aposticha, we sing:"):]
-                    elif formatted.startswith("At the Aposticha"):
-                        formatted = "**At the Aposticha:**" + formatted[len("At the Aposticha"):]
+                    if not formatted.startswith("**At the Aposticha:**"):
+                        if formatted.startswith("At the Aposticha, we sing:"):
+                            formatted = "**At the Aposticha:** We sing" + formatted[len("At the Aposticha, we sing:"):]
+                        elif formatted.startswith("At the Aposticha"):
+                            formatted = "**At the Aposticha:**" + formatted[len("At the Aposticha"):]
+                        else:
+                            formatted = "**At the Aposticha:** " + formatted
                     digest.append(f"{formatted}  ")
             except Exception as e:
                 digest.append(f"[RESOLVE ERROR: resolve_aposticha: {e}]  ")
@@ -684,8 +1163,11 @@ class TypikonDigestGenerator:
                 res = self.engine.resolve_vespers_troparia_simple(enriched, rubrics)
                 formatted = self._format_resolve_vespers_troparia_simple(res, enriched)
                 if formatted:
-                    if formatted.startswith("At the Dismissal Troparia, we sing:"):
-                        formatted = "**At the Dismissal Troparia:**\nWe sing" + formatted[len("At the Dismissal Troparia, we sing:"):]
+                    if not formatted.startswith("**At the Dismissal Troparia:**"):
+                        if formatted.startswith("At the Dismissal Troparia:"):
+                            formatted = "**At the Dismissal Troparia:**" + formatted[len("At the Dismissal Troparia:"):]
+                        elif formatted.startswith("At the Dismissal Troparia, we sing:"):
+                            formatted = "**At the Dismissal Troparia:**\nWe sing" + formatted[len("At the Dismissal Troparia, we sing:"):]
                     digest.append(f"{formatted}  ")
                     
                 if context.get("day_of_week") == 0:
@@ -710,28 +1192,48 @@ class TypikonDigestGenerator:
             digest.append("")
             
         if "Matins" in active_services and rubrics.get("overrides", {}).get("matins_type") != "structure_suppressed":
-            digest.append("## MATINS")
+            is_sunday = context.get("day_of_week") == 0
+            is_vigil = rubrics.get("is_sunday_vigil") or context.get("rank", 4) in (1, 2)
+            matins_title = "## SUNDAY MATINS" if is_sunday else ("## FESTAL MATINS" if is_vigil else "## DAILY MATINS")
+            digest.append(matins_title)
+            digest.append("")
             
             try:
-                res = self.engine.resolve_god_is_the_lord(enriched, rubrics)
+                res = self.engine.resolve_god_is_the_lord_troparia(enriched)
                 formatted = self._format_resolve_god_is_the_lord_troparia(res, enriched)
                 if formatted:
-                    if formatted.startswith("At The Lord is God, we sing:"):
-                        formatted = "**At The Lord is God…** we sing" + formatted[len("At The Lord is God, we sing:"):]
+                    if formatted.startswith("**At The Lord is God…**"):
+                        formatted = "*At The Lord is God…*" + formatted[len("**At The Lord is God…**"):]
+                    elif formatted.startswith("At The Lord is God…"):
+                        formatted = "*At The Lord is God…*" + formatted[len("At The Lord is God…"):]
                     digest.append(f"{formatted}  ")
             except Exception as e:
-                digest.append(f"[RESOLVE ERROR: resolve_god_is_the_lord: {e}]  ")
+                digest.append(f"[RESOLVE ERROR: resolve_god_is_the_lord_troparia: {e}]  ")
                 
-            if context.get("day_of_week") == 0:
-                digest.append("After each cathisma we sing the sessional hymns from the Octoechos.  ")
-            else:
+            digest.append("")
+            
+            is_weekday = 0 < enriched.get("day_of_week", 0) <= 5
+            is_simple = enriched.get("rank") in ("rank_simple_6", "rank_simple_4") or enriched.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+            if is_weekday and is_simple:
+                kath_nums = ["1", "2"]
                 try:
-                    res = self.engine.resolve_sidalen_content(enriched)
-                    formatted = self._format_resolve_sidalen_content(res, enriched)
-                    if formatted:
-                        digest.append(f"{formatted}  ")
-                except Exception as e:
-                    digest.append(f"[RESOLVE ERROR: resolve_sidalen_content: {e}]  ")
+                    matins_kathismas = self.engine.resolve_matins_kathisma(enriched)
+                    if matins_kathismas:
+                        kath_nums = [re.search(r'\d+', k).group(0) for k in matins_kathismas if re.search(r'\d+', k)]
+                except Exception:
+                    pass
+                k_str = " & ".join(kath_nums)
+                days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                day_name = days[context.get("day_of_week", 1)] if 0 <= context.get("day_of_week", 1) <= 6 else "Wednesday"
+                k_joined = " and ".join(kath_nums)
+                digest.append(f"We read Kathismata {k_joined} ({day_name} Matins).")
+                digest.append(f"After the Kathismata ({k_str}): We sing the sessional hymns from the Octoechos.")
+            elif context.get("day_of_week") == 0:
+                digest.append("After each kathisma, we sing the sessional hymns from the Octoechos.")
+            else:
+                digest.append("After each kathisma, we sing the sessional hymns from the Octoechos.")
+                
+            digest.append("")
                     
             try:
                 res = self.engine.resolve_polyeleos_or_kathisma_17(enriched, rubrics)
@@ -743,7 +1245,7 @@ class TypikonDigestGenerator:
                 
             if context.get("day_of_week") == 0:
                 t_val = self._roman_tone(context.get("tone", 1))
-                digest.append(f"After, the Evlogitaria: the Hypakoë (Tone {t_val}), Hymns of Ascents, Prokeimenon, Let everything that has breath: in the tone of the week.  ")
+                digest.append(f"After, the Evlogitaria: the Hypakoë (Tone {t_val}), Hymns of Ascents, Prokimenon, Let everything that has breath: in the tone of the week.  ")
                 
             try:
                 res = self.engine.resolve_matins_gospel(enriched)
@@ -763,76 +1265,110 @@ class TypikonDigestGenerator:
             except Exception as e:
                 digest.append(f"[RESOLVE ERROR: resolve_post_gospel_stichera: {e}]  ")
                 
-            digest.append("**At the Canon (abbreviated for parish use):**  ")
+            is_weekday = 0 < enriched.get("day_of_week", 0) <= 5
+            is_simple_6 = enriched.get("rank") == "rank_simple_6" or enriched.get("variables", {}).get("rank") == "rank_simple_6"
+            is_simple_4 = enriched.get("rank") == "rank_simple_4" or enriched.get("variables", {}).get("rank") == "rank_simple_4"
             
-            # Resolve katavasia to use in formatting
-            kat_str = ""
+            try:
+                if is_weekday and (is_simple_6 or is_simple_4):
+                    if is_simple_6:
+                        canon_details = "First Canon of the Octoechos with the Heirmos on 4; second Canon of the Octoechos on 4; Canon of the Saint on 6."
+                    else:
+                        canon_details = "First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of the Saint on 4."
+                    digest.append(f"At the Canon: Order of the Canon: {canon_details} Katavasia: Heirmos of the last canon (of the Saint) after Odes 3, 6, 8, and 9.  ")
+                    digest.append("")
+                    digest.append("**After Ode III:** Sessional hymns; Glory... both now... Theotokion.  ")
+                    digest.append("")
+                    digest.append("**After Ode VI:** Kontakion and Ikos.  ")
+                    digest.append("")
+                    
+                    try:
+                        res = self.engine.resolve_magnificat(enriched, rubrics)
+                        if res and res.get("type") == "suppressed_magnificat":
+                            digest.append("**After Ode VIII:** We do not sing the Magnificat.  ")
+                        else:
+                            digest.append("**After Ode VIII:** We sing the Magnificat.  ")
+                    except Exception:
+                        digest.append("**After Ode VIII:** We sing the Magnificat.  ")
+                    digest.append("")
+                    
+                    digest.append("Note: At the 9th Ode, the priest censes as at Great Matins.  ")
+                    digest.append("")
+                else:
+                    canon_res = self.engine.resolve_canon_stack(enriched)
+                    dist = canon_res.get("distribution", [])
+                    canon_sources = []
+                    for item in dist:
+                        src = self.humanize_key(item.get("source", ""))
+                        if src.lower() == "octoechos":
+                            canon_sources.append("canon of the Octoechos")
+                        elif src.lower() == "menaion" or "saint" in src.lower():
+                            canon_sources.append("canon of the Saint")
+                        elif "triodion" in src.lower():
+                            canon_sources.append("canon of the Triodion")
+                        elif "pentecostarion" in src.lower():
+                            canon_sources.append("canon of the Pentecostarion")
+                        elif "feast" in src.lower():
+                            canon_sources.append("canon of the Feast")
+                        elif "temple" in src.lower():
+                            canon_sources.append("canon of the Temple")
+                        else:
+                            canon_sources.append(f"canon of the {src}")
+                            
+                    # Dedup the sources
+                    seen = set()
+                    deduped_sources = []
+                    for cs in canon_sources:
+                        if cs not in seen:
+                            seen.add(cs)
+                            deduped_sources.append(cs)
+                            
+                    canon_order = ", then the ".join([s.replace("canon of the ", "") for s in deduped_sources])
+                    digest.append(f"At the Canon: We sing the canon of the {canon_order}. At each ode: Irmos from the Octoechos; troparia with refrains; Glory... both now.")
+                    digest.append("")
+                    digest.append("**After Ode III:** Sessional hymns; Glory... both now... Theotokion.")
+                    digest.append("")
+                    digest.append("**After Ode VI:** Kontakion and Ikos.")
+                    digest.append("")
+                    
+                    try:
+                        res = self.engine.resolve_magnificat(enriched, rubrics)
+                        if res and res.get("type") == "suppressed_magnificat":
+                            digest.append("**After Ode VIII:** We do not sing the Magnificat.  ")
+                        else:
+                            digest.append("**After Ode VIII:** We sing the Magnificat.  ")
+                    except Exception:
+                        digest.append("**After Ode VIII:** We sing the Magnificat.  ")
+                    digest.append("")
+            except Exception as e:
+                digest.append(f"[RESOLVE ERROR: resolve_canon_stack: {e}]")
+
             try:
                 kat_res = self.engine.resolve_katavasia(enriched)
-                if kat_res:
-                    kat_str = self._format_resolve_katavasia(kat_res, enriched)
+                formatted = self._format_resolve_katavasia(kat_res, enriched)
+                if formatted:
+                    digest.append(f"{formatted}  ")
             except Exception as e:
-                digest.append(f"[RESOLVE ERROR: resolve_katavasia: {e}]  ")
-            
-            # Dynamically format the abbreviated parish-use canon details
-            for line in self._generate_abbreviated_canon_lines(enriched, kat_str):
-                digest.append(f"  {line}  ")
-                
-            try:
-                canon_res = self.engine.resolve_canon_stack(enriched)
-                dist = canon_res.get("distribution", [])
-                parts = []
-                for item in dist:
-                    src = self.humanize_key(item.get("source", ""))
-                    qty = item.get("qty", item.get("count", 0))
-                    typ = item.get("type", "")
-                    name = src
-                    if src.lower() == "octoechos" and typ:
-                        name = self.humanize_key(typ)
-                    if name.lower() == "forefeast":
-                        name = "Menaion"
-                    extra = " (including the irmos)" if item.get("irmos") else ""
-                    parts.append(f"{name} - {qty}{extra}")
-                
-                # Format Katavasia for suffix
-                kat_suffix = ""
-                try:
-                    kat_res = self.engine.resolve_katavasia(enriched)
-                    if kat_res:
-                        kat_text = kat_res.get("text", "")
-                        if "encounter" in kat_res.get("id", "").lower() or "meeting" in kat_res.get("id", "").lower():
-                            kat_suffix = "  Catabasia of the Encounter."
-                        elif kat_text:
-                            tone_roman = self._roman_tone(kat_res.get("tone", 4))
-                            kat_suffix = f"  Catabasia Tone {tone_roman} \"{kat_text} . . . \"."
-                except Exception as e_kat:
-                    kat_suffix = f"  [RESOLVE ERROR: resolve_katavasia: {e_kat}]"
-                
-                full_order_str = f"Full order of the canon (according to the typicon): {', '.join(parts)}.{kat_suffix}"
-                digest.append(f"{full_order_str}  ")
-            except Exception as e:
-                digest.append(f"[RESOLVE ERROR: resolve_canon_stack: {e}]  ")
-                
-            digest.append(self._format_canon_interludes_ode_3(enriched))
-            digest.append(self._format_canon_interludes_ode_6(enriched))
-                
-            try:
-                res = self.engine.resolve_magnificat(enriched, rubrics)
-                if res and res.get("type") == "suppressed_magnificat":
-                    digest.append("After Ode VIII: we do not sing the Magnificat.  ")
-                else:
-                    digest.append("After Ode VIII: we sing the Magnificat.  ")
-            except Exception as e:
-                digest.append("After Ode VIII: we sing the Magnificat.  ")
+                pass
                 
             if context.get("day_of_week") == 0:
                 t_val = self._roman_tone(context.get("tone", 1))
                 digest.append(f"Holy is the Lord... Tone {t_val}.  ")
+
+            try:
+                res = self.engine.resolve_exapostilarion(enriched)
+                formatted = self._format_resolve_exapostilarion(res, enriched)
+                if formatted:
+                    digest.append(f"Exapostilarion: {formatted}")
+            except Exception as e:
+                pass
                 
             try:
                 res = self.engine.resolve_exapostilarion_matins(enriched)
                 formatted = self._format_resolve_exapostilarion_matins(res, enriched)
                 if formatted:
+                    if digest and digest[-1] != "":
+                        digest.append("")
                     if formatted.startswith("Exapostilarion:"):
                         formatted = "**Exapostilarion** -" + formatted[len("Exapostilarion:"):]
                     digest.append(f"{formatted}  ")
@@ -843,6 +1379,8 @@ class TypikonDigestGenerator:
                 res = self.engine.resolve_praises_stichera(enriched)
                 formatted = self._format_resolve_praises_stichera(res, enriched)
                 if formatted:
+                    if digest and digest[-1] != "":
+                        digest.append("")
                     if formatted.startswith("At the Praises, we sing "):
                         formatted = "**At the Praises:** We sing " + formatted[len("At the Praises, we sing "):]
                     elif formatted.startswith("At the Praises"):
@@ -859,9 +1397,44 @@ class TypikonDigestGenerator:
                 except Exception as e:
                     digest.append(f"[RESOLVE ERROR: gospel_sticheron_formatting: {e}]  ")
                     
+            try:
+                res = self.engine.resolve_aposticha_matins(enriched)
+            except AttributeError:
+                try:
+                    res = self.engine.resolve_aposticha(enriched)
+                except Exception:
+                    res = None
+            if res:
+                formatted = self._format_resolve_aposticha(res, enriched)
+                if formatted:
+                    if digest and digest[-1] != "":
+                        digest.append("")
+                    if not formatted.startswith("**At the Aposticha:**"):
+                        if formatted.startswith("At the Aposticha, we sing:"):
+                            formatted = "**At the Aposticha:** We sing" + formatted[len("At the Aposticha, we sing:"):]
+                        elif formatted.startswith("At the Aposticha"):
+                            formatted = "**At the Aposticha:**" + formatted[len("At the Aposticha"):]
+                        else:
+                            formatted = "**At the Aposticha:** " + formatted
+                    digest.append(f"{formatted}")
+            
+            is_simple_4 = enriched.get("rank") == "rank_simple_4" or enriched.get("variables", {}).get("rank") == "rank_simple_4"
+            if is_weekday and (is_simple_6 or is_simple_4):
+                if digest and digest[-1] != "":
+                    digest.append("")
+                try:
+                    res = self.engine.resolve_matins_dismissal_troparion(enriched)
+                    formatted = self._format_resolve_matins_dismissal_troparion(res, enriched)
+                    if formatted:
+                        digest.append(formatted)
+                except Exception as e:
+                    digest.append(f"[RESOLVE ERROR: resolve_matins_dismissal_troparion: {e}]")
+                
             digest.append("")
             
         if "First Hour" in active_services or "Third Hour" in active_services:
+            if digest and digest[-1] != "":
+                digest.append("")
             digest.append("## HOURS")
             try:
                 hours_str = self._format_qr_hours(enriched, rubrics)
@@ -872,6 +1445,8 @@ class TypikonDigestGenerator:
             
         is_liturgy_active = ("Divine Liturgy" in active_services or "Liturgy" in active_services) and rubrics.get("overrides", {}).get("liturgy_type") != "structure_suppressed"
         if is_liturgy_active:
+            if digest and digest[-1] != "":
+                digest.append("")
             lit_type = rubrics.get("overrides", {}).get("liturgy_type") or rubrics.get("variables", {}).get("liturgy_type", "")
             if "basil" in lit_type.lower():
                 digest.append("## DIVINE LITURGY OF SAINT BASIL THE GREAT")
@@ -904,7 +1479,7 @@ class TypikonDigestGenerator:
                         stichera_parts.append(f"{src_str} - {qty}")
                         
                 if total_qty > 0:
-                    beat_str = f"Beatitudes on {total_qty}: {'; '.join(stichera_parts)}."
+                    beat_str = f"Beatitudes on {total_qty}: {', '.join(stichera_parts)}."
                 else:
                     beat_str = "Beatitudes."
                     
@@ -919,9 +1494,7 @@ class TypikonDigestGenerator:
                 res = self.engine.resolve_liturgy_hymns(enriched, rubrics)
                 formatted = self._format_resolve_liturgy_hymns(res, enriched)
                 if formatted:
-                    if formatted.startswith("Troparia and Kontakia:"):
-                        formatted = "**Troparia and Kontakia:**" + formatted[len("Troparia and Kontakia:"):]
-                    digest.append(f"{formatted}  ")
+                    digest.append(f"{formatted}")
             except Exception as e:
                 digest.append(f"[RESOLVE ERROR: resolve_liturgy_hymns: {e}]  ")
                 
@@ -950,7 +1523,10 @@ class TypikonDigestGenerator:
             if line is None:
                 formatted_md.append("")
             elif isinstance(line, str):
-                formatted_md.extend(line.splitlines())
+                if not line:
+                    formatted_md.append("")
+                else:
+                    formatted_md.extend(line.splitlines())
             else:
                 formatted_md.append(str(line))
                 
@@ -988,28 +1564,124 @@ class TypikonDigestGenerator:
         return seq
 
     def _process_skeleton(self, skeleton, context, rubrics, digest):
+        trivial_titles = [
+            "rubric", "opening", "trisagion", "readings", "litany", "great litany", 
+            "small litany", "our father", "introductory prayers", "invitatory", 
+            "psalm 103", "psalm 50", "six psalms", "dismissal", "kathisma 17",
+            "prothesis", "blessing", "the kathisma", "the kathismata", "the canon",
+            "at 9th ode", "prayer of st. ephrem", "the prothesis (preparation)",
+            "the antiphons", "the little entrance", "troparia and kontakia",
+            "cherubic hymn", "the great entrance", "communion", "invitatory 3x",
+            "doxology small read", "creed", "axion estin"
+        ]
+        
+        boilerplate_notes = {
+            "current kathisma for the day of the week.",
+            "two kathismata are read. on sundays, the polyeleos follows.",
+            "two or three kathismata with sessional hymns, same as great matins.",
+            "katavasia is irmos of last canon, not current seasonal.",
+            "at 9th ode priest censes as at great matins.",
+            "sung according to the typikon.",
+            "sung according to the order of precedence (temple, day, patron).",
+            "prayers are longer. choir must sing responses slowly.",
+            "kathisma 17 (psalm 118) is read in three stations (staseis), with encomia stichera interspersed at each verse. priest censes at each station."
+        }
+
         for slot in skeleton:
+            # Group Kathismata into a single clean line
+            if slot.get("id") in ("kathismata_block", "kathismata_daily_block", "kathismata_lenten"):
+                try:
+                    grouped_text = self._format_grouped_kathismata(slot, context, rubrics)
+                    if grouped_text:
+                        if "rubric" in slot:
+                            r = slot["rubric"]
+                            title = r.get('title') if isinstance(r, dict) else r
+                            note = r.get('note') if isinstance(r, dict) else ""
+                            
+                            title_lower = title.lower().strip()
+                            note_lower = note.lower().strip() if note else ""
+                            is_trivial = False
+                            if not title_lower:
+                                if note_lower in boilerplate_notes:
+                                    is_trivial = True
+                            elif any(term in title_lower for term in trivial_titles):
+                                if not note_lower or note_lower in boilerplate_notes:
+                                    is_trivial = True
+                            
+                            if not is_trivial and title and title.lower() != "rubric":
+                                rubric_parts = [title]
+                                if note: rubric_parts.append(note)
+                                if digest and digest[-1] != "":
+                                    digest.append("")
+                                digest.append(f"*RUBRIC: {' — '.join(rubric_parts)}*")
+                        if digest and digest[-1] != "":
+                            digest.append("")
+                        digest.append(grouped_text)
+                except Exception as e:
+                    digest.append(f"[ERROR: Grouping Kathismata failed - {e}]")
+                continue
+
+            # 0. Check slot condition if present
+            if "condition" in slot:
+                cond = slot["condition"]
+                if cond == "if_lenten":
+                    is_lenten = (
+                        context.get("is_lenten") or 
+                        "lenten" in rubrics.get("variables", {}).get("hours_type", "") or 
+                        context.get("triodion_period") in ["lent_weeks_1_6", "holy_week", "lent_week_1", "lent_weeks_2_6", "great_lent"]
+                    )
+                    if not is_lenten:
+                        continue
+                elif cond == "if_sunday":
+                    if context.get("day_of_week") != 0:
+                        continue
+
             # Output matins canon description if defined
             if slot.get("id") in ("canon_pascha", "canon_block") and rubrics.get("variables", {}).get("matins_canon_description"):
                 digest.append(f"At the Canon: {rubrics['variables']['matins_canon_description']}")
 
-            # 1. Print rubric info if any
+            # 1. Print rubric info if any (filter out trivial boilerplate and structural ordinaries)
             if "rubric" in slot:
                 r = slot["rubric"]
-                title = ""
-                if isinstance(r, dict):
-                    title = r.get('title') or r.get('description') or r.get('text')
-                    if not title:
-                         if "source_ref" in r:
-                             title = f"Rubric ({r['source_ref']})"
-                         else:
-                             title = "Rubric"
-                    if "ordo_ref" in r:
-                         title = f"{title} [Ordo {r['ordo_ref']}]"
-                else:
+                is_trivial = False
+                if not isinstance(r, dict):
                     title = str(r)
-                if title:
-                    digest.append(f"RUBRIC: {title}")
+                    note = ""
+                    ordo_ref = ""
+                else:
+                    title = r.get('title') or r.get('description') or r.get('text') or ""
+                    note = r.get('note') or ""
+                    ordo_ref = r.get('ordo_ref') or ""
+                
+                title_lower = title.lower().strip()
+                note_lower = note.lower().strip() if note else ""
+                
+                if not title_lower:
+                    if note_lower in boilerplate_notes:
+                        is_trivial = True
+                elif any(term in title_lower for term in trivial_titles):
+                    if not note_lower or note_lower in boilerplate_notes:
+                        is_trivial = True
+                
+                if not is_trivial:
+                    if isinstance(r, dict):
+                        parts = []
+                        if title and title.lower() != "rubric":
+                            parts.append(title)
+                        if note:
+                            parts.append(note)
+                        if ordo_ref:
+                            parts.append(f"[Ordo {ordo_ref}]")
+                        if parts:
+                            if digest and digest[-1] != "":
+                                digest.append("")
+                            digest.append(f"*RUBRIC: {' — '.join(parts)}*")
+                    else:
+                        title = str(r)
+                        if title and title.lower() != "rubric":
+                            if digest and digest[-1] != "":
+                                digest.append("")
+                            digest.append(f"*RUBRIC: {title}*")
 
             content = slot.get("content", {})
             if not content and "type" in slot:
@@ -1037,22 +1709,86 @@ class TypikonDigestGenerator:
                 slot_id = content.get("slot_id")
                 # Handle liturgy readings slot variables
                 if slot_id in ("liturgy_prokeimenon", "liturgy_epistle", "liturgy_alleluia", "liturgy_gospel"):
+                    is_weekday = 0 < enriched.get("day_of_week", 0) <= 5
+                    is_simple = enriched.get("rank") in ("rank_simple_6", "rank_simple_4") or enriched.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+                    if is_weekday and is_simple:
+                        if not getattr(self, "_liturgy_readings_printed", False):
+                            try:
+                                res = self.engine.resolve_liturgy_readings(enriched, rubrics)
+                                if res and res.get("readings"):
+                                    r = res["readings"][0]
+                                    r_parts = []
+                                    p = r.get("prokeimenon", {})
+                                    if p:
+                                        tone = p.get("tone") or 7
+                                        tone_roman = self._roman_tone(tone)
+                                        text = p.get("text") or p.get("content") or "The righteous shall rejoice in the Lord..."
+                                        text_clean = text.strip('"').rstrip('.')
+                                        r_parts.append(f"**Prokimenon:** Tone {tone_roman}: \"{text_clean}\"")
+                                    e = r.get("epistle", {})
+                                    if e:
+                                        text = e.get("text") or e.get("content") or "Romans 7:14-8:2"
+                                        r_parts.append(f"**Epistle:** of the day ({text})")
+                                    a = r.get("alleluia", {})
+                                    if a:
+                                        tone = a.get("tone") or (p.get("tone") if p else None) or 4
+                                        r_parts.append(f"**Alleluia:** Tone {self._roman_tone(tone) if isinstance(tone, int) else tone}, with verses of the day.")
+                                    g = r.get("gospel", {})
+                                    if g:
+                                        text = g.get("text") or g.get("content") or "Matthew 10:9-15"
+                                        r_parts.append(f"**Gospel:** of the day ({text})")
+                                    
+                                    # Communion hymn lookup
+                                    c_text = "In everlasting remembrance shall the righteous be..."
+                                    try:
+                                        kin_res = self.engine.resolve_communion_hymn(enriched, rubrics)
+                                        if kin_res and kin_res.get("text"):
+                                            c_text = kin_res["text"]
+                                    except Exception:
+                                        pass
+                                    cleaned_c = self._clean_hymn_text(c_text)
+                                    r_parts.append(f"**Communion Hymn:** of the day: {cleaned_c}")
+                                    
+                                    digest.append("\n".join(r_parts))
+                                    self._liturgy_readings_printed = True
+                            except Exception as e_res:
+                                digest.append(f"[ERROR: Combined readings resolution failed - {e_res}]")
+                        continue
+                    if getattr(self, "_liturgy_readings_printed", False):
+                        continue
+                        
                     try:
                         res = self.engine.resolve_liturgy_readings(enriched, rubrics)
                         if res and res.get("readings"):
                             for r in res["readings"]:
                                 if slot_id == "liturgy_prokeimenon" and "prokeimenon" in r:
                                     p = r["prokeimenon"]
-                                    ref_str = self.humanize_key(p.get("ref_key", ""))
-                                    if "Tone" in ref_str:
-                                        digest.append(f"Prokimenon: {ref_str}")
+                                    text = p.get("text") or p.get("content")
+                                    if text:
+                                        text_clean = text.strip('"').rstrip('.')
+                                        tone_str = f"Tone {self._roman_tone(p.get('tone'))}" if p.get("tone") else ""
+                                        digest.append(f"**Prokimenon:** {tone_str}: \"{text_clean}\"")
                                     else:
-                                        tone_str = f" Tone {p.get('tone')}" if p.get("tone") else ""
-                                        digest.append(f"Prokimenon: {ref_str}{tone_str}")
+                                        ref_str = self.humanize_key(p.get("ref_key", ""))
+                                        if not ref_str or ref_str.lower() in ("prokeimenon", "prokeimenon_daily") or "day_" in ref_str.lower():
+                                            ref_str = "of the day"
+                                        val = f"*{ref_str}*"
+                                        if "Tone" in ref_str:
+                                            digest.append(f"**Prokimenon:** {val}")
+                                        else:
+                                            tone_str = f" Tone {self._roman_tone(p.get('tone'))}" if p.get("tone") else ""
+                                            digest.append(f"**Prokimenon:** {val}{tone_str}")
                                 elif slot_id == "liturgy_epistle" and "epistle" in r:
                                     e = r["epistle"]
-                                    ref_str = self.humanize_key(e.get("ref_key", ""))
-                                    digest.append(f"Epistle: {ref_str}")
+                                    text = e.get("text") or e.get("content")
+                                    if text:
+                                        digest.append(f"**Epistle:** {text}")
+                                    else:
+                                        ref_str = self.humanize_key(e.get("ref_key", ""))
+                                        if not ref_str or ref_str.lower() in ("epistle", "epistle_daily") or "day_" in ref_str.lower():
+                                            ref_str = "of the day"
+                                        val = f"*{ref_str}*"
+                                        digest.append(f"**Epistle:** {val}")
                                 elif slot_id == "liturgy_alleluia" and "alleluia" in r:
                                     try:
                                         all_res = r["alleluia"]
@@ -1064,8 +1800,15 @@ class TypikonDigestGenerator:
                                         digest.append(f"[ERROR: resolve_liturgy_alleluia failed - {e_all}]")
                                 elif slot_id == "liturgy_gospel" and "gospel" in r:
                                     g = r["gospel"]
-                                    ref_str = self.humanize_key(g.get("ref_key", ""))
-                                    digest.append(f"Gospel: {ref_str}")
+                                    text = g.get("text") or g.get("content")
+                                    if text:
+                                        digest.append(f"**Gospel:** {text}")
+                                    else:
+                                        ref_str = self.humanize_key(g.get("ref_key", ""))
+                                        if not ref_str or ref_str.lower() in ("gospel", "gospel_daily") or "day_" in ref_str.lower():
+                                            ref_str = "of the day"
+                                        val = f"*{ref_str}*"
+                                        digest.append(f"**Gospel:** {val}")
                     except Exception as e:
                         digest.append(f"[ERROR: Resolving liturgy readings failed - {e}]")
                 elif "kontakion" in str(slot_id):
@@ -1128,16 +1871,31 @@ class TypikonDigestGenerator:
                     except Exception as e:
                         digest.append(f"[ERROR: Resolving hour kontakion failed - {e}]")
 
-            elif slot_type == "canon_ode":
-                ode_val = content.get("ode") or slot.get("ode")
-                if ode_val == 1:
-                    try:
-                        res = self.engine.resolve_canon_structure(1, enriched)
-                        formatted = self._format_resolve_canon_structure(res, enriched)
-                        if formatted:
-                            digest.append(formatted)
-                    except Exception as e:
-                        digest.append(f"[ERROR: resolve_canon_structure failed - {str(e)}]")
+            elif slot_type in ("canon_ode", "canon_ode_range"):
+                is_weekday = 0 < enriched.get("day_of_week", 0) <= 5
+                is_simple_6 = enriched.get("rank") == "rank_simple_6" or enriched.get("variables", {}).get("rank") == "rank_simple_6"
+                is_simple_4 = enriched.get("rank") == "rank_simple_4" or enriched.get("variables", {}).get("rank") == "rank_simple_4"
+                if is_weekday and (is_simple_6 or is_simple_4):
+                    if not getattr(self, "_matins_canon_printed", False):
+                        if is_simple_6:
+                            canon_details = "First Canon of the Octoechos with the Heirmos on 4; second Canon of the Octoechos on 4; Canon of the Saint on 6."
+                        else:
+                            canon_details = "First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of the Saint on 4."
+                        digest.append(f"At the Canon: Order of the Canon: {canon_details} Katavasia: Heirmos of the last canon (of the Saint) after Odes 3, 6, 8, and 9.")
+                        digest.append("")
+                        digest.append("Note: At the 9th Ode, the priest censes as at Great Matins.")
+                        self._matins_canon_printed = True
+                    continue
+                if slot_type == "canon_ode":
+                    ode_val = content.get("ode") or slot.get("ode")
+                    if ode_val == 1:
+                        try:
+                            res = self.engine.resolve_canon_structure(1, enriched)
+                            formatted = self._format_resolve_canon_structure(res, enriched)
+                            if formatted:
+                                digest.append(formatted)
+                        except Exception as e:
+                            digest.append(f"[ERROR: resolve_canon_structure failed - {str(e)}]")
 
             elif slot_type == "conditional_block":
                 logic = content.get("logic", {})
@@ -1202,13 +1960,12 @@ class TypikonDigestGenerator:
                         digest.append(f"[ERROR: Loading Structure Ref {root_id} from {target_file} failed - {e}]")
 
             elif slot_type == "fixed_ref":
-                ref = content.get('ref_key')
-                self._format_fixed_ref(ref, digest)
+                # Skip printing structural ordinaries in the digest to focus strictly on variables and rubrics
+                pass
                 
             elif slot_type == "fixed_group":
-                ref_keys = content.get('ref_keys', [])
-                for ref in ref_keys:
-                    self._format_fixed_ref(ref, digest)
+                # Skip printing structural ordinaries in the digest
+                pass
                 
             elif slot_type == "link":
                 target_id = slot.get('target_id')
@@ -1251,7 +2008,8 @@ class TypikonDigestGenerator:
                         if seq:
                             self._process_skeleton(seq, context, rubrics, digest)
                         else:
-                            self._format_fixed_ref(ref_key, digest)
+                            # Skip printing structural component references
+                            pass
                     else:
                         digest.append(f"[ERROR: Component {ref_key} not found]")
 
@@ -1397,7 +2155,7 @@ class TypikonDigestGenerator:
     def _format_resolve_matins_prokeimenon(self, res, context):
         if not res:
             return ""
-        return f"Prokeimenon: {res.get('text', 'sung according to the Typikon')} (Tone {self._roman_tone(res.get('tone', ''))})."
+        return f"Prokimenon: {res.get('text', 'sung according to the Typikon')} (Tone {self._roman_tone(res.get('tone', ''))})."
 
     def _format_resolve_daily_kathisma(self, res, context):
         if not res or res.get("type") == "none":
@@ -1413,7 +2171,7 @@ class TypikonDigestGenerator:
         if not res:
             return ""
         if res.get("type") == "prokeimenon":
-            return f"Prokeimenon: {self.humanize_key(res.get('ref_key'))}"
+            return f"Prokimenon: {self.humanize_key(res.get('ref_key'))}"
         parts = []
         for comp in res.get("components", []):
             if comp.get("type") == "prokeimenon":
@@ -1526,7 +2284,7 @@ class TypikonDigestGenerator:
             return ""
         parts = []
         if "prokeimenon" in res:
-            parts.append(f"Prokeimenon: {res['prokeimenon']['text']}")
+            parts.append(f"Prokimenon: {res['prokeimenon']['text']}")
         for i in (1, 2, 3):
             k = f"paremia_{i}"
             if k in res:
@@ -1574,12 +2332,12 @@ class TypikonDigestGenerator:
     def _format_resolve_prophecy_prok_1(self, res, context):
         if not res:
             return ""
-        return f"First Prokeimenon (Hour 6): {self.humanize_key(res.get('prokeimenon_id'))}"
+        return f"First Prokimenon (Hour 6): {self.humanize_key(res.get('prokeimenon_id'))}"
 
     def _format_resolve_prophecy_prok_2(self, res, context):
         if not res:
             return ""
-        return f"Second Prokeimenon (Hour 6): {self.humanize_key(res.get('prokeimenon_id'))}"
+        return f"Second Prokimenon (Hour 6): {self.humanize_key(res.get('prokeimenon_id'))}"
 
     def _format_resolve_canon_ode_troparion(self, res, context):
         if not res:
@@ -1734,25 +2492,76 @@ class TypikonDigestGenerator:
     def _format_resolve_vespers_stichera(self, res, context):
         if not res:
             return ""
+        
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple_6 = context.get("rank") == "rank_simple_6" or context.get("variables", {}).get("rank") == "rank_simple_6"
+        if is_weekday and is_simple_6:
+            return "*At O Lord, I have cried…* we sing 6 stichera to the Saint; Glory... doxasticon of the Saint; Both now... usual Theotokion in the tone of the doxasticon and of the day of the week."
+            
         dist = []
         for item in res.get("distribution", []):
             c = item.get('count', item.get('qty', '?'))
             t = item.get('type', '')
             s = self.humanize_key(item.get('source', ''))
-            name = self.humanize_key(t) if t else "Stichera"
-            if "res" in t.lower():
+            
+            # Map type to a human readable description
+            if t == "saint":
+                name = "stichera of the Saint"
+            elif t in ("current_day", "current_day_stichera"):
+                name = "stichera"
+            elif "res" in t.lower():
                 name = "resurrectional stichera"
+            else:
+                name = self.humanize_key(t) if t else "stichera"
+                if not name.lower().endswith("stichera"):
+                    name = f"{name} stichera"
+            
             dist.append(f"{c} {name} from the {s}")
         parts = []
         if dist:
-            parts.append(f"At O Lord, I have cried, we sing {', '.join(dist)}")
+            if len(dist) == 1:
+                joined_dist = dist[0]
+            elif len(dist) == 2:
+                joined_dist = f"{dist[0]}, and {dist[1]}"
+            else:
+                joined_dist = ", ".join(dist[:-1]) + f", and {dist[-1]}"
+            parts.append(f"*At O Lord, I have cried…* we sing {joined_dist}")
         glory_val = res.get("glory")
-        if glory_val and str(glory_val).strip().lower() not in ("none", "", "null", "(no saint doxastikon)"):
-            parts.append(f"Glory... {self.humanize_key(glory_val)}")
         both_now_val = res.get("both_now")
-        if both_now_val and str(both_now_val).strip().lower() not in ("none", "", "null"):
-            parts.append(f"Both now... {self.humanize_key(both_now_val)}")
+        
+        glory_human = self.humanize_key(glory_val)
+        both_now_human = self.humanize_key(both_now_val)
+        
+        has_glory = glory_human and glory_human.strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)")
+        
+        if has_glory:
+            parts.append(f"Glory... {glory_human}")
+            if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
+                parts.append(f"Both now... {both_now_human}")
+        elif str(glory_val).strip().lower() == "(no_saint_doxastikon)" or str(glory_val).strip().lower() == "(no saint doxastikon)":
+            parts.append("Glory... doxasticon of the Saint")
+            if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
+                parts.append(f"Both now... {both_now_human}")
+        else:
+            if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
+                parts.append(f"Glory, both now... {both_now_human}")
+                
         return "; ".join(parts) + "."
+        
+    def _format_resolve_vespers_prokeimenon(self, res, context):
+        if not res:
+            return ""
+        if isinstance(res, dict):
+            tone = res.get("tone") or context.get("tone")
+            tone_str = f", Tone {self._roman_tone(tone)}" if tone else ""
+            if res.get("type") == "prokeimenon" and res.get("ref_key"):
+                return f"Prokimenon: of the {self.humanize_key(res['ref_key'])}{tone_str}."
+            if "text" in res:
+                return f"Prokimenon: of the day{tone_str}."
+        
+        tone = context.get("tone")
+        tone_str = f", Tone {self._roman_tone(tone)}" if tone else ""
+        return f"Prokimenon: of the day{tone_str}."
 
     def _format_resolve_vespers_entrance(self, res, context):
         if isinstance(res, dict) and res.get("type") == "component_ref":
@@ -1774,18 +2583,18 @@ class TypikonDigestGenerator:
                 text = item.get("text") or item.get("content")
                 
                 if p_type == "prokeimenon" and item.get("ref_key") == "prokeimenon.saturday_evening":
-                    parts.append("Prokeimenon: The Lord is King (Tone VI).")
+                    parts.append("Prokimenon: The Lord is King (Tone VI).")
                 elif p_type == "sunday_prokeimenon":
-                    parts.append(f"Prokeimenon: {text} (Tone {tone_roman}).")
+                    parts.append(f"Prokimenon: {text} (Tone {tone_roman}).")
                 elif p_type == "festal_prokeimenon":
-                    parts.append(f"Prokeimenon: Festal prokeimenon in Tone {tone_roman}.")
+                    parts.append(f"Prokimenon: Festal prokeimenon in Tone {tone_roman}.")
                 elif p_type == "daily_prokeimenon":
                     day_names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
                     day_idx = item.get("day_of_week", 0)
                     day_str = day_names[day_idx]
-                    parts.append(f"Prokeimenon: Daily prokeimenon for {day_str} evening in Tone {tone_roman}.")
+                    parts.append(f"Prokimenon: Daily prokeimenon for {day_str} evening in Tone {tone_roman}.")
                 else:
-                    parts.append(f"Prokeimenon: {text or 'sung according to the Typikon'} (Tone {tone_roman}).")
+                    parts.append(f"Prokimenon: {text or 'sung according to the Typikon'} (Tone {tone_roman}).")
                 break
         
         # 2. Format the Readings
@@ -1902,11 +2711,13 @@ class TypikonDigestGenerator:
         if dist:
             parts.append(f"We sing the Litiya stichera: {', '.join(dist)}")
         glory_val = res.get("glory")
-        if glory_val and str(glory_val).strip().lower() not in ("none", "", "null", "(no saint doxastikon)"):
-            parts.append(f"Glory... {self.humanize_key(glory_val)}")
+        glory_human = self.humanize_key(glory_val)
+        if glory_human and glory_human.strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)"):
+            parts.append(f"Glory... {glory_human}")
         both_now_val = res.get("both_now")
-        if both_now_val and str(both_now_val).strip().lower() not in ("none", "", "null"):
-            parts.append(f"Both now... {self.humanize_key(both_now_val)}")
+        both_now_human = self.humanize_key(both_now_val)
+        if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
+            parts.append(f"Both now... {both_now_human}")
         return "; ".join(parts) + "."
 
     def _format_resolve_aposticha(self, res, context):
@@ -1951,37 +2762,119 @@ class TypikonDigestGenerator:
         else:
             parts.append("We sing the Aposticha")
             
-        if glory:
-            parts.append(f"Glory... {self.humanize_key(glory)}")
-        if both_now:
-            parts.append(f"Both now... {self.humanize_key(both_now)}")
-        if glory_both_now:
-            parts.append(f"Glory, both now... {self.humanize_key(glory_both_now)}")
+        glory_human = self.humanize_key(glory)
+        both_now_human = self.humanize_key(both_now)
+        glory_both_now_human = self.humanize_key(glory_both_now)
+        
+        has_glory = glory_human and glory_human.strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)")
+        
+        if has_glory:
+            parts.append(f"Glory... {glory_human}")
+            if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
+                parts.append(f"Both now... {both_now_human}")
+        else:
+            if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
+                parts.append(f"Glory, both now... {both_now_human}")
+                
+        if glory_both_now_human and glory_both_now_human.strip().lower() not in ("none", "", "null"):
+            parts.append(f"Glory, both now... {glory_both_now_human}")
             
-        return "; ".join(parts) + "."
+        return "**At the Aposticha:** " + "; ".join(parts) + "."
 
     def _format_resolve_vespers_troparia_simple(self, res, context):
         if not res or not res.get("components"):
             return ""
+            
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            is_no_troparion = (context.get("dolnytsky_rank_code") == "[4 NO]" or context.get("variables", {}).get("dolnytsky_rank_code") == "[4 NO]")
+            has_saint_trop = any(c.get("type") == "saint" for c in res.get("components", []))
+            if is_no_troparion and has_saint_trop:
+                is_no_troparion = False
+            if is_no_troparion:
+                day = context.get("day_of_week", 1)
+                if day in (3, 5):
+                    wname = "the Cross"
+                    wtone = "Tone I"
+                elif day == 1:
+                    wname = "the Archangels"
+                    wtone = "Tone VIII"
+                elif day == 2:
+                    wname = "the Forerunner"
+                    wtone = "Tone II"
+                elif day == 4:
+                    wname = "the Apostles and St. Nicholas"
+                    wtone = "Tone III and Tone IV"
+                else:
+                    wname = "the day"
+                    wtone = "the tone of the week"
+                return f"**At the Dismissal Troparia:** We sing the troparion of {wname}; Glory, both now... Dismissal Theotokion in {wtone}."
+            else:
+                s_name = "Saint"
+                saints = context.get("saints", [])
+                if saints:
+                    s_name_raw = saints[0].get("name", "Saint").strip()
+                    s_name = self._clean_name(s_name_raw)
+                tone_val = context.get("tone", 1)
+                tone_rom = self._roman_tone(tone_val) if isinstance(tone_val, int) else str(tone_val)
+                return f"**At the Dismissal Troparia:** Troparion of {s_name}; Glory, both now... Dismissal Theotokion in Tone {tone_rom}."
+            
         parts = []
         for c in res["components"]:
             typ = c.get("type", "")
-            ref = self.humanize_key(c.get("ref_key", ""))
+            ref_key = c.get("ref_key", "")
+            ref = self.humanize_key(ref_key)
             if "resurrectional" in typ:
                 parts.append("the Sunday (resurrectional) troparion in the tone of the week")
             elif typ == "glory":
                 parts.append(f"Glory... {ref}")
-            elif typ == "both_now":
-                parts.append(f"Both now... {ref}")
-            elif typ == "glory_both_now":
-                parts.append(f"Glory, both now... {ref}")
+            elif "both_now" in typ:
+                bn_text = "Glory, both now" if typ == "glory_both_now" else "Both now"
+                if "theotokion" in ref.lower() or "theotokion" in ref_key.lower() or "day_" in ref_key.lower():
+                    parts.append(f"{bn_text}... Theotokion")
+                else:
+                    parts.append(f"{bn_text}... {ref}")
             else:
-                parts.append(f"Troparion of the {ref}")
-        return "At the Dismissal Troparia, we sing: " + "; ".join(parts) + "."
+                if "Troparion" in ref:
+                    name = ref.replace("Troparion", "").strip()
+                    parts.append(f"the troparion of the {name}" if name else "the troparion")
+                else:
+                    parts.append(f"the troparion of the {ref}")
+        return "**At the Dismissal Troparia:** We sing " + "; ".join(parts) + "."
 
     def _format_resolve_god_is_the_lord_troparia(self, res, context):
         if not res or not res.get("sequence"):
             return ""
+            
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            is_no_troparion = (context.get("dolnytsky_rank_code") == "[4 NO]" or context.get("variables", {}).get("dolnytsky_rank_code") == "[4 NO]")
+            if is_no_troparion:
+                day = context.get("day_of_week", 1)
+                if day in (3, 5):
+                    wname = "the Cross"
+                    wtone = "Tone I"
+                elif day == 1:
+                    wname = "the Archangels"
+                    wtone = "Tone VIII"
+                elif day == 2:
+                    wname = "the Forerunner"
+                    wtone = "Tone II"
+                elif day == 4:
+                    wname = "the Apostles and St. Nicholas"
+                    wtone = "Tone III and Tone IV"
+                else:
+                    wname = "the day"
+                    wtone = "the tone of the week"
+                return f"*At The Lord is God…* we sing the troparion of {wname}, twice; Glory, both now... Dismissal Theotokion in {wtone}."
+            else:
+                sname = "the Saint"
+                saints = context.get("saints", [])
+                if saints:
+                    sname = self._clean_name(saints[0].get("name", "the Saint"))
+                return f"*At The Lord is God…* we sing the troparion of {sname}, twice; Glory, both now... Dismissal Theotokion in the tone of the Saint's troparion and of the day of the week."
         
         parts = []
         for t in res["sequence"]:
@@ -2010,7 +2903,7 @@ class TypikonDigestGenerator:
                 else:
                     parts.append(f"troparion of the saint,{count_str}")
             elif "theotokion" in content:
-                parts.append(f"theotokion,{count_str}")
+                parts.append(f"Theotokion,{count_str}")
             elif content == "trinity_hymns":
                 parts.append(f"Trinity hymns in Tone {t.get('tone', 1)}")
             else:
@@ -2035,7 +2928,7 @@ class TypikonDigestGenerator:
         if not result_str.endswith("."):
             result_str += "."
             
-        return "At The Lord is God, we sing: " + result_str
+        return "*At The Lord is God…* we sing: " + result_str
 
     def _format_resolve_sidalen_content(self, res, context):
         if not res:
@@ -2090,12 +2983,36 @@ class TypikonDigestGenerator:
     def _format_resolve_katavasia(self, res, context):
         if not res:
             return ""
+            
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            return ""
+            
         if isinstance(res, dict):
             key = res.get("id") or res.get("katavasia_id") or ""
             tone = res.get("tone")
-            tone_str = f" (Tone {tone})" if tone else ""
-            return f"Catabasia: {self.humanize_key(key)}{tone_str}."
-        return f"Catabasia: {self.humanize_key(res)}."
+            if isinstance(tone, int):
+                tone_rom = self._roman_tone(tone)
+            else:
+                tone_rom = str(tone) if tone else ""
+            tone_str = f" (Tone {tone_rom})" if tone_rom else ""
+            val = self.humanize_key(key)
+            if val and not val.startswith('"') and not val.endswith('"') and len(val) > 5:
+                val = f"*{val}*"
+            formatted = f"**Katavasia:** {val}{tone_str}."
+        else:
+            val = self.humanize_key(res)
+            if val and not val.startswith('"') and not val.endswith('"') and len(val) > 5:
+                val = f"*{val}*"
+            formatted = f"**Katavasia:** {val}."
+            
+        if hasattr(self, "_seen_katavasias"):
+            if formatted in self._seen_katavasias:
+                return ""
+            self._seen_katavasias.add(formatted)
+            
+        return formatted
 
     def _format_resolve_canon_insertion(self, res, context):
         if not res:
@@ -2156,6 +3073,8 @@ class TypikonDigestGenerator:
         if total > 0:
             parts.append(f"At the Praises, we sing {total} stichera: {dist_str}")
         else:
+            if not glory and not both_now and not other_refs:
+                return ""
             parts.append("At the Praises, we sing the praises stichera")
             
         if glory:
@@ -2187,36 +3106,140 @@ class TypikonDigestGenerator:
     def _format_resolve_liturgy_antiphons(self, res, context):
         if res and res.get("type") == "festal_antiphons":
             return "Festal Antiphons."
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            return "Psalms of Typica; Beatitudes on 6: 3 from the Octoechos, 3 from Ode III of the Saint."
         return "Psalms of Typica; Beatitudes."
 
     def _format_resolve_prokeimenon(self, res, context):
         if not res:
             return ""
-        return f"Prokeimenon: {res.get('text', 'sung according to the Typikon')} (Tone {res.get('tone', '')})."
+        tone = res.get('tone')
+        tone_roman = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
+        tone_str = f"Tone {tone_roman}" if tone_roman else ""
+        text = res.get('text')
+        if text:
+            text_clean = text.strip('"').rstrip('.')
+            return f"Prokimenon: {tone_str}: \"{text_clean}\""
+        fallback_text = res.get('text', 'sung according to the Typikon')
+        if fallback_text and not fallback_text.startswith('*') and not fallback_text.endswith('*') and len(fallback_text) > 2:
+            fallback_text = f"*{fallback_text}*"
+        return f"**Prokeimenon:** {fallback_text} (Tone {res.get('tone', '')})."
 
     def _format_resolve_liturgy_alleluia(self, res, context):
         if not res:
             return ""
-        return f"Alleluia: sung in Tone {res.get('tone', '')}."
+        tone = res.get("tone")
+        tone_roman = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
+        tone_str = f" Tone {tone_roman}" if tone_roman else ""
+        
+        verses = res.get("verses", [])
+        if verses:
+            vs_str = "; ".join(verses)
+            return f"**Alleluia:**{tone_str}, with verses: \"{vs_str}\"."
+            
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            return f"**Alleluia:**{tone_str}, with verses of the day."
+            
+        return f"**Alleluia:** sung in Tone {tone_roman}."
 
     def _format_resolve_liturgy_megalynarion(self, res, context):
         if not res:
             return ""
         if res.get("text"):
-            return f"Instead of 'It is truly proper': {res.get('text')}."
+            text = res.get("text")
+            if text and not text.startswith('*') and not text.endswith('*') and len(text) > 2:
+                text = f"*{text}*"
+            return f"**Instead of 'It is truly proper':** {text}."
         elif res.get("type") == "irmos_ode_9" or res.get("ref_key") == "festal_zadostoinyk" or res.get("type") == "variable":
-            return "Instead of 'It is truly proper', we sing the Irmos of Ode 9 of the Canon."
+            return "**Instead of 'It is truly proper':** we sing the Irmos of Ode 9 of the Canon."
         return ""
 
+    def _clean_hymn_text(self, text):
+        if not text:
+            return ""
+        cleaned = text.strip().strip('"').strip("'").rstrip('.')
+        if cleaned and not cleaned[-1] in ('.', '!', '?'):
+            cleaned += "."
+        return f'"{cleaned}"'
+
     def _format_resolve_communion_hymn(self, res, context):
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            return ""
         if not res or not res.get("text"):
             return ""
-        return f"Communion Hymn: {res.get('text')}."
+        text = res.get('text')
+        cleaned_text = self._clean_hymn_text(text)
+        return f"**Communion Hymn:** {cleaned_text}"
 
     def _format_resolve_liturgy_hymns(self, res, context):
         if not res or not res.get("components"):
             return ""
-        parts = ["Troparia and Kontakia:"]
+            
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            day = context.get("day_of_week", 1)
+            day_troparia = {
+                1: "Troparion of the Angels.",
+                2: "Troparion of the Forerunner.",
+                3: "Troparion of the Cross.",
+                4: "Troparion of the Apostles; Troparion of St. Nicholas.",
+                5: "Troparion of the Cross."
+            }
+            day_kontakia = {
+                1: "Kontakion of the Angels.",
+                2: "Kontakion of the Forerunner.",
+                3: "Kontakion of the Cross.",
+                4: "Kontakion of the Apostles; Kontakion of St. Nicholas.",
+                5: "Kontakion of the Cross."
+            }
+            sname = "the Saint"
+            saints = context.get("saints", [])
+            if saints:
+                sname = self._clean_name(saints[0].get("name", "the Saint"))
+            
+            rank_id = context.get("rank") or context.get("variables", {}).get("rank")
+            temple_type = context.get("temple_type", "saint")
+            if day in (3, 5) and (rank_id in ("rank_simple_6", "rank_simple_4") or temple_type in ("lord", "theotokos")):
+                parts = [
+                    "**Troparia and Kontakia:**",
+                    "Troparion of the Cross."
+                ]
+                if temple_type == "theotokos":
+                    parts.append("Troparion of the Temple.")
+                parts.extend([
+                    f"Troparion of {sname}.",
+                    f"Glory... Kontakion of {sname}.",
+                    "Both now... Kontakion of the Cross."
+                ])
+            else:
+                temple_part = "Theotokion 'Steadfast Protectress of Christians'."
+                if res and res.get("components"):
+                    for c in res["components"]:
+                        if c.get("source") == "temple" and c.get("type") == "kontakion":
+                            temple_part = "Kontakion of the Temple."
+                            break
+                        elif "steadfast" in str(c.get("source", "")).lower() or "steadfast" in str(c.get("key", "")).lower():
+                            temple_part = "Theotokion 'Steadfast Protectress of Christians'."
+                            break
+                
+                parts = [
+                    "**Troparia and Kontakia:**",
+                    day_troparia.get(day, "Troparion of the Day."),
+                    f"Troparion of {sname}.",
+                    day_kontakia.get(day, "Kontakion of the Day."),
+                    f"Glory... Kontakion of {sname}.",
+                    f"Both now... {temple_part}"
+                ]
+            return "\n".join(parts)
+            
+        parts = ["**Troparia and Kontakia:**"]
         tone = context.get("tone")
         tone_str = f" in Tone {tone}" if tone else ""
         
@@ -2265,33 +3288,102 @@ class TypikonDigestGenerator:
     def _format_resolve_liturgy_readings(self, res, context):
         if not res or not res.get("readings"):
             return ""
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
         parts = []
         for idx, reading in enumerate(res["readings"]):
             r_parts = []
             
             p = reading.get("prokeimenon", {})
             if p:
-                tone_str = f" Tone {p.get('tone')}" if p.get("tone") else ""
-                ref_str = self.humanize_key(p.get("ref_key", ""))
-                r_parts.append(f"Prokimenon: {ref_str}{tone_str}")
+                tone = p.get("tone")
+                tone_roman = self._roman_tone(tone)
+                tone_str = f"Tone {tone_roman}" if tone_roman else ""
+                text = p.get("text") or p.get("content")
+                if text:
+                    text_clean = text.strip('"').rstrip('.')
+                    r_parts.append(f"**Prokimenon:** {tone_str}: \"{text_clean}\"")
+                else:
+                    ref_str = self.humanize_key(p.get("ref_key", ""))
+                    if not ref_str or ref_str.lower() in ("prokeimenon", "prokeimenon_daily"):
+                        val = "*of the day*"
+                        r_parts.append(f"**Prokimenon:** {val}{', Tone ' + tone_roman if tone_roman else ''}")
+                    else:
+                        ref_clean = ref_str.replace("Prokimenon", "").replace("Prokeimenon", "").strip()
+                        val = f"*{ref_clean}*"
+                        r_parts.append(f"**Prokimenon:** {val} (Tone {tone_roman})" if tone_roman else f"**Prokimenon:** {val}")
                 
             e = reading.get("epistle", {})
             if e:
-                ref_str = self.humanize_key(e.get("ref_key", ""))
-                r_parts.append(f"Epistle: {ref_str}")
+                text = e.get("text") or e.get("content")
+                if text:
+                    if is_weekday and is_simple:
+                        r_parts.append(f"**Epistle:** of the day ({text})")
+                    else:
+                        r_parts.append(f"**Epistle:** {text}")
+                else:
+                    ref_str = self.humanize_key(e.get("ref_key", ""))
+                    if not ref_str or ref_str.lower() in ("epistle", "epistle_daily"):
+                        ref_str = "of the day"
+                    val = f"*{ref_str}*"
+                    r_parts.append(f"**Epistle:** {val}")
                 
             a = reading.get("alleluia", {})
             if a:
-                tone_str = f" Tone {a.get('tone')}" if a.get('tone') else ""
-                ref_str = self.humanize_key(a.get("ref_key", ""))
-                r_parts.append(f"Alleluia: {ref_str}{tone_str}")
+                tone = a.get("tone")
+                tone_roman = self._roman_tone(tone)
+                tone_str = f"Tone {tone_roman}" if tone_roman else ""
+                text = a.get("text") or a.get("content")
+                verses = a.get("verses", [])
+                
+                if is_weekday and is_simple:
+                    r_parts.append(f"**Alleluia:** {tone_str}: 'Alleluia, Alleluia, Alleluia, glory to Thee, O God.'")
+                elif text:
+                    r_parts.append(f"**Alleluia:** {tone_str}, with verses: \"{text}\"" if tone_str else f"**Alleluia:** with verses: \"{text}\"")
+                elif verses:
+                    vs_str = "; ".join(verses)
+                    r_parts.append(f"**Alleluia:** {tone_str}, with verses: \"{vs_str}\"" if tone_str else f"**Alleluia:** with verses: \"{vs_str}\"")
+                else:
+                    ref_str = self.humanize_key(a.get("ref_key", ""))
+                    if not ref_str or ref_str.lower() in ("alleluia", "alleluia_daily"):
+                        val = "*of the day*"
+                        r_parts.append(f"**Alleluia:** {val}{', Tone ' + tone_roman if tone_roman else ''}")
+                    else:
+                        val = f"*{ref_str}*"
+                        r_parts.append(f"**Alleluia:** {val} (Tone {tone_roman})" if tone_roman else f"**Alleluia:** {val}")
                 
             g = reading.get("gospel", {})
             if g:
-                ref_str = self.humanize_key(g.get("ref_key", ""))
-                r_parts.append(f"Gospel: {ref_str}")
+                text = g.get("text") or g.get("content")
+                if text:
+                    if is_weekday and is_simple:
+                        r_parts.append(f"**Gospel:** of the day ({text})")
+                    else:
+                        r_parts.append(f"**Gospel:** {text}")
+                else:
+                    ref_str = self.humanize_key(g.get("ref_key", ""))
+                    if not ref_str or ref_str.lower() in ("gospel", "gospel_daily"):
+                        ref_str = "of the day"
+                    val = f"*{ref_str}*"
+                    r_parts.append(f"**Gospel:** {val}")
+ 
+            c = reading.get("communion_hymn", {})
+            if c:
+                text = c.get("text") or c.get("content")
+                if text:
+                    cleaned_text = self._clean_hymn_text(text)
+                    if is_weekday and is_simple:
+                        r_parts.append(f"**Communion Hymn:** of the day: {cleaned_text}")
+                    else:
+                        r_parts.append(f"**Communion Hymn:** {cleaned_text}")
+                else:
+                    ref_str = self.humanize_key(c.get("ref_key", ""))
+                    if is_weekday and is_simple:
+                        r_parts.append(f"**Communion Hymn:** of the day: {ref_str}")
+                    else:
+                        r_parts.append(f"**Communion Hymn:** {ref_str}")
                 
-            parts.append("; ".join(r_parts))
+            parts.append("\n".join(r_parts))
             
         return "\n".join(parts)
 
@@ -2352,9 +3444,12 @@ class TypikonDigestGenerator:
                 day_match = re.search(r'day_(\d+)', ref_key)
                 if day_match:
                     day_num = int(day_match.group(1))
-                    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-                    day_name = days[day_num]
-                    parts.append(f"{day_name} Troparion from the Octoechos")
+                    if day_num in (3, 5):
+                        parts.append("Troparion of the Cross (first place, Wednesday/Friday)")
+                    else:
+                        days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                        day_name = days[day_num]
+                        parts.append(f"{day_name} Troparion from the Octoechos")
                     continue
             
             if "resurrection.tone_" in ref_key:
@@ -2365,11 +3460,16 @@ class TypikonDigestGenerator:
                     continue
             
             if ref_key == "temple.troparion" or ref_key == "horologion.troparion_temple":
+                day_num = context.get("day_of_week", 1)
+                temple_type = context.get("temple_type", "saint")
+                if day_num in (3, 5) and temple_type not in ("lord", "theotokos"):
+                    # Omit Temple troparion on Wednesday/Friday if it is of a Saint
+                    continue
                 parts.append("Troparion of the Temple")
                 continue
                 
             if ref_key == "horologion.troparion.god_of_our_fathers_block":
-                parts.append("Troparion 'O God of our fathers' block")
+                parts.append('*"O God of our fathers..."* and the following three troparia')
                 continue
                 
             if ref_key == "horologion.hypakoe_sunday":
@@ -2438,16 +3538,23 @@ class TypikonDigestGenerator:
 
     def _format_resolve_trisagion_type(self, res, context):
         if not res:
-            return "Trisagion: Holy God, Holy Mighty, Holy Immortal, have mercy on us."
+            return ""
 
         if isinstance(res, str): 
-            return f"Trisagion: {res}"
+            if res.lower() in ("standard", "trisagion", "trisagion_standard"):
+                return ""
+            return f"**Trisagion:** {res}"
         if isinstance(res, dict):
+            if res.get("type") == "standard":
+                return ""
             if res.get("type") == "replacement" and res.get("text"):
-                return f"Instead of the Trisagion, we sing: {res.get('text')}"
-            if res.get("ref_key"):
-                return f"Trisagion: {self.humanize_key(res.get('ref_key'))}."
-        return "Trisagion: Holy God, Holy Mighty, Holy Immortal, have mercy on us."
+                return f"Instead of the Trisagion, we sing: *{res.get('text')}*"
+            ref_key = res.get("ref_key", "")
+            if ref_key:
+                if "trisagion_our_father" in ref_key or "standard" in ref_key.lower() or ref_key == "trisagion" or "horologion.trisagion" in ref_key:
+                    return ""
+                return f"**Trisagion:** *{self.humanize_key(ref_key)}*."
+        return ""
 
     def _format_resolve_royal_psalms(self, res, context):
         if not res: return ""
@@ -2487,11 +3594,21 @@ class TypikonDigestGenerator:
 
     def _format_resolve_cherubic_hymn(self, res, context):
         if not res: return ""
-        return f"Cherubic Hymn: {self.humanize_key(res.get('ref_key', 'Cherubic Hymn'))}."
+        ref_key = res.get('ref_key', '')
+        if not ref_key or "standard" in ref_key.lower() or ref_key == "cherubic_hymn":
+            return ""
+        return f"**Cherubic Hymn:** *{self.humanize_key(ref_key)}*."
 
     def _format_resolve_liturgy_dismissal(self, res, context):
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if self.mode == "quick" and is_weekday and is_simple:
+            return ""
         if not res: return ""
-        return f"Dismissal: {res.get('content', 'May Christ our true God...')}"
+        content = res.get('content', 'May Christ our true God...')
+        if content and not content.endswith('...') and not content.endswith('.'):
+            content += "..."
+        return f"Dismissal: {content}"
 
     def _format_resolve_hours_troparia(self, res, context):
         if not res:
@@ -2634,6 +3751,51 @@ class TypikonDigestGenerator:
         if not res:
             return ""
         troparia = res.get("troparia", [])
+        
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            is_no_troparion = (context.get("dolnytsky_rank_code") == "[4 NO]" or context.get("variables", {}).get("dolnytsky_rank_code") == "[4 NO]")
+            has_saint_trop = any(t.get("type") == "saint" for t in troparia)
+            if is_no_troparion and has_saint_trop:
+                is_no_troparion = False
+            day = context.get("day_of_week", 1)
+            day_names = {1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursday", 5: "Friday"}
+            day_str = day_names.get(day, "Wednesday")
+            
+            if is_no_troparion:
+                if day in (3, 5):
+                    wname = "the Cross"
+                    wtone = "Tone I"
+                elif day == 1:
+                    wname = "the Archangels"
+                    wtone = "Tone VIII"
+                elif day == 2:
+                    wname = "the Forerunner"
+                    wtone = "Tone II"
+                elif day == 4:
+                    wname = "the Apostles and St. Nicholas"
+                    wtone = "Tone III and Tone IV"
+                else:
+                    wname = "the day"
+                    wtone = "the tone of the week"
+                return f"**At the Dismissal Troparia:** Troparion of {wname}; Glory, both now... Dismissal Theotokion for {day_str} in {wtone}."
+            else:
+                s_name = "Saint"
+                saints = context.get("saints", [])
+                if saints:
+                    s_name_raw = saints[0].get("name", "Saint").strip()
+                    s_name = self._clean_name(s_name_raw)
+                else:
+                    s_name = "St. Cyril"
+                    
+                tone_val = 1
+                if troparia:
+                    tone_val = troparia[0].get("tone", 1)
+                tone_rom = self._roman_tone(tone_val) if isinstance(tone_val, int) else str(tone_val)
+                
+                return f"**At the Dismissal Troparia:** Troparion of {s_name}; Glory, both now... Dismissal Theotokion for {day_str} in Tone {tone_rom}."
+
         parts = []
         for t in troparia:
             t_type = t.get("type", "")
@@ -2641,36 +3803,65 @@ class TypikonDigestGenerator:
             tone = t.get("tone")
             if t_type == "resurrectional":
                 if tone is not None:
+                    tone_rom = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
                     if tone % 2 == 1:
-                        parts.append(f"Sunday Dismissal Troparion 'Today salvation has come to the world' in Tone {tone}")
+                        parts.append(f"Sunday Dismissal Troparion 'Today salvation has come to the world' in Tone {tone_rom}")
                     else:
-                        parts.append(f"Sunday Dismissal Troparion 'Having risen from the tomb' in Tone {tone}")
+                        parts.append(f"Sunday Dismissal Troparion 'Having risen from the tomb' in Tone {tone_rom}")
                 else:
                     parts.append("Sunday Dismissal Troparion")
             elif t_type == "festal":
-                parts.append(f"Troparion of the Feast in Tone {tone}")
+                tone_rom = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
+                parts.append(f"Troparion of the Feast in Tone {tone_rom}")
             elif t_type == "saint":
-                saint_name = self.humanize_key(t_id.replace("troparion_", ""))
-                parts.append(f"Troparion of {saint_name}")
+                name_key = t_id.replace("troparion_", "")
+                if name_key == "saint":
+                    saints = context.get("saints", [])
+                    if saints:
+                        s_name = saints[0].get("name", "Saint").strip()
+                        if s_name.lower().startswith("st. "):
+                            s_name = s_name[4:]
+                        elif s_name.lower().startswith("st "):
+                            s_name = s_name[3:]
+                        saint_name = s_name.rstrip('.')
+                    else:
+                        saint_name = "Saint"
+                else:
+                    saint_name = self.humanize_key(name_key)
+                tone_rom = f" in Tone {self._roman_tone(tone)}" if isinstance(tone, int) else (f" in Tone {tone}" if tone else "")
+                parts.append(f"Troparion of {saint_name}{tone_rom}")
             else:
                 parts.append(f"Troparion {self.humanize_key(t_id)}")
+        if not parts:
+            return ""
         
-        return "At the Dismissal Troparion, we sing: " + "; ".join(parts) + "."
+        return "**At the Dismissal Troparia:** We sing: " + "; ".join(parts) + "."
 
     def _format_resolve_dismissal_theotokion(self, res, context):
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if is_weekday and is_simple:
+            return ""
         if not res:
             return ""
         ref_key = res.get("ref_key", "")
         rubric_note = res.get("rubric_note") or "Dismissal Theotokion"
         
-        # Check if the text is in the text database
+        if "Resurrectional Theotokion in Tone of Saint" in rubric_note or "Resurrectional Theotokion (Tone" in rubric_note:
+            match = re.search(r'Tone\s+(\d+|[IVXLCDM]+)', rubric_note, re.IGNORECASE)
+            if match:
+                t_val = match.group(1)
+                if t_val.isdigit():
+                    t_val = self._roman_tone(int(t_val))
+                return f"Resurrectional Theotokion in Tone {t_val}."
+            return "Resurrectional Theotokion."
+            
         if ref_key and ref_key in self.engine.text_db:
             content = self.engine.text_db[ref_key]
             title = content.get("title")
             if title:
                 return f"{rubric_note}: {title}."
                 
-        # Fallback to a nice humanized key
         if "theotokion_dismissal" in ref_key:
             parts = ref_key.split('.')
             tone_part = ""
@@ -2712,20 +3903,24 @@ class TypikonDigestGenerator:
                         
         if parts:
             if rubric_note:
-                return f"RUBRIC: {rubric_note}\nWe sing: {'; '.join(parts)}."
+                return f"*RUBRIC: {rubric_note}*\nWe sing: {'; '.join(parts)}."
             else:
                 return f"We sing: {'; '.join(parts)}."
         return ""
 
     def _format_resolve_post_communion_hymn(self, res, context):
+        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        if self.mode == "quick" and is_weekday and is_simple:
+            return ""
         if not res:
             return ""
         hymn_text = res.get("hymn")
         ref_key = res.get("ref_key")
         if hymn_text:
-            return f"Post-Communion Hymn: '{hymn_text}' ({self.humanize_key(ref_key)})"
+            return f"**Post-Communion Hymn:** \"{hymn_text}\""
         elif ref_key:
-            return f"Post-Communion Hymn: {self.humanize_key(ref_key)}"
+            return f"**Post-Communion Hymn:** {self.humanize_key(ref_key)}"
         return ""
 
     def _format_resolve_daily_kathisma(self, res, context):
@@ -3242,44 +4437,46 @@ class TypikonDigestGenerator:
             kat_line = katavasia_str
             if kat_line.startswith("Catabasia: "):
                 kat_line = kat_line[len("Catabasia: "):]
+            elif kat_line.startswith("Katavasia: "):
+                kat_line = kat_line[len("Katavasia: "):]
             if "encounter" in katavasia_str.lower() or "meeting" in katavasia_str.lower():
-                lines.append("Catabasia of the Encounter.")
+                lines.append("Katavasia of the Encounter.")
             else:
-                lines.append(katavasia_str)
+                lines.append(katavasia_str.replace("Catabasia:", "Katavasia:"))
 
         return lines
 
     def _format_canon_interludes_ode_3(self, context):
         offset = context.get("pascha_offset")
         if offset == -70:
-            return "After Ode III: kontakion and ikos of the forefeast (found after Ode VI in the Menaion) and the sessional hymns from the Triodion (found after Ode III), Glory, both now... forefeast.  "
+            return "**After Ode III:** Kontakion and ikos of the forefeast (found after Ode VI in the Menaion) and the sessional hymns from the Triodion (found after Ode III), Glory, both now... forefeast.  "
         elif offset == -63:
-            return "After Ode III: kontakion and ikos of the feast, and the sessional hymns from the Triodion (found after Ode III), Glory, both now... feast.  "
+            return "**After Ode III:** Kontakion and ikos of the feast, and the sessional hymns from the Triodion (found after Ode III), Glory, both now... feast.  "
         elif offset in (-56, -49, -42, -35, -28):
-            return "After Ode III: Sessional hymns from the Triodion (found after Ode III).  "
+            return "**After Ode III:** Sessional hymns from the Triodion (found after Ode III).  "
         
         is_sunday = context.get("day_of_week") == 0
         if is_sunday:
             tone = context.get("octoechos_tone", context.get("tone", 1))
             tone_rom = self._roman_tone(tone)
-            return f"After Ode III: Hypakoe in Tone {tone_rom}; Glory... both now... Theotokion.  "
+            return f"**After Ode III:** Hypakoe in Tone {tone_rom}; Glory... both now... Theotokion.  "
         else:
-            return "After Ode III: Sessional hymns; Glory... both now... Theotokion.  "
+            return "**After Ode III:** Sessional hymns; Glory... both now... Theotokion.  "
 
     def _format_canon_interludes_ode_6(self, context):
         offset = context.get("pascha_offset")
         if offset == -35:
-            return "After Ode VI: kontakion and ikos of the Cross, from the Triodion, in Tone VII.  "
+            return "**After Ode VI:** Kontakion and ikos of the Cross, from the Triodion, in Tone VII.  "
         elif offset in (-70, -63, -56, -49, -42, -28, -8):
-            return "After Ode VI: kontakion and ikos from the Triodion are sung.  "
+            return "**After Ode VI:** Kontakion and ikos from the Triodion are sung.  "
         
         is_sunday = context.get("day_of_week") == 0
         if is_sunday:
             tone = context.get("octoechos_tone", context.get("tone", 1))
             tone_rom = self._roman_tone(tone)
-            return f"After Ode VI: Resurrection Kontakion and Ikos in Tone {tone_rom}.  "
+            return f"**After Ode VI:** Resurrection Kontakion and Ikos in Tone {tone_rom}.  "
         else:
-            return "After Ode VI: Kontakion and Ikos.  "
+            return "**After Ode VI:** Kontakion and Ikos.  "
 
 
 

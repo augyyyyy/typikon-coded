@@ -16,7 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
         currentBookletText: "",
         currentDigestText: "",
         currentRawKeyData: null,
-        currentCleanKeyData: null
+        currentCleanKeyData: null,
+        // Overrides settings state
+        paschalion: localStorage.getItem("cantor-opt-paschalion") || "gregorian",
+        version: localStorage.getItem("cantor-opt-version") || "stamford_2014",
+        templeFeast: localStorage.getItem("cantor-opt-temple-feast") || "",
+        digestMode: localStorage.getItem("cantor-opt-digest-mode") || "full",
+        devMode: localStorage.getItem("cantor-opt-dev-mode") === "true",
+        // Roadmap state
+        roadmapData: null,
+        activeFeastDayIndex: null
     };
 
     // DOM Elements Cache
@@ -129,6 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
             loadBooks();
         } else if (state.activeTab === "linter" && !state.linterReport) {
             loadLinterReport();
+        } else if (state.activeTab === "roadmap") {
+            loadRoadmapData();
         }
     }
 
@@ -213,7 +224,14 @@ document.addEventListener("DOMContentLoaded", () => {
         el.digestContent.innerHTML = '<p class="placeholder-text">Loading Typikon instructions...</p>';
         
         try {
-            const response = await fetch(`${API_BASE}/api/resolve?date=${dateStr}`);
+            const params = new URLSearchParams({
+                date: dateStr,
+                paschalion: state.paschalion,
+                version: state.version,
+                temple_feast: state.templeFeast,
+                digest_mode: state.digestMode
+            });
+            const response = await fetch(`${API_BASE}/api/resolve?${params.toString()}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -349,6 +367,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let escapedP = escapeHtml(p);
 
+            // Parse Markdown bold **text** -> <strong>text</strong>
+            escapedP = escapedP.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Parse Markdown italic *text* -> <em>text</em>
+            escapedP = escapedP.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
             // Handle Actor formatting like [PRIEST]: [DEACON]: etc.
             // Match [ACTOR]: and wrap in styled tags
             const actorRegex = /^\[([A-Z0-9_ -]+)\]:/i;
@@ -390,6 +413,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Markdown-to-HTML parser for Typikon Digest
     function formatMarkdownHtml(mdText) {
         let html = escapeHtml(mdText);
+        
+        // Parse GitHub-style alert blocks before other markdown replacements
+        html = html.replace(/&gt;\s*\[!NOTE\]\r?\n&gt;\s*\*\*Rubric\*\*:\s*(.*?)(?=\r?\n|$)/g, '<div class="markdown-alert"><div class="markdown-alert-title">✦ Note</div><p><strong>Rubric</strong>: $1</p></div>');
         
         // Headings
         html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
@@ -464,7 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
         html = paragraphs.map(p => {
             p = p.trim();
             if (!p) return '';
-            if (p.startsWith('<h') || p.startsWith('<table') || p.startsWith('<ul') || p.startsWith('<block')) {
+            if (p.startsWith('<h') || p.startsWith('<table') || p.startsWith('<ul') || p.startsWith('<block') || p.startsWith('<div')) {
                 return p;
             }
             return `<p>${p.replace(/\n/g, '<br>')}</p>`;
@@ -487,6 +513,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Run resolution on load
+    initSettings();
     resolveDate(state.selectedDate);
 
     /* ==========================================================================
@@ -916,6 +943,284 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
+    }
+
+    /* ==========================================================================
+       LITURGICAL PARAMETERS SYSTEM
+       ========================================================================== */
+    function initSettings() {
+        const optPaschalionGreg = document.getElementById("opt-paschalion-gregorian");
+        const optPaschalionJul = document.getElementById("opt-paschalion-julian");
+        const optVersion = document.getElementById("opt-version");
+        const optTempleFeast = document.getElementById("opt-temple-feast");
+        const optDigestFull = document.getElementById("opt-digest-full");
+        const optDigestQuick = document.getElementById("opt-digest-quick");
+        const chkDevMode = document.getElementById("chk-dev-mode");
+
+        if (state.paschalion === "julian") {
+            if (optPaschalionJul) optPaschalionJul.checked = true;
+        } else {
+            if (optPaschalionGreg) optPaschalionGreg.checked = true;
+        }
+
+        if (optVersion) optVersion.value = state.version;
+        if (optTempleFeast) optTempleFeast.value = state.templeFeast;
+
+        if (state.digestMode === "quick") {
+            if (optDigestQuick) optDigestQuick.checked = true;
+        } else {
+            if (optDigestFull) optDigestFull.checked = true;
+        }
+
+        if (chkDevMode) {
+            chkDevMode.checked = state.devMode;
+        }
+        document.body.classList.toggle("dev-mode-active", state.devMode);
+
+        const saveRadioSetting = (name, stateKey, storageKey) => {
+            document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+                input.addEventListener("change", (e) => {
+                    state[stateKey] = e.target.value;
+                    localStorage.setItem(storageKey, e.target.value);
+                    if (state.selectedDate) {
+                        resolveDate(state.selectedDate);
+                    }
+                });
+            });
+        };
+
+        saveRadioSetting("opt-paschalion", "paschalion", "cantor-opt-paschalion");
+        saveRadioSetting("opt-digest-mode", "digestMode", "cantor-opt-digest-mode");
+
+        if (optVersion) {
+            optVersion.addEventListener("change", (e) => {
+                state.version = e.target.value;
+                localStorage.setItem("cantor-opt-version", e.target.value);
+                if (state.selectedDate) {
+                    resolveDate(state.selectedDate);
+                }
+            });
+        }
+
+        if (optTempleFeast) {
+            optTempleFeast.addEventListener("input", (e) => {
+                let val = e.target.value;
+                if (val.length === 2 && !val.includes("-") && e.inputType !== "deleteContentBackward") {
+                    val = val + "-";
+                    optTempleFeast.value = val;
+                }
+                state.templeFeast = val;
+                localStorage.setItem("cantor-opt-temple-feast", val);
+                
+                if (val.length === 5 || val.length === 0) {
+                    if (state.selectedDate) {
+                        resolveDate(state.selectedDate);
+                    }
+                }
+            });
+        }
+
+        if (chkDevMode) {
+            chkDevMode.addEventListener("change", (e) => {
+                state.devMode = e.target.checked;
+                localStorage.setItem("cantor-opt-dev-mode", e.target.checked);
+                document.body.classList.toggle("dev-mode-active", e.target.checked);
+                
+                if (!state.devMode && state.activeTab === "linter") {
+                    switchTab("tab-calendar");
+                }
+            });
+        }
+    }
+
+    /* ==========================================================================
+       ROADMAP & HEALTH EXPLORER
+       ========================================================================== */
+    async function loadRoadmapData() {
+        const wingsContainer = document.getElementById("wings-progress-container");
+        const matrixContainer = document.getElementById("matrix-grid-container");
+        const gatesContainer = document.getElementById("gates-table-body");
+        const gapsContainer = document.getElementById("gaps-list-container");
+        const timelineContainer = document.getElementById("feast-timeline-container");
+        
+        if (!wingsContainer || !matrixContainer || !gatesContainer || !gapsContainer || !timelineContainer) {
+            return;
+        }
+
+        wingsContainer.innerHTML = "<p class='placeholder-text'>Loading wings progress...</p>";
+        timelineContainer.innerHTML = "<p class='placeholder-text'>Loading feast timeline...</p>";
+
+        try {
+            const response = await fetch(`${API_BASE}/api/roadmap`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            state.roadmapData = data;
+
+            wingsContainer.innerHTML = "";
+            Object.entries(data.wings).forEach(([wing, percent]) => {
+                const wingLabel = wing.charAt(0).toUpperCase() + wing.slice(1);
+                wingsContainer.innerHTML += `
+                    <div class="wing-progress-item">
+                        <div class="wing-progress-label">
+                            <span>${wingLabel} Wing</span>
+                            <span class="percentage">${percent}%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width: ${percent}%;"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            matrixContainer.innerHTML = "";
+            Object.entries(data.variant_matrix).forEach(([variant, status]) => {
+                const prettyName = variant.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+                let statusClass = "status-incomplete";
+                if (status === "completed") statusClass = "status-success";
+                else if (status === "stubbed") statusClass = "status-warning";
+                
+                matrixContainer.innerHTML += `
+                    <div class="matrix-card-item ${statusClass}">
+                        <div class="matrix-name">${prettyName}</div>
+                        <span class="status-badge">${status.toUpperCase()}</span>
+                    </div>
+                `;
+            });
+
+            gatesContainer.innerHTML = "";
+            data.matins_gates.forEach(gate => {
+                let statusClass = "status-incomplete";
+                let icon = "❌";
+                if (gate.status === "completed") {
+                    statusClass = "gate-success";
+                    icon = "✅";
+                } else if (gate.status === "stubbed") {
+                    statusClass = "gate-warning";
+                    icon = "⚠️";
+                }
+                
+                gatesContainer.innerHTML += `
+                    <tr class="${statusClass}">
+                        <td>Gate ${gate.gate}</td>
+                        <td>${gate.name}</td>
+                        <td><span class="status-text">${icon} ${gate.status.toUpperCase()}</span></td>
+                    </tr>
+                `;
+            });
+
+            gapsContainer.innerHTML = "";
+            data.unresolved_gaps.forEach(gap => {
+                gapsContainer.innerHTML += `
+                    <div class="gap-item alert-warning">
+                        <span class="gap-icon">⚠️</span>
+                        <span class="gap-text">${gap}</span>
+                    </div>
+                `;
+            });
+
+            const feastSelect = document.getElementById("feast-cycle-select");
+            if (feastSelect) {
+                feastSelect.addEventListener("change", () => {
+                    state.activeFeastDayIndex = null;
+                    renderFeastTimeline();
+                });
+            }
+
+            renderFeastTimeline();
+
+        } catch (err) {
+            console.error("Error loading roadmap: ", err);
+            wingsContainer.innerHTML = `<p class="placeholder-text" style="color: var(--rubric-color);">Error loading: ${err.message}</p>`;
+        }
+    }
+
+    function renderFeastTimeline() {
+        const timelineContainer = document.getElementById("feast-timeline-container");
+        const detailsPane = document.getElementById("feast-details-pane");
+        const feastSelect = document.getElementById("feast-cycle-select");
+        
+        if (!timelineContainer || !state.roadmapData) return;
+
+        const activeFeastKey = feastSelect ? feastSelect.value : "nativity_theotokos";
+        const feastCycle = state.roadmapData.feast_cycles[activeFeastKey];
+        if (!feastCycle) return;
+
+        timelineContainer.innerHTML = "";
+        feastCycle.days.forEach((day, index) => {
+            const isFeast = day.type === "feast";
+            const doubleBorderClass = isFeast ? "feast-day" : "";
+            const activeClass = state.activeFeastDayIndex === index ? "active" : "";
+            
+            timelineContainer.innerHTML += `
+                <div class="timeline-block ${day.type} ${doubleBorderClass} ${activeClass}" data-index="${index}">
+                    <div class="timeline-label">${day.label}</div>
+                    <div class="timeline-name-short">${day.name.replace("Nativity of the ", "").replace("Apodosis (Leave-taking) of the ", "").replace("Most Holy ", "")}</div>
+                    <div class="timeline-type-badge">${day.type.toUpperCase()}</div>
+                </div>
+            `;
+        });
+
+        document.querySelectorAll(".timeline-block").forEach(block => {
+            block.addEventListener("click", () => {
+                const index = parseInt(block.getAttribute("data-index"));
+                state.activeFeastDayIndex = index;
+                renderFeastTimelineDetails(feastCycle.days[index]);
+                renderFeastTimeline();
+            });
+        });
+
+        if (state.activeFeastDayIndex !== null && feastCycle.days[state.activeFeastDayIndex]) {
+            renderFeastTimelineDetails(feastCycle.days[state.activeFeastDayIndex]);
+        } else {
+            detailsPane.innerHTML = `
+                <div class="details-placeholder">
+                    <span class="timeline-finger-icon">👈</span> Click a timeline block above to inspect fixed vs. relative components.
+                </div>
+            `;
+        }
+    }
+
+    function renderFeastTimelineDetails(day) {
+        const detailsPane = document.getElementById("feast-details-pane");
+        if (!detailsPane) return;
+
+        detailsPane.innerHTML = `
+            <div class="feast-details-content glass-container">
+                <div class="details-header">
+                    <span class="details-badge ${day.type}">${day.type.toUpperCase()}</span>
+                    <h4>${day.name}</h4>
+                    <div class="details-meta">Date: <strong>${day.date}</strong> | Rank: <strong>${day.rank}</strong> | Tone: <strong>${day.tone_override}</strong></div>
+                </div>
+                <div class="details-split-view">
+                    <div class="details-col fixed-col">
+                         <h5>🛡️ Fixed (Festal) Stichera & Canons</h5>
+                         <p class="fixed-desc">These texts belong directly to the feast and remain constant throughout the cycle:</p>
+                         <div class="fixed-content-box">${day.fixed_text}</div>
+                    </div>
+                    <div class="details-col relative-col">
+                         <h5>🔄 Relative (Weekday/Tone) Variables</h5>
+                         <p class="relative-desc">These elements adapt to the specific day of the week, Tone of the week, and other saint intersections:</p>
+                         <div class="relative-content-box">${day.relative_rule}</div>
+                    </div>
+                </div>
+                <div class="details-action-row">
+                    <button class="btn btn-primary btn-sm" id="btn-feast-jump-resolve" data-date="${day.date}">
+                        📅 Resolve Service for ${day.date}
+                    </button>
+                </div>
+            </div>
+        `;
+
+        const jumpBtn = document.getElementById("btn-feast-jump-resolve");
+        if (jumpBtn) {
+            jumpBtn.addEventListener("click", () => {
+                const date = jumpBtn.getAttribute("data-date");
+                switchTab("tab-calendar");
+                resolveDate(date);
+            });
+        }
     }
 
     // Initialize themes

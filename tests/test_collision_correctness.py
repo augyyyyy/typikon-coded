@@ -82,7 +82,7 @@ def test_annunciation_weekday_lent(engine, generator):
         "liturgy_type": "liturgy_presanctified"
     }
     expected_text_patterns = [
-        "5 Stichera from the Triodion, 5 Feast from the Menaion"
+        "5 stichera from the Triodion, and 5 Feast stichera from the Menaion"
     ]
     verify_collision_case(engine, generator, date_obj, "collision_annunciation_weekday", expected_rules, expected_text_patterns)
 
@@ -101,7 +101,7 @@ def test_annunciation_lazarus_saturday(engine, generator):
         "liturgy_type": "liturgy_chrysostom"
     }
     expected_text_patterns = [
-        "2 Stichera from the Triodion, 3 Lazarus from the Triodion, 5 Feast from the Menaion",
+        "2 stichera from the Triodion, 3 Lazarus stichera from the Triodion, and 5 Feast stichera from the Menaion",
         "Liturgy of St. John Chrysostom"
     ]
     verify_collision_case(engine, generator, date_obj, "collision_annunciation_saturday_lazarus", expected_rules, expected_text_patterns)
@@ -121,7 +121,7 @@ def test_annunciation_palm_sunday(engine, generator):
         "liturgy_type": "liturgy_chrysostom"
     }
     expected_text_patterns = [
-        "6 Feast from the Menaion, 4 Palm from the Triodion",
+        "6 Feast stichera from the Menaion, and 4 Palm stichera from the Triodion",
         "Liturgy of St. John Chrysostom"
     ]
     verify_collision_case(engine, generator, date_obj, "collision_annunciation_sunday_palm", expected_rules, expected_text_patterns)
@@ -141,7 +141,7 @@ def test_annunciation_great_friday(engine, generator):
         "liturgy_type": "liturgy_chrysostom_vesperal"
     }
     expected_text_patterns = [
-        "6 Stichera from the Triodion, 4 Feast from the Menaion",
+        "6 stichera from the Triodion, and 4 Feast stichera from the Menaion",
         "Vesperal Divine Liturgy of St. John Chrysostom"
     ]
     verify_collision_case(engine, generator, date_obj, "collision_annunciation_great_friday", expected_rules, expected_text_patterns)
@@ -161,7 +161,7 @@ def test_annunciation_great_saturday(engine, generator):
         "liturgy_type": "vesperal_merge_logic"
     }
     expected_text_patterns = [
-        "6 Stichera from the Triodion, 4 Feast from the Menaion",
+        "6 stichera from the Triodion, and 4 Feast stichera from the Menaion",
         "Vesperal Divine Liturgy of St. Basil the Great"
     ]
     verify_collision_case(engine, generator, date_obj, "collision_annunciation_great_saturday", expected_rules, expected_text_patterns)

@@ -207,6 +207,7 @@ class RubricsMixin:
              if dolnytsky_rank == "SIX": return 4
              if dolnytsky_rank == "ALLELUIA": return 5
              if dolnytsky_rank == "SIMPLE": return 5
+             if dolnytsky_rank == "NO": return 6
 
         # Testing Bypass (only for unit tests that manually set rank)
         if "rank" in context and "dolnytsky_rank" not in context:
@@ -229,6 +230,8 @@ class RubricsMixin:
              if dolnytsky_rank == "GT_DOX": return 3
              if dolnytsky_rank == "SIX": return 4
              if dolnytsky_rank == "ALLELUIA": return 5 # Lenten/Minor Rank
+             if dolnytsky_rank == "SIMPLE": return 5
+             if dolnytsky_rank == "NO": return 6
         
         # 2. Check Menaion Rank from rubrics variables
         # This is populated by resolve_rubrics when Menaion day has a rank field
@@ -494,6 +497,7 @@ class RubricsMixin:
              if int_rank == 3: return "rank_doxology"
              if int_rank == 4: return "rank_simple_6"
              if int_rank == 5: return "rank_simple_4"
+             if int_rank == 6: return "rank_simple_4"
 
         # 2. Check Legacy Menaion Rank
         menaion_rank = context.get("menaion_rank", "")
@@ -668,16 +672,18 @@ class RubricsMixin:
 
             menaion_day = menaion_month_logic.get("days", {}).get(day_str)
             if menaion_day:
-                rubrics["title"] = menaion_day.get("title_key", rubrics["title"])
-                rubrics["variables"].update(menaion_day.get("variables", {}))
-                # Copy saint metadata if present
-                for key in ["saint_class", "st_name", "feast_title"]:
-                    if key in menaion_day:
-                        rubrics["variables"][key] = menaion_day[key]
+                if best_priority < 90:
+                    rubrics["title"] = menaion_day.get("title_key", rubrics["title"])
+                    rubrics["variables"].update(menaion_day.get("variables", {}))
+                    # Copy saint metadata if present
+                    for key in ["saint_class", "st_name", "feast_title"]:
+                        if key in menaion_day:
+                            rubrics["variables"][key] = menaion_day[key]
                 # Populate menaion_rank for Great Feast Vigil detection
                 # Citation: Final_Dolnytsky_part1_structure.txt:L13
                 if "rank" in menaion_day:
                     rubrics["variables"]["menaion_rank"] = menaion_day["rank"]
+                    rubrics["variables"]["rank"] = menaion_day["rank"]
                     rubrics["_trace"].append(f"Menaion Rank: Set '{menaion_day['rank']}'.")
                 rubrics["_trace"].append(f"Menaion Logic: Matched Day '{day_str}'.")
                 if "variants" in menaion_day:
@@ -699,9 +705,10 @@ class RubricsMixin:
             elif not rubrics["title"] or rubrics["title"] == "Service for " + str(context["date"]):
                 # FALLBACK: Simple Feast (Missing Data)
                 rubrics["title"] = f"Saint of the Day ({context['month']}-{context['day']})"
-                rubrics["variables"]["rank"] = "rank_simple_6"
+                resolved_rank = self._get_rank_id(context)
+                rubrics["variables"]["rank"] = resolved_rank if resolved_rank else "rank_simple_6"
                 rubrics["variables"]["vespers_type"] = "daily_vespers"
-                rubrics["_trace"].append("Menaion Logic: No specific match logic found. Using Daily Fallback.")
+                rubrics["_trace"].append(f"Menaion Logic: No specific match logic found. Using Daily Fallback with rank '{rubrics['variables']['rank']}'.")
 
         # Layer 3: Temple Logic
         if context["is_temple_feast"]:

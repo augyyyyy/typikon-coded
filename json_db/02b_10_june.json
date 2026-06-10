@@ -10,6 +10,48 @@
   "month_settings": {
     "month_id": 6,
     "days": {
+      "09": {
+        "title_key": "Saint of the Day",
+        "rank": "rank_simple_6",
+        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L3170",
+        "base_template": "CASE_02",
+        "variables": {
+          "liturgy_readings": [
+            {
+              "prokeimenon": {
+                "tone": 7,
+                "text": "The righteous shall rejoice in the Lord and shall hope in Him.",
+                "ref_key": "menaion.jun_09.prokeimenon"
+              },
+              "epistle": {
+                "ref_key": "apostol.weekday",
+                "text": "Romans 7:14-8:2"
+              },
+              "alleluia": {
+                "tone": 4,
+                "ref_key": "menaion.jun_09.alleluia",
+                "verses": [
+                  "The righteous shall flourish like a palm tree, and shall grow like a cedar in Lebanon."
+                ]
+              },
+              "gospel": {
+                "ref_key": "evangelion.weekday",
+                "text": "Matthew 10:9-15"
+              },
+              "communion_hymn": {
+                "text": "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings.",
+                "ref_key": "menaion.jun_09.communion_hymn"
+              }
+            }
+          ]
+        }
+      },
+      "10": {
+        "title_key": "Hieromartyr Timothy",
+        "rank": "rank_simple_4",
+        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L3181",
+        "base_template": "CASE_02"
+      },
       "11": {
         "title_key": "menaion.jun_11.bartholomew_barnabas",
         "rank": "rank_polyeleos",

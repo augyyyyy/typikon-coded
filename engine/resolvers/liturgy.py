@@ -235,6 +235,29 @@ class LiturgyMixin:
         day = context.get("day_of_week", 1)
         temple_type = context.get("temple_type", "saint") # 'saint' or 'theotokos'
         
+        # Wednesday/Friday Cross Precedence for Simple Ranks (Dolnytsky Part II)
+        from engine.utils.type_utils import parse_rank_integer
+        rank_val = context.get("rank", 5)
+        if rubrics and rubrics.get("variables"):
+            rank_val = rubrics["variables"].get("rank", rank_val)
+        rank_numeric = parse_rank_integer(rank_val)
+        
+        if day in (3, 5):
+            final_components = [
+                {"type": "troparion", "source": "cross"}
+            ]
+            if temple_type == "theotokos":
+                final_components.append({"type": "troparion", "source": "temple"})
+            final_components.extend([
+                {"type": "troparion", "source": "menaion_saint"},
+                {"type": "kontakion", "source": "menaion_saint", "glory": True},
+                {"type": "kontakion", "source": "cross", "both_now": True}
+            ])
+            return {
+                "type": "hymn_stack",
+                "components": final_components
+            }
+
         template_key = "weekday_standard"
         if context.get("dolnytsky_rank") == "LORD" or context.get("paradigm") == "p_feast_lord":
             template_key = "festal_only"
@@ -501,6 +524,54 @@ class LiturgyMixin:
         Great Feast: Proper of feast
         Weekday: Tone-appropriate or proper of day
         """
+        if rubrics:
+            overrides = rubrics.get("variables", {}) or rubrics.get("overrides", {})
+            
+            # 1. Check if nested inside liturgy_readings override
+            l_readings = overrides.get("liturgy_readings")
+            if l_readings and isinstance(l_readings, list) and len(l_readings) > 0:
+                first_r = l_readings[0]
+                if isinstance(first_r, dict) and "communion_hymn" in first_r:
+                    c_h = first_r["communion_hymn"]
+                    if isinstance(c_h, dict):
+                        return {
+                            "type": "communion_hymn",
+                            "text": c_h.get("text", ""),
+                            "ref_key": c_h.get("ref_key", "")
+                        }
+                    elif isinstance(c_h, str):
+                        return {
+                            "type": "communion_hymn",
+                            "text": c_h,
+                            "ref_key": ""
+                        }
+            
+            # 2. Check for direct communion_hymn override
+            c_h = overrides.get("communion_hymn")
+            if c_h:
+                if isinstance(c_h, dict):
+                    return {
+                        "type": "communion_hymn",
+                        "text": c_h.get("text", ""),
+                        "ref_key": c_h.get("ref_key", "")
+                    }
+                elif isinstance(c_h, str):
+                    try:
+                        asset = self.get_text(c_h, context=context)
+                        if asset and isinstance(asset, dict) and "content" in asset:
+                            return {
+                                "type": "communion_hymn",
+                                "text": asset["content"],
+                                "ref_key": c_h
+                            }
+                    except Exception:
+                        pass
+                    return {
+                        "type": "communion_hymn",
+                        "text": c_h,
+                        "ref_key": ""
+                    }
+
         day_of_week = context.get("day_of_week", 0)
         from engine.utils.type_utils import parse_rank_integer
         rank = parse_rank_integer(context.get("rank", 5))
@@ -546,7 +617,7 @@ class LiturgyMixin:
         weekday_hymns = {
             1: {"text": "He maketh His angels spirits...", "ref_key": "horologion.communion_monday"},
             2: {"text": "In everlasting remembrance shall the righteous be...", "ref_key": "horologion.communion_tuesday"},
-            3: {"text": "The Lord hath chosen Sion...", "ref_key": "horologion.communion_wednesday"},
+            3: {"text": "I will take the cup of salvation, and I will call upon the name of the Lord...", "ref_key": "horologion.communion_wednesday"},
             4: {"text": "Their sound hath gone forth into all the earth...", "ref_key": "horologion.communion_thursday"},
             5: {"text": "O Lord, save Thy people...", "ref_key": "horologion.communion_friday"},
             6: {"text": "Blessed are they whom Thou hast chosen...", "ref_key": "horologion.communion_saturday"}
@@ -841,45 +912,101 @@ class LiturgyMixin:
             
             return result
         
-        # WEEKDAY with Saint
-        if saints:
-            saint_id = saints[0].get("id", "saint")
-            result["readings"].append({
-                "prokeimenon": {
-                    "source": "menaion",
-                    "ref_key": f"menaion.{saint_id}.prokeimenon"
-                },
-                "epistle": {
-                    "source": "menaion",
-                    "ref_key": f"menaion.{saint_id}.epistle"
-                },
-                "alleluia": {
-                    "source": "menaion",
-                    "ref_key": f"menaion.{saint_id}.alleluia"
-                },
-                "gospel": {
-                    "source": "menaion",
-                    "ref_key": f"menaion.{saint_id}.gospel"
-                }
-            })
-        else:
+        # WEEKDAY
+        if day_of_week != 0:
+            if saints and rank <= 3:
+                saint_id = saints[0].get("id", "saint")
+                result["readings"].append({
+                    "prokeimenon": {
+                        "source": "menaion",
+                        "ref_key": f"menaion.{saint_id}.prokeimenon"
+                    },
+                    "epistle": {
+                        "source": "menaion",
+                        "ref_key": f"menaion.{saint_id}.epistle"
+                    },
+                    "alleluia": {
+                        "source": "menaion",
+                        "ref_key": f"menaion.{saint_id}.alleluia"
+                    },
+                    "gospel": {
+                        "source": "menaion",
+                        "ref_key": f"menaion.{saint_id}.gospel"
+                    }
+                })
+            
             # Weekday lectionary
+            p_res = self.resolve_prokeimenon(context)
+            p_tone = p_res.get("tone", 1)
+            # Dynamic sequential readings calculation
+            ep_text, gosp_text = None, None
+            weeks_after_pentecost = context.get("weeks_after_pentecost")
+            if weeks_after_pentecost is not None:
+                lectionary = {
+                    1: {
+                        1: ("Ephesians 5:9-19", "Matthew 18:10-20"),
+                        2: ("Romans 1:1-7, 13-17", "Matthew 4:25-5:13"),
+                        3: ("Romans 1:18-27", "Matthew 5:20-26"),
+                        4: ("Romans 1:28-2:9", "Matthew 5:27-32"),
+                        5: ("Romans 2:14-29", "Matthew 5:33-41"),
+                        6: ("Romans 1:7-12", "Matthew 5:42-48"),
+                    },
+                    2: {
+                        1: ("Romans 2:28-3:18", "Matthew 6:31-34; 7:9-11"),
+                        2: ("Romans 4:4-12", "Matthew 7:15-21"),
+                        3: ("Romans 4:13-25", "Matthew 7:21-23"),
+                        4: ("Romans 5:1-10", "Matthew 8:23-27"),
+                        5: ("Romans 5:17-6:2", "Matthew 9:14-17"),
+                        6: ("Romans 3:19-26", "Matthew 7:1-8"),
+                    },
+                    3: {
+                        1: ("Romans 7:1-13", "Matthew 9:36-10:8"),
+                        2: ("Romans 7:14-8:2", "Matthew 10:9-15"),
+                        3: ("Romans 8:2-13", "Matthew 10:16-22"),
+                        4: ("Romans 8:22-27", "Matthew 10:23-31"),
+                        5: ("Romans 9:6-19", "Matthew 10:32-40; 11:1"),
+                        6: ("Romans 5:1-10", "Matthew 6:22-33"),
+                    },
+                    4: {
+                        1: ("Romans 9:18-33", "Matthew 11:2-15"),
+                        2: ("Romans 10:11-11:2", "Matthew 11:16-20"),
+                        3: ("Romans 11:2-12", "Matthew 11:20-26"),
+                        4: ("Romans 11:13-24", "Matthew 11:27-30"),
+                        5: ("Romans 11:25-36", "Matthew 12:1-8"),
+                        6: ("Romans 6:11-17", "Matthew 8:14-23"),
+                    },
+                    5: {
+                        1: ("Romans 12:4-15", "Matthew 12:9-13"),
+                        2: ("Romans 12:15-21", "Matthew 12:14-16, 22-30"),
+                        3: ("Romans 14:9-18", "Matthew 12:31-37"),
+                        4: ("Romans 15:1-7", "Matthew 12:38-45"),
+                        5: ("Romans 15:17-29", "Matthew 12:46-13:9"),
+                        6: ("Romans 8:14-21", "Matthew 9:9-13"),
+                    }
+                }
+                if weeks_after_pentecost in lectionary and day_of_week in lectionary[weeks_after_pentecost]:
+                    ep_text, gosp_text = lectionary[weeks_after_pentecost][day_of_week]
+
             result["readings"].append({
                 "prokeimenon": {
                     "source": "horologion",
-                    "ref_key": f"horologion.prokeimenon.day_{day_of_week}"
+                    "ref_key": f"horologion.prokeimenon.day_{day_of_week}",
+                    "tone": p_tone
                 },
                 "epistle": {
                     "source": "apostol",
-                    "ref_key": moveable_cycle.get("epistle", "apostol.weekday")
+                    "ref_key": moveable_cycle.get("epistle", "apostol.weekday"),
+                    "text": ep_text
                 },
                 "alleluia": {
                     "source": "horologion",
-                    "ref_key": f"horologion.alleluia.day_{day_of_week}"
+                    "ref_key": f"horologion.alleluia.day_{day_of_week}",
+                    "tone": p_tone
                 },
                 "gospel": {
                     "source": "evangelion",
-                    "ref_key": moveable_cycle.get("gospel", "evangelion.weekday")
+                    "ref_key": moveable_cycle.get("gospel", "evangelion.weekday"),
+                    "text": gosp_text
                 }
             })
         

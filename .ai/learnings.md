@@ -308,4 +308,15 @@ When switching models:
 3. **Property-Based Fuzz Testing**: Hardening the engine's reliability through automated property-based testing across 500+ random dates spanning multiple centuries to catch edge cases, crash bugs, or unhandled exceptions.
 4. **Registry Override Resolution**: Discovered that structures can modify components via root-level `overrides` specifying direct `content` blocks rather than nesting inside `new_component`. The `ResolverRegistry` was updated to scan both the `override` object itself and nested `new_component` objects to comprehensively extract allowed resolvers, and recursively traverse only authentic `type == "link"` targets to pull in their registry entries.
 
+## XI. Digest Suppression Rules & Context Dilution (2026-06-09)
+
+1. **Liturgical Service Suppression in Digest**:
+   - To align with the clean, quick-reference style of the PDF gold standards, the daily Compline and Midnight Office are suppressed in the generated digests for normal weekdays and Saturdays with simple services (rank_simple_6, rank_simple_4, rank_double_6, rank_none), unless a specific feast-day override or custom variables exist in the rubrics.
+   - On these simple weekdays, static Liturgy elements that never change (standard Post-Communion Hymns and standard Dismissals) are also suppressed in the digest.
+   - Note that these suppressions only apply to the digest generation layer (`typikon_digest_generator.py`) and do not alter the core engine structures or resolve methods, which remain 100% complete and liturgically intact.
+
+2. **Context Dilution Protocol**:
+   - When conversation contexts become too long, the pre-flight and post-flight constraints risk being diluted or lost due to LLM attention limitations.
+   - Under this protocol, when the context window is large, the 1M context Deepseek model must be invoked via the `DEEPSEEK_API_KEY` (or recommended to the user) to run deep forensic audits and maintain absolute compliance with the rules.
+
 

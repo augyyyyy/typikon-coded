@@ -16,13 +16,9 @@ def main():
     # Initialize Engine
     # Assume we are running from project root
     base_dir = os.getcwd()
-    db_path = os.path.join(base_dir, "json_db")
     
-    if not os.path.exists(db_path):
-        print(f"Error: json_db not found at {db_path}")
-        sys.exit(1)
-        
-    engine = RuthenianEngine(db_path)
+    # The engine adds json_db internally
+    engine = RuthenianEngine(base_dir)
     
     try:
         target_date = date(args.year, args.month, args.day)

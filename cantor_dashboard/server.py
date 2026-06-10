@@ -4,7 +4,41 @@ import urllib.parse
 import json
 import os
 import sys
+import threading
+import time
+import socket
 from datetime import datetime, date
+
+# Frontend file watching for live reload
+FRONTEND_FILES = ["index.html", "style.css", "main.js"]
+reload_event = threading.Event()
+
+def watch_frontend_files():
+    mtimes = {}
+    for f in FRONTEND_FILES:
+        filepath = os.path.join(CANTOR_DASHBOARD_DIR, f)
+        if os.path.exists(filepath):
+            mtimes[filepath] = os.path.getmtime(filepath)
+            
+    while True:
+        time.sleep(0.5)
+        changed = False
+        for f in FRONTEND_FILES:
+            filepath = os.path.join(CANTOR_DASHBOARD_DIR, f)
+            if os.path.exists(filepath):
+                try:
+                    m = os.path.getmtime(filepath)
+                    if filepath not in mtimes or mtimes[filepath] != m:
+                        mtimes[filepath] = m
+                        changed = True
+                except Exception:
+                    pass
+        if changed:
+            print("[Server Watcher] Frontend file changed. Triggering live-reload...")
+            reload_event.set()
+            time.sleep(1.0)
+            reload_event.clear()
+
 
 # Resolve paths
 CANTOR_DASHBOARD_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -149,8 +183,12 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             self.api_text(query)
         elif path == "/api/resolve":
             self.api_resolve(query)
+        elif path == "/api/roadmap":
+            self.api_roadmap()
         elif path == "/api/lint":
             self.api_lint()
+        elif path == "/api/live-reload":
+            self.api_live_reload()
         else:
             self.send_json_error("Endpoint not found", 404)
 
@@ -219,15 +257,34 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         if not date_str:
             date_str = date.today().isoformat()
 
+        paschalion = query.get("paschalion", ["gregorian"])[0]
+        version = query.get("version", ["stamford_2014"])[0]
+        temple_feast = query.get("temple_feast", [None])[0]
+        digest_mode = query.get("digest_mode", ["full"])[0]
+
         try:
             target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
         except ValueError:
             self.send_json_error("Invalid date format. Expected YYYY-MM-DD", 400)
             return
 
+        temple_feast_date = None
+        if temple_feast:
+            try:
+                parts = temple_feast.split("-")
+                if len(parts) == 2:
+                    temple_feast_date = (int(parts[0]), int(parts[1]))
+            except ValueError:
+                pass
+
         try:
             # Instantiate engine
-            engine = RuthenianEngine(base_dir=REPO_DIR, version="stamford")
+            engine = RuthenianEngine(
+                base_dir=REPO_DIR, 
+                version=version,
+                paschalion=paschalion,
+                temple_feast_date=temple_feast_date
+            )
             
             # Resolve
             context = engine.get_liturgical_context(target_date)
@@ -256,7 +313,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
 
             rubrics = engine.resolve_rubrics(context)
             booklet = engine.generate_full_booklet(context, rubrics)
-            digest = engine.generate_typikon_digest(context, rubrics)
+            digest = engine.generate_typikon_digest(context, rubrics, mode=digest_mode)
 
             response = {
                 "context": serializable_context,
@@ -278,6 +335,121 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 "traceback": traceback.format_exc()
             }
             self.send_json_response(response, 500)
+
+    def api_roadmap(self):
+        # Return structured project status & feast cycle timelines
+        roadmap_data = {
+            "status": "success",
+            "wings": {
+                "logic": 100,
+                "structures": 95,
+                "assets": 10,
+                "docs": 100,
+                "ui": 85
+            },
+            "matins_gates": [
+                {"gate": 1, "name": "Six Psalms (Hexapsalmos)", "status": "completed"},
+                {"gate": 2, "name": "Great Litany & God is the Lord", "status": "completed"},
+                {"gate": 3, "name": "Kathismata Readings", "status": "completed"},
+                {"gate": 4, "name": "Sessional Hymns (Kathismata)", "status": "completed"},
+                {"gate": 5, "name": "Polyeleos or Megalynarion", "status": "completed"},
+                {"gate": 6, "name": "Gradual Hymns (Anabathmoi)", "status": "completed"},
+                {"gate": 7, "name": "Matins Gospel", "status": "completed"},
+                {"gate": 8, "name": "Psalm 50 & Stichera", "status": "completed"},
+                {"gate": 9, "name": "The Canon (Odes 1-9)", "status": "completed"},
+                {"gate": 10, "name": "Exaposteilarion", "status": "completed"},
+                {"gate": 11, "name": "Lauds (Praises) & Doxology", "status": "completed"},
+                {"gate": 12, "name": "Matins Litanies", "status": "completed"},
+                {"gate": 13, "name": "Matins Dismissal & Litany", "status": "stubbed"}
+            ],
+            "variant_matrix": {
+                "daily_vespers": "completed",
+                "great_vespers_vigil": "completed",
+                "daily_matins": "completed",
+                "festal_matins": "completed",
+                "first_hour": "completed",
+                "third_six_nine_hours": "completed",
+                "divine_liturgy": "completed",
+                "presanctified_liturgy": "stubbed",
+                "vesperal_liturgy": "stubbed",
+                "great_compline": "missing",
+                "midnight_office": "completed"
+            },
+            "unresolved_gaps": [
+                "Lviv recension assets stubbed for Great Lent",
+                "Typikon collision resolution rules missing for dual feast overlaps",
+                "Menaion translations incomplete for the month of October"
+            ],
+            "feast_cycles": {
+                "nativity_theotokos": {
+                    "feast_name": "Nativity of the Most Holy Theotokos",
+                    "double_border_date": "2026-09-08",
+                    "days": [
+                        {
+                            "date": "2026-09-07",
+                            "label": "Sept 7",
+                            "name": "Forefeast of the Nativity of the Theotokos",
+                            "type": "forefeast",
+                            "rank": "Simple (Rank 6)",
+                            "tone_override": "Tone 4",
+                            "fixed_text": "Troparion of the Forefeast (Tone 4): 'Today from the root of Jesse...'; Stichera of the Forefeast.",
+                            "relative_rule": "Weekday Octoechos (Tone of the week) canons; Daily Vespers prokeimenon."
+                        },
+                        {
+                            "date": "2026-09-08",
+                            "label": "Sept 8",
+                            "name": "NATIVITY OF THE MOST HOLY THEOTOKOS",
+                            "type": "feast",
+                            "rank": "Vigil Feast (Rank 1)",
+                            "tone_override": "Festal Tone 4",
+                            "fixed_text": "Troparion of the Feast (Tone 4): 'Your Nativity, O Virgin Theotokos...'; Kontakion (Tone 4): 'By your holy birth...'; All Stichera of the Feast.",
+                            "relative_rule": "No Octoechos hymns are sung. Special festal prokeimena and readings. Matins Gospel."
+                        },
+                        {
+                            "date": "2026-09-09",
+                            "label": "Sept 9",
+                            "name": "Synaxis of Joachim and Anna (Afterfeast 1)",
+                            "type": "afterfeast",
+                            "rank": "Double Feast (Rank 4)",
+                            "tone_override": "Tone 4",
+                            "fixed_text": "Troparion of the Feast (Tone 4); Troparion of the Saints (Tone 2): 'We celebrate the memory...'; Joint Kontakion of Saints and Feast.",
+                            "relative_rule": "Weekday or Sunday Octoechos elements. If a Sunday, Resurrectional texts are merged in priority."
+                        },
+                        {
+                            "date": "2026-09-10",
+                            "label": "Sept 10",
+                            "name": "Afterfeast of the Nativity (Afterfeast 2)",
+                            "type": "afterfeast",
+                            "rank": "Simple (Rank 5)",
+                            "tone_override": "Tone 4",
+                            "fixed_text": "Troparion and Kontakion of the Feast. Stitchera of the Feast merged with the Saint of the day (Martyr Menodora).",
+                            "relative_rule": "Weekday Octoechos canons. Daily prokeimena."
+                        },
+                        {
+                            "date": "2026-09-11",
+                            "label": "Sept 11",
+                            "name": "Afterfeast of the Nativity (Afterfeast 3)",
+                            "type": "afterfeast",
+                            "rank": "Simple (Rank 5)",
+                            "tone_override": "Tone 4",
+                            "fixed_text": "Troparion of the Feast. Stichera of the Feast combined with Saint (Rev. Theodora of Alexandria).",
+                            "relative_rule": "Weekday Octoechos canons. Daily prokeimena."
+                        },
+                        {
+                            "date": "2026-09-12",
+                            "label": "Sept 12",
+                            "name": "Apodosis (Leave-taking) of the Nativity",
+                            "type": "apodosis",
+                            "rank": "Double (Rank 4)",
+                            "tone_override": "Festal Tone 4",
+                            "fixed_text": "Entire service of the Feast is repeated (Troparion, Kontakion, Stichera).",
+                            "relative_rule": "We do not sing the Octoechos or the Saint of the day. Only Sunday/Resurrection elements would combine if it falls on a Sunday."
+                        }
+                    ]
+                }
+            }
+        }
+        self.send_json_response(roadmap_data)
 
     def api_lint(self):
         report_path = os.path.join(REPO_DIR, "audit_results", "stamford_lint_report.json")
@@ -302,6 +474,31 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:
             self.send_json_error(f"Linter execution failed: {e}", 500)
 
+    def api_live_reload(self):
+        self.send_response(200)
+        self.send_header("Content-Type", "text/event-stream")
+        self.send_header("Cache-Control", "no-cache")
+        self.send_header("Connection", "keep-alive")
+        self.end_headers()
+        
+        try:
+            self.wfile.write(b": ping\n\n")
+            self.wfile.flush()
+            
+            while True:
+                event_set = reload_event.wait(timeout=5.0)
+                if event_set:
+                    self.wfile.write(b"data: reload\n\n")
+                    self.wfile.flush()
+                    break
+                else:
+                    self.wfile.write(b": ping\n\n")
+                    self.wfile.flush()
+        except (socket.error, ConnectionResetError, BrokenPipeError):
+            pass
+        except Exception as e:
+            print(f"Error in live-reload SSE: {e}")
+
     def send_json_response(self, data, status_code=200):
         try:
             json_bytes = json.dumps(data, indent=2).encode("utf-8")
@@ -318,12 +515,17 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
 
 def run():
     load_databases()
+    
+    # Start frontend file watcher thread
+    watcher_thread = threading.Thread(target=watch_frontend_files, daemon=True)
+    watcher_thread.start()
+    
     # Create handler
     handler_class = CantorDashboardHandler
     
     server_address = ('', PORT)
     # Enable socket re-use to avoid port-binding issues on restarts
-    socketserver.TCPServer.allow_reuse_address = True
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
     
     print(f"\n=======================================================")
     print(f"Starting Cantor Dashboard Server...")
@@ -332,7 +534,7 @@ def run():
     print(f"=======================================================\n")
     
     try:
-        with socketserver.TCPServer(server_address, handler_class) as httpd:
+        with socketserver.ThreadingTCPServer(server_address, handler_class) as httpd:
             httpd.serve_forever()
     except KeyboardInterrupt:
         print("\nStopping server...")

@@ -4,7 +4,7 @@ import pytest
 import os
 
 # Initialize Engine
-base_dir = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 engine = RuthenianEngine(base_dir=base_dir)
 
 def test_MC1_ode_9_transfiguration():
@@ -32,6 +32,7 @@ def test_MC2_saturday_theotokion():
     ctx = engine.get_liturgical_context(date(2025, 1, 11))
     ctx['day_of_week'] = 6 # Saturday
     ctx['fake_tone'] = 3 # Injection
+    ctx.pop('dolnytsky_rank', None)
     ctx['rank'] = 3 # POLYELEOS (Required for Lookahead)
     
     rubrics = {"title": "Sat Matins", "variables": {}}

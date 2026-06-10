@@ -3,7 +3,7 @@ from datetime import date
 import os
 
 print("--- Starting Integration Test ---")
-base_dir = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 engine = RuthenianEngine(base_dir=base_dir)
 
 if not engine.scenario_registry:

@@ -100,6 +100,12 @@ For more detailed information, please refer to:
 - [Contributing](CONTRIBUTING.md): How to contribute code or textual corrections.
 - [Academic Alignment](docs/thesis_alignment_analysis.md): A comparative analysis of this engine against the 2011 Master's Thesis "Automating the Byzantine Typikon".
 
+### v1.1.0 (2026-06-10) - The Cantor Dashboard & Hybrid Orchestration
+*   **Cantor Dashboard**: Released an interactive GUI built on a lightweight Python server. Features include a hot-reloading liturgical parameters panel (Julian/Gregorian, Version, Digest Mode), responsive liturgical booklets, and the /api/roadmap endpoint for health metrics.
+*   **Hybrid Inherited Model**: Centralized cross-cutting concerns (like DeepSeek token constraints, system compliance) into a master `GLOBAL_SYSTEM_RULES.md` at the hub, while spoke directories maintain their own localized `.cursorrules` that inherit from the master.
+*   **DeepSeek Ultra Philosophy**: Refined orchestration strategy to prioritize developer ergonomics, script simplicity, and readability over micro-token optimizations, leveraging the DeepSeek Ultra plan for maximum efficiency.
+*   **Liturgical Enhancements**: Refactored Matins kathismata routing, Ode 9/Magnificat sequence mapping, and Triodion structural support.
+
 ### v1.0.0 (2026-06-08) - The Hub & Spoke Paradigm
 *   **Logic Engine 100% Complete**: The core mathematical engine is hermetically sealed. All structural edge-cases, including Small Vespers and Great Compline Lenten variants, are perfectly modeled.
 *   **DeepSeek API Integration**: Standardized the entire ecosystem to use the DeepSeek-V4-Pro API via `.env` for massive, token-heavy OCR extraction and parsing in the Spoke projects.

@@ -17,7 +17,11 @@ class TextDBMixin:
 
     def _load_json(self, path_to_json):
         try:
-            abs_path = os.path.abspath(path_to_json)
+            if os.path.isabs(path_to_json):
+                abs_path = path_to_json
+            else:
+                abs_path = os.path.abspath(os.path.join(self.base_dir, path_to_json))
+                
             if not os.path.exists(abs_path):
                  return {}
             with open(abs_path, 'r', encoding='utf-8') as f:
@@ -79,7 +83,11 @@ class TextDBMixin:
         """
         if specific_path:
              # Direct load mode
-             abs_path = os.path.abspath(specific_path)
+             if os.path.isabs(specific_path):
+                 abs_path = specific_path
+             else:
+                 abs_path = os.path.abspath(os.path.join(self.base_dir, specific_path))
+                 
              if os.path.exists(abs_path):
                  try:
                      with open(abs_path, 'r', encoding='utf-8') as f:

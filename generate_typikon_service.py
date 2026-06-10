@@ -23,8 +23,9 @@ def main():
     parser.add_argument("--external", type=str, help="Path to external private assets directory")
     parser.add_argument("--no-open", action="store_true", help="Do not open the file automatically")
     parser.add_argument("--digest", action="store_true", help="Generate a Typikon digest (instructions only) instead of a full text booklet")
-    parser.add_argument("--full", action="store_true", help="Generate full service skeleton instead of quick-reference guide")
+    parser.add_argument("--quick", action="store_true", help="Generate quick-reference guide instead of full service skeleton")
     parser.add_argument("--html", action="store_true", help="Wrap the digest in a premium HTML/CSS design instead of raw markdown")
+    parser.add_argument("--paschalion", type=str, default="gregorian", choices=["gregorian", "julian"], help="Paschalion calculation method (default: gregorian)")
     
     args = parser.parse_args()
 
@@ -32,8 +33,8 @@ def main():
     
     # 1. Initialize Engine
     try:
-        engine = RuthenianEngine(version=args.version, external_assets_dir=args.external)
-        print(f"[OK] Engine Loaded (Version: {args.version})")
+        engine = RuthenianEngine(version=args.version, external_assets_dir=args.external, paschalion=args.paschalion)
+        print(f"[OK] Engine Loaded (Version: {args.version}, Paschalion: {args.paschalion})")
         if args.external:
              print(f"   External Assets: {args.external}")
     except Exception as e:
@@ -60,7 +61,7 @@ def main():
             # 5. Generate Output
             print("   Compiling...")
             if args.digest:
-                mode = "full" if args.full else "quick"
+                mode = "quick" if args.quick else "full"
                 full_text = TypikonDigestGenerator(engine).generate(ctx, rubrics, mode=mode)
                 
                 if getattr(args, 'html', False):

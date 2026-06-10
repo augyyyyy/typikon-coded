@@ -209,6 +209,26 @@
                     "num": 2
                   }
                 }
+              },
+              {
+                "id": "kath_3",
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_kathisma",
+                  "args": {
+                    "num": 3
+                  }
+                }
+              },
+              {
+                "id": "sess_3",
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_sessional",
+                  "args": {
+                    "num": 3
+                  }
+                }
               }
             ]
           }
@@ -632,6 +652,30 @@
                     }
                   }
                 }
+              },
+              {
+                "id": "kathisma_3",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_kathisma",
+                    "args": {
+                      "num": 3
+                    }
+                  }
+                }
+              },
+              {
+                "id": "sessional_3",
+                "content": {
+                  "type": "variable_logic",
+                  "logic": {
+                    "function": "resolve_sessional",
+                    "args": {
+                      "position": "after_kathisma_3"
+                    }
+                  }
+                }
               }
             ]
           }
@@ -721,11 +765,23 @@
               },
               {
                 "id": "ode_9_magnificat",
+                "type": "sequence",
+                "components": [
+                  {
+                    "id": "magnificat_logic",
+                    "type": "variable_logic",
+                    "logic": {
+                      "function": "resolve_magnificat"
+                    }
+                  },
+                  {
+                    "type": "canon_ode",
+                    "ode": 9
+                  }
+                ],
                 "rubric": {
                   "note": "At 9th Ode priest censes as at Great Matins."
-                },
-                "type": "canon_ode",
-                "ode": 9
+                }
               },
               {
                 "id": "katavasia_9",

@@ -28,8 +28,11 @@
                 <button class="nav-btn" id="nav-btn-browser" data-target="tab-browser">
                     <span class="btn-icon">📖</span> Book Browser
                 </button>
-                <button class="nav-btn" id="nav-btn-linter" data-target="tab-linter">
+                <button class="nav-btn dev-element" id="nav-btn-linter" data-target="tab-linter">
                     <span class="btn-icon">🔍</span> Linguistic Auditor
+                </button>
+                <button class="nav-btn" id="nav-btn-roadmap" data-target="tab-roadmap">
+                    <span class="btn-icon">🗺️</span> Feast & Roadmap
                 </button>
             </nav>
 
@@ -67,6 +70,46 @@
                     </div>
                 </div>
 
+                <!-- Settings collapsible drawer for Phase 1 Parameter Overrides -->
+                <details class="settings-drawer glass-container" id="resolution-settings-drawer">
+                    <summary class="settings-summary"><span class="settings-icon">⚙️</span> Liturgical Parameter Overrides</summary>
+                    <div class="settings-drawer-content">
+                        <div class="settings-group">
+                            <span class="settings-label">Paschalion (Computus):</span>
+                            <div class="radio-group">
+                                <label><input type="radio" name="opt-paschalion" id="opt-paschalion-gregorian" value="gregorian" checked> Gregorian</label>
+                                <label><input type="radio" name="opt-paschalion" id="opt-paschalion-julian" value="julian"> Julian</label>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <label for="opt-version" class="settings-label">Recension Source Assets:</label>
+                            <select id="opt-version" class="select-input">
+                                <option value="stamford_2014" selected>Stamford Divine Office (2014)</option>
+                                <option value="lviv_2018">Lviv Dolnytsky Recension (2018)</option>
+                            </select>
+                        </div>
+                        <div class="settings-group">
+                            <label for="opt-temple-feast" class="settings-label">Temple Patronal Feast Override:</label>
+                            <input type="text" id="opt-temple-feast" class="text-input" placeholder="MM-DD (e.g. 06-09)" maxlength="5">
+                        </div>
+                        <div class="settings-group">
+                            <span class="settings-label">Digest Layout Mode:</span>
+                            <div class="radio-group">
+                                <label><input type="radio" name="opt-digest-mode" id="opt-digest-full" value="full" checked> Full Digest</label>
+                                <label><input type="radio" name="opt-digest-mode" id="opt-digest-quick" value="quick"> Quick-Reference</label>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <span class="settings-label">Developer Dashboard:</span>
+                            <div class="radio-group">
+                                <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                                    <input type="checkbox" id="chk-dev-mode" style="width: auto; cursor: pointer; margin-right: 4px;"> Enable Developer Tools
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
                 <div id="calendar-results" class="calendar-layout">
                     <!-- Column 1: Context & Logic -->
                     <div class="layout-column context-col">
@@ -79,7 +122,7 @@
                             </div>
                         </div>
 
-                        <div class="card glass-container trace-card">
+                        <div class="card glass-container trace-card dev-element">
                             <h3 class="card-title">Engine Logic Trace</h3>
                             <div id="trace-content" class="trace-logs scrollable">
                                 <p class="placeholder-text">No active trace logs.</p>
@@ -240,6 +283,87 @@
                 </div>
             </section>
             
+            <!-- TAB 4: ROADMAP & ENCYCLOPEDIC HEALTH EXPLORER -->
+            <section class="tab-panel" id="tab-roadmap">
+                <div class="panel-header">
+                     <h1>Feast Cycle Guide & Roadmap</h1>
+                     <p class="subtitle">Explore active feast periods, timeline parameters, and project completion metrics</p>
+                </div>
+
+                <!-- Feast Cycle Explorer Widget -->
+                <div class="card glass-container feast-explorer-card">
+                     <h3 class="card-title">Feast Cycle Span Explorer</h3>
+                     <p class="card-description">Select a day in the feast cycle to explore fixed vs. relative text resolutions. The main Feast Day is bordered in gold.</p>
+                     
+                     <div class="feast-selector-bar">
+                         <label for="feast-cycle-select">Active Great Feast:</label>
+                         <select id="feast-cycle-select" class="select-input">
+                             <option value="nativity_theotokos">Nativity of the Most Holy Theotokos (Sept 7–12)</option>
+                         </select>
+                     </div>
+
+                     <div class="feast-timeline-row" id="feast-timeline-container">
+                         <!-- Rendered dynamically -->
+                     </div>
+
+                     <div class="feast-details-pane" id="feast-details-pane">
+                         <div class="details-placeholder">Click a timeline block above to inspect liturgical divisions.</div>
+                     </div>
+                </div>
+
+                <!-- 5 Wings & Logic Gates Layout -->
+                <div class="roadmap-layout-grid dev-element">
+                     <!-- 5 Wings Progress Card -->
+                     <div class="card glass-container wings-card">
+                         <h3 class="card-title">The 5 Wings of Typikon Coded</h3>
+                         <div class="wings-progress-list" id="wings-progress-container">
+                             <!-- Rendered dynamically -->
+                         </div>
+                     </div>
+
+                     <!-- Variant Coverage Matrix Card -->
+                     <div class="card glass-container matrix-card">
+                         <h3 class="card-title">Variant Coverage Matrix</h3>
+                         <div class="scrollable-wrapper">
+                             <div class="matrix-grid" id="matrix-grid-container">
+                                 <!-- Rendered dynamically -->
+                             </div>
+                         </div>
+                     </div>
+                </div>
+
+                <div class="roadmap-layout-grid dev-element">
+                     <!-- 13 Matins Logic Gates Card -->
+                     <div class="card glass-container gates-card">
+                         <h3 class="card-title">13 Matins Logic Gates Coverage</h3>
+                         <div class="scrollable-wrapper">
+                             <table class="gates-table">
+                                 <thead>
+                                     <tr>
+                                         <th>Gate</th>
+                                         <th>Service Component Description</th>
+                                         <th>Status</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody id="gates-table-body">
+                                     <!-- Rendered dynamically -->
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+
+                     <!-- Unresolved Gaps & Warnings Card -->
+                     <div class="card glass-container gaps-card">
+                         <h3 class="card-title">Active Gaps & Compiler Warnings</h3>
+                         <div class="scrollable-wrapper">
+                             <div class="gaps-list" id="gaps-list-container">
+                                 <!-- Rendered dynamically -->
+                             </div>
+                         </div>
+                     </div>
+                </div>
+            </section>
+            
         </main>
     </div>
 
@@ -247,5 +371,41 @@
     <div id="toast" class="toast hidden">Copied to clipboard!</div>
 
     <script src="main.js"></script>
+    <!-- Live Reload System -->
+    <script>
+        (function() {
+            function connect() {
+                const source = new EventSource('/api/live-reload');
+                
+                source.onmessage = function(event) {
+                    if (event.data === 'reload') {
+                        console.log('[Live Reload] Reloading page...');
+                        window.location.reload();
+                    }
+                };
+                
+                source.onerror = function() {
+                    console.log('[Live Reload] Server connection lost. Polling for restart...');
+                    source.close();
+                    
+                    // Poll root until the server is back online, then reload
+                    const interval = setInterval(() => {
+                        fetch('/')
+                            .then(response => {
+                                if (response.ok) {
+                                    clearInterval(interval);
+                                    console.log('[Live Reload] Server is online. Reloading...');
+                                    window.location.reload();
+                                }
+                            })
+                            .catch(() => {
+                                // Server is still restarting/offline, wait and try again
+                            });
+                    }, 1000);
+                };
+            }
+            connect();
+        })();
+    </script>
 </body>
 </html>

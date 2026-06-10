@@ -128,7 +128,7 @@ class EngineCore:
         self.general_menaion_db = self._load_json("json_db/common/text_general_menaion.json")
         # Overlay recension-specific General Menaion if available
         recension_menaion_path = f"json_db/{_cf}/text_general_menaion.json"
-        abs_common_path = os.path.abspath(recension_menaion_path)
+        abs_common_path = os.path.abspath(os.path.join(self.base_dir, recension_menaion_path))
         if os.path.exists(abs_common_path):
             recension_common = self._load_json(abs_common_path)
             self.general_menaion_db.update(recension_common)

@@ -54,12 +54,34 @@ class GenerationMixin:
         if saints:
             s_name = saints[0].get("name", saints[0].get("id", ""))
             if s_name:
-                components.append(f"St. {s_name}")
+                s_name_cleaned = s_name.strip()
+                if s_name_cleaned.lower().startswith("st."):
+                    components.append(s_name_cleaned)
+                elif s_name_cleaned.lower().startswith("st "):
+                    components.append("St. " + s_name_cleaned[3:])
+                else:
+                    components.append(f"St. {s_name_cleaned}")
         
         if len(components) <= 1:
             return {"header": components[0] if components else "Service", "components": components}
         
-        header = components[0] + " combined with " + ", and that of ".join(components[1:])
+        # Check if it's just a simple weekday + saint (no Triodion, no fore/afterfeast)
+        is_weekday = 0 < day_of_week <= 5
+        has_triodion = season in ("triodion", "pentecostarion")
+        has_feast_period = "forefeast" in full_text or "afterfeast" in full_text
+        if is_weekday and not has_triodion and not has_feast_period and len(components) == 2 and saints:
+            s_name = saints[0].get("name", saints[0].get("id", ""))
+            s_name_cleaned = s_name.strip().rstrip('.')
+            titles = ["hieromartyr", "protomartyr", "great martyr", "greatmartyr", "venerable", "martyr", "apostle", "archbishop", "bishop", "hierodeacon", "righteous", "prophet"]
+            s_name_lower = s_name_cleaned.lower()
+            if s_name_lower.startswith("st. ") or s_name_lower.startswith("st "):
+                rest = s_name_cleaned[4:].strip() if s_name_lower.startswith("st. ") else s_name_cleaned[3:].strip()
+                if any(t in rest.lower() for t in titles):
+                    s_name_cleaned = rest
+            header = f"Service of {s_name_cleaned}"
+        else:
+            header = components[0] + " combined with " + ", and that of ".join(components[1:])
+            
         return {"header": header, "components": components}
 
 
@@ -349,8 +371,53 @@ class GenerationMixin:
              abstract.append("")
 
 
-    def generate_typikon_digest(self, context, rubrics):
-        return TypikonDigestGenerator(self).generate(context, rubrics)
+    def generate_typikon_digest(self, context, rubrics, mode="full"):
+        raw_output = TypikonDigestGenerator(self).generate(context, rubrics, mode=mode)
+        return self._sanitize_digest_output(raw_output)
+
+    def _sanitize_digest_output(self, text):
+        if not text:
+            return ""
+        lines = text.splitlines()
+        clean_lines = []
+        for line in lines:
+            line_strip = line.strip()
+            
+            # Skip useless developer rubrics
+            if line_strip.lower() in [
+                "rubric: rubric", "rubric: description", "rubric:",
+                "> **rubric**: rubric", "> **rubric**: description", "> **rubric**:"
+            ]:
+                continue
+                
+            # Skip lines that look like file/line paths or parser reference logs
+            if ".txt:l" in line_strip.lower() or ".json" in line_strip.lower():
+                continue
+                
+            # Sanitize internal keys / raw variables
+            sanitized_line = line
+            
+            # Replace Tone_X or Tone_x with Roman numerals
+            def roman_replace(match):
+                num = int(match.group(1))
+                roman = {1: 'I', 2: 'II', 3: 'III', 4: 'IV', 5: 'V', 6: 'VI', 7: 'VII', 8: 'VIII'}.get(num, str(num))
+                return f"Tone {roman}"
+            sanitized_line = re.sub(r'\bTone[_\s]+([1-8])\b', roman_replace, sanitized_line, flags=re.IGNORECASE)
+            
+            # Replace generic internal keys like Eothinon_1_theotokion, saint_1, etc.
+            # Convert snake_case identifiers to title case/human readable text
+            def key_replace(match):
+                key = match.group(0)
+                if "_" in key:
+                    parts = key.split("_")
+                    return " ".join(p.capitalize() for p in parts)
+                return key
+            sanitized_line = re.sub(r'\b[a-zA-Z]+_[a-zA-Z0-9_]+\b', key_replace, sanitized_line)
+            sanitized_line = re.sub(r'(?<!\.)\.\.(?!\.)', '.', sanitized_line)
+            
+            clean_lines.append(sanitized_line)
+            
+        return "\n".join(clean_lines)
 
 
     def _legacy_generate_typikon_digest(self, context, rubrics):

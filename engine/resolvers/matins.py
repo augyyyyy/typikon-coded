@@ -362,7 +362,7 @@ class MatinsMixin:
             0: ["kathisma_2", "kathisma_3"],
             1: ["kathisma_4", "kathisma_5"],
             2: ["kathisma_6", "kathisma_7"],
-            3: ["kathisma_8", "kathisma_9"],
+            3: ["kathisma_8", "kathisma_9", "kathisma_10"],
             4: ["kathisma_10", "kathisma_11"],
             5: ["kathisma_13", "kathisma_14"], # Kathisma 12 is skipped? No, 12 is usually Mon Vespers?
             # 12 is usually Wed Matins in Lent. 
@@ -418,6 +418,20 @@ class MatinsMixin:
                  "gradual_type": "alleluia" # Signal to renderer to print Alleluia instead of God is the Lord
              }
         
+        # [4 NO] Saint Fallback: no troparion, use daily Octoechos troparion
+        day_of_week = context.get("day_of_week", 0)
+        is_no_troparion_saint = (context.get("dolnytsky_rank_code") == "[4 NO]" or context.get("variables", {}).get("dolnytsky_rank_code") == "[4 NO]")
+        if is_no_troparion_saint and not is_sunday:
+             return {
+                 "tone": 1 if day_of_week in (3, 5) else context.get("tone_of_week", 1),
+                 "sequence": [
+                     {"slot": 1, "content": "troparion_weekday", "count": 2},
+                     {"slot": 2, "content": "glory_both_now", "type": "combined"},
+                     {"slot": 3, "content": "theotokion", "count": 1}
+                 ],
+                 "rule_id": "weekday_no_troparion_saint"
+             }
+
         # Saints info handling
         saints = context.get("saints", [])
         actual_saints = [
@@ -1314,7 +1328,8 @@ class MatinsMixin:
             })
             
             # If saint present
-            saint_id = context.get('saint_id')
+            saints = context.get("saints", [])
+            saint_id = context.get('saint_id') or (saints[0].get("id") if saints and saints[0].get("id") else ("saint" if saints else None))
             if saint_id and rank <= 4:
                 troparia.append({
                     "type": "saint",
@@ -1336,9 +1351,10 @@ class MatinsMixin:
             }
         
         # Weekday saint
-        saint_id = context.get('saint_id')
+        saints = context.get("saints", [])
+        saint_id = context.get('saint_id') or (saints[0].get("id") if saints and saints[0].get("id") else ("saint" if saints else None))
         if saint_id:
-            saint_tone = context.get('saint_tone', 1)
+            saint_tone = context.get('saint_tone') or (saints[0].get("tone") or saints[0].get("troparion_tone", 1) if saints else 1)
             troparia.append({
                 "type": "saint",
                 "troparion_id": f"troparion_{saint_id}",
@@ -1598,7 +1614,8 @@ class MatinsMixin:
 
         # 3. Vigil, Polyeleos, Great Doxology on Weekday (Rank 2, 3, 4)
         # Uses Resurrectional Theotokion in the tone of the Saint's Troparion
-        if rank <= 4:
+        rank_id = self._get_rank_id(context)
+        if rank <= 4 and rank_id not in ("rank_simple_6", "rank_simple_4", "rank_doxology"):
             saints = context.get("saints", [])
             saint_tone = saints[0].get("tone", 1) if saints else tone
             return {
@@ -1611,23 +1628,30 @@ class MatinsMixin:
         # 4. Six Stichera / Simple Rank Weekday (Rank 5, 6)
         # Uses the Daily Dismissal Theotokion based on Tone of the Week and Day of Week
         
+        # For weekday saints without polyeleos/vigil, use the tone of the saint's troparion
+        theotokion_tone = tone
+        if rank_id in ("rank_simple_6", "rank_simple_4", "rank_doxology"):
+            saints = context.get("saints", [])
+            if saints:
+                theotokion_tone = saints[0].get("tone", 1) or saints[0].get("troparion_tone", 1)
+        
         # Exception for Wednesday and Friday: Stavrotheotokion
         if day_of_week in [3, 5] and not context.get("is_lent"):
             return {
                 "type": "weekday_dismissal_stavrotheotokion",
-                "ref_key": f"horologion.theotokion_dismissal.tone_{tone}.{weekday}",
+                "ref_key": f"horologion.theotokion_dismissal.tone_{theotokion_tone}.{weekday}",
                 "day_of_week": day_of_week,
-                "tone": tone,
-                "rubric_note": f"Dismissal Stavrotheotokion (Tone {tone}, {weekday.capitalize()})"
+                "tone": theotokion_tone,
+                "rubric_note": f"Dismissal Stavrotheotokion (Tone {theotokion_tone}, {weekday.capitalize()})"
             }
 
         # Normal Daily Theotokion
         return {
             "type": "weekday_dismissal_theotokion",
-            "ref_key": f"horologion.theotokion_dismissal.tone_{tone}.{weekday}",
+            "ref_key": f"horologion.theotokion_dismissal.tone_{theotokion_tone}.{weekday}",
             "day_of_week": day_of_week,
-            "tone": tone,
-            "rubric_note": f"Dismissal Theotokion (Tone {tone}, {weekday.capitalize()})"
+            "tone": theotokion_tone,
+            "rubric_note": f"Dismissal Theotokion (Tone {theotokion_tone}, {weekday.capitalize()})"
         }
 
 

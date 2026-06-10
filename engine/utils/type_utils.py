@@ -1,17 +1,18 @@
 def parse_rank_integer(rank_val):
     """
     Safely parses rank representations (integers, floats, numeric strings, or taxonomic string codes)
-    into standard integer ranks (1 = highest, 5 = lowest).
+    into standard integer ranks (1 = highest, 6 = lowest).
     
     Mapping:
     - 1: Great Feasts of Lord/Theotokos ("rank_vigil_lord", "LORD", "THEOTOKOS")
     - 2: Vigil / Polyeleos ("rank_vigil", "rank_polyeleos", "VIGIL", "POLYELEOS")
     - 3: Great Doxology ("rank_doxology", "GT_DOX")
     - 4: Six Stichera ("rank_simple_6", "SIX")
-    - 5: Simple / Small ("rank_simple_4", "SIMPLE", "ALLELUIA")
+    - 5: Simple with Troparion ("SIMPLE", "ALLELUIA")
+    - 6: Simple without Troparion ("rank_simple_4", "NO")
     """
     if rank_val is None:
-        return 5
+        return 6
     if isinstance(rank_val, int):
         return rank_val
     if isinstance(rank_val, float):
@@ -34,8 +35,10 @@ def parse_rank_integer(rank_val):
         return 3
     if "simple_6" in rank_str or "six" in rank_str:
         return 4
-    if "simple_4" in rank_str or "simple" in rank_str or "alleluia" in rank_str:
+    if "simple_4" in rank_str or rank_str == "no":
+        return 6
+    if "simple" in rank_str or "alleluia" in rank_str:
         return 5
         
     # Default fallback
-    return 5
+    return 6
