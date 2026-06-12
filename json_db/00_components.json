@@ -42,7 +42,7 @@
   "components": {
     "entrance_great": {
       "title_key": "titles.component_entrance",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L13",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.1.1",
       "sequence": [
         {
           "id": "procession",
@@ -75,7 +75,7 @@
     },
     "litiya_procession": {
       "title_key": "titles.component_litiya",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L43-46",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.1.9",
       "rubric": {
         "key": "rubrics.vigil.litiya_description"
       },
@@ -162,7 +162,7 @@
     },
     "artoklasia": {
       "title_key": "titles.component_artoklasia",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L52-53",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2",
       "sequence": [
         {
           "id": "artoklasia_censing",
@@ -197,7 +197,7 @@
     },
     "polyeleos": {
       "title_key": "titles.component_polyeleos",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L187",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.6",
       "sequence": [
         {
           "id": "polyeleos_psalms",
@@ -243,7 +243,7 @@
     },
     "matins_gospel_rite": {
       "title_key": "titles.component_gospel_rite",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L189-191",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.2.4",
       "sequence": [
         {
           "id": "gradual_antiphons",
@@ -325,7 +325,7 @@
     },
     "tomb_encomia_stations": {
       "title_key": "titles.component_encomia",
-      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1065",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:4.2.21.3",
       "sequence": [
         {
           "id": "station_1",
@@ -414,7 +414,7 @@
     },
     "exaltation_of_cross_stations": {
       "title_key": "titles.component_exaltation",
-      "source_ref": "Final_Dolnytsky_part3_menaion.md:L242",
+      "source_ref": "Final_Dolnytsky_part3_menaion.md:3.1.4",
       "sequence": [
         {
           "id": "direction_east_1",
@@ -485,7 +485,7 @@
     },
     "kneeling_prayers_pentecost": {
       "title_key": "titles.component_kneeling_prayers",
-      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1567",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:4.2.23.1",
       "sequence": [
         {
           "id": "station_1",
@@ -560,7 +560,7 @@
     },
     "shroud_procession_and_burial": {
       "title_key": "titles.component_shroud_procession",
-      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1819",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.1.3",
       "sequence": [
         {
           "id": "shroud_lifting",
@@ -609,7 +609,7 @@
     },
     "doxology_great_sung": {
       "title_key": "titles.component_doxology_great",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L218",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2",
       "sequence": [
         {
           "id": "glory_to_you_who_shown",
@@ -645,7 +645,7 @@
     },
     "doxology_small_read": {
       "title_key": "titles.component_doxology_small",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L240",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.2.5",
       "sequence": [
         {
           "id": "to_you_glory_belongs",

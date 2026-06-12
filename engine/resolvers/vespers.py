@@ -220,7 +220,7 @@ class VespersMixin:
                 }
 
         # FIX: For Saturday Vigil, use Sunday's stichera distribution (10 stichera)
-        # Citation: Final_Dolnytsky_part2_general_rubrics.md:L62
+        # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.1.3.7
         lookup_context = context.copy()
         if context.get("is_sunday_vigil") and context.get("day_of_week") == 6:
             lookup_context["day_of_week"] = 0  # Pretend it's Sunday for case matching
@@ -619,7 +619,7 @@ class VespersMixin:
             return {"type": "lenten_aposticha", "source": "triodion",
                     "reason": "Lenten weekday"}
         
-        # Final_Dolnytsky_part2_general_rubrics.md:L223
+        # Final_Dolnytsky_part2_general_rubrics.md:2.6.1.2
         if context.get("day_of_week") == 6:
             return {"type": "martyria_aposticha", "source": "octoechos",
                     "reason": "Saturday (Dolnytsky II:135)"}
@@ -630,7 +630,7 @@ class VespersMixin:
             return {"type": "saint_aposticha", "source": "menaion",
                     "reason": "Polyeleos/Vigil weekday (Dolnytsky II:196)"}
         
-        # Final_Dolnytsky_part2_general_rubrics.md:L132
+        # Final_Dolnytsky_part2_general_rubrics.md:2.3.2
         return {"type": "weekday_aposticha", "source": "octoechos",
                 "reason": "Standard weekday (Dolnytsky II:86)"}
 
@@ -1109,7 +1109,7 @@ class VespersMixin:
         }
 
     # MODULE A7: ROYAL HOURS TRIGGERS
-    # ref: Final_Dolnytsky_part3_menaion.md:L770
+    # ref: Final_Dolnytsky_part3_menaion.md:3.4.7
 
 
     def resolve_prokeimenon(self, context):
@@ -1328,7 +1328,7 @@ class VespersMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.md:L1819")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.md:4.1.1.3")
     def resolve_passion_vespers_readings(self, context, rubrics=None):
         """
         Passion Vespers Readings (Good Friday Evening).
@@ -1386,7 +1386,7 @@ class VespersMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L13")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.1")
     def resolve_daily_kathisma(self, context, rubrics=None):
         """
         Resolves the daily kathisma for Vespers.

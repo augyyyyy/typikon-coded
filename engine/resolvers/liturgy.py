@@ -332,7 +332,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L533")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.20.2")
     def resolve_trisagion_type(self, context, rubrics=None):
         """
         Trisagion Type Selection for Liturgy.
@@ -512,7 +512,7 @@ class LiturgyMixin:
         return {"type": "text", "content": "".join(parts)}
 
 
-    @liturgical_source(dolnytsky="Final_footnotes.md:L807")
+    @liturgical_source(dolnytsky="Final_footnotes.md:6.4")
     def resolve_basil_megalynarion(self, context, rubrics=None):
         """
         Megalynarion for Liturgy of St. Basil.
@@ -555,7 +555,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L207")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5")
     def resolve_communion_hymn(self, context, rubrics=None):
         """
         Communion Hymn (Причастен/Koinonikon).
@@ -690,7 +690,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L129")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.2.1.11")
     def resolve_post_communion_hymn(self, context, rubrics=None):
         """
         Post-Communion Hymn: "We Have Seen the True Light" replacement.
@@ -746,7 +746,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L760")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.6.3")
     def resolve_vesperal_liturgy_readings(self, context, rubrics=None):
         """
         Phase 7: Resolve Vesperal Liturgy Readings
@@ -814,7 +814,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L207")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5")
     def resolve_liturgy_readings(self, context, rubrics=None):
         """
         Unified Liturgy Readings Resolution.
@@ -1173,7 +1173,7 @@ class LiturgyMixin:
         return {"type": "koinonikon_stack", "components": stack}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.4")
     def resolve_reading_ot(self, context, rubrics):
         """
         Resolve Old Testament reading (paremia/prophecy).
@@ -1195,7 +1195,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.4")
     def resolve_reading_epistle(self, context, rubrics):
         """
         Resolve Epistle reading.
@@ -1223,7 +1223,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.4")
     def resolve_reading_gospel(self, context, rubrics):
         """
         Resolve Gospel reading.
@@ -1253,7 +1253,7 @@ class LiturgyMixin:
     # PHASE 12: ALL-NIGHT VIGIL (EXTREME)
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L121,L192")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.2.3.8,L192")
     def resolve_beatitudes(self, context):
         """
         Gate: Beatitudes (Third Antiphon)
@@ -1308,7 +1308,7 @@ class LiturgyMixin:
         return {"type": "third_antiphon", "note": "Usual Third Antiphon without stichera"}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L207")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5")
     def resolve_liturgy_alleluia(self, context, rubrics=None):
         """
         Resolve Liturgy Alleluia tone and verses based on readings.

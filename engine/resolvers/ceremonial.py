@@ -840,4 +840,4 @@ class CeremonialMixin:
         return True
 
     # MODULE A10: HIERARCHY (LITANY LOGIC)
-    # ref: Final_Dolnytsky_part5_temple.md:L2
+    # ref: Final_Dolnytsky_part5_temple.md:V

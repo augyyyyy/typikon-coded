@@ -10,7 +10,7 @@
   "structures": {
     "all_night_vigil": {
       "title_key": "titles.all_night_vigil",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L13",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.1.1",
       "sequence": [
         {
           "id": "opening_vigil",

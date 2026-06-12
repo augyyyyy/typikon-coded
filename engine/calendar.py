@@ -523,7 +523,7 @@ class CalendarMixin:
 
     def _apply_lookahead(self, context, rubrics):
         # 1. Vespers LOOKAHEAD (Saturday Evening -> Sunday)
-        # Citation: Final_Dolnytsky_part2_general_rubrics.md:L57
+        # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.1.3.4
         if context["day_of_week"] == 6: # Saturday
             current_date = date(context["year"], context["month"], context["day"])
             next_date = current_date + timedelta(days=1)
@@ -551,7 +551,7 @@ class CalendarMixin:
         
         elif context["day_of_week"] == 0: # Sunday - direct check
             # When generating Sunday's service directly (not via Saturday lookahead)
-            # Citation: Final_Dolnytsky_part2_general_rubrics.md:L57
+            # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.1.3.4
             if context.get("pascha_offset") != 0:
                 rubrics["is_sunday"] = True
                 rubrics.setdefault("overrides", {})
@@ -565,7 +565,7 @@ class CalendarMixin:
                 rubrics["_trace"].append("Sunday: Services set to Great Vespers/Matins with Vigil structure.")
 
         # 3. Great Feast LOOKAHEAD (Menaion Rank-Based Vigil)
-        # Citation: Final_Dolnytsky_part1_structure.md:L13
+        # Citation: Final_Dolnytsky_part1_structure.md:1.2.1.1
         # Great Feasts (rank_vigil_lord, rank_vigil_theotokos, rank_vigil_saint) use Vigil structure
         menaion_rank = rubrics.get("variables", {}).get("menaion_rank", "")
         # Bypass for Pascha Sunday and Bright Week (offsets 0-6)

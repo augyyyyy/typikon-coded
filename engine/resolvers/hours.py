@@ -365,7 +365,7 @@ class HoursMixin:
             return {"type": "prayer", "ref_key": "horologion.prayer_mardarius"}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L779")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
     def resolve_royal_psalms(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -388,7 +388,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L779")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
     def resolve_royal_stichera(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -408,7 +408,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L779")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
     def resolve_royal_readings(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -427,7 +427,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L779")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
     def resolve_royal_troparia(self, context, rubrics, hour=None):
         """
         No specific daily troparia in Royal Hours. Handled by Idiomela.
@@ -436,7 +436,7 @@ class HoursMixin:
         return {"type": "sequence", "components": []}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L779")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
     def resolve_royal_kontakion(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -511,7 +511,7 @@ class HoursMixin:
         }
 
     # MODULE A6: TYPIKA ENGINE
-    # ref: Final_Dolnytsky_part3_menaion.md:L801
+    # ref: Final_Dolnytsky_part3_menaion.md:3.4.7.1.1
 
     def resolve_typika_beatitudes(self, context):
         """
@@ -565,7 +565,7 @@ class HoursMixin:
         }
 
     # MODULE A4: COMPLINE LOGIC
-    # ref: Final_Dolnytsky_part1_structure.md:L139
+    # ref: Final_Dolnytsky_part1_structure.md:1.5.1
 
     def resolve_midnight_office_mode(self, context):
         """
@@ -614,10 +614,10 @@ class HoursMixin:
              }
 
     # MODULE A8: VIGIL COMMONS (LITYA & ARTOKLASIA)
-    # ref: Final_Dolnytsky_part1_structure.md:L43
+    # ref: Final_Dolnytsky_part1_structure.md:1.2.1.9
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L760")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.6.3")
     def check_royal_hours_trigger(self, context):
         """
         Implements Logic Gate A7: Royal Hours Trigger.
@@ -654,7 +654,7 @@ class HoursMixin:
         return False
 
     # MODULE A9: INTER-HOURS (MESHCHORIE)
-    # ref: Final_Dolnytsky_part3_menaion.md:L770
+    # ref: Final_Dolnytsky_part3_menaion.md:3.4.7
 
 
     def resolve_midnight_troparia(self, context):
@@ -728,7 +728,7 @@ class HoursMixin:
     # =========================================================================
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L797")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7.1")
     def resolve_typika_kontakia(self, context):
         """
         Typika: Kontakia order
@@ -738,7 +738,7 @@ class HoursMixin:
             "order": ["temple", "day", "saint", "glory_with_the_saints", "both_now_undisputed_intercessor"]
         }
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L453", dolnytsky="Final_Dolnytsky_part1_structure.md:L13")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L453", dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.1")
     def check_service_continuity(self, context, check="is_preceding_service_connected"):
         """
         Check if the preceding service is connected to skip opening blessing.

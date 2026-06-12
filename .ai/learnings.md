@@ -296,8 +296,8 @@ When switching models:
 
 ## IX. Citation Grounding & Alignment (2026-06-07)
 
-1. **100% Canonical Grounding**: Every rule in the JSON database (301 instances) and Python engine logic (37 instances) is mapped to exact line numbers in the official text files (`Final_Dolnytsky_*.txt` and `Ordo_Celebrationis_1996_CLEAN.md`).
-2. **Master Citation Matrix**: The system programmatically proves its canonical accuracy by cross-referencing logic calls against the physical text of the rule in `.agent/brain/encyclopedia/master_citation_matrix.md`.
+1. **100% Canonical Grounding**: Every rule in the JSON database (301 instances) and Python engine logic (37 instances) is mapped to path-qualified headings in the official text files (`Final_Dolnytsky_*.md` and `Ordo_Celebrationis_1996_CLEAN.md`).
+2. **Master Citation Matrix**: The system programmatically proves its canonical accuracy by cross-referencing logic calls against the physical text of the rule in `docs/encyclopedia/master_citation_matrix.md`.
 3. **Hierarchy of Truth**: Engine resolution relies on `Ordo > Dolnytsky > Liturgicon`. Any new logic added to the system MUST use the `@liturgical_source` decorator in Python or the `source_ref` property in JSON structures to trace back to these exact sources.
 4. **Pascha Collision**: Movable feast collisions (like Pascha vs. fixed Menaion feasts) are handled via explicit overrides (`movable_overrides`) in `engine/calendar.py` to prevent the fixed calendar from asserting dominance over the Resurrection of Christ.
 
@@ -359,3 +359,23 @@ When switching models:
 3. **Reference Files Markdown Migration**:
    - **In-Place Formatting**: Renamed all `Final_Dolnytsky_*.txt` files and `Ordo_Celebrationis_1996_CLEAN.md` to `.md` format. Modified header formatting in-place to preserve exact line counts, protecting all database line-grounding (`source_ref`) citations.
    - **Search & Replace**: Ran a global script to update file references across all JSON, Python, and Markdown files in the codebase, and deleted duplicate plain text files. All 306 unit tests passed successfully.
+
+## XV. Saint Suppression and Weekday Feast Paradigm Resolution (2026-06-12)
+
+1. **Saint Suppression Bug (Co-suffering of the Theotokos)**:
+   - Unified the saint suppression logic in `_resolve_rubrics_logic` inside [engine/rubrics.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/rubrics.py) by clearing `context["saints"] = []` when either `suppress_saints` or `suppress_menaion_saint` is set in the variables context. This prevents daily saint propers from bleeding into service structures during major feasts.
+   - Modified `case_10_feast_of_lord` in [json_db/02a_logic_general.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02a_logic_general.json) to assign the proper `"glory": "feast_doxastikon"` and `"both_now": "feast_theotokion"` in `vespers_stichera_distribution` to prevent falling back to daily weekday saint doxastikon/theotokion.
+
+2. **Feast Paradigm Integration**:
+   - Updated `identify_paradigm` in [engine/rubrics.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/rubrics.py) to check `feast_level` and return `"p_feast_theotokos"` or `"p_feast_lord"` for weekday feasts of the Lord or Theotokos.
+   - Updated `hours.py` (`resolve_hours_troparia` and `resolve_hours_kontakion`), `matins.py` (`resolve_matins_dismissal_troparion`), and `vespers.py` (`resolve_vespers_troparia_simple`) to check `feast_level` and fallback to paradigm matching, ensuring festal troparia and kontakion resolve correctly instead of falling back to daily weekday saint behavior.
+
+3. **Wednesday/Friday Liturgy Precedence**:
+   - Modified [engine/resolvers/liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/liturgy.py) to bypass Wednesday/Friday Cross precedence for feasts of the Lord/Theotokos, selecting the `"festal_only"` template.
+
+4. **Sessional Hymns**:
+   - Updated [engine/resolvers/common.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/common.py) (`resolve_sessional`) to pull sessional hymns from the Triodion/Pentecostarion for moveable feasts of rank 3 or higher.
+
+5. **Pentecostarion Fuzzer**:
+   - Added [scripts/pentecostarion_fuzzer.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/scripts/pentecostarion_fuzzer.py) to audit and log resolved liturgical variables (Compline canon, Katavasia, Magnificat, fasting rules) across all offsets (0 to 67) of the 2026 Pentecostarion/Eucharist cycle.
+

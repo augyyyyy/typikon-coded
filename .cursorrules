@@ -98,7 +98,7 @@ A FULL liturgical day digest must account for ALL of these services (where appli
    - Never leave plans in chat only. Always persist active tasks and plans to disk.
    - Update `.ai/learnings.md` when new liturgical logic or edge cases are resolved.
    - Update `.agent/brain/project_brainprint.md` when test counts, file structure, or resolver counts change.
-2. **Dolnytsky Citations**: All liturgical logic changes MUST cite Dolnytsky line numbers or specific rules from the 20 Paradigms. No vague assumptions.
+2. **Dolnytsky Citations**: All liturgical logic changes MUST cite Dolnytsky path-qualified headings (e.g. `1.2.1.1` or `4.1.10.2.3`) or specific rules from the 20 Paradigms. No vague assumptions.
 3. **Master Keys**: Text IDs must follow the flattened schema format (e.g., `tone_1.sat_vespers.stichera_lord_i_call`). Do not use deeply nested dictionaries for text lookup.
 4. **No Abbreviations in Output**: The generated digest must use full, unabbreviated liturgical terms.
 5. **Vestment Colours**: Must include ALL valid options for the day (e.g., "Bright [blue for the forefeast or gold]"), not just a single colour.
@@ -109,15 +109,19 @@ A FULL liturgical day digest must account for ALL of these services (where appli
 ## Validation & Testing
 Run these commands before committing any major logic changes:
 ```bash
-# Full test suite (255 tests expected)
-python -m pytest tests/ -v
+# Full test suite (306 tests expected)
+$env:PYTHONPATH="."; .venv\Scripts/pytest
 
-# Validate JSON schemas (24/24 files expected)
+# Validate JSON schemas (26/26 files expected)
 python tests/validate_schemas.py
 
 # Matins stress tests specifically
-python -m pytest tests/test_matins_stress_2_saints.py -v
-python -m pytest tests/test_matins_gold_standard.py -v
+$env:PYTHONPATH="."; .venv\Scripts/pytest tests/test_matins_stress_2_saints.py -v
+$env:PYTHONPATH="."; .venv\Scripts/pytest tests/test_matins_gold_standard.py -v
+
+# Fuzz and Stress testing (Century fuzzer and Pentecostarion fuzzer)
+$env:PYTHONPATH="."; .venv\Scripts/python scripts/run_century_fuzzer.py --start-year 2000 --end-year 2099
+$env:PYTHONPATH="."; .venv\Scripts/python scripts/pentecostarion_fuzzer.py
 ```
 
 ### Digest Validation (NEW — MANDATORY)
@@ -126,6 +130,7 @@ After any change to `typikon_digest_generator.py`, run:
 python generate_typikon_service.py --date 2026-02-01 --digest --no-open
 ```
 Then compare the output against the PDF: `C:\Users\augus\OneDrive\Desktop\Typikon digest\TYPICON February 1 Prodigal Son.pdf`
+
 
 ---
 

@@ -10,7 +10,7 @@
   "structures": {
     "structure_standard": {
       "title_key": "titles.hour_9_standard",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L246-250",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.2.5",
       "sequence": [
         {
           "id": "opening_prayers",
@@ -105,7 +105,7 @@
     },
     "structure_lenten": {
       "title_key": "titles.hour_9_lenten",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:L246-250",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.2.5",
       "inherits_from": "structure_standard",
       "overrides": [
         {
@@ -144,7 +144,7 @@
             "id": "lenten_troparia_9",
             "rubric": {
               "title": "Lenten Troparia",
-              "source_ref": "Final_Dolnytsky_part4_triodion.md:L363",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.12",
               "roles": {
                 "all": "At each singing of the troparion, bend the knees to the ground."
               }
@@ -173,7 +173,7 @@
             "id": "typika_transition",
             "rubric": {
               "title": "Transition to Typika",
-              "source_ref": "Final_Dolnytsky_part4_triodion.md:L365",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.12",
               "roles": {
                 "all": "Proceed immediately to the Typika service."
               }
@@ -193,7 +193,7 @@
     },
     "structure_royal": {
       "title_key": "titles.hour_9_royal",
-      "source_ref": "Final_Dolnytsky_part3_menaion.md:L757, Final_Dolnytsky_part4_triodion.md:L1010",
+      "source_ref": "Final_Dolnytsky_part3_menaion.md:3.4.6.2, Final_Dolnytsky_part4_triodion.md:4.2.18.4",
       "inherits_from": "structure_standard",
       "overrides": [
         {
@@ -263,7 +263,7 @@
     },
     "structure_paschal": {
       "title_key": "titles.hour_9_paschal",
-      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1159-1160",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:4.2.20.2",
       "sequence": [
         {
           "id": "christ_is_risen_3x",

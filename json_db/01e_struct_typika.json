@@ -11,7 +11,7 @@
     "structure_standard": {
       "title_key": "titles.typika_standard",
       "description_key": "descriptions.typika_standard",
-      "source_ref": "Final_Dolnytsky_part3_menaion.md:L801",
+      "source_ref": "Final_Dolnytsky_part3_menaion.md:3.4.7.1.1",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -34,7 +34,7 @@
         {
           "id": "horologion.psalm_102",
           "section_key": "sections.psalmody",
-          "source_ref": "Final_Dolnytsky_part3_menaion.md:L803",
+          "source_ref": "Final_Dolnytsky_part3_menaion.md:3.4.7.1.2",
           "rubric": {
             "title": "Psalm 102",
             "roles": {
@@ -49,7 +49,7 @@
         {
           "id": "horologion.psalm_145",
           "section_key": "sections.psalmody",
-          "source_ref": "Final_Dolnytsky_part3_menaion.md:L803",
+          "source_ref": "Final_Dolnytsky_part3_menaion.md:3.4.7.1.2",
           "content": {
             "type": "fixed_ref",
             "ref_key": "horologion.psalm_145_praise_the_lord"
@@ -66,7 +66,7 @@
         {
           "id": "beatitudes_block",
           "section_key": "sections.beatitudes",
-          "source_ref": "Final_Dolnytsky_part3_menaion.md:L805",
+          "source_ref": "Final_Dolnytsky_part3_menaion.md:3.4.7.1.3",
           "rubric": {
             "title": "The Beatitudes",
             "note": "Sing the Beatitudes, inserting appointed stichera from the Octoechos/Menaion if prescribed.",
@@ -121,7 +121,7 @@
         {
           "id": "communion_module",
           "section_key": "sections.communion",
-          "source_ref": "Final_Dolnytsky_part3_menaion.md:L807",
+          "source_ref": "Final_Dolnytsky_part3_menaion.md:3.4.7.1.3",
           "sequence": [
             {
               "id": "remember_us",
@@ -153,7 +153,7 @@
         {
           "id": "kontakion_block",
           "section_key": "sections.kontakion",
-          "source_ref": "Final_Dolnytsky_part3_menaion.md:L808",
+          "source_ref": "Final_Dolnytsky_part3_menaion.md:3.4.7.1.3",
           "rubric": {
             "title": "Kontakia",
             "note": "Read the Kontakia in the prescribed order (Temple, Day, Saint).",
@@ -182,7 +182,7 @@
         {
           "id": "conclusion_standard",
           "section_key": "sections.conclusion",
-          "source_ref": "Final_Dolnytsky_part3_menaion.md:L810",
+          "source_ref": "Final_Dolnytsky_part3_menaion.md:3.4.7.1.4",
           "sequence": [
             {
               "id": "lord_have_mercy_3x",
@@ -210,7 +210,7 @@
     },
     "structure_lenten": {
       "title_key": "titles.typika_lenten",
-      "source_ref": "Final_Dolnytsky_part4_triodion.md:L208",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.7.3",
       "rubric": {
         "title": "Lenten Typika",
         "roles": {
@@ -221,7 +221,7 @@
         {
           "id": "beatitudes_lenten",
           "section_key": "sections.beginning",
-          "source_ref": "Final_Dolnytsky_part4_triodion.md:L387",
+          "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.12.1",
           "rubric": {
             "title": "Lenten Beatitudes",
             "roles": {
@@ -279,7 +279,7 @@
         {
           "id": "kontakia_lenten",
           "section_key": "sections.kontakion",
-          "source_ref": "Final_Dolnytsky_part4_triodion.md:L397",
+          "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.13.1.2",
           "rubric": {
             "title": "Lenten Kontakia",
             "roles": {
@@ -307,7 +307,7 @@
         {
           "id": "prayer_st_ephrem",
           "section_key": "sections.conclusion",
-          "source_ref": "Final_Dolnytsky_part4_triodion.md:L398",
+          "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.13.1.3",
           "rubric": {
             "title": "Prayer of St. Ephrem",
             "roles": {
@@ -322,7 +322,7 @@
         {
           "id": "final_prayer_block",
           "section_key": "sections.conclusion",
-          "source_ref": "Final_Dolnytsky_part4_triodion.md:L400",
+          "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.13.1.4",
           "rubric": {
             "title": "Prayer of the 9th Hour",
             "note": "Transferred to the end of Typika during Lent."
