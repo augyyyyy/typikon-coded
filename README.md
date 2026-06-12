@@ -100,6 +100,12 @@ For more detailed information, please refer to:
 - [Contributing](CONTRIBUTING.md): How to contribute code or textual corrections.
 - [Academic Alignment](docs/thesis_alignment_analysis.md): A comparative analysis of this engine against the 2011 Master's Thesis "Automating the Byzantine Typikon".
 
+### v1.2.0 (2026-06-12) - Common & Annual Typikon Engine Optimization
+*   **Annual Almanac Generator**: Precomputes and serializes all date contexts, rubrics titles, variables, overrides, readings, and Petras formats for an entire calendar year to JSON database files (`json_db/almanac/`).
+*   **Fast-Path Resolution**: Integrated lazy-loading in core initialization and fast paths in the calendar, rubrics, and liturgy modules, bypassing heavy runtime computing in favor of instant O(1) almanac lookups.
+*   **Petras Format Mapping**: Created standard translation tables translating all 20 general case paradigms and seasonal periods to the 18 physical formats of the David Petras *Common Typikon*.
+*   **Liturgical Bug Fixes**: Corrected saint suppression, sessional hymn retrieval, Wednesday/Friday Liturgy precedence, Compline canon selection, and dismissal troparia stacking for afterfeasts and apodoseis.
+
 ### v1.1.0 (2026-06-10) - The Cantor Dashboard & Hybrid Orchestration
 *   **Cantor Dashboard**: Released an interactive GUI built on a lightweight Python server. Features include a hot-reloading liturgical parameters panel (Julian/Gregorian, Version, Digest Mode), responsive liturgical booklets, and the /api/roadmap endpoint for health metrics.
 *   **Hybrid Inherited Model**: Centralized cross-cutting concerns (like DeepSeek token constraints, system compliance) into a master `GLOBAL_SYSTEM_RULES.md` at the hub, while spoke directories maintain their own localized `.cursorrules` that inherit from the master.

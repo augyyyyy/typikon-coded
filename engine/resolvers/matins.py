@@ -406,8 +406,22 @@ class MatinsMixin:
         # Pre-calculate boolean flags for readability
         is_sunday = context.get("day_of_week") == 0 or context.get("is_sunday_vigil")
         rank = self.calculate_rank(context)
-        is_feast_lord = context.get("feast_level") == "lord" or rank == 1
-        is_feast_theotokos = context.get("feast_level") == "theotokos"
+        
+        pascha_offset = context.get("pascha_offset")
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("is_afterfeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"] or
+            (pascha_offset is not None and 60 <= pascha_offset <= 67)
+        )
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
+            is_fore_after = True
+
+        is_feast_lord = (context.get("feast_level") == "lord" or rank == 1) and not (is_fore_after and rank <= 3)
+        is_feast_theotokos = (context.get("feast_level") == "theotokos") and not (is_fore_after and rank <= 3)
         
         # Lenten Alleluia Check (Final_Dolnytsky_part4_triodion.md:4.1.9.1.4)
         # Applied if: Lenten Period + Weekday + Not a Feast/Polyeleos
@@ -433,7 +447,7 @@ class MatinsMixin:
         # [4 NO] Saint Fallback: no troparion, use daily Octoechos troparion
         day_of_week = context.get("day_of_week", 0)
         is_no_troparion_saint = (context.get("dolnytsky_rank_code") == "[4 NO]" or context.get("variables", {}).get("dolnytsky_rank_code") == "[4 NO]")
-        if is_no_troparion_saint and not is_sunday:
+        if is_no_troparion_saint and not is_sunday and not is_fore_after:
              return {
                  "tone": 1 if day_of_week in (3, 5) else context.get("tone_of_week", 1),
                  "sequence": [
@@ -1374,13 +1388,33 @@ class MatinsMixin:
         
         Citation: Dolnytsky Part I Line 159
         """
-        rank = parse_rank_integer(context.get('rank', 5))
+        rank = context.get("rank", 5)
+        if isinstance(rank, str):
+            rank = parse_rank_integer(rank)
+        else:
+            try:
+                rank = self.calculate_rank(context)
+            except:
+                pass
+        pascha_offset = context.get("pascha_offset")
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("is_afterfeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"] or
+            (pascha_offset is not None and 60 <= pascha_offset <= 67)
+        )
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
+            is_fore_after = True
+
         day_of_week = context.get('day_of_week', 0)
         
         troparia = []
         
         # Great Feast: Feast troparion dominates
-        if rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]:
+        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and not (is_fore_after and rank <= 3):
             feast_id = context.get('feast_id', '')
             troparia.append({
                 "type": "festal",

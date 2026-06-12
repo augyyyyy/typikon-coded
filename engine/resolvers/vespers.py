@@ -961,7 +961,27 @@ class VespersMixin:
         paradigm = context.get("paradigm")
         if not paradigm:
             paradigm = self.identify_paradigm(context)
-        rank = parse_rank_integer(context.get("rank", 5))
+        rank = context.get("rank", 5)
+        if isinstance(rank, str):
+            rank = parse_rank_integer(rank)
+        else:
+            try:
+                rank = self.calculate_rank(context)
+            except:
+                pass
+        pascha_offset = context.get("pascha_offset")
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("is_afterfeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"] or
+            (pascha_offset is not None and 60 <= pascha_offset <= 67)
+        )
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
+            is_fore_after = True
+
         tone = context.get("tone", 1)
         day_of_week = context.get("day_of_week", 0)
         saints = context.get("saints", [])
@@ -972,7 +992,7 @@ class VespersMixin:
         }
         
         # RULE: Great Feast - Feast supremacy
-        if paradigm == "p_feast_lord" or rank == 1:
+        if (paradigm == "p_feast_lord" or rank == 1) and not (is_fore_after and rank <= 3):
             result["components"] = [
                 {"type": "fixed_ref", "ref_key": "feast.troparion"},
                 {"type": "glory_both_now", "ref_key": "feast.theotokion"}
@@ -980,7 +1000,7 @@ class VespersMixin:
             return result
         
         # RULE: Theotokos Feast
-        if paradigm == "p_feast_theotokos":
+        if paradigm == "p_feast_theotokos" and not (is_fore_after and rank <= 3):
             result["components"] = [
                 {"type": "fixed_ref", "ref_key": "feast.troparion"},
                 {"type": "glory_both_now", "ref_key": "feast.theotokion"}

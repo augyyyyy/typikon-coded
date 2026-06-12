@@ -412,7 +412,10 @@ class RubricsMixin:
                 else:
                     if ctx_type != t_trigger: continue
 
-            return get_resolved_case(case_def)
+            case_dict = copy.deepcopy(get_resolved_case(case_def))
+            if "id" not in case_dict or case_dict["id"] is None:
+                case_dict["id"] = key
+            return case_dict
             
         # FIX Issue #3: Instead of returning None, provide a safe default case
         # This prevents downstream None errors in resolve_vespers_stichera, resolve_praises_stack, etc.
@@ -589,6 +592,15 @@ class RubricsMixin:
 
 
     def resolve_rubrics(self, context):
+        # Almanac fast-path check
+        if context.get("_almanac_used"):
+            return {
+                "title": context.get("rubrics_title", ""),
+                "variables": copy.deepcopy(context.get("variables", {})),
+                "overrides": copy.deepcopy(context.get("overrides", {})),
+                "_trace": ["Rubrics resolved via pre-computed almanac."]
+            }
+        
         # ... (This logic is now stable) ...
         return self._resolve_rubrics_logic(context)
 

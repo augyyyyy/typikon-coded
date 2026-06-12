@@ -49,6 +49,15 @@ class CalendarMixin:
     def get_liturgical_context(self, target_date):
         year = target_date.year
         
+        # Almanac fast-path check
+        almanac = self._get_almanac(year)
+        if almanac:
+            date_str = target_date.isoformat()
+            if date_str in almanac.get("days", {}):
+                day_context = copy.deepcopy(almanac["days"][date_str])
+                day_context["_almanac_used"] = True
+                return day_context
+
         if self.paschalion == "julian":
             # Orthodox/Julian Pascha Calculation (Julian Algorithm)
             # Based on Meeus/Jones/Butcher

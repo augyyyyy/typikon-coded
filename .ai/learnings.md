@@ -379,3 +379,11 @@ When switching models:
 5. **Pentecostarion Fuzzer**:
    - Added [scripts/pentecostarion_fuzzer.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/scripts/pentecostarion_fuzzer.py) to audit and log resolved liturgical variables (Compline canon, Katavasia, Magnificat, fasting rules) across all offsets (0 to 67) of the 2026 Pentecostarion/Eucharist cycle.
 
+## XVI. Common & Annual Typikon Engine Optimization (2026-06-12)
+
+1. **Almanac Architecture**: Decoupled yearly calendar calculations and Paschalion math from liturgical skeleton resolution. Created `scripts/generate_annual_almanac.py` to precompute and write the entire context, variables, overrides, readings, and Petras formats for every date of the year to `json_db/almanac/annual_almanac_<year>.json`.
+2. **Fast-Path Resolution**: Added lazy loading in `EngineCore` (`engine/core.py`) and fast-paths in `get_liturgical_context` (`engine/calendar.py`), `resolve_rubrics` (`engine/rubrics.py`), and `resolve_liturgy_readings` (`engine/resolvers/liturgy.py`) that bypass runtime calculations if an almanac for the queried year is present.
+3. **Petras Format Mappings**: Mapped the 20 Dolnytsky general cases, Lenten Alleluia periods, and Sundays to the 18 physical formats of the David Petras *Common Typikon* in `json_db/petras_format_map.json`.
+4. **Validation and Hardening**: Added `tests/test_annual_almanac_consistency.py` to assert that live calculations match the precomputed almanac exactly across all 365 days. Fixed a critical type mismatch where `context["rank"]` was stored as a string (e.g. `"rank_polyeleos"`) instead of an integer in the almanac, preventing runtime crashes in `check_presanctified_trigger`. All 310 tests pass successfully.
+
+

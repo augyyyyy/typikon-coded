@@ -828,6 +828,9 @@ class LiturgyMixin:
         
         Handles multiple readings for Sunday + Saint, etc.
         """
+        if context.get("_almanac_used") and "readings" in context:
+            return copy.deepcopy(context["readings"])
+
         # Check for explicit override in variables
         if rubrics:
             overrides = rubrics.get("variables", {}) or rubrics.get("overrides", {})

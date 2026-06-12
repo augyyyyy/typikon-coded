@@ -109,7 +109,7 @@ A FULL liturgical day digest must account for ALL of these services (where appli
 ## Validation & Testing
 Run these commands before committing any major logic changes:
 ```bash
-# Full test suite (306 tests expected)
+# Full test suite (310 tests expected)
 $env:PYTHONPATH="."; .venv\Scripts/pytest
 
 # Validate JSON schemas (26/26 files expected)
@@ -122,6 +122,10 @@ $env:PYTHONPATH="."; .venv\Scripts/pytest tests/test_matins_gold_standard.py -v
 # Fuzz and Stress testing (Century fuzzer and Pentecostarion fuzzer)
 $env:PYTHONPATH="."; .venv\Scripts/python scripts/run_century_fuzzer.py --start-year 2000 --end-year 2099
 $env:PYTHONPATH="."; .venv\Scripts/python scripts/pentecostarion_fuzzer.py
+
+# Annual Almanac commands
+$env:PYTHONPATH="."; .venv\Scripts/python scripts/generate_annual_almanac.py --year 2026
+$env:PYTHONPATH="."; .venv\Scripts/pytest tests/test_annual_almanac_consistency.py -v
 ```
 
 ### Digest Validation (NEW — MANDATORY)

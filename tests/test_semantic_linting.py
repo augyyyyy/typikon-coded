@@ -79,6 +79,36 @@ class TestSemanticLinting:
         assert compline_canon.get("subject") == "theotokos"
         assert compline_canon.get("book") == "octoechos"
 
+        # 4. Hours Propers (Alternation of Feast and Saint)
+        # 1st Hour: Feast Troparion and Kontakion
+        h1_trop = self.engine.resolve_hours_troparia({**context, "hour": 1}, rubrics)
+        assert h1_trop["components"] == ["trop_feast"]
+        h1_kont = self.engine.resolve_hours_kontakion({**context, "hour": 1}, rubrics)
+        assert h1_kont["source"] == "feast"
+
+        # 3rd Hour: Saint Troparion and Kontakion
+        h3_trop = self.engine.resolve_hours_troparia({**context, "hour": 3}, rubrics)
+        assert h3_trop["components"] == ["trop_saint"]
+        h3_kont = self.engine.resolve_hours_kontakion({**context, "hour": 3}, rubrics)
+        assert h3_kont["source"] == "saints"
+
+        # 5. Vespers Dismissal Troparia (Saint, Glory/Both now: Feast)
+        vespers_troparia = self.engine.resolve_vespers_troparia_simple(context, rubrics)
+        assert len(vespers_troparia["components"]) == 2
+        assert vespers_troparia["components"][0]["type"] == "saint"
+        assert vespers_troparia["components"][1]["type"] == "glory_both_now"
+        assert "eucharist" in vespers_troparia["components"][1]["ref_key"]
+
+        # 6. Matins Dismissal Troparia (Saint, Glory/Both now: Feast)
+        matins_troparia = self.engine.resolve_matins_dismissal_troparion(context)
+        assert len(matins_troparia["troparia"]) == 1
+        assert matins_troparia["troparia"][0]["type"] == "saint"
+        assert "eucharist" in matins_troparia["glory_both_now"]
+
+        # 7. Matins "The Lord is God" Troparia (Feast twice, Glory: Saint, Both now: Feast)
+        god_is_lord = self.engine.resolve_god_is_the_lord_troparia(context)
+        assert god_is_lord["rule_id"] == "weekday_feast_and_saint"
+
     def test_january_6_2026_theophany(self):
         """
         Great Feast of Theophany (January 6, 2026):

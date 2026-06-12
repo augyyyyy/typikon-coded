@@ -106,7 +106,7 @@ class HoursMixin:
         saints = context.get("saints", [])
 
         # Case F: Great Feast of Lord/Theotokos (Rank 1 or feast level)
-        if rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]:
+        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and not (is_fore_after and rank <= 3):
             return {"mode": "standard", "components": ["trop_feast"]}
 
         # Case E: Weekday + Polyeleos/Vigil Saint (Rank <= 3 on weekday)
@@ -216,7 +216,7 @@ class HoursMixin:
         saints = context.get("saints", [])
 
         # Case F: Great Feast of Lord/Theotokos (Rank 1 or feast level)
-        if rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]:
+        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and not (is_fore_after and rank <= 3):
             return {"type": "kontakion", "source": "feast"}
 
         # Case E: Weekday + Polyeleos/Vigil Saint (Rank <= 3 on weekday)

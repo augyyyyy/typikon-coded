@@ -73,6 +73,7 @@ class EngineCore:
 
         self.temple_feast_date = temple_feast_date
         self.trace_log = []
+        self._almanacs = {}
         
         # Instantiate resolver registry for logic safety
         from engine.resolver_registry import ResolverRegistry
@@ -185,3 +186,19 @@ class EngineCore:
 
     def get_debug_report(self):
         return "\n".join(self.trace_log)
+
+
+    def _get_almanac(self, year):
+        if year not in self._almanacs:
+            almanac_path = os.path.join(self.json_db, "almanac", f"annual_almanac_{year}.json")
+            if os.path.exists(almanac_path):
+                try:
+                    with open(almanac_path, "r", encoding="utf-8") as f:
+                        self._almanacs[year] = json.load(f)
+                    print(f"Engine: Loaded pre-computed almanac for year {year}")
+                except Exception as e:
+                    print(f"WARNING: Failed to load almanac for year {year}: {e}")
+                    self._almanacs[year] = None
+            else:
+                self._almanacs[year] = None
+        return self._almanacs[year]
