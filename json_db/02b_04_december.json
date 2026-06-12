@@ -22,7 +22,7 @@
         "priority": "high",
         "rank_override": "rank_polyeleos",
         "title_key": "menaion.floating.sunday_forefathers",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L511",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L511",
         "variables": {
           "vespers_stichera_distribution": "forefathers_logic",
           "liturgy_readings": [
@@ -44,7 +44,7 @@
         "priority": "high",
         "rank_override": "rank_polyeleos",
         "title_key": "menaion.floating.sunday_ancestors",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L642",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L642",
         "variables": {
           "vespers_stichera_distribution": "ancestors_logic",
           "liturgy_readings": [
@@ -58,7 +58,7 @@
       "04": {
         "title_key": "menaion.dec_04.barbara_great_martyr",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L449",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L449",
         "base_template": "CASE_05",
         "variables": {
           "matins_gospel": "matthew_25_1_13",
@@ -71,13 +71,13 @@
       "05": {
         "title_key": "menaion.dec_05.sabbas_sanctified",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L449",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L449",
         "base_template": "CASE_05"
       },
       "06": {
         "title_key": "menaion.dec_06.nicholas_wonderworker",
         "rank": "rank_vigil_saint",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L449",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L449",
         "base_template": "CASE_06",
         "variables": {
           "vespers_readings": [
@@ -98,7 +98,7 @@
         "title_key": "menaion.dec_09.conception_st_anna",
         "rank": "rank_vigil_theotokos",
         "period": "feast",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L450",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L450",
         "base_template": "CASE_14",
         "variables": {
           "liturgy_antiphons": "typical_psalms_refrain_theotokos",
@@ -108,14 +108,14 @@
       "12": {
         "title_key": "menaion.dec_12.spyridon_trimythous",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L449",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L449",
         "base_template": "CASE_05"
       },
       "24": {
         "title_key": "menaion.dec_24.nativity_paramony",
         "rank": "rank_simple_6",
         "period": "forefeast",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L765",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L765",
         "variables": {
           "special_rule": "eve_of_nativity_logic",
           "hours_logic_switch": {
@@ -147,7 +147,7 @@
         "title_key": "menaion.dec_25.nativity_of_lord",
         "rank": "rank_vigil_lord",
         "period": "feast",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L822",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L822",
         "system_flags": {
           "suppress_octoechos": true,
           "fast_level": "no_fast"
@@ -171,7 +171,7 @@
         "title_key": "menaion.dec_26.synaxis_theotokos",
         "rank": "rank_vigil_theotokos",
         "period": "feast",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L915",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L915",
         "base_template": "CASE_14",
         "variables": {
           "liturgy_antiphons": "typical_psalms_refrain_son_of_god",
@@ -184,7 +184,7 @@
       "27": {
         "title_key": "menaion.dec_27.stephen_protomartyr",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L1160",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L1160",
         "base_template": "CASE_05",
         "variables": {
           "liturgy_readings": [

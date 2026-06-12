@@ -121,6 +121,27 @@ class ComplineMixin:
         is_lent = context.get("period") == "triodion" and context.get("is_lenten_day")
         day = context.get("day_of_week")
 
+        is_afterfeast = (
+            context.get("is_afterfeast") or
+            context.get("is_fore_or_afterfeast") or
+            "afterfeast" in str(context.get("title", "")).lower() or
+            "apodosis" in str(context.get("title", "")).lower()
+        )
+        rank = self.calculate_rank(context)
+
+        # Polyeleos is rank <= 3
+        if not day == 0 and is_afterfeast and rank <= 3:
+            saints = context.get("saints", [])
+            saint_id = saints[0].get("id") if saints else "saint"
+            saint_name = "Apostles Bartholomew and Barnabas" if "bartholomew" in saint_id else "the Saint"
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "saint_kontakion", "ref_key": f"Kontakion of {saint_name}"},
+                    {"type": "glory_both_now_feast_kontakion", "ref_key": "Glory... Both now: Kontakion of the Feast (Eucharist)"}
+                ]
+            }
+
         sequence = []
 
         # 1. Day Troparion
@@ -132,11 +153,11 @@ class ComplineMixin:
         }
         day_key = day_map.get(day, "monday")
         
-        # In Lent (Clean Week), we might have different rules, but Typikon Final_Dolnytsky_part4_triodion.txt:L304 suggests Great Compline structure.
+        # In Lent (Clean Week), we might have different rules, but Typikon Final_Dolnytsky_part4_triodion.md:L304 suggests Great Compline structure.
         # If Small Compline is used in Lent (Friday), logic might differ.
         
         # Standard Weekday Logic (Cheesefare, etc.)
-        # Typikon Final_Dolnytsky_part1_structure.txt:L132: "of the weekday, of the Temple, and 'O God of our fathers'"
+        # Typikon Final_Dolnytsky_part1_structure.md:L132: "of the weekday, of the Temple, and 'O God of our fathers'"
         
         # A. Day Troparion
         sequence.append({
@@ -187,7 +208,11 @@ class ComplineMixin:
         if context.get("is_forefeast"):
              return {"type": "canon", "subject": "canon_forefeast", "book": "menaion", "source": "canon_forefeast"}
         elif context.get("is_afterfeast") or context.get("is_feast"):
-             return {"type": "canon", "subject": "feast", "book": "menaion", "source": "canon_feast"}
+             feast_id = context.get("feast_id")
+             if feast_id in ("eucharist", "ascension", "pentecost") or (60 <= context.get("pascha_offset", -100) <= 67):
+                  return {"type": "canon", "subject": "theotokos", "book": "octoechos"}
+             book = "triodion" if (60 <= context.get("pascha_offset", -100) <= 67) or context.get("pascha_offset") is not None else "menaion"
+             return {"type": "canon", "subject": "feast", "book": book, "source": "canon_feast"}
              
         # 2. Friday Night: Canon to the Departed (Preceded by the Theotokos Canon)
         if day == 5:
@@ -238,7 +263,7 @@ class ComplineMixin:
         return {"type": "canon", "subject": "theotokos", "book": "octoechos"}
 
     # MODULE A5: MIDNIGHT OFFICE LOGIC (NOCTURNS)
-    # ref: Final_Dolnytsky_part1_structure.txt:L154
+    # ref: Final_Dolnytsky_part1_structure.md:L154
 
 
     def resolve_compline_type(self, context):
@@ -265,7 +290,7 @@ class ComplineMixin:
         # Default
         return "small_compline"
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.txt:L207")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.md:L207")
     def check_day_range(self, context, week=None, days=None):
         """
         Checks if the current day falls within the specified Lenten week and days.

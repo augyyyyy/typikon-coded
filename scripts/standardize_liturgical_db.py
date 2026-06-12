@@ -17,7 +17,7 @@ os.makedirs(AUDIT_DIR, exist_ok=True)
 # Terminology replacements (case-insensitive search, case-matching replacement)
 # Maps pattern to canonical replacement
 DRIFT_REPLACEMENTS = [
-    (r"\broyal\s+doors\b", "Holy Doors"),
+    (r"\bholy\s+doors\b", "Royal Doors"),
     (r"\bsamohlasen\b", "Idiomelon"),
     (r"\bsamohlasni\b", "Idiomela"),
     (r"\bsamohlasny\b", "Idiomelon"),
@@ -34,8 +34,8 @@ DRIFT_REPLACEMENTS = [
     (r"\blytia\b", "Litiya"),
     (r"\blitia\b", "Litiya"),
     (r"\blity\b", "Litiya"),
-    (r"\bprokeimenon\b", "Prokimenon"),
-    (r"\bprokeimena\b", "Prokimena"),
+    (r"\bprokimenon\b", "Prokeimenon"),
+    (r"\bprokimena\b", "Prokeimena"),
     (r"\bexapostilarion\b", "Exaposteilarion"),
     (r"\bexapostolarion\b", "Exaposteilarion"),
     (r"\bvelychannye\b", "Magnification"),

@@ -144,7 +144,7 @@ On a Great Feast (and its Apodosis/Sundays within the feast when designated), th
 
 ## 4. Phase 3 Audit Findings & Gaps
 During the Phase 3 Audit, the following limitations and errors were identified and corrected:
-1. **Citation Hallucinations:** Previous citations mapping to "Lines 68-69" and "Line 109" of Dolnytsky Part I were completely hallucinated. They have been replaced with the verified line references from `Final_Dolnytsky_part1_structure.txt` and `Final_Dolnytsky_part2_general_rubrics.txt`.
+1. **Citation Hallucinations:** Previous citations mapping to "Lines 68-69" and "Line 109" of Dolnytsky Part I were completely hallucinated. They have been replaced with the verified line references from `Final_Dolnytsky_part1_structure.md` and `Final_Dolnytsky_part2_general_rubrics.md`.
 2. **Missing Forefeast vs Afterfeast Nuance:** The previous matrix failed to distinguish explicit rules for Forefeasts vs Afterfeasts. The audit verified through Dolnytsky Part II (L440, L637) that both follow the same Kontakion alternation (1st/6th Feast, 3rd/9th Sunday).
 3. **Restored Missing Case (Sunday + Afterfeast + Major Saint):** Re-identified the distinction between `Sunday + Major Saint` and `Sunday + Afterfeast + Major Saint` via Dolnytsky Part II Line 730, ensuring a perfect 1:1 match with engine logic.
 4. **Gap: Lenten Hours:** This encyclopedia entry does NOT cover the Lenten Hours, which replace Troparia with the "In the morning" Troparion of the Hour, and Kontakia with the Horologion Lenten Troparia. This is handled in Topic 2.

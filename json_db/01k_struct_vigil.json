@@ -4,13 +4,13 @@
     "version": "1.1 (Ordo Cross-Ref)",
     "last_updated": "2026-05-03",
     "authority": "Lviv (Dolnytsky) Typikon (2010) Part I & Ordo Celebrationis 1944 §53–§73",
-    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
     "scope": "The All-Night Vigil (Composite Structure)"
   },
   "structures": {
     "all_night_vigil": {
       "title_key": "titles.all_night_vigil",
-      "source_ref": "Final_Dolnytsky_part1_structure.txt:L13",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:L13",
       "sequence": [
         {
           "id": "opening_vigil",
@@ -90,38 +90,10 @@
           "id": "matins_module",
           "type": "link",
           "target_file": "01i_struct_matins.json",
-          "target_id": "daily_matins",
+          "target_id": "great_matins",
           "overrides": [
             {
-              "target_id": "opening_matins",
-              "action": "delete"
-            },
-            {
-              "target_id": "royal_office",
-              "action": "delete"
-            },
-            {
-              "target_id": "god_is_the_lord",
-              "action": "modify",
-              "rubric": {
-                "note": "Polyeleos is assumed for Vigil."
-              }
-            },
-            {
-              "target_id": "kathismata_daily",
-              "action": "replace",
-              "new_component": {
-                "id": "polyeleos_module",
-                "content": {
-                  "type": "variable_logic",
-                  "logic": {
-                    "function": "resolve_vigil_polyeleos"
-                  }
-                }
-              }
-            },
-            {
-              "target_id": "dismissal_daily",
+              "target_id": "dismissal",
               "action": "delete"
             }
           ]

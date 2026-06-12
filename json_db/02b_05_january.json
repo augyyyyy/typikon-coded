@@ -13,7 +13,7 @@
         "title_key": "menaion.jan_01.circumcision_basil",
         "rank": "rank_vigil_lord",
         "period": "feast",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L1211",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L1211",
         "base_template": "CASE_12",
         "variants": [
           {
@@ -54,7 +54,7 @@
         "title_key": "menaion.jan_05.theophany_eve",
         "rank": "rank_simple_6",
         "period": "forefeast",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L760",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L760",
         "system_flags": {
           "fast_level": "strict"
         },
@@ -94,7 +94,7 @@
         "title_key": "menaion.jan_06.theophany_lord",
         "rank": "rank_vigil_lord",
         "period": "feast",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L1328",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L1328",
         "system_flags": {
           "suppress_octoechos": true,
           "fast_level": "no_fast"
@@ -117,7 +117,7 @@
       "30": {
         "title_key": "menaion.jan_30.three_hierarchs",
         "rank": "rank_vigil_saint",
-        "source_ref": "Final_Dolnytsky_part3_menaion.txt:L1524",
+        "source_ref": "Final_Dolnytsky_part3_menaion.md:L1524",
         "base_template": "CASE_06",
         "variables": {
           "vespers_readings": [

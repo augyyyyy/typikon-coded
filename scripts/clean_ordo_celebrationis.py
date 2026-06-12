@@ -11,7 +11,7 @@ master reference document with:
 - OCR line-break artifacts fixed
 
 Input:  Data/Service Books/Ordo/1996 ENG RAW Ordo Celebrationis.txt
-Output: Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt
+Output: Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md
 """
 
 import re
@@ -23,7 +23,7 @@ INPUT_PATH = os.path.join(
 )
 OUTPUT_PATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "Data", "Service Books", "Ordo", "Ordo_Celebrationis_1996_CLEAN.txt"
+    "Data", "Service Books", "Ordo", "Ordo_Celebrationis_1996_CLEAN.md"
 )
 
 # ─── Running headers to strip (exact match after stripping whitespace) ───

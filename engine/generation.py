@@ -10,6 +10,7 @@ from datetime import date, timedelta
 import copy
 
 from typikon_digest_generator import TypikonDigestGenerator
+from engine.utils.type_utils import parse_rank_integer
 
 
 class GenerationMixin:
@@ -104,7 +105,7 @@ class GenerationMixin:
              elif even_type == "paschal_vespers": return "Paschal Vespers"
              
              # Fallback logic
-             rank = context.get("rank", 5)
+             rank = parse_rank_integer(context.get("rank", 5))
              is_lent = context.get("season") == "lent"
              day = context.get("day_of_week")
              
@@ -151,7 +152,7 @@ class GenerationMixin:
              
              is_lent = context.get("season") == "lent"
              day = context.get("day_of_week")
-             rank = context.get("rank", 5)
+             rank = parse_rank_integer(context.get("rank", 5))
              
              if is_lent and day in [1,2,3,4,5] and rank > 3: 
                   return "Lenten Matins (Alleluia)"
@@ -183,7 +184,7 @@ class GenerationMixin:
              
              is_lent = context.get("season") == "lent"
              day = context.get("day_of_week")
-             rank = context.get("rank", 5)
+             rank = parse_rank_integer(context.get("rank", 5))
              
              if is_lent and day in [3, 5] and rank > 3: return "Liturgy of the Presanctified Gifts"
              

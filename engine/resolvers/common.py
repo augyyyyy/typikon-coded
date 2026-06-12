@@ -346,6 +346,13 @@ class CommonResolverMixin:
         """
         # Check for overridden distribution first (e.g. from collisions)
         overridden_dist = context.get("variables", {}).get("matins_canon_distribution")
+        if not overridden_dist:
+            if context.get("season") != "lent":
+                try:
+                    variables = self.resolve_general_case(context).get("variables", {})
+                    overridden_dist = variables.get("matins_canon_distribution")
+                except Exception:
+                    pass
         if overridden_dist:
             if isinstance(overridden_dist, dict):
                 # Check for Logic Switch
@@ -359,14 +366,35 @@ class CommonResolverMixin:
                         if rank_id == "rank_simple_6" or rank_id == "rank_doxology":
                             switch_key = "saint_on_6_doxology"
                     sub_rule = overridden_dist["logic_switch"].get(switch_key, {})
-                    return sub_rule.get("distribution", [])
+                    dist = sub_rule.get("distribution", [])
                 else:
-                    return overridden_dist.get("distribution", [])
+                    dist = overridden_dist.get("distribution", [])
             elif isinstance(overridden_dist, list):
-                return overridden_dist
+                dist = overridden_dist
+            else:
+                dist = []
+                
+            # Normalize qty to count if count is missing
+            dist_normalized = []
+            for item in dist:
+                item_copy = item.copy()
+                if "qty" in item_copy and "count" not in item_copy:
+                    item_copy["count"] = item_copy["qty"]
+                dist_normalized.append(item_copy)
+            dist = dist_normalized
+
+            if 60 <= context.get("pascha_offset", -100) <= 67:
+                dist_copy = []
+                for item in dist:
+                    item_copy = item.copy()
+                    if item_copy.get("type") == "feast":
+                        item_copy["source"] = "triodion"
+                    dist_copy.append(item_copy)
+                return dist_copy
+            return dist
 
         # 1. Lenten Weekday Logic (Complex varying counts)
-        # Citation: Final_Dolnytsky_part4_triodion.txt:L347
+        # Citation: Final_Dolnytsky_part4_triodion.md:L347
         if context.get("season") == "lent" and context.get("day_of_week") not in [0, 6]: 
             day = str(context.get("day_of_week"))
             lenten_maps = self.triodion_logic.get("lenten_logic_maps", {})
@@ -1108,6 +1136,18 @@ class CommonResolverMixin:
         Gate 7: Katavasia Selection (Merged logic)
         Determines the seasonal Katavasia (Dolnytsky Part V) and its frequency.
         """
+        pascha_offset = context.get("pascha_offset")
+        if pascha_offset is not None and 60 <= pascha_offset <= 67:
+             return {
+                 "type": "festal_katavasia",
+                 "katavasia_id": "katavasia_eucharist",
+                 "id": "katavasia_eucharist",
+                 "text": "The bread of heaven He gave them",
+                 "tone": 5,
+                 "frequency": "after_each_ode",
+                 "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+             }
+
         # Check collision override first
         collision = self.check_collision(context)
         if collision and "variables" in collision.get("rubric", {}):
@@ -1151,8 +1191,14 @@ class CommonResolverMixin:
         
         # 1. Determine structural frequency
         rank_id = self._get_rank_id(context)
-        if rank == 1 or season == 'meeting_season':
-            kat_type = 'festal_katavasia'
+        is_afterfeast = context.get("is_afterfeast", False)
+        is_feast = context.get("is_feast", False)
+        
+        if rank == 1 or season == 'meeting_season' or is_afterfeast or is_feast:
+            if season in ['pascha', 'bright_week']:
+                kat_type = 'paschal_katavasia'
+            else:
+                kat_type = 'festal_katavasia'
             frequency = 'after_each_ode'
             after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         elif season in ['pascha', 'bright_week']:
@@ -1225,7 +1271,7 @@ class CommonResolverMixin:
         if kat_type == 'polyeleos_katavasia' or kat_type == 'lenten_katavasia':
              kat_id = "irmos_last_canon"
              text = "Irmos of the last canon"
-        elif kat_type == 'paschal_katavasia':
+        elif kat_type == 'paschal_katavasia' and not found:
              kat_id = "katavasia_pascha"
              text = "The Resurrection Day"
              tone = 1
@@ -1371,6 +1417,15 @@ class CommonResolverMixin:
 
         is_sunday = context["day_of_week"] == 0 or context.get("is_sunday_vigil")
         rank = self.calculate_rank(context)
+        saints = context.get("saints", [])
+        is_afterfeast = context.get("is_afterfeast") or context.get("period") in ("afterfeast", "apodosis")
+        if is_afterfeast and rank <= 3 and saints and not is_sunday:
+            # Sessional hymns after regular Kathismata are of the Feast
+            if context.get("season_id") in ("triodion", "pentecostarion") or context.get("season") in ("triodion", "pentecostarion"):
+                return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
+            else:
+                return {"type": "sessional_group", "id": f"sessional_menaion_set_{num}"}
+
         tone = self._calculate_tone(context)
 
         if is_sunday:
@@ -1378,11 +1433,13 @@ class CommonResolverMixin:
              
         if context.get("season") == "lent" and not is_sunday:
              # Lenten logic (Triodion sessional)
-             # Citation: Final_Dolnytsky_part4_triodion.txt:L330
+             # Citation: Final_Dolnytsky_part4_triodion.md:L330
              return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
              
         if rank <= 3:
              # Feast Logic
+             if context.get("season_id") in ("triodion", "pentecostarion") or context.get("season") in ("triodion", "pentecostarion"):
+                 return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
              return {"type": "sessional_group", "id": f"sessional_menaion_set_{num}"}
              
         # Default Octoechos Weekday
@@ -1436,11 +1493,12 @@ class CommonResolverMixin:
             'dormition': 1,
             'nativity_theotokos': 4,
             'exaltation_cross': 1,
-            'presentation_theotokos': 4
+            'presentation_theotokos': 4,
+            'eucharist': 8
         }
         return festal_tones.get(feast_id, 1)
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L166-173")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L166-173")
     def resolve_canon_ode_troparion(self, context, ode, position="glory"):
         """
         Resolves specific troparion details at a given position within a canon ode (primarily Ode 8).

@@ -12,7 +12,7 @@ os.makedirs(AUDIT_DIR, exist_ok=True)
 
 # 25 Monitored Terminology Drift Patterns (Rejected -> Canonical)
 DRIFT_PATTERNS = {
-    r"\broyal\s+doors\b": "Holy Doors",
+    r"\bholy\s+doors\b": "Royal Doors",
     r"\bsamohlasen\b": "Idiomelon/Idiomela",
     r"\bpodiben\b": "Prosomoion/Prosomoia",
     r"\birmos\b": "Heirmos/Heirmoi/Heirmologion",
@@ -22,8 +22,8 @@ DRIFT_PATTERNS = {
     r"\blytia\b": "Litiya",
     r"\blitia\b": "Litiya",
     r"\blity\b": "Litiya",
-    r"\bprokeimenon\b": "Prokimenon",
-    r"\bprokeimena\b": "Prokimena",
+    r"\bprokimenon\b": "Prokeimenon",
+    r"\bprokimena\b": "Prokeimena",
     r"\bexapostilarion\b": "Exaposteilarion",
     r"\bexapostolarion\b": "Exaposteilarion",
     r"\bvelychannye\b": "Magnification",

@@ -11,7 +11,7 @@
     "//_GROUP_A": "OCTOECHOS_PERIOD (NON-FESTAL)",
     "case_01_sunday_simple_saint": {
       "id": "CASE_01",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L57",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L57",
       "triggers": {
         "day_of_week": [
           0
@@ -74,7 +74,7 @@
                   "qty": 4
                 }
               ],
-              "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L62"
+              "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L62"
             }
           },
           "glory": "saint_doxastikon_if_present",
@@ -138,7 +138,7 @@
         },
         "praises_distribution": {
           "total_count": 8,
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L105",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L105",
           "logic_switch": {
             "1_saint": {
               "distribution": [
@@ -194,7 +194,7 @@
     },
     "case_02_weekday_simple_saint": {
       "id": "CASE_02",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L132",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L132",
       "triggers": {
         "day_of_week": [
           1,
@@ -326,7 +326,7 @@
     },
     "case_03_saturday_simple_saint": {
       "id": "CASE_03",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L220",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L220",
       "triggers": {
         "day_of_week": [
           6
@@ -400,7 +400,7 @@
     },
     "case_04_sunday_polyeleos": {
       "id": "CASE_04",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L266",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L266",
       "triggers": {
         "day_of_week": [
           0
@@ -469,7 +469,7 @@
     },
     "case_05_weekday_polyeleos": {
       "id": "CASE_05",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L310",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L310",
       "triggers": {
         "day_of_week": [
           1,
@@ -488,10 +488,19 @@
       },
       "variables": {
         "suppress_octoechos": true,
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
-          "source": "menaion",
-          "type": "saint",
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 8
+            }
+          ],
           "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
         },
         "matins_canon_distribution": {
@@ -510,7 +519,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L342",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L342",
           "total_count": 4,
           "distribution": [
             {
@@ -526,7 +535,7 @@
     },
     "case_06_sunday_vigil": {
       "id": "CASE_06",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L348",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L348",
       "triggers": {
         "day_of_week": [
           0
@@ -549,18 +558,18 @@
           "magnification"
         ],
         "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L372",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L372",
           "inherits": "CASE_04"
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L384",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L384",
           "inherits": "CASE_04"
         }
       }
     },
     "case_07_weekday_vigil": {
       "id": "CASE_07",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L385",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L385",
       "triggers": {
         "day_of_week": [
           1,
@@ -584,18 +593,18 @@
           "blessing_loaves"
         ],
         "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L402",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L402",
           "inherits": "CASE_05"
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L405",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L405",
           "inherits": "CASE_05"
         }
       }
     },
     "special_vigil_override": {
       "id": "SPECIAL_VIGIL_OVERRIDE",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L407",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L407",
       "description": "Nativity and Beheading of St. John the Baptist (June 24, August 29) and Chief Apostles Peter and Paul (June 29) surpass other saints in that their canons are taken ALONE (no Theotokion canon) and their Apostle-Gospel at Liturgy is taken ALONE (no daily readings)",
       "applies_to_dates": [
         {
@@ -628,7 +637,7 @@
     "//_GROUP_B": "FOREFEASTS",
     "case_08_sunday_forefeast": {
       "id": "CASE_08",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L410",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L410",
       "triggers": {
         "day_of_week": [
           0
@@ -689,7 +698,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L433",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L433",
           "total_count": 8,
           "distribution": [
             {
@@ -711,7 +720,7 @@
     },
     "case_09_weekday_forefeast": {
       "id": "CASE_09",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L445",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L445",
       "triggers": {
         "day_of_week": [
           1,
@@ -768,7 +777,7 @@
     "//_GROUP_C": "GREAT_FEASTS",
     "case_10_feast_of_lord": {
       "id": "CASE_10",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L497",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L497",
       "triggers": {
         "period": [
           "feast"
@@ -782,11 +791,18 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 8,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 8
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "feast_theotokion"
         },
         "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L512",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L512",
           "total_count": 3,
           "distribution": [
             {
@@ -798,8 +814,18 @@
           "glory": "feast_doxastikon",
           "both_now": "feast_theotokion"
         },
+        "matins_canon_distribution": {
+          "distribution": [
+            {
+              "source": "feast",
+              "type": "feast",
+              "qty": 12,
+              "irmos": true
+            }
+          ]
+        },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L524",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L524",
           "total_count": 4,
           "distribution": [
             {
@@ -820,7 +846,7 @@
     },
     "case_11_feast_of_theotokos_sunday": {
       "id": "CASE_11",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L535",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L535",
       "triggers": {
         "day_of_week": [
           0
@@ -870,7 +896,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L572",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L572",
           "total_count": 8,
           "distribution": [
             {
@@ -891,7 +917,7 @@
     },
     "case_12_feast_of_theotokos_weekday": {
       "id": "CASE_12",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L588",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L588",
       "triggers": {
         "day_of_week": [
           1,
@@ -917,7 +943,7 @@
     "//_GROUP_D": "AFTERFEASTS",
     "case_13_afterfeast_sunday_simple": {
       "id": "CASE_13",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L606",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L606",
       "triggers": {
         "day_of_week": [
           0
@@ -976,7 +1002,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L624",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L624",
           "total_count": 8,
           "distribution": [
             {
@@ -998,7 +1024,7 @@
     },
     "case_14_afterfeast_weekday_simple": {
       "id": "CASE_14",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L642",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L642",
       "triggers": {
         "day_of_week": [
           1,
@@ -1051,7 +1077,7 @@
     },
     "case_15_afterfeast_sunday_polyeleos": {
       "id": "CASE_15",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L693",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L693",
       "triggers": {
         "day_of_week": [
           0
@@ -1106,7 +1132,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L712",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L712",
           "total_count": 8,
           "distribution": [
             {
@@ -1127,7 +1153,7 @@
     },
     "case_16_afterfeast_weekday_polyeleos": {
       "id": "CASE_16",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L738",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L738",
       "triggers": {
         "day_of_week": [
           1,
@@ -1141,46 +1167,64 @@
           "rank_polyeleos"
         ],
         "period": [
-          "afterfeast"
+          "afterfeast",
+          "apodosis"
         ]
       },
       "variables": {
         "suppress_octoechos": true,
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
-          "total_count": 8,
+          "total_count": 10,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
-              "qty": 3
+              "qty": 6
             },
             {
               "source": "menaion",
               "type": "saint",
-              "qty": 5
+              "qty": 4
             }
           ]
+        },
+        "aposticha_distribution": {
+          "total_count": 3,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "feast",
+              "qty": 3
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "feast_theotokion"
         },
         "matins_canon_distribution": {
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
-              "qty": 6,
+              "qty": 10,
               "irmos": true
             },
             {
               "source": "menaion",
               "type": "saint",
-              "qty": 8
+              "qty": 4
             }
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L754",
-          "total_count": 4,
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L754",
+          "total_count": 6,
           "logic_switch": {
             "4_saint": {
+              "total_count": 4,
               "distribution": [
                 {
                   "source": "menaion",
@@ -1190,6 +1234,7 @@
               ]
             },
             "6_mixed": {
+              "total_count": 6,
               "distribution": [
                 {
                   "source": "menaion",
@@ -1211,7 +1256,7 @@
     },
     "case_17_afterfeast_sunday_vigil": {
       "id": "CASE_17",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L788",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L788",
       "triggers": {
         "day_of_week": [
           0
@@ -1228,14 +1273,14 @@
         "vespers_litiya": "saint_and_feast",
         "matins_anointing": true,
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L802",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L802",
           "inherits": "CASE_15"
         }
       }
     },
     "case_18_afterfeast_weekday_vigil": {
       "id": "CASE_18",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L801",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L801",
       "triggers": {
         "day_of_week": [
           1,
@@ -1257,7 +1302,7 @@
         "vespers_litiya": "saint_and_feast",
         "matins_anointing": true,
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L810",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L810",
           "inherits": "CASE_16"
         }
       }
@@ -1265,7 +1310,7 @@
     "//_GROUP_E": "APODOSIS",
     "case_19_apodosis_sunday": {
       "id": "CASE_19",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L809",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L809",
       "triggers": {
         "day_of_week": [
           0
@@ -1315,7 +1360,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L840",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L840",
           "total_count": 8,
           "distribution": [
             {
@@ -1336,7 +1381,7 @@
     },
     "case_20_apodosis_weekday": {
       "id": "CASE_20",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L857",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L857",
       "triggers": {
         "day_of_week": [
           1,
@@ -1366,7 +1411,7 @@
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L880",
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L880",
           "note": "At Matins of Apodosis weekday, everything from the canon to end is exactly as on the feast. Therefore praises distribution is same as Case 10.",
           "inherits": "CASE_10"
         }

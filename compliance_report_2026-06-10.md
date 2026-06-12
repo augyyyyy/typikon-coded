@@ -1,5 +1,5 @@
 **AUDIT OF GENERATED DIGESTS FOR 2026-06-10 (WEDNESDAY, TONE 1)**
-**Reference Files:** `vocabulary_standardization_matrix.md`, `Final_Dolnytsky_glossary.md`, `Final_Dolnytsky_part3_menaion.txt`
+**Reference Files:** `vocabulary_standardization_matrix.md`, `Final_Dolnytsky_glossary.md`, `Final_Dolnytsky_part3_menaion.md`
 
 ---
 
@@ -7,7 +7,7 @@
 
 **PASS** ✅
 
-- **Reference Check:** `Final_Dolnytsky_part3_menaion.txt` for June contains entries for 11 and 24/29 June only. There is no entry for Hieromartyr Timothy on June 10, meaning the feast is unlisted in the provided slice. The resolved rubric assigns `rank_simple_4`, which corresponds to **Saint on 4 without Polyeleos**. This is a "small-type" commemoration. The generated digests correctly match this by providing only 3 stichera to the Saint at Vespers and 3 stichera in the Beatitudes, with no Polyeleos or Doxology. The combination with the Octoechos is correct for this rank.
+- **Reference Check:** `Final_Dolnytsky_part3_menaion.md` for June contains entries for 11 and 24/29 June only. There is no entry for Hieromartyr Timothy on June 10, meaning the feast is unlisted in the provided slice. The resolved rubric assigns `rank_simple_4`, which corresponds to **Saint on 4 without Polyeleos**. This is a "small-type" commemoration. The generated digests correctly match this by providing only 3 stichera to the Saint at Vespers and 3 stichera in the Beatitudes, with no Polyeleos or Doxology. The combination with the Octoechos is correct for this rank.
 
 ---
 
@@ -38,7 +38,7 @@
 
 **1. MISSING HYPHEN: "Tone I"**
 - **Gap:** The digest reads `Tone I` (individual tone) and `Tone VII` (Prokeimenon).
-- **Rule:** `Final_Dolnytsky_part3_menaion.txt` consistently uses **Tone I**, **Tone VII**, etc. without an extra hyphen when referring to the Octoechos tone.
+- **Rule:** `Final_Dolnytsky_part3_menaion.md` consistently uses **Tone I**, **Tone VII**, etc. without an extra hyphen when referring to the Octoechos tone.
 - **Verdict:** **Clean** – `Tone I` matches the source. Hyphenation is not required.
 
 **2. COLOUR VS COLOR (UK/US SPELLING)**

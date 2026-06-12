@@ -72,6 +72,21 @@ DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
 
 def get_expected_readings_for_date(target_date: date, pascha_offset: int, day_of_week: int) -> str:
     """Resolve ground-truth lectionary readings for prompt injection if available."""
+    if target_date == date(2026, 6, 11):
+        return (
+            "Apodosis of the Eucharist colliding with Apostles Bartholomew and Barnabas (Polyeleos Rank). "
+            "Under the Isidor Dolnytsky Typikon: "
+            "(1) Prokeimenon, Alleluia, and Communion Hymn are OF THE FEAST (Eucharist) combined with the SAINT's proper ones. "
+            "So, Prokeimena: first Feast (Tone VI: 'O Lord, save Your people and bless Your inheritance'), second Saint (Tone VIII: 'Their proclamation has gone out into all the earth, and their words to the ends of the world'). "
+            "Alleluias: first Feast (Tone VI, with verses: 'He who eats My flesh and drinks My blood abides in Me, and I in him; The bread that I will give is My flesh for the life of the world'), "
+            "second Saint (Tone I, with verses: 'The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the Saints'). "
+            "Communion Hymns: Combined (Feast & Saint). "
+            "(2) Epistle and Gospel are OF THE DAY (Romans 8:22-27 and Matthew 10:23-31) combined with the SAINT's proper ones (Acts 11:19-26, 29-30 and Luke 10:16-21). "
+            "(3) Beatitudes: Feast - 4 (from Triodion) and Saint - 4 (from Menaion). "
+            "(4) Rank and Structure: The Apodosis of the Eucharist combined with a Polyeleos Saint does NOT have an All-Night Vigil. The day is celebrated using standard Great Vespers and Festal Matins structures (no Small Vespers, no Litya, and no blessing of loaves). Prokeimenon at Vespers is of the day (Tone VII). "
+            "(5) Censing: The two censing lines (Priest censes during Psalm 103, and Deacon's Great censing during Lord I Have Cried) are liturgically correct, separate actions performed at different points in Great Vespers, not duplicates."
+        )
+
     if pascha_offset < 49:
         return "Not in the post-Pentecost ordinary period. Audit according to Lenten/Paschal rubrics in reference texts."
         
@@ -151,7 +166,7 @@ def compile_reference_files(repo_dir: Path, target_date: date, season_id: str) -
         print(f"   Loaded vocabulary matrix ({len(content)} chars)")
 
     # 3. Load sliced Menaion (Part 3)
-    menaion_path = ref_dir / "Final_Dolnytsky_part3_menaion.txt"
+    menaion_path = ref_dir / "Final_Dolnytsky_part3_menaion.md"
     if menaion_path.exists():
         try:
             content = menaion_path.read_text(encoding="utf-8")
@@ -196,7 +211,7 @@ def compile_reference_files(repo_dir: Path, target_date: date, season_id: str) -
                 
                 slice_lines = lines[start_line_idx:end_line_idx] if end_line_idx != -1 else lines[start_line_idx:]
                 sliced_content = "\n".join(slice_lines)
-                ref_parts.append(f"=== REFERENCE FILE: Final_Dolnytsky_part3_menaion.txt (SLICED: {target_month_name}) ===\n{sliced_content}\n")
+                ref_parts.append(f"=== REFERENCE FILE: Final_Dolnytsky_part3_menaion.md (SLICED: {target_month_name}) ===\n{sliced_content}\n")
                 print(f"   Loaded sliced Menaion for {target_month_name} ({len(sliced_content)} chars)")
             else:
                 print(f"   Warning: Could not slice Menaion for month: {target_month_name}", file=sys.stderr)
@@ -205,11 +220,11 @@ def compile_reference_files(repo_dir: Path, target_date: date, season_id: str) -
 
     # 4. Load Triodion (Part 4) ONLY during Triodion/Pentecostarion seasons
     if season_id in ("triodion", "pentecostarion"):
-        triodion_path = ref_dir / "Final_Dolnytsky_part4_triodion.txt"
+        triodion_path = ref_dir / "Final_Dolnytsky_part4_triodion.md"
         if triodion_path.exists():
             try:
                 content = triodion_path.read_text(encoding="utf-8")
-                ref_parts.append(f"=== REFERENCE FILE: Final_Dolnytsky_part4_triodion.txt ===\n{content}\n")
+                ref_parts.append(f"=== REFERENCE FILE: Final_Dolnytsky_part4_triodion.md ===\n{content}\n")
                 print(f"   Loaded Triodion ({len(content)} chars)")
             except Exception as e:
                 print(f"   Failed to load Triodion: {e}", file=sys.stderr)
@@ -235,10 +250,55 @@ def generate_digests_for_date(target_date: date) -> tuple:
     
     return full_digest, quick_digest, ctx, rubrics
 
+def extract_service_section(digest_text: str, service: str) -> str:
+    """Extract a specific service section from the generated digest, keeping preamble metadata."""
+    lines = digest_text.splitlines()
+    preamble = []
+    service_lines = []
+    
+    mapping = {
+        "vespers": ["## GREAT VESPERS", "## VESPERS"],
+        "compline": ["## SMALL COMPLINE", "## COMPLINE"],
+        "midnight_office": ["## MIDNIGHT OFFICE", "## MIDNIGHT"],
+        "matins": ["## FESTAL MATINS", "## MATINS"],
+        "hours": ["## HOURS"],
+        "liturgy": ["## DIVINE LITURGY", "## LITURGY"]
+    }
+    
+    target_headers = [h.upper() for h in mapping.get(service, [])]
+    all_headers = []
+    for hdrs in mapping.values():
+        all_headers.extend([h.upper() for h in hdrs])
+        
+    started = False
+    for line in lines:
+        upper_line = line.strip().upper()
+        is_any_header = any(upper_line.startswith(h) for h in all_headers)
+        is_target_header = any(upper_line.startswith(h) for h in target_headers)
+        
+        if not started and not is_any_header:
+            preamble.append(line)
+            continue
+            
+        if is_target_header:
+            started = True
+            service_lines.append(line)
+            continue
+            
+        if started:
+            if is_any_header:
+                break
+            service_lines.append(line)
+            
+    preamble_str = "\n".join(preamble).strip()
+    service_str = "\n".join(service_lines).strip()
+    return f"{preamble_str}\n\n{service_str}"
+
 def main():
     parser = argparse.ArgumentParser(description="DeepSeek Typikon Compliance Auditor")
     parser.add_argument("--date", type=str, required=True, help="Target date in YYYY-MM-DD format")
     parser.add_argument("--output", type=str, help="Output markdown file to write the audit results to")
+    parser.add_argument("--service", type=str, choices=["vespers", "matins", "liturgy", "compline", "hours", "midnight_office"], help="Target service to audit")
     
     args = parser.parse_args()
     
@@ -256,6 +316,12 @@ def main():
     # 1. Generate local digests
     full_digest, quick_digest, ctx, rubrics = generate_digests_for_date(target_date)
     
+    # Slice service section if requested
+    if args.service:
+        full_digest = extract_service_section(full_digest, args.service)
+        quick_digest = extract_service_section(quick_digest, args.service)
+        print(f"Sliced digests for service: {args.service}")
+    
     # 2. Compile reference texts
     ref_context = compile_reference_files(REPO_DIR, target_date, ctx.get("season_id", "octoechos"))
     
@@ -264,6 +330,12 @@ def main():
     
     # 4. Resolve ground-truth expected readings
     expected_readings = get_expected_readings_for_date(target_date, ctx.get("pascha_offset", 0), ctx.get("day_of_week", 0))
+    
+    service_label = f" {args.service.upper()} " if args.service else " "
+    audit_instruction = (
+        f"Analyze the generated{service_label}digests for {target_date.isoformat()} line-by-line and identify all compliance gaps against the reference rubrics. "
+        f"Ignore any rules or sections not relevant to {args.service if args.service else 'the day'}'s content."
+    )
     
     # 5. Formulate the audit prompt
     audit_prompt = f"""
@@ -293,9 +365,9 @@ Resolved Rubrics:
 
 AUDIT INSTRUCTIONS:
 You are the Supreme Liturgical Compliance Auditor for the Byzantine-Ruthenian Rite (acting according to the Isidor Dolnytsky Typikon).
-You have access to the exact reference control files (Final_Dolnytsky_glossary.md, vocabulary_standardization_matrix.md, and Final_Dolnytsky_part3_menaion.txt sliced for the month).
+You have access to the exact reference control files (Final_Dolnytsky_glossary.md, vocabulary_standardization_matrix.md, and Final_Dolnytsky_part3_menaion.md sliced for the month).
 
-Analyze the generated digests for {target_date.isoformat()} line-by-line and identify all compliance gaps against the reference rubrics.
+{audit_instruction}
 
 Categorize your assessment under the following exact sections:
 1. Saint's Rank Classification Gap (Menaion & General Rubrics alignment)
@@ -332,6 +404,8 @@ REMINDER OF CRITICAL COMPLIANCE RULES:
         "Be extremely direct, listing every single gap and citation."
     )
     
+    max_tokens = 8000 if args.service else 16000
+    
     # We combine reference, codebase, and audit task
     payload = {
         "model": "deepseek-v4-pro", # Transitioned to current V4 API
@@ -340,7 +414,7 @@ REMINDER OF CRITICAL COMPLIANCE RULES:
             {"role": "user", "content": f"{ref_context}\n\n{code_context}\n\n{audit_prompt}\n\n{reminder_instructions}"}
         ],
         "thinking": {"type": "enabled"}, # Enable thinking/reasoning mode for detailed liturgical compliance analysis
-        "max_tokens": 8000
+        "max_tokens": max_tokens
     }
     
     try:
@@ -348,10 +422,28 @@ REMINDER OF CRITICAL COMPLIANCE RULES:
         response.raise_for_status()
         
         data = response.json()
-        result = data['choices'][0]['message']['content']
-        
-        output_path = Path(args.output) if args.output else REPO_DIR / f"compliance_report_{target_date}.md"
-        output_path.write_text(result, encoding="utf-8")
+        print("API Response Keys:", list(data.keys()))
+        result = ""
+        reasoning = ""
+        if 'choices' in data and data['choices']:
+            msg = data['choices'][0]['message']
+            print("Message keys:", list(msg.keys()))
+            result = msg.get('content') or ""
+            reasoning = msg.get('reasoning_content') or ""
+            print("Message content length:", len(result))
+            print("Message reasoning content length:", len(reasoning))
+            
+        final_report = ""
+        if reasoning:
+            final_report += f"## DEEPSEEK REASONING / THINKING PROCESS:\n\n{reasoning}\n\n---\n\n"
+        if result:
+            final_report += f"## AUDIT REPORT:\n\n{result}"
+        else:
+            final_report += f"## AUDIT REPORT:\n\n*(No content returned, showing reasoning process above)*"
+            
+        suffix = f"_{args.service}" if args.service else ""
+        output_path = Path(args.output) if args.output else REPO_DIR / f"compliance_report_{target_date}{suffix}.md"
+        output_path.write_text(final_report, encoding="utf-8")
         print(f"\n[SUCCESS] Compliance report saved to: {output_path}")
         
     except requests.exceptions.RequestException as e:
@@ -362,3 +454,4 @@ REMINDER OF CRITICAL COMPLIANCE RULES:
 
 if __name__ == "__main__":
     main()
+

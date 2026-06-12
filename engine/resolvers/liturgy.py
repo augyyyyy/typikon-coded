@@ -242,24 +242,66 @@ class LiturgyMixin:
             rank_val = rubrics["variables"].get("rank", rank_val)
         rank_numeric = parse_rank_integer(rank_val)
         
-        if day in (3, 5):
+        is_festal_day = (
+            rank_numeric == 1 or 
+            context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or 
+            context.get("feast_level") in ["lord", "theotokos"] or
+            context.get("paradigm") in ["p_feast_lord", "p_feast_theotokos"]
+        )
+        
+        if day in (3, 5) and not is_festal_day:
             final_components = [
                 {"type": "troparion", "source": "cross"}
             ]
             if temple_type == "theotokos":
                 final_components.append({"type": "troparion", "source": "temple"})
-            final_components.extend([
+            
+            # Commemorate saint only if rank is Doxology (4) or higher (<= 3), or explicitly overridden
+            if rank_numeric <= 4 or context.get("combined_service_override"):
+                final_components.extend([
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "kontakion", "source": "menaion_saint", "glory": True},
+                    {"type": "kontakion", "source": "cross", "both_now": True}
+                ])
+            else:
+                # No saint commemoration - only day propers (Cross)
+                final_components.append(
+                    {"type": "kontakion", "source": "cross", "glory": True, "both_now": True}
+                )
+            return {
+                "type": "hymn_stack",
+                "components": final_components
+            }
+
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"]
+        )
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
+            is_fore_after = True
+
+        is_sunday = (day == 0)
+        if not is_sunday and rank_numeric <= 3 and is_fore_after:
+            final_components = [
+                {"type": "troparion", "source": "feast"},
                 {"type": "troparion", "source": "menaion_saint"},
                 {"type": "kontakion", "source": "menaion_saint", "glory": True},
-                {"type": "kontakion", "source": "cross", "both_now": True}
-            ])
+                {"type": "kontakion", "source": "feast", "both_now": True}
+            ]
             return {
                 "type": "hymn_stack",
                 "components": final_components
             }
 
         template_key = "weekday_standard"
-        if context.get("dolnytsky_rank") == "LORD" or context.get("paradigm") == "p_feast_lord":
+        if (
+            context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or 
+            context.get("paradigm") in ["p_feast_lord", "p_feast_theotokos"] or 
+            context.get("feast_level") in ["lord", "theotokos"]
+        ):
             template_key = "festal_only"
         elif day == 0:
             if temple_type == "theotokos":
@@ -290,7 +332,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L533")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L533")
     def resolve_trisagion_type(self, context, rubrics=None):
         """
         Trisagion Type Selection for Liturgy.
@@ -470,7 +512,7 @@ class LiturgyMixin:
         return {"type": "text", "content": "".join(parts)}
 
 
-    @liturgical_source(dolnytsky="Final_footnotes.txt:L807")
+    @liturgical_source(dolnytsky="Final_footnotes.md:L807")
     def resolve_basil_megalynarion(self, context, rubrics=None):
         """
         Megalynarion for Liturgy of St. Basil.
@@ -513,7 +555,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L207")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L207")
     def resolve_communion_hymn(self, context, rubrics=None):
         """
         Communion Hymn (Причастен/Koinonikon).
@@ -580,7 +622,24 @@ class LiturgyMixin:
         tone = context.get("tone", 1)
         season = context.get("season", "ordinary")
         liturgy_type = context.get("liturgy_type", "chrysostom")
-        
+
+        # EUCHARIST PERIOD AFTERFEAST (pascha_offset between 60 and 67)
+        pascha_offset = context.get("pascha_offset")
+        if pascha_offset is not None and 60 <= pascha_offset <= 67:
+            saints = context.get("saints", [])
+            if rank <= 3 and saints:
+                return {
+                    "type": "communion_hymn",
+                    "text": "Receive the Body of Christ; taste the fountain of immortality. And of the Saint: Their sound hath gone forth into all the earth, and their words unto the ends of the world.",
+                    "ref_key": "pentecostarion.eucharist.communion_combined"
+                }
+            else:
+                return {
+                    "type": "communion_hymn",
+                    "text": "Receive the Body of Christ; taste the fountain of immortality.",
+                    "ref_key": "pentecostarion.eucharist.communion"
+                }
+
         # PRESANCTIFIED: Special communion
         if liturgy_type == "presanctified":
             return {
@@ -631,7 +690,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L129")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L129")
     def resolve_post_communion_hymn(self, context, rubrics=None):
         """
         Post-Communion Hymn: "We Have Seen the True Light" replacement.
@@ -687,7 +746,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.txt:L760")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:L760")
     def resolve_vesperal_liturgy_readings(self, context, rubrics=None):
         """
         Phase 7: Resolve Vesperal Liturgy Readings
@@ -755,7 +814,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L207")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L207")
     def resolve_liturgy_readings(self, context, rubrics=None):
         """
         Unified Liturgy Readings Resolution.
@@ -914,28 +973,7 @@ class LiturgyMixin:
         
         # WEEKDAY
         if day_of_week != 0:
-            if saints and rank <= 3:
-                saint_id = saints[0].get("id", "saint")
-                result["readings"].append({
-                    "prokeimenon": {
-                        "source": "menaion",
-                        "ref_key": f"menaion.{saint_id}.prokeimenon"
-                    },
-                    "epistle": {
-                        "source": "menaion",
-                        "ref_key": f"menaion.{saint_id}.epistle"
-                    },
-                    "alleluia": {
-                        "source": "menaion",
-                        "ref_key": f"menaion.{saint_id}.alleluia"
-                    },
-                    "gospel": {
-                        "source": "menaion",
-                        "ref_key": f"menaion.{saint_id}.gospel"
-                    }
-                })
-            
-            # Weekday lectionary
+            # Weekday lectionary first
             p_res = self.resolve_prokeimenon(context)
             p_tone = p_res.get("tone", 1)
             # Dynamic sequential readings calculation
@@ -987,11 +1025,36 @@ class LiturgyMixin:
                 if weeks_after_pentecost in lectionary and day_of_week in lectionary[weeks_after_pentecost]:
                     ep_text, gosp_text = lectionary[weeks_after_pentecost][day_of_week]
 
+            # Eucharist Afterfeast/Apodosis check (pascha_offset 60 to 67)
+            offset = context.get("pascha_offset")
+            if offset is not None and 60 <= offset <= 67:
+                p_source = "feast"
+                p_ref = "menaion.eucharist.prokeimenon"
+                p_tone_val = 6
+                p_text = "O Lord, save Your people and bless Your inheritance"
+                a_source = "feast"
+                a_ref = "menaion.eucharist.alleluia"
+                a_tone_val = 6
+                a_verses = [
+                    "He who eats My flesh and drinks My blood abides in Me, and I in him",
+                    "The bread that I will give is My flesh for the life of the world"
+                ]
+            else:
+                p_source = "horologion"
+                p_ref = f"horologion.prokeimenon.day_{day_of_week}"
+                p_tone_val = p_tone
+                p_text = None
+                a_source = "horologion"
+                a_ref = f"horologion.alleluia.day_{day_of_week}"
+                a_tone_val = p_tone
+                a_verses = None
+
             result["readings"].append({
                 "prokeimenon": {
-                    "source": "horologion",
-                    "ref_key": f"horologion.prokeimenon.day_{day_of_week}",
-                    "tone": p_tone
+                    "source": p_source,
+                    "ref_key": p_ref,
+                    "tone": p_tone_val,
+                    "text": p_text
                 },
                 "epistle": {
                     "source": "apostol",
@@ -999,9 +1062,10 @@ class LiturgyMixin:
                     "text": ep_text
                 },
                 "alleluia": {
-                    "source": "horologion",
-                    "ref_key": f"horologion.alleluia.day_{day_of_week}",
-                    "tone": p_tone
+                    "source": a_source,
+                    "ref_key": a_ref,
+                    "tone": a_tone_val,
+                    "verses": a_verses
                 },
                 "gospel": {
                     "source": "evangelion",
@@ -1009,6 +1073,56 @@ class LiturgyMixin:
                     "text": gosp_text
                 }
             })
+
+            # Saint's readings second
+            if saints and rank <= 3:
+                saint_id = saints[0].get("id", "saint")
+                if saint_id == "jun_11.bartholomew_barnabas":
+                    result["readings"].append({
+                        "prokeimenon": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.prokeimenon",
+                            "tone": 8,
+                            "text": "Their proclamation has gone out into all the earth, and their words to the ends of the world"
+                        },
+                        "epistle": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.epistle",
+                            "text": "Acts 11:19-26, 29-30"
+                        },
+                        "alleluia": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.alleluia",
+                            "tone": 1,
+                            "verses": [
+                                "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the Saints"
+                            ]
+                        },
+                        "gospel": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.gospel",
+                            "text": "Luke 10:16-21"
+                        }
+                    })
+                else:
+                    result["readings"].append({
+                        "prokeimenon": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.prokeimenon"
+                        },
+                        "epistle": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.epistle"
+                        },
+                        "alleluia": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.alleluia"
+                        },
+                        "gospel": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.gospel"
+                        }
+                    })
         
         return result
 
@@ -1059,7 +1173,7 @@ class LiturgyMixin:
         return {"type": "koinonikon_stack", "components": stack}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L26-28")
     def resolve_reading_ot(self, context, rubrics):
         """
         Resolve Old Testament reading (paremia/prophecy).
@@ -1081,7 +1195,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L26-28")
     def resolve_reading_epistle(self, context, rubrics):
         """
         Resolve Epistle reading.
@@ -1109,7 +1223,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L26-28")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L26-28")
     def resolve_reading_gospel(self, context, rubrics):
         """
         Resolve Gospel reading.
@@ -1139,11 +1253,34 @@ class LiturgyMixin:
     # PHASE 12: ALL-NIGHT VIGIL (EXTREME)
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L121,L192")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L121,L192")
     def resolve_beatitudes(self, context):
         """
         Gate: Beatitudes (Third Antiphon)
         """
+        offset = context.get("pascha_offset")
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get('rank', 5))
+        
+        if offset is not None and 60 <= offset <= 67:
+            if rank <= 3:
+                return {
+                    "type": "beatitudes",
+                    "stichera": [
+                        {"source": "triodion", "count": 4},
+                        {"source": "menaion", "count": 4}
+                    ],
+                    "note": "Feast - 4; Saint - 4"
+                }
+            else:
+                return {
+                    "type": "beatitudes",
+                    "stichera": [
+                        {"source": "triodion", "count": 6}
+                    ],
+                    "note": "Feast - 6"
+                }
+
         beat_dist = context.get("beatitudes_distribution")
         if beat_dist:
             stichera = []
@@ -1171,7 +1308,7 @@ class LiturgyMixin:
         return {"type": "third_antiphon", "note": "Usual Third Antiphon without stichera"}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.txt:L207")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:L207")
     def resolve_liturgy_alleluia(self, context, rubrics=None):
         """
         Resolve Liturgy Alleluia tone and verses based on readings.

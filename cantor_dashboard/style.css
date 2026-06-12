@@ -52,8 +52,8 @@
     
     /* Scrollbars */
     --scrollbar-track: rgba(0, 0, 0, 0.05);
-    --scrollbar-thumb: rgba(144, 0, 0, 0.2);
-    --scrollbar-thumb-hover: rgba(144, 0, 0, 0.4);
+    --scrollbar-thumb: rgba(144, 0, 0, 0.45);
+    --scrollbar-thumb-hover: rgba(144, 0, 0, 0.7);
 
     --toast-bg: rgba(28, 26, 23, 0.95);
     --toast-text: #eae6df;
@@ -98,8 +98,8 @@ body.dark-theme {
     --status-ok-text: #b9f6ca;
     
     --scrollbar-track: rgba(255, 255, 255, 0.02);
-    --scrollbar-thumb: rgba(197, 160, 89, 0.2);
-    --scrollbar-thumb-hover: rgba(197, 160, 89, 0.4);
+    --scrollbar-thumb: rgba(197, 160, 89, 0.45);
+    --scrollbar-thumb-hover: rgba(197, 160, 89, 0.7);
 
     --toast-bg: rgba(230, 224, 216, 0.95);
     --toast-text: #121010;
@@ -139,8 +139,8 @@ html, body {
 }
 
 .scrollable::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
 }
 
 .scrollable::-webkit-scrollbar-track {
@@ -149,7 +149,7 @@ html, body {
 
 .scrollable::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
-    border-radius: 3px;
+    border-radius: 4px;
 }
 
 .scrollable::-webkit-scrollbar-thumb:hover {
@@ -294,7 +294,7 @@ html, body {
     height: 100%;
     flex-direction: column;
     padding: 32px;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .tab-panel.active {
@@ -531,11 +531,11 @@ body.dark-theme .quick-btn {
 
 /* Calendar layout: Two columns */
 .calendar-layout {
-    display: grid;
-    grid-template-columns: 350px 1fr;
+    display: flex;
     gap: 24px;
-    height: calc(100% - 150px);
-    min-height: 500px;
+    flex-grow: 1;
+    min-height: 0;
+    height: 0; /* Forces definite height chain for children percentage height resolution */
 }
 
 .layout-column {
@@ -546,11 +546,15 @@ body.dark-theme .quick-btn {
 }
 
 .context-col {
-    max-height: 100%;
+    width: 350px;
+    flex-shrink: 0;
+    height: 100%;
 }
 
 .document-col {
+    flex-grow: 1;
     min-width: 0; /* Prevents flex overflow */
+    height: 100%;
 }
 
 /* Cards */
@@ -562,11 +566,16 @@ body.dark-theme .quick-btn {
 }
 
 .context-card {
-    height: 60%;
+    height: 100%;
+    transition: height 0.3s ease;
 }
 
 .trace-card {
     height: 40%;
+}
+
+body.dev-mode-active .context-card {
+    height: 60%;
 }
 
 .document-card {
@@ -733,6 +742,10 @@ body.dark-theme .doc-tab-btn.active {
 /* Liturgical Booklet Styles */
 .document-view {
     flex-grow: 1;
+    min-height: 0;
+    min-width: 0;
+    overflow-x: hidden;
+    word-wrap: break-word;
     padding: 32px 40px;
     font-family: var(--font-body);
     font-size: 1.15rem;
@@ -874,8 +887,8 @@ body.dark-theme .digest-style code {
     display: grid;
     grid-template-columns: 320px 1fr;
     gap: 24px;
-    height: calc(100% - 80px);
-    min-height: 500px;
+    flex-grow: 1;
+    min-height: 0;
 }
 
 /* Sidebar lists */
@@ -1142,8 +1155,8 @@ body.dark-theme .stat-num {
     display: grid;
     grid-template-columns: 350px 1fr;
     gap: 24px;
-    height: calc(100% - 180px);
-    min-height: 400px;
+    flex-grow: 1;
+    min-height: 0;
 }
 
 .file-list-card {
@@ -2118,4 +2131,325 @@ body.dev-mode-active tr.dev-element {
 body.dev-mode-active div.roadmap-layout-grid.dev-element {
     display: grid !important;
 }
+
+/* ==========================================================================
+   SPLIT VIEW LAYOUT & PARISH PROFILES
+   ========================================================================== */
+.document-card.split-layout-active .document-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    height: calc(100% - 53px);
+    overflow: hidden;
+}
+
+.document-card.split-layout-active .doc-panel {
+    display: flex !important;
+    flex-direction: column;
+    flex: 1 1 50%;
+    width: 50% !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    overflow: hidden;
+}
+
+.document-card.split-layout-active #doc-booklet {
+    border-right: 1px solid var(--card-border);
+}
+
+.document-card.split-layout-active .doc-tab-btn {
+    color: var(--rubric-color);
+    border-bottom: 2px solid var(--rubric-color);
+    background: var(--card-bg);
+    pointer-events: none;
+}
+
+body.dark-theme .document-card.split-layout-active .doc-tab-btn {
+    color: var(--gold-accent);
+    border-bottom-color: var(--gold-accent);
+}
+
+@media screen and (max-width: 992px) {
+    .document-card.split-layout-active .document-content-wrapper {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
+    }
+    .document-card.split-layout-active .doc-panel {
+        height: auto !important;
+        overflow: visible !important;
+    }
+    .document-card.split-layout-active #doc-booklet {
+        border-right: none;
+        border-bottom: 1px solid var(--card-border);
+    }
+}
+
+/* Parish Profile Manager Styling */
+.profile-settings-group {
+    border-top: 1px dashed var(--card-border);
+    padding-top: 16px;
+    margin-top: 8px;
+}
+
+.profile-action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+#btn-save-profile {
+    background: rgba(197, 160, 89, 0.1) !important;
+    border: 1px solid rgba(197, 160, 89, 0.3) !important;
+    color: var(--gold-accent) !important;
+    transition: all 0.2s ease;
+}
+
+#btn-save-profile:hover {
+    background: rgba(197, 160, 89, 0.25) !important;
+    border-color: var(--gold-accent) !important;
+    transform: translateY(-1px);
+}
+
+#btn-delete-profile {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    color: var(--status-error) !important;
+    transition: all 0.2s ease;
+}
+
+#btn-delete-profile:hover {
+    background: rgba(239, 68, 68, 0.25) !important;
+    border-color: var(--status-error) !important;
+    transform: translateY(-1px);
+}
+
+body.dark-theme #btn-save-profile {
+    background: rgba(197, 160, 89, 0.15) !important;
+}
+
+body.dark-theme #btn-delete-profile {
+    background: rgba(239, 68, 68, 0.15) !important;
+}
+
+/* Enable page-wide scroll on small viewports and for the Roadmap tab */
+#tab-roadmap {
+    overflow-y: auto !important;
+}
+
+@media screen and (max-width: 1024px) {
+    .tab-panel {
+        overflow-y: auto !important;
+    }
+}
+
+/* Liturgical Season & Parameter Badges */
+.badge-season {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    letter-spacing: 0.03em;
+}
+.badge-season.season-lent {
+    background: rgba(144, 0, 0, 0.15);
+    color: #ff5c5c;
+    border: 1px solid rgba(144, 0, 0, 0.3);
+}
+body.light-theme .badge-season.season-lent {
+    background: rgba(144, 0, 0, 0.08);
+    color: var(--rubric-color);
+    border-color: rgba(144, 0, 0, 0.2);
+}
+
+.badge-season.season-pre_lent {
+    background: rgba(107, 114, 128, 0.15);
+    color: #9ca3af;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+}
+body.light-theme .badge-season.season-pre_lent {
+    background: rgba(107, 114, 128, 0.08);
+    color: #4b5563;
+    border-color: rgba(107, 114, 128, 0.2);
+}
+
+.badge-season.season-pascha {
+    background: rgba(197, 160, 89, 0.2);
+    color: #e0be7e;
+    border: 1px solid rgba(197, 160, 89, 0.4);
+}
+body.light-theme .badge-season.season-pascha {
+    background: rgba(197, 160, 89, 0.1);
+    color: #b8860b;
+    border-color: rgba(197, 160, 89, 0.3);
+}
+
+.badge-season.season-ordinary {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+body.light-theme .badge-season.season-ordinary {
+    background: rgba(16, 185, 129, 0.08);
+    color: #047857;
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.badge-tone {
+    background: rgba(197, 160, 89, 0.15);
+    color: var(--gold-accent);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.badge-eothinon {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+body.light-theme .badge-eothinon {
+    background: rgba(59, 130, 246, 0.08);
+    color: #2563eb;
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.badge-rank {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+.badge-rank.rank-major {
+    background: rgba(144, 0, 0, 0.15);
+    color: #ff5c5c;
+    border: 1px solid rgba(144, 0, 0, 0.3);
+}
+body.light-theme .badge-rank.rank-major {
+    background: rgba(144, 0, 0, 0.08);
+    color: var(--rubric-color);
+    border-color: rgba(144, 0, 0, 0.2);
+}
+
+.badge-rank.rank-minor {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.dark-theme .badge-rank.rank-minor {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Fasting Rule Badges */
+.badge-fast {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    letter-spacing: 0.03em;
+}
+.badge-fast.fast-no_fast {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+body.light-theme .badge-fast.fast-no_fast {
+    background: rgba(16, 185, 129, 0.08);
+    color: #047857;
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.badge-fast.fast-fish_permitted {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+body.light-theme .badge-fast.fast-fish_permitted {
+    background: rgba(59, 130, 246, 0.08);
+    color: #2563eb;
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.badge-fast.fast-oil_and_wine {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+body.light-theme .badge-fast.fast-oil_and_wine {
+    background: rgba(245, 158, 11, 0.08);
+    color: #b45309;
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.badge-fast.fast-dairy_and_eggs {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+}
+body.light-theme .badge-fast.fast-dairy_and_eggs {
+    background: rgba(251, 191, 36, 0.08);
+    color: #d97706;
+    border-color: rgba(251, 191, 36, 0.2);
+}
+
+.badge-fast.fast-fast_day,
+.badge-fast.fast-xerophagy {
+    background: rgba(144, 0, 0, 0.15);
+    color: #ff5c5c;
+    border: 1px solid rgba(144, 0, 0, 0.3);
+}
+body.light-theme .badge-fast.fast-fast_day,
+body.light-theme .badge-fast.fast-xerophagy {
+    background: rgba(144, 0, 0, 0.08);
+    color: var(--rubric-color);
+    border-color: rgba(144, 0, 0, 0.2);
+}
+
+/* Liturgical Color Badges */
+.badge-color {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    letter-spacing: 0.03em;
+}
+.badge-color.color-red { background: rgba(239, 68, 68, 0.15); color: #ff5c5c; border: 1px solid rgba(239, 68, 68, 0.3); }
+body.light-theme .badge-color.color-red { background: rgba(220, 38, 38, 0.08); color: #dc2626; border-color: rgba(220, 38, 38, 0.2); }
+
+.badge-color.color-gold { background: rgba(197, 160, 89, 0.2); color: #e0be7e; border: 1px solid rgba(197, 160, 89, 0.4); }
+body.light-theme .badge-color.color-gold { background: rgba(197, 160, 89, 0.1); color: #b8860b; border-color: rgba(197, 160, 89, 0.3); }
+
+.badge-color.color-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+body.light-theme .badge-color.color-blue { background: rgba(37, 99, 235, 0.08); color: #2563eb; border-color: rgba(37, 99, 235, 0.2); }
+
+.badge-color.color-purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+body.light-theme .badge-color.color-purple { background: rgba(124, 58, 237, 0.08); color: #7c3aed; border-color: rgba(124, 58, 237, 0.2); }
+
+.badge-color.color-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+body.light-theme .badge-color.color-green { background: rgba(5, 150, 105, 0.08); color: #059669; border-color: rgba(5, 150, 105, 0.2); }
+
+.badge-color.color-white { background: rgba(255, 255, 255, 0.15); color: #eae6df; border: 1px solid rgba(255, 255, 255, 0.3); }
+body.light-theme .badge-color.color-white { background: rgba(255, 255, 255, 0.8); color: #1c1a17; border-color: rgba(0, 0, 0, 0.15); }
+
+.badge-color.color-black { background: rgba(0, 0, 0, 0.4); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.15); }
+body.light-theme .badge-color.color-black { background: rgba(0, 0, 0, 0.08); color: #111827; border-color: rgba(0, 0, 0, 0.2); }
+
 

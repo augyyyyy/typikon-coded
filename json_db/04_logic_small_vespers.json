@@ -6,7 +6,7 @@
   },
   "small_vespers_distribution": {
     "case_06_sunday_vigil": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L352-356",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L352-356",
       "lord_i_have_cried": {
         "total_count": 4,
         "distribution": [
@@ -43,7 +43,7 @@
       }
     },
     "case_07_weekday_vigil": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L389-391",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L389-391",
       "lord_i_have_cried": {
         "total_count": 4,
         "distribution": [
@@ -75,7 +75,7 @@
       }
     },
     "case_10_feast_lord": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L501",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L501",
       "lord_i_have_cried": {
         "total_count": 4,
         "distribution": [
@@ -107,7 +107,7 @@
       }
     },
     "case_11_theotokos_sunday": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L540-544",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L540-544",
       "lord_i_have_cried": {
         "total_count": 4,
         "distribution": [
@@ -144,15 +144,15 @@
       }
     },
     "case_12_theotokos_weekday": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L497",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L497",
       "inherits": "case_10_feast_lord"
     },
     "case_17_afterfeast_sunday_vigil": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L791",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L791",
       "inherits": "case_01_sunday_simple_scaled_vigil"
     },
     "case_18_afterfeast_weekday_vigil": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.txt:L804",
+      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:L804",
       "inherits": "case_07_weekday_vigil"
     }
   }

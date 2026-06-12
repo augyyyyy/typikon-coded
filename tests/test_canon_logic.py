@@ -91,7 +91,7 @@ class TestCanonLogic(unittest.TestCase):
         context = {
             "season": "octoechos",
             "day_of_week": 0,
-            "rank": 2,
+            "rank": 4,
             "octoechos_tone": 1,
             "variables": {}
         }

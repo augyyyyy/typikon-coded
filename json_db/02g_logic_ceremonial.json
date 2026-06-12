@@ -4,7 +4,7 @@
     "version": "2.0",
     "last_updated": "2026-05-03",
     "authority": "Ordo Celebrationis 1944 (1996 Keleher/Figel English Translation)",
-    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
     "scope": "Physical choreography of all services: doors, curtain, censing, vestments, bows, hand positions, clergy movement",
     "description": "Machine-queryable encoding of the Ordo's General Rules (§1–§28) and per-service door/curtain state protocols. Each rule cites its Ordo §-number. Supersedes all prior Dolnytsky Part I references."
   },

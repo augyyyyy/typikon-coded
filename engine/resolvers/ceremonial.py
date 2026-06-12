@@ -148,6 +148,11 @@ class CeremonialMixin:
             return {"color": "green",
                     "citation": "Dolnytsky IV — Pentecost"}
         
+        # Eucharist Feast/Afterfeast/Apodosis: white
+        if offset is not None and 60 <= offset <= 67:
+            return {"color": "white",
+                    "citation": "Synod of Lviv — Feasts of the Lord, white"}
+        
         # 5. Lenten period: purple/dark
         if offset is not None and -48 <= offset <= -8:
             if day_of_week == 0:  # Sundays of Lent
@@ -290,7 +295,7 @@ class CeremonialMixin:
             "lord_i_have_cried": {
                 "type": "great", "scope": "full",
                 "who": "deacon",
-                "description": "Great censing of the entire church",
+                "description": "Deacon performs Great censing of the entire church during 'Lord, I have cried'",
                 "citation": "Dolnytsky I:20 — At 'Lord I have cried'"
             },
             "polyeleos": {
@@ -387,7 +392,7 @@ class CeremonialMixin:
         if not doors_data:
             return {"state": "unknown", "note": "Ceremonial logic not loaded"}
         
-        # Bright Week override — Ordo_Celebrationis_1996_CLEAN.txt:L281-282
+        # Bright Week override — Ordo_Celebrationis_1996_CLEAN.md:L281-282
         offset = context.get("pascha_offset")
         if offset is not None and 0 <= offset <= 6:
             bright_rule = doors_data.get("states_by_service", {}).get("bright_week", {})
@@ -397,7 +402,7 @@ class CeremonialMixin:
                 "note": bright_rule.get("rule", "Royal doors and side doors remain open during entire Bright Week.")
             }
         
-        # Hierarchical override — Ordo_Celebrationis_1996_CLEAN.txt:L284
+        # Hierarchical override — Ordo_Celebrationis_1996_CLEAN.md:L284
         if context.get("is_hierarchical"):
             hier_rule = doors_data.get("states_by_service", {}).get("hierarchical_service", {})
             return {
@@ -835,4 +840,4 @@ class CeremonialMixin:
         return True
 
     # MODULE A10: HIERARCHY (LITANY LOGIC)
-    # ref: Final_Dolnytsky_part5_temple.txt:L2
+    # ref: Final_Dolnytsky_part5_temple.md:L2

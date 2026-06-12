@@ -115,19 +115,20 @@ class EngineCore:
         self.text_db = {} 
         # The original _load_versioned_texts() and _load_bulk_files() are replaced by the following explicit loads
         # Recension text assets (service book content specific to the tradition)
-        _cf = self.content_folder  # e.g. 'stamford'
-        self._load_versioned_texts(f"json_db/{_cf}/text_horologion.json")
-        self._load_versioned_texts(f"json_db/{_cf}/text_horologion_supplement.json")
-        self._load_versioned_texts(f"json_db/{_cf}/text_eothinon.json")
-        self._load_versioned_texts(f"json_db/{_cf}/text_octoechos.json")
-        self._load_versioned_texts(f"json_db/{_cf}/text_pentecostarion.json")
-        self._load_versioned_texts(f"json_db/{_cf}/text_triodion.json")
-        self._load_versioned_texts(f"json_db/{_cf}/text_weekdays.json")
-        self._load_versioned_texts(f"json_db/{_cf}/text_theotokia.json")
+        # Define recension folder path (decoupled from json_db/)
+        recension_dir = "Data/Service Books/Recensions/Stamford Divine Office/JSON/assets"
+        self._load_versioned_texts(f"{recension_dir}/text_horologion.json")
+        self._load_versioned_texts(f"{recension_dir}/text_horologion_supplement.json")
+        self._load_versioned_texts(f"{recension_dir}/text_eothinon.json")
+        self._load_versioned_texts(f"{recension_dir}/text_octoechos.json")
+        self._load_versioned_texts(f"{recension_dir}/text_pentecostarion.json")
+        self._load_versioned_texts(f"{recension_dir}/text_triodion.json")
+        self._load_versioned_texts(f"{recension_dir}/text_weekdays.json")
+        self._load_versioned_texts(f"{recension_dir}/text_theotokia.json")
         
         self.general_menaion_db = self._load_json("json_db/common/text_general_menaion.json")
         # Overlay recension-specific General Menaion if available
-        recension_menaion_path = f"json_db/{_cf}/text_general_menaion.json"
+        recension_menaion_path = f"{recension_dir}/text_general_menaion.json"
         abs_common_path = os.path.abspath(os.path.join(self.base_dir, recension_menaion_path))
         if os.path.exists(abs_common_path):
             recension_common = self._load_json(abs_common_path)

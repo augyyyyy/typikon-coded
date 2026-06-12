@@ -65,7 +65,7 @@
     ]
   },
   "bridegroom_canon_type": {
-    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L880-884",
+    "source_ref": "Final_Dolnytsky_part4_triodion.md:L880-884",
     "description": "Determines whether Bridegroom Matins canon is a full triodion or a diodion (two-ode), based on the day of Holy Week.",
     "rules": [
       {
@@ -101,7 +101,7 @@
     ]
   },
   "psalm_50_intercession": {
-    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330",
+    "source_ref": "Final_Dolnytsky_part4_triodion.md:L330",
     "description": "Determines the intercession verse sung at Glory after Psalm 50 at Lenten Matins.",
     "rules": [
       {
@@ -117,7 +117,7 @@
     ]
   },
   "passion_gospel_formula": {
-    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L978",
+    "source_ref": "Final_Dolnytsky_part4_triodion.md:L978",
     "description": "Replaces standard Gospel acclamations with Passion-specific texts for all 12 Passion Gospels.",
     "before_gospel": {
       "standard": "Glory to Thee, O Lord, glory to Thee.",
@@ -132,7 +132,7 @@
     "special_note": "After the 12th Gospel, bells cease and only wooden clappers are used until the Resurrection (Dolnytsky IV:653)."
   },
   "tomb_matins_encomia_stations": {
-    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1065",
+    "source_ref": "Final_Dolnytsky_part4_triodion.md:L1065",
     "description": "Divides Psalm 118 (Kathisma 17) into three stations with Encomia stichera interspersed.",
     "stations": [
       {

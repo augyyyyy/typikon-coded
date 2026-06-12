@@ -246,10 +246,10 @@ def test_gate_12_dismissal_troparion():
     result = engine.resolve_matins_dismissal_troparion(context)
     assert result['troparia'][0]['type'] == 'resurrectional'
     assert result['troparia'][0]['tone'] == 3
-    assert result['glory_both_now'] == 'troparion_resurrection_tone_3'
-    print("  [PASS] Sunday alone uses resurrectional troparion (Tone 3)")
+    assert result['glory_both_now'] == 'today_salvation'
+    print("  [PASS] Sunday alone uses resurrectional troparion (Today Salvation)")
     
-    # Test 3: Sunday + Saint - Stacking
+    # Test 3: Sunday + Saint - No Stacking (Even Tone 6)
     context = {
         'rank': 4,
         'day_of_week': 0,
@@ -258,10 +258,9 @@ def test_gate_12_dismissal_troparion():
     }
     result = engine.resolve_matins_dismissal_troparion(context)
     assert result['troparia'][0]['type'] == 'resurrectional'
-    assert result['troparia'][1]['type'] == 'saint'
-    assert result['glory'] == 'troparion_st_demetrius'
-    assert result['both_now'] == 'theotokion_tone_6'
-    print("  [PASS] Sunday + Saint uses stacking (Resurrectional, Glory, Theotokion)")
+    assert len(result['troparia']) == 1
+    assert result['glory_both_now'] == 'having_risen_from_tomb'
+    print("  [PASS] Sunday + Saint uses resurrectional dismissal troparion (Having Risen from the Tomb)")
     
     # Test 4: Weekday saint - Saint troparion + Theotokion
     context = {

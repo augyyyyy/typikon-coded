@@ -9,7 +9,7 @@
   "structures": {
     "structure_royal": {
       "title_key": "titles.royal_hours",
-      "source_ref": "Final_Dolnytsky_part3_menaion.txt",
+      "source_ref": "Final_Dolnytsky_part3_menaion.md",
       "sequence": [
         {
           "id": "royal_hours_opening",

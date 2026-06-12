@@ -100,27 +100,27 @@
   "movable": [
     {
       "offset_start": 1,
-      "offset_end": 38,
+      "offset_end": 23,
       "katavasia": "The Resurrection Day",
       "tone": 1,
       "feast": "Pascha",
-      "note": "From Pascha to Apodosis (excl.)"
+      "note": "Pascha to Mid-Pentecost eve"
     },
     {
       "offset_start": 24,
-      "offset_end": 24,
-      "katavasia": "The Sea",
-      "tone": 8,
-      "feast": "Mid-Pentecost",
-      "note": "Mid-Pentecost Wednesday"
-    },
-    {
-      "offset_start": 31,
       "offset_end": 31,
       "katavasia": "The Sea",
       "tone": 8,
       "feast": "Mid-Pentecost",
-      "note": "Apodosis of Mid-Pentecost"
+      "note": "Mid-Pentecost to Apodosis"
+    },
+    {
+      "offset_start": 32,
+      "offset_end": 34,
+      "katavasia": "The Resurrection Day",
+      "tone": 1,
+      "feast": "Pascha",
+      "note": "Mon to Wed after Samaritan Woman"
     },
     {
       "offset_start": 35,
@@ -128,7 +128,15 @@
       "katavasia": "To the Savior",
       "tone": 5,
       "feast": "Ascension",
-      "note": "6th Sun after Pascha"
+      "note": "Blind Man Sunday"
+    },
+    {
+      "offset_start": 36,
+      "offset_end": 37,
+      "katavasia": "The Resurrection Day",
+      "tone": 1,
+      "feast": "Pascha",
+      "note": "Mon & Tue after Blind Man"
     },
     {
       "offset_start": 38,
@@ -140,34 +148,19 @@
     },
     {
       "offset_start": 39,
-      "offset_end": 39,
-      "katavasia": "Divine",
-      "tone": 4,
-      "feast": "Pentecost",
-      "note": "Ascension Thursday"
-    },
-    {
-      "offset_start": 40,
       "offset_end": 47,
       "katavasia": "To the Savior",
       "tone": 5,
       "feast": "Ascension",
-      "note": "Fri after Ascension to Apodosis"
-    },
-    {
-      "offset_start": 42,
-      "offset_end": 42,
-      "katavasia": "Divine",
-      "tone": 4,
-      "feast": "Pentecost",
-      "note": "7th Sun after Pascha"
+      "note": "Ascension to Apodosis"
     },
     {
       "offset_start": 48,
       "offset_end": 48,
       "katavasia": "Let us send up a song",
       "tone": 8,
-      "feast": "Sat. of Pentecost"
+      "feast": "Sat. of Pentecost",
+      "note": "Saturday of Souls before Pentecost"
     },
     {
       "offset_start": 49,
@@ -179,11 +172,11 @@
     },
     {
       "offset_start": 56,
-      "offset_end": 56,
+      "offset_end": 59,
       "katavasia": "I will open",
       "tone": 4,
       "feast": "General of Theotokos",
-      "note": "All Saints"
+      "note": "All Saints Sunday to Eucharist eve"
     }
   ]
 }

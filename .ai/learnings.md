@@ -195,7 +195,7 @@ class RuthenianEngine(
     pass
 ```
 
-**Total**: 11,795 lines across 16 modules. 298 tests pass successfully.
+**Total**: 11,795 lines across 16 modules. 306 tests pass successfully.
 
 ---
 
@@ -296,7 +296,7 @@ When switching models:
 
 ## IX. Citation Grounding & Alignment (2026-06-07)
 
-1. **100% Canonical Grounding**: Every rule in the JSON database (301 instances) and Python engine logic (37 instances) is mapped to exact line numbers in the official text files (`Final_Dolnytsky_*.txt` and `Ordo_Celebrationis_1996_CLEAN.txt`).
+1. **100% Canonical Grounding**: Every rule in the JSON database (301 instances) and Python engine logic (37 instances) is mapped to exact line numbers in the official text files (`Final_Dolnytsky_*.txt` and `Ordo_Celebrationis_1996_CLEAN.md`).
 2. **Master Citation Matrix**: The system programmatically proves its canonical accuracy by cross-referencing logic calls against the physical text of the rule in `.agent/brain/encyclopedia/master_citation_matrix.md`.
 3. **Hierarchy of Truth**: Engine resolution relies on `Ordo > Dolnytsky > Liturgicon`. Any new logic added to the system MUST use the `@liturgical_source` decorator in Python or the `source_ref` property in JSON structures to trace back to these exact sources.
 4. **Pascha Collision**: Movable feast collisions (like Pascha vs. fixed Menaion feasts) are handled via explicit overrides (`movable_overrides`) in `engine/calendar.py` to prevent the fixed calendar from asserting dominance over the Resurrection of Christ.
@@ -317,6 +317,45 @@ When switching models:
 
 2. **Context Dilution Protocol**:
    - When conversation contexts become too long, the pre-flight and post-flight constraints risk being diluted or lost due to LLM attention limitations.
-   - Under this protocol, when the context window is large, the 1M context Deepseek model must be invoked via the `DEEPSEEK_API_KEY` (or recommended to the user) to run deep forensic audits and maintain absolute compliance with the rules.
+   - Under this protocol, when the context window is large, the 1M context Deepseek model must be invoked via the `DEEPSEEK_API_KEY` (or recommended to the user) to run deep audits and ensure that compliance checks (Pre-Flight/Post-Flight) are executed with absolute fidelity.
 
+## XII. DeepSeek API Orchestration (2026-06-10)
 
+1. **API Keys Integration**:
+   - The Hub ecosystem utilizes the DeepSeek API (`DEEPSEEK_API_KEY` or `[deepseek-v4-pro]`) defined in the shared global `.env` file at the root.
+2. **Model Class Boundary & Usage**:
+   - **DeepSeek V4 Pro**: Used for all tasks, including canonical text-only audits, text alignment, translation quality auditing, reasoning-intensive text analysis, and multimodal vision verifications (evaluating scanned source page JPGs against English translations).
+
+## XIII. Granular Audit & Recension Decoupling (2026-06-11)
+
+1. **Wing 3 Recension Decoupling**:
+   - Reorganized the directory hierarchy by relocating the Stamford recension text databases from `json_db/stamford/` to `Data/Service Books/Recensions/Stamford Divine Office/JSON/assets/`.
+   - Updated `engine/core.py` to target this external recension folder for versioned text lookup. This ensures a clean separation of pure, canonical logic skeletons (in `json_db/`) from regionalized textual recensions.
+
+2. **Wing 1 (Core Logic Engine) Remediations**:
+   - **Vespers**: Corrected daily vespers entrance suppression on weekdays and double-saint troparia resolution.
+   - **Matins**: Corrected simple Sunday canon ratios (now resolving to 14 troparia: 4 resurrection, 3 cross-resurrection, 3 theotokos, 4 saint), corrected Eothinon/resurrection troparion dismissal odd/even tone logic, and corrected Polyeleos date windows (e.g., Sept 22 - Dec 19).
+   - **Liturgy**: Wed/Fri simple saint suppression unless rank >= Doxology.
+   - **Lenten**: Fixed a mathematical contradiction in `is_great_lent` which was always returning False due to checking `pascha_offset <= -49 and pascha_offset >= -7` (corrected to `-49 <= pascha_offset <= -8`).
+
+3. **Wing 2 (Service Structures) Remediations**:
+   - **Vigil Matins**: Modified `01k_struct_vigil.json` to correctly link to `great_matins` instead of `daily_matins`. This cleans up invalid overrides and ensures the service begins with the correct Vigil-appropriate opening (Six Psalms starting with "Glory to the Holy...") while deleting only the final Matins dismissal (since the final dismissal is done at the end of the First Hour).
+   - **Service Skeletons**: Swapped `verses_fixed` with `readings_royal` in Royal Hours overrides, updated Compline and Midnight Office ordinaries to align with Dolnytsky.
+
+## XIV. Apodosis Alignment, Auditor Optimizations, and Markdown Reference Migration (2026-06-12)
+
+1. **Apodosis of Eucharist with Bartholomew & Barnabas (Case 16)**:
+   - **Precedence & Ratios**: Corrected stichera and canon ratios in `json_db/02a_logic_general.json` for weekday Polyeleos saints during afterfeast/apodosis (`case_16_afterfeast_weekday_polyeleos`): Vespers stichera set to 10 (6 Feast / 4 Saint), Matins canon to 14 (10 Feast / 4 Saint), and praises distribution set to `6_mixed` and `4_saint` switches.
+   - **Dismissal Stacking**: Standardized weekday Matins and Vespers dismissal troparia stacking to `Saint; Glory, Both now: Feast` in `engine/resolvers/matins.py` and `vespers.py`. The engine now returns `glory_both_now` with the feast troparion to prevent double-conjunction rendering.
+   - **Compline Canon**: Moved Compline canon suppression directly into `compline.py` (`resolve_compline_canon`), returning the Octoechos Theotokos canon instead of the feast canon for afterfeasts/apodosis.
+   - **Praises Decoupling**: Deleted the hardcoded afterfeast weekday praises block in `matins.py` that generated 4 Feast / 0 Saint praises, restoring dynamic praises stack selection.
+
+2. **Auditor Token Optimization & Hallucination Defense**:
+   - **Context Truncation**: Bypassed loading python codebase in `scripts/deepseek_compliance_audit.py`, saving ~110,000 tokens of redundant prompt bloat.
+   - **Month-Based Slicing**: Sliced Menaion reference files to load only the specific month matching the target date, and skipped loading the Triodion text when the target date is outside Lenten/Paschal seasons.
+   - **Lectionary Injection**: Injected programmatically calculated ground-truth lectionary readings into the LLM prompt to suppress hallucinations of scriptural requirements.
+   - **Atomized Audits**: Shifted to service-by-service audits (`--service X`) instead of auditing the entire day at once.
+
+3. **Reference Files Markdown Migration**:
+   - **In-Place Formatting**: Renamed all `Final_Dolnytsky_*.txt` files and `Ordo_Celebrationis_1996_CLEAN.md` to `.md` format. Modified header formatting in-place to preserve exact line counts, protecting all database line-grounding (`source_ref`) citations.
+   - **Search & Replace**: Ran a global script to update file references across all JSON, Python, and Markdown files in the codebase, and deleted duplicate plain text files. All 306 unit tests passed successfully.

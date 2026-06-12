@@ -88,7 +88,7 @@ class CalendarMixin:
         season_id = "octoechos"
         if -70 <= delta < 0:
             season_id = "triodion"
-        elif 0 <= delta <= 56:
+        elif 0 <= delta <= 68:
             season_id = "pentecostarion"
         is_temple_feast = bool(
             self.temple_feast_date and self.temple_feast_date == (target_date.month, target_date.day))
@@ -111,7 +111,7 @@ class CalendarMixin:
             elif triodion_period in ["pre_lent", "cheesefare"] or triodion_period.startswith("sunday_publican") or triodion_period.startswith("sunday_prodigal") or triodion_period.startswith("sunday_meatfare") or triodion_period.startswith("sunday_cheesefare"):
                  season = "pre_lent"
         elif season_id == "pentecostarion":
-             season = "pascha"
+             season = "pascha" if delta < 39 else "ordinary"
             
         # --- TONE CALCULATION (Octoechos 1-8) ---
         # Citation: Dolnytsky Part V, "Second Sunday after the Descent of the Holy Spirit":
@@ -291,6 +291,61 @@ class CalendarMixin:
             result["dolnytsky_title"] = title
             result["dolnytsky_rank"] = rank
             result["dolnytsky_source"] = "movable_cycle_override"
+            
+        # Inject moveable feast metadata directly into result
+        if delta is not None:
+            # Pascha & Bright Week (offsets 0 to 6)
+            if 0 <= delta <= 6:
+                result["feast_id"] = "pascha"
+                result["feast_level"] = "lord"
+                if delta == 0:
+                    result["is_feast"] = True
+                    result["rank"] = 1
+                else:
+                    result["is_afterfeast"] = True
+                    result["rank"] = 1
+            # Mid-Pentecost (offsets 24 to 31)
+            elif 24 <= delta <= 31:
+                result["feast_id"] = "mid_pentecost"
+                if delta == 24:
+                    result["is_feast"] = True
+                else:
+                    result["is_afterfeast"] = True
+            # Ascension and afterfeasts (offsets 39 to 47)
+            elif 39 <= delta <= 47:
+                result["feast_id"] = "ascension"
+                result["feast_level"] = "lord"
+                if delta == 39:
+                    result["is_feast"] = True
+                    result["rank"] = 1
+                else:
+                    result["is_afterfeast"] = True
+            # Pentecost and afterfeasts (offsets 49 to 55)
+            elif 49 <= delta <= 55:
+                result["feast_id"] = "pentecost"
+                result["feast_level"] = "lord"
+                if delta == 49:
+                    result["is_feast"] = True
+                    result["rank"] = 1
+                elif delta == 50:
+                    result["is_feast"] = True
+                    result["rank"] = 1
+                else:
+                    result["is_afterfeast"] = True
+            # Eucharist and afterfeasts (offsets 60 to 67)
+            elif 60 <= delta <= 67:
+                result["feast_id"] = "eucharist"
+                result["feast_level"] = "lord"
+                if delta == 60:
+                    result["is_feast"] = True
+                    result["rank"] = 1
+                else:
+                    result["is_afterfeast"] = True
+            # Co-suffering of the Most Holy Theotokos (offset 68)
+            elif delta == 68:
+                result["feast_id"] = "co_suffering_theotokos"
+                result["is_feast"] = True
+                result["feast_level"] = "theotokos"
         
         # ── 2. FIXED CALENDAR LOOKUP ──────────────────────────────────────
         key = f"{target_date.month}-{target_date.day}"
@@ -339,12 +394,38 @@ class CalendarMixin:
                     }
                     saints = []
                     for e in entries:
+                        name = e.get("description", "")
+                        # Procedural snake_case id generation as fallback
+                        cleaned = re.sub(r'[^a-z0-9\s]', '', name.lower())
+                        words = cleaned.split()
+                        filtered_words = [w for w in words if w not in ["apostles", "apostle", "holy", "saint", "saints", "venerable", "venerables", "hieromartyr", "martyr", "martyrs", "prophet", "and", "of", "the"]]
+                        if not filtered_words:
+                            filtered_words = words
+                        saint_id_suffix = "_".join(filtered_words)
+                        month_str = {
+                            1: "jan", 2: "feb", 3: "mar", 4: "apr", 5: "may", 6: "jun",
+                            7: "jul", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"
+                        }.get(target_date.month, "unknown")
+                        saint_id = f"{month_str}_{target_date.day:02d}.{saint_id_suffix}"
+                        
                         saints.append({
-                            "name": e.get("description", ""),
+                            "id": saint_id,
+                            "name": name,
                             "rank": rank_numeric.get(e.get("rank_code", ""), 5),
                             "rank_code": e.get("rank_code", "")
                         })
                     result["saints"] = saints
+
+        # Check title/subtitle for forefeast, afterfeast, apodosis
+        title_lower = (result.get("dolnytsky_title") or "").lower()
+        subtitle_lower = (result.get("dolnytsky_subtitle") or "").lower()
+        full_title_lower = f"{title_lower} {subtitle_lower}"
+        if "forefeast" in full_title_lower or "afterfeast" in full_title_lower or "apodosis" in full_title_lower:
+            result["is_fore_or_afterfeast"] = True
+            if "forefeast" in full_title_lower:
+                result["is_forefeast"] = True
+            if "afterfeast" in full_title_lower or "apodosis" in full_title_lower:
+                result["is_afterfeast"] = True
         
         return result
 
@@ -368,7 +449,9 @@ class CalendarMixin:
         if delta == 56: return "sunday_all_saints"
         
         # === PENTECOSTARION WEEKDAYS (non-Sunday) ===
-        if 8 <= delta <= 55: return "pentecostarion"
+        if 8 <= delta <= 68:
+            if delta != 63:
+                return "pentecostarion_period"
         
         # === HOLY WEEK (Palm Sunday through Holy Saturday) ===
         if delta == -7: return "palm_sunday"
@@ -440,7 +523,7 @@ class CalendarMixin:
 
     def _apply_lookahead(self, context, rubrics):
         # 1. Vespers LOOKAHEAD (Saturday Evening -> Sunday)
-        # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L57
+        # Citation: Final_Dolnytsky_part2_general_rubrics.md:L57
         if context["day_of_week"] == 6: # Saturday
             current_date = date(context["year"], context["month"], context["day"])
             next_date = current_date + timedelta(days=1)
@@ -468,7 +551,7 @@ class CalendarMixin:
         
         elif context["day_of_week"] == 0: # Sunday - direct check
             # When generating Sunday's service directly (not via Saturday lookahead)
-            # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L57
+            # Citation: Final_Dolnytsky_part2_general_rubrics.md:L57
             if context.get("pascha_offset") != 0:
                 rubrics["is_sunday"] = True
                 rubrics.setdefault("overrides", {})
@@ -482,7 +565,7 @@ class CalendarMixin:
                 rubrics["_trace"].append("Sunday: Services set to Great Vespers/Matins with Vigil structure.")
 
         # 3. Great Feast LOOKAHEAD (Menaion Rank-Based Vigil)
-        # Citation: Final_Dolnytsky_part1_structure.txt:L13
+        # Citation: Final_Dolnytsky_part1_structure.md:L13
         # Great Feasts (rank_vigil_lord, rank_vigil_theotokos, rank_vigil_saint) use Vigil structure
         menaion_rank = rubrics.get("variables", {}).get("menaion_rank", "")
         # Bypass for Pascha Sunday and Bright Week (offsets 0-6)

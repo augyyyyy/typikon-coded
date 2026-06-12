@@ -23,6 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
         templeFeast: localStorage.getItem("cantor-opt-temple-feast") || "",
         digestMode: localStorage.getItem("cantor-opt-digest-mode") || "full",
         devMode: localStorage.getItem("cantor-opt-dev-mode") === "true",
+        // Profiles state
+        profiles: JSON.parse(localStorage.getItem("cantor-profiles") || "{}"),
+        activeProfile: localStorage.getItem("cantor-active-profile") || "default",
+        // Split view layout state
+        splitView: localStorage.getItem("cantor-opt-split-view") === "true",
         // Roadmap state
         roadmapData: null,
         activeFeastDayIndex: null
@@ -242,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            renderLiturgicalContext(data.context, data.rubrics);
+            renderLiturgicalContext(data.context, data.rubrics, data.fasting, data.ceremonial);
             renderTraceLogs(data.rubrics.trace);
             
             state.currentBookletText = data.booklet;
@@ -273,29 +278,152 @@ document.addEventListener("DOMContentLoaded", () => {
         el.digestContent.innerHTML = '<p class="placeholder-text" style="color: var(--rubric-color);">Typikon digest generation failed.</p>';
     }
 
-    function renderLiturgicalContext(ctx, rubrics) {
+    function formatHumanDate(dateStr) {
+        if (!dateStr) return "N/A";
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const days = [
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ];
+        const year = parseInt(parts[0], 10);
+        const monthObj = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        const date = new Date(Date.UTC(year, monthObj, day));
+        const dayName = days[date.getUTCDay()];
+        const monthName = months[date.getUTCMonth()];
+        return `${dayName}, ${monthName} ${day}, ${year}`;
+    }
+
+    function translateRankCode(code) {
+        if (!code) return '<span class="badge badge-rank rank-minor">N/A</span>';
+        const cleanCode = code.trim();
+        const map = {
+            "[LORD]": "Great Feast of Our Lord",
+            "[MOG]": "Great Feast of the Theotokos",
+            "[VIGIL]": "Vigil Rank Feast",
+            "[POL]": "Polyeleos Rank Feast",
+            "[GT DOX]": "Great Doxology Feast",
+            "[6 SM]": "Six-Stichera (Simple) Feast",
+            "[4 A+G]": "Four-Stichera (with Alleluia & Great Doxology)",
+            "[4 NO]": "Simple Weekday (No Troparion/Kontakion)",
+            "[4 TR]": "Simple Weekday (with Troparion)"
+        };
+        const desc = map[cleanCode];
+        const isMajor = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(cleanCode);
+        const badgeClass = isMajor ? "rank-major" : "rank-minor";
+        
+        if (desc) {
+            return `<span class="badge-rank ${badgeClass}" title="${desc}">${cleanCode} &mdash; ${desc}</span>`;
+        }
+        return `<span class="badge-rank rank-minor">${cleanCode}</span>`;
+    }
+
+    function cleanLiturgicalText(text) {
+        if (!text) return "";
+        let clean = text.trim();
+        if (clean.endsWith('.')) {
+            clean = clean.slice(0, -1);
+        }
+        return clean;
+    }
+
+    function formatOutlines(outlines) {
+        if (!outlines) return "Default";
+        if (Array.isArray(outlines)) {
+            return outlines.map(o => typeof o === 'string' ? o.replace(/"/g, '') : o).join(', ');
+        }
+        if (typeof outlines === 'string') {
+            return outlines.replace(/"/g, '');
+        }
+        return JSON.stringify(outlines).replace(/"/g, '');
+    }
+
+    function formatFastingBadge(fasting) {
+        if (!fasting) return '<span class="badge-fast fast-no_fast">No Fast</span>';
+        const type = fasting.type || "no_fast";
+        const note = fasting.note || "No fasting restrictions";
+        const citation = fasting.citation || "";
+        let typeLabel = type.replace(/_/g, ' ');
+        typeLabel = typeLabel.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        const titleText = citation ? `${note} (${citation})` : note;
+        return `<span class="badge-fast fast-${type}" title="${titleText}">${typeLabel}</span>`;
+    }
+
+    function formatColorBadge(vestment) {
+        if (!vestment) return '<span class="badge-color color-gold">Gold</span>';
+        const color = vestment.color || "gold";
+        const alt = vestment.alt || "";
+        const citation = vestment.citation || "";
+        let label = color.replace(/_/g, ' ');
+        label = label.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        if (alt) {
+            let altLabel = alt.replace(/_/g, ' ');
+            altLabel = altLabel.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            label += ` / ${altLabel}`;
+        }
+        return `<span class="badge-color color-${color}" title="${citation}">${label}</span>`;
+    }
+
+    function formatProstrations(prostrations) {
+        if (!prostrations) return "Allowed";
+        if (prostrations.forbidden) {
+            return `<span style="color: var(--text-muted); font-size: 0.85rem;" title="${prostrations.reason}">Forbidden</span>`;
+        }
+        return `<span style="color: var(--text-primary); font-weight: 500; font-size: 0.85rem;" title="${prostrations.reason}">Allowed</span>`;
+    }
+
+    function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial) {
         let html = "";
         
         // General Info
         html += `<div class="context-section-header">Calendar Instance</div>`;
-        html += `<div class="context-row"><span class="context-label">Civil Date</span><span class="context-val">${ctx.date || "N/A"}</span></div>`;
-        html += `<div class="context-row"><span class="context-label">Liturgical Season</span><span class="context-val" style="text-transform: capitalize;">${ctx.season || "N/A"}</span></div>`;
+        html += `<div class="context-row"><span class="context-label">Civil Date</span><span class="context-val">${formatHumanDate(ctx.date)}</span></div>`;
         
-        const toneStr = ctx.tone !== undefined ? `Tone ${ctx.tone}` : "None";
-        html += `<div class="context-row"><span class="context-label">Octoechos Tone</span><span class="context-val">${toneStr}</span></div>`;
+        const seasonVal = ctx.season || "ordinary";
+        const seasonClean = seasonVal.replace('_', ' ');
+        html += `<div class="context-row"><span class="context-label">Liturgical Season</span><span class="context-val"><span class="badge-season season-${seasonVal}">${seasonClean}</span></span></div>`;
         
-        const eothStr = ctx.eothinon_number ? `Eothinon ${ctx.eothinon_number}` : "None";
-        html += `<div class="context-row"><span class="context-label">Eothinon Gospel</span><span class="context-val">${eothStr}</span></div>`;
+        const toneVal = ctx.tone !== undefined ? `Tone ${ctx.tone}` : "None";
+        const toneHtml = ctx.tone !== undefined ? `<span class="badge-tone">${toneVal}</span>` : `<span style="color: var(--text-muted);">None</span>`;
+        html += `<div class="context-row"><span class="context-label">Octoechos Tone</span><span class="context-val">${toneHtml}</span></div>`;
+        
+        const eothVal = ctx.eothinon_number ? `Eothinon ${ctx.eothinon_number}` : "None";
+        const eothHtml = ctx.eothinon_number ? `<span class="badge-eothinon">${eothVal}</span>` : `<span style="color: var(--text-muted);">None</span>`;
+        html += `<div class="context-row"><span class="context-label">Eothinon Gospel</span><span class="context-val">${eothHtml}</span></div>`;
+        
+        // Fasting Discipline Row
+        html += `<div class="context-row"><span class="context-label">Fasting Discipline</span><span class="context-val">${formatFastingBadge(fasting)}</span></div>`;
         
         // Rank & Commemoration
         html += `<div class="context-section-header">Commemoration & Class</div>`;
-        html += `<div class="context-row"><span class="context-label">Rank Code</span><span class="context-val">${ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "N/A"}</span></div>`;
-        html += `<div class="context-row"><span class="context-label">Title</span><span class="context-val">${ctx.dolnytsky_title || "Daily Liturgy"}</span></div>`;
-        html += `<div class="context-row"><span class="context-label">Commemoration</span><span class="context-val">${ctx.dolnytsky_commemoration || "None"}</span></div>`;
+        const code = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
+        html += `<div class="context-row"><span class="context-label">Rank Code</span><span class="context-val">${translateRankCode(code)}</span></div>`;
         
+        const titleVal = cleanLiturgicalText(ctx.dolnytsky_title || "Daily Liturgy");
+        html += `<div class="context-row"><span class="context-label">Service Title</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${titleVal}</span></div>`;
+        
+        const commVal = cleanLiturgicalText(ctx.dolnytsky_commemoration || "None");
+        const commHtml = commVal === "None" ? `<span style="color: var(--text-muted);">None</span>` : commVal;
+        html += `<div class="context-row"><span class="context-label">Commemoration</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${commHtml}</span></div>`;
+        
+        // Ceremonial Settings
+        if (ceremonial) {
+            html += `<div class="context-section-header">Ceremonial Settings</div>`;
+            html += `<div class="context-row"><span class="context-label">Liturgical Color</span><span class="context-val">${formatColorBadge(ceremonial.vestment)}</span></div>`;
+            html += `<div class="context-row"><span class="context-label">Prostrations</span><span class="context-val">${formatProstrations(ceremonial.prostrations)}</span></div>`;
+            const variantLabel = ceremonial.clergy_variant ? ceremonial.clergy_variant.label : "Standard";
+            const variantRef = ceremonial.clergy_variant ? `Ordo ${ceremonial.clergy_variant.ordo_ref}` : "";
+            html += `<div class="context-row"><span class="context-label">Clergy Variant</span><span class="context-val" style="font-size: 0.85rem;" title="${variantRef}">${variantLabel}</span></div>`;
+        }
+
         // Rubrics Resolution Outputs
         html += `<div class="context-section-header">Rubrics Outcomes</div>`;
-        html += `<div class="context-row"><span class="context-label">Selected Outlines</span><span class="context-val" style="font-family: var(--font-mono); font-size: 0.8rem;">${JSON.stringify(rubrics.overrides.outlines || rubrics.variables.outlines || "Default")}</span></div>`;
+        const outlinesVal = formatOutlines(rubrics.overrides.outlines || rubrics.variables.outlines || "Default");
+        html += `<div class="context-row"><span class="context-label">Selected Outlines</span><span class="context-val" style="font-family: var(--font-mono); font-size: 0.8rem;">${outlinesVal}</span></div>`;
         
         el.contextContent.innerHTML = html;
     }
@@ -514,6 +642,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Run resolution on load
     initSettings();
+    initProfiles();
+    initSplitView();
     resolveDate(state.selectedDate);
 
     /* ==========================================================================
@@ -1051,7 +1181,14 @@ document.addEventListener("DOMContentLoaded", () => {
         timelineContainer.innerHTML = "<p class='placeholder-text'>Loading feast timeline...</p>";
 
         try {
-            const response = await fetch(`${API_BASE}/api/roadmap`);
+            const currentYear = state.selectedDate ? new Date(state.selectedDate).getFullYear() : new Date().getFullYear();
+            const params = new URLSearchParams({
+                year: currentYear,
+                paschalion: state.paschalion,
+                version: state.version,
+                temple_feast: state.templeFeast
+            });
+            const response = await fetch(`${API_BASE}/api/roadmap?${params.toString()}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -1221,6 +1358,169 @@ document.addEventListener("DOMContentLoaded", () => {
                 resolveDate(date);
             });
         }
+    }
+
+    /* ==========================================================================
+       SPLIT VIEW LAYOUT SYSTEM
+       ========================================================================== */
+    function initSplitView() {
+        const btnToggleLayout = document.getElementById("btn-toggle-layout");
+        const docCard = document.querySelector(".document-card");
+
+        if (!btnToggleLayout || !docCard) return;
+
+        // Apply initial state
+        if (state.splitView) {
+            docCard.classList.add("split-layout-active");
+            btnToggleLayout.innerHTML = "📖 Tabbed View";
+        } else {
+            docCard.classList.remove("split-layout-active");
+            btnToggleLayout.innerHTML = "📖 Split View";
+        }
+
+        btnToggleLayout.addEventListener("click", () => {
+            state.splitView = !state.splitView;
+            localStorage.setItem("cantor-opt-split-view", state.splitView);
+            
+            if (state.splitView) {
+                docCard.classList.add("split-layout-active");
+                btnToggleLayout.innerHTML = "📖 Tabbed View";
+                showToast("Split view enabled (Booklet & Digest side-by-side)");
+            } else {
+                docCard.classList.remove("split-layout-active");
+                btnToggleLayout.innerHTML = "📖 Split View";
+                showToast("Tabbed view enabled");
+            }
+        });
+    }
+
+    /* ==========================================================================
+       PARISH PROFILE MANAGER SYSTEM
+       ========================================================================== */
+    function initProfiles() {
+        const optProfile = document.getElementById("opt-profile");
+        const btnSaveProfile = document.getElementById("btn-save-profile");
+        const btnDeleteProfile = document.getElementById("btn-delete-profile");
+
+        if (!optProfile || !btnSaveProfile || !btnDeleteProfile) return;
+
+        // Render profile select options
+        function renderProfileDropdown() {
+            optProfile.innerHTML = '<option value="default">Default Profile</option>';
+            Object.keys(state.profiles).forEach(pName => {
+                const opt = document.createElement("option");
+                opt.value = pName;
+                opt.textContent = pName;
+                optProfile.appendChild(opt);
+            });
+            optProfile.value = state.activeProfile;
+        }
+
+        // Save active settings to a profile
+        btnSaveProfile.addEventListener("click", () => {
+            const pName = prompt("Enter a name for this Parish Profile (e.g. St. Nicholas - Julian):");
+            if (!pName) return;
+            const cleanName = pName.trim();
+            if (!cleanName || cleanName === "default") {
+                showToast("Invalid profile name.");
+                return;
+            }
+
+            state.profiles[cleanName] = {
+                paschalion: state.paschalion,
+                version: state.version,
+                templeFeast: state.templeFeast,
+                digestMode: state.digestMode
+            };
+
+            localStorage.setItem("cantor-profiles", JSON.stringify(state.profiles));
+            state.activeProfile = cleanName;
+            localStorage.setItem("cantor-active-profile", cleanName);
+            
+            renderProfileDropdown();
+            showToast(`Profile "${cleanName}" saved successfully!`);
+        });
+
+        // Delete profile
+        btnDeleteProfile.addEventListener("click", () => {
+            if (state.activeProfile === "default") {
+                showToast("Cannot delete the Default Profile.");
+                return;
+            }
+            if (!confirm(`Are you sure you want to delete the profile "${state.activeProfile}"?`)) {
+                return;
+            }
+
+            const oldName = state.activeProfile;
+            delete state.profiles[oldName];
+            localStorage.setItem("cantor-profiles", JSON.stringify(state.profiles));
+            state.activeProfile = "default";
+            localStorage.setItem("cantor-active-profile", "default");
+
+            renderProfileDropdown();
+            applyProfileSettings("default");
+            showToast(`Profile "${oldName}" deleted.`);
+        });
+
+        // Swap profile selection
+        optProfile.addEventListener("change", (e) => {
+            const pName = e.target.value;
+            state.activeProfile = pName;
+            localStorage.setItem("cantor-active-profile", pName);
+            applyProfileSettings(pName);
+        });
+
+        // Helper to apply profile configuration to state and inputs
+        function applyProfileSettings(pName) {
+            let config = {
+                paschalion: "gregorian",
+                version: "stamford_2014",
+                templeFeast: "",
+                digestMode: "full"
+            };
+
+            if (pName !== "default" && state.profiles[pName]) {
+                config = state.profiles[pName];
+            }
+
+            // Sync state
+            state.paschalion = config.paschalion;
+            state.version = config.version;
+            state.templeFeast = config.templeFeast;
+            state.digestMode = config.digestMode;
+
+            // Sync storage
+            localStorage.setItem("cantor-opt-paschalion", config.paschalion);
+            localStorage.setItem("cantor-opt-version", config.version);
+            localStorage.setItem("cantor-opt-temple-feast", config.templeFeast);
+            localStorage.setItem("cantor-opt-digest-mode", config.digestMode);
+
+            // Sync UI inputs
+            const optPaschalionGreg = document.getElementById("opt-paschalion-gregorian");
+            const optPaschalionJul = document.getElementById("opt-paschalion-julian");
+            const optVersion = document.getElementById("opt-version");
+            const optTempleFeast = document.getElementById("opt-temple-feast");
+            const optDigestFull = document.getElementById("opt-digest-full");
+            const optDigestQuick = document.getElementById("opt-digest-quick");
+
+            if (optPaschalionGreg && optPaschalionJul) {
+                if (config.paschalion === "julian") optPaschalionJul.checked = true;
+                else optPaschalionGreg.checked = true;
+            }
+            if (optVersion) optVersion.value = config.version;
+            if (optTempleFeast) optTempleFeast.value = config.templeFeast;
+            if (optDigestFull && optDigestQuick) {
+                if (config.digestMode === "quick") optDigestQuick.checked = true;
+                else optDigestFull.checked = true;
+            }
+
+            // Trigger resolve Date if date picked
+            if (state.selectedDate) {
+                resolveDate(state.selectedDate);
+            }
+        }
+
+        renderProfileDropdown();
     }
 
     // Initialize themes

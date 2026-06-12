@@ -4,14 +4,14 @@
     "version": "4.1 (Ordo Cross-Ref)",
     "last_updated": "2026-05-03",
     "authority": "Lviv (Dolnytsky) Typikon (2010) Part I (Matins) & Part IV (Triodion) & Ordo Celebrationis 1944 §74–§96",
-    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
     "scope": "Complete Matins Matrix (Great, Daily, Lenten, Passion, Tomb, Bright)",
     "description": "Defines the distinct orders of Matins with role-based rubrics. Choreographic rubrics cross-referenced to Ordo Celebrationis §-numbers."
   },
   "structures": {
     "great_matins": {
       "title_key": "titles.matins_great",
-      "source_ref": "Final_Dolnytsky_part1_structure.txt:L169",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:L169",
       "ordo_ref": "§74–§96",
       "sequence": [
         {
@@ -29,7 +29,7 @@
               "id": "opening_vigil",
               "rubric": {
                 "title": "Beginning with Vigil",
-                "source_ref": "Final_Dolnytsky_part1_structure.txt:L172",
+                "source_ref": "Final_Dolnytsky_part1_structure.md:L172",
                 "roles": {
                   "priest": "Vested in Epitrachelion and Phelonion. Stand before the Holy Table. Exclaim 'Glory to the Holy...'",
                   "choir": "Sing 'Amen' and 'Glory to God in the Highest' (3x)."
@@ -55,7 +55,7 @@
               "id": "opening_no_vigil",
               "rubric": {
                 "title": "Beginning without Vigil (Morning)",
-                "source_ref": "Final_Dolnytsky_part1_structure.txt:L172",
+                "source_ref": "Final_Dolnytsky_part1_structure.md:L172",
                 "roles": {
                   "priest": "Vest in Epitrachelion. Exit North Door. Stand before closed Holy Doors. Exclaim 'Blessed is our God'.",
                   "choir": "Sing Introductory Prayers (Trisagion, Troparia, 'Lord Have Mercy' 12x).",
@@ -158,7 +158,7 @@
                 "id": "litany_small_1",
                 "without_exclamation": true,
                 "rubric": {
-                  "source_ref": "Final_Dolnytsky_part1_structure.txt:L156",
+                  "source_ref": "Final_Dolnytsky_part1_structure.md:L156",
                   "note": "Sung without exclamation — priest exclaims only at the end of the kathisma block.",
                   "roles": {
                     "priest": "Exclaim 'For Thine is the dominion' (quietly, sitting at place)"
@@ -191,7 +191,7 @@
                 "id": "litany_small_2",
                 "without_exclamation": true,
                 "rubric": {
-                  "source_ref": "Final_Dolnytsky_part1_structure.txt:L156",
+                  "source_ref": "Final_Dolnytsky_part1_structure.md:L156",
                   "note": "Sung without exclamation — priest exclaims 'For Thine is the dominion' only here, concluding the full kathisma block.",
                   "roles": {
                     "priest": "Exclaim 'For Thine is the dominion' (aloud) — this is the one exclamation for the two-kathisma block."
@@ -237,7 +237,7 @@
           "id": "polyeleos_choice",
           "rubric": {
             "title": "Polyeleos or Kathisma 17",
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L187",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L187",
             "ordo_ref": "§78",
             "roles": {
               "priest": "If Polyeleos: Open Holy Doors, Great Censing. If Kathisma 17: Remain in altar.",
@@ -255,7 +255,7 @@
           "id": "graduals_block",
           "rubric": {
             "title": "Hypakoe and Anabathmoi",
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L189-191",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L189-191",
             "ordo_ref": "§78",
             "roles": {
               "choir": "Sing Hypakoe (if Sunday) and Anabathmoi (Antiphons)."
@@ -395,7 +395,7 @@
                 "id": "ode_8_block",
                 "rubric": {
                   "title": "Eighth Ode - Special Refrains",
-                  "source_ref": "Final_Dolnytsky_part1_structure.txt:L174",
+                  "source_ref": "Final_Dolnytsky_part1_structure.md:L174",
                   "note": "Instead of 'Glory' → 'Let us bless the Father, Son, and Holy Spirit'. Katavasia intro: 'We praise, we bless, we worship the Lord'"
                 },
                 "type": "sequence",
@@ -464,7 +464,7 @@
                     "id": "post_ode9_hymn",
                     "rubric": {
                       "title": "Post-Ode 9 Hymn",
-                      "source_ref": "Final_Dolnytsky_part1_structure.txt:L176",
+                      "source_ref": "Final_Dolnytsky_part1_structure.md:L176",
                       "note": "Non-Sunday: 'It is truly meet'. Sunday: 'Holy is the Lord our God' (3x)"
                     },
                     "type": "variable_logic",
@@ -502,7 +502,7 @@
           "id": "great_doxology",
           "rubric": {
             "title": "Great Doxology Logic",
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L190",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L190",
             "ordo_ref": "§82",
             "roles": {
               "priest": "Great Doxology (Sung) or Small Doxology (Read) depending on rank."
@@ -531,6 +531,13 @@
         {
           "id": "conclusion",
           "sequence": [
+            {
+              "id": "matins_aposticha",
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_aposticha_matins"
+              }
+            },
             {
               "id": "end_trop",
               "type": "variable_logic",
@@ -564,7 +571,7 @@
     },
     "daily_matins": {
       "title_key": "titles.matins_daily",
-      "source_ref": "Final_Dolnytsky_part1_structure.txt:L239",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:L239",
       "sequence": [
         {
           "id": "opening_daily",
@@ -599,7 +606,7 @@
           "id": "kathismata_daily_block",
           "rubric": {
             "title": "The Kathismata",
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L240",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L240",
             "note": "Two or three Kathismata with Sessional Hymns, same as Great Matins."
           },
           "content": {
@@ -691,7 +698,7 @@
           "id": "canon_daily",
           "rubric": {
             "title": "The Canon",
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L240",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L240",
             "note": "Katavasia is irmos of last canon, not current seasonal."
           },
           "content": {
@@ -808,7 +815,7 @@
         {
           "id": "exapostilarion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L240"
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L240"
           },
           "content": {
             "type": "variable_logic",
@@ -820,7 +827,7 @@
         {
           "id": "praises_read",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L240",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L240",
             "roles": {
               "reader": "Read Psalms 148-150 without singing, without stichera."
             }
@@ -833,7 +840,7 @@
         {
           "id": "small_doxology",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L240",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L240",
             "roles": {
               "priest": "Exclaim 'Glory to Thee Who hast shown us the light'.",
               "reader": "Read the Small Doxology."
@@ -877,7 +884,7 @@
         {
           "id": "dismissal_troparion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L240"
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L240"
           },
           "content": {
             "type": "variable_logic",
@@ -889,7 +896,7 @@
         {
           "id": "dismissal_theotokion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L240"
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L240"
           },
           "content": {
             "type": "variable_logic",
@@ -908,7 +915,7 @@
         {
           "id": "dismissal_daily",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L240"
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L240"
           },
           "content": {
             "type": "fixed_ref",
@@ -919,7 +926,7 @@
     },
     "lenten_matins_weekday": {
       "title_key": "titles.matins_lenten_weekday",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L322-359",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L322-359",
       "inherits_from": "daily_matins",
       "overrides": [
         {
@@ -929,7 +936,7 @@
             "id": "alleluia_trinity_hymns",
             "rubric": {
               "title": "Alleluia & Trinity Hymns",
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L326",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L326",
               "note": "Instead of 'God is the Lord' we sing Alleluia in the sequential tone."
             },
             "content": {
@@ -947,7 +954,7 @@
                 {
                   "id": "trinity_hymns",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L326",
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L326",
                     "note": "Three commemorations: weekday, all saints, Theotokos."
                   },
                   "content": {
@@ -972,7 +979,7 @@
             "id": "kathismata_lenten",
             "rubric": {
               "title": "Three Kathismata with Prostrations",
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L330",
               "note": "At 'Alleluia' of each 'Glory' of Kathismata—3 prostrations."
             },
             "content": {
@@ -994,7 +1001,7 @@
                 {
                   "id": "sessional_1_octoechos",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330",
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L330",
                     "note": "First sessional from Octoechos. If two saints are commemorated, their sessionals are sung after the first and second Kathismata, deferring or merging as prescribed."
                   },
                   "content": {
@@ -1024,7 +1031,7 @@
                 {
                   "id": "sessional_2_triodion",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330",
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L330",
                     "note": "Second sessional from Triodion. If two saints are commemorated, the sessional of the second saint may be sung here or deferred to Compline."
                   },
                   "content": {
@@ -1054,7 +1061,7 @@
                 {
                   "id": "sessional_3_triodion",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330"
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L330"
                   },
                   "content": {
                     "type": "variable_logic",
@@ -1078,7 +1085,7 @@
             "id": "canon_lenten_triodic",
             "rubric": {
               "title": "Lenten Triodic Canon",
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L334",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L334",
               "note": "Mon=1,8,9; Tue=2,8,9; Wed=3,8,9; Thu=4,8,9; Fri=5,8,9; Sat=6,7,8,9"
             },
             "content": {
@@ -1132,7 +1139,7 @@
           "new_component": {
             "id": "it_is_truly_meet_prostration",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L322"
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L322"
             },
             "content": {
               "type": "sequence",
@@ -1156,7 +1163,7 @@
           "new_component": {
             "id": "exapostilarion_lenten",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L354",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L354",
               "note": "Trinity Exapostilarion of the tone, three times with commemorations."
             },
             "content": {
@@ -1181,7 +1188,7 @@
           "new_component": {
             "id": "small_doxology_prostrations",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L356"
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L356"
             },
             "content": {
               "type": "sequence",
@@ -1215,7 +1222,7 @@
           "new_component": {
             "id": "aposticha_triodion",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L358"
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L358"
             },
             "content": {
               "type": "variable_logic",
@@ -1234,7 +1241,7 @@
           "new_component": {
             "id": "good_thing_lenten",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L359"
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L359"
             },
             "content": {
               "type": "sequence",
@@ -1257,7 +1264,7 @@
           "new_component": {
             "id": "trisagion_prostrations",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L359"
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L359"
             },
             "content": {
               "type": "sequence",
@@ -1281,7 +1288,7 @@
           "new_component": {
             "id": "standing_in_temple",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L359"
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L359"
             },
             "content": {
               "type": "fixed_ref",
@@ -1299,7 +1306,7 @@
           "new_component": {
             "id": "lord_have_mercy_40",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L359"
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L359"
             },
             "content": {
               "type": "sequence",
@@ -1311,7 +1318,7 @@
                 {
                   "id": "prayer_st_ephrem",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L359"
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L359"
                   },
                   "content": {
                     "type": "fixed_ref",
@@ -1328,7 +1335,7 @@
           "new_component": {
             "id": "no_dismissal_lenten",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L359",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L359",
               "note": "No dismissal. 1st Hour begins immediately."
             },
             "content": {
@@ -1343,7 +1350,7 @@
           "new_component": {
             "id": "psalm_50_lenten",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L332",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L332",
               "note": "Psalm 50 is read, followed by the intercession verse. 'Glory: Through the prayers of the Apostles' or saint-specific by rank."
             },
             "content": {
@@ -1356,7 +1363,7 @@
                 {
                   "id": "psalm_50_intercession",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L330",
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L330",
                     "roles": {
                       "reader": "Read 'Have mercy on me, O God' (v.3) then Glory: intercession verse."
                     }
@@ -1376,7 +1383,7 @@
     },
     "bridegroom_matins": {
       "title_key": "titles.matins_bridegroom",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L880-907",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L880-907",
       "inherits_from": "lenten_matins_weekday",
       "overrides": [
         {
@@ -1386,7 +1393,7 @@
             "id": "alleluia_bridegroom",
             "rubric": {
               "title": "Alleluia and Bridegroom Troparion",
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L880",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L880",
               "note": "Instead of the Trinity hymns, the Bridegroom troparion is sung three times."
             },
             "content": {
@@ -1404,7 +1411,7 @@
                 {
                   "id": "troparion_bridegroom_opening",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L880",
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L880",
                     "roles": {
                       "choir": "Sing 'Behold the Bridegroom comes at midnight' three times in the tone of the day.",
                       "priest": "Remain in sanctuary during singing."
@@ -1426,7 +1433,7 @@
             "id": "canon_bridegroom",
             "rubric": {
               "title": "Bridegroom Canon (Triodion or Diodion)",
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L880-884",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L880-884",
               "note": "Monday and Wednesday: full triodion canon from Holy Week Triodion. Tuesday: diodion (Odes 8 and 9 only). Menaion suppressed on all three days."
             },
             "content": {
@@ -1443,7 +1450,7 @@
           "new_component": {
             "id": "exapostilarion_bridegroom",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L884",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L884",
               "roles": {
                 "choir": "Sing the Exapostilarion of the Bridegroom from the Holy Week Triodion."
               }
@@ -1460,7 +1467,7 @@
           "new_component": {
             "id": "aposticha_bridegroom",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L886",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L886",
               "note": "Aposticha are from the Holy Week Triodion proper to the day (not general Lenten Triodion)."
             },
             "content": {
@@ -1477,7 +1484,7 @@
           "new_component": {
             "id": "troparion_bridegroom_close",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L880",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L880",
               "note": "'Behold the Bridegroom comes at midnight' sung once as the final troparion before the 1st Hour."
             },
             "content": {
@@ -1490,7 +1497,7 @@
     },
     "tomb_matins": {
       "title_key": "titles.matins_tomb",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1053",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1053",
       "inherits_from": "great_matins",
       "overrides": [
         {
@@ -1499,7 +1506,7 @@
           "new_component": {
             "id": "alleluia_great_saturday",
             "rubric": {
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1064",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L1064",
               "roles": {
                 "choir": "Sing 'Alleluia' with the appointed verses."
               }
@@ -1517,7 +1524,7 @@
             "id": "encomia_stations",
             "rubric": {
               "title": "Three Stations of Psalm 118 with Encomia",
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1065",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L1065",
               "note": "Kathisma 17 (Psalm 118) is read in three stations (staseis), with Encomia stichera interspersed at each verse. Priest censes at each station."
             },
             "content": {
@@ -1527,7 +1534,7 @@
                   "id": "station_1",
                   "rubric": {
                     "title": "First Station — Psalm 118:1–72",
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1065",
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L1065",
                     "roles": {
                       "priest": "Open Holy Doors and cense.",
                       "choir": "After each verse, sing the corresponding Encomion from Encomia I."
@@ -1548,7 +1555,7 @@
                   "id": "station_2",
                   "rubric": {
                     "title": "Second Station — Psalm 118:73–131",
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1065",
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L1065",
                     "roles": {
                       "choir": "Sing Encomia II stichera at each verse."
                     }
@@ -1568,7 +1575,7 @@
                   "id": "station_3",
                   "rubric": {
                     "title": "Third Station — Psalm 118:132–176",
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1065",
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L1065",
                     "roles": {
                       "choir": "Sing Encomia III. After the Theotokion: Trisagion is read."
                     }
@@ -1587,7 +1594,7 @@
                 {
                   "id": "post_encomia_sequence",
                   "rubric": {
-                    "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1067"
+                    "source_ref": "Final_Dolnytsky_part4_triodion.md:L1067"
                   },
                   "content": {
                     "type": "sequence",
@@ -1596,7 +1603,7 @@
                         "id": "evlogitaria",
                         "rubric": {
                           "note": "Evlogitaria of the Resurrection (Sunday Matins tone)",
-                          "source_ref": "Final_Dolnytsky_part4_triodion.txt"
+                          "source_ref": "Final_Dolnytsky_part4_triodion.md"
                         },
                         "content": {
                           "type": "fixed_ref",
@@ -1615,7 +1622,7 @@
                         "id": "hypakoe_tomb",
                         "rubric": {
                           "note": "Hypakoe of the current Octoechos tone",
-                          "source_ref": "Final_Dolnytsky_part4_triodion.txt"
+                          "source_ref": "Final_Dolnytsky_part4_triodion.md"
                         },
                         "content": {
                           "type": "variable_logic",
@@ -1628,7 +1635,7 @@
                         "id": "anabathmoi_tone5",
                         "rubric": {
                           "note": "Anabathmoi — Tone 5 (fixed for Great Saturday)",
-                          "source_ref": "Final_Dolnytsky_part4_triodion.txt"
+                          "source_ref": "Final_Dolnytsky_part4_triodion.md"
                         },
                         "content": {
                           "type": "fixed_ref",
@@ -1638,7 +1645,7 @@
                       {
                         "id": "prokeimenon_saturday",
                         "rubric": {
-                          "source_ref": "Final_Dolnytsky_part4_triodion.txt",
+                          "source_ref": "Final_Dolnytsky_part4_triodion.md",
                           "roles": {
                             "deacon": "Proclaim the Great Saturday Prokeimenon."
                           }
@@ -1674,7 +1681,7 @@
             "id": "canon_great_saturday",
             "rubric": {
               "title": "Canon of Great Saturday",
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1065-1067",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L1065-1067",
               "note": "Canon of Great Saturday uses only Odes 1, 3, 6, 7, 8, and 9 (not the full 9-ode scheme). Each heirmos is sung twice — once as opening, once as katavasia (both choirs together)."
             },
             "content": {
@@ -1705,7 +1712,7 @@
             "id": "shroud_procession",
             "rubric": {
               "title": "Procession with the Shroud",
-              "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1075",
+              "source_ref": "Final_Dolnytsky_part4_triodion.md:L1075",
               "roles": {
                 "priest": "Vested in epitrachelion and phelonion. Take the shroud (plashchanytsia) on head, preceded by candle-bearers and censer. Process around the church singing Encomia.",
                 "choir": "Sing the Encomia stichera (Station III reprise) during the procession.",
@@ -1747,14 +1754,14 @@
     },
     "passion_matins": {
       "title_key": "titles.matins_passion",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L963-1006",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L963-1006",
       "note": "Celebrated Thursday evening, after sunset, at the 2nd hour of the night (line 631). Analogion with Gospel placed before Holy Doors (line 632). 12 Gospels interspersed throughout the service.",
       "sequence": [
         {
           "id": "opening_rite",
           "rubric": {
             "title": "Opening Rite",
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L977",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L977",
             "roles": {
               "priest": "Vest. Begin: 'Blessed is our God.' Cense during opening psalms (Pss. 19 & 20)."
             }
@@ -1796,7 +1803,7 @@
         {
           "id": "alleluia_passion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L979"
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L979"
           },
           "content": {
             "type": "fixed_ref",
@@ -1806,7 +1813,7 @@
         {
           "id": "troparion_glorious_disciples",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L981",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L981",
             "note": "During the third singing: priest vests in violet phelonion, comes before altar steps, opens Holy Doors, censes table, iconostasis, chanters, people, returns, sings small litany without exclamation, goes to analogion.",
             "roles": {
               "choir": "'When the glorious disciples were enlightened' — twice; Glory, Both now: once.",
@@ -1822,7 +1829,7 @@
           "id": "litany_before_gospel_1",
           "without_exclamation": true,
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L983",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L983",
             "note": "This is the ONLY small litany before a Gospel. Between subsequent Gospels (2-12), no small litany is sung (Dolnytsky IV:634)."
           },
           "content": {
@@ -1834,7 +1841,7 @@
           "id": "gospel_1",
           "rubric": {
             "title": "First Passion Gospel",
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L986",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L986",
             "roles": {
               "priest": "Read from analogion. Before: 'Wisdom! Upright! Let us hear the Holy Gospel.' Choir: 'Glory to Thy Passion, O Lord.' After: 'Glory to Thy long-suffering, O Lord.' Bells ring after each Gospel."
             }
@@ -1853,7 +1860,7 @@
           "id": "antiphon_group_1",
           "rubric": {
             "title": "Antiphons 1–3 and Sessional Hymn I",
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L989",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L989",
             "note": "Each troparion is repeated (antiphonally). Theotokion at 'Glory, Both now' is not repeated. Priest censes."
           },
           "content": {
@@ -1983,7 +1990,7 @@
           "id": "beatitudes_prokeimenon",
           "rubric": {
             "title": "Beatitudes with Prokeimenon",
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L991"
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L991"
           },
           "content": {
             "type": "sequence",
@@ -2019,7 +2026,7 @@
         {
           "id": "psalm_50_passion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L993",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L993",
             "note": "No Save O God / Through the Resurrection interpolation here (that belongs to Bridegroom Matins; this is the Passion form)."
           },
           "content": {
@@ -2042,7 +2049,7 @@
           "id": "canon_great_friday",
           "rubric": {
             "title": "Canon — Triodion (Three-Ode)",
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L995",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L995",
             "note": "Troparia on 12. Heirmoi twice (first as opening, second as katavasia, both choirs). After Ode 5: small litany + Kontakion + Ikos. At Ode 9: no More Honorable, no It is truly meet. After Ode 9 Katavasia: small litany, then Exapostilarion."
           },
           "content": {
@@ -2068,7 +2075,7 @@
         {
           "id": "exapostilarion_passion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L995"
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L995"
           },
           "content": {
             "type": "fixed_ref",
@@ -2089,7 +2096,7 @@
         {
           "id": "praises_passion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L997"
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L997"
           },
           "content": {
             "type": "fixed_ref",
@@ -2110,7 +2117,7 @@
         {
           "id": "to_thee_belongs_glory",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L998",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L998",
             "roles": {
               "priest": "Exclaim 'To Thee belongs glory.'"
             }
@@ -2123,7 +2130,7 @@
         {
           "id": "small_doxology_passion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L998",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L998",
             "roles": {
               "reader": "Read the Small Doxology."
             }
@@ -2136,7 +2143,7 @@
         {
           "id": "litany_completion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1000"
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L1000"
           },
           "content": {
             "type": "fixed_ref",
@@ -2157,7 +2164,7 @@
         {
           "id": "aposticha_passion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1002"
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L1002"
           },
           "content": {
             "type": "fixed_ref",
@@ -2182,7 +2189,7 @@
         {
           "id": "good_thing_passion",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1003"
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L1003"
           },
           "content": {
             "type": "fixed_ref",
@@ -2199,7 +2206,7 @@
         {
           "id": "troparion_thou_hast_redeemed",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1003"
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L1003"
           },
           "content": {
             "type": "fixed_ref",
@@ -2216,7 +2223,7 @@
         {
           "id": "dismissal_great_friday",
           "rubric": {
-            "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1005",
+            "source_ref": "Final_Dolnytsky_part4_triodion.md:L1005",
             "note": "'Wisdom!' / 'More honorable…' / 'Glory to Thee, O Christ our God, our hope, glory to Thee.' The 1st Hour is NOT attached."
           },
           "content": {
@@ -2228,7 +2235,7 @@
     },
     "bright_matins": {
       "title_key": "titles.matins_bright",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1125",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1125",
       "sequence": [
         {
           "id": "procession",

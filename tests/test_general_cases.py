@@ -84,7 +84,7 @@ class TestGate6(unittest.TestCase):
         """Verify Logic Gate 13: Sessional/Kontakion Shift."""
         
         # Scenario 1: Simple Weekday (1 Saint) -> No Shift
-        ctx_simple = {"day_of_week": 2, "saints": [{"rank": 1}]}
+        ctx_simple = {"day_of_week": 2, "saints": [{"rank": 2}]}
         res_ode3 = self.engine.resolve_canon_interludes(3, ctx_simple)
         res_ode6 = self.engine.resolve_canon_interludes(6, ctx_simple)
         
@@ -99,7 +99,7 @@ class TestGate6(unittest.TestCase):
     def test_sunday_interludes(self):
         """Verify Sunday Interlude Logic."""
         # Sunday + Saint -> Resurrection Kontakion dominates Ode 6
-        ctx_sun = {"day_of_week": 0, "saints": [{"rank": 1}], "octoechos_tone": 1}
+        ctx_sun = {"day_of_week": 0, "saints": [{"rank": 2}], "octoechos_tone": 1}
         res_ode6 = self.engine.resolve_canon_interludes(6, ctx_sun)
         
         self.assertEqual(res_ode6["components"][0]["type"], "kontakion")

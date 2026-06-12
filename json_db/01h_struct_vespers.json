@@ -4,20 +4,20 @@
     "version": "4.2 (Ordo Cross-Ref)",
     "last_updated": "2026-05-03",
     "authority": "Lviv (Dolnytsky) Typikon (2010) Part I (Vespers) & Ordo Celebrationis 1944 §29–§73",
-    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.txt",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
     "scope": "Complete Vespers Matrix (Vigil, Polyeleos, Daily, Small)",
     "description": "Defines the 4 distinct orders of Vespers prescribed by the Lviv Synod, plus special Lenten/Passion variants. Choreographic rubrics cross-referenced to Ordo Celebrationis §-numbers."
   },
   "structures": {
     "great_vespers_vigil": {
       "title_key": "titles.vespers_great_vigil",
-      "source_ref": "Final_Dolnytsky_part1_structure.txt:L13",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:L13",
       "sequence": [
         {
           "id": "vesting_rite",
           "rubric": {
             "title": "Vesting and Censing",
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L15",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L15",
             "ordo_ref": "§29–§30",
             "roles": {
               "priest": "Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.",
@@ -49,7 +49,7 @@
           "id": "opening_vigil",
           "rubric": {
             "title": "The Opening",
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L24",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L24",
             "ordo_ref": "§54",
             "roles": {
               "deacon": "Stand before the Holy Doors. Exclaim 'Bless, Master!'",
@@ -77,7 +77,7 @@
           "id": "horologion.psalm_103_vigil",
           "rubric": {
             "title": "The Proemial Psalm",
-            "source_ref": "Final_Dolnytsky_part1_structure.txt:L24",
+            "source_ref": "Final_Dolnytsky_part1_structure.md:L24",
             "ordo_ref": "§31",
             "roles": {
               "priest": "Exit Sanctuary via North Door. Read the Prayers of Light silently.",
@@ -223,6 +223,31 @@
           }
         },
         {
+          "id": "troparia_resurrectional",
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_vespers_troparia_simple"
+            }
+          }
+        },
+        {
+          "id": "artoklasia_rite",
+          "content": {
+            "type": "conditional_block",
+            "logic": {
+              "function": "check_litiya_trigger"
+            },
+            "true_content": {
+              "type": "variable_logic",
+              "logic": {
+                "function": "resolve_artoklasia"
+              }
+            },
+            "false_content": null
+          }
+        },
+        {
           "id": "dismissal_vigil",
           "content": {
             "type": "fixed_ref",
@@ -240,17 +265,8 @@
           "action": "delete"
         },
         {
-          "target_id": "nunc_dimittis_trisagion",
-          "action": "insert_after",
-          "new_component": {
-            "id": "troparia_resurrectional",
-            "content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_vespers_troparia_simple"
-              }
-            }
-          }
+          "target_id": "artoklasia_rite",
+          "action": "delete"
         },
         {
           "target_id": "dismissal_vigil",
@@ -524,7 +540,7 @@
     },
     "lenten_vespers": {
       "title_key": "titles.vespers_lenten",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L406",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L406",
       "sequence": [
         {
           "id": "opening_lenten",
@@ -626,7 +642,7 @@
     },
     "presanctified_vespers": {
       "title_key": "titles.vespers_presanctified",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L447",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L447",
       "inherits_from": "lenten_vespers",
       "overrides": [
         {
@@ -723,7 +739,7 @@
     },
     "passion_burial_vespers": {
       "title_key": "titles.vespers_passion_burial",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1819",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1819",
       "sequence": [
         {
           "id": "opening",
@@ -871,7 +887,7 @@
     },
     "paschal_vespers": {
       "title_key": "titles.vespers_paschal",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1142",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1142",
       "sequence": [
         {
           "id": "paschal_vespers_content",
@@ -884,7 +900,7 @@
     },
     "kneeling_vespers": {
       "title_key": "titles.vespers_kneeling",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1567",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1567",
       "inherits_from": "great_vespers_vigil",
       "overrides": [
         {

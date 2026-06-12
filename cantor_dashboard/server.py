@@ -184,7 +184,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         elif path == "/api/resolve":
             self.api_resolve(query)
         elif path == "/api/roadmap":
-            self.api_roadmap()
+            self.api_roadmap(query)
         elif path == "/api/lint":
             self.api_lint()
         elif path == "/api/live-reload":
@@ -314,9 +314,38 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             rubrics = engine.resolve_rubrics(context)
             booklet = engine.generate_full_booklet(context, rubrics)
             digest = engine.generate_typikon_digest(context, rubrics, mode=digest_mode)
+            fasting = engine.resolve_fasting_rule(context)
+
+            # Resolve daily ceremonial context
+            vestment = engine.resolve_vestment_color(context, rubrics)
+            is_sunday = context.get("day_of_week") == 0
+            offset = context.get("pascha_offset")
+            period = context.get("period", "normal")
+            prostrations_forbidden = False
+            prostrations_reason = "Allowed (Standard Weekday/Lenten bows)"
+            if is_sunday:
+                prostrations_forbidden = True
+                prostrations_reason = "Forbidden on Sundays"
+            elif offset is not None and 0 <= offset <= 49:
+                prostrations_forbidden = True
+                prostrations_reason = "Forbidden Pascha to Pentecost"
+            elif period == "feast" or context.get("rank", 5) <= 2:
+                prostrations_forbidden = True
+                prostrations_reason = "Forbidden on Great Feasts"
+                
+            clergy_variant = engine.resolve_clergy_variant(context, service="liturgy")
 
             response = {
                 "context": serializable_context,
+                "fasting": fasting,
+                "ceremonial": {
+                    "vestment": vestment,
+                    "prostrations": {
+                        "forbidden": prostrations_forbidden,
+                        "reason": prostrations_reason
+                    },
+                    "clergy_variant": clergy_variant
+                },
                 "rubrics": {
                     "title": rubrics.get("title", ""),
                     "variables": rubrics.get("variables", {}),
@@ -336,8 +365,103 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             }
             self.send_json_response(response, 500)
 
-    def api_roadmap(self):
-        # Return structured project status & feast cycle timelines
+    def api_roadmap(self, query):
+        # Parse active parameters to resolve the feast timeline dynamically
+        year_str = query.get("year", [None])[0]
+        try:
+            year = int(year_str) if year_str else datetime.now().year
+        except ValueError:
+            year = datetime.now().year
+
+        paschalion = query.get("paschalion", ["gregorian"])[0]
+        version = query.get("version", ["stamford_2014"])[0]
+        temple_feast = query.get("temple_feast", [None])[0]
+
+        temple_feast_date = None
+        if temple_feast:
+            try:
+                parts = temple_feast.split("-")
+                if len(parts) == 2:
+                    temple_feast_date = (int(parts[0]), int(parts[1]))
+            except ValueError:
+                pass
+
+        # Resolve days dynamically using the RuthenianEngine
+        timeline_days = []
+        try:
+            # We resolve September 7 to September 12 dynamically for the given year
+            # September 8 is the fixed date of the Nativity of the Theotokos
+            for d_day in range(7, 13):
+                target_date = date(year, 9, d_day)
+                engine = RuthenianEngine(
+                    base_dir=REPO_DIR,
+                    version=version,
+                    paschalion=paschalion,
+                    temple_feast_date=temple_feast_date
+                )
+                context = engine.get_liturgical_context(target_date)
+                rubrics = engine.resolve_rubrics(context)
+
+                # Determine type
+                if d_day == 7:
+                    day_type = "forefeast"
+                    lbl = "Sept 7"
+                elif d_day == 8:
+                    day_type = "feast"
+                    lbl = "Sept 8"
+                elif 9 <= d_day <= 11:
+                    day_type = "afterfeast"
+                    lbl = f"Sept {d_day}"
+                else:
+                    day_type = "apodosis"
+                    lbl = "Sept 12"
+
+                # Extract rank title
+                rank_name = rubrics.get("title")
+                if not rank_name:
+                    rank_name = context.get("dolnytsky_title", f"September {d_day}")
+
+                # Determine Tone
+                tone_val = context.get("tone", 1)
+                
+                # Stichera descriptions
+                fixed_stichera = "Troparion of the Feast (Tone 4); Kontakion (Tone 4)."
+                if day_type == "forefeast":
+                    fixed_stichera = "Troparion of the Forefeast (Tone 4): 'Today from the root of Jesse...'; Stichera of the Forefeast."
+                elif day_type == "feast" or day_type == "apodosis":
+                    fixed_stichera = "Troparion of the Feast (Tone 4): 'Your Nativity, O Virgin...'; Kontakion (Tone 4): 'Joachim and Anna...'"
+                
+                # Relative rules
+                is_sunday = (target_date.weekday() + 1) % 7 == 0
+                if is_sunday:
+                    rel_rule = f"Sunday Octoechos merges with Feast in Tone {tone_val}. Resurrectional Stichera and Canons take precedence."
+                else:
+                    rel_rule = f"Weekday Octoechos canons suppressed or merged. Daily Prokeimenon for {target_date.strftime('%A')}."
+
+                timeline_days.append({
+                    "date": target_date.isoformat(),
+                    "label": lbl,
+                    "name": rank_name,
+                    "type": day_type,
+                    "rank": rubrics.get("variables", {}).get("rank_class", "Simple Class"),
+                    "tone_override": f"Tone {tone_val}",
+                    "fixed_text": fixed_stichera,
+                    "relative_rule": rel_rule
+                })
+        except Exception as e:
+            # Fallback to static if resolution fails
+            print(f"Error in dynamic roadmap resolving: {e}")
+            timeline_days = [{
+                "date": f"{year}-09-08",
+                "label": "Sept 8",
+                "name": "NATIVITY OF THE MOST HOLY THEOTOKOS",
+                "type": "feast",
+                "rank": "Vigil Feast (Rank 1)",
+                "tone_override": "Tone 4",
+                "fixed_text": "Troparion of the Feast (Tone 4)",
+                "relative_rule": "Special festal prokeimena."
+            }]
+
         roadmap_data = {
             "status": "success",
             "wings": {
@@ -383,69 +507,8 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             "feast_cycles": {
                 "nativity_theotokos": {
                     "feast_name": "Nativity of the Most Holy Theotokos",
-                    "double_border_date": "2026-09-08",
-                    "days": [
-                        {
-                            "date": "2026-09-07",
-                            "label": "Sept 7",
-                            "name": "Forefeast of the Nativity of the Theotokos",
-                            "type": "forefeast",
-                            "rank": "Simple (Rank 6)",
-                            "tone_override": "Tone 4",
-                            "fixed_text": "Troparion of the Forefeast (Tone 4): 'Today from the root of Jesse...'; Stichera of the Forefeast.",
-                            "relative_rule": "Weekday Octoechos (Tone of the week) canons; Daily Vespers prokeimenon."
-                        },
-                        {
-                            "date": "2026-09-08",
-                            "label": "Sept 8",
-                            "name": "NATIVITY OF THE MOST HOLY THEOTOKOS",
-                            "type": "feast",
-                            "rank": "Vigil Feast (Rank 1)",
-                            "tone_override": "Festal Tone 4",
-                            "fixed_text": "Troparion of the Feast (Tone 4): 'Your Nativity, O Virgin Theotokos...'; Kontakion (Tone 4): 'By your holy birth...'; All Stichera of the Feast.",
-                            "relative_rule": "No Octoechos hymns are sung. Special festal prokeimena and readings. Matins Gospel."
-                        },
-                        {
-                            "date": "2026-09-09",
-                            "label": "Sept 9",
-                            "name": "Synaxis of Joachim and Anna (Afterfeast 1)",
-                            "type": "afterfeast",
-                            "rank": "Double Feast (Rank 4)",
-                            "tone_override": "Tone 4",
-                            "fixed_text": "Troparion of the Feast (Tone 4); Troparion of the Saints (Tone 2): 'We celebrate the memory...'; Joint Kontakion of Saints and Feast.",
-                            "relative_rule": "Weekday or Sunday Octoechos elements. If a Sunday, Resurrectional texts are merged in priority."
-                        },
-                        {
-                            "date": "2026-09-10",
-                            "label": "Sept 10",
-                            "name": "Afterfeast of the Nativity (Afterfeast 2)",
-                            "type": "afterfeast",
-                            "rank": "Simple (Rank 5)",
-                            "tone_override": "Tone 4",
-                            "fixed_text": "Troparion and Kontakion of the Feast. Stitchera of the Feast merged with the Saint of the day (Martyr Menodora).",
-                            "relative_rule": "Weekday Octoechos canons. Daily prokeimena."
-                        },
-                        {
-                            "date": "2026-09-11",
-                            "label": "Sept 11",
-                            "name": "Afterfeast of the Nativity (Afterfeast 3)",
-                            "type": "afterfeast",
-                            "rank": "Simple (Rank 5)",
-                            "tone_override": "Tone 4",
-                            "fixed_text": "Troparion of the Feast. Stichera of the Feast combined with Saint (Rev. Theodora of Alexandria).",
-                            "relative_rule": "Weekday Octoechos canons. Daily prokeimena."
-                        },
-                        {
-                            "date": "2026-09-12",
-                            "label": "Sept 12",
-                            "name": "Apodosis (Leave-taking) of the Nativity",
-                            "type": "apodosis",
-                            "rank": "Double (Rank 4)",
-                            "tone_override": "Festal Tone 4",
-                            "fixed_text": "Entire service of the Feast is repeated (Troparion, Kontakion, Stichera).",
-                            "relative_rule": "We do not sing the Octoechos or the Saint of the day. Only Sunday/Resurrection elements would combine if it falls on a Sunday."
-                        }
-                    ]
+                    "double_border_date": f"{year}-09-08",
+                    "days": timeline_days
                 }
             }
         }

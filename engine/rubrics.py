@@ -166,15 +166,18 @@ class RubricsMixin:
     def identify_paradigm(self, context):
         """
         Identifies the Structural Paradigm (The "Rule Frame") for the day (Dolnytsky Part 2).
-        Returns a Paradigm ID (e.g., 'p1_sunday', 'p_feast_lord').
+        Returns a Paradigm ID (e.g., 'p1_sunday', 'p_feast_lord', 'p_feast_theotokos').
         """
         day_of_week = context.get('day_of_week', 0) # 0=Sunday
         rank = self.calculate_rank(context)
         
         # PRIORITY 1: Great Feasts of the Lord (Rank 1)
         # Dolnytsky: Feast of the Lord on Sunday overrides Sunday.
-        if rank == 1:
+        if rank == 1 or context.get("feast_level") == "lord":
             return "p_feast_lord"
+
+        if context.get("feast_level") == "theotokos":
+            return "p_feast_theotokos"
 
         # PRIORITY 2: Sunday Resurrection (Rank > 1)
         if day_of_week == 0:
@@ -195,43 +198,31 @@ class RubricsMixin:
         
         Citation: Dolnytsky Part II - Rank hierarchy determines service structure
         """
-        # 0. Check Dolnytsky Rank FIRST (Primary Source Authority)
+        ranks = []
+        
+        # 0. Check Dolnytsky Rank (Primary Source Authority)
         # Citation: Dolnytsky Part V — calendar rank is definitive
         dolnytsky_rank = context.get("dolnytsky_rank")
         if dolnytsky_rank:
-             if dolnytsky_rank == "LORD": return 1
-             if dolnytsky_rank == "THEOTOKOS": return 1
-             if dolnytsky_rank == "VIGIL": return 2
-             if dolnytsky_rank == "POLYELEOS": return 2
-             if dolnytsky_rank == "GT_DOX": return 3
-             if dolnytsky_rank == "SIX": return 4
-             if dolnytsky_rank == "ALLELUIA": return 5
-             if dolnytsky_rank == "SIMPLE": return 5
-             if dolnytsky_rank == "NO": return 6
+             if dolnytsky_rank == "LORD": ranks.append(1)
+             elif dolnytsky_rank == "THEOTOKOS": ranks.append(1)
+             elif dolnytsky_rank == "VIGIL": ranks.append(2)
+             elif dolnytsky_rank == "POLYELEOS": ranks.append(2)
+             elif dolnytsky_rank == "GT_DOX": ranks.append(3)
+             elif dolnytsky_rank == "SIX": ranks.append(4)
+             elif dolnytsky_rank == "ALLELUIA": ranks.append(5)
+             elif dolnytsky_rank == "SIMPLE": ranks.append(5)
+             elif dolnytsky_rank == "NO": ranks.append(6)
 
         # Testing Bypass (only for unit tests that manually set rank)
-        if "rank" in context and "dolnytsky_rank" not in context:
+        if "rank" in context and not dolnytsky_rank:
              from engine.utils.type_utils import parse_rank_integer
-             return parse_rank_integer(context["rank"])
+             ranks.append(parse_rank_integer(context["rank"]))
 
         # 1. Check Triodion Priority (Highest)
         triodion_prio = context.get("triodion_priority", 0)
-        if triodion_prio >= 100: return 1 # Pascha, Great Friday
-        if triodion_prio >= 90: return 2 # Bright Week
-        
-        # [NEW] Dolnytsky Override
-        # If the API returns a specific rank code, we trust it.
-        dolnytsky_rank = context.get("dolnytsky_rank")
-        if dolnytsky_rank:
-             if dolnytsky_rank == "LORD": return 1
-             if dolnytsky_rank == "THEOTOKOS": return 1
-             if dolnytsky_rank == "VIGIL": return 2
-             if dolnytsky_rank == "POLYELEOS": return 2
-             if dolnytsky_rank == "GT_DOX": return 3
-             if dolnytsky_rank == "SIX": return 4
-             if dolnytsky_rank == "ALLELUIA": return 5 # Lenten/Minor Rank
-             if dolnytsky_rank == "SIMPLE": return 5
-             if dolnytsky_rank == "NO": return 6
+        if triodion_prio >= 100: ranks.append(1) # Pascha, Great Friday
+        elif triodion_prio >= 90: ranks.append(2) # Bright Week
         
         # 2. Check Menaion Rank from rubrics variables
         # This is populated by resolve_rubrics when Menaion day has a rank field
@@ -241,32 +232,35 @@ class RubricsMixin:
             menaion_rank = context.get("menaion_rank", "")
         
         if menaion_rank:
+            menaion_rank = str(menaion_rank)
             # Convert string rank to numeric
             # Citation: Dolnytsky - rank hierarchy
             if menaion_rank.startswith("rank_vigil_lord"):
-                return 1  # Great Feast of the Lord
-            if menaion_rank.startswith("rank_vigil_theotokos"):
-                return 1  # Great Feast of the Theotokos
-            if menaion_rank.startswith("rank_vigil"):
-                return 2  # Vigil-rank saint
-            if menaion_rank.startswith("rank_polyeleos"):
-                return 2  # Polyeleos rank
-            if menaion_rank.startswith("rank_doxology"):
-                return 3  # Great Doxology rank
-            if menaion_rank.startswith("rank_simple_6"):
-                return 4  # Six stichera
-        
-        # 3. Check is_sunday_vigil or is_sunday (also high rank)
+                ranks.append(1)  # Great Feast of the Lord
+            elif menaion_rank.startswith("rank_vigil_theotokos"):
+                ranks.append(1)  # Great Feast of the Theotokos
+            elif menaion_rank.startswith("rank_vigil"):
+                ranks.append(2)  # Vigil-rank saint
+            elif menaion_rank.startswith("rank_polyeleos"):
+                ranks.append(2)  # Polyeleos rank
+            elif menaion_rank.startswith("rank_doxology"):
+                ranks.append(3)  # Great Doxology rank
+            elif menaion_rank.startswith("rank_simple_6"):
+                ranks.append(4)  # Six stichera
+
+        # 3. Check Saints List (Menaion Saint)
+        if "saints" in context and context["saints"]:
+            ranks.append(min(s.get("rank", 5) for s in context["saints"]))
+
+        if ranks:
+            return min(ranks)
+            
+        # 4. Check is_sunday_vigil or is_sunday (also high rank) - Sunday is fallback for rank calculation
         if context.get("is_sunday_vigil") or context.get("is_sunday") or context.get("day_of_week") == 0:
             return 2  # Sundays are polyeleos-equivalent
-        if context.get("day_of_week") == 6:  # Saturday vigil to Sunday
-            # Only if it's actually a Vigil service (Rank 2)? 
-            # Sunday Vigil is Rank 2. But Saturday *morning* isn't necessarily Rank 2 unless broad logic applies.
-            # Fixed: Saturday Morning is usually Rank 4 or 5.
-            pass
-        
-        # STANDARD PATH: Default to 4 (Simple)
-        return 4
+            
+        # STANDARD PATH: Default to 5 (Simple)
+        return 5
 
 
     def resolve_general_case(self, context):
@@ -312,6 +306,8 @@ class RubricsMixin:
         if period == "normal":
             if context.get("is_fore_or_afterfeast"): period = "forefeast" # Legacy didn't distinguish?
             elif context.get("feast_level") == "lord": period = "feast" 
+            
+        context["period"] = period
         
         # Iterating through cases to find best match
         # 1. Start with Empty or Triodion if applicable (Priority)
@@ -338,6 +334,32 @@ class RubricsMixin:
         
         # Helper for matching
         p_offset = context.get("pascha_offset", 0)
+        # Define recursive helper to resolve base templates
+        def get_resolved_case(c_def):
+            if "base_template" in c_def:
+                base_id = c_def["base_template"]
+                base_case = None
+                for c_key, base_candidate in candidate_cases.items():
+                    if c_key.startswith("//"): continue
+                    if base_candidate.get("id") == base_id:
+                        base_case = base_candidate
+                        break
+                if base_case:
+                    resolved_base = get_resolved_case(base_case)
+                    merged_case = copy.deepcopy(resolved_base)
+                    child_vars = c_def.get("variables", {})
+                    if "variables" not in merged_case:
+                        merged_case["variables"] = {}
+                    merged_case["variables"].update(child_vars)
+                    
+                    # Keep Child Attributes (ID, Triggers, Source)
+                    merged_case["id"] = c_def.get("id")
+                    merged_case["triggers"] = c_def.get("triggers")
+                    merged_case["source_ref"] = c_def.get("source_ref")
+                    if "base_template" in merged_case:
+                        del merged_case["base_template"]
+                    return merged_case
+            return c_def
 
         for key, case_def in sorted_candidates:
             
@@ -358,64 +380,50 @@ class RubricsMixin:
                 if not (rng[0] <= p_offset <= rng[1]): continue
 
             # Check Period
-            if "period" in triggers and period not in triggers["period"]:
-                continue
+            if "period" in triggers:
+                p_trigger = triggers["period"]
+                if isinstance(p_trigger, list):
+                    if period not in p_trigger: continue
+                else:
+                    if period != p_trigger: continue
                 
             # Check Day
-            if "day_of_week" in triggers and day_of_week not in triggers["day_of_week"]:
-                continue
+            if "day_of_week" in triggers:
+                dow_trigger = triggers["day_of_week"]
+                if isinstance(dow_trigger, list):
+                    if day_of_week not in dow_trigger: continue
+                else:
+                    if day_of_week != dow_trigger: continue
                 
             # Check Rank
             if "rank_id" in triggers:
-                if rank_id not in triggers["rank_id"]:
-                    continue
+                r_trigger = triggers["rank_id"]
+                if isinstance(r_trigger, list):
+                    if rank_id not in r_trigger: continue
+                else:
+                    if rank_id != r_trigger: continue
             
             # Check Type (e.g. Lord vs Theotokos)
             if "type" in triggers:
+                t_trigger = triggers["type"]
                 ctx_type = context.get("feast_level", "unknown")
-                if ctx_type not in triggers["type"]:
-                    continue
+                if isinstance(t_trigger, list):
+                    if ctx_type not in t_trigger: continue
+                else:
+                    if ctx_type != t_trigger: continue
 
-            # Handle Inheritance (Base Template)
-            if "base_template" in case_def:
-                base_id = case_def["base_template"]
-                # Find base case in candidate_cases (by checking "id" field)
-                base_case = None
-                for c_key, c_def in candidate_cases.items():
-                    if c_key.startswith("//"): continue
-                    if c_def.get("id") == base_id:
-                        base_case = c_def
-                        break
-                
-                if base_case:
-                     # Merge Variables (Deep Merge or Shallow?)
-                     # Shallow merge of variables dict is usually enough, but distribution logic might be nested.
-                     # For now: Base Variables updated with Child Variables.
-                     merged_case = copy.deepcopy(base_case)
-                     child_vars = case_def.get("variables", {})
-                     
-                     if "variables" not in merged_case: merged_case["variables"] = {}
-                     merged_case["variables"].update(child_vars)
-                     
-                     # Keep Child Attributes (ID, Triggers, Source)
-                     merged_case["id"] = case_def.get("id")
-                     merged_case["triggers"] = case_def.get("triggers")
-                     merged_case["source_ref"] = case_def.get("source_ref")
-                     
-                     return merged_case
-
-            return case_def
+            return get_resolved_case(case_def)
             
         # FIX Issue #3: Instead of returning None, provide a safe default case
         # This prevents downstream None errors in resolve_vespers_stichera, resolve_praises_stack, etc.
-        # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L138
+        # Citation: Final_Dolnytsky_part2_general_rubrics.md:L138
         print(f"WARNING: No General Case match. Period={period}, Day={day_of_week}, Rank={rank_id}, Offset={p_offset}")
         
         # Build a minimal default case based on rank
         default_dist = [{"source": "octoechos", "qty": 3}, {"source": "menaion", "qty": 3}]
         if rank_id in ["rank_vigil", "rank_polyeleos"]:
             default_dist = [{"source": "octoechos", "qty": 4}, {"source": "menaion", "qty": 6}]
-        elif day_of_week == 0:  # Sunday: Final_Dolnytsky_part2_general_rubrics.txt:L62
+        elif day_of_week == 0:  # Sunday: Final_Dolnytsky_part2_general_rubrics.md:L62
             default_dist = [{"source": "octoechos", "qty": 7}, {"source": "menaion", "qty": 3}]
         
         return {
@@ -451,22 +459,35 @@ class RubricsMixin:
             if not triggers: continue
             
             # Check day of week
-            if "day_of_week" in triggers and day_of_week not in triggers["day_of_week"]:
-                continue
+            if "day_of_week" in triggers:
+                dow_trigger = triggers["day_of_week"]
+                if isinstance(dow_trigger, list):
+                    if day_of_week not in dow_trigger: continue
+                else:
+                    if day_of_week != dow_trigger: continue
             
             # Check rank — be lenient: if no rank matches, try broadening
             if "rank_id" in triggers:
-                if rank_id not in triggers["rank_id"]:
-                    # For Triodion Sundays, the underlying saint rank may not match.
-                    # Accept the first Sunday case as fallback regardless of rank.
-                    if day_of_week == 0 and 0 in triggers.get("day_of_week", []):
-                        pass  # Accept this match
-                    else:
-                        continue
+                r_trigger = triggers["rank_id"]
+                if isinstance(r_trigger, list):
+                    if rank_id not in r_trigger:
+                        # For Triodion Sundays, the underlying saint rank may not match.
+                        # Accept the first Sunday case as fallback regardless of rank.
+                        dow_list = triggers.get("day_of_week", [])
+                        if day_of_week == 0 and (0 == dow_list or (isinstance(dow_list, list) and 0 in dow_list)):
+                            pass  # Accept this match
+                        else:
+                            continue
+                else:
+                    if rank_id != r_trigger: continue
             
             # Check period — force to 'normal' (we want the base paradigm)
-            if "period" in triggers and "normal" not in triggers["period"]:
-                continue
+            if "period" in triggers:
+                p_trigger = triggers["period"]
+                if isinstance(p_trigger, list):
+                    if "normal" not in p_trigger: continue
+                else:
+                    if "normal" != p_trigger: continue
 
             return case_def
         
@@ -474,49 +495,36 @@ class RubricsMixin:
 
 
     def _get_rank_id(self, context):
-
         # Helper to convert menaion_rank to string ID used in 02a_logic_general.json
+        int_rank = self.calculate_rank(context)
         
-        # 1. Check Dolnytsky Rank (New System)
-        d_rank = context.get("dolnytsky_rank")
-        if d_rank:
-             if d_rank == "LORD": return "rank_vigil" # Treat as Vigil for General Logic matching if needed
-             if d_rank == "THEOTOKOS" or d_rank == "MOG": return "rank_vigil"
-             if d_rank == "VIGIL": return "rank_vigil"
-             if d_rank == "POLYELEOS": return "rank_polyeleos"
-             if d_rank == "GT_DOX": return "rank_doxology"
-             if d_rank == "SIX" or d_rank == "6 SM": return "rank_simple_6" 
-             if d_rank == "ALLELUIA": return "rank_lent_alleluia"
-             return "rank_simple_4"
-
-        # 2. Check Integer Rank (from calculate_rank or test context)
-        int_rank = context.get("rank")
-        if int_rank is not None:
-             if int_rank == 1: return "rank_vigil_lord"
-             if int_rank == 2: return "rank_vigil"  # or rank_polyeleos
-             if int_rank == 3: return "rank_doxology"
-             if int_rank == 4: return "rank_simple_6"
-             if int_rank == 5: return "rank_simple_4"
-             if int_rank == 6: return "rank_simple_4"
-
-        # 2. Check Legacy Menaion Rank
-        menaion_rank = context.get("menaion_rank", "")
-        if not menaion_rank:
-            menaion_rank = context.get("variables", {}).get("menaion_rank", "")
+        # Check if we should classify as polyeleos
+        is_polyeleos = (
+            context.get("dolnytsky_rank") == "POLYELEOS" or
+            any(s.get("rank") == 2 or s.get("rank_code") in ("POLYELEOS", "POL") for s in context.get("saints", [])) or
+            str(context.get("menaion_rank") or "").startswith("rank_polyeleos") or
+            str(context.get("variables", {}).get("menaion_rank") or "").startswith("rank_polyeleos")
+        )
         
-        if menaion_rank:
-            if menaion_rank.startswith("rank_vigil"):
-                return "rank_vigil"
-            if menaion_rank.startswith("rank_polyeleos"):
+        if int_rank == 1:
+            # Check if Lord's/Theotokos Feast or standard Vigil
+            d_rank = context.get("dolnytsky_rank")
+            if d_rank in ("LORD", "THEOTOKOS"):
+                return "rank_vigil" # Treat as Vigil for General Logic matching if needed
+            return "rank_vigil_lord"
+        if int_rank == 2:
+            if is_polyeleos:
                 return "rank_polyeleos"
-            if menaion_rank.startswith("rank_doxology"):
-                return "rank_doxology"
-            if menaion_rank.startswith("rank_simple_6"):
-                return "rank_simple_6"
-        
-        # Default: check saints count for simple rank variant
-        s_count = len(context.get("saints", []))
-        if s_count >= 2: return "rank_simple_6"
+            return "rank_vigil"
+        if int_rank == 3:
+            return "rank_doxology"
+        if int_rank == 4:
+            return "rank_simple_6"
+        if int_rank == 5 or int_rank == 6:
+            if context.get("dolnytsky_rank") == "ALLELUIA":
+                return "rank_lent_alleluia"
+            return "rank_simple_4"
+            
         return "rank_simple_4"
 
 
@@ -672,6 +680,14 @@ class RubricsMixin:
 
             menaion_day = menaion_month_logic.get("days", {}).get(day_str)
             if menaion_day:
+                title_key = menaion_day.get("title_key", "")
+                if title_key.startswith("menaion."):
+                    saint_id = title_key[len("menaion."):]
+                    if "saints" in context and context["saints"]:
+                        context["saints"][0]["id"] = saint_id
+                    else:
+                        context["saints"] = [{"id": saint_id, "name": menaion_day.get("st_name", ""), "rank": 2}]
+                
                 if best_priority < 90:
                     rubrics["title"] = menaion_day.get("title_key", rubrics["title"])
                     rubrics["variables"].update(menaion_day.get("variables", {}))
@@ -680,7 +696,7 @@ class RubricsMixin:
                         if key in menaion_day:
                             rubrics["variables"][key] = menaion_day[key]
                 # Populate menaion_rank for Great Feast Vigil detection
-                # Citation: Final_Dolnytsky_part1_structure.txt:L13
+                # Citation: Final_Dolnytsky_part1_structure.md:L13
                 if "rank" in menaion_day:
                     rubrics["variables"]["menaion_rank"] = menaion_day["rank"]
                     rubrics["variables"]["rank"] = menaion_day["rank"]
@@ -794,10 +810,22 @@ class RubricsMixin:
                 context["saints"] = [s for s in saints if s not in simple_saints]
                 rubrics["_trace"].append(f"Transferred saints suppressed from active context: {[s.get('name') for s in simple_saints]}")
         
-        # Check for explicit suppress_saints variable from collision overrides
-        if rubrics.get("variables", {}).get("suppress_saints"):
+        # Resolve general case to merge variables & overrides
+        general_case = self.resolve_general_case(context)
+        if general_case:
+            rubrics["_trace"].append(f"General Case: Matched case '{general_case.get('id')}'.")
+            gc_vars = general_case.get("variables", {})
+            for k, v in gc_vars.items():
+                if k not in rubrics["variables"]:
+                    rubrics["variables"][k] = v
+                if k.endswith("_type") and k not in rubrics["overrides"]:
+                    rubrics["overrides"][k] = v
+                    rubrics["_trace"].append(f"Override: Set {k}='{v}' from General Case.")
+
+        # Check for explicit suppress_saints or suppress_menaion_saint variable from collision/general case overrides
+        if rubrics.get("variables", {}).get("suppress_saints") or rubrics.get("variables", {}).get("suppress_menaion_saint"):
             context["saints"] = []
-            rubrics["_trace"].append("Collision Override: Suppressed all saints from active context.")
+            rubrics["_trace"].append("Saint Suppression: Suppressed all saints from active context.")
          
         return rubrics
 

@@ -60,7 +60,7 @@ class TestMatinsStress2Saints(unittest.TestCase):
                            "logic_switch": {
                                "2_saints": {
                                   "distribution": [
-                                     {"source": "octoechos_1", "count": 6},
+                                     {"source": "octoechos_1", "count": 4},
                                      {"source": "saint", "count": 4},
                                      {"source": "saint", "count": 4}
                                   ]

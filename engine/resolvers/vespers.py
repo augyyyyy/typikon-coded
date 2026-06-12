@@ -115,7 +115,11 @@ class VespersMixin:
             
             if glory is None:
                 glory = "saint_doxastikon_if_present"
-            if both_now is None:
+            if 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
+                both_now = "pentecostarion.eucharist.vespers.theotokion_lord_i_call"
+            elif context.get("is_fore_or_afterfeast") or context.get("is_afterfeast"):
+                both_now = "feast_theotokion"
+            elif both_now is None:
                 day_of_week = context.get("day_of_week", 0)
                 if day_of_week == 0 or context.get("is_sunday_vigil"):
                     both_now = "dogmatikon_current_tone"
@@ -133,6 +137,8 @@ class VespersMixin:
                     tone = context.get("tone", 1)
                     return f"octoechos.dogmatikon_tone_{tone}"
                 if key == "theotokion_daily":
+                     if 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
+                          return "pentecostarion.eucharist.vespers.theotokion_lord_i_call"
                      return "octoechos.theotokion_daily"
                 if (key == "saint" or key == "saint_doxastikon_if_present"):
                      if context.get("saints"):
@@ -147,7 +153,11 @@ class VespersMixin:
                  for group in dist_list:
                       source = group.get("source", group.get("type", "unknown"))
                       qty = group.get("qty", group.get("count", 0))
-                      if source == "octoechos" or source == "resurrection":
+                      if 60 <= context.get("pascha_offset", -100) <= 67 and group.get("type") == "feast":
+                           group["source"] = "triodion"
+                           for i in range(1, qty + 1):
+                                expanded.append("pentecostarion.eucharist.vespers.stichera_lord_i_call")
+                      elif source == "octoechos" or source == "resurrection":
                            for i in range(1, qty + 1):
                                 expanded.append(f"octoechos.tone_{tone}.res_{i}")
                       elif source == "menaion" or source == "saint":
@@ -210,7 +220,7 @@ class VespersMixin:
                 }
 
         # FIX: For Saturday Vigil, use Sunday's stichera distribution (10 stichera)
-        # Citation: Final_Dolnytsky_part2_general_rubrics.txt:L62
+        # Citation: Final_Dolnytsky_part2_general_rubrics.md:L62
         lookup_context = context.copy()
         if context.get("is_sunday_vigil") and context.get("day_of_week") == 6:
             lookup_context["day_of_week"] = 0  # Pretend it's Sunday for case matching
@@ -226,6 +236,8 @@ class VespersMixin:
                 tone = context.get("tone", 1)
                 return f"octoechos.dogmatikon_tone_{tone}"
             if key == "theotokion_daily":
+                 if 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
+                      return "pentecostarion.eucharist.vespers.theotokion_lord_i_call"
                  return "octoechos.theotokion_daily"
             if (key == "saint" or key == "saint_doxastikon_if_present"):
                  if context.get("saints"):
@@ -244,7 +256,11 @@ class VespersMixin:
                   source = group.get("source", group.get("type", "unknown"))
                   qty = group.get("qty", group.get("count", 0))
                   
-                  if source == "octoechos" or source == "resurrection":
+                  if 60 <= context.get("pascha_offset", -100) <= 67 and group.get("type") == "feast":
+                       group["source"] = "triodion"
+                       for i in range(1, qty + 1):
+                            expanded.append("pentecostarion.eucharist.vespers.stichera_lord_i_call")
+                  elif source == "octoechos" or source == "resurrection":
                        # Generate IDs: octoechos.tone_X.res_1 ... res_N
                        for i in range(1, qty + 1):
                             expanded.append(f"octoechos.tone_{tone}.res_{i}")
@@ -338,7 +354,11 @@ class VespersMixin:
             resolved_glory = "triodion.doxasticon"
 
         resolved_both_now = resolve_hymn_key(both_now, context)
-        if (not resolved_both_now or resolved_both_now == "None") and (context.get("day_of_week") == 0 or context.get("is_sunday_vigil")):
+        if 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
+            resolved_both_now = "pentecostarion.eucharist.vespers.theotokion_lord_i_call"
+        elif context.get("is_fore_or_afterfeast") or context.get("is_afterfeast"):
+            resolved_both_now = "feast_theotokion"
+        elif (not resolved_both_now or resolved_both_now == "None") and (context.get("day_of_week") == 0 or context.get("is_sunday_vigil")):
             resolved_both_now = f"octoechos.dogmatikon_tone_{context.get('tone', 1)}"
 
         expanded_items = expand_distribution(dist, context)
@@ -458,7 +478,7 @@ class VespersMixin:
         if not is_vigil and not context.get("force_litiya"):
             return {"included": False}
         
-        # Troparia distribution per Ordo_Celebrationis_1996_CLEAN.txt:L453
+        # Troparia distribution per Ordo_Celebrationis_1996_CLEAN.md:L453
         rank_num = parse_rank_integer(context.get("rank"))
         day_of_week = context.get("day_of_week")
         
@@ -599,7 +619,7 @@ class VespersMixin:
             return {"type": "lenten_aposticha", "source": "triodion",
                     "reason": "Lenten weekday"}
         
-        # Final_Dolnytsky_part2_general_rubrics.txt:L223
+        # Final_Dolnytsky_part2_general_rubrics.md:L223
         if context.get("day_of_week") == 6:
             return {"type": "martyria_aposticha", "source": "octoechos",
                     "reason": "Saturday (Dolnytsky II:135)"}
@@ -610,7 +630,7 @@ class VespersMixin:
             return {"type": "saint_aposticha", "source": "menaion",
                     "reason": "Polyeleos/Vigil weekday (Dolnytsky II:196)"}
         
-        # Final_Dolnytsky_part2_general_rubrics.txt:L132
+        # Final_Dolnytsky_part2_general_rubrics.md:L132
         return {"type": "weekday_aposticha", "source": "octoechos",
                 "reason": "Standard weekday (Dolnytsky II:86)"}
 
@@ -711,6 +731,7 @@ class VespersMixin:
         is_vigil = context.get("is_vigil", False)
         day_of_week = context.get("day_of_week", 0)
         has_readings = context.get("has_readings", False)
+        service_type = self.resolve_evening_service_type(context)
         
         # RULE: Always entrance on Vigil
         if is_vigil:
@@ -719,6 +740,10 @@ class VespersMixin:
         # RULE: Polyeleos or higher
         if rank <= 3:
             return {"type": "component_ref", "ref_key": "components.entrance_great"}
+        
+        # RULE: Daily Vespers has no entrance (Dolnytsky Part I)
+        if service_type == "daily_vespers":
+            return None
         
         # RULE: Saturday evening
         if day_of_week == 6:  # Saturday = 6
@@ -933,7 +958,9 @@ class VespersMixin:
         """
         if context.get("is_small_vespers"):
             return self.resolve_small_vespers_troparia(context)
-        paradigm = context.get("paradigm", "")
+        paradigm = context.get("paradigm")
+        if not paradigm:
+            paradigm = self.identify_paradigm(context)
         rank = parse_rank_integer(context.get("rank", 5))
         tone = context.get("tone", 1)
         day_of_week = context.get("day_of_week", 0)
@@ -962,12 +989,23 @@ class VespersMixin:
         
         # RULE: Sunday
         if day_of_week == 0 or paradigm == "p1_sunday_resurrection":
-            if saints:
+            if len(saints) >= 2:
+                # Sunday + Two Saints
+                # Resurrection, first saint, Glory: second saint, Both now: Theotokion of tone of second saint
+                saint2_tone = saints[1].get("tone", tone)
+                result["components"] = [
+                    {"type": "resurrectional", "tone": tone, "ref_key": f"octoechos.troparion.tone_{tone}"},
+                    {"type": "saint", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"},
+                    {"type": "glory", "ref_key": f"menaion.{saints[1].get('id', 'saint')}.troparion"},
+                    {"type": "both_now", "ref_key": f"octoechos.theotokion_dismissal.tone_{saint2_tone}"}
+                ]
+            elif saints:
                 # Sunday + Saint
+                saint_tone = saints[0].get("tone", tone)
                 result["components"] = [
                     {"type": "resurrectional", "tone": tone, "ref_key": f"octoechos.troparion.tone_{tone}"},
                     {"type": "glory", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"},
-                    {"type": "both_now", "ref_key": f"octoechos.theotokion_dismissal.tone_{tone}"}
+                    {"type": "both_now", "ref_key": f"octoechos.theotokion_dismissal.tone_{saint_tone}"}
                 ]
             else:
                 # Sunday alone
@@ -979,23 +1017,30 @@ class VespersMixin:
         
         # RULE: Polyeleos saint
         if rank <= 3 and saints:
-            result["components"] = [
-                {"type": "saint", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"},
-                {"type": "glory_both_now", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.theotokion"}
-            ]
+            if context.get("is_afterfeast") or context.get("period") in ("afterfeast", "apodosis"):
+                feast_key = "feast.troparion"
+                if 60 <= context.get("pascha_offset", -100) <= 67:
+                    feast_key = "pentecostarion.eucharist.troparion"
+                result["components"] = [
+                    {"type": "saint", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"},
+                    {"type": "glory_both_now", "ref_key": feast_key}
+                ]
+            else:
+                result["components"] = [
+                    {"type": "saint", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"},
+                    {"type": "glory_both_now", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.theotokion"}
+                ]
             return result
         
         # DEFAULT: Weekday with saint
         if saints:
             # Under Ruthenian (Dolnytsky) practice, simple saints (including [4 NO]) who have troparia
-            # are prioritized over weekday Octoechos troparia. Since minor saint troparia are not fully
-            # pre-loaded in the standard text_db, we default to setting is_no_troparion to False when a saint
-            # is commemorated, allowing the digest formatter to print the saint's troparion.
-            is_no_troparion = False
-            if is_no_troparion:
+            # are prioritized over weekday Octoechos troparia.
+            if len(saints) >= 2:
                 result["components"] = [
-                    {"type": "weekday", "ref_key": f"octoechos.troparion.weekday.day_{day_of_week}"},
-                    {"type": "glory_both_now", "ref_key": f"horologion.theotokion_dismissal.day_{day_of_week}"}
+                    {"type": "saint", "ref_key": f"menaion.{saints[0].get('id', 'saint')}.troparion"},
+                    {"type": "glory", "ref_key": f"menaion.{saints[1].get('id', 'saint')}.troparion"},
+                    {"type": "both_now", "ref_key": f"horologion.theotokion_dismissal.day_{day_of_week}"}
                 ]
             else:
                 result["components"] = [
@@ -1064,7 +1109,7 @@ class VespersMixin:
         }
 
     # MODULE A7: ROYAL HOURS TRIGGERS
-    # ref: Final_Dolnytsky_part3_menaion.txt:L770
+    # ref: Final_Dolnytsky_part3_menaion.md:L770
 
 
     def resolve_prokeimenon(self, context):
@@ -1144,6 +1189,9 @@ class VespersMixin:
         """
         Resolves the prokeimenon for Vespers.
         """
+        res = self.resolve_vespers_readings_logic(context, rubrics)
+        if res and isinstance(res, list) and len(res) > 0:
+            return res[0]
         return self.resolve_prokeimenon(context)
 
 
@@ -1176,12 +1224,13 @@ class VespersMixin:
                  "ref_key": f"pentecostarion.great_prokeimenon_bright_week_tone_{t}",
                  "content": "Who is so great a God as our God..." if t == 8 else "Our God is in heaven and on earth..."
              }
-        elif context.get("is_feast_evening") and (paradigm == "p_feast_lord" or rank == 1):
+        elif (context.get("is_feast_evening") and (paradigm == "p_feast_lord" or rank == 1)) or (offset is not None and offset == 60 and day == 4):
              prokeimenon = {
                  "type": "prokeimenon",
                  "variant": "great",
                  "ref_key": "menaion.great_prokeimenon_feast_evening",
-                 "content": "Who is so great a God as our God..."
+                 "tone": 7,
+                 "content": "Who is so great a God as our God? Thou art the God Who workest wonders."
              }
         elif day == 0 or context.get("is_sunday_vigil"): # Sunday (Sat Eve)
              prokeimenon = {
@@ -1279,7 +1328,7 @@ class VespersMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.txt:L1819")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.md:L1819")
     def resolve_passion_vespers_readings(self, context, rubrics=None):
         """
         Passion Vespers Readings (Good Friday Evening).
@@ -1337,7 +1386,7 @@ class VespersMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.txt:L13")
+    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:L13")
     def resolve_daily_kathisma(self, context, rubrics=None):
         """
         Resolves the daily kathisma for Vespers.

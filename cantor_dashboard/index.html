@@ -107,6 +107,16 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="settings-group profile-settings-group">
+                            <label for="opt-profile" class="settings-label">Active Parish Profile:</label>
+                            <select id="opt-profile" class="select-input" style="margin-bottom: 8px;">
+                                <option value="default">Default Profile</option>
+                            </select>
+                            <div class="profile-action-buttons" style="display: flex; gap: 8px;">
+                                <button class="btn btn-secondary btn-sm" id="btn-save-profile" style="flex: 1; padding: 6px 12px; font-size: 0.8rem;">Save Current</button>
+                                <button class="btn btn-secondary btn-sm" id="btn-delete-profile" style="background-color: var(--status-error); color: white; border-color: var(--status-error); flex: 1; padding: 6px 12px; font-size: 0.8rem;">Delete</button>
+                            </div>
+                        </div>
                     </div>
                 </details>
 
@@ -116,7 +126,7 @@
                         <div class="card glass-container context-card">
                             <h3 class="card-title">Liturgical Context</h3>
                             <div class="context-loading spinner hidden" id="context-spinner"></div>
-                            <div id="context-content" class="context-data">
+                            <div id="context-content" class="context-data scrollable">
                                 <!-- Populated dynamically -->
                                 <p class="placeholder-text">Please resolve a date to load context.</p>
                             </div>
@@ -133,9 +143,12 @@
                     <!-- Column 2: Documents (Booklet & Digest) -->
                     <div class="layout-column document-col">
                         <div class="card glass-container document-card">
-                            <div class="document-tabs">
-                                <button class="doc-tab-btn active" data-doc-target="doc-booklet">Cantor Service Booklet</button>
-                                <button class="doc-tab-btn" data-doc-target="doc-digest">Typikon Digest</button>
+                            <div class="document-tabs" id="document-tabs-bar">
+                                <button class="doc-tab-btn active" id="btn-tab-booklet" data-doc-target="doc-booklet">Cantor Service Booklet</button>
+                                <button class="doc-tab-btn" id="btn-tab-digest" data-doc-target="doc-digest">Typikon Digest</button>
+                                <button class="btn btn-secondary btn-sm" id="btn-toggle-layout" style="flex-grow: 0; border: none; background: transparent; border-left: 1px solid var(--card-border); border-radius: 0; font-size: 0.8rem; padding: 16px 20px; font-family: var(--font-heading); color: var(--gold-accent); cursor: pointer; transition: all 0.2s ease;">
+                                    📖 Toggle Split View
+                                </button>
                             </div>
                             
                             <div class="document-content-wrapper">

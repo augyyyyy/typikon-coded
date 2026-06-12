@@ -505,7 +505,7 @@
       },
       "priority": 70,
       "title": "Sunday of the Myrrh-bearing Women",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1267",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1267",
       "variables": {
         "matins_troparia_sequence": [
           "noble_joseph",
@@ -521,7 +521,7 @@
       },
       "priority": 70,
       "title": "Sunday of the Paralytic",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1313"
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1313"
     },
     "sunday_samaritan": {
       "triggers": {
@@ -529,7 +529,7 @@
       },
       "priority": 70,
       "title": "Sunday of the Samaritan Woman",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1395"
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1395"
     },
     "sunday_blind_man": {
       "triggers": {
@@ -537,7 +537,7 @@
       },
       "priority": 70,
       "title": "Sunday of the Blind Man",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1442"
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1442"
     },
     "pentecostarion_general_weekday": {
       "triggers": {
@@ -625,7 +625,7 @@
       },
       "priority": 95,
       "title": "Feast of the Most Holy Eucharist (Corpus Christi)",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1645-1677",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1645-1677",
       "description": "Thursday after Trinity Sunday. Lviv Synod mandate.",
       "variables": {
         "procession": "eucharistic_procession_four_altars",
@@ -639,13 +639,18 @@
     },
     "co_suffering_theotokos": {
       "triggers": {
-        "pascha_offset": 65,
+        "pascha_offset": 68,
         "day_of_week": 5
       },
-      "priority": 60,
+      "priority": 90,
       "title": "Friday of the Co-suffering of the Most Holy Theotokos",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1679-1683",
-      "description": "Friday after leavetaking of Feast of Eucharist"
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1679-1683",
+      "description": "Friday after leavetaking of Feast of Eucharist",
+      "base_template": "CASE_12",
+      "variables": {
+        "rank_id": "rank_polyeleos",
+        "rank": 2
+      }
     }
   },
   "lenten_logic_maps": {

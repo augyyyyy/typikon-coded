@@ -10,7 +10,7 @@
   "structures": {
     "midnight_weekday": {
       "title_key": "titles.midnight_weekday",
-      "source_ref": "Final_Dolnytsky_part1_structure.txt:L154",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:L154",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -41,7 +41,7 @@
     },
     "midnight_daily": {
       "title_key": "titles.midnight_daily",
-      "source_ref": "Final_Dolnytsky_part1_structure.txt:L154",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:L154",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -156,13 +156,10 @@
               }
             },
             {
-              "id": "troparia_repose",
+              "id": "lord_have_mercy_12",
               "content": {
-                "type": "fixed_group",
-                "ref_keys": [
-                  "horologion.trop_repose_remember_o_lord",
-                  "horologion.trop_repose_mother_holy"
-                ]
+                "type": "fixed_ref",
+                "ref_key": "horologion.lord_have_mercy_12"
               }
             },
             {
@@ -170,6 +167,16 @@
               "content": {
                 "type": "fixed_ref",
                 "ref_key": "horologion.prayer_remember_fathers_brethren"
+              }
+            },
+            {
+              "id": "troparia_repose",
+              "content": {
+                "type": "fixed_group",
+                "ref_keys": [
+                  "horologion.trop_repose_remember_o_lord",
+                  "horologion.trop_repose_mother_holy"
+                ]
               }
             },
             {
@@ -208,7 +215,7 @@
     },
     "midnight_saturday": {
       "title_key": "titles.midnight_saturday",
-      "source_ref": "Final_Dolnytsky_part1_structure.txt:L154",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:L154",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -238,7 +245,7 @@
     },
     "midnight_sunday": {
       "title_key": "titles.midnight_sunday",
-      "source_ref": "Final_Dolnytsky_part1_structure.txt:L154",
+      "source_ref": "Final_Dolnytsky_part1_structure.md:L154",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -274,7 +281,7 @@
     },
     "midnight_holy_saturday": {
       "title_key": "titles.midnight_holy_saturday",
-      "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1103",
+      "source_ref": "Final_Dolnytsky_part4_triodion.md:L1103",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -300,7 +307,7 @@
         {
           "id": "tomb_canon",
           "section_key": "sections.canon",
-          "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1110",
+          "source_ref": "Final_Dolnytsky_part4_triodion.md:L1110",
           "rubric": {
             "title": "Tomb Canon",
             "roles": {
@@ -315,7 +322,7 @@
         {
           "id": "shroud_removal_rite",
           "section_key": "sections.shroud",
-          "source_ref": "Final_Dolnytsky_part4_triodion.txt:L1117",
+          "source_ref": "Final_Dolnytsky_part4_triodion.md:L1117",
           "rubric": {
             "title": "Shroud Removal",
             "roles": {
