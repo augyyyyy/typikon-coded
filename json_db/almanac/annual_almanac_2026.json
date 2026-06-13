@@ -2,7 +2,7 @@
   "file_metadata": {
     "year": 2026,
     "pascha_date": "2026-04-05",
-    "generated_at": "2026-06-13T00:30:27.124437Z",
+    "generated_at": "2026-06-13T00:33:26.761533Z",
     "engine_version": "1.2.0"
   },
   "days": {
@@ -4139,7 +4139,7 @@
       "triodion_key": "sunday_publican_pharisee",
       "period": "normal",
       "paradigm_id": "sunday_publican_pharisee",
-      "lviv_paradigm_number": 21,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "Sunday of the Publican and the Pharisee",
       "variables": {
         "matins_praises_stichera_triodion": 4,
@@ -5312,7 +5312,7 @@
       ],
       "period": "forefeast",
       "paradigm_id": "sunday_prodigal_son",
-      "lviv_paradigm_number": 22,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "FOREFEAST OF THE ENCOUNTER - SUNDAY OF THE PRODIGAL SON",
       "variables": {
         "matins_polyeleos_add": "psalm_136_waters_of_babylon",
@@ -6420,7 +6420,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_meatfare",
-      "lviv_paradigm_number": 23,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "Saturday of Souls (Meatfare)",
       "variables": {
         "has_polyeleos": true,
@@ -6671,7 +6671,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_meatfare",
-      "lviv_paradigm_number": 24,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "AFTERFEAST OF THE ENCOUNTER & SUNDAY OF THE LAST JUDGEMENT",
       "variables": {
         "has_polyeleos": true,
@@ -6927,7 +6927,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "lviv_paradigm_number": 25,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7002,7 +7002,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "lviv_paradigm_number": 25,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7077,7 +7077,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "lviv_paradigm_number": 25,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7152,7 +7152,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "lviv_paradigm_number": 25,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7227,7 +7227,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "lviv_paradigm_number": 25,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7307,7 +7307,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "lviv_paradigm_number": 25,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare",
@@ -7532,7 +7532,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_cheesefare",
-      "lviv_paradigm_number": 26,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "CHEESEFARE - FORGIVENESS SUNDAY: EXPULSION OF ADAM FROM PARADISE",
       "variables": {
         "vespers_evening_type": "forgiveness_vespers",
@@ -7749,7 +7749,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "lviv_paradigm_number": 27,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -7849,7 +7849,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "lviv_paradigm_number": 27,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -7949,7 +7949,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "lviv_paradigm_number": 27,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -8049,7 +8049,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "lviv_paradigm_number": 27,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -8149,7 +8149,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "lviv_paradigm_number": 27,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -8253,7 +8253,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_1",
-      "lviv_paradigm_number": 29,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "Saturday of St. Theodore the Recruit",
       "variables": {
         "liturgy_readings": [
@@ -8475,7 +8475,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_1",
-      "lviv_paradigm_number": 30,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "SUNDAY OF ORTHODOXY: RESTORATION OF THE HOLY ICONS",
       "variables": {
         "liturgy_prokeimenon": "song_of_fathers",
@@ -8691,7 +8691,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -8789,7 +8789,7 @@
       "triodion_key": "lent_general_weekday",
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "menaion.feb_24.finding_head_baptist",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -8888,7 +8888,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -8987,7 +8987,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9086,7 +9086,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9188,7 +9188,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
-      "lviv_paradigm_number": 31,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "Saint of the Day (2-28)",
       "variables": {
         "rank": "rank_lent_alleluia",
@@ -9428,7 +9428,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_2",
-      "lviv_paradigm_number": 32,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "SUNDAY II OF THE GREAT FAST: ST. GREGORY PALAMAS",
       "variables": {
         "liturgy_type": "liturgy_basil",
@@ -9669,7 +9669,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9768,7 +9768,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9867,7 +9867,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9966,7 +9966,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10065,7 +10065,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10167,7 +10167,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
-      "lviv_paradigm_number": 31,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "Saint of the Day (3-7)",
       "variables": {
         "rank": "rank_lent_alleluia",
@@ -10381,7 +10381,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_3",
-      "lviv_paradigm_number": 33,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "SUNDAY III OF THE GREAT FAST: VENERATION OF THE PRECIOUS CROSS",
       "variables": {
         "matins_great_doxology_end": "procession_cross_veneration",
@@ -10585,7 +10585,7 @@
       "triodion_key": "lent_general_weekday",
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "menaion.mar_09.forty_martyrs",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10703,7 +10703,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10802,7 +10802,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10901,7 +10901,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11000,7 +11000,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11102,7 +11102,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
-      "lviv_paradigm_number": 31,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "Saint of the Day (3-14)",
       "variables": {
         "rank": "rank_lent_alleluia",
@@ -11334,7 +11334,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_4",
-      "lviv_paradigm_number": 34,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "SUNDAY IV OF THE GREAT FAST: VEN. JOHN OF THE LADDER",
       "variables": {
         "liturgy_type": "liturgy_basil",
@@ -11567,7 +11567,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11666,7 +11666,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11765,7 +11765,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11864,7 +11864,7 @@
       ],
       "period": "normal",
       "paradigm_id": "thursday_great_canon",
-      "lviv_paradigm_number": 36,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Thursday of the Great Canon",
       "variables": {
         "matins_canon": "great_canon_andrew_crete_full",
@@ -11944,7 +11944,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12047,7 +12047,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_akathist",
-      "lviv_paradigm_number": 37,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "Saturday of the Akathist",
       "variables": {
         "matins_insert_akathist_sections": true,
@@ -12131,7 +12131,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_5",
-      "lviv_paradigm_number": 35,
+      "lviv_paradigm_number": 23,
       "rubrics_title": "5th Sunday of Great Lent (St. Mary of Egypt)",
       "variables": {
         "liturgy_type": "liturgy_basil",
@@ -12226,7 +12226,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12326,7 +12326,7 @@
       "triodion_key": "lent_general_weekday",
       "period": "forefeast",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12456,7 +12456,7 @@
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "menaion.mar_25.annunciation",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12591,7 +12591,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12707,7 +12707,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "lviv_paradigm_number": 28,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12884,7 +12884,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lazarus",
-      "lviv_paradigm_number": 38,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "SATURDAY OF THE RIGHTEOUS LAZARUS",
       "variables": {
         "liturgy_trisagion_replace": "all_baptized",
@@ -13042,7 +13042,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_palm",
-      "lviv_paradigm_number": 39,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Palm Sunday",
       "variables": {
         "matins_post_gospel_action": "blessing_palms",
@@ -13120,7 +13120,7 @@
       "triodion_key": "holy_monday_tuesday_wednesday",
       "period": "normal",
       "paradigm_id": "holy_monday_tuesday_wednesday",
-      "lviv_paradigm_number": 40,
+      "lviv_paradigm_number": 24,
       "rubrics_title": "Holy Monday, Tuesday, Wednesday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -13216,7 +13216,7 @@
       "triodion_key": "holy_monday_tuesday_wednesday",
       "period": "normal",
       "paradigm_id": "holy_monday_tuesday_wednesday",
-      "lviv_paradigm_number": 40,
+      "lviv_paradigm_number": 24,
       "rubrics_title": "Holy Monday, Tuesday, Wednesday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -13312,7 +13312,7 @@
       "triodion_key": "holy_monday_tuesday_wednesday",
       "period": "normal",
       "paradigm_id": "holy_monday_tuesday_wednesday",
-      "lviv_paradigm_number": 40,
+      "lviv_paradigm_number": 24,
       "rubrics_title": "Holy Monday, Tuesday, Wednesday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -13428,7 +13428,7 @@
       "triodion_key": "holy_thursday",
       "period": "normal",
       "paradigm_id": "holy_thursday",
-      "lviv_paradigm_number": 41,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Great and Holy Thursday",
       "variables": {
         "liturgy_type": "vesperal_merge_logic",
@@ -13507,7 +13507,7 @@
       "triodion_key": "holy_friday",
       "period": "normal",
       "paradigm_id": "holy_friday",
-      "lviv_paradigm_number": 42,
+      "lviv_paradigm_number": 21,
       "rubrics_title": "Great and Holy Friday",
       "variables": {
         "hours_type": "structure_royal",
@@ -13590,7 +13590,7 @@
       "triodion_key": "holy_saturday",
       "period": "normal",
       "paradigm_id": "holy_saturday",
-      "lviv_paradigm_number": 43,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "Great and Holy Saturday",
       "variables": {
         "liturgy_type": "vesperal_merge_logic",
@@ -13676,7 +13676,7 @@
       "triodion_key": "pascha",
       "period": "feast",
       "paradigm_id": "pascha",
-      "lviv_paradigm_number": 44,
+      "lviv_paradigm_number": 25,
       "rubrics_title": "The Resurrection of Our Lord (Pascha)",
       "variables": {
         "vespers_type": "paschal_vespers",
@@ -13764,7 +13764,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "lviv_paradigm_number": 45,
+      "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -13849,7 +13849,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "lviv_paradigm_number": 45,
+      "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -13934,7 +13934,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "lviv_paradigm_number": 45,
+      "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -14019,7 +14019,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "lviv_paradigm_number": 45,
+      "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -14104,7 +14104,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "lviv_paradigm_number": 45,
+      "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -14190,7 +14190,7 @@
       "is_sunday_vigil": true,
       "period": "feast",
       "paradigm_id": "bright_week",
-      "lviv_paradigm_number": 45,
+      "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -14276,7 +14276,7 @@
       "triodion_key": "sunday_thomas",
       "period": "normal",
       "paradigm_id": "sunday_thomas",
-      "lviv_paradigm_number": 46,
+      "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of St. Thomas",
       "variables": {
         "matins_magnification": "thomas_magnification",
@@ -14353,7 +14353,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14426,7 +14426,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14499,7 +14499,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14572,7 +14572,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14645,7 +14645,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14719,7 +14719,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {
         "has_polyeleos": true,
@@ -14799,7 +14799,7 @@
       "triodion_key": "sunday_myrrhbearers",
       "period": "normal",
       "paradigm_id": "sunday_myrrhbearers",
-      "lviv_paradigm_number": 47,
+      "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of the Myrrh-bearing Women",
       "variables": {
         "matins_troparia_sequence": [
@@ -14881,7 +14881,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14954,7 +14954,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15027,7 +15027,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15100,7 +15100,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "menaion.apr_23.george_great_martyr",
       "variables": {
         "vespers_readings": [
@@ -15187,7 +15187,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15261,7 +15261,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "menaion.apr_25.mark_evangelist",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -15362,7 +15362,7 @@
       "triodion_key": "sunday_paralytic",
       "period": "normal",
       "paradigm_id": "sunday_paralytic",
-      "lviv_paradigm_number": 48,
+      "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of the Paralytic",
       "variables": {
         "has_polyeleos": true,
@@ -15438,7 +15438,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15511,7 +15511,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15586,7 +15586,7 @@
       "triodion_key": "mid_pentecost",
       "period": "normal",
       "paradigm_id": "mid_pentecost",
-      "lviv_paradigm_number": 52,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Mid-Pentecost",
       "variables": {
         "liturgy_antiphons": "festal_mid_pentecost"
@@ -15663,7 +15663,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "menaion.apr_30.james_brother_john",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -15759,7 +15759,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15835,7 +15835,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {
         "has_polyeleos": true,
@@ -15923,7 +15923,7 @@
       "triodion_key": "sunday_samaritan",
       "period": "normal",
       "paradigm_id": "sunday_samaritan",
-      "lviv_paradigm_number": 49,
+      "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of the Samaritan Woman",
       "variables": {
         "has_polyeleos": true,
@@ -16001,7 +16001,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16076,7 +16076,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16156,7 +16156,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "apodosis",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16229,7 +16229,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16308,7 +16308,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "menaion.may_08.john_theologian",
       "variables": {
         "vespers_readings": [
@@ -16402,7 +16402,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "menaion.may_09.nicholas_translation",
       "variables": {
         "matins_gospel": "john_10_9_16",
@@ -16485,7 +16485,7 @@
       "triodion_key": "sunday_blind_man",
       "period": "normal",
       "paradigm_id": "sunday_blind_man",
-      "lviv_paradigm_number": 50,
+      "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of the Blind Man",
       "variables": {
         "has_polyeleos": true,
@@ -16561,7 +16561,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "menaion.may_11.cyril_and_methodius",
       "variables": {
         "vespers_readings": [
@@ -16647,7 +16647,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16720,7 +16720,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "lviv_paradigm_number": 51,
+      "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16796,7 +16796,7 @@
       "triodion_key": "ascension",
       "period": "feast",
       "paradigm_id": "ascension",
-      "lviv_paradigm_number": 53,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Ascension of Our Lord",
       "variables": {
         "liturgy_antiphons": "festal_ascension"
@@ -17127,7 +17127,7 @@
       "triodion_key": "sunday_fathers_1st_council",
       "period": "feast",
       "paradigm_id": "sunday_fathers_1st_council",
-      "lviv_paradigm_number": 54,
+      "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of the Holy Fathers of the 1st Council",
       "variables": {
         "has_polyeleos": true,
@@ -17803,7 +17803,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_soul_pentecost",
-      "lviv_paradigm_number": 55,
+      "lviv_paradigm_number": 22,
       "rubrics_title": "Saturday of Souls (Pentecost)",
       "variables": {
         "has_polyeleos": true,
@@ -17886,7 +17886,7 @@
       "triodion_key": "pentecost",
       "period": "feast",
       "paradigm_id": "pentecost",
-      "lviv_paradigm_number": 56,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Pentecost",
       "variables": {
         "vespers_type": "pentecost_kneeling_vespers",
@@ -17978,7 +17978,7 @@
       "triodion_key": "monday_holy_spirit",
       "period": "feast",
       "paradigm_id": "monday_holy_spirit",
-      "lviv_paradigm_number": 57,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Monday of the Holy Spirit",
       "variables": {},
       "overrides": {},
@@ -18652,7 +18652,7 @@
       "triodion_key": "sunday_all_saints",
       "period": "normal",
       "paradigm_id": "sunday_all_saints",
-      "lviv_paradigm_number": 58,
+      "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of All Saints",
       "variables": {
         "has_polyeleos": true,
@@ -19283,7 +19283,7 @@
       "triodion_key": "feast_of_eucharist",
       "period": "feast",
       "paradigm_id": "feast_of_eucharist",
-      "lviv_paradigm_number": 59,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Feast of the Most Holy Eucharist (Corpus Christi)",
       "variables": {
         "procession": "eucharistic_procession_four_altars",
@@ -20361,7 +20361,7 @@
       "triodion_key": "co_suffering_theotokos",
       "period": "normal",
       "paradigm_id": "co_suffering_theotokos",
-      "lviv_paradigm_number": 60,
+      "lviv_paradigm_number": 12,
       "rubrics_title": "Friday of the Co-suffering of the Most Holy Theotokos",
       "variables": {
         "rank_id": "rank_polyeleos",
