@@ -1,0 +1,29 @@
+{
+  "file_metadata": {
+    "filename": "lviv_format_map.json",
+    "version": "1.0",
+    "description": "Translation mapping from logic CASE IDs to canonical Lviv Typikon (Dolnytsky Part II) Paradigm Numbers."
+  },
+  "base_mappings": {
+    "CASE_01": 1,
+    "CASE_02": 2,
+    "CASE_03": 3,
+    "CASE_04": 4,
+    "CASE_05": 5,
+    "CASE_06": 6,
+    "CASE_07": 7,
+    "CASE_08": 8,
+    "CASE_09": 9,
+    "CASE_10": 10,
+    "CASE_11": 11,
+    "CASE_12": 12,
+    "CASE_13": 13,
+    "CASE_14": 14,
+    "CASE_15": 15,
+    "CASE_16": 16,
+    "CASE_17": 17,
+    "CASE_18": 18,
+    "CASE_19": 19,
+    "CASE_20": 20
+  }
+}

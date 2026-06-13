@@ -101,9 +101,9 @@ For more detailed information, please refer to:
 - [Academic Alignment](docs/thesis_alignment_analysis.md): A comparative analysis of this engine against the 2011 Master's Thesis "Automating the Byzantine Typikon".
 
 ### v1.2.0 (2026-06-12) - Common & Annual Typikon Engine Optimization
-*   **Annual Almanac Generator**: Precomputes and serializes all date contexts, rubrics titles, variables, overrides, readings, and Petras formats for an entire calendar year to JSON database files (`json_db/almanac/`).
+*   **Annual Almanac Generator**: Precomputes and serializes all date contexts, rubrics titles, variables, overrides, and readings for an entire calendar year to JSON database files (`json_db/almanac/`).
 *   **Fast-Path Resolution**: Integrated lazy-loading in core initialization and fast paths in the calendar, rubrics, and liturgy modules, bypassing heavy runtime computing in favor of instant O(1) almanac lookups.
-*   **Petras Format Mapping**: Created standard translation tables translating all 20 general case paradigms and seasonal periods to the 18 physical formats of the David Petras *Common Typikon*.
+*   **Lviv Paradigm Numbers Mapping**: Created standard translation tables translating all 20 general case paradigms to their canonical Lviv Typikon Paradigm/Format Numbers (1-20) from Isidor Dolnytsky's general rubrics.
 *   **Liturgical Bug Fixes**: Corrected saint suppression, sessional hymn retrieval, Wednesday/Friday Liturgy precedence, Compline canon selection, and dismissal troparia stacking for afterfeasts and apodoseis.
 
 ### v1.1.0 (2026-06-10) - The Cantor Dashboard & Hybrid Orchestration

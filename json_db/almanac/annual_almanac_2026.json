@@ -2,7 +2,7 @@
   "file_metadata": {
     "year": 2026,
     "pascha_date": "2026-04-05",
-    "generated_at": "2026-06-12T22:45:50.421113Z",
+    "generated_at": "2026-06-13T00:29:03.735422Z",
     "engine_version": "1.2.0"
   },
   "days": {
@@ -44,7 +44,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jan_01.circumcision_basil",
       "variables": {
         "vespers_readings": [
@@ -182,7 +182,7 @@
       "late_service_type": null,
       "period": "forefeast",
       "paradigm_id": "CASE_09",
-      "petras_format": 10,
+      "lviv_paradigm_number": 9,
       "rubrics_title": "Saint of the Day (1-2)",
       "variables": {
         "rank": "rank_simple_4",
@@ -296,7 +296,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (1-3)",
       "variables": {
         "rank": "rank_simple_6",
@@ -392,7 +392,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (1-4)",
       "variables": {
         "rank": "rank_simple_6",
@@ -634,7 +634,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.jan_05.theophany_eve",
       "variables": {
         "special_rule": "eve_of_theophany_logic",
@@ -844,7 +844,7 @@
       "feast_level": "lord",
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "menaion.jan_06.theophany_lord",
       "variables": {
         "vespers_stichera_distribution": "theophany_stichera",
@@ -972,7 +972,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 7,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-7)",
       "variables": {
         "rank": "rank_doxology",
@@ -1174,7 +1174,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-8)",
       "variables": {
         "rank": "rank_simple_4",
@@ -1358,7 +1358,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-9)",
       "variables": {
         "rank": "rank_simple_4",
@@ -1543,7 +1543,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (1-10)",
       "variables": {
         "rank": "rank_simple_6",
@@ -1639,7 +1639,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_04",
-      "petras_format": 14,
+      "lviv_paradigm_number": 4,
       "rubrics_title": "Saint of the Day (1-11)",
       "variables": {
         "rank": "rank_polyeleos",
@@ -1786,7 +1786,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-12)",
       "variables": {
         "rank": "rank_simple_4",
@@ -1970,7 +1970,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-13)",
       "variables": {
         "rank": "rank_simple_4",
@@ -2160,7 +2160,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 7,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-14)",
       "variables": {
         "rank": "rank_doxology",
@@ -2362,7 +2362,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-15)",
       "variables": {
         "rank": "rank_simple_6",
@@ -2546,7 +2546,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-16)",
       "variables": {
         "rank": "rank_simple_6",
@@ -2731,7 +2731,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Saint of the Day (1-17)",
       "variables": {
         "rank": "rank_polyeleos",
@@ -2873,7 +2873,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (1-18)",
       "variables": {
         "rank": "rank_simple_6",
@@ -3115,7 +3115,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-19)",
       "variables": {
         "rank": "rank_simple_6",
@@ -3299,7 +3299,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Saint of the Day (1-20)",
       "variables": {
         "rank": "rank_polyeleos",
@@ -3439,7 +3439,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-21)",
       "variables": {
         "rank": "rank_simple_6",
@@ -3629,7 +3629,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Service for 2026-01-22",
       "variables": {
         "saint_class": "apostle",
@@ -3816,7 +3816,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-23)",
       "variables": {
         "rank": "rank_simple_6",
@@ -4001,7 +4001,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (1-24)",
       "variables": {
         "rank": "rank_simple_4",
@@ -4139,7 +4139,7 @@
       "triodion_key": "sunday_publican_pharisee",
       "period": "normal",
       "paradigm_id": "sunday_publican_pharisee",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Sunday of the Publican and the Pharisee",
       "variables": {
         "matins_praises_stichera_triodion": 4,
@@ -4230,7 +4230,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-26)",
       "variables": {
         "rank": "rank_simple_4",
@@ -4414,7 +4414,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Saint of the Day (1-27)",
       "variables": {
         "rank": "rank_polyeleos",
@@ -4554,7 +4554,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-28)",
       "variables": {
         "rank": "rank_simple_6",
@@ -4738,7 +4738,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-29)",
       "variables": {
         "rank": "rank_simple_6",
@@ -4922,7 +4922,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jan_30.three_hierarchs",
       "variables": {
         "vespers_readings": [
@@ -5052,7 +5052,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (1-31)",
       "variables": {
         "rank": "rank_simple_6",
@@ -5312,7 +5312,7 @@
       ],
       "period": "forefeast",
       "paradigm_id": "sunday_prodigal_son",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "FOREFEAST OF THE ENCOUNTER - SUNDAY OF THE PRODIGAL SON",
       "variables": {
         "matins_polyeleos_add": "psalm_136_waters_of_babylon",
@@ -5536,7 +5536,7 @@
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "CASE_12",
-      "petras_format": 12,
+      "lviv_paradigm_number": 12,
       "rubrics_title": "menaion.feb_02.meeting_of_lord",
       "variables": {
         "vespers_readings": [
@@ -5682,7 +5682,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (2-3)",
       "variables": {
         "rank": "rank_simple_6",
@@ -5866,7 +5866,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (2-4)",
       "variables": {
         "rank": "rank_simple_4",
@@ -6050,7 +6050,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (2-5)",
       "variables": {
         "rank": "rank_simple_4",
@@ -6234,7 +6234,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (2-6)",
       "variables": {
         "rank": "rank_simple_4",
@@ -6420,7 +6420,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_meatfare",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saturday of Souls (Meatfare)",
       "variables": {
         "has_polyeleos": true,
@@ -6671,7 +6671,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_meatfare",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "AFTERFEAST OF THE ENCOUNTER & SUNDAY OF THE LAST JUDGEMENT",
       "variables": {
         "has_polyeleos": true,
@@ -6927,7 +6927,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7002,7 +7002,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7077,7 +7077,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7152,7 +7152,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7227,7 +7227,7 @@
       "triodion_key": "cheesefare_week_general",
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare"
@@ -7307,7 +7307,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare",
@@ -7532,7 +7532,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_cheesefare",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "CHEESEFARE - FORGIVENESS SUNDAY: EXPULSION OF ADAM FROM PARADISE",
       "variables": {
         "vespers_evening_type": "forgiveness_vespers",
@@ -7749,7 +7749,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -7849,7 +7849,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -7949,7 +7949,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -8049,7 +8049,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -8149,7 +8149,7 @@
       ],
       "period": "normal",
       "paradigm_id": "great_lent_clean_week",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Clean Week",
       "variables": {
         "compline_type": "great_compline_lenten",
@@ -8253,7 +8253,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_1",
-      "petras_format": 5,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saturday of St. Theodore the Recruit",
       "variables": {
         "liturgy_readings": [
@@ -8475,7 +8475,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_1",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "SUNDAY OF ORTHODOXY: RESTORATION OF THE HOLY ICONS",
       "variables": {
         "liturgy_prokeimenon": "song_of_fathers",
@@ -8691,7 +8691,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -8789,7 +8789,7 @@
       "triodion_key": "lent_general_weekday",
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.feb_24.finding_head_baptist",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -8888,7 +8888,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -8987,7 +8987,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9086,7 +9086,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9188,7 +9188,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
-      "petras_format": 5,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (2-28)",
       "variables": {
         "rank": "rank_lent_alleluia",
@@ -9428,7 +9428,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_2",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "SUNDAY II OF THE GREAT FAST: ST. GREGORY PALAMAS",
       "variables": {
         "liturgy_type": "liturgy_basil",
@@ -9669,7 +9669,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9768,7 +9768,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9867,7 +9867,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -9966,7 +9966,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10065,7 +10065,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10167,7 +10167,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
-      "petras_format": 5,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (3-7)",
       "variables": {
         "rank": "rank_lent_alleluia",
@@ -10381,7 +10381,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_3",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "SUNDAY III OF THE GREAT FAST: VENERATION OF THE PRECIOUS CROSS",
       "variables": {
         "matins_great_doxology_end": "procession_cross_veneration",
@@ -10585,7 +10585,7 @@
       "triodion_key": "lent_general_weekday",
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.mar_09.forty_martyrs",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10703,7 +10703,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10802,7 +10802,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -10901,7 +10901,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11000,7 +11000,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11102,7 +11102,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
-      "petras_format": 5,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (3-14)",
       "variables": {
         "rank": "rank_lent_alleluia",
@@ -11334,7 +11334,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_4",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "SUNDAY IV OF THE GREAT FAST: VEN. JOHN OF THE LADDER",
       "variables": {
         "liturgy_type": "liturgy_basil",
@@ -11567,7 +11567,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11666,7 +11666,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11765,7 +11765,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -11864,7 +11864,7 @@
       ],
       "period": "normal",
       "paradigm_id": "thursday_great_canon",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Thursday of the Great Canon",
       "variables": {
         "matins_canon": "great_canon_andrew_crete_full",
@@ -11944,7 +11944,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12047,7 +12047,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_akathist",
-      "petras_format": 5,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saturday of the Akathist",
       "variables": {
         "matins_insert_akathist_sections": true,
@@ -12131,7 +12131,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_lent_5",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "5th Sunday of Great Lent (St. Mary of Egypt)",
       "variables": {
         "liturgy_type": "liturgy_basil",
@@ -12226,7 +12226,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12326,7 +12326,7 @@
       "triodion_key": "lent_general_weekday",
       "period": "forefeast",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12456,7 +12456,7 @@
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.mar_25.annunciation",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12591,7 +12591,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12707,7 +12707,7 @@
       ],
       "period": "normal",
       "paradigm_id": "lent_general_weekday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Lenten Weekday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -12884,7 +12884,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lazarus",
-      "petras_format": 5,
+      "lviv_paradigm_number": null,
       "rubrics_title": "SATURDAY OF THE RIGHTEOUS LAZARUS",
       "variables": {
         "liturgy_trisagion_replace": "all_baptized",
@@ -13042,7 +13042,7 @@
       ],
       "period": "normal",
       "paradigm_id": "sunday_palm",
-      "petras_format": 17,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Palm Sunday",
       "variables": {
         "matins_post_gospel_action": "blessing_palms",
@@ -13120,7 +13120,7 @@
       "triodion_key": "holy_monday_tuesday_wednesday",
       "period": "normal",
       "paradigm_id": "holy_monday_tuesday_wednesday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Holy Monday, Tuesday, Wednesday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -13216,7 +13216,7 @@
       "triodion_key": "holy_monday_tuesday_wednesday",
       "period": "normal",
       "paradigm_id": "holy_monday_tuesday_wednesday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Holy Monday, Tuesday, Wednesday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -13312,7 +13312,7 @@
       "triodion_key": "holy_monday_tuesday_wednesday",
       "period": "normal",
       "paradigm_id": "holy_monday_tuesday_wednesday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Holy Monday, Tuesday, Wednesday",
       "variables": {
         "midnight_type": "midnight_weekday",
@@ -13428,7 +13428,7 @@
       "triodion_key": "holy_thursday",
       "period": "normal",
       "paradigm_id": "holy_thursday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Great and Holy Thursday",
       "variables": {
         "liturgy_type": "vesperal_merge_logic",
@@ -13507,7 +13507,7 @@
       "triodion_key": "holy_friday",
       "period": "normal",
       "paradigm_id": "holy_friday",
-      "petras_format": 4,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Great and Holy Friday",
       "variables": {
         "hours_type": "structure_royal",
@@ -13590,7 +13590,7 @@
       "triodion_key": "holy_saturday",
       "period": "normal",
       "paradigm_id": "holy_saturday",
-      "petras_format": 5,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Great and Holy Saturday",
       "variables": {
         "liturgy_type": "vesperal_merge_logic",
@@ -13676,7 +13676,7 @@
       "triodion_key": "pascha",
       "period": "feast",
       "paradigm_id": "pascha",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "The Resurrection of Our Lord (Pascha)",
       "variables": {
         "vespers_type": "paschal_vespers",
@@ -13764,7 +13764,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -13849,7 +13849,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -13934,7 +13934,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -14019,7 +14019,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -14104,7 +14104,7 @@
       "triodion_key": "bright_week",
       "period": "feast",
       "paradigm_id": "bright_week",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -14190,7 +14190,7 @@
       "is_sunday_vigil": true,
       "period": "feast",
       "paradigm_id": "bright_week",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Bright Week",
       "variables": {
         "hours_type": "structure_paschal",
@@ -14276,7 +14276,7 @@
       "triodion_key": "sunday_thomas",
       "period": "normal",
       "paradigm_id": "sunday_thomas",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Sunday of St. Thomas",
       "variables": {
         "matins_magnification": "thomas_magnification",
@@ -14353,7 +14353,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14426,7 +14426,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14499,7 +14499,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14572,7 +14572,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14645,7 +14645,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14719,7 +14719,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {
         "has_polyeleos": true,
@@ -14799,7 +14799,7 @@
       "triodion_key": "sunday_myrrhbearers",
       "period": "normal",
       "paradigm_id": "sunday_myrrhbearers",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Sunday of the Myrrh-bearing Women",
       "variables": {
         "matins_troparia_sequence": [
@@ -14881,7 +14881,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -14954,7 +14954,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15027,7 +15027,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15100,7 +15100,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.apr_23.george_great_martyr",
       "variables": {
         "vespers_readings": [
@@ -15187,7 +15187,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15261,7 +15261,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.apr_25.mark_evangelist",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -15362,7 +15362,7 @@
       "triodion_key": "sunday_paralytic",
       "period": "normal",
       "paradigm_id": "sunday_paralytic",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Sunday of the Paralytic",
       "variables": {
         "has_polyeleos": true,
@@ -15438,7 +15438,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15511,7 +15511,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15586,7 +15586,7 @@
       "triodion_key": "mid_pentecost",
       "period": "normal",
       "paradigm_id": "mid_pentecost",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Mid-Pentecost",
       "variables": {
         "liturgy_antiphons": "festal_mid_pentecost"
@@ -15663,7 +15663,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.apr_30.james_brother_john",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -15759,7 +15759,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -15835,7 +15835,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {
         "has_polyeleos": true,
@@ -15923,7 +15923,7 @@
       "triodion_key": "sunday_samaritan",
       "period": "normal",
       "paradigm_id": "sunday_samaritan",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Sunday of the Samaritan Woman",
       "variables": {
         "has_polyeleos": true,
@@ -16001,7 +16001,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16076,7 +16076,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16156,7 +16156,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "apodosis",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16229,7 +16229,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16308,7 +16308,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.may_08.john_theologian",
       "variables": {
         "vespers_readings": [
@@ -16402,7 +16402,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.may_09.nicholas_translation",
       "variables": {
         "matins_gospel": "john_10_9_16",
@@ -16485,7 +16485,7 @@
       "triodion_key": "sunday_blind_man",
       "period": "normal",
       "paradigm_id": "sunday_blind_man",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Sunday of the Blind Man",
       "variables": {
         "has_polyeleos": true,
@@ -16561,7 +16561,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.may_11.cyril_and_methodius",
       "variables": {
         "vespers_readings": [
@@ -16647,7 +16647,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16720,7 +16720,7 @@
       "triodion_key": "pentecostarion_general_weekday",
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecostarion Weekday",
       "variables": {},
       "overrides": {},
@@ -16796,7 +16796,7 @@
       "triodion_key": "ascension",
       "period": "feast",
       "paradigm_id": "ascension",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Ascension of Our Lord",
       "variables": {
         "liturgy_antiphons": "festal_ascension"
@@ -16860,7 +16860,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-15)",
       "variables": {
         "rank": "rank_simple_6",
@@ -16987,7 +16987,7 @@
       "is_sunday_vigil": true,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-16)",
       "variables": {
         "rank": "rank_simple_4",
@@ -17127,7 +17127,7 @@
       "triodion_key": "sunday_fathers_1st_council",
       "period": "feast",
       "paradigm_id": "sunday_fathers_1st_council",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Sunday of the Holy Fathers of the 1st Council",
       "variables": {
         "has_polyeleos": true,
@@ -17198,7 +17198,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-18)",
       "variables": {
         "rank": "rank_simple_4",
@@ -17324,7 +17324,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-19)",
       "variables": {
         "rank": "rank_simple_4",
@@ -17450,7 +17450,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-20)",
       "variables": {
         "rank": "rank_simple_4",
@@ -17576,7 +17576,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "menaion.may_21.constantine_and_helen",
       "variables": {
         "matins_gospel": "john_10_9_16",
@@ -17707,7 +17707,7 @@
       "late_service_type": null,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
-      "petras_format": 15,
+      "lviv_paradigm_number": 20,
       "rubrics_title": "Saint of the Day (5-22)",
       "variables": {
         "rank": "rank_doxology",
@@ -17803,7 +17803,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_soul_pentecost",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saturday of Souls (Pentecost)",
       "variables": {
         "has_polyeleos": true,
@@ -17886,7 +17886,7 @@
       "triodion_key": "pentecost",
       "period": "feast",
       "paradigm_id": "pentecost",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Pentecost",
       "variables": {
         "vespers_type": "pentecost_kneeling_vespers",
@@ -17978,7 +17978,7 @@
       "triodion_key": "monday_holy_spirit",
       "period": "feast",
       "paradigm_id": "monday_holy_spirit",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Monday of the Holy Spirit",
       "variables": {},
       "overrides": {},
@@ -18040,7 +18040,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-26)",
       "variables": {
         "rank": "rank_simple_4",
@@ -18166,7 +18166,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-27)",
       "variables": {
         "rank": "rank_simple_4",
@@ -18292,7 +18292,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-28)",
       "variables": {
         "rank": "rank_simple_4",
@@ -18418,7 +18418,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (5-29)",
       "variables": {
         "rank": "rank_simple_4",
@@ -18550,7 +18550,7 @@
       "is_sunday_vigil": true,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
-      "petras_format": 15,
+      "lviv_paradigm_number": 20,
       "rubrics_title": "Saint of the Day (5-30)",
       "variables": {
         "rank": "rank_doxology",
@@ -18652,7 +18652,7 @@
       "triodion_key": "sunday_all_saints",
       "period": "normal",
       "paradigm_id": "sunday_all_saints",
-      "petras_format": 18,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Sunday of All Saints",
       "variables": {
         "has_polyeleos": true,
@@ -18727,7 +18727,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-1)",
       "variables": {
         "rank": "rank_simple_4",
@@ -18911,7 +18911,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-2)",
       "variables": {
         "rank": "rank_simple_4",
@@ -19095,7 +19095,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-3)",
       "variables": {
         "rank": "rank_simple_4",
@@ -19283,7 +19283,7 @@
       "triodion_key": "feast_of_eucharist",
       "period": "feast",
       "paradigm_id": "feast_of_eucharist",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Feast of the Most Holy Eucharist (Corpus Christi)",
       "variables": {
         "procession": "eucharistic_procession_four_altars",
@@ -19353,7 +19353,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (6-5)",
       "variables": {
         "rank": "rank_simple_4",
@@ -19483,7 +19483,7 @@
       "is_sunday_vigil": true,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (6-6)",
       "variables": {
         "rank": "rank_simple_4",
@@ -19618,7 +19618,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 18,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (6-7)",
       "variables": {
         "rank": "rank_simple_4",
@@ -19746,7 +19746,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day (6-8)",
       "variables": {
         "rank": "rank_simple_6",
@@ -19875,7 +19875,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Saint of the Day",
       "variables": {
         "liturgy_readings": [
@@ -20031,7 +20031,7 @@
       "late_service_type": null,
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "Hieromartyr Timothy",
       "variables": {
         "menaion_rank": "rank_simple_4",
@@ -20172,7 +20172,7 @@
       "late_service_type": null,
       "period": "apodosis",
       "paradigm_id": "CASE_16",
-      "petras_format": 13,
+      "lviv_paradigm_number": 16,
       "rubrics_title": "menaion.jun_11.bartholomew_barnabas",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -20361,7 +20361,7 @@
       "triodion_key": "co_suffering_theotokos",
       "period": "normal",
       "paradigm_id": "co_suffering_theotokos",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Friday of the Co-suffering of the Most Holy Theotokos",
       "variables": {
         "rank_id": "rank_polyeleos",
@@ -20494,7 +20494,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (6-13)",
       "variables": {
         "rank": "rank_simple_4",
@@ -20637,7 +20637,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (6-14)",
       "variables": {
         "rank": "rank_simple_6",
@@ -20879,7 +20879,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-15)",
       "variables": {
         "rank": "rank_simple_4",
@@ -21063,7 +21063,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-16)",
       "variables": {
         "rank": "rank_simple_4",
@@ -21247,7 +21247,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-17)",
       "variables": {
         "rank": "rank_simple_6",
@@ -21431,7 +21431,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-18)",
       "variables": {
         "rank": "rank_simple_6",
@@ -21615,7 +21615,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jun_19.jude_apostle",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -21757,7 +21757,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (6-20)",
       "variables": {
         "rank": "rank_simple_4",
@@ -21894,7 +21894,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (6-21)",
       "variables": {
         "rank": "rank_simple_6",
@@ -22136,7 +22136,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-22)",
       "variables": {
         "rank": "rank_simple_4",
@@ -22320,7 +22320,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-23)",
       "variables": {
         "rank": "rank_simple_4",
@@ -22504,7 +22504,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jun_24.nativity_john_baptist",
       "variables": {
         "vespers_readings": [
@@ -22633,7 +22633,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-25)",
       "variables": {
         "rank": "rank_simple_6",
@@ -22817,7 +22817,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (6-26)",
       "variables": {
         "rank": "rank_simple_4",
@@ -23002,7 +23002,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (6-27)",
       "variables": {
         "rank": "rank_simple_6",
@@ -23098,7 +23098,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (6-28)",
       "variables": {
         "rank": "rank_simple_6",
@@ -23340,7 +23340,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jun_29.peter_and_paul",
       "variables": {
         "vespers_readings": [
@@ -23469,7 +23469,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.jun_30.synaxis_12_apostles",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -23671,7 +23671,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-1)",
       "variables": {
         "rank": "rank_simple_6",
@@ -23855,7 +23855,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Saint of the Day (7-2)",
       "variables": {
         "rank": "rank_polyeleos",
@@ -23995,7 +23995,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-3)",
       "variables": {
         "rank": "rank_simple_4",
@@ -24186,7 +24186,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (7-4)",
       "variables": {
         "rank": "rank_simple_6",
@@ -24282,7 +24282,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_04",
-      "petras_format": 14,
+      "lviv_paradigm_number": 4,
       "rubrics_title": "menaion.jul_05.athanasius_athos",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -24429,7 +24429,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Saint of the Day (7-6)",
       "variables": {
         "rank": "rank_polyeleos",
@@ -24569,7 +24569,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-7)",
       "variables": {
         "rank": "rank_simple_4",
@@ -24753,7 +24753,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-8)",
       "variables": {
         "rank": "rank_simple_6",
@@ -24937,7 +24937,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-9)",
       "variables": {
         "rank": "rank_simple_4",
@@ -25121,7 +25121,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jul_10.anthony_caves",
       "variables": {
         "vespers_readings": [
@@ -25251,7 +25251,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.jul_11.olga_princess",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -25371,7 +25371,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (7-12)",
       "variables": {
         "rank": "rank_simple_4",
@@ -25613,7 +25613,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-13)",
       "variables": {
         "rank": "rank_simple_6",
@@ -25797,7 +25797,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-14)",
       "variables": {
         "rank": "rank_simple_4",
@@ -25981,7 +25981,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jul_15.vladimir_great",
       "variables": {
         "vespers_readings": [
@@ -26109,7 +26109,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-16)",
       "variables": {
         "rank": "rank_simple_4",
@@ -26293,7 +26293,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-17)",
       "variables": {
         "rank": "rank_simple_6",
@@ -26478,7 +26478,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (7-18)",
       "variables": {
         "rank": "rank_simple_4",
@@ -26615,7 +26615,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": " & menaion.floating.sunday_fathers_six_councils",
       "variables": {
         "vespers_stichera_distribution": "fathers_councils_logic",
@@ -26804,7 +26804,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jul_20.elijah_prophet",
       "variables": {
         "vespers_readings": [
@@ -26933,7 +26933,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-21)",
       "variables": {
         "rank": "rank_simple_4",
@@ -27123,7 +27123,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-22)",
       "variables": {
         "rank": "rank_simple_6",
@@ -27307,7 +27307,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-23)",
       "variables": {
         "rank": "rank_simple_4",
@@ -27491,7 +27491,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jul_24.boris_and_gleb",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -27633,7 +27633,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jul_25.dormition_st_anna",
       "variables": {
         "menaion_rank": "rank_doxology",
@@ -27776,7 +27776,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (7-26)",
       "variables": {
         "rank": "rank_simple_4",
@@ -28018,7 +28018,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.jul_27.panteleimon_healer",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -28159,7 +28159,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-28)",
       "variables": {
         "rank": "rank_simple_4",
@@ -28343,7 +28343,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-29)",
       "variables": {
         "rank": "rank_simple_4",
@@ -28527,7 +28527,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (7-30)",
       "variables": {
         "rank": "rank_simple_4",
@@ -28719,7 +28719,7 @@
       "late_service_type": null,
       "period": "forefeast",
       "paradigm_id": "CASE_09",
-      "petras_format": 10,
+      "lviv_paradigm_number": 9,
       "rubrics_title": "Saint of the Day (7-31)",
       "variables": {
         "rank": "rank_simple_6",
@@ -28827,7 +28827,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "menaion.aug_01.procession_cross_maccabees",
       "variables": {
         "vespers_readings": [
@@ -28970,7 +28970,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (8-2)",
       "variables": {
         "rank": "rank_simple_6",
@@ -29212,7 +29212,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-3)",
       "variables": {
         "rank": "rank_simple_4",
@@ -29396,7 +29396,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-4)",
       "variables": {
         "rank": "rank_simple_4",
@@ -29582,7 +29582,7 @@
       "late_service_type": null,
       "period": "forefeast",
       "paradigm_id": "CASE_09",
-      "petras_format": 10,
+      "lviv_paradigm_number": 9,
       "rubrics_title": "Saint of the Day (8-5)",
       "variables": {
         "rank": "rank_simple_4",
@@ -29683,7 +29683,7 @@
       "feast_level": "lord",
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "menaion.aug_06.transfiguration",
       "variables": {
         "vespers_readings": [
@@ -29833,7 +29833,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-7)",
       "variables": {
         "rank": "rank_simple_6",
@@ -30018,7 +30018,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (8-8)",
       "variables": {
         "rank": "rank_simple_4",
@@ -30155,7 +30155,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_04",
-      "petras_format": 14,
+      "lviv_paradigm_number": 4,
       "rubrics_title": "Saint of the Day (8-9)",
       "variables": {
         "rank": "rank_polyeleos",
@@ -30302,7 +30302,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-10)",
       "variables": {
         "rank": "rank_simple_4",
@@ -30486,7 +30486,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-11)",
       "variables": {
         "rank": "rank_simple_4",
@@ -30670,7 +30670,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-12)",
       "variables": {
         "rank": "rank_simple_4",
@@ -30849,7 +30849,7 @@
       "late_service_type": null,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
-      "petras_format": 15,
+      "lviv_paradigm_number": 20,
       "rubrics_title": "Saint of the Day (8-13)",
       "variables": {
         "rank": "rank_doxology",
@@ -30945,7 +30945,7 @@
       "late_service_type": null,
       "period": "forefeast",
       "paradigm_id": "CASE_09",
-      "petras_format": 10,
+      "lviv_paradigm_number": 9,
       "rubrics_title": "Saint of the Day (8-14)",
       "variables": {
         "rank": "rank_simple_6",
@@ -31047,7 +31047,7 @@
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "CASE_12",
-      "petras_format": 12,
+      "lviv_paradigm_number": 12,
       "rubrics_title": "menaion.aug_15.dormition_theotokos",
       "variables": {
         "vespers_readings": [
@@ -31200,7 +31200,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (8-16)",
       "variables": {
         "rank": "rank_doxology",
@@ -31310,7 +31310,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-17)",
       "variables": {
         "rank": "rank_simple_4",
@@ -31494,7 +31494,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-18)",
       "variables": {
         "rank": "rank_simple_6",
@@ -31678,7 +31678,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-19)",
       "variables": {
         "rank": "rank_simple_6",
@@ -31862,7 +31862,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-20)",
       "variables": {
         "rank": "rank_simple_4",
@@ -32046,7 +32046,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-21)",
       "variables": {
         "rank": "rank_simple_4",
@@ -32231,7 +32231,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (8-22)",
       "variables": {
         "rank": "rank_simple_4",
@@ -32363,7 +32363,7 @@
       "late_service_type": null,
       "period": "apodosis",
       "paradigm_id": "CASE_19",
-      "petras_format": 15,
+      "lviv_paradigm_number": 19,
       "rubrics_title": "menaion.aug_23.apodosis_dormition",
       "variables": {
         "menaion_rank": "rank_doxology",
@@ -32497,7 +32497,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-24)",
       "variables": {
         "rank": "rank_simple_6",
@@ -32681,7 +32681,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-25)",
       "variables": {
         "rank": "rank_simple_6",
@@ -32865,7 +32865,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-26)",
       "variables": {
         "rank": "rank_simple_4",
@@ -33049,7 +33049,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-27)",
       "variables": {
         "rank": "rank_simple_6",
@@ -33233,7 +33233,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (8-28)",
       "variables": {
         "rank": "rank_simple_4",
@@ -33418,7 +33418,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.aug_29.beheading_baptist",
       "variables": {
         "vespers_readings": [
@@ -33549,7 +33549,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (8-30)",
       "variables": {
         "rank": "rank_simple_4",
@@ -33791,7 +33791,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.aug_31.deposition_sash",
       "variables": {
         "menaion_rank": "rank_doxology",
@@ -33932,7 +33932,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.sept_01.indiction",
       "variables": {
         "vespers_type": "great_vespers",
@@ -34069,7 +34069,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-2)",
       "variables": {
         "rank": "rank_simple_6",
@@ -34253,7 +34253,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-3)",
       "variables": {
         "rank": "rank_simple_6",
@@ -34437,7 +34437,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-4)",
       "variables": {
         "rank": "rank_simple_6",
@@ -34622,7 +34622,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (9-5)",
       "variables": {
         "rank": "rank_simple_6",
@@ -34718,7 +34718,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "menaion.sept_06.miracle_archangel_michael",
       "variables": {
         "matins_gospel": "saint_archangel",
@@ -34965,7 +34965,7 @@
       "late_service_type": null,
       "period": "forefeast",
       "paradigm_id": "CASE_09",
-      "petras_format": 10,
+      "lviv_paradigm_number": 9,
       "rubrics_title": "menaion.sept_07.forefeast_nativity",
       "variables": {
         "menaion_rank": "rank_simple_6",
@@ -35066,7 +35066,7 @@
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "CASE_12",
-      "petras_format": 12,
+      "lviv_paradigm_number": 12,
       "rubrics_title": "menaion.sept_08.nativity_theotokos",
       "variables": {
         "vespers_readings": [
@@ -35206,7 +35206,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.sept_09.joachim_and_anna",
       "variables": {
         "menaion_rank": "rank_simple_6",
@@ -35390,7 +35390,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-10)",
       "variables": {
         "rank": "rank_simple_4",
@@ -35574,7 +35574,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-11)",
       "variables": {
         "rank": "rank_simple_6",
@@ -35754,7 +35754,7 @@
       "is_sunday_vigil": true,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
-      "petras_format": 15,
+      "lviv_paradigm_number": 20,
       "rubrics_title": "menaion.sept_12.apodosis_nativity",
       "variables": {
         "menaion_rank": "rank_doxology",
@@ -35857,7 +35857,7 @@
       "late_service_type": null,
       "period": "forefeast",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.sept_13.forefeast_cross",
       "variables": {
         "liturgy_readings": [
@@ -35945,7 +35945,7 @@
       "feast_level": "lord",
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "menaion.sept_14.exaltation_cross",
       "variables": {
         "vespers_type": "great_vespers",
@@ -36097,7 +36097,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-15)",
       "variables": {
         "rank": "rank_simple_6",
@@ -36281,7 +36281,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-16)",
       "variables": {
         "rank": "rank_simple_6",
@@ -36465,7 +36465,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-17)",
       "variables": {
         "rank": "rank_simple_4",
@@ -36649,7 +36649,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-18)",
       "variables": {
         "rank": "rank_simple_4",
@@ -36834,7 +36834,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (9-19)",
       "variables": {
         "rank": "rank_simple_4",
@@ -36971,7 +36971,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (9-20)",
       "variables": {
         "rank": "rank_simple_6",
@@ -37208,7 +37208,7 @@
       "late_service_type": null,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
-      "petras_format": 15,
+      "lviv_paradigm_number": 20,
       "rubrics_title": "menaion.sept_21.apodosis_cross",
       "variables": {
         "menaion_rank": "rank_doxology",
@@ -37302,7 +37302,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-22)",
       "variables": {
         "rank": "rank_simple_6",
@@ -37486,7 +37486,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.sept_23.conception_baptist",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -37688,7 +37688,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-24)",
       "variables": {
         "rank": "rank_simple_6",
@@ -37872,7 +37872,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-25)",
       "variables": {
         "rank": "rank_simple_4",
@@ -38057,7 +38057,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.sept_26.falling_asleep_john_theologian",
       "variables": {
         "menaion_rank": "rank_vigil_saint",
@@ -38200,7 +38200,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (9-27)",
       "variables": {
         "rank": "rank_simple_4",
@@ -38442,7 +38442,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Saint of the Day (9-28)",
       "variables": {
         "rank": "rank_polyeleos",
@@ -38582,7 +38582,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-29)",
       "variables": {
         "rank": "rank_simple_6",
@@ -38766,7 +38766,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (9-30)",
       "variables": {
         "rank": "rank_simple_6",
@@ -38950,7 +38950,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.oct_01.protection_theotokos",
       "variables": {
         "vespers_readings": [
@@ -39078,7 +39078,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-2)",
       "variables": {
         "rank": "rank_simple_6",
@@ -39263,7 +39263,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (10-3)",
       "variables": {
         "rank": "rank_simple_6",
@@ -39359,7 +39359,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (10-4)",
       "variables": {
         "rank": "rank_simple_4",
@@ -39601,7 +39601,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-5)",
       "variables": {
         "rank": "rank_simple_4",
@@ -39785,7 +39785,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.oct_06.st_thomas",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -39926,7 +39926,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-7)",
       "variables": {
         "rank": "rank_simple_6",
@@ -40110,7 +40110,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-8)",
       "variables": {
         "rank": "rank_simple_4",
@@ -40294,7 +40294,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.oct_09.james_alpheus",
       "variables": {
         "menaion_rank": "rank_doxology",
@@ -40436,7 +40436,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (10-10)",
       "variables": {
         "rank": "rank_simple_4",
@@ -40573,7 +40573,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (10-11)",
       "variables": {
         "rank": "rank_simple_6",
@@ -40815,7 +40815,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-12)",
       "variables": {
         "rank": "rank_simple_6",
@@ -40999,7 +40999,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-13)",
       "variables": {
         "rank": "rank_simple_4",
@@ -41183,7 +41183,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-14)",
       "variables": {
         "rank": "rank_simple_6",
@@ -41367,7 +41367,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-15)",
       "variables": {
         "rank": "rank_simple_4",
@@ -41551,7 +41551,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-16)",
       "variables": {
         "rank": "rank_simple_6",
@@ -41736,7 +41736,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (10-17)",
       "variables": {
         "rank": "rank_simple_4",
@@ -41873,7 +41873,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_04",
-      "petras_format": 14,
+      "lviv_paradigm_number": 4,
       "rubrics_title": "menaion.oct_18.luke_evangelist",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -42020,7 +42020,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-19)",
       "variables": {
         "rank": "rank_simple_4",
@@ -42204,7 +42204,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-20)",
       "variables": {
         "rank": "rank_simple_6",
@@ -42388,7 +42388,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-21)",
       "variables": {
         "rank": "rank_simple_6",
@@ -42572,7 +42572,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-22)",
       "variables": {
         "rank": "rank_simple_6",
@@ -42756,7 +42756,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.oct_23.james_brother_of_lord",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -42959,7 +42959,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (10-24)",
       "variables": {
         "rank": "rank_simple_6",
@@ -43055,7 +43055,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (10-25)",
       "variables": {
         "rank": "rank_simple_6",
@@ -43297,7 +43297,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.oct_26.demetrius_myrrhbearer",
       "variables": {
         "vespers_readings": [
@@ -43427,7 +43427,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-27)",
       "variables": {
         "rank": "rank_simple_6",
@@ -43611,7 +43611,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.oct_28.paraskeva_iconium",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -43819,7 +43819,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-29)",
       "variables": {
         "rank": "rank_simple_6",
@@ -44003,7 +44003,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (10-30)",
       "variables": {
         "rank": "rank_simple_4",
@@ -44188,7 +44188,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (10-31)",
       "variables": {
         "rank": "rank_simple_4",
@@ -44325,7 +44325,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (11-1)",
       "variables": {
         "rank": "rank_simple_6",
@@ -44567,7 +44567,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-2)",
       "variables": {
         "rank": "rank_simple_6",
@@ -44751,7 +44751,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-3)",
       "variables": {
         "rank": "rank_simple_6",
@@ -44935,7 +44935,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-4)",
       "variables": {
         "rank": "rank_simple_6",
@@ -45119,7 +45119,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-5)",
       "variables": {
         "rank": "rank_simple_4",
@@ -45303,7 +45303,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-6)",
       "variables": {
         "rank": "rank_simple_6",
@@ -45488,7 +45488,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (11-7)",
       "variables": {
         "rank": "rank_simple_6",
@@ -45584,7 +45584,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_04",
-      "petras_format": 14,
+      "lviv_paradigm_number": 4,
       "rubrics_title": "menaion.nov_08.archangel_michael",
       "variables": {
         "vespers_readings": [
@@ -45724,7 +45724,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-9)",
       "variables": {
         "rank": "rank_simple_4",
@@ -45908,7 +45908,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-10)",
       "variables": {
         "rank": "rank_simple_4",
@@ -46092,7 +46092,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-11)",
       "variables": {
         "rank": "rank_simple_6",
@@ -46282,7 +46282,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.nov_12.josaphat_kuncevyc",
       "variables": {
         "vespers_readings": [
@@ -46411,7 +46411,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.nov_13.john_chrysostom",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -46553,7 +46553,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.nov_14.apostle_philip",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -46696,7 +46696,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "menaion.nov_15.begin_philip_fast",
       "variables": {
         "menaion_rank": "rank_simple_6",
@@ -46938,7 +46938,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.nov_16.matthew_evangelist",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -47079,7 +47079,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-17)",
       "variables": {
         "rank": "rank_simple_6",
@@ -47263,7 +47263,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-18)",
       "variables": {
         "rank": "rank_simple_4",
@@ -47453,7 +47453,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 3,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-19)",
       "variables": {
         "rank": "rank_simple_4",
@@ -47637,7 +47637,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-20)",
       "variables": {
         "rank": "rank_simple_6",
@@ -47816,7 +47816,7 @@
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "CASE_12",
-      "petras_format": 12,
+      "lviv_paradigm_number": 12,
       "rubrics_title": "menaion.nov_21.entrance_theotokos",
       "variables": {
         "vespers_readings": [
@@ -47959,7 +47959,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (11-22)",
       "variables": {
         "rank": "rank_simple_6",
@@ -48201,7 +48201,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-23)",
       "variables": {
         "rank": "rank_simple_6",
@@ -48391,7 +48391,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-24)",
       "variables": {
         "rank": "rank_simple_6",
@@ -48581,7 +48581,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 7,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.nov_25.apodosis_entrance",
       "variables": {
         "menaion_rank": "rank_doxology",
@@ -48783,7 +48783,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-26)",
       "variables": {
         "rank": "rank_simple_4",
@@ -48967,7 +48967,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (11-27)",
       "variables": {
         "rank": "rank_simple_6",
@@ -49152,7 +49152,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "Saint of the Day (11-28)",
       "variables": {
         "rank": "rank_simple_6",
@@ -49248,7 +49248,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (11-29)",
       "variables": {
         "rank": "rank_simple_4",
@@ -49490,7 +49490,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.nov_30.andrew_first_called",
       "variables": {
         "vespers_readings": [
@@ -49618,7 +49618,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-1)",
       "variables": {
         "rank": "rank_simple_4",
@@ -49802,7 +49802,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-2)",
       "variables": {
         "rank": "rank_simple_4",
@@ -49986,7 +49986,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-3)",
       "variables": {
         "rank": "rank_simple_4",
@@ -50170,7 +50170,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.dec_04.barbara_great_martyr",
       "variables": {
         "matins_gospel": "matthew_25_1_13",
@@ -50354,7 +50354,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
-      "petras_format": 8,
+      "lviv_paradigm_number": 5,
       "rubrics_title": "menaion.dec_05.sabbas_sanctified",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -50497,7 +50497,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_04",
-      "petras_format": 14,
+      "lviv_paradigm_number": 4,
       "rubrics_title": "menaion.dec_06.nicholas_wonderworker",
       "variables": {
         "vespers_readings": [
@@ -50636,7 +50636,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-7)",
       "variables": {
         "rank": "rank_simple_4",
@@ -50820,7 +50820,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-8)",
       "variables": {
         "rank": "rank_simple_4",
@@ -50998,7 +50998,7 @@
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "CASE_12",
-      "petras_format": 12,
+      "lviv_paradigm_number": 12,
       "rubrics_title": "menaion.dec_09.conception_st_anna",
       "variables": {
         "liturgy_antiphons": "typical_psalms_refrain_theotokos",
@@ -51130,7 +51130,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-10)",
       "variables": {
         "rank": "rank_simple_6",
@@ -51314,7 +51314,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-11)",
       "variables": {
         "rank": "rank_simple_4",
@@ -51499,7 +51499,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "fallback_default",
-      "petras_format": 1,
+      "lviv_paradigm_number": null,
       "rubrics_title": "menaion.dec_12.spyridon_trimythous",
       "variables": {
         "menaion_rank": "rank_polyeleos",
@@ -51613,7 +51613,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_04",
-      "petras_format": 14,
+      "lviv_paradigm_number": 4,
       "rubrics_title": " & menaion.floating.sunday_forefathers",
       "variables": {
         "vespers_stichera_distribution": "forefathers_logic",
@@ -51726,7 +51726,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-14)",
       "variables": {
         "rank": "rank_simple_4",
@@ -51910,7 +51910,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-15)",
       "variables": {
         "rank": "rank_simple_4",
@@ -52089,7 +52089,7 @@
       "late_service_type": null,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
-      "petras_format": 15,
+      "lviv_paradigm_number": 20,
       "rubrics_title": "Saint of the Day (12-16)",
       "variables": {
         "rank": "rank_doxology",
@@ -52183,7 +52183,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-17)",
       "variables": {
         "rank": "rank_simple_6",
@@ -52367,7 +52367,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-18)",
       "variables": {
         "rank": "rank_simple_4",
@@ -52552,7 +52552,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (12-19)",
       "variables": {
         "rank": "rank_simple_4",
@@ -52689,7 +52689,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": " & menaion.floating.sunday_ancestors",
       "variables": {
         "vespers_stichera_distribution": "ancestors_logic",
@@ -52877,7 +52877,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-21)",
       "variables": {
         "rank": "rank_simple_4",
@@ -53061,7 +53061,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-22)",
       "variables": {
         "rank": "rank_simple_6",
@@ -53245,7 +53245,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-23)",
       "variables": {
         "rank": "rank_simple_6",
@@ -53429,7 +53429,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "menaion.dec_24.nativity_paramony",
       "variables": {
         "special_rule": "eve_of_nativity_logic",
@@ -53634,7 +53634,7 @@
       "feast_level": "lord",
       "period": "feast",
       "paradigm_id": "CASE_10",
-      "petras_format": 12,
+      "lviv_paradigm_number": 10,
       "rubrics_title": "menaion.dec_25.nativity_of_lord",
       "variables": {
         "vespers_stichera_distribution": "nativity_stichera",
@@ -53763,7 +53763,7 @@
       "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
-      "petras_format": 2,
+      "lviv_paradigm_number": 3,
       "rubrics_title": "menaion.dec_26.synaxis_theotokos",
       "variables": {
         "liturgy_antiphons": "typical_psalms_refrain_son_of_god",
@@ -53906,7 +53906,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_01",
-      "petras_format": 11,
+      "lviv_paradigm_number": 1,
       "rubrics_title": "menaion.dec_27.stephen_protomartyr",
       "variables": {
         "liturgy_readings": [
@@ -54151,7 +54151,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-28)",
       "variables": {
         "rank": "rank_simple_6",
@@ -54335,7 +54335,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 6,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-29)",
       "variables": {
         "rank": "rank_simple_6",
@@ -54519,7 +54519,7 @@
       "late_service_type": null,
       "period": "normal",
       "paradigm_id": "CASE_02",
-      "petras_format": 1,
+      "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (12-30)",
       "variables": {
         "rank": "rank_simple_4",
@@ -54698,7 +54698,7 @@
       "late_service_type": null,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
-      "petras_format": 15,
+      "lviv_paradigm_number": 20,
       "rubrics_title": "Saint of the Day (12-31)",
       "variables": {
         "rank": "rank_doxology",

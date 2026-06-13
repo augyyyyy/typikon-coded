@@ -14,6 +14,11 @@ class TestAnnualAlmanacConsistency(unittest.TestCase):
         with open(almanac_path, "r", encoding="utf-8") as f:
             almanac = json.load(f)
             
+        # Load the Lviv paradigm mapping
+        map_path = os.path.join("json_db", "lviv_format_map.json")
+        with open(map_path, "r", encoding="utf-8") as f:
+            format_map = json.load(f)
+            
         # 2. Instantiate a clean engine and stub out almanac loading to force live computation
         live_engine = RuthenianEngine()
         # Override _get_almanac to return None, forcing live calculation
@@ -62,6 +67,13 @@ class TestAnnualAlmanacConsistency(unittest.TestCase):
             self.assertEqual(
                 expected.get("paradigm_id"), live_paradigm_id,
                 f"Paradigm ID mismatch on {date_str} (Almanac: {expected.get('paradigm_id')} vs Live: {live_paradigm_id})"
+            )
+            
+            # Check Lviv paradigm number
+            expected_num = format_map["base_mappings"].get(live_paradigm_id) if live_paradigm_id else None
+            self.assertEqual(
+                alm_ctx.get("lviv_paradigm_number"), expected_num,
+                f"Lviv paradigm number mismatch on {date_str} (Almanac: {alm_ctx.get('lviv_paradigm_number')} vs Expected: {expected_num})"
             )
             
             # Check rubrics title, variables & overrides

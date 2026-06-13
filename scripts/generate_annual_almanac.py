@@ -39,55 +39,16 @@ def main():
     print(f"Almanac Gen: Initializing engine for year {year}...")
     engine = RuthenianEngine()
 
-    # Load Petras Format mapping
-    map_path = os.path.join("json_db", "petras_format_map.json")
+    # Load Lviv Typikon Paradigm Numbers mapping
+    map_path = os.path.join("json_db", "lviv_format_map.json")
     if not os.path.exists(map_path):
-        print(f"Error: Petras mapping not found at {map_path}")
+        print(f"Error: Lviv mapping not found at {map_path}")
         sys.exit(1)
 
     with open(map_path, "r", encoding="utf-8") as f:
         format_map = json.load(f)
 
     base_mappings = format_map["base_mappings"]
-    special_rules = format_map["special_rules"]
-
-    def get_petras_format(context, rubrics, paradigm_id):
-        season_id = context.get("season_id")
-        day_of_week = context.get("day_of_week", 0)
-        
-        # 1. Triodion/Pentecostarion Sundays
-        if day_of_week == 0:
-            if season_id == "triodion":
-                return special_rules["triodion_sunday"]
-            elif season_id == "pentecostarion":
-                return special_rules["pentecostarion_sunday"]
-
-        # 2. Lenten / Alleluia Fasting Days (excluding Sunday)
-        if season_id == "triodion" and context.get("season") == "lent":
-            if day_of_week == 6:  # Saturday of Lent
-                return special_rules["lenten_alleluia_saturday"]
-            elif day_of_week in [1, 2, 3, 4, 5]:
-                return special_rules["lenten_alleluia_weekday"]
-
-        # 3. Base paradigm ID mapping
-        format_num = base_mappings.get(paradigm_id)
-
-        # 4. Special cases for CASE_02
-        if paradigm_id == "CASE_02":
-            rank_id = engine._get_rank_id(context)
-            if rank_id == "rank_doxology":
-                return special_rules["CASE_02_doxology"]  # 7
-            elif rank_id == "rank_simple_6":
-                return special_rules["CASE_02_six_stichera"]  # 6
-            
-            saints = context.get("saints", [])
-            if len(saints) >= 2:
-                return special_rules["CASE_02_two_saints"]  # 3
-                
-            return base_mappings["CASE_02"]  # 1
-
-        # Fallback default if not mapped
-        return format_num if format_num is not None else 1
 
     days_db = {}
     pascha_date_str = ""
@@ -118,13 +79,13 @@ def main():
         enriched_context = {**context, **rubrics.get("variables", {}), "variables": rubrics.get("variables", {})}
         readings = engine.resolve_liturgy_readings(enriched_context, rubrics)
 
-        # Calculate Petras Format
-        petras_format = get_petras_format(enriched_context, rubrics, paradigm_id)
+        # Calculate Lviv Typikon Paradigm Number
+        lviv_paradigm_number = base_mappings.get(paradigm_id) if paradigm_id else None
 
         # Build day record by copying the base mutated context (preserving integer types for rank)
         day_record = copy.deepcopy(context)
         day_record["paradigm_id"] = paradigm_id
-        day_record["petras_format"] = petras_format
+        day_record["lviv_paradigm_number"] = lviv_paradigm_number
         day_record["rubrics_title"] = rubrics.get("title", "")
         day_record["variables"] = rubrics.get("variables", {})
         day_record["overrides"] = rubrics.get("overrides", {})
