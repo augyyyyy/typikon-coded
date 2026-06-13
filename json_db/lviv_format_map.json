@@ -1,8 +1,8 @@
 {
   "file_metadata": {
     "filename": "lviv_format_map.json",
-    "version": "1.0",
-    "description": "Translation mapping from logic CASE IDs to canonical Lviv Typikon (Dolnytsky Part II) Paradigm Numbers."
+    "version": "1.1",
+    "description": "Translation mapping from logic CASE IDs to canonical Lviv Typikon Paradigm Numbers (Dolnytsky Part II general cases 1-20, and Part IV moveable cycle cases 21-60)."
   },
   "base_mappings": {
     "CASE_01": 1,
@@ -24,6 +24,46 @@
     "CASE_17": 17,
     "CASE_18": 18,
     "CASE_19": 19,
-    "CASE_20": 20
+    "CASE_20": 20,
+    "sunday_publican_pharisee": 21,
+    "sunday_prodigal_son": 22,
+    "saturday_meatfare": 23,
+    "sunday_meatfare": 24,
+    "cheesefare_week_general": 25,
+    "sunday_cheesefare": 26,
+    "great_lent_clean_week": 27,
+    "lent_general_weekday": 28,
+    "saturday_lent_1": 29,
+    "sunday_lent_1": 30,
+    "saturday_lent_2_3_4": 31,
+    "sunday_lent_2": 32,
+    "sunday_lent_3": 33,
+    "sunday_lent_4": 34,
+    "sunday_lent_5": 35,
+    "thursday_great_canon": 36,
+    "saturday_akathist": 37,
+    "saturday_lazarus": 38,
+    "sunday_palm": 39,
+    "holy_monday_tuesday_wednesday": 40,
+    "holy_thursday": 41,
+    "holy_friday": 42,
+    "holy_saturday": 43,
+    "pascha": 44,
+    "bright_week": 45,
+    "sunday_thomas": 46,
+    "sunday_myrrhbearers": 47,
+    "sunday_paralytic": 48,
+    "sunday_samaritan": 49,
+    "sunday_blind_man": 50,
+    "pentecostarion_general_weekday": 51,
+    "mid_pentecost": 52,
+    "ascension": 53,
+    "sunday_fathers_1st_council": 54,
+    "saturday_soul_pentecost": 55,
+    "pentecost": 56,
+    "monday_holy_spirit": 57,
+    "sunday_all_saints": 58,
+    "feast_of_eucharist": 59,
+    "co_suffering_theotokos": 60
   }
 }
