@@ -14,7 +14,7 @@
     "general_rules": {
       "G1": {
         "rule": "All-Night Vigil must be celebrated for temple feast, even if saint is of lower rank",
-        "source_ref": "Final_Dolnytsky_part5_temple.md"
+        "source_ref": "Dolnytsky_Typikon_Master.md"
       },
       "G2": {
         "rule": "Temple feast exceeds even saint with Vigil",
@@ -32,7 +32,7 @@
       },
       "G3": {
         "rule": "Temple in midst of feast (Forefeast/Afterfeast/Apodosis): follow rubric of Saint with Vigil in Afterfeast",
-        "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3"
+        "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3"
       },
       "G4": {
         "rule": "On feast day after Ambo prayer: Blessing of Water outside church with procession"

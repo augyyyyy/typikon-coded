@@ -146,32 +146,65 @@ def compile_reference_files(repo_dir: Path, target_date: date, season_id: str) -
     print("Compiling Typikon reference files (scoped)...")
     ref_parts = []
     
-    ref_dir = repo_dir / "Data" / "Service Books" / "Typikon"
-    if not ref_dir.exists():
-        print(f"Error: Reference directory not found at {ref_dir}", file=sys.stderr)
-        return ""
+    # 1. Resolve master file path (local first, fallback to sister project)
+    master_path = repo_dir / "Data" / "Service Books" / "Typikon" / "Dolnytsky_Typikon_Master.md"
+    if not master_path.exists():
+        master_path = repo_dir.parent / "Translation" / "Final MD" / "Dolnytsky_Typikon_Master.md"
         
-    # 1. Load Glossary (always)
-    glossary_path = ref_dir / "Final_Dolnytsky_glossary.md"
-    if glossary_path.exists():
-        content = glossary_path.read_text(encoding="utf-8")
-        ref_parts.append(f"=== REFERENCE FILE: Final_Dolnytsky_glossary.md ===\n{content}\n")
-        print(f"   Loaded glossary ({len(content)} chars)")
+    if not master_path.exists():
+        print(f"Error: Master Typikon file not found at {master_path}", file=sys.stderr)
+        return ""
 
-    # 2. Load Vocabulary Matrix (always)
-    matrix_path = ref_dir / "vocabulary_standardization_matrix.md"
+    # 2. Parse master file into sections dynamically to avoid context dilution
+    try:
+        content = master_path.read_text(encoding="utf-8")
+        lines = content.splitlines()
+        
+        part3_idx = -1
+        part4_idx = -1
+        part5_idx = -1
+        glossary_idx = -1
+        footnotes_idx = -1
+        
+        for idx, line in enumerate(lines):
+            trimmed = line.strip()
+            if trimmed.startswith("# PART III"):
+                part3_idx = idx
+            elif trimmed.startswith("# PART IV"):
+                part4_idx = idx
+            elif trimmed.startswith("# PART V"):
+                part5_idx = idx
+            elif trimmed.startswith("# 6.3 Glossary"):
+                glossary_idx = idx
+            elif trimmed.startswith("## 6.4 Footnotes"):
+                footnotes_idx = idx
+
+        part3_lines = lines[part3_idx:part4_idx] if (part3_idx != -1 and part4_idx != -1) else []
+        part4_lines = lines[part4_idx:part5_idx] if (part4_idx != -1 and part5_idx != -1) else []
+        glossary_lines = lines[glossary_idx:footnotes_idx] if (glossary_idx != -1 and footnotes_idx != -1) else []
+        
+    except Exception as e:
+        print(f"Error parsing master file: {e}", file=sys.stderr)
+        return ""
+
+    # A. Add Glossary (parsed from master)
+    if glossary_lines:
+        glossary_content = "\n".join(glossary_lines)
+        ref_parts.append(f"=== REFERENCE: GLOSSARY ===\n{glossary_content}\n")
+        print(f"   Loaded glossary ({len(glossary_content)} chars)")
+
+    # B. Load Vocabulary Matrix (always local)
+    matrix_path = repo_dir / "Data" / "Service Books" / "Typikon" / "vocabulary_standardization_matrix.md"
+    if not matrix_path.exists():
+        matrix_path = repo_dir.parent / "Translation" / "Final MD" / "vocabulary_standardization_matrix.md"
     if matrix_path.exists():
-        content = matrix_path.read_text(encoding="utf-8")
-        ref_parts.append(f"=== REFERENCE FILE: vocabulary_standardization_matrix.md ===\n{content}\n")
-        print(f"   Loaded vocabulary matrix ({len(content)} chars)")
+        matrix_content = matrix_path.read_text(encoding="utf-8")
+        ref_parts.append(f"=== REFERENCE FILE: vocabulary_standardization_matrix.md ===\n{matrix_content}\n")
+        print(f"   Loaded vocabulary matrix ({len(matrix_content)} chars)")
 
-    # 3. Load sliced Menaion (Part 3)
-    menaion_path = ref_dir / "Final_Dolnytsky_part3_menaion.md"
-    if menaion_path.exists():
+    # C. Load sliced Menaion (Part 3)
+    if part3_lines:
         try:
-            content = menaion_path.read_text(encoding="utf-8")
-            lines = content.splitlines()
-            
             # Map target month to the header in the file
             month_map = {
                 1: "JANUARY", 2: "FEBRUARY", 3: "MARCH", 4: "APRIL", 5: "MAY", 6: "JUNE",
@@ -186,15 +219,19 @@ def compile_reference_files(repo_dir: Path, target_date: date, season_id: str) -
             
             # Find start line
             start_line_idx = -1
-            for i, line in enumerate(lines):
-                trimmed = line.strip()
+            for i, line in enumerate(part3_lines):
+                trimmed = line.strip().upper()
                 if trimmed == target_month_name:
+                    start_line_idx = i
+                    break
+                words = trimmed.split()
+                if words and words[-1] == target_month_name and any(w.startswith("##") or w.isdigit() for w in words):
                     start_line_idx = i
                     break
             
             if start_line_idx == -1:
                 # Fallback search
-                for i, line in enumerate(lines):
+                for i, line in enumerate(part3_lines):
                     trimmed = line.strip().upper()
                     if trimmed.startswith(f"1 {target_month_name}") or trimmed.startswith(f"{target_month_name} "):
                         start_line_idx = i
@@ -203,29 +240,32 @@ def compile_reference_files(repo_dir: Path, target_date: date, season_id: str) -
             if start_line_idx != -1:
                 end_line_idx = -1
                 next_month_names = months_in_file_order[months_in_file_order.index(target_month_name) + 1:]
-                for i in range(start_line_idx + 1, len(lines)):
-                    trimmed = lines[i].strip()
+                for i in range(start_line_idx + 1, len(part3_lines)):
+                    trimmed = part3_lines[i].strip().upper()
                     if trimmed in next_month_names:
                         end_line_idx = i
                         break
+                    words = trimmed.split()
+                    if words and words[-1] in next_month_names and any(w.startswith("##") or w.isdigit() for w in words):
+                        end_line_idx = i
+                        break
                 
-                slice_lines = lines[start_line_idx:end_line_idx] if end_line_idx != -1 else lines[start_line_idx:]
+                slice_lines = part3_lines[start_line_idx:end_line_idx] if end_line_idx != -1 else part3_lines[start_line_idx:]
                 sliced_content = "\n".join(slice_lines)
-                ref_parts.append(f"=== REFERENCE FILE: Final_Dolnytsky_part3_menaion.md (SLICED: {target_month_name}) ===\n{sliced_content}\n")
+                ref_parts.append(f"=== REFERENCE FILE: Dolnytsky_Typikon_Master.md (SLICED: {target_month_name}) ===\n{sliced_content}\n")
                 print(f"   Loaded sliced Menaion for {target_month_name} ({len(sliced_content)} chars)")
             else:
                 print(f"   Warning: Could not slice Menaion for month: {target_month_name}", file=sys.stderr)
         except Exception as e:
             print(f"   Failed to load sliced Menaion: {e}", file=sys.stderr)
 
-    # 4. Load Triodion (Part 4) ONLY during Triodion/Pentecostarion seasons
+    # D. Load Triodion (Part 4) ONLY during Triodion/Pentecostarion seasons
     if season_id in ("triodion", "pentecostarion"):
-        triodion_path = ref_dir / "Final_Dolnytsky_part4_triodion.md"
-        if triodion_path.exists():
+        if part4_lines:
             try:
-                content = triodion_path.read_text(encoding="utf-8")
-                ref_parts.append(f"=== REFERENCE FILE: Final_Dolnytsky_part4_triodion.md ===\n{content}\n")
-                print(f"   Loaded Triodion ({len(content)} chars)")
+                triodion_content = "\n".join(part4_lines)
+                ref_parts.append(f"=== REFERENCE FILE: Dolnytsky_Typikon_Master.md (TRIODION) ===\n{triodion_content}\n")
+                print(f"   Loaded Triodion ({len(triodion_content)} chars)")
             except Exception as e:
                 print(f"   Failed to load Triodion: {e}", file=sys.stderr)
     else:
@@ -365,7 +405,7 @@ Resolved Rubrics:
 
 AUDIT INSTRUCTIONS:
 You are the Supreme Liturgical Compliance Auditor for the Byzantine-Ruthenian Rite (acting according to the Isidor Dolnytsky Typikon).
-You have access to the exact reference control files (Final_Dolnytsky_glossary.md, vocabulary_standardization_matrix.md, and Final_Dolnytsky_part3_menaion.md sliced for the month).
+You have access to the exact reference control files (Dolnytsky_Typikon_Master.md, vocabulary_standardization_matrix.md, and Dolnytsky_Typikon_Master.md sliced for the month).
 
 {audit_instruction}
 

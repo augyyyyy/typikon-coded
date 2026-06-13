@@ -11,7 +11,7 @@
     "//_GROUP_A": "OCTOECHOS_PERIOD (NON-FESTAL)",
     "case_01_sunday_simple_saint": {
       "id": "CASE_01",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.1.3.4",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.1.3.4",
       "triggers": {
         "day_of_week": [
           0
@@ -75,7 +75,7 @@
                   "qty": 4
                 }
               ],
-              "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.1.3.7"
+              "source_ref": "Dolnytsky_Typikon_Master.md:2.1.3.7"
             }
           },
           "glory": "saint_doxastikon_if_present",
@@ -139,7 +139,7 @@
         },
         "praises_distribution": {
           "total_count": 8,
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.2.1.9",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.2.1.9",
           "logic_switch": {
             "1_saint": {
               "distribution": [
@@ -195,7 +195,7 @@
     },
     "case_02_weekday_simple_saint": {
       "id": "CASE_02",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.3.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.3.2",
       "triggers": {
         "day_of_week": [
           1,
@@ -327,7 +327,7 @@
     },
     "case_03_saturday_simple_saint": {
       "id": "CASE_03",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.6.4",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.6.4",
       "triggers": {
         "day_of_week": [
           6
@@ -402,7 +402,7 @@
     },
     "case_04_sunday_polyeleos": {
       "id": "CASE_04",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.8.2.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.8.2.2",
       "triggers": {
         "day_of_week": [
           0
@@ -471,7 +471,7 @@
     },
     "case_05_weekday_polyeleos": {
       "id": "CASE_05",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.10",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.10",
       "triggers": {
         "day_of_week": [
           1,
@@ -521,7 +521,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.11.1.1",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.11.1.1",
           "total_count": 4,
           "distribution": [
             {
@@ -537,7 +537,7 @@
     },
     "case_06_sunday_vigil": {
       "id": "CASE_06",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.11.1.7",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.11.1.7",
       "triggers": {
         "day_of_week": [
           0
@@ -560,18 +560,18 @@
           "magnification"
         ],
         "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.12.5",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.12.5",
           "inherits": "CASE_04"
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.13.1.4",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.13.1.4",
           "inherits": "CASE_04"
         }
       }
     },
     "case_07_weekday_vigil": {
       "id": "CASE_07",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.13.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.13.2",
       "triggers": {
         "day_of_week": [
           1,
@@ -595,18 +595,18 @@
           "blessing_loaves"
         ],
         "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.14.2",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.2",
           "inherits": "CASE_05"
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.14.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.3",
           "inherits": "CASE_05"
         }
       }
     },
     "special_vigil_override": {
       "id": "SPECIAL_VIGIL_OVERRIDE",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.14.4",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.14.4",
       "description": "Nativity and Beheading of St. John the Baptist (June 24, August 29) and Chief Apostles Peter and Paul (June 29) surpass other saints in that their canons are taken ALONE (no Theotokion canon) and their Apostle-Gospel at Liturgy is taken ALONE (no daily readings)",
       "applies_to_dates": [
         {
@@ -639,7 +639,7 @@
     "//_GROUP_B": "FOREFEASTS",
     "case_08_sunday_forefeast": {
       "id": "CASE_08",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.14.1",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.14.1",
       "triggers": {
         "day_of_week": [
           0
@@ -703,7 +703,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.15.1",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.15.1",
           "total_count": 8,
           "distribution": [
             {
@@ -725,7 +725,7 @@
     },
     "case_09_weekday_forefeast": {
       "id": "CASE_09",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.15.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.15.3",
       "triggers": {
         "day_of_week": [
           1,
@@ -782,7 +782,7 @@
     "//_GROUP_C": "GREAT_FEASTS",
     "case_10_feast_of_lord": {
       "id": "CASE_10",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.18",
       "triggers": {
         "period": [
           "feast"
@@ -807,7 +807,7 @@
           "both_now": "feast_theotokion"
         },
         "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.19.1.5",
           "total_count": 3,
           "distribution": [
             {
@@ -830,7 +830,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.18.1",
           "total_count": 4,
           "distribution": [
             {
@@ -851,7 +851,7 @@
     },
     "case_11_feast_of_theotokos_sunday": {
       "id": "CASE_11",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.3",
       "triggers": {
         "day_of_week": [
           0
@@ -901,7 +901,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
           "total_count": 8,
           "distribution": [
             {
@@ -922,7 +922,7 @@
     },
     "case_12_feast_of_theotokos_weekday": {
       "id": "CASE_12",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           1,
@@ -948,7 +948,7 @@
     "//_GROUP_D": "AFTERFEASTS",
     "case_13_afterfeast_sunday_simple": {
       "id": "CASE_13",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           0
@@ -1010,7 +1010,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
           "total_count": 8,
           "distribution": [
             {
@@ -1032,7 +1032,7 @@
     },
     "case_14_afterfeast_weekday_simple": {
       "id": "CASE_14",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           1,
@@ -1087,7 +1087,7 @@
     },
     "case_15_afterfeast_sunday_polyeleos": {
       "id": "CASE_15",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           0
@@ -1142,7 +1142,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
           "total_count": 8,
           "distribution": [
             {
@@ -1163,7 +1163,7 @@
     },
     "case_16_afterfeast_weekday_polyeleos": {
       "id": "CASE_16",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           1,
@@ -1219,18 +1219,18 @@
             {
               "source": "menaion",
               "type": "feast",
-              "qty": 10,
+              "qty": 6,
               "irmos": true
             },
             {
               "source": "menaion",
               "type": "saint",
-              "qty": 4
+              "qty": 8
             }
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
           "total_count": 6,
           "logic_switch": {
             "4_saint": {
@@ -1266,7 +1266,7 @@
     },
     "case_17_afterfeast_sunday_vigil": {
       "id": "CASE_17",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           0
@@ -1283,14 +1283,14 @@
         "vespers_litiya": "saint_and_feast",
         "matins_anointing": true,
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
           "inherits": "CASE_15"
         }
       }
     },
     "case_18_afterfeast_weekday_vigil": {
       "id": "CASE_18",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           1,
@@ -1312,7 +1312,7 @@
         "vespers_litiya": "saint_and_feast",
         "matins_anointing": true,
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
           "inherits": "CASE_16"
         }
       }
@@ -1320,7 +1320,7 @@
     "//_GROUP_E": "APODOSIS",
     "case_19_apodosis_sunday": {
       "id": "CASE_19",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           0
@@ -1370,7 +1370,7 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
           "total_count": 8,
           "distribution": [
             {
@@ -1391,7 +1391,7 @@
     },
     "case_20_apodosis_weekday": {
       "id": "CASE_20",
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "triggers": {
         "day_of_week": [
           1,
@@ -1421,7 +1421,7 @@
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
           "note": "At Matins of Apodosis weekday, everything from the canon to end is exactly as on the feast. Therefore praises distribution is same as Case 10.",
           "inherits": "CASE_10"
         }

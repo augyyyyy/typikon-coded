@@ -298,7 +298,9 @@ class MatinsFormatterMixin:
 
     def _format_resolve_anabathmoi(self, res, context):
         if not res: return ""
-        return f"Anabathmoi (Hymns of Ascents): {self.humanize_key(res.get('id', 'Anabathmoi'))}."
+        val = self.humanize_key(res.get('id', 'Anabathmoi'))
+        val = val.replace('Anabathmoi', 'Gradual').replace('anabathmoi', 'gradual')
+        return f"Gradual (Hymns of Ascents): {val}."
 
 
     def _format_resolve_doxology_type(self, res, context):

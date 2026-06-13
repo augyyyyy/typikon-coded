@@ -112,10 +112,7 @@ class HoursMixin:
         # Case E: Weekday + Polyeleos/Vigil Saint (Rank <= 3 on weekday)
         if not is_sunday and rank <= 3:
             if is_fore_after:
-                if hour in [1, 6]:
-                    return {"mode": "standard", "components": ["trop_feast"]}
-                else:
-                    return {"mode": "standard", "components": ["trop_saint"]}
+                return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint"]}
             return {"mode": "standard", "components": ["trop_saint"]}
 
         # Case D & C: Sunday + Fore/Afterfeast
@@ -153,7 +150,7 @@ class HoursMixin:
             if hour in [1, 6]:
                 return {"mode": "standard", "components": ["trop_feast"]}
             else:
-                return {"mode": "standard", "components": ["trop_saint"] if saints else ["trop_feast"]}
+                return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint"] if saints else ["trop_feast"]}
 
         # Case B: Weekday + Simple Saint (Ordinary Weekday)
         if hour == 1:
@@ -365,7 +362,7 @@ class HoursMixin:
             return {"type": "prayer", "ref_key": "horologion.prayer_mardarius"}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
     def resolve_royal_psalms(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -388,7 +385,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
     def resolve_royal_stichera(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -408,7 +405,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
     def resolve_royal_readings(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -427,7 +424,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
     def resolve_royal_troparia(self, context, rubrics, hour=None):
         """
         No specific daily troparia in Royal Hours. Handled by Idiomela.
@@ -436,7 +433,7 @@ class HoursMixin:
         return {"type": "sequence", "components": []}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
     def resolve_royal_kontakion(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -511,7 +508,7 @@ class HoursMixin:
         }
 
     # MODULE A6: TYPIKA ENGINE
-    # ref: Final_Dolnytsky_part3_menaion.md:3.4.7.1.1
+    # ref: Dolnytsky_Typikon_Master.md:3.4.7.1.1
 
     def resolve_typika_beatitudes(self, context):
         """
@@ -565,7 +562,7 @@ class HoursMixin:
         }
 
     # MODULE A4: COMPLINE LOGIC
-    # ref: Final_Dolnytsky_part1_structure.md:1.5.1
+    # ref: Dolnytsky_Typikon_Master.md:1.5.1
 
     def resolve_midnight_office_mode(self, context):
         """
@@ -607,6 +604,25 @@ class HoursMixin:
                  context.get("is_lent") or 
                  (context.get("pascha_offset") is not None and -48 <= context.get("pascha_offset") <= -8)
              )
+             is_afterfeast = (
+                 context.get("is_afterfeast") or
+                 context.get("is_fore_or_afterfeast") or
+                 "afterfeast" in str(context.get("title", "")).lower() or
+                 "apodosis" in str(context.get("title", "")).lower()
+             )
+             try:
+                 rank = self.calculate_rank(context)
+             except:
+                 rank = 5
+             is_vigil = context.get("is_vigil", False) or rank <= 3
+             
+             if not is_lent and (is_afterfeast or is_vigil):
+                  return {
+                      "mode": "feast",
+                      "readings": "psalm_118",
+                      "troparia": "feast_troparia"
+                  }
+                  
              return {
                  "mode": "daily",
                  "readings": "psalm_118",
@@ -614,10 +630,10 @@ class HoursMixin:
              }
 
     # MODULE A8: VIGIL COMMONS (LITYA & ARTOKLASIA)
-    # ref: Final_Dolnytsky_part1_structure.md:1.2.1.9
+    # ref: Dolnytsky_Typikon_Master.md:1.2.1.9
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.6.3")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.6.3")
     def check_royal_hours_trigger(self, context):
         """
         Implements Logic Gate A7: Royal Hours Trigger.
@@ -654,7 +670,7 @@ class HoursMixin:
         return False
 
     # MODULE A9: INTER-HOURS (MESHCHORIE)
-    # ref: Final_Dolnytsky_part3_menaion.md:3.4.7
+    # ref: Dolnytsky_Typikon_Master.md:3.4.7
 
 
     def resolve_midnight_troparia(self, context):
@@ -682,7 +698,7 @@ class HoursMixin:
                 "type": "troparia_stack",
                 "components": [
                     {"id": "After the 1st Trisagion — Troparion of the Feast (Eucharist)"},
-                    {"id": "After the 2nd Trisagion — Kontakion of the Feast"}
+                    {"id": "After the 2nd Trisagion — Kontakion of the Feast. We do not say the prayer “Remember”. Instead: “Lord, have mercy” (12) and the dismissal"}
                 ]
             }
         
@@ -728,7 +744,7 @@ class HoursMixin:
     # =========================================================================
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.7.1")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7.1")
     def resolve_typika_kontakia(self, context):
         """
         Typika: Kontakia order
@@ -738,7 +754,7 @@ class HoursMixin:
             "order": ["temple", "day", "saint", "glory_with_the_saints", "both_now_undisputed_intercessor"]
         }
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L453", dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.1")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L453", dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.1")
     def check_service_continuity(self, context, check="is_preceding_service_connected"):
         """
         Check if the preceding service is connected to skip opening blessing.

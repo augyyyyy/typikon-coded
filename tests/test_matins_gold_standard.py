@@ -69,10 +69,10 @@ class TestInfrastructure:
         assert ctx["tone"] == 8, f"Expected Tone 8 for 5th Lenten Sunday, got {ctx['tone']}"
 
     def test_eothinon_11_week_cycle(self, engine):
-        """Eothinon cycles 1-11 independently of tone"""
-        thomas = date(2026, 4, 12)
+        """Eothinon cycles 1-11 sequentially starting from All Saints Sunday"""
+        all_saints = date(2026, 5, 31)
         for week in range(11):
-            d = thomas + timedelta(weeks=week)
+            d = all_saints + timedelta(weeks=week)
             ctx = engine.get_liturgical_context(d)
             assert ctx["eothinon"] == week + 1, f"Week {week}: expected eothinon {week+1}, got {ctx['eothinon']}"
 

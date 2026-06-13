@@ -53,7 +53,7 @@ except ImportError:
     sys.path.insert(0, os.path.join(REPO_DIR, "engine"))
     from ruthenian_engine import RuthenianEngine
 
-PORT = 8080
+PORT = int(os.environ.get("PORT", 8080))
 
 # Cache databases for quick key lookup
 standardized_db = {}

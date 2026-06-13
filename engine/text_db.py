@@ -212,6 +212,16 @@ class TextDBMixin:
             # 1.1 Content Processing
             if isinstance(item, dict) and "content" in item:
                 raw_text = item["content"]
+                if isinstance(raw_text, dict):
+                    if "text" in raw_text:
+                        inner = raw_text["text"]
+                        if isinstance(inner, dict):
+                            raw_text = inner.get("en") or next(iter(inner.values())) if inner else ""
+                        else:
+                            raw_text = str(inner)
+                    else:
+                        raw_text = raw_text.get("en") or next(iter(raw_text.values())) if raw_text else ""
+                raw_text = str(raw_text)
                 
                 # Sanitization: Strip instructions in () or ending in :
                 # e.g. "(Spec. Mel.: ...):" -> moved to metadata
@@ -222,6 +232,7 @@ class TextDBMixin:
                     clean_content = re.sub(r'\(.*?\):?', '', raw_text).strip()
                 else:
                     clean_content = raw_text
+
                     
                 # Musical Syntax: Handle * and **
                 # Store segments for musical phrasing

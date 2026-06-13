@@ -126,6 +126,7 @@ class EngineCore:
         self._load_versioned_texts(f"{recension_dir}/text_triodion.json")
         self._load_versioned_texts(f"{recension_dir}/text_weekdays.json")
         self._load_versioned_texts(f"{recension_dir}/text_theotokia.json")
+        self._load_versioned_texts("json_db/text_pentecostarion_pascha.json")
         
         self.general_menaion_db = self._load_json("json_db/common/text_general_menaion.json")
         # Overlay recension-specific General Menaion if available

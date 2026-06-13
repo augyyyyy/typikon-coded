@@ -10,7 +10,7 @@ from typikon_digest_generator import TypikonDigestGenerator
 
 def test_pascha_rubrics():
     print("Initializing Engine...")
-    engine = RuthenianEngine("json_db")
+    engine = RuthenianEngine()
     generator = TypikonDigestGenerator(engine)
     
     # Target: PASCHA 2026-04-05

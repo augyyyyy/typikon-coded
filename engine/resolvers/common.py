@@ -344,6 +344,13 @@ class CommonResolverMixin:
         
         Citation: Dolnytsky Part IV (Triodion Rubrics) & Part I (General Canon Structure)
         """
+        # Special Vigil Override for June 24, June 29, August 29: Saint's canon alone on 12 on weekdays
+        month = context.get("month")
+        day = context.get("day")
+        day_of_week = context.get("day_of_week")
+        if day_of_week != 0 and ((month == 6 and day == 24) or (month == 6 and day == 29) or (month == 8 and day == 29)):
+            return [{"source": "menaion", "type": "saint", "count": 12, "irmos": True}]
+
         # Check for overridden distribution first (e.g. from collisions)
         overridden_dist = context.get("variables", {}).get("matins_canon_distribution")
         if not overridden_dist:
@@ -394,7 +401,7 @@ class CommonResolverMixin:
             return dist
 
         # 1. Lenten Weekday Logic (Complex varying counts)
-        # Citation: Final_Dolnytsky_part4_triodion.md:4.1.10.2.3
+        # Citation: Dolnytsky_Typikon_Master.md:4.1.10.2.3
         if context.get("season") == "lent" and context.get("day_of_week") not in [0, 6]: 
             day = str(context.get("day_of_week"))
             lenten_maps = self.triodion_logic.get("lenten_logic_maps", {})
@@ -1433,7 +1440,7 @@ class CommonResolverMixin:
              
         if context.get("season") == "lent" and not is_sunday:
              # Lenten logic (Triodion sessional)
-             # Citation: Final_Dolnytsky_part4_triodion.md:4.1.9.1.6
+             # Citation: Dolnytsky_Typikon_Master.md:4.1.9.1.6
              return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
              
         if rank <= 3:
@@ -1498,7 +1505,7 @@ class CommonResolverMixin:
         }
         return festal_tones.get(feast_id, 1)
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.5.1.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1.5")
     def resolve_canon_ode_troparion(self, context, ode, position="glory"):
         """
         Resolves specific troparion details at a given position within a canon ode (primarily Ode 8).

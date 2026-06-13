@@ -9,6 +9,82 @@ import re
 from datetime import date, timedelta
 import copy
 
+def get_liturgical_category(name: str) -> str:
+    if not name:
+        return "Saint"
+    n = name.lower()
+    
+    # Strip out "equal-to-the-apostles" or "equal to the apostles" for plural/category checks
+    n_for_plural = re.sub(r'equal[- ]to[- ]the[- ]apostles?', '', n)
+    
+    is_plural = False
+    
+    plural_keywords = [
+        r'\bmartyrs\b', r'\bapostles\b', r'\bprophets\b', r'\bvenerables\b', 
+        r'\bsaints\b', r'\bfathers\b', r'\bhierarchs\b', r'\bunmercenaries\b',
+        r'\bcompanions\b', r'\bothers\b', r'\bfellows\b', r'\bwomen\b', r'\bmonastics\b'
+    ]
+    if any(re.search(pattern, n_for_plural) for pattern in plural_keywords):
+        is_plural = True
+    elif re.search(r'\bsts\b', n_for_plural):
+        is_plural = True
+    elif 'and' in n_for_plural or '&' in n_for_plural:
+        is_plural = True
+    elif 'those with' in n_for_plural or 'companion' in n_for_plural:
+        is_plural = True
+    elif ',' in n_for_plural:
+        parts = n_for_plural.split(',')
+        if len(parts) > 1:
+            after_comma = parts[1].strip()
+            singular_titles = ['bishop', 'pope', 'abbot', 'monk', 'nun', 'martyr', 'hierarch', 'archbishop', 'metropolitan', 'patriarch', 'priest', 'deacon', 'king', 'prince', 'writer', 'disciple', 'apostle', 'forerunner']
+            is_title = any(after_comma.startswith(t) for t in singular_titles)
+            if not is_title:
+                is_plural = True
+
+    # Check categories by priority
+    if re.search(r'\bforerunner\b', n) or re.search(r'\bjohn the baptist\b', n):
+        return 'Prophet'
+    if re.search(r'\bcross\b', n):
+        return 'Cross'
+    if re.search(r'\bangels?\b|\barchangels?\b', n):
+        return 'Angels'
+    if re.search(r'\bfools?\b', n):
+        return 'Fools for Christ' if is_plural else 'Fool for Christ'
+    if re.search(r'\bhieromartyrs?\b', n):
+        return 'Hieromartyrs' if is_plural else 'Hieromartyr'
+    if (re.search(r'\bvenerable[- ]martyrs?\b', n) or 
+        re.search(r'\bmonk[- ]martyrs?\b', n) or 
+        re.search(r'\bnun[- ]martyrs?\b', n) or 
+        (re.search(r'\bven\b\.?', n) and (re.search(r'\bmart\b\.?', n) or 'martyr' in n))):
+        return 'Venerable Martyrs' if is_plural else 'Venerable Martyr'
+    if re.search(r'\bvenerable[- ]women\b|\bnuns\b', n):
+        return 'Venerable Women'
+    if re.search(r'\bvenerable[- ]woman\b|\bnun\b', n):
+        return 'Venerable Woman'
+    if (re.search(r'\bven\b\.?', n) or re.search(r'\bvenerables?\b', n) or 
+        re.search(r'\babbots?\b|\bmonastics?\b|\bmonks?\b', n)):
+        return 'Venerables' if is_plural else 'Venerable'
+    if (re.search(r'\bbp\b\.?|\bbishops?\b|\bhierarchs?\b', n) or 
+        re.search(r'\barchbishops?\b|\bmetropolitans?\b|\bpatriarchs?\b|\bpopes?\b', n)):
+        return 'Hierarchs' if is_plural else 'Hierarch'
+    if re.search(r'\bmartyresses\b|\bwomen[- ]martyrs\b', n):
+        return 'Women Martyrs'
+    if re.search(r'\bmartyress\b|\bwoman[- ]martyr\b', n):
+        return 'Woman Martyr'
+    if (re.search(r'\bmart\b\.?', n) or re.search(r'\bmartyrs?\b', n) or 
+        re.search(r'\bgreat[- ]martyrs?\b|\bgreatmartyrs?\b|\bprotomartyrs?\b', n)):
+        return 'Martyrs' if is_plural else 'Martyr'
+    if re.search(r'\bap\b\.?|\bapostles?\b|\bevangelists?\b', n):
+        return 'Apostles' if is_plural else 'Apostle'
+    if re.search(r'\bprophets?\b|\bprophetesses?\b|\bprop\b\.?', n):
+        return 'Prophets' if is_plural else 'Prophet'
+    if 'unmercenar' in n:
+        return 'Unmercenaries' if is_plural else 'Unmercenary'
+    if re.search(r'\bfathers\b', n):
+        return 'Holy Fathers'
+        
+    return 'Saints' if is_plural else 'Saint'
+
 
 class CalendarMixin:
 
@@ -56,6 +132,7 @@ class CalendarMixin:
             if date_str in almanac.get("days", {}):
                 day_context = copy.deepcopy(almanac["days"][date_str])
                 day_context["_almanac_used"] = True
+                self._enrich_classification_fields(day_context)
                 return day_context
 
         if self.paschalion == "julian":
@@ -179,17 +256,21 @@ class CalendarMixin:
         # Only meaningful on Sundays. On non-Sundays, eothinon is None.
         eothinon = None
         if weekday == 0:  # Sunday
-            if delta >= thomas_sunday_offset:
-                weeks_since_thomas = (delta - thomas_sunday_offset) // 7
-                eothinon = (weeks_since_thomas % 11) + 1
+            if delta >= 56:
+                weeks_since_all_saints = (delta - 56) // 7
+                eothinon = (weeks_since_all_saints % 11) + 1
+            elif 7 <= delta <= 49:
+                paschal_eothina = {
+                    7: 1, 14: 3, 21: 4, 28: 7, 35: 8, 42: 10, 49: None
+                }
+                eothinon = paschal_eothina.get(delta)
             elif delta < 0:
-                # Before current year's Pascha — use previous year's Pentecost
-                prev_pentecost = prev_pascha + timedelta(days=49)
-                days_since_prev_pentecost = (target_date - prev_pentecost).days
-                if days_since_prev_pentecost >= 0:
-                    weeks = days_since_prev_pentecost // 7
-                    eothinon = weeks % 11
-                    if eothinon == 0: eothinon = 11
+                # Before current year's Pascha — use previous year's All Saints
+                prev_all_saints = prev_pascha + timedelta(days=56)
+                days_since_prev_all_saints = (target_date - prev_all_saints).days
+                if days_since_prev_all_saints >= 0:
+                    weeks = days_since_prev_all_saints // 7
+                    eothinon = (weeks % 11) + 1
                 if eothinon is None:
                     eothinon = 1  # fallback
             # Bright Week / Pascha Sunday: no standard Eothinon
@@ -251,7 +332,90 @@ class CalendarMixin:
         
         context["late_service_type"] = late_service
 
+        self._enrich_classification_fields(context)
         return context
+
+    def _enrich_classification_fields(self, context):
+        # 1. Determine Triodion Book
+        triodion_book = "N/A"
+        season_id = context.get("season_id", "")
+        season = context.get("season", "")
+        if season_id == "triodion" or season in ["lent", "pre_lent"]:
+            triodion_book = "Lenten"
+        elif season_id == "pentecostarion" or season == "pascha":
+            triodion_book = "Floral"
+            
+        # 2. Determine Menaion Book and Class
+        rank_code = context.get("fixed_rank_code") or context.get("dolnytsky_rank_code") or ""
+        rank_val = self.calculate_rank(context)
+        if context.get("day_of_week") == 0 and rank_val > 4:
+            rank_val = 4
+        context["rank"] = rank_val
+        
+        # Check if Festal vs General
+        is_festal = rank_code in ["[LORD]", "LORD", "[MOG]", "THEOTOKOS", "[VIGIL]", "VIGIL", "[POL]", "POLYELEOS"] or rank_val <= 2
+        
+        class_num = "V"
+        class_label = "Simple"
+        
+        # 1. High solemnity rank_val == 1 overrides any simple rank codes (handles movable Great Feasts)
+        if rank_val == 1:
+            class_num = "I"
+            class_label = "Great Feast"
+        # 2. Prioritize rank_code mapping if not a Great Feast of the Lord/Theotokos
+        elif rank_code in ["[LORD]", "LORD", "[MOG]", "THEOTOKOS"]:
+            class_num = "I"
+            class_label = "Great Feast"
+        elif rank_code in ["[VIGIL]", "VIGIL"]:
+            class_num = "II"
+            class_label = "Vigil"
+        elif rank_code in ["[POL]", "POLYELEOS"]:
+            class_num = "III"
+            class_label = "Polyeleos"
+        elif rank_code in ["[GT DOX]", "GT_DOX"]:
+            class_num = "IV"
+            class_label = "Great Doxology"
+        elif rank_code in ["[6 SM]", "SIX"]:
+            class_num = "V"
+            class_label = "Six-Stichera"
+        elif rank_code in ["[4 A+G]", "[4 NO]", "[4 TR]", "SIMPLE", "NO"]:
+            class_num = "V"
+            class_label = "Simple"
+        # 3. If no match in rank_code, check other rank_val cases
+        else:
+            if rank_val == 2:
+                class_num = "II"
+                class_label = "Vigil"
+            elif rank_val == 3:
+                class_num = "IV"
+                class_label = "Great Doxology"
+            elif rank_val == 4:
+                if context.get("day_of_week") == 0:
+                    class_num = "V"
+                    class_label = "Simple"
+                else:
+                    class_num = "IV"
+                    class_label = "Great Doxology"
+            else:
+                class_num = "V"
+                class_label = "Simple"
+            
+        context["triodion_book"] = triodion_book
+        context["menaion_book"] = "Festal" if is_festal else "General"
+        context["menaion_class"] = f"Class {class_num} — {class_label}"
+        
+        # 3. Determine Commemoration and Categories
+        comm_val = context.get("dolnytsky_commemoration", "None") or "None"
+        parts = []
+        if comm_val != "None":
+            cleaned_comm = comm_val.rstrip(".")
+            parts = [p.strip() for p in re.split(
+                r'\s+and\s+|\s+&\s+|;|(?<!\bSt)(?<!\bSts)(?<!\bVen)(?<!\bBp)(?<!\bAp)(?<!\bAps)(?<!\bMetr)(?<!\bArchbp)(?<!\bPatr)(?<!\bMart)(?<!\bProp)\.\s+', 
+                cleaned_comm, 
+                flags=re.IGNORECASE
+            ) if p.strip()]
+            
+        context["saint_categories"] = [get_liturgical_category(p) for p in parts]
 
 
     def _lookup_dolnytsky_calendar(self, target_date, delta):
@@ -283,9 +447,12 @@ class CalendarMixin:
             -29: ("Third Saturday of Lent", "ALLELUIA"),
             -22: ("Fourth Saturday of Lent", "ALLELUIA"),
             -15: ("Saturday of the Akathist", "GT_DOX"),
-            # Paschal Cycle
+             # Paschal Cycle
               0: ("Pascha: RESURRECTION OF CHRIST", "LORD"),
+             39: ("Ascension of Our Lord", "LORD"),
+             49: ("Pentecost: Sunday of the Holy Trinity", "LORD"),
              50: ("Monday of the Holy Spirit", "LORD"),
+             60: ("Solemnity of the Holy Eucharist", "LORD"),
             # Apodoses
              31: ("Apodosis of Mid-Pentecost", "GT_DOX"),
              47: ("Apodosis of Ascension", "GT_DOX"),
@@ -300,6 +467,16 @@ class CalendarMixin:
             result["dolnytsky_title"] = title
             result["dolnytsky_rank"] = rank
             result["dolnytsky_source"] = "movable_cycle_override"
+            # Map movable rank string back to code
+            rank_code_map = {
+                "LORD": "[LORD]",
+                "THEOTOKOS": "[MOG]",
+                "VIGIL": "[VIGIL]",
+                "POLYELEOS": "[POL]",
+                "GT_DOX": "[GT DOX]",
+                "ALLELUIA": "[ALLELUIA]"
+            }
+            result["dolnytsky_rank_code"] = rank_code_map.get(rank, "")
             
         # Inject moveable feast metadata directly into result
         if delta is not None:
@@ -373,7 +550,7 @@ class CalendarMixin:
                     "[POL]": "POLYELEOS",
                     "[GT DOX]": "GT_DOX",
                     "[6 SM]": "SIX",
-                    "[4 A+G]": "SIX",
+                    "[4 A+G]": "SIMPLE",
                     "[4 NO]": "NO",
                     "[4 TR]": "SIMPLE",
                 }
@@ -387,7 +564,8 @@ class CalendarMixin:
                     result["fixed_rank_code"] = normalized_rank
                 
                 result["dolnytsky_commemoration"] = description
-                result["dolnytsky_rank_code"] = rank_code
+                if "dolnytsky_rank_code" not in result:
+                    result["dolnytsky_rank_code"] = rank_code
                 
                 if "dolnytsky_title" not in result:
                     result["dolnytsky_title"] = description
@@ -398,8 +576,8 @@ class CalendarMixin:
                 # Build saints list from entries for all days
                 if len(entries) >= 1:
                     rank_numeric = {
-                        "[LORD]": 1, "[MOG]": 1, "[VIGIL]": 2, "[POL]": 2,
-                        "[GT DOX]": 3, "[6 SM]": 4, "[4 A+G]": 4, "[4 NO]": 5, "[4 TR]": 5,
+                        "[LORD]": 1, "[MOG]": 1, "[VIGIL]": 2, "[POL]": 3,
+                        "[GT DOX]": 4, "[6 SM]": 5, "[4 A+G]": 5, "[4 NO]": 5, "[4 TR]": 5,
                     }
                     saints = []
                     for e in entries:
@@ -532,7 +710,7 @@ class CalendarMixin:
 
     def _apply_lookahead(self, context, rubrics):
         # 1. Vespers LOOKAHEAD (Saturday Evening -> Sunday)
-        # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.1.3.4
+        # Citation: Dolnytsky_Typikon_Master.md:2.1.3.4
         if context["day_of_week"] == 6 and context.get("is_sunday_vigil"): # Saturday Vigil
             current_date = date(context["year"], context["month"], context["day"])
             next_date = current_date + timedelta(days=1)
@@ -560,7 +738,7 @@ class CalendarMixin:
         
         elif context["day_of_week"] == 0: # Sunday - direct check
             # When generating Sunday's service directly (not via Saturday lookahead)
-            # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.1.3.4
+            # Citation: Dolnytsky_Typikon_Master.md:2.1.3.4
             if context.get("pascha_offset") != 0:
                 rubrics["is_sunday"] = True
                 rubrics.setdefault("overrides", {})
@@ -574,7 +752,7 @@ class CalendarMixin:
                 rubrics["_trace"].append("Sunday: Services set to Great Vespers/Matins with Vigil structure.")
 
         # 3. Great Feast LOOKAHEAD (Menaion Rank-Based Vigil)
-        # Citation: Final_Dolnytsky_part1_structure.md:1.2.1.1
+        # Citation: Dolnytsky_Typikon_Master.md:1.2.1.1
         # Great Feasts (rank_vigil_lord, rank_vigil_theotokos, rank_vigil_saint) use Vigil structure
         menaion_rank = rubrics.get("variables", {}).get("menaion_rank", "")
         # Bypass for Pascha Sunday and Bright Week (offsets 0-6)
@@ -667,9 +845,17 @@ class CalendarMixin:
             
         # Implementation for Post-Pentecost (User Case: 3rd Sunday after Pentecost)
         # 3rd Sun Aft Pent offset = 49 + (3 * 7) = 70.
-        weeks_after_pent = (offset - 49) // 7
-        eothinon = (weeks_after_pent % 11)
-        if eothinon == 0: eothinon = 11
+        # Eothinon sequence starts at All Saints (offset 56) with Eothinon 1.
+        if offset >= 56:
+            weeks_after_all_saints = (offset - 56) // 7
+            eothinon = (weeks_after_all_saints % 11) + 1
+        elif 7 <= offset <= 49:
+            paschal_eothina = {
+                7: 1, 14: 3, 21: 4, 28: 7, 35: 8, 42: 10, 49: None
+            }
+            eothinon = paschal_eothina.get(offset)
+        else:
+            eothinon = 1 # fallback
         
         return eothinon
 

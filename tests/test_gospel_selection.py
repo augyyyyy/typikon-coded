@@ -27,9 +27,9 @@ class TestGospelSelection(unittest.TestCase):
         ctx_thomas = self.engine.get_liturgical_context(date(2026, 4, 12))
         self.assertEqual(ctx_thomas["eothinon_number"], 1)
 
-        # 1 week after Thomas Sunday: April 19, 2026. Eothinon should be 2
+        # 1 week after Thomas Sunday: April 19, 2026. Eothinon should be 3 (Myrrh-bearers)
         ctx_next = self.engine.get_liturgical_context(date(2026, 4, 19))
-        self.assertEqual(ctx_next["eothinon_number"], 2)
+        self.assertEqual(ctx_next["eothinon_number"], 3)
 
 if __name__ == '__main__':
     unittest.main()

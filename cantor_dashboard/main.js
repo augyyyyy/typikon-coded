@@ -298,6 +298,143 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${dayName}, ${monthName} ${day}, ${year}`;
     }
 
+    function translateParadigmId(id) {
+        if (!id) return "Unknown Case";
+        const map = {
+            "CASE_01": "Case 1 — Sunday with Simple Saint",
+            "CASE_02": "Case 2 — Weekday with Simple Saint",
+            "CASE_03": "Case 3 — Saturday with Simple Saint",
+            "CASE_04": "Case 4 — Sunday with Polyeleos Saint",
+            "CASE_05": "Case 5 — Weekday with Polyeleos Saint",
+            "CASE_06": "Case 6 — Sunday with Vigil Saint",
+            "CASE_07": "Case 7 — Weekday with Vigil Saint",
+            "CASE_08": "Case 8 — Sunday in Forefeast/Afterfeast",
+            "CASE_09": "Case 9 — Weekday in Forefeast/Afterfeast",
+            "CASE_10": "Case 10 — Great Feast of the Lord",
+            "CASE_11": "Case 11 — Great Feast of the Theotokos on Sunday",
+            "CASE_12": "Case 12 — Great Feast of the Theotokos on Weekday",
+            "CASE_13": "Case 13 — Sunday after Feast with Simple Saint",
+            "CASE_14": "Case 14 — Weekday after Feast with Simple Saint",
+            "CASE_15": "Case 15 — Sunday after Feast with Polyeleos Saint",
+            "CASE_16": "Case 16 — Weekday after Feast with Polyeleos Saint",
+            "CASE_17": "Case 17 — Sunday after Feast with Vigil Saint",
+            "CASE_18": "Case 18 — Weekday after Feast with Vigil Saint",
+            "CASE_19": "Case 19 — Sunday of Apodosis",
+            "CASE_20": "Case 20 — Weekday of Apodosis",
+            "CASE_21": "Case 21 — Sunday of Forefathers/Ancestors",
+            "CASE_22": "Case 22 — Saturday of Forefathers/Ancestors"
+        };
+        return map[id] || id;
+    }
+
+    function getLiturgicalCategory(name) {
+        if (!name) return "Saint";
+        const n = name.toLowerCase();
+        
+        // Strip out "equal-to-the-apostles" or "equal to the apostles" for plural/category checks
+        const nForPlural = n.replace(/equal[- ]to[- ]the[- ]apostles?/g, '');
+        
+        // Plural indicators
+        let isPlural = false;
+        
+        // Check for plural keywords using word boundaries
+        const pluralKeywords = [
+            /\bmartyrs\b/, /\bapostles\b/, /\bprophets\b/, /\bvenerables\b/, 
+            /\bsaints\b/, /\bfathers\b/, /\bhierarchs\b/, /\bunmercenaries\b/,
+            /\bcompanions\b/, /\bothers\b/, /\bfellows\b/, /\bwomen\b/, /\bmonastics\b/
+        ];
+        if (pluralKeywords.some(pattern => pattern.test(nForPlural))) {
+            isPlural = true;
+        } else if (/\bsts\b/i.test(nForPlural)) {
+            isPlural = true;
+        } else if (/\band\b/i.test(nForPlural) || nForPlural.includes('&')) {
+            isPlural = true;
+        } else if (nForPlural.includes('those with') || nForPlural.includes('companion')) {
+            isPlural = true;
+        } else if (nForPlural.includes(',')) {
+            const parts = nForPlural.split(',');
+            if (parts.length > 1) {
+                const afterComma = parts[1].trim();
+                const singularTitles = ['bishop', 'pope', 'abbot', 'monk', 'nun', 'martyr', 'hierarch', 'archbishop', 'metropolitan', 'patriarch', 'priest', 'deacon', 'king', 'prince', 'writer', 'disciple', 'apostle', 'forerunner'];
+                const isTitle = singularTitles.some(t => afterComma.startsWith(t));
+                if (!isTitle) {
+                    isPlural = true;
+                }
+            }
+        }
+
+        // Check categories by priority with word boundaries or substring checks
+        if (/\bforerunner\b/i.test(n) || /\bjohn the baptist\b/i.test(n)) {
+            return 'Prophet';
+        }
+        if (/\bcross\b/i.test(n)) {
+            return 'Cross';
+        }
+        if (/\bangels?\b|\barchangels?\b/i.test(n)) {
+            return 'Angels';
+        }
+        if (/\bfools?\b/i.test(n)) {
+            return isPlural ? 'Fools for Christ' : 'Fool for Christ';
+        }
+        if (/\bhieromartyrs?\b/i.test(n)) {
+            return isPlural ? 'Hieromartyrs' : 'Hieromartyr';
+        }
+        if (
+            /\bvenerable[- ]martyrs?\b/i.test(n) || 
+            /\bmonk[- ]martyrs?\b/i.test(n) || 
+            /\bnun[- ]martyrs?\b/i.test(n) || 
+            (/\bven\b\.?/i.test(n) && (/\bmart\b\.?/i.test(n) || /\bmartyr\b/i.test(n)))
+        ) {
+            return isPlural ? 'Venerable Martyrs' : 'Venerable Martyr';
+        }
+        if (/\bvenerable[- ]women\b|\bnuns\b/i.test(n)) {
+            return 'Venerable Women';
+        }
+        if (/\bvenerable[- ]woman\b|\bnun\b/i.test(n)) {
+            return 'Venerable Woman';
+        }
+        if (
+            /\bven\b\.?/i.test(n) || /\bvenerables?\b/i.test(n) || 
+            /\babbots?\b|\bmonastics?\b|\bmonks?\b/i.test(n)
+        ) {
+            return isPlural ? 'Venerables' : 'Venerable';
+        }
+        if (
+            /\bbp\b\.?|\bbishops?\b|\bhierarchs?\b/i.test(n) || 
+            /\barchbishops?\b|\bmetropolitans?\b|\bpatriarchs?\b|\bpopes?\b/i.test(n)
+        ) {
+            return isPlural ? 'Hierarchs' : 'Hierarch';
+        }
+        if (/\bmartyresses\b|\bwomen[- ]martyrs\b/i.test(n)) {
+            return 'Women Martyrs';
+        }
+        if (/\bmartyress\b|\bwoman[- ]martyr\b/i.test(n)) {
+            return 'Woman Martyr';
+        }
+        if (
+            /\bmart\b\.?/i.test(n) || /\bmartyrs?\b/i.test(n) || 
+            /\bgreat[- ]martyrs?\b|\bgreatmartyrs?\b|\bprotomartyrs?\b/i.test(n)
+        ) {
+            return isPlural ? 'Martyrs' : 'Martyr';
+        }
+        if (
+            /\bap\b\.?|\bapostles?\b|\bevangelists?\b/i.test(n)
+        ) {
+            return isPlural ? 'Apostles' : 'Apostle';
+        }
+        if (/\bprophets?\b|\bprophetesses?\b|\bprop\b\.?/i.test(n)) {
+            return isPlural ? 'Prophets' : 'Prophet';
+        }
+        if (/unmercenar/i.test(n)) {
+            return isPlural ? 'Unmercenaries' : 'Unmercenary';
+        }
+        if (/\bfathers\b/i.test(n)) {
+            return 'Holy Fathers';
+        }
+        
+        return isPlural ? 'Saints' : 'Saint';
+    }
+
     function translateRankCode(code) {
         if (!code) return '<span class="badge badge-rank rank-minor">N/A</span>';
         const cleanCode = code.trim();
@@ -308,7 +445,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "[POL]": "Polyeleos Rank Feast",
             "[GT DOX]": "Great Doxology Feast",
             "[6 SM]": "Six-Stichera (Simple) Feast",
-            "[4 A+G]": "Four-Stichera (with Alleluia & Great Doxology)",
+            "[4 A+G]": "Four-Stichera (with Apostle & Gospel)",
             "[4 NO]": "Simple Weekday (No Troparion/Kontakion)",
             "[4 TR]": "Simple Weekday (with Troparion)"
         };
@@ -377,6 +514,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getLiturgicalBookInfo(ctx) {
+        if (ctx.triodion_book && ctx.menaion_book && ctx.menaion_class) {
+            return {
+                triodion: ctx.triodion_book,
+                menaion: ctx.menaion_book,
+                menaionDetail: ctx.menaion_class
+            };
+        }
+
         // 1. Determine Triodion Book
         let triodionBook = "N/A";
         const seasonId = ctx.season_id || "";
@@ -446,27 +591,33 @@ document.addEventListener("DOMContentLoaded", () => {
         const isFestal = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(rankCode) || rankVal <= 2;
         
         let classNum = "V";
+        let classLabel = "Simple";
         if (rankCode === "[LORD]" || rankCode === "[MOG]" || rankVal === 1) {
             classNum = "I";
+            classLabel = "Great Feast";
         } else if (rankCode === "[VIGIL]" || rankVal === 2) {
             classNum = "II";
+            classLabel = "Vigil";
         } else if (rankCode === "[POL]" || rankVal === 3) {
             classNum = "III";
-        } else if (rankCode === "[GT DOX]" || rankCode === "[6 SM]" || rankCode === "[4 A+G]" || rankVal === 4) {
+            classLabel = "Polyeleos";
+        } else if (rankCode === "[GT DOX]" || rankVal === 4) {
             classNum = "IV";
+            classLabel = "Great Doxology";
+        } else if (rankCode === "[6 SM]") {
+            classNum = "V";
+            classLabel = "Six-Stichera";
         } else {
             classNum = "V";
+            classLabel = "Simple";
         }
         
-        menaionDetail = `Class ${classNum}`;
+        menaionDetail = `Class ${classNum} — ${classLabel}`;
         
         if (isFestal) {
             menaionBook = "Festal";
         } else {
             menaionBook = "General";
-            if (saintTypes.length > 0) {
-                menaionBook += ` — ${saintTypes.join(" & ")}`;
-            }
         }
 
         return {
@@ -550,122 +701,139 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // General Info
         html += `<div class="context-section-header">Calendar Instance</div>`;
-        html += `<div class="context-row"><span class="context-label">Civil Date</span><span class="context-val">${formatHumanDate(ctx.date)}</span></div>`;
+        html += `<div class="context-row" title="Standard civil calendar date (Gregorian) used to map the fixed Menaion cycle."><span class="context-label">Civil Date</span><span class="context-val">${formatHumanDate(ctx.date)}</span></div>`;
         
         const seasonVal = ctx.season || "ordinary";
         const seasonClean = seasonVal.replace('_', ' ');
-        html += `<div class="context-row"><span class="context-label">Liturgical Season</span><span class="context-val"><span class="badge-season season-${seasonVal}">${seasonClean}</span></span></div>`;
+        html += `<div class="context-row" title="Dolnytsky Typik Part V: Represents the seasonal periods of the liturgical year (Ordinary, Lenten, Paschal/Floral)."><span class="context-label">Liturgical Season</span><span class="context-val"><span class="badge-season season-${seasonVal}">${seasonClean}</span></span></div>`;
         
         const toneVal = ctx.tone !== undefined ? `Tone ${ctx.tone}` : "None";
         const toneHtml = ctx.tone !== undefined ? `<span class="badge-tone">${toneVal}</span>` : `<span style="color: var(--text-muted);">None</span>`;
-        html += `<div class="context-row"><span class="context-label">Octoechos Tone</span><span class="context-val">${toneHtml}</span></div>`;
+        html += `<div class="context-row" title="Ordo §14: The weekly Resurrection Tone from the Octoechos (8-tone cycle) used to select service music."><span class="context-label">Octoechos Tone</span><span class="context-val">${toneHtml}</span></div>`;
         
         const eothVal = ctx.eothinon_number ? `Eothinon ${ctx.eothinon_number}` : "None";
         const eothHtml = ctx.eothinon_number ? `<span class="badge-eothinon">${eothVal}</span>` : `<span style="color: var(--text-muted);">None</span>`;
-        html += `<div class="context-row"><span class="context-label">Eothinon Gospel</span><span class="context-val">${eothHtml}</span></div>`;
+        html += `<div class="context-row" title="Ordo §78 / Orthros: The Resurrection Gospel readings assigned sequentially to Sunday Matins."><span class="context-label">Eothinon Gospel</span><span class="context-val">${eothHtml}</span></div>`;
         
         // Fasting Discipline Row
-        html += `<div class="context-row"><span class="context-label">Fasting Discipline</span><span class="context-val">${formatFastingBadge(fasting)}</span></div>`;
+        html += `<div class="context-row" title="Particular Law of the UGCC (Can. 115): Fasting regulations and abstinence for the eparchy (Stamford recension)."><span class="context-label">Fasting Discipline</span><span class="context-val">${formatFastingBadge(fasting)}</span></div>`;
         
         // Liturgical Source Books & Classification
         html += `<div class="context-section-header">Source Books & Classification</div>`;
         const bookInfo = getLiturgicalBookInfo(ctx);
         if (bookInfo.triodion !== "N/A") {
-            html += `<div class="context-row"><span class="context-label">Triodion</span><span class="context-val">${bookInfo.triodion}</span></div>`;
+            html += `<div class="context-row" title="Dolnytsky Typik Part III / Lenten and Floral Books: The movable cycle service book used for Lent (Lenten Triodion) or Eastertide (Pentecostarion/Floral)."><span class="context-label">Triodion</span><span class="context-val">${bookInfo.triodion}</span></div>`;
         }
-        html += `<div class="context-row"><span class="context-label">Menaion</span><span class="context-val">${bookInfo.menaion}</span></div>`;
+        html += `<div class="context-row" title="Dolnytsky Typik Part III: The book source containing the fixed cycle saint commemorations (General vs Festal Menaion)."><span class="context-label">Menaion</span><span class="context-val">${bookInfo.menaion}</span></div>`;
         
-        // Structure & Structural Limits
-        html += `<div class="context-section-header">Structure & Limits</div>`;
-        
-        // Commemorations limit resolution
-        let activeCount = 0;
-        if (ctx.saints && ctx.saints.length > 0) {
-            ctx.saints.forEach(s => {
-                const name = s.name || "";
-                const parts = name.split(/\s+and\s+|\s+&\s+|;/i).filter(p => p.trim().length > 0);
-                activeCount += parts.length;
-            });
-        } else if (ctx.dolnytsky_commemoration) {
-            const parts = ctx.dolnytsky_commemoration.split(/\s+and\s+|\s+&\s+|;/i).filter(p => p.trim().length > 0);
-            activeCount = parts.length;
-        }
-        
-        const transferredCount = ctx.transferred_saints ? ctx.transferred_saints.length : 0;
-        let commemText = `${activeCount} (Dolnytsky Limit: 2)`;
-        if (transferredCount > 0) {
-            commemText += ` + ${transferredCount} Transferred`;
-        }
-        html += `<div class="context-row"><span class="context-label">Commemorations</span><span class="context-val">${commemText}</span></div>`;
-        
-        // Service Combination resolution
-        const combinationVal = getLiturgicalCombination(rubrics);
-        html += `<div class="context-row"><span class="context-label">Combination</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${combinationVal}</span></div>`;
+
         
         // Rank & Commemoration
         html += `<div class="context-section-header">Commemoration & Class</div>`;
         const code = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
-        html += `<div class="context-row"><span class="context-label">Rank Code</span><span class="context-val">${translateRankCode(code)}</span></div>`;
-        html += `<div class="context-row"><span class="context-label">Class</span><span class="context-val">${bookInfo.menaionDetail}</span></div>`;
+        html += `<div class="context-row" title="Dolnytsky Typik Part III: The canonical rank code indicating the liturgical solemnity of the saint (e.g. [4 TR] = simple weekday with troparion)."><span class="context-label">Rank Code</span><span class="context-val">${translateRankCode(code)}</span></div>`;
+        html += `<div class="context-row" title="UGCC Liturgical Directory: The solemnity class (Class I-V) governing the structure of Vespers, Matins, and Liturgy."><span class="context-label">Class</span><span class="context-val">${bookInfo.menaionDetail}</span></div>`;
         
-        let titleVal = cleanLiturgicalText(ctx.dolnytsky_title || "Divine Liturgy");
+        const caseLabel = translateParadigmId(ctx.paradigm_id);
+        html += `<div class="context-row" title="The resolved collision paradigm from Dolnytsky Part V, governing how the Octoechos and Menaion parts are combined on this specific day."><span class="context-label">Rubrics Case</span><span class="context-val">${caseLabel}</span></div>`;
+        
         const commVal = cleanLiturgicalText(ctx.dolnytsky_commemoration || "None");
+        let titleVal = "Standard Daily Services";
         
-        if (titleVal === commVal && (ctx.rank === undefined || parseInt(ctx.rank) >= 5)) {
-            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const dayName = days[ctx.day_of_week] || "Daily";
-            
-            const vars = rubrics.variables || {};
-            const overs = rubrics.overrides || {};
-            const lType = overs.liturgy_type || vars.liturgy_type || "liturgy_chrysostom";
-            
-            if (lType === "aliturgical") {
-                titleVal = `${dayName} Daily Services (Aliturgical)`;
-            } else if (lType === "presanctified_liturgy" || lType === "presanctified") {
-                titleVal = `${dayName} Liturgy of the Presanctified Gifts`;
-            } else if (lType === "liturgy_basil") {
-                titleVal = `${dayName} Divine Liturgy of St. Basil the Great`;
+        const vars = rubrics.variables || {};
+        const overs = rubrics.overrides || {};
+        const vType = overs.vespers_type || vars.vespers_type || "daily_vespers";
+        const mType = overs.matins_type || vars.matins_type || "daily_matins";
+        const lType = overs.liturgy_type || vars.liturgy_type || "liturgy_chrysostom";
+        const hType = overs.hours_type || vars.hours_type || "structure_standard";
+        
+        // Check for specific special service structures
+        if (mType === "bridegroom_matins") {
+            titleVal = "Bridegroom Matins";
+        } else if (mType === "passion_matins") {
+            titleVal = "Passion Matins";
+        } else if (mType === "tomb_matins") {
+            titleVal = "Tomb Matins";
+        } else if (mType === "bright_matins") {
+            titleVal = "Bright Matins";
+        } else if (hType === "structure_royal") {
+            const dateStr = ctx.date || "";
+            if (dateStr.includes("-01-05") || dateStr.includes("-01-02") || dateStr.includes("-01-03") || dateStr.includes("-01-04")) {
+                titleVal = "Royal Hours of Theophany";
+            } else if (dateStr.includes("-12-24") || dateStr.includes("-12-22") || dateStr.includes("-12-23")) {
+                titleVal = "Royal Hours of Nativity";
             } else {
-                titleVal = `${dayName} Divine Liturgy`;
+                titleVal = "Royal Hours of Great Friday";
+            }
+        } else if (lType === "presanctified_liturgy" || lType === "presanctified") {
+            titleVal = "Liturgy of the Presanctified Gifts";
+        } else {
+            const rankVal = ctx.rank !== undefined ? parseInt(ctx.rank) : 5;
+            const code = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
+            const isLordOrTheotokosFeast = code === "[LORD]" || code === "[MOG]" || code === "LORD" || code === "THEOTOKOS";
+            
+            if (isLordOrTheotokosFeast || rankVal === 1) {
+                titleVal = cleanLiturgicalText(ctx.dolnytsky_title || "Great Feast");
+            } else if (code === "[VIGIL]" || rankVal === 2) {
+                titleVal = `Vigil Service (${cleanLiturgicalText(ctx.dolnytsky_title)})`;
+            } else if (ctx.day_of_week === 0) {
+                titleVal = "Standard Sunday Services";
+            } else {
+                titleVal = "Standard Daily Services";
             }
         }
         
-        html += `<div class="context-row"><span class="context-label">Service Title</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${titleVal}</span></div>`;
+        html += `<div class="context-row" title="Dolnytsky Typik Part V: The official liturgical title of the day's celebration."><span class="context-label">Service Title</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${titleVal}</span></div>`;
         
-        let commHtml = "";
         if (commVal === "None") {
-            commHtml = `<span style="color: var(--text-muted);">None</span>`;
+            html += `<div class="context-row" title="Menaion Fixed Cycle: The list of saints commemorated today."><span class="context-label">Commemorations</span><span class="context-val" style="color: var(--text-muted);">None</span></div>`;
         } else {
-            const parts = commVal.split(/\s+and\s+|\s+&\s+|;/i)
+            const parts = commVal.replace(/\.$/, "")
+                .split(/\s+and\s+|\s+&\s+|;|(?<!\bSt)(?<!\bSts)(?<!\bVen)(?<!\bBp)(?<!\bAp)(?<!\bAps)(?<!\bMetr)(?<!\bArchbp)(?<!\bPatr)(?<!\bMart)(?<!\bProp)\.\s+/i)
                 .map(p => p.trim())
                 .filter(p => p.length > 0);
             
-            if (parts.length > 1) {
-                commHtml = `<ul class="commem-list" style="margin: 0; padding: 0; list-style: none; text-align: right;">`;
-                parts.forEach(p => {
-                    commHtml += `<li style="margin-bottom: 6px; line-height: 1.3;">${p}</li>`;
-                });
-                commHtml += `</ul>`;
-            } else {
-                commHtml = commVal;
+            const count = parts.length;
+            const label = count > 1 ? "Commemorations" : "Commemoration";
+            const getCat = (idx) => (ctx.saint_categories && ctx.saint_categories[idx]) || getLiturgicalCategory(parts[idx]);
+            
+            // Row 1: Commemoration(s) | Count
+            html += `<div class="context-row" title="The total count of active saint commemorations resolved for this service."><span class="context-label">${label}</span><span class="context-val">${count}</span></div>`;
+            
+            // Row 2: Primary | First Saint
+            if (count >= 1) {
+                const cat = getCat(0);
+                html += `<div class="context-row" title="The primary saint commemoration of the day. This saint takes liturgical precedence (e.g. Troparion sung first, primary Matins canon)."><span class="context-label">Primary</span><span class="context-val" style="max-width: 65%; word-break: break-word; display: flex; align-items: center; justify-content: flex-end;"><span>${parts[0]}</span><span class="badge badge-category">${cat}</span></span></div>`;
+            }
+            
+            // Row 3: Secondary | Second Saint (if applicable)
+            if (count >= 2) {
+                const cat = getCat(1);
+                html += `<div class="context-row" title="The secondary saint commemoration of the day. Appended after the primary commemoration."><span class="context-label">Secondary</span><span class="context-val" style="max-width: 65%; word-break: break-word; display: flex; align-items: center; justify-content: flex-end;"><span>${parts[1]}</span><span class="badge badge-category">${cat}</span></span></div>`;
+            }
+            
+            // Support for third saint if they exist (though Dolnytsky limit is 2, just in case)
+            for (let i = 2; i < count; i++) {
+                const cat = getCat(i);
+                html += `<div class="context-row" title="Additional saint commemoration."><span class="context-label">Saint ${i+1}</span><span class="context-val" style="max-width: 65%; word-break: break-word; display: flex; align-items: center; justify-content: flex-end;"><span>${parts[i]}</span><span class="badge badge-category">${cat}</span></span></div>`;
             }
         }
-        html += `<div class="context-row"><span class="context-label">Commemoration</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${commHtml}</span></div>`;
         
         // Ceremonial Settings
         if (ceremonial) {
             html += `<div class="context-section-header">Ceremonial Settings</div>`;
-            html += `<div class="context-row"><span class="context-label">Liturgical Color</span><span class="context-val">${formatColorBadge(ceremonial.vestment)}</span></div>`;
-            html += `<div class="context-row"><span class="context-label">Prostrations</span><span class="context-val">${formatProstrations(ceremonial.prostrations)}</span></div>`;
+            html += `<div class="context-row" title="Ordo §22–§24 / Dolnytsky Part I, Ch. 5: Canonical vestment color (e.g., Red for Martyrs, Gold/White for Hierarchs/Saints)."><span class="context-label">Liturgical Color</span><span class="context-val">${formatColorBadge(ceremonial.vestment)}</span></div>`;
+            html += `<div class="context-row" title="Ordo §12 / Dolnytsky Part I, Ch. 12: Regulates full bows. Prostrations are forbidden on Sundays, Great Feasts, and during Eastertide."><span class="context-label">Prostrations</span><span class="context-val">${formatProstrations(ceremonial.prostrations)}</span></div>`;
             const variantLabel = ceremonial.clergy_variant ? ceremonial.clergy_variant.label : "Standard";
-            const variantRef = ceremonial.clergy_variant ? `Ordo ${ceremonial.clergy_variant.ordo_ref}` : "";
-            html += `<div class="context-row"><span class="context-label">Clergy Variant</span><span class="context-val" style="font-size: 0.85rem;" title="${variantRef}">${variantLabel}</span></div>`;
+            const variantRef = ceremonial.clergy_variant ? `Ordo ${ceremonial.clergy_variant.ordo_ref}${ceremonial.clergy_variant.ordo_range ? ' (' + ceremonial.clergy_variant.ordo_range + ')' : ''}` : "";
+            const clergyTooltip = `Ordo §28: Normative liturgical variant. Simple Class V weekdays are served by a single priest and deacon, without concelebrating priests. Reference: ${variantRef}`;
+            html += `<div class="context-row" title="${clergyTooltip}"><span class="context-label">Clergy Variant</span><span class="context-val" style="font-size: 0.85rem;">${variantLabel}</span></div>`;
         }
 
         // Rubrics Resolution Outputs
         html += `<div class="context-section-header">Rubrics Outcomes</div>`;
         const outlinesVal = formatOutlines(rubrics.overrides.outlines || rubrics.variables.outlines || "Default");
-        html += `<div class="context-row"><span class="context-label">Selected Outlines</span><span class="context-val" style="font-family: var(--font-mono); font-size: 0.8rem;">${outlinesVal}</span></div>`;
+        html += `<div class="context-row" title="Engine Resolvers: The structural outlines chosen by the rubric engine to generate this service booklet."><span class="context-label">Selected Outlines</span><span class="context-val" style="font-family: var(--font-mono); font-size: 0.8rem;">${outlinesVal}</span></div>`;
         
         el.contextContent.innerHTML = html;
     }
@@ -886,6 +1054,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initSettings();
     initProfiles();
     initSplitView();
+    initDraggableColumns();
     resolveDate(state.selectedDate);
 
     /* ==========================================================================
@@ -1605,6 +1774,28 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ==========================================================================
        SPLIT VIEW LAYOUT SYSTEM
        ========================================================================== */
+    function applySplitViewWidths() {
+        const docBooklet = document.getElementById("doc-booklet");
+        const docDigest = document.getElementById("doc-digest");
+        const docCard = document.querySelector(".document-card");
+
+        if (!docBooklet || !docDigest || !docCard) return;
+
+        if (docCard.classList.contains("split-layout-active")) {
+            const savedSplitPercent = localStorage.getItem("cantor-split-percent") || "50";
+            const percent = parseFloat(savedSplitPercent);
+            docBooklet.style.width = percent + "%";
+            docBooklet.style.maxWidth = percent + "%";
+            docDigest.style.width = (100 - percent) + "%";
+            docDigest.style.maxWidth = (100 - percent) + "%";
+        } else {
+            docBooklet.style.width = "";
+            docBooklet.style.maxWidth = "";
+            docDigest.style.width = "";
+            docDigest.style.maxWidth = "";
+        }
+    }
+
     function initSplitView() {
         const btnToggleLayout = document.getElementById("btn-toggle-layout");
         const docCard = document.querySelector(".document-card");
@@ -1620,6 +1811,8 @@ document.addEventListener("DOMContentLoaded", () => {
             btnToggleLayout.innerHTML = "📖 Split View";
         }
 
+        applySplitViewWidths();
+
         btnToggleLayout.addEventListener("click", () => {
             state.splitView = !state.splitView;
             localStorage.setItem("cantor-opt-split-view", state.splitView);
@@ -1633,7 +1826,106 @@ document.addEventListener("DOMContentLoaded", () => {
                 btnToggleLayout.innerHTML = "📖 Split View";
                 showToast("Tabbed view enabled");
             }
+            applySplitViewWidths();
         });
+    }
+
+    function initDraggableColumns() {
+        const sidebarResize = document.getElementById("main-sidebar-resize");
+        const contextCol = document.querySelector(".context-col");
+
+        const splitResize = document.getElementById("split-view-resize");
+        const docBooklet = document.getElementById("doc-booklet");
+        const docDigest = document.getElementById("doc-digest");
+        const contentWrapper = document.querySelector(".document-content-wrapper");
+
+        if (!sidebarResize || !contextCol) return;
+
+        // Restore saved sidebar width on load
+        const savedSidebarWidth = localStorage.getItem("cantor-sidebar-width");
+        if (savedSidebarWidth) {
+            contextCol.style.width = savedSidebarWidth + "px";
+            contextCol.style.maxWidth = "none";
+            contextCol.style.minWidth = "200px";
+        }
+
+        // Sidebar dragging
+        sidebarResize.addEventListener("mousedown", (e) => {
+            e.preventDefault();
+            document.body.classList.add("dragging-active");
+            sidebarResize.classList.add("dragging");
+
+            const startX = e.clientX;
+            const startWidth = contextCol.getBoundingClientRect().width;
+
+            function onMouseMove(moveEvent) {
+                const deltaX = moveEvent.clientX - startX;
+                let newWidth = startWidth + deltaX;
+
+                if (newWidth < 200) newWidth = 200;
+                if (newWidth > 600) newWidth = 600;
+
+                contextCol.style.width = newWidth + "px";
+                contextCol.style.maxWidth = "none";
+                contextCol.style.minWidth = "200px";
+            }
+
+            function onMouseUp() {
+                document.body.classList.remove("dragging-active");
+                sidebarResize.classList.remove("dragging");
+                
+                const finalWidth = contextCol.getBoundingClientRect().width;
+                localStorage.setItem("cantor-sidebar-width", Math.round(finalWidth));
+
+                document.removeEventListener("mousemove", onMouseMove);
+                document.removeEventListener("mouseup", onMouseUp);
+            }
+
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("mouseup", onMouseUp);
+        });
+
+        // Split view dragging
+        if (splitResize && docBooklet && docDigest && contentWrapper) {
+            splitResize.addEventListener("mousedown", (e) => {
+                e.preventDefault();
+                document.body.classList.add("dragging-active");
+                splitResize.classList.add("dragging");
+
+                const startX = e.clientX;
+                const containerWidth = contentWrapper.getBoundingClientRect().width;
+                const startBookletWidth = docBooklet.getBoundingClientRect().width;
+
+                function onMouseMove(moveEvent) {
+                    const deltaX = moveEvent.clientX - startX;
+                    const newBookletWidth = startBookletWidth + deltaX;
+                    
+                    let percent = (newBookletWidth / containerWidth) * 100;
+                    
+                    if (percent < 20) percent = 20;
+                    if (percent > 80) percent = 80;
+
+                    docBooklet.style.width = percent + "%";
+                    docBooklet.style.maxWidth = percent + "%";
+                    docDigest.style.width = (100 - percent) + "%";
+                    docDigest.style.maxWidth = (100 - percent) + "%";
+                }
+
+                function onMouseUp() {
+                    document.body.classList.remove("dragging-active");
+                    splitResize.classList.remove("dragging");
+
+                    const finalPercent = (docBooklet.getBoundingClientRect().width / contentWrapper.getBoundingClientRect().width) * 100;
+                    localStorage.setItem("cantor-split-percent", finalPercent.toFixed(2));
+
+                    document.removeEventListener("mousemove", onMouseMove);
+                    document.removeEventListener("mouseup", onMouseUp);
+                }
+
+                document.addEventListener("mousemove", onMouseMove);
+                document.addEventListener("mouseup", onMouseUp);
+            });
+        }
     }
 
     /* ==========================================================================

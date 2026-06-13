@@ -66,12 +66,12 @@ class TestSemanticLinting:
         assert any(d.get("type") == "feast" and d.get("qty") == 6 for d in dist)
         assert any(d.get("type") == "saint" and d.get("qty") == 4 for d in dist)
 
-        # 2. Matins Canon (14 total: 10 Feast, 4 Saint)
+        # 2. Matins Canon (14 total: 6 Feast, 8 Saint)
         canon_stack = self.engine.resolve_canon_stack(context)
         c_dist = canon_stack.get("distribution", [])
         assert sum(c.get("qty", 0) for c in c_dist) == 14
-        assert any(c.get("type") == "feast" and c.get("qty") == 10 for c in c_dist)
-        assert any(c.get("type") == "saint" and c.get("qty") == 4 for c in c_dist)
+        assert any(c.get("type") == "feast" and c.get("qty") == 6 for c in c_dist)
+        assert any(c.get("type") == "saint" and c.get("qty") == 8 for c in c_dist)
 
         # 3. Compline Canon (Feast canon suppressed, returns theotokos from Octoechos)
         compline_canon = self.engine.resolve_compline_canon(context)
@@ -79,16 +79,16 @@ class TestSemanticLinting:
         assert compline_canon.get("subject") == "theotokos"
         assert compline_canon.get("book") == "octoechos"
 
-        # 4. Hours Propers (Alternation of Feast and Saint)
-        # 1st Hour: Feast Troparion and Kontakion
+        # 4. Hours Propers (Combination of Feast and Saint for Troparia, Alternation for Kontakia)
+        # 1st Hour: Feast + Saint Troparion, Feast Kontakion
         h1_trop = self.engine.resolve_hours_troparia({**context, "hour": 1}, rubrics)
-        assert h1_trop["components"] == ["trop_feast"]
+        assert h1_trop["components"] == ["trop_feast", "glory", "trop_saint"]
         h1_kont = self.engine.resolve_hours_kontakion({**context, "hour": 1}, rubrics)
         assert h1_kont["source"] == "feast"
 
-        # 3rd Hour: Saint Troparion and Kontakion
+        # 3rd Hour: Feast + Saint Troparion, Saint Kontakion
         h3_trop = self.engine.resolve_hours_troparia({**context, "hour": 3}, rubrics)
-        assert h3_trop["components"] == ["trop_saint"]
+        assert h3_trop["components"] == ["trop_feast", "glory", "trop_saint"]
         h3_kont = self.engine.resolve_hours_kontakion({**context, "hour": 3}, rubrics)
         assert h3_kont["source"] == "saints"
 

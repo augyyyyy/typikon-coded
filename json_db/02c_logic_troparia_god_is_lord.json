@@ -12,7 +12,7 @@
       {
         "id": "feast_lord_theotokos",
         "condition": "Great Feast of the Lord OR Great Feast of the Theotokos",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
         "sequence": [
           {
             "slot": 1,
@@ -36,7 +36,7 @@
       {
         "id": "sunday_resurrection_only",
         "condition": "Sunday, no specific Saint commemorated",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.2.5",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.5",
         "sequence": [
           {
             "slot": 1,
@@ -60,7 +60,7 @@
       {
         "id": "sunday_with_saint",
         "condition": "Sunday AND Saint with own troparion",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
         "sequence": [
           {
             "slot": 1,
@@ -95,7 +95,7 @@
       {
         "id": "sunday_with_two_saints",
         "condition": "Sunday AND two Saints with own troparia",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
         "sequence": [
           {
             "slot": 1,
@@ -136,7 +136,7 @@
       {
         "id": "sunday_with_feast_and_saint",
         "condition": "Sunday AND Feast (Fore/Afterfeast) AND Saint",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
         "sequence": [
           {
             "slot": 1,
@@ -171,7 +171,7 @@
       {
         "id": "sunday_with_feast",
         "condition": "Sunday AND Feast (Fore/Afterfeast), no Saint",
-        "source_ref": "Final_Dolnytsky_part1_structure.md",
+        "source_ref": "Dolnytsky_Typikon_Master.md",
         "sequence": [
           {
             "slot": 1,
@@ -195,7 +195,7 @@
       {
         "id": "weekday_saint",
         "condition": "Weekday AND single Saint",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
         "sequence": [
           {
             "slot": 1,
@@ -224,7 +224,7 @@
       {
         "id": "weekday_two_non_polyeleos_saints",
         "condition": "Weekday AND two non-Polyeleos Saints",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
         "sequence": [
           {
             "slot": 1,
@@ -259,7 +259,7 @@
       {
         "id": "weekday_feast_and_saint",
         "condition": "Weekday AND Feast (Fore/Afterfeast) AND Saint",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
         "sequence": [
           {
             "slot": 1,
@@ -294,7 +294,7 @@
       {
         "id": "weekday_feast_and_two_saints",
         "condition": "Weekday AND Feast AND two Saints with own troparia",
-        "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.3",
+        "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.3",
         "sequence": [
           {
             "slot": 1,

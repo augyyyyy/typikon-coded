@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: typikon-cantor-dashboard
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python cantor_dashboard/server.py
+    envVars:
+      - key: PORT
+        value: 8080

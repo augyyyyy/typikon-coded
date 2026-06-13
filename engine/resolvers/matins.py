@@ -310,7 +310,7 @@ class MatinsMixin:
                 sidalen_3 = ["magnification", "saint_sidalen_polyeleos", {"type": "glory_both_now", "content": "saint_theotokion_polyeleos"}]
                 
         # 3. Lenten Weekday Logic (The 3rd Kathisma Rule)
-        # ref: Final_Dolnytsky_part4_triodion.md:4.1.9.1.6
+        # ref: Dolnytsky_Typikon_Master.md:4.1.9.1.6
         # "The Sessional Hymns sung after the 1st Kathisma are of the Octoechos...
         #  The Sessional Hymns sung after the 2nd and 3rd Kathismata are of the Triodion."
         
@@ -366,7 +366,7 @@ class MatinsMixin:
              if day == 2: return ["kathisma_7", "kathisma_8", "kathisma_9"]
              if day == 3: return ["kathisma_10", "kathisma_11", "kathisma_12"]
              if day == 4: return ["kathisma_13", "kathisma_14", "kathisma_15"]
-             if day == 5: return ["kathisma_18", "kathisma_19", "kathisma_20"] # Check Final_Dolnytsky_part1_structure.md:1.5.1.6, usually 19,20 on Fri?
+             if day == 5: return ["kathisma_18", "kathisma_19", "kathisma_20"] # Check Dolnytsky_Typikon_Master.md:1.5.1.6, usually 19,20 on Fri?
              if day == 6: return ["kathisma_16", "kathisma_17"]
         
         # Normal Logic
@@ -423,9 +423,9 @@ class MatinsMixin:
         is_feast_lord = (context.get("feast_level") == "lord" or rank == 1) and not (is_fore_after and rank <= 3)
         is_feast_theotokos = (context.get("feast_level") == "theotokos") and not (is_fore_after and rank <= 3)
         
-        # Lenten Alleluia Check (Final_Dolnytsky_part4_triodion.md:4.1.9.1.4)
+        # Lenten Alleluia Check (Dolnytsky_Typikon_Master.md:4.1.9.1.4)
         # Applied if: Lenten Period + Weekday + Not a Feast/Polyeleos
-        # Lenten Alleluia Check (Final_Dolnytsky_part4_triodion.md:4.1.9.1.4)
+        # Lenten Alleluia Check (Dolnytsky_Typikon_Master.md:4.1.9.1.4)
         # Applied if: Lenten Period + Weekday + Not a Feast/Polyeleos
         is_lenten_weekday = (context.get("season") == "lent" and not is_sunday and rank > 3)
         
@@ -665,13 +665,13 @@ class MatinsMixin:
     def resolve_doxology_mode(self, context, rubrics):
         # S08: Doxology Toggle
         # FIX Issue #1: Check lookahead variable first (set by _apply_lookahead)
-        # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.2.2
+        # Citation: Dolnytsky_Typikon_Master.md:2.2.2
         doxology_override = rubrics.get("variables", {}).get("doxology_type")
         if doxology_override == "great_doxology":
             return {"mode": "sung"}
         
         # Also check is_sunday_vigil / is_sunday directly
-        # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.2.2
+        # Citation: Dolnytsky_Typikon_Master.md:2.2.2
         if context.get("is_sunday_vigil") or context.get("is_sunday"):
             return {"mode": "sung"}
 
@@ -928,8 +928,21 @@ class MatinsMixin:
                 "note": "During Bright Week, special Paschal refrains are used"
             }
         
-        # Special: Major Feasts have their own Irmos (Zadostojnyk)
-        if rank == 1:
+        # Special: Major Feasts, Afterfeasts, and Leavetakings (Apodosis) have their own Irmos (Zadostojnyk)
+        pascha_offset = context.get("pascha_offset")
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("is_afterfeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"] or
+            (pascha_offset is not None and 60 <= pascha_offset <= 67)
+        )
+        d_title = context.get("dolnytsky_title", "").lower()
+        d_commem = context.get("dolnytsky_commemoration", "").lower()
+        if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
+            is_fore_after = True
+
+        if rank == 1 or is_fore_after or context.get("feast_level") in ["lord", "theotokos"] or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"]:
             feast_id = context.get('feast_id', '')
             return {
                 "type": "zadostojnyk",
@@ -1019,7 +1032,7 @@ class MatinsMixin:
         return None
 
     # ========================================================================
-    # KATAVASIA SEASON RESOLVER (Final_Dolnytsky_part5_temple.md:V)
+    # KATAVASIA SEASON RESOLVER (Dolnytsky_Typikon_Master.md:V)
     # ========================================================================
 
 
@@ -1647,10 +1660,11 @@ class MatinsMixin:
              tone = context.get("tone", 1)
              items.append({"type": "fixed_ref", "ref_key": f"octoechos.holy_is_the_lord_tone_{tone}"})
              
-             # Eothinon Exapostilarion
-             eothinon_num = context.get("eothinon_number", 1) 
-             items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_{eothinon_num}"})
-             items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_theotokion_{eothinon_num}"})
+             # Eothinon Exapostilarion (only if eothinon_number is set)
+             eothinon_num = context.get("eothinon_number")
+             if eothinon_num is not None:
+                  items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_{eothinon_num}"})
+                  items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_theotokion_{eothinon_num}"})
              
              # Plus any saint exapostilarion if Sunday Polyeleos
              saints = context.get("saints", [])
@@ -1929,7 +1943,7 @@ class MatinsMixin:
     # =========================================================================
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.1")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.1")
     def resolve_service_type(self, context):
         """
         Gate 1: Service Structure Type
@@ -1937,7 +1951,7 @@ class MatinsMixin:
         return {"scenario": self.identify_scenario(context), "paradigm": self.identify_paradigm(context)}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5")
     def resolve_god_is_lord_tone(self, context):
         """
         Gate 2: God is the Lord Tone
@@ -1948,7 +1962,7 @@ class MatinsMixin:
         return context.get('saint_tone', 1)
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.2,L163,L481")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2,L163,L481")
     def calculate_canon_ratios(self, context):
         """
         Gate 6: Canon Math - Calculate troparion distribution.
@@ -1984,7 +1998,7 @@ class MatinsMixin:
             return {"total": 14, "octoechos": 10, "saint": 4, "description": "Weekday + Simple Saint on 4"}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.2,L163")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2,L163")
     def resolve_canon_combination(self, context):
         """
         Gate 6: Resolves exact canons combined.
@@ -1993,7 +2007,7 @@ class MatinsMixin:
         return {"canons_combined": True, "ratios": ratios}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.3.3")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.3.3")
     def get_katavasia(self, context):
         """
         Gate 7: Katavasia Selector
@@ -2002,7 +2016,7 @@ class MatinsMixin:
         return "katavasia_generic"
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.2.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.5")
     def get_eothinon_exapostilarion(self, eothinon_num):
         """
         Gate 9: Fetch Exapostilarion for Eothinon number (1-11).
@@ -2013,7 +2027,7 @@ class MatinsMixin:
         return self.get_text(text_id) if hasattr(self, 'get_text') else text_id
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.2.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.5")
     def resolve_praises(self, context):
         """
         Gate 10: Praises & Emphasis
@@ -2021,7 +2035,7 @@ class MatinsMixin:
         return {"stichera_included": True, "stack": getattr(self, 'resolve_praises_stack', lambda x: {})(context)}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.5.1.6")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1.6")
     def get_eothinon_doxastikon(self, eothinon_num):
         """
         Gate 10: Fetch Praises Doxastikon for Eothinon number.
@@ -2032,7 +2046,7 @@ class MatinsMixin:
         return self.get_text(text_id) if hasattr(self, 'get_text') else text_id
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L281-284", dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.2.5")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L281-284", dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.5")
     def resolve_doxology(self, context):
         """
         Gate 11: Doxology logic and structural wrap.
@@ -2041,7 +2055,7 @@ class MatinsMixin:
         return {"mode": mode, "doors_open": True, "choreography": "Doors opened, first deacon right, second left."}
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L281-284", dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.2.1")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L281-284", dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.1")
     def resolve_dismissal(self, context):
         """
         Gate 12: Dismissal & Conclusion
@@ -2049,7 +2063,7 @@ class MatinsMixin:
         return {"commemorations": ["saint", "day"], "doors_closed_after": True, "deacon_begins": "Wisdom!"}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.2.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.4")
     def resolve_dismissal_troparion(self, context):
         """
         Gate 12: Dismissal Troparion
@@ -2058,7 +2072,7 @@ class MatinsMixin:
 
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L453", dolnytsky="Final_Dolnytsky_part4_triodion.md:4.2.16.1")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L453", dolnytsky="Dolnytsky_Typikon_Master.md:4.2.16.1")
     def resolve_12_passion_gospels(self, context):
         """
         Passion Week: 12 Passion Gospels
@@ -2079,7 +2093,7 @@ class MatinsMixin:
             "bells": "toll after each, clappers after 12th"
         }
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.1")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.1")
     def check_service_type(self, context, type, rubrics=None):
         """
         Checks if the requested service type matches the context or rubrics variables.
@@ -2116,7 +2130,7 @@ class MatinsMixin:
             
         return False
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.2.5, Final_Dolnytsky_part4_triodion.md:4.1.9.1.6")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.5, Dolnytsky_Typikon_Master.md:4.1.9.1.6")
     def resolve_psalm_50_intercession(self, context, rubrics=None):
         """
         Resolves the intercession stichera/refrains after Psalm 50 in Matins.

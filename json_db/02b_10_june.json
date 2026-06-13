@@ -13,7 +13,7 @@
       "09": {
         "title_key": "Saint of the Day",
         "rank": "rank_simple_6",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.8.1.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.8.1.2",
         "base_template": "CASE_02",
         "variables": {
           "liturgy_readings": [
@@ -49,13 +49,13 @@
       "10": {
         "title_key": "Hieromartyr Timothy",
         "rank": "rank_simple_4",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.8.1.2.3",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.8.1.2.3",
         "base_template": "CASE_02"
       },
       "11": {
         "title_key": "menaion.jun_11.bartholomew_barnabas",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.10",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.10",
         "base_template": "CASE_05",
         "variants": [
           {
@@ -73,13 +73,13 @@
       "19": {
         "title_key": "menaion.jun_19.jude_apostle",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.10",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.10",
         "base_template": "CASE_05"
       },
       "24": {
         "title_key": "menaion.jun_24.nativity_john_baptist",
         "rank": "rank_vigil_saint",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.10",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.10",
         "system_flags": {
           "fast_level": "wine_oil_fish"
         },
@@ -114,7 +114,7 @@
       "29": {
         "title_key": "menaion.jun_29.peter_and_paul",
         "rank": "rank_vigil_saint",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.10.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.10.2",
         "base_template": "CASE_06",
         "variants": [
           {
@@ -146,7 +146,7 @@
       "30": {
         "title_key": "menaion.jun_30.synaxis_12_apostles",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.10",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.10",
         "base_template": "CASE_05"
       }
     }

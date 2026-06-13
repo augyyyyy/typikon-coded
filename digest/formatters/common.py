@@ -2,10 +2,8 @@ import re
 
 class CommonFormatterMixin:
     def _format_resolve_gradual(self, res, context):
-        if not res:
-            return ""
-        anabathmoi = self.humanize_key(res.get("anabathmoi", ""))
-        return f"Gradual (Anabathmoi): {anabathmoi}."
+        # Suppressed to avoid duplicate printing with resolve_anabathmoi
+        return ""
 
 
     def _format_resolve_alleluia_vs_god_is_lord(self, res, context):

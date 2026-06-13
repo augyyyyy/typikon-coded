@@ -93,8 +93,20 @@ class DigestGeneratorBase:
         
         # Scripture Key Formatting Check (e.g. "romans_13_11_14_4" -> "Romans 13:11-14:4")
         # Bypass this for database namespace/hierarchical keys (e.g. menaion.jun_13 or jun_13...)
-        # Liturgical keys always contain a dot "." or start with "tone_"
-        is_liturgical = "." in key or key.lower().startswith("tone_")
+        # Liturgical keys always contain a dot "." or start with "tone_" or common liturgical terms
+        is_liturgical = (
+            "." in key or 
+            key.lower().startswith("tone_") or 
+            "antiphon" in key.lower() or 
+            "canon" in key.lower() or 
+            "kathisma" in key.lower() or 
+            "station" in key.lower() or 
+            "ode" in key.lower() or 
+            "heirmos" in key.lower() or 
+            "tropar" in key.lower() or 
+            "kontak" in key.lower() or 
+            "doxast" in key.lower()
+        )
         
         if not is_liturgical and any(char.isdigit() for char in key) and "_" in key:
             parts = [p for p in key.replace(".", "_").split("_") if p]
@@ -215,6 +227,7 @@ class DigestGeneratorBase:
             return f"Theotokion of Gospel Exapostilarion {roman}"
 
         mapping = {
+            "antiphon_1_tone_4": "first Antiphon of Tone IV",
             "dogmatikon_current_tone": "Dogmatic Theotokion in the Tone of the week",
             "dogmatikon_tone_week": "Dogmatic Theotokion in the Tone of the week",
             "dogmatikon": "Dogmatic Theotokion",
@@ -601,6 +614,13 @@ class DigestGeneratorBase:
         for service in self.engine.daily_cycle:
             context["overrides"] = rubrics.get("overrides", {})
             service_name = service["name"]
+            
+            # Suppression logic for Compline and Midnight Office during Weekday Vigil
+            if service_name in ("Compline", "Midnight Office"):
+                day = context.get("day_of_week")
+                v_type = rubrics.get("overrides", {}).get("vespers_type") or rubrics.get("variables", {}).get("vespers_type") or context.get("vespers_type")
+                if day != 0 and v_type == "great_vespers_vigil":
+                    continue
             
             # Group Hours into a single section
             if service_name in ["First Hour", "Third Hour", "Sixth Hour", "Ninth Hour"]:
@@ -1782,7 +1802,10 @@ class DigestGeneratorBase:
                                     if name == "Saint":
                                         parts = ref_key.split('.')
                                         if len(parts) >= 3:
-                                            name = self.humanize_key(parts[2])
+                                            if parts[2].lower() in ("prokeimenon", "epistle", "alleluia", "gospel") and len(parts) >= 2:
+                                                name = self.humanize_key(parts[1])
+                                            else:
+                                                name = self.humanize_key(parts[2])
                                     name_human = self.humanize_key(name)
                                     return f"*of {name_human}*"
                                 
@@ -1797,6 +1820,12 @@ class DigestGeneratorBase:
                                 if slot_id == "liturgy_prokeimenon" and "prokeimenon" in r:
                                     p = r["prokeimenon"]
                                     text = p.get("text") or p.get("content")
+                                    if not text and p.get("ref_key"):
+                                        asset = self.engine.get_text(p["ref_key"])
+                                        if asset:
+                                            text = asset.get("content")
+                                            if asset.get("tone") and not p.get("tone"):
+                                                p["tone"] = asset["tone"]
                                     tone_str = f" Tone {self._roman_tone(p.get('tone'))}" if p.get("tone") else ""
                                     if len(res["readings"]) > 1:
                                         label = "Prokeimenon (Feast - sung twice)" if idx == 0 else "Prokeimenon (Saint - sung once, without verse)"
@@ -1826,6 +1855,19 @@ class DigestGeneratorBase:
                                         all_res = r["alleluia"]
                                         if all_res:
                                             ref_key = all_res.get("ref_key", "")
+                                            text = all_res.get("text") or all_res.get("content")
+                                            if ref_key and not text and not all_res.get("verses"):
+                                                asset = self.engine.get_text(ref_key)
+                                                if asset:
+                                                    raw_content = asset.get("content")
+                                                    if raw_content:
+                                                        if isinstance(raw_content, str):
+                                                            all_res["verses"] = [v.strip() for v in raw_content.split("\n") if v.strip()]
+                                                        elif isinstance(raw_content, list):
+                                                            all_res["verses"] = raw_content
+                                                    if asset.get("tone") and not all_res.get("tone"):
+                                                        all_res["tone"] = asset["tone"]
+                                            
                                             text = all_res.get("text") or all_res.get("content")
                                             if ref_key.startswith("menaion.") and not text and not all_res.get("verses"):
                                                 val = get_ref_label_local(ref_key, "Alleluia")
@@ -2003,8 +2045,23 @@ class DigestGeneratorBase:
                         digest.append(f"[ERROR: Loading Structure Ref {root_id} from {target_file} failed - {e}]")
 
             elif slot_type == "fixed_ref":
-                # Skip printing structural ordinaries in the digest to focus strictly on variables and rubrics
-                pass
+                ref_key = content.get("ref_key")
+                if ref_key:
+                    ref_key_lower = ref_key.lower()
+                    is_trivial = False
+                    if "litany" in ref_key_lower or "our_father" in ref_key_lower or "trisagion" in ref_key_lower or "creed" in ref_key_lower:
+                        is_trivial = True
+                    elif ref_key_lower.startswith("horologion."):
+                        is_trivial = True
+                    
+                    if not is_trivial:
+                        txt_res = self.engine.get_text(ref_key)
+                        if txt_res and "content" in txt_res:
+                            title = self.humanize_key(ref_key)
+                            text_body = txt_res["content"].strip()
+                            if "[STUB]" not in text_body:
+                                digest.append(f"**{title}:** {text_body}")
+
                 
             elif slot_type == "fixed_group":
                 # Skip printing structural ordinaries in the digest

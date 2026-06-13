@@ -220,7 +220,7 @@ class VespersMixin:
                 }
 
         # FIX: For Saturday Vigil, use Sunday's stichera distribution (10 stichera)
-        # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.1.3.7
+        # Citation: Dolnytsky_Typikon_Master.md:2.1.3.7
         lookup_context = context.copy()
         if context.get("is_sunday_vigil") and context.get("day_of_week") == 6:
             lookup_context["day_of_week"] = 0  # Pretend it's Sunday for case matching
@@ -619,7 +619,7 @@ class VespersMixin:
             return {"type": "lenten_aposticha", "source": "triodion",
                     "reason": "Lenten weekday"}
         
-        # Final_Dolnytsky_part2_general_rubrics.md:2.6.1.2
+        # Dolnytsky_Typikon_Master.md:2.6.1.2
         if context.get("day_of_week") == 6:
             return {"type": "martyria_aposticha", "source": "octoechos",
                     "reason": "Saturday (Dolnytsky II:135)"}
@@ -630,7 +630,7 @@ class VespersMixin:
             return {"type": "saint_aposticha", "source": "menaion",
                     "reason": "Polyeleos/Vigil weekday (Dolnytsky II:196)"}
         
-        # Final_Dolnytsky_part2_general_rubrics.md:2.3.2
+        # Dolnytsky_Typikon_Master.md:2.3.2
         return {"type": "weekday_aposticha", "source": "octoechos",
                 "reason": "Standard weekday (Dolnytsky II:86)"}
 
@@ -1129,7 +1129,7 @@ class VespersMixin:
         }
 
     # MODULE A7: ROYAL HOURS TRIGGERS
-    # ref: Final_Dolnytsky_part3_menaion.md:3.4.7
+    # ref: Dolnytsky_Typikon_Master.md:3.4.7
 
 
     def resolve_prokeimenon(self, context):
@@ -1143,6 +1143,36 @@ class VespersMixin:
         
         Citation: Dolnytsky Part I Lines 157-159
         """
+        # Check for special weekday vigil feasts (June 24, June 29, August 29)
+        month = context.get("month")
+        day = context.get("day")
+        day_of_week = context.get("day_of_week")
+        if day_of_week != 0:
+            if month == 6 and day == 24:
+                return {
+                    "type": "prokeimenon",
+                    "tone": 7,
+                    "text": "The righteous man shall rejoice in the Lord, and shall hope in Him.",
+                    "prokeimenon_id": "prokeimenon_nativity_john_baptist",
+                    "ref_key": "menaion.jun_24.nativity_john_baptist.prokeimenon"
+                }
+            elif month == 6 and day == 29:
+                return {
+                    "type": "prokeimenon",
+                    "tone": 8,
+                    "text": "Their sound hath gone forth into all the earth, and their words unto the ends of the world.",
+                    "prokeimenon_id": "prokeimenon_peter_paul",
+                    "ref_key": "menaion.jun_29.peter_and_paul.prokeimenon"
+                }
+            elif month == 8 and day == 29:
+                return {
+                    "type": "prokeimenon",
+                    "tone": 7,
+                    "text": "The righteous man shall rejoice in the Lord, and shall hope in Him.",
+                    "prokeimenon_id": "prokeimenon_beheading_john_baptist",
+                    "ref_key": "menaion.aug_29.beheading_john_baptist.prokeimenon"
+                }
+
         day_of_week = context.get('day_of_week', 0)  # 0 = Sunday
         from engine.utils.type_utils import parse_rank_integer
         rank = parse_rank_integer(context.get('rank', 5))
@@ -1348,7 +1378,7 @@ class VespersMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part4_triodion.md:4.1.1.3")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:4.1.1.3")
     def resolve_passion_vespers_readings(self, context, rubrics=None):
         """
         Passion Vespers Readings (Good Friday Evening).
@@ -1406,13 +1436,13 @@ class VespersMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.1")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.1")
     def resolve_daily_kathisma(self, context, rubrics=None):
         """
         Resolves the daily kathisma for Vespers.
         - Sunday (0) (Saturday evening Vespers): Kathisma 1.
         - Monday (1) (Sunday evening Vespers): None.
-        - Other weekdays (Tuesday-Saturday, 2-6): Kathisma 18.
+        - Other weekdays (Tuesday-Saturday, 2-6): None for Great Feasts / Vigils, Kathisma 18 for others.
         """
         day = context.get("day_of_week", 0)
         if day == 0:
@@ -1420,6 +1450,21 @@ class VespersMixin:
         elif day == 1:
             return {"type": "none", "number": 0, "ref_key": None}
         else:
+            rank_val = context.get("rank", 5)
+            if isinstance(rank_val, str):
+                from engine.utils.type_utils import parse_rank_integer
+                try:
+                    rank_val = parse_rank_integer(rank_val)
+                except:
+                    rank_val = 5
+            
+            is_great_service = (
+                rank_val in (1, 2) or
+                context.get("feast_level") in ("lord", "theotokos") or
+                context.get("menaion_class") in ("Class I — Great Feast", "Class II — Vigil")
+            )
+            if is_great_service:
+                return {"type": "none", "number": 0, "ref_key": None}
             return {"type": "kathisma", "number": 18, "ref_key": "horologion.kathisma_18"}
 
     def check_litiya_trigger(self, context, rubrics=None):

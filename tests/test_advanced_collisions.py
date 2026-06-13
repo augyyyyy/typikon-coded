@@ -40,7 +40,7 @@ def test_fallback_logic():
     rubrics = engine.resolve_rubrics(ctx)
     print(f"Fallback Title: {rubrics.get('title')}")
     assert "Saint of the Day" in rubrics.get("title", ""), "Fallback title mismatch"
-    assert rubrics["variables"]["rank"] == "rank_simple_6", "Fallback rank mismatch"
+    assert rubrics["variables"]["rank"] == "rank_simple_4", "Fallback rank mismatch"
     print("Fallback Logic: PASS")
 
 def test_annunciation_collisions():

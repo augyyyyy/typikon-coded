@@ -76,5 +76,35 @@
                 ]
             }
         }
+    },
+    "menaion.pascha.prokeimenon": {
+        "id": "menaion.pascha.prokeimenon",
+        "content": "This is the day which the Lord has made; let us rejoice and be glad in it.",
+        "tone": 8
+    },
+    "menaion.pascha.alleluia": {
+        "id": "menaion.pascha.alleluia",
+        "content": "Rise up, O Lord, have mercy on Zion.",
+        "tone": 4
+    },
+    "menaion.ascension.prokeimenon": {
+        "id": "menaion.ascension.prokeimenon",
+        "content": "Be exalted, O God, above the heavens, and let Your glory be over all the earth.",
+        "tone": 7
+    },
+    "menaion.ascension.alleluia": {
+        "id": "menaion.ascension.alleluia",
+        "content": "All you nations, clap your hands; shout to God with cries of joy.",
+        "tone": 2
+    },
+    "menaion.pentecost.prokeimenon": {
+        "id": "menaion.pentecost.prokeimenon",
+        "content": "Their sound has gone forth into all the earth, and their words to the ends of the world.",
+        "tone": 8
+    },
+    "menaion.pentecost.alleluia": {
+        "id": "menaion.pentecost.alleluia",
+        "content": "By the word of the Lord the heavens were established, and all their power by the spirit of His mouth.",
+        "tone": 1
     }
 }

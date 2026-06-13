@@ -6,7 +6,7 @@
   },
   "small_vespers_distribution": {
     "case_06_sunday_vigil": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.11.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.11.2.3",
       "lord_i_have_cried": {
         "total_count": 4,
         "distribution": [
@@ -43,7 +43,7 @@
       }
     },
     "case_07_weekday_vigil": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.13.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.13.2.3",
       "lord_i_have_cried": {
         "total_count": 4,
         "distribution": [
@@ -75,7 +75,7 @@
       }
     },
     "case_10_feast_lord": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.18.1",
       "lord_i_have_cried": {
         "total_count": 4,
         "distribution": [
@@ -107,7 +107,7 @@
       }
     },
     "case_11_theotokos_sunday": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.1.1",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.1.1",
       "lord_i_have_cried": {
         "total_count": 4,
         "distribution": [
@@ -144,15 +144,15 @@
       }
     },
     "case_12_theotokos_weekday": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.18",
       "inherits": "case_10_feast_lord"
     },
     "case_17_afterfeast_sunday_vigil": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "inherits": "case_01_sunday_simple_scaled_vigil"
     },
     "case_18_afterfeast_weekday_vigil": {
-      "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:2.20.2.3",
       "inherits": "case_07_weekday_vigil"
     }
   }

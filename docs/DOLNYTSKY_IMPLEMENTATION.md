@@ -32,7 +32,7 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 ### Group A: The Octoechos Period (Non-Festal)
 
 #### CASE 01: Sunday Simple (`case_01_sunday_simple_saint`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L57`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L57`
 *   **Triggers**: Day of Week: Sunday (0), Rank: 4 or 6, Period: Normal.
 *   **Vespers Stichera**: 7 Resurrection + 3 Saint. If "Saint on 6" trigger is active: 6 Resurrection + 4 Saint (L62). Glory: Saint Doxastikon (if present), Both Now: Dogmatikon of the current tone.
 *   **Matins Canon**: Resurrection (4) + Cross-Resurrection (3) + Theotokos (3) + Saint (4). If 2 Saints: Resurrection (4) + Theotokos (2) + Saint 1 (4) + Saint 2 (4).
@@ -40,20 +40,20 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 *   **Liturgy**: Troparia: Resurrection + Saint + Patron. Kontakia: Resurrection + Saint + Patron.
 
 #### CASE 02: Weekday Simple (`case_02_weekday_simple_saint`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L132`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L132`
 *   **Triggers**: Day of Week: Mon–Fri (1–5), Rank: 4 or 5, Period: Normal.
 *   **Vespers Stichera**: 3 Octoechos + 3 Saint. If 2 Saints: 3 Saint 1 + 3 Saint 2. If Doxology: 6 Saint. Glory: Saint Doxastikon, Both Now: Theotokion from Octoechos.
 *   **Matins Canon**: Octoechos Canon 1 (6) + Octoechos Canon 2 (4) + Saint (4). If 2 Saints: Octoechos Canon 1 (6) + Saint 1 (4) + Saint 2 (4).
 
 #### CASE 03: Saturday Simple (`case_03_saturday_simple_saint`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L220`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L220`
 *   **Triggers**: Day of Week: Saturday (6), Rank: 4 or 5, Period: Normal.
 *   **Vespers Stichera**: 3 Saint + 3 Martyria (Octoechos). If 2 Saints: 3 Saint 1 + 3 Saint 2. Both Now: Dogmatikon of the current tone.
 *   **Matins Canon**: Temple/Menaion Saint (6) + Current Saint (4) + Martyria (4).
 *   **Nuance**: Precedence rule: Menaion precedes Octoechos on Saturdays (reversed from weekdays).
 
 #### CASE 04: Sunday Polyeleos (`case_04_sunday_polyeleos`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L266`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L266`
 *   **Triggers**: Day of Week: Sunday (0), Rank: 3, Period: Normal.
 *   **Vespers Stichera**: 4 Resurrection + 6 Saint. Glory: Saint Doxastikon, Both Now: Dogmatikon of the current tone.
 *   **Matins Canon**: Resurrection (4) + Theotokos (2) + Saint (8).
@@ -61,26 +61,26 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 *   **Nuance**: Matins contains the Polyeleos. Ode 3 includes the Sunday Hypakoe followed by the Saint's shifted Kontakion, Ikos, and Sessional (Kontakion Shift).
 
 #### CASE 05: Weekday Polyeleos (`case_05_weekday_polyeleos`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L310`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L310`
 *   **Triggers**: Day of Week: Mon–Sat (1–6), Rank: 3, Period: Normal.
 *   **Vespers Stichera**: 8 Saint (Octoechos is entirely suppressed). Both Now: Dogmatikon of current tone (on Friday night) or Theotokion.
 *   **Matins Canon**: Octoechos Theotokos (6) + Saint (8).
 *   **Praises**: 4 Saint. Glory: Saint Doxastikon, Both Now: Theotokion.
 
 #### CASE 06: Sunday Vigil (`case_06_sunday_vigil`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L348`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L348`
 *   **Triggers**: Day of Week: Sunday (0), Rank: 2, Period: Normal.
 *   **Inherits**: CASE_04.
 *   **Additions**: Vespers: Litiya Stichera + Blessing of Loaves (Artoklasia). Matins: Magnification (Velichaniye) after Polyeleos, followed by the Anointing rite.
 
 #### CASE 07: Weekday Vigil (`case_07_weekday_vigil`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L385`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L385`
 *   **Triggers**: Day of Week: Mon–Sat (1–6), Rank: 2, Period: Normal.
 *   **Inherits**: CASE_05.
 *   **Additions**: Vespers: Litiya Stichera + Blessing of Loaves. Matins: Magnification + Anointing rite.
 
 #### Special Vigil Override (`special_vigil_override`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L407`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L407`
 *   **Triggers**: Explicit dates: Nativity of St. John the Baptist (June 24), Sts. Peter & Paul (June 29), Beheading of St. John (August 29).
 *   **Overrides**: Matins Canon: Suppress the Octoechos Theotokos canon (Saint's Canon is taken alone). Liturgy Readings: Suppress sequential daily readings (Saint's readings are taken alone).
 
@@ -89,14 +89,14 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 ### Group B: Forefeasts
 
 #### CASE 08: Sunday Forefeast (`case_08_sunday_forefeast`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L410`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L410`
 *   **Triggers**: Day of Week: Sunday (0), Rank: Simple (4/5), Period: Forefeast.
 *   **Vespers Stichera**: 4 Resurrection + 3 Forefeast + 3 Saint. Glory: Forefeast Doxastikon, Both Now: Dogmatikon.
 *   **Matins Canon**: Resurrection (4) + Theotokos (2) + Forefeast (4) + Saint (4).
 *   **Praises**: 4 Resurrection + 4 Saint (or Forefeast if Saint has no praises). Glory: Feast Doxastikon, Both Now: "Most blessed art Thou".
 
 #### CASE 09: Weekday Forefeast (`case_09_weekday_forefeast`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L445`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L445`
 *   **Triggers**: Day of Week: Mon–Sat (1–6), Rank: Simple (4/5), Period: Forefeast.
 *   **Vespers Stichera**: 3 Forefeast + 3 Saint. Octoechos is suppressed. Both Now: Forefeast Theotokion.
 *   **Matins Canon**: Forefeast (8) + Saint (4).
@@ -106,7 +106,7 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 ### Group C: Great Feasts
 
 #### CASE 10: Great Feast of the Lord (`case_10_feast_of_lord`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L497`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L497`
 *   **Triggers**: Period: Feast, Type: Lord.
 *   **Nuance**: Complete Octoechos suppression. If it falls on Sunday, the Resurrection service is **abolished**.
 *   **Vespers Stichera**: 8 Feast. Aposticha: 3 Feast. Glory/Both Now: Feast Doxastikon/Theotokion.
@@ -114,14 +114,14 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 *   **Liturgy**: Festal Antiphons + Festal Entrance Hymn + Festal Trisagion substitution (if appointed).
 
 #### CASE 11: Great Feast of the Theotokos on Sunday (`case_11_feast_of_theotokos_sunday`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L535`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L535`
 *   **Triggers**: Day of Week: Sunday (0), Period: Feast, Type: Theotokos.
 *   **Vespers Stichera**: 4 Resurrection + 6 Feast. Both Now: Feast Doxastikon.
 *   **Matins Canon**: Resurrection (4) + Theotokos (2) + Feast (8).
 *   **Praises**: 4 Resurrection + 4 Feast. Glory: Feast Doxastikon, Both Now: "Most blessed art Thou".
 
 #### CASE 12: Great Feast of the Theotokos on Weekday (`case_12_feast_of_theotokos_weekday`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L588`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L588`
 *   **Triggers**: Day of Week: Mon–Sat (1–6), Period: Feast, Type: Theotokos.
 *   **Inherits**: CASE_10.
 *   **Nuance**: Uses typical psalms & beatitudes at Liturgy (unlike Feast of the Lord which uses Festal Antiphons). Standard Trisagion is sung.
@@ -131,40 +131,40 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 ### Group D: Afterfeasts
 
 #### CASE 13: Afterfeast Sunday Simple (`case_13_afterfeast_sunday_simple`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L606`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L606`
 *   **Triggers**: Day of Week: Sunday (0), Rank: Simple, Period: Afterfeast.
 *   **Vespers Stichera**: 4 Resurrection + 3 Feast + 3 Saint.
 *   **Matins Canon**: Resurrection (4) + Theotokos (2) + Feast (4) + Saint (4).
 *   **Praises**: 4 Resurrection + 4 Feast (replaced by Saint if Saint has praises). Glory: Eothinon Sticheron, Both Now: "Most blessed art Thou".
 
 #### CASE 14: Afterfeast Weekday Simple (`case_14_afterfeast_weekday_simple`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L642`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L642`
 *   **Triggers**: Day of Week: Mon–Sat (1–6), Rank: Simple, Period: Afterfeast.
 *   **Vespers Stichera**: 3 Feast + 3 Saint. Octoechos is suppressed.
 *   **Matins Canon**: Feast (8) + Saint (4).
 
 #### CASE 15: Afterfeast Sunday Polyeleos (`case_15_afterfeast_sunday_polyeleos`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L693`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L693`
 *   **Triggers**: Day of Week: Sunday (0), Rank: Polyeleos (3), Period: Afterfeast.
 *   **Vespers Stichera**: 3 Resurrection + 3 Feast + 4 Saint. Both Now: Dogmatikon of the current tone.
 *   **Matins Canon**: Resurrection (4) + Feast (4) + Saint (6).
 *   **Praises**: 4 Resurrection + 4 Saint. Glory: Eothinon Sticheron, Both Now: "Most blessed art Thou".
 
 #### CASE 16: Afterfeast Weekday Polyeleos (`case_16_afterfeast_weekday_polyeleos`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L738`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L738`
 *   **Triggers**: Day of Week: Mon–Sat (1–6), Rank: Polyeleos (3), Period: Afterfeast.
 *   **Vespers Stichera**: 3 Feast + 5 Saint. Octoechos is suppressed.
 *   **Matins Canon**: Feast (6) + Saint (8).
 *   **Praises**: 4 Saint (or 3 Feast + 3 Saint if mixed rank). Glory: Saint Doxastikon, Both Now: Feast Theotokion.
 
 #### CASE 17: Afterfeast Sunday Vigil (`case_17_afterfeast_sunday_vigil`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L788`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L788`
 *   **Triggers**: Day of Week: Sunday (0), Rank: Vigil (2), Period: Afterfeast.
 *   **Inherits**: CASE_15.
 *   **Nuance**: Litiya contains stichera for both Saint and Feast. Matins includes Anointing.
 
 #### CASE 18: Afterfeast Weekday Vigil (`case_18_afterfeast_weekday_vigil`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L801`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L801`
 *   **Triggers**: Day of Week: Mon–Sat (1–6), Rank: Vigil (2), Period: Afterfeast.
 *   **Inherits**: CASE_16.
 *   **Nuance**: Litiya contains stichera for both Saint and Feast. Matins includes Anointing.
@@ -174,7 +174,7 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 ### Group E: Apodosis (Leave-Taking)
 
 #### CASE 19: Sunday Apodosis (`case_19_apodosis_sunday`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L809`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L809`
 *   **Triggers**: Day of Week: Sunday (0), Period: Apodosis.
 *   **Nuance**: The Saint of the Menaion is suppressed.
 *   **Vespers Stichera**: 4 Resurrection + 6 Feast. Glory: Feast Doxastikon, Both Now: Dogmatikon.
@@ -182,7 +182,7 @@ When multiple liturgical events fall on the same calendar day (e.g., a Sunday ov
 *   **Praises**: 4 Resurrection + 4 Feast. Glory: Eothinon Sticheron, Both Now: "Most blessed art Thou".
 
 #### CASE 20: Weekday Apodosis (`case_20_apodosis_weekday`)
-*   **Dolnytsky Source**: `Final_Dolnytsky_part2_general_rubrics.md:L857`
+*   **Dolnytsky Source**: `Dolnytsky_Typikon_Master.md:L857`
 *   **Triggers**: Day of Week: Mon–Sat (1–6), Period: Apodosis.
 *   **Nuance**: Complete suppression of both Octoechos and Menaion Saint.
 *   **Vespers Stichera**: 6 Feast.

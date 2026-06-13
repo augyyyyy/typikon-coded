@@ -13,7 +13,7 @@
         "title_key": "menaion.oct_01.protection_theotokos",
         "rank": "rank_vigil_theotokos",
         "period": "feast",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_14",
         "variants": [
           {
@@ -42,31 +42,31 @@
       "06": {
         "title_key": "menaion.oct_06.st_thomas",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_05"
       },
       "09": {
         "title_key": "menaion.oct_09.james_alpheus",
         "rank": "rank_doxology",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_02"
       },
       "18": {
         "title_key": "menaion.oct_18.luke_evangelist",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_05"
       },
       "23": {
         "title_key": "menaion.oct_23.james_brother_of_lord",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_05"
       },
       "26": {
         "title_key": "menaion.oct_26.demetrius_myrrhbearer",
         "rank": "rank_vigil_saint",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_06",
         "variables": {
           "vespers_readings": [
@@ -87,7 +87,7 @@
       "28": {
         "title_key": "menaion.oct_28.paraskeva_iconium",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.2",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_05"
       }
     }

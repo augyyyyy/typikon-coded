@@ -10,7 +10,7 @@
   "structures": {
     "small_compline": {
       "title_key": "titles.compline_small",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1",
       "rubric": {
         "key": "rubrics.compline.vesting_epitrakhelion"
       },
@@ -144,7 +144,7 @@
     },
     "great_compline_lenten": {
       "title_key": "titles.compline_great_lenten",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:1.2.1.7",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.7",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -169,7 +169,7 @@
         },
         {
           "id": "great_canon_insertion",
-          "source_ref": "Final_Dolnytsky_part4_triodion.md:4.1.8.5",
+          "source_ref": "Dolnytsky_Typikon_Master.md:4.1.8.5",
           "rubric": {
             "key": "rubrics.lenten.great_canon_divided"
           },
@@ -341,7 +341,7 @@
     },
     "great_compline_vigil": {
       "title_key": "titles.compline_great_vigil",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
       "inherits_from": "great_compline_lenten",
       "overrides": [
         {
@@ -428,7 +428,7 @@
     },
     "structure_paschal": {
       "title_key": "titles.paschal_hours",
-      "source_ref": "Final_Dolnytsky_part4_triodion.md:4.2.20.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.20.2",
       "sequence": [
         {
           "id": "opening_blessing",

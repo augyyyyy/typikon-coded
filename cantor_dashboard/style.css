@@ -472,6 +472,21 @@ input[type="date"]:focus, input[type="text"]:focus, select:focus {
     border: 1px solid rgba(197, 160, 89, 0.3);
 }
 
+.badge-category {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+body.light-theme .badge-category {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
 /* ==========================================================================
    TAB 1: LITURGICAL CALENDAR RESOLVER
    ========================================================================== */
@@ -532,10 +547,79 @@ body.dark-theme .quick-btn {
 /* Calendar layout: Two columns */
 .calendar-layout {
     display: flex;
-    gap: 24px;
+    gap: 0;
     flex-grow: 1;
     min-height: 0;
     height: 0; /* Forces definite height chain for children percentage height resolution */
+}
+
+/* Draggable Resize Handles */
+.resize-handle {
+    width: 24px;
+    cursor: col-resize;
+    background: transparent;
+    position: relative;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.resize-handle::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 11px;
+    width: 1px;
+    background: var(--card-border);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.resize-handle:hover::before,
+.resize-handle.dragging::before {
+    background: var(--gold-accent);
+    width: 3px;
+    left: 10px;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+.resize-handle-split {
+    display: none;
+    width: 16px;
+    cursor: col-resize;
+    background: transparent;
+    position: relative;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.document-card.split-layout-active .resize-handle-split {
+    display: block;
+}
+
+.resize-handle-split::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 7px;
+    width: 1px;
+    background: var(--card-border);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.resize-handle-split:hover::before,
+.resize-handle-split.dragging::before {
+    background: var(--gold-accent);
+    width: 3px;
+    left: 6px;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+/* Global body class when dragging to prevent hover glitches and set cursor */
+body.dragging-active {
+    cursor: col-resize !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
 }
 
 .layout-column {
@@ -548,7 +632,6 @@ body.dark-theme .quick-btn {
 .context-col {
     width: 22%;
     min-width: 240px;
-    max-width: 350px;
     flex-shrink: 0;
     height: 100%;
 }
@@ -1360,6 +1443,10 @@ body.dark-theme .issue-ctx-box {
     .document-card {
         min-height: 500px;
     }
+    
+    .resize-handle {
+        display: none !important;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -2147,9 +2234,9 @@ body.dev-mode-active div.roadmap-layout-grid.dev-element {
 .document-card.split-layout-active .doc-panel {
     display: flex !important;
     flex-direction: column;
-    flex: 1 1 50%;
-    width: 50% !important;
-    max-width: 50% !important;
+    flex: 0 0 auto;
+    width: 50%;
+    max-width: 50%;
     min-width: 0 !important;
     height: 100% !important;
     overflow: hidden;
@@ -2161,7 +2248,7 @@ body.dev-mode-active div.roadmap-layout-grid.dev-element {
 }
 
 .document-card.split-layout-active #doc-booklet {
-    border-right: 1px solid var(--card-border);
+    border-right: none;
 }
 
 .document-card.split-layout-active .doc-tab-btn {
@@ -2185,10 +2272,16 @@ body.dark-theme .document-card.split-layout-active .doc-tab-btn {
     .document-card.split-layout-active .doc-panel {
         height: auto !important;
         overflow: visible !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
     }
     .document-card.split-layout-active #doc-booklet {
         border-right: none;
         border-bottom: 1px solid var(--card-border);
+    }
+    .resize-handle-split {
+        display: none !important;
     }
 }
 

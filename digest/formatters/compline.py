@@ -6,7 +6,10 @@ class ComplineFormatterMixin:
             if "Glory..." in comps:
                 # Replace comma before Glory... with semicolon
                 comps = comps.replace(", Glory...", "; Glory...")
-            return f"Troparia: {comps}."
+            label = "Troparia"
+            if "kontakion" in comps.lower():
+                label = "Kontakion" if "Glory..." not in comps else "Kontakia"
+            return f"{label}: {comps}."
         return f"Troparia: {self.humanize_key(res)}."
 
 

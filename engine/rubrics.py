@@ -416,14 +416,14 @@ class RubricsMixin:
             
         # FIX Issue #3: Instead of returning None, provide a safe default case
         # This prevents downstream None errors in resolve_vespers_stichera, resolve_praises_stack, etc.
-        # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.3.6
+        # Citation: Dolnytsky_Typikon_Master.md:2.3.6
         print(f"WARNING: No General Case match. Period={period}, Day={day_of_week}, Rank={rank_id}, Offset={p_offset}")
         
         # Build a minimal default case based on rank
         default_dist = [{"source": "octoechos", "qty": 3}, {"source": "menaion", "qty": 3}]
         if rank_id in ["rank_vigil", "rank_polyeleos"]:
             default_dist = [{"source": "octoechos", "qty": 4}, {"source": "menaion", "qty": 6}]
-        elif day_of_week == 0:  # Sunday: Final_Dolnytsky_part2_general_rubrics.md:2.1.3.7
+        elif day_of_week == 0:  # Sunday: Dolnytsky_Typikon_Master.md:2.1.3.7
             default_dist = [{"source": "octoechos", "qty": 7}, {"source": "menaion", "qty": 3}]
         
         return {
@@ -501,7 +501,12 @@ class RubricsMixin:
         # Check if we should classify as polyeleos
         is_polyeleos = (
             context.get("dolnytsky_rank") == "POLYELEOS" or
-            any(s.get("rank") == 2 or s.get("rank_code") in ("POLYELEOS", "POL") for s in context.get("saints", [])) or
+            (
+                any(s.get("rank") == 2 or s.get("rank_code") in ("POLYELEOS", "POL") for s in context.get("saints", []))
+                and context.get("dolnytsky_rank") != "VIGIL"
+                and not str(context.get("menaion_rank") or "").startswith("rank_vigil")
+                and not str(context.get("variables", {}).get("menaion_rank") or "").startswith("rank_vigil")
+            ) or
             str(context.get("menaion_rank") or "").startswith("rank_polyeleos") or
             str(context.get("variables", {}).get("menaion_rank") or "").startswith("rank_polyeleos")
         )
@@ -705,7 +710,7 @@ class RubricsMixin:
                         if key in menaion_day:
                             rubrics["variables"][key] = menaion_day[key]
                 # Populate menaion_rank for Great Feast Vigil detection
-                # Citation: Final_Dolnytsky_part1_structure.md:1.2.1.1
+                # Citation: Dolnytsky_Typikon_Master.md:1.2.1.1
                 if "rank" in menaion_day:
                     rubrics["variables"]["menaion_rank"] = menaion_day["rank"]
                     rubrics["variables"]["rank"] = menaion_day["rank"]
@@ -820,6 +825,7 @@ class RubricsMixin:
                 rubrics["_trace"].append(f"Transferred saints suppressed from active context: {[s.get('name') for s in simple_saints]}")
         
         # Resolve general case to merge variables & overrides
+        context["variables"] = rubrics["variables"]
         general_case = self.resolve_general_case(context)
         if general_case:
             rubrics["_trace"].append(f"General Case: Matched case '{general_case.get('id')}'.")
@@ -835,7 +841,52 @@ class RubricsMixin:
         if rubrics.get("variables", {}).get("suppress_saints") or rubrics.get("variables", {}).get("suppress_menaion_saint"):
             context["saints"] = []
             rubrics["_trace"].append("Saint Suppression: Suppressed all saints from active context.")
-         
+        elif (context.get("feast_level") == "lord" or context.get("menaion_class") == "Class I — Great Feast") and not (
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("period") in ("afterfeast", "forefeast", "apodosis")
+        ):
+            context["saints"] = []
+            rubrics["_trace"].append("Saint Suppression: Auto-suppressed all saints on Class I Great Feast.")
+
+        # Special Vigil Override (Dolnytsky §3.10.2): Saint's canon alone on 12 on weekdays
+        m_val = context.get("month")
+        if isinstance(m_val, str):
+            try:
+                m_val = int(m_val)
+            except ValueError:
+                m_val = 0
+        day_val = context.get("day")
+        day_of_week = context.get("day_of_week")
+        if day_of_week != 0 and ((m_val == 6 and day_val == 24) or (m_val == 6 and day_val == 29) or (m_val == 8 and day_val == 29)):
+            rubrics["_trace"].append("Dolnytsky §3.10.2 Special Vigil Override: Saint's canon alone on 12 (no Theotokos canon).")
+            rubrics["variables"]["matins_canon_distribution"] = {
+                "distribution": [
+                    {
+                        "source": "menaion",
+                        "type": "saint",
+                        "qty": 12,
+                        "irmos": True
+                    }
+                ]
+            }
+
+
+        # Clean and humanize title if it leaks database keys
+        title_val = rubrics.get("title", "")
+        if title_val.startswith("menaion.") or title_val.startswith("triodion.") or "." in title_val:
+            d_title = context.get("dolnytsky_title") or context.get("dolnytsky_commemoration")
+            if d_title:
+                cleaned = d_title.replace("**", "").replace("*", "").strip()
+                while cleaned.endswith(".") or cleaned.endswith(" "):
+                    cleaned = cleaned[:-1]
+                rubrics["title"] = cleaned.strip()
+            else:
+                parts = title_val.split(".")
+                last_part = parts[-1]
+                humanized = last_part.replace("_", " ").title()
+                rubrics["title"] = humanized
+
         return rubrics
 
 

@@ -10,7 +10,7 @@
   "structures": {
     "midnight_weekday": {
       "title_key": "titles.midnight_weekday",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.3",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -41,7 +41,7 @@
     },
     "midnight_daily": {
       "title_key": "titles.midnight_daily",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.3",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -215,7 +215,7 @@
     },
     "midnight_saturday": {
       "title_key": "titles.midnight_saturday",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.3",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -245,7 +245,7 @@
     },
     "midnight_sunday": {
       "title_key": "titles.midnight_sunday",
-      "source_ref": "Final_Dolnytsky_part1_structure.md:1.5.1.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.3",
       "inherits_from": "midnight_daily",
       "overrides": [
         {
@@ -281,7 +281,7 @@
     },
     "midnight_holy_saturday": {
       "title_key": "titles.midnight_holy_saturday",
-      "source_ref": "Final_Dolnytsky_part4_triodion.md:4.2.23.1",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.23.1",
       "sequence": [
         {
           "id": "opening_blessing",
@@ -307,7 +307,7 @@
         {
           "id": "tomb_canon",
           "section_key": "sections.canon",
-          "source_ref": "Final_Dolnytsky_part4_triodion.md:4.2.24",
+          "source_ref": "Dolnytsky_Typikon_Master.md:4.2.24",
           "rubric": {
             "title": "Tomb Canon",
             "roles": {
@@ -322,7 +322,7 @@
         {
           "id": "shroud_removal_rite",
           "section_key": "sections.shroud",
-          "source_ref": "Final_Dolnytsky_part4_triodion.md:4.2.24",
+          "source_ref": "Dolnytsky_Typikon_Master.md:4.2.24",
           "rubric": {
             "title": "Shroud Removal",
             "roles": {
@@ -369,6 +369,20 @@
     "midnight_paschal_nocturns": {
       "title_key": "titles.midnight_paschal_nocturns",
       "inherits_from": "midnight_holy_saturday"
+    },
+    "midnight_feast": {
+      "title_key": "titles.midnight_feast",
+      "inherits_from": "midnight_daily",
+      "overrides": [
+        {
+          "target_id": "closing_prayer",
+          "action": "delete"
+        },
+        {
+          "target_id": "part_ii_block",
+          "action": "delete"
+        }
+      ]
     }
   }
 }

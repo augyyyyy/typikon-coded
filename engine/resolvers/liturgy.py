@@ -332,7 +332,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.20.2")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.20.2")
     def resolve_trisagion_type(self, context, rubrics=None):
         """
         Trisagion Type Selection for Liturgy.
@@ -512,7 +512,7 @@ class LiturgyMixin:
         return {"type": "text", "content": "".join(parts)}
 
 
-    @liturgical_source(dolnytsky="Final_footnotes.md:6.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:6.4")
     def resolve_basil_megalynarion(self, context, rubrics=None):
         """
         Megalynarion for Liturgy of St. Basil.
@@ -555,7 +555,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5.3.5")
     def resolve_communion_hymn(self, context, rubrics=None):
         """
         Communion Hymn (Причастен/Koinonikon).
@@ -699,7 +699,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.2.1.11")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2.1.11")
     def resolve_post_communion_hymn(self, context, rubrics=None):
         """
         Post-Communion Hymn: "We Have Seen the True Light" replacement.
@@ -755,7 +755,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part3_menaion.md:3.4.6.3")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.6.3")
     def resolve_vesperal_liturgy_readings(self, context, rubrics=None):
         """
         Phase 7: Resolve Vesperal Liturgy Readings
@@ -823,7 +823,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5.3.5")
     def resolve_liturgy_readings(self, context, rubrics=None):
         """
         Unified Liturgy Readings Resolution.
@@ -840,65 +840,6 @@ class LiturgyMixin:
         if context.get("_almanac_used") and "readings" in context:
             return copy.deepcopy(context["readings"])
 
-        # Check for explicit override in variables
-        if rubrics:
-            overrides = rubrics.get("variables", {}) or rubrics.get("overrides", {})
-            l_readings = overrides.get("liturgy_readings")
-            if l_readings:
-                if isinstance(l_readings, list):
-                    if l_readings and isinstance(l_readings[0], str):
-                        feast_id = context.get("feast_id", "")
-                        if not feast_id and context.get("saints"):
-                            feast_id = context["saints"][0].get("id", "")
-                        
-                        epistle_key = l_readings[0]
-                        gospel_key = l_readings[1] if len(l_readings) > 1 else ""
-                        
-                        structured_reading = {
-                            "prokeimenon": {
-                                "source": "menaion",
-                                "ref_key": f"menaion.{feast_id}.prokeimenon" if feast_id else ""
-                            },
-                            "epistle": {
-                                "source": "menaion",
-                                "ref_key": epistle_key
-                            },
-                            "alleluia": {
-                                "source": "menaion",
-                                "ref_key": f"menaion.{feast_id}.alleluia" if feast_id else ""
-                            },
-                            "gospel": {
-                                "source": "menaion",
-                                "ref_key": gospel_key
-                            }
-                        }
-                        return {"type": "liturgy_readings", "readings": [structured_reading]}
-                    return {"type": "liturgy_readings", "readings": l_readings}
-                elif isinstance(l_readings, str):
-                    feast_id = context.get("feast_id", "")
-                    if not feast_id and context.get("saints"):
-                        feast_id = context["saints"][0].get("id", "")
-                    structured_reading = {
-                        "prokeimenon": {
-                            "source": "menaion",
-                            "ref_key": f"menaion.{feast_id}.prokeimenon" if feast_id else ""
-                        },
-                        "epistle": {
-                            "source": "menaion",
-                            "ref_key": l_readings
-                        },
-                        "alleluia": {
-                            "source": "menaion",
-                            "ref_key": f"menaion.{feast_id}.alleluia" if feast_id else ""
-                        },
-                        "gospel": {
-                            "source": "menaion",
-                            "ref_key": ""
-                        }
-                    }
-                    return {"type": "liturgy_readings", "readings": [structured_reading]}
-                return l_readings
-
         day_of_week = context.get("day_of_week", 0)
         from engine.utils.type_utils import parse_rank_integer
         rank = parse_rank_integer(context.get("rank", 5))
@@ -907,7 +848,122 @@ class LiturgyMixin:
         saints = context.get("saints", [])
         tone = context.get("tone", 1)
         moveable_cycle = context.get("moveable_cycle", {})
-        
+
+        # Check if weekday special vigil exception applies: June 24, June 29, August 29 (Dolnytsky §3.10.2)
+        month = context.get("month")
+        if isinstance(month, str):
+            try:
+                month = int(month)
+            except ValueError:
+                month = 0
+        day_val = context.get("day")
+        is_special_vigil_weekday = (
+            day_of_week != 0 and (
+                (month == 6 and day_val == 24) or
+                (month == 6 and day_val == 29) or
+                (month == 8 and day_val == 29)
+            )
+        )
+
+        l_readings = None
+        if rubrics:
+            overrides = rubrics.get("variables", {}) or rubrics.get("overrides", {})
+            l_readings = overrides.get("liturgy_readings")
+
+        # Normalize l_readings if it exists
+        normalized_readings = None
+        if l_readings:
+            if isinstance(l_readings, list):
+                if l_readings and isinstance(l_readings[0], str):
+                    s_id = feast_id
+                    if not s_id and saints:
+                        s_id = saints[0].get("id", "")
+                    
+                    epistle_key = l_readings[0]
+                    gospel_key = l_readings[1] if len(l_readings) > 1 else ""
+                    normalized_readings = [{
+                        "prokeimenon": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{s_id}.prokeimenon" if s_id else ""
+                        },
+                        "epistle": {
+                            "source": "menaion",
+                            "ref_key": epistle_key
+                        },
+                        "alleluia": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{s_id}.alleluia" if s_id else ""
+                        },
+                        "gospel": {
+                            "source": "menaion",
+                            "ref_key": gospel_key
+                        }
+                    }]
+                else:
+                    normalized_readings = l_readings
+            elif isinstance(l_readings, str):
+                s_id = feast_id
+                if not s_id and saints:
+                    s_id = saints[0].get("id", "")
+                normalized_readings = [{
+                    "prokeimenon": {
+                        "source": "menaion",
+                        "ref_key": f"menaion.{s_id}.prokeimenon" if s_id else ""
+                    },
+                    "epistle": {
+                        "source": "menaion",
+                        "ref_key": l_readings
+                    },
+                    "alleluia": {
+                        "source": "menaion",
+                        "ref_key": f"menaion.{s_id}.alleluia" if s_id else ""
+                    },
+                    "gospel": {
+                        "source": "menaion",
+                        "ref_key": ""
+                    }
+                }]
+            elif isinstance(l_readings, dict) and "readings" in l_readings:
+                normalized_readings = l_readings["readings"]
+            else:
+                normalized_readings = l_readings
+
+        # Dolnytsky §3.10.2: On Sunday with a Vigil/Polyeleos saint (rank 2 or 3), we combine them.
+        # On weekdays or other Sundays (e.g. Triodion Sundays), we return the override directly.
+        if day_of_week != 0:
+            if normalized_readings:
+                return {"type": "liturgy_readings", "readings": normalized_readings}
+            elif is_special_vigil_weekday:
+                # Suppress daily readings on weekdays, saint readings only
+                result = {
+                    "type": "liturgy_readings",
+                    "readings": []
+                }
+                if saints:
+                    saint_id = saints[0].get("id", "saint")
+                    result["readings"].append({
+                        "prokeimenon": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.prokeimenon"
+                        },
+                        "epistle": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.epistle"
+                        },
+                        "alleluia": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.alleluia"
+                        },
+                        "gospel": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.gospel"
+                        }
+                    })
+                return result
+        else: # Sunday (day_of_week == 0)
+            if normalized_readings and rank > 3:
+                return {"type": "liturgy_readings", "readings": normalized_readings}
+
         result = {
             "type": "liturgy_readings",
             "readings": []
@@ -915,6 +971,8 @@ class LiturgyMixin:
         
         # GREAT FEAST: Feast readings only
         if rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"]:
+            if normalized_readings:
+                return {"type": "liturgy_readings", "readings": normalized_readings}
             result["readings"].append({
                 "prokeimenon": {
                     "source": "feast",
@@ -960,7 +1018,9 @@ class LiturgyMixin:
             })
             
             # Secondary: Saint of the day (if Polyeleos or higher, R <= 3)
-            if saints and rank <= 3:
+            if normalized_readings:
+                result["readings"].extend(normalized_readings)
+            elif saints and rank <= 3:
                 saint_id = saints[0].get("id", "saint")
                 result["readings"].append({
                     "prokeimenon": {
@@ -1185,7 +1245,7 @@ class LiturgyMixin:
         return {"type": "koinonikon_stack", "components": stack}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.4")
     def resolve_reading_ot(self, context, rubrics):
         """
         Resolve Old Testament reading (paremia/prophecy).
@@ -1207,7 +1267,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.4")
     def resolve_reading_epistle(self, context, rubrics):
         """
         Resolve Epistle reading.
@@ -1235,7 +1295,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part1_structure.md:1.2.1.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.4")
     def resolve_reading_gospel(self, context, rubrics):
         """
         Resolve Gospel reading.
@@ -1265,7 +1325,7 @@ class LiturgyMixin:
     # PHASE 12: ALL-NIGHT VIGIL (EXTREME)
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.2.3.8,L192")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2.3.8,L192")
     def resolve_beatitudes(self, context):
         """
         Gate: Beatitudes (Third Antiphon)
@@ -1320,7 +1380,7 @@ class LiturgyMixin:
         return {"type": "third_antiphon", "note": "Usual Third Antiphon without stichera"}
 
 
-    @liturgical_source(dolnytsky="Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5.3.5")
     def resolve_liturgy_alleluia(self, context, rubrics=None):
         """
         Resolve Liturgy Alleluia tone and verses based on readings.

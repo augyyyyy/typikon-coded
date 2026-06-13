@@ -119,7 +119,7 @@ class GenerationMixin:
         if base_name == "Compline":
              if hasattr(self, "resolve_compline_type"):
                   ctype = self.resolve_compline_type(context)
-                  if ctype == "paschal_hours": return "Paschal Hours (Compline)"
+                  if ctype == "paschal_hours": return "Paschal Hours"
                   elif ctype == "great_compline": return "Great Compline"
                   return "Small Compline"
                   if day == 5: return "Great Vespers" # Fri Eve
@@ -143,6 +143,10 @@ class GenerationMixin:
              day = context.get("day_of_week")
              if day == 0: return "Midnight Office (Sunday)"
              if day == 6: return "Midnight Office (Saturday)"
+             
+             mode_data = self.resolve_midnight_office_mode(context)
+             if mode_data.get("mode") == "feast":
+                  return "Midnight Office"
              return "Midnight Office (Daily)"
 
         # 4. Matins
@@ -263,6 +267,13 @@ class GenerationMixin:
 
             for service in self.daily_cycle:
                 service_name = service["name"]
+
+                # Suppression logic for Compline and Midnight Office during Weekday Vigil
+                if service_name in ("Compline", "Midnight Office"):
+                    day = context.get("day_of_week")
+                    v_type = rubrics.get("overrides", {}).get("vespers_type") or rubrics.get("variables", {}).get("vespers_type") or context.get("vespers_type")
+                    if day != 0 and v_type == "great_vespers_vigil":
+                        continue
 
                 # Suppression logic for Vesperal Liturgy
                 if service_name == "Vespers" and "vesperal_merge_logic" in rubrics.get("overrides", {}).get(
@@ -517,6 +528,14 @@ class GenerationMixin:
 
         for service in self.daily_cycle:
             service_name = service["name"]
+
+            # Suppression logic for Compline and Midnight Office during Weekday Vigil
+            if service_name in ("Compline", "Midnight Office"):
+                day = context.get("day_of_week")
+                v_type = rubrics.get("overrides", {}).get("vespers_type") or rubrics.get("variables", {}).get("vespers_type") or context.get("vespers_type")
+                if day != 0 and v_type == "great_vespers_vigil":
+                    continue
+
             digest.append(f"\n=== {service_name.upper()} ===")
             
             # Root ID resolution

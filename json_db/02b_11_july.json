@@ -22,7 +22,7 @@
         },
         "rank_override": "rank_polyeleos",
         "title_key": "menaion.floating.sunday_fathers_six_councils",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "variables": {
           "vespers_stichera_distribution": "fathers_councils_logic",
           "matins_gospel": "matthew_28_16_20",
@@ -37,13 +37,13 @@
       "05": {
         "title_key": "menaion.jul_05.athanasius_athos",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "base_template": "CASE_05"
       },
       "10": {
         "title_key": "menaion.jul_10.anthony_caves",
         "rank": "rank_vigil_saint",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "base_template": "CASE_06",
         "variables": {
           "vespers_readings": [
@@ -63,13 +63,13 @@
       "11": {
         "title_key": "menaion.jul_11.olga_princess",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "base_template": "CASE_05"
       },
       "15": {
         "title_key": "menaion.jul_15.vladimir_great",
         "rank": "rank_vigil_saint",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "base_template": "CASE_06",
         "variants": [
           {
@@ -100,7 +100,7 @@
       "20": {
         "title_key": "menaion.jul_20.elijah_prophet",
         "rank": "rank_vigil_saint",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "base_template": "CASE_06",
         "variables": {
           "vespers_readings": [
@@ -120,19 +120,19 @@
       "24": {
         "title_key": "menaion.jul_24.boris_and_gleb",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "base_template": "CASE_05"
       },
       "25": {
         "title_key": "menaion.jul_25.dormition_st_anna",
         "rank": "rank_doxology",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11.4",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11.4",
         "base_template": "CASE_02"
       },
       "27": {
         "title_key": "menaion.jul_27.panteleimon_healer",
         "rank": "rank_polyeleos",
-        "source_ref": "Final_Dolnytsky_part3_menaion.md:3.11",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "base_template": "CASE_05"
       }
     }

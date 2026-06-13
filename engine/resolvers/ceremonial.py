@@ -75,6 +75,22 @@ class CeremonialMixin:
             return {"type": "dairy_and_eggs", "note": "Dairy and eggs permitted, no meat",
                     "citation": "Dolnytsky Appendix — Cheesefare Week"}
         
+        # 3.5. Apostles' Fast (Lviv Synod)
+        # Starts on Monday after All Saints (pascha_offset >= 57) and ends on June 28 (inclusive)
+        if pascha_offset >= 57 and ((month == 5) or (month == 6 and day <= 28)):
+            if day_of_week in (1, 3, 5):
+                # Great Feasts (Rank 1/2) and Vigils (Rank 3) -> Fish
+                if rank_val <= 3 or any(r in rank_code for r in ("LORD", "THEOTOKOS", "MOG", "VIGIL")):
+                    return {"type": "fish_permitted", "note": "Fish and wine permitted for the feast",
+                            "citation": "Dolnytsky Appendix — Festal relaxation"}
+                # Polyeleos Feasts (Rank 4) -> Oil and Wine
+                elif rank_val == 4 or "POL" in rank_code or "POLUELEOS" in rank_code:
+                    return {"type": "oil_and_wine", "note": "Oil and wine permitted for the feast",
+                            "citation": "Dolnytsky Appendix — Festal relaxation"}
+                else:
+                    return {"type": "fast_day", "note": "Apostles' Fast: Abstinence from meat and dairy",
+                            "citation": "Lviv Synod — Title XI, part 4"}
+        
         # 4. Normal Wed/Fri
         if day_of_week in (3, 5):
             # Great Feasts (Rank 1/2) and Vigils (Rank 3) -> Fish
@@ -842,4 +858,4 @@ class CeremonialMixin:
         return True
 
     # MODULE A10: HIERARCHY (LITANY LOGIC)
-    # ref: Final_Dolnytsky_part5_temple.md:V
+    # ref: Dolnytsky_Typikon_Master.md:V

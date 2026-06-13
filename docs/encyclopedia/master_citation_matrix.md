@@ -19,9 +19,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_canon_ode_troparion`
 - **Defined in**: [common.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\common.py#L1230)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L166-173`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L166-173`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.5.1.5`
+#### Source: `Dolnytsky_Typikon_Master.md:1.5.1.5`
 ```text
  403: #### 1.5.1.5 The Canon
  404: *Upon the exclamation 'By the mercy and compassions,' the Priest anoints, and the choirs sing the Canon. If there was no All-Night Vigil, then the choirs sing the Canon, and the Priest does not anoint.*
@@ -61,9 +61,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `check_day_range`
 - **Defined in**: [compline.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\compline.py#L241)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part4_triodion.md:L207`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L207`
 
-#### Source: `Final_Dolnytsky_part4_triodion.md:4.1.7`
+#### Source: `Dolnytsky_Typikon_Master.md:4.1.7`
 ```text
  194: Note: The Synod of Lviv permits on all days of Great Lent, except Mondays, Wednesdays, and Fridays, meat, on the condition of [reciting] 5 "Our Father" and 5 "Virgin Theotokos" for the laity, and Psalm 50 - for the clergy; on the other three days - dairy products.
  195: 
@@ -980,9 +980,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `check_royal_hours_trigger`
 - **Defined in**: [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\hours.py#L427)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part3_menaion.md:L760`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L760`
 
-#### Source: `Final_Dolnytsky_part3_menaion.md:3.4.6.3`
+#### Source: `Dolnytsky_Typikon_Master.md:3.4.6.3`
 ```text
  756: Nothing special, except the Liturgy of Basil the Great with Vespers of the Feast on the Eve of the Nativity and Theophany, if they fall on one of the five fast days, from Monday to Friday. For if they fall on Saturday or on Sunday, then on the Eve there will be the Liturgy of Chrysostom, at its proper time without Vespers, and afterwards - Vespers of the Feast, at its proper time. On the Feast itself - Liturgy of Basil the Great without Vespers. On Friday, before the Eve, to which the Royal Hours are transferred, the typikon gives no Liturgy, this is adhered to also by the Lviv Synod[^307].
  757: Saturday before the Nativity of Christ
@@ -4153,14 +4153,14 @@ This section details the source text backing the core algorithmic resolvers in t
 - **Defined in**: [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\hours.py#L518)
 - **Citations**:
   - `ordo`: `Ordo_Celebrationis_1996_CLEAN.md:L453`
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L13`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L13`
 
 #### Source: `Ordo_Celebrationis_1996_CLEAN.md:L453`
 ```text
  453: 58. After the deacon has exclaimed: Let us pray to the Lord, and the choir has responded: Lord, have mercy the priest takes one loaf, with which he blesses the other loaves, then having returned it, he says in a raised voice the prayer:
 ```
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.1.1`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.1.1`
 ```text
  26: 1. **If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.*
  27: 2. **Bowing rules**: *It is proper for the deacons and the Priest, upon the conclusion of the censing of each icon, the Bishop, the kliros, the Choir, and the people, to bow to them, but while censing the Holy Table, to bow only from the front.*
@@ -4671,9 +4671,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_royal_kontakion`
 - **Defined in**: [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\hours.py#L265)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part3_menaion.md:L779`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L779`
 
-#### Source: `Final_Dolnytsky_part3_menaion.md:3.4.7`
+#### Source: `Dolnytsky_Typikon_Master.md:3.4.7`
 ```text
  764: HOURS
  765: 
@@ -7835,9 +7835,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_royal_psalms`
 - **Defined in**: [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\hours.py#L194)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part3_menaion.md:L779`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L779`
 
-#### Source: `Final_Dolnytsky_part3_menaion.md:3.4.7`
+#### Source: `Dolnytsky_Typikon_Master.md:3.4.7`
 ```text
  764: HOURS
  765: 
@@ -10999,9 +10999,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_royal_readings`
 - **Defined in**: [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\hours.py#L237)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part3_menaion.md:L779`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L779`
 
-#### Source: `Final_Dolnytsky_part3_menaion.md:3.4.7`
+#### Source: `Dolnytsky_Typikon_Master.md:3.4.7`
 ```text
  764: HOURS
  765: 
@@ -14163,9 +14163,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_royal_stichera`
 - **Defined in**: [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\hours.py#L217)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part3_menaion.md:L779`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L779`
 
-#### Source: `Final_Dolnytsky_part3_menaion.md:3.4.7`
+#### Source: `Dolnytsky_Typikon_Master.md:3.4.7`
 ```text
  764: HOURS
  765: 
@@ -17327,9 +17327,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_royal_troparia`
 - **Defined in**: [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\hours.py#L256)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part3_menaion.md:L779`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L779`
 
-#### Source: `Final_Dolnytsky_part3_menaion.md:3.4.7`
+#### Source: `Dolnytsky_Typikon_Master.md:3.4.7`
 ```text
  764: HOURS
  765: 
@@ -20491,9 +20491,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_typika_kontakia`
 - **Defined in**: [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\hours.py#L508)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part3_menaion.md:L797`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L797`
 
-#### Source: `Final_Dolnytsky_part3_menaion.md:3.4.7.1`
+#### Source: `Dolnytsky_Typikon_Master.md:3.4.7.1`
 ```text
  783: #### 3.4.7.1 RULE
  784: At the appointed time the Priest enters the temple and, having approached the Holy Table and having bowed low, kisses the Gospel, marks four Gospel readings and, having bowed again, goes out to the sacristy; puts on an epitrachelion, goes out before the closed Holy Doors, makes a low bow to the Holy Mysteries and begins the usual: "Blessed is our God". Choir: "Amen", also "Glory to Thee, our God, glory to Thee", "O Heavenly King" and everything else, as usual, up to "O come, let us worship" inclusive[^320][^313]. At the second "O come, let us worship" the Priest, having bowed low, enters the sanctuary and, while the choirs sing the tripalm, reads it sitting in his place.
@@ -20537,9 +20537,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_basil_megalynarion`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L450)
 - **Citations**:
-  - `dolnytsky`: `Final_footnotes.md:L807`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L807`
 
-#### Source: `Final_footnotes.md:6.4`
+#### Source: `Dolnytsky_Typikon_Master.md:6.4`
 ```text
  807: Diagram: At the High Throne** [Left] 2 ... 4 ... 6 [Center] D (High Place) [Right] 1 ... 3 ... 5 **196.** During the reading of the Gospel all remain in their places, looking towards the ambo or the place from which the Gospel is read. **197.** At the Cherubic Hymn all lift their hands, if this can be done conveniently, but all recite the Cherubic Hymn and make the prescribed bows. During the censing of the holy table by the deacon all step away from it slightly so that the deacon can easily go around it. **198.** From the table of oblation each takes one of the things used in the Divine Sacrifice, namely: the spear, the spoon, holding them on their chests. All go out^[784] through the northern doors, in front -- the deacon, who exclaims: "All of you" and stands in the holy doors in the sanctuary, behind him other concelebrating priests, beginning from the youngest, exclaiming each: "All of you," one or even several, if there is a custom, and stand facing one another outside the sanctuary before the holy doors as at the Little Entrance. The principal priest exclaims: "Our most holy [Pontiff]" and stands exactly before the holy doors, turns to the west when he exclaims "All of you," after which he enters the sanctuary, and behind him go the concelebrants and each stands at the holy table at his place. **199.** Having made the Great Entrance, if there is no deacon, one of the concelebrants sings the first part of the litany "Let us complete," and another -- the second part, so that each has time to read the Prayer of the Offering. **200.** When the principal priest kisses the Holy Gifts, the concelebrants one by one approach the holy table, according to the order of their dignity. The principal priest, having stepped back slightly from the holy table, turns to the right side and looks to the north, and each concelebrant kisses first the Holy Gifts, and then the left and right shoulder of the principal priest and stands to his left, slightly behind. The second concelebrant kisses first the Holy Gifts, then -- the principal celebrant, and at the end -- the first concelebrant and stands on his right side. All others do likewise. The principal priest says: "Christ is in our midst," and the concelebrant responds: "He is and shall be." Likewise do also the others, who kiss one another. After the kiss of peace the celebrant returns before the holy table; the 1st concelebrant takes one edge of the *aer*, and the 2nd -- the second edge and fan with it over the Gifts. All others stand in their places and quietly recite the Symbol of Faith. **201.** The concelebrants offering the sacrifice point with their hand to the holy diskos, and then to the holy chalice, just as the principal celebrant, simultaneously, slowly and attentively, sing the words of consecration, recite together "Thine own of Thine own," but only the principal celebrant blesses the Gifts. The same applies also to the Epiclesis. One must ensure, especially in the Liturgy of St. Basil, that after the reading of the prayer which immediately precedes the consecration, all together with the serving priest exclaim from the beginning to the end the words of consecration. It will also be good if the principal celebrant pronounces the last words of this prayer louder so that the concelebrants can hear them, and watches that all are ready already for the simultaneous exclamation of the words of consecration (see no. 134). **202.** The first part of the litany "Having commemorated all the saints" is sung by one of the concelebrants, if there is no deacon, and the second part -- by another, so that all have time to read the prayer "To Thee we entrust all our life." **203.** After the breaking [of the Lamb], the principal celebrant calls the deacon and gives him a particle of the Holy Bread, as prescribed. Then all recite the prayer "I believe, O Lord" and the principal priest communicates of the Body of Christ. All concelebrants, in turn, according to their dignity, approach the holy table from the side of the oblation table, and the principal celebrant stands on the opposite side of it. After the communion of the Body of Christ, each goes to the north of the holy table and washes, if necessary, his fingers in the vessel standing on the table of oblation, and, according to the prescribed sequence, they go behind the 1st concelebrant, who stands at his place at the holy table. The deacon consumes the particle of Bread after the priests. The principal celebrant, having returned to the center, communicates of the Most Precious Blood and moves away from the holy table; after this the concelebrants, according to the prescribed order, approach the holy table, this time from the southern side, and each after the communion of the Blood departs by the table of oblation and stands at his place at the holy table. At the end the deacon receives, according to the prescription, the communion of the Most Precious Blood from the principal celebrant. 
  808: 
@@ -20558,14 +20558,14 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_beatitudes`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L946)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L121,L192`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L121,L192`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.2.3.8`
+#### Source: `Dolnytsky_Typikon_Master.md:2.2.3.8`
 ```text
  121: ##### 2.2.3.8 The service for need, according to the decree of the Lviv Synod[^92], must always be taken alone, except for the Apostle and Gospel of the day, which may be combined with the service for the dead and precede its Apostle and Gospel
 ```
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.5`
+#### Source: `Dolnytsky_Typikon_Master.md:2.5`
 ```text
  192: Note: The *Octoechos* is not used.
  193: #### 2.5.1 AT Great Vespers
@@ -20936,9 +20936,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_communion_hymn`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L492)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L207`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L207`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5`
+#### Source: `Dolnytsky_Typikon_Master.md:2.5.3.5`
 ```text
  207: ##### 2.5.3.5 Canons two: 1st - of the Theotokos, one of the two usual ones ("Having traversed the moisture", Tone 2 of Sunday Matins, or "Having crossed the water", Tone 8 of Compline on Tuesday) with the Heirmos on 6, then to the saint one or two canons on 8[^136]
  208:   * On Saturday, if the temple is of the Lord or of the Theotokos, the canon of the temple is taken with the Heirmos on 6, Heirmos - twice, and to the saint on 8[^137].
@@ -20950,9 +20950,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_liturgy_alleluia`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L977)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L207`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L207`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5`
+#### Source: `Dolnytsky_Typikon_Master.md:2.5.3.5`
 ```text
  207: ##### 2.5.3.5 Canons two: 1st - of the Theotokos, one of the two usual ones ("Having traversed the moisture", Tone 2 of Sunday Matins, or "Having crossed the water", Tone 8 of Compline on Tuesday) with the Heirmos on 6, then to the saint one or two canons on 8[^136]
  208:   * On Saturday, if the temple is of the Lord or of the Theotokos, the canon of the temple is taken with the Heirmos on 6, Heirmos - twice, and to the saint on 8[^137].
@@ -20964,9 +20964,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_liturgy_readings`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L669)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L207`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L207`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5`
+#### Source: `Dolnytsky_Typikon_Master.md:2.5.3.5`
 ```text
  207: ##### 2.5.3.5 Canons two: 1st - of the Theotokos, one of the two usual ones ("Having traversed the moisture", Tone 2 of Sunday Matins, or "Having crossed the water", Tone 8 of Compline on Tuesday) with the Heirmos on 6, then to the saint one or two canons on 8[^136]
  208:   * On Saturday, if the temple is of the Lord or of the Theotokos, the canon of the temple is taken with the Heirmos on 6, Heirmos - twice, and to the saint on 8[^137].
@@ -20978,9 +20978,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_post_communion_hymn`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L561)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L129`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L129`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.2.1.11`
+#### Source: `Dolnytsky_Typikon_Master.md:2.2.1.11`
 ```text
  107: ##### 2.2.1.11 Sometimes he has not only Praises stichera and the Great Doxology, but also at *“Lord, I have cried”* the Dogmatikon in the tone of the Doxastikon and a whole proper Aposticha, and for the troparia - the Sunday Theotokion at Vespers and at Matins. At Matins - proper Sessional Hymns and at the Canon - the designated Katavasia after every Ode (October 23 and July 25). If there be a feast of the Lord or of the Theotokos on 6, then the Canon is only of this service, without the *Octoechos* (July 2 and August 16 and 31)
 ```
@@ -20990,9 +20990,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_reading_epistle`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L888)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L26-28`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L26-28`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.1.4`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.1.4`
 ```text
  94: ##### 1.2.1.4 Prokimenon and Readings
  95: *After the singing of 'Gladsome Light,' the deacons approach the Holy Doors and the first of them, looking at the people, exclaims:*
@@ -21012,9 +21012,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_reading_gospel`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L916)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L26-28`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L26-28`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.1.4`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.1.4`
 ```text
  94: ##### 1.2.1.4 Prokimenon and Readings
  95: *After the singing of 'Gladsome Light,' the deacons approach the Holy Doors and the first of them, looking at the people, exclaims:*
@@ -21034,9 +21034,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_reading_ot`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L866)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L26-28`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L26-28`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.1.4`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.1.4`
 ```text
  94: ##### 1.2.1.4 Prokimenon and Readings
  95: *After the singing of 'Gladsome Light,' the deacons approach the Holy Doors and the first of them, looking at the people, exclaims:*
@@ -21056,9 +21056,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_trisagion_type`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L270)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L533`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L533`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.20.2`
+#### Source: `Dolnytsky_Typikon_Master.md:2.20.2`
 ```text
  533: ##### 2.20.2 On *“Lord, I have cried”* - 6 stichera: all - to the feast; Glory, Both now: of the feast
  534: On Friday evening - Both now: 1st Theotokion of the tone, which is being taken leave of (Dogmatikon)[^238], except for the Apodosis of the Nativity, Theophany and Pentecost, when *“Glory, Both now”* will be of the feast[^239].
@@ -21069,9 +21069,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_vesperal_liturgy_readings`
 - **Defined in**: [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\liturgy.py#L617)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part3_menaion.md:L760`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L760`
 
-#### Source: `Final_Dolnytsky_part3_menaion.md:3.4.6.3`
+#### Source: `Dolnytsky_Typikon_Master.md:3.4.6.3`
 ```text
  756: Nothing special, except the Liturgy of Basil the Great with Vespers of the Feast on the Eve of the Nativity and Theophany, if they fall on one of the five fast days, from Monday to Friday. For if they fall on Saturday or on Sunday, then on the Eve there will be the Liturgy of Chrysostom, at its proper time without Vespers, and afterwards - Vespers of the Feast, at its proper time. On the Feast itself - Liturgy of Basil the Great without Vespers. On Friday, before the Eve, to which the Royal Hours are transferred, the typikon gives no Liturgy, this is adhered to also by the Lviv Synod[^307].
  757: Saturday before the Nativity of Christ
@@ -24241,9 +24241,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `calculate_canon_ratios`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1615)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L101,L163,L481`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L101,L163,L481`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.2`
+#### Source: `Dolnytsky_Typikon_Master.md:2.2`
 ```text
  80: AT VESPERS
  81: ##### 2.2.1 Kathisma current[^70]. On Sunday evening, in view of the All-Night Vigil which sometimes occurs, the Kathisma is not taken; on the eves of feasts for which the Typikon prescribes an All-Night Vigil, the current Kathisma is not taken
@@ -24721,7 +24721,7 @@ This section details the source text backing the core algorithmic resolvers in t
  553: ##### 2.20.2.3 Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast
 ```
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.3.3`
+#### Source: `Dolnytsky_Typikon_Master.md:2.3.3`
 ```text
  161: If you take the service of the day and to the saint, then the service to the saint precedes the service of the day, with the exception of the Apostle-Gospel, which is taken first of the day, then of the saint; and there will be the troparion to the saint and of the day, Glory: Kontakion to the saint, Both now: Kontakion of the day. Prokimenon, Alleluia and Communion Hymn - to the saint, then of the day. Apostle-Gospel of the day and to the saint[^115].
  162: 
@@ -25118,7 +25118,7 @@ This section details the source text backing the core algorithmic resolvers in t
  553: ##### 2.20.2.3 Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast
 ```
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.16.5`
+#### Source: `Dolnytsky_Typikon_Master.md:2.16.5`
 ```text
  481: #### 2.16.5 AT THE LITURGY
  482: ##### 2.16.5.1 Antiphons in the Afterfeast of the Lord will be: two first - of the feast, third - general with the refrain of the feast, also and "Come". In the Afterfeast of the Theotokos - antiphons daily "It is good"
@@ -25132,9 +25132,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `check_service_type`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1743)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L13`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L13`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.1.1`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.1.1`
 ```text
  26: 1. **If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.*
  27: 2. **Bowing rules**: *It is proper for the deacons and the Priest, upon the conclusion of the censing of each icon, the Bishop, the kliros, the Choir, and the people, to bow to them, but while censing the Holy Table, to bow only from the front.*
@@ -25645,9 +25645,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `get_eothinon_doxastikon`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1685)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L181`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L181`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.5.1.6`
+#### Source: `Dolnytsky_Typikon_Master.md:1.5.1.6`
 ```text
  441: *On Feasts of the Lord and of the Theotokos at Glory, Both now there is only one stichera, on Feasts of Polyeleos Saints: one - at Glory and the second (Theotokion) - at Both now; on Sundays: at Glory - the current Gospel stichera, one of the eleven, and at Both now - the Theotokion of the Horologion 'Most blessed Art Thou.'*
  442: 
@@ -25743,9 +25743,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `get_eothinon_exapostilarion`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1666)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L240`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L240`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.2.5`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.2.5`
 ```text
  227:    *Priest:*
  228:    > **Priest**: "Blessed and pre-glorified," etc.
@@ -26055,9 +26055,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `get_katavasia`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1657)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L163`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L163`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.3.3`
+#### Source: `Dolnytsky_Typikon_Master.md:2.3.3`
 ```text
  161: If you take the service of the day and to the saint, then the service to the saint precedes the service of the day, with the exception of the Apostle-Gospel, which is taken first of the day, then of the saint; and there will be the troparion to the saint and of the day, Glory: Kontakion to the saint, Both now: Kontakion of the day. Prokimenon, Alleluia and Communion Hymn - to the saint, then of the day. Apostle-Gospel of the day and to the saint[^115].
  162: 
@@ -26460,14 +26460,14 @@ This section details the source text backing the core algorithmic resolvers in t
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1722)
 - **Citations**:
   - `ordo`: `Ordo_Celebrationis_1996_CLEAN.md:L453`
-  - `dolnytsky`: `Final_Dolnytsky_part4_triodion.md:L973`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L973`
 
 #### Source: `Ordo_Celebrationis_1996_CLEAN.md:L453`
 ```text
  453: 58. After the deacon has exclaimed: Let us pray to the Lord, and the choir has responded: Lord, have mercy the priest takes one loaf, with which he blesses the other loaves, then having returned it, he says in a raised voice the prayer:
 ```
 
-#### Source: `Final_Dolnytsky_part4_triodion.md:4.2.16.1`
+#### Source: `Dolnytsky_Typikon_Master.md:4.2.16.1`
 ```text
  974: Apostle and Gospel of the day; everything else - just as on the day of the Resurrection itself. Dismissal - with the cross.
  975: On Thursday of the sixth week from the Resurrection
@@ -26604,9 +26604,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_canon_combination`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1648)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part2_general_rubrics.md:L101,L163`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L101,L163`
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.2`
+#### Source: `Dolnytsky_Typikon_Master.md:2.2`
 ```text
  80: AT VESPERS
  81: ##### 2.2.1 Kathisma current[^70]. On Sunday evening, in view of the All-Night Vigil which sometimes occurs, the Kathisma is not taken; on the eves of feasts for which the Typikon prescribes an All-Night Vigil, the current Kathisma is not taken
@@ -27084,7 +27084,7 @@ This section details the source text backing the core algorithmic resolvers in t
  553: ##### 2.20.2.3 Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast
 ```
 
-#### Source: `Final_Dolnytsky_part2_general_rubrics.md:2.3.3`
+#### Source: `Dolnytsky_Typikon_Master.md:2.3.3`
 ```text
  161: If you take the service of the day and to the saint, then the service to the saint precedes the service of the day, with the exception of the Apostle-Gospel, which is taken first of the day, then of the saint; and there will be the troparion to the saint and of the day, Glory: Kontakion to the saint, Both now: Kontakion of the day. Prokimenon, Alleluia and Communion Hymn - to the saint, then of the day. Apostle-Gospel of the day and to the saint[^115].
  162: 
@@ -27487,7 +27487,7 @@ This section details the source text backing the core algorithmic resolvers in t
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1705)
 - **Citations**:
   - `ordo`: `Ordo_Celebrationis_1996_CLEAN.md:L281-284`
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L256`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L256`
 
 #### Source: `Ordo_Celebrationis_1996_CLEAN.md:L281-284`
 ```text
@@ -27497,7 +27497,7 @@ This section details the source text backing the core algorithmic resolvers in t
  284: 
 ```
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.2.1`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.2.1`
 ```text
  177: #### 1.2.2.1 Beginning
  178: *The Priest takes the epitrachelion, blesses it and, having kissed the cross upon it which is at the top, puts it on himself and exits through the northern door to the front of the closed Holy Doors. Here, having bowed low, he begins as usual:*
@@ -27514,9 +27514,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_dismissal_troparion`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1713)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L188`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L188`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.2.4`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.2.4`
 ```text
  202: #### 1.2.2.4 Conclusion
  203: > **Priest**: "Wisdom!"
@@ -27544,7 +27544,7 @@ This section details the source text backing the core algorithmic resolvers in t
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1696)
 - **Citations**:
   - `ordo`: `Ordo_Celebrationis_1996_CLEAN.md:L281-284`
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L240`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L240`
 
 #### Source: `Ordo_Celebrationis_1996_CLEAN.md:L281-284`
 ```text
@@ -27554,7 +27554,7 @@ This section details the source text backing the core algorithmic resolvers in t
  284: 
 ```
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.2.5`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.2.5`
 ```text
  227:    *Priest:*
  228:    > **Priest**: "Blessed and pre-glorified," etc.
@@ -27864,9 +27864,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_god_is_lord_tone`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1604)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L175`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L175`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.5`
+#### Source: `Dolnytsky_Typikon_Master.md:1.5`
 ```text
  322: ## 1.5 Matins
  323: ### 1.5.1 Order of Great Matins (With Vigil and Without Vigil)
@@ -28065,9 +28065,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_praises`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1677)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L240`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L240`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.2.5`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.2.5`
 ```text
  227:    *Priest:*
  228:    > **Priest**: "Blessed and pre-glorified," etc.
@@ -28377,9 +28377,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_psalm_50_intercession`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1780)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L240, Final_Dolnytsky_part4_triodion.md:L332`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L240, Dolnytsky_Typikon_Master.md:L332`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.2.5`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.2.5`
 ```text
  227:    *Priest:*
  228:    > **Priest**: "Blessed and pre-glorified," etc.
@@ -28684,7 +28684,7 @@ This section details the source text backing the core algorithmic resolvers in t
  527: *At Vespers which is sung with the Liturgy there will be an Entrance and, after the Prokimenon - readings; and then there will be neither a complete Vespers, nor a complete Liturgy. From Vespers its last part falls away, that is from the litany 'Let us say all' to its end; from the Liturgy, in turn, its initial part falls away, that is from the beginning to the Trisagion. Thus Vespers merges with the Liturgy as if into one order of Divine Service, and the connecting link of Vespers with the Liturgy at a Full Liturgy will be the Small Litany with the exclamation of the Trisagion, from which the Liturgy begins; and at the Liturgy of the Presanctified [Gifts] this link will be 'Let my prayer act,' which, according to our custom, the Priest sings at the four sides of the Holy Table; immediately after it follows the litany 'Let us say all,' before it, in the case of a Polyeleos Saint, will be his Apostle and Gospel, and on the first three days of Passion Week - the Gospel of the day.*
 ```
 
-#### Source: `Final_Dolnytsky_part4_triodion.md:4.1.9.1.6`
+#### Source: `Dolnytsky_Typikon_Master.md:4.1.9.1.6`
 ```text
  332: AT THE LITURGY: Everything - to the Saint, and the Epistle and Gospel first - of the day, and then - of the Saint.
  333: 
@@ -29463,9 +29463,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_service_type`
 - **Defined in**: [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\matins.py#L1596)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L7-10`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L7-10`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.1`
+#### Source: `Dolnytsky_Typikon_Master.md:1.1`
 ```text
  6: Except for the four Hours, of which each has one and the same form, all other parts of the Divine Service have several forms, namely:
  7: * **Vespers**: Great, Daily, and Small; and Great [Vespers], in turn, can be with an All-Night Vigil or without it;
@@ -29996,9 +29996,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_daily_kathisma`
 - **Defined in**: [vespers.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\vespers.py#L1254)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part1_structure.md:L13`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L13`
 
-#### Source: `Final_Dolnytsky_part1_structure.md:1.2.1.1`
+#### Source: `Dolnytsky_Typikon_Master.md:1.2.1.1`
 ```text
  26: 1. **If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.*
  27: 2. **Bowing rules**: *It is proper for the deacons and the Priest, upon the conclusion of the censing of each icon, the Bishop, the kliros, the Choir, and the people, to bow to them, but while censing the Holy Table, to bow only from the front.*
@@ -30509,9 +30509,9 @@ This section details the source text backing the core algorithmic resolvers in t
 ### Method: `resolve_passion_vespers_readings`
 - **Defined in**: [vespers.py](file:///c:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/Typikon Coded/engine\resolvers\vespers.py#L1196)
 - **Citations**:
-  - `dolnytsky`: `Final_Dolnytsky_part4_triodion.md:L1819`
+  - `dolnytsky`: `Dolnytsky_Typikon_Master.md:L1819`
 
-#### Source: `Final_Dolnytsky_part4_triodion.md:4.1.1.3`
+#### Source: `Dolnytsky_Typikon_Master.md:4.1.1.3`
 ```text
  21: #### 4.1.1.3 AT THE LITURGY
  22: ##### 4.1.1.3.1 After the Entrance: Sunday Troparion, Glory: Kontakion of the Triodion, Both now: Usual Theotokion, as outside the Triodion period[^466]
@@ -30534,17 +30534,17 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `components.artoklasia.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2` | **Final_Dolnytsky_part1_structure.md:1.2**:<br>1.2: Vespers | 
- | `components.doxology_great_sung.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2` | **Final_Dolnytsky_part1_structure.md:1.2**:<br>1.2: Vespers | 
- | `components.doxology_small_read.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `components.entrance_great.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.1` | **Final_Dolnytsky_part1_structure.md:1.2.1.1**:<br>1.2.1.1: If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.* | 
- | `components.exaltation_of_cross_stations.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.4` | **Final_Dolnytsky_part3_menaion.md:3.1.4**:<br>3.1.4: September: Universal Exaltation of the Precious Cross | 
- | `components.kneeling_prayers_pentecost.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.23.1` | **Final_Dolnytsky_part4_triodion.md:4.2.23.1**:<br>4.2.23.1: AT THE LITURGY | 
- | `components.litiya_procession.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.9` | **Final_Dolnytsky_part1_structure.md:1.2.1.9**:<br>1.2.1.9: During the censing.* | 
- | `components.matins_gospel_rite.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.4` | **Final_Dolnytsky_part1_structure.md:1.2.2.4**:<br>1.2.2.4: Conclusion | 
- | `components.polyeleos.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.6` | **Final_Dolnytsky_part1_structure.md:1.5.1.6**:<br>1.5.1.6: If [it is] a Sunday service on Sunday**: *then we sing only the Resurrection troparion, one of the two placed in the Horologion, without Theotokion; the first - 'Today salvation has come to the world,' when the tone is odd, that is 1st, 3rd, 5th and 7th; and the second - 'Having risen from the tomb,' when the tone is even, that is 2nd, 4th, 6th and 8th.* | 
- | `components.shroud_procession_and_burial.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.1.3` | **Final_Dolnytsky_part4_triodion.md:4.1.1.3**:<br>4.1.1.3: AT THE LITURGY | 
- | `components.tomb_encomia_stations.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.3` | **Final_Dolnytsky_part4_triodion.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
+ | `components.artoklasia.source_ref` | `Dolnytsky_Typikon_Master.md:1.2` | **Dolnytsky_Typikon_Master.md:1.2**:<br>1.2: Vespers | 
+ | `components.doxology_great_sung.source_ref` | `Dolnytsky_Typikon_Master.md:1.2` | **Dolnytsky_Typikon_Master.md:1.2**:<br>1.2: Vespers | 
+ | `components.doxology_small_read.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `components.entrance_great.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.1` | **Dolnytsky_Typikon_Master.md:1.2.1.1**:<br>1.2.1.1: If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.* | 
+ | `components.exaltation_of_cross_stations.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.4` | **Dolnytsky_Typikon_Master.md:3.1.4**:<br>3.1.4: September: Universal Exaltation of the Precious Cross | 
+ | `components.kneeling_prayers_pentecost.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.23.1` | **Dolnytsky_Typikon_Master.md:4.2.23.1**:<br>4.2.23.1: AT THE LITURGY | 
+ | `components.litiya_procession.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.9` | **Dolnytsky_Typikon_Master.md:1.2.1.9**:<br>1.2.1.9: During the censing.* | 
+ | `components.matins_gospel_rite.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.4` | **Dolnytsky_Typikon_Master.md:1.2.2.4**:<br>1.2.2.4: Conclusion | 
+ | `components.polyeleos.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.6` | **Dolnytsky_Typikon_Master.md:1.5.1.6**:<br>1.5.1.6: If [it is] a Sunday service on Sunday**: *then we sing only the Resurrection troparion, one of the two placed in the Horologion, without Theotokion; the first - 'Today salvation has come to the world,' when the tone is odd, that is 1st, 3rd, 5th and 7th; and the second - 'Having risen from the tomb,' when the tone is even, that is 2nd, 4th, 6th and 8th.* | 
+ | `components.shroud_procession_and_burial.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.1.3` | **Dolnytsky_Typikon_Master.md:4.1.1.3**:<br>4.1.1.3: AT THE LITURGY | 
+ | `components.tomb_encomia_stations.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.3` | **Dolnytsky_Typikon_Master.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
 
 ---
 
@@ -30552,9 +30552,9 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.structure_lenten.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.structure_paschal.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.20.2` | **Final_Dolnytsky_part4_triodion.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
-| `structures.structure_royal.source_ref` | `Final_Dolnytsky_part3_menaion.md:L757, Final_Dolnytsky_part4_triodion.md:L1010` | **Final_Dolnytsky_part3_menaion.md:L757**:<br>L757: Nothing special, except Great Hours, called Royal, on the Eve of the Nativity and Theophany, if they fall on one of the fast days, starting from Monday to Friday, or on Friday before the Eve, if it falls on Saturday or on Sunday.<br>**Final_Dolnytsky_part4_triodion.md:L1010**:<br>L1010: ROYAL HOURS |
+ | `structures.structure_lenten.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.structure_paschal.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.20.2` | **Dolnytsky_Typikon_Master.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
+| `structures.structure_royal.source_ref` | `Dolnytsky_Typikon_Master.md:L757, Dolnytsky_Typikon_Master.md:L1010` | **Dolnytsky_Typikon_Master.md:L757**:<br>L757: Nothing special, except Great Hours, called Royal, on the Eve of the Nativity and Theophany, if they fall on one of the fast days, starting from Monday to Friday, or on Friday before the Eve, if it falls on Saturday or on Sunday.<br>**Dolnytsky_Typikon_Master.md:L1010**:<br>L1010: ROYAL HOURS |
 
 ---
 
@@ -30562,11 +30562,11 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.structure_lenten.overrides[2].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.12` | **Final_Dolnytsky_part4_triodion.md:4.1.12**:<br>4.1.12: Saturday of the Second Week of Great Lent | 
- | `structures.structure_lenten.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.structure_paschal.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.20.2` | **Final_Dolnytsky_part4_triodion.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
-| `structures.structure_royal.source_ref` | `Final_Dolnytsky_part3_menaion.md:L757, Final_Dolnytsky_part4_triodion.md:L1010` | **Final_Dolnytsky_part3_menaion.md:L757**:<br>L757: Nothing special, except Great Hours, called Royal, on the Eve of the Nativity and Theophany, if they fall on one of the fast days, starting from Monday to Friday, or on Friday before the Eve, if it falls on Saturday or on Sunday.<br>**Final_Dolnytsky_part4_triodion.md:L1010**:<br>L1010: ROYAL HOURS |
- | `structures.structure_standard.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.structure_lenten.overrides[2].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.12` | **Dolnytsky_Typikon_Master.md:4.1.12**:<br>4.1.12: Saturday of the Second Week of Great Lent | 
+ | `structures.structure_lenten.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.structure_paschal.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.20.2` | **Dolnytsky_Typikon_Master.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
+| `structures.structure_royal.source_ref` | `Dolnytsky_Typikon_Master.md:L757, Dolnytsky_Typikon_Master.md:L1010` | **Dolnytsky_Typikon_Master.md:L757**:<br>L757: Nothing special, except Great Hours, called Royal, on the Eve of the Nativity and Theophany, if they fall on one of the fast days, starting from Monday to Friday, or on Friday before the Eve, if it falls on Saturday or on Sunday.<br>**Dolnytsky_Typikon_Master.md:L1010**:<br>L1010: ROYAL HOURS |
+ | `structures.structure_standard.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
 
 ---
 
@@ -30574,11 +30574,11 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.structure_lenten.overrides[2].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.12` | **Final_Dolnytsky_part4_triodion.md:4.1.12**:<br>4.1.12: Saturday of the Second Week of Great Lent | 
- | `structures.structure_lenten.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.structure_paschal.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.20.2` | **Final_Dolnytsky_part4_triodion.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
-| `structures.structure_royal.source_ref` | `Final_Dolnytsky_part3_menaion.md:L757, Final_Dolnytsky_part4_triodion.md:L1010` | **Final_Dolnytsky_part3_menaion.md:L757**:<br>L757: Nothing special, except Great Hours, called Royal, on the Eve of the Nativity and Theophany, if they fall on one of the fast days, starting from Monday to Friday, or on Friday before the Eve, if it falls on Saturday or on Sunday.<br>**Final_Dolnytsky_part4_triodion.md:L1010**:<br>L1010: ROYAL HOURS |
- | `structures.structure_standard.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.structure_lenten.overrides[2].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.12` | **Dolnytsky_Typikon_Master.md:4.1.12**:<br>4.1.12: Saturday of the Second Week of Great Lent | 
+ | `structures.structure_lenten.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.structure_paschal.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.20.2` | **Dolnytsky_Typikon_Master.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
+| `structures.structure_royal.source_ref` | `Dolnytsky_Typikon_Master.md:L757, Dolnytsky_Typikon_Master.md:L1010` | **Dolnytsky_Typikon_Master.md:L757**:<br>L757: Nothing special, except Great Hours, called Royal, on the Eve of the Nativity and Theophany, if they fall on one of the fast days, starting from Monday to Friday, or on Friday before the Eve, if it falls on Saturday or on Sunday.<br>**Dolnytsky_Typikon_Master.md:L1010**:<br>L1010: ROYAL HOURS |
+ | `structures.structure_standard.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
 
 ---
 
@@ -30586,12 +30586,12 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.structure_lenten.overrides[2].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.12` | **Final_Dolnytsky_part4_triodion.md:4.1.12**:<br>4.1.12: Saturday of the Second Week of Great Lent | 
- | `structures.structure_lenten.overrides[4].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.12` | **Final_Dolnytsky_part4_triodion.md:4.1.12**:<br>4.1.12: The service of this Saturday, as also the services of the 3rd and 4th Saturdays of Great Lent, differ from the services of Meatfare Saturday and the Saturday before the Sunday of Pentecost in that it does not exclude fully either the service of the Menaion, or the service of the day of the Octoechos, that is to all saints and the dead. The services of Meatfare Saturday and the Saturday before the Sunday of Pentecost exclude generally the service of the Menaion, and from the service of the Octoechos little is taken, but have their own order in the Triodion exclusively for the dead. Therefore, we suppose that the two litanies for the dead: "In peace let us pray to the Lord" and "Have mercy on us, O God", which according to our later rubric are given at Vespers and at Matins, and the litany for the dead "Again and again", which is said between the odes of the canon, should be taken only on these two Saturdays which are exclusively for the dead, and on the other three - usual litanies. | 
- | `structures.structure_lenten.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.structure_paschal.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.20.2` | **Final_Dolnytsky_part4_triodion.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
-| `structures.structure_royal.source_ref` | `Final_Dolnytsky_part3_menaion.md:L757, Final_Dolnytsky_part4_triodion.md:L1010` | **Final_Dolnytsky_part3_menaion.md:L757**:<br>L757: Nothing special, except Great Hours, called Royal, on the Eve of the Nativity and Theophany, if they fall on one of the fast days, starting from Monday to Friday, or on Friday before the Eve, if it falls on Saturday or on Sunday.<br>**Final_Dolnytsky_part4_triodion.md:L1010**:<br>L1010: ROYAL HOURS |
- | `structures.structure_standard.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.structure_lenten.overrides[2].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.12` | **Dolnytsky_Typikon_Master.md:4.1.12**:<br>4.1.12: Saturday of the Second Week of Great Lent | 
+ | `structures.structure_lenten.overrides[4].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.12` | **Dolnytsky_Typikon_Master.md:4.1.12**:<br>4.1.12: The service of this Saturday, as also the services of the 3rd and 4th Saturdays of Great Lent, differ from the services of Meatfare Saturday and the Saturday before the Sunday of Pentecost in that it does not exclude fully either the service of the Menaion, or the service of the day of the Octoechos, that is to all saints and the dead. The services of Meatfare Saturday and the Saturday before the Sunday of Pentecost exclude generally the service of the Menaion, and from the service of the Octoechos little is taken, but have their own order in the Triodion exclusively for the dead. Therefore, we suppose that the two litanies for the dead: "In peace let us pray to the Lord" and "Have mercy on us, O God", which according to our later rubric are given at Vespers and at Matins, and the litany for the dead "Again and again", which is said between the odes of the canon, should be taken only on these two Saturdays which are exclusively for the dead, and on the other three - usual litanies. | 
+ | `structures.structure_lenten.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.structure_paschal.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.20.2` | **Dolnytsky_Typikon_Master.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
+| `structures.structure_royal.source_ref` | `Dolnytsky_Typikon_Master.md:L757, Dolnytsky_Typikon_Master.md:L1010` | **Dolnytsky_Typikon_Master.md:L757**:<br>L757: Nothing special, except Great Hours, called Royal, on the Eve of the Nativity and Theophany, if they fall on one of the fast days, starting from Monday to Friday, or on Friday before the Eve, if it falls on Saturday or on Sunday.<br>**Dolnytsky_Typikon_Master.md:L1010**:<br>L1010: ROYAL HOURS |
+ | `structures.structure_standard.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
 
 ---
 
@@ -30599,18 +30599,18 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.structure_lenten.sequence[0].source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.12.1` | **Final_Dolnytsky_part4_triodion.md:4.1.12.1**:<br>4.1.12.1: AT THE LITURGY | 
- | `structures.structure_lenten.sequence[3].source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.13.1.2` | **Final_Dolnytsky_part4_triodion.md:4.1.13.1.2**:<br>4.1.13.1.2: After the 3rd Ode - Kontakion and Ikos of the Sunday and to the Saint, if he has one; Glory: his Sessional Hymn, Both now: his Theotokion; after the 6th - Kontakion and Ikos of the Triodion. | 
- | `structures.structure_lenten.sequence[5].source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.13.1.3` | **Final_Dolnytsky_part4_triodion.md:4.1.13.1.3**:<br>4.1.13.1.3: Stichera of the Praises - 9: Sunday of the Octoechos on 8, with the usual verses of the Praises psalms, one of the Triodion with the verse "Arise, O Lord my God", then Glory: and again the same sticheron; Both now: "Most blessed Art Thou" | 
- | `structures.structure_lenten.sequence[6].source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.13.1.4` | **Final_Dolnytsky_part4_triodion.md:4.1.13.1.4**:<br>4.1.13.1.4: AT THE HOURS: Instead of the Sunday Kontakion we read the Kontakion of the Triodion, the rest - according to the general rubric. | 
- | `structures.structure_lenten.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.7.3` | **Final_Dolnytsky_part4_triodion.md:4.1.7.3**:<br>4.1.7.3: These three commemorations we make also at the Exaposteilaria following the canon. But the Lenten Exaposteilarion has only one troparion in each tone, which is sung three times, therefore, when it is sung the first time, the commemoration of the weekday service is added to it, when - the second time, with the refrain "Glory", then - the commemoration of all saints, and when the third time, with the refrain "Both now", then - the commemoration of the Theotokos. These commemorations are added where the colon is given, that is before "And save me". | 
- | `structures.structure_standard.sequence[1].source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.7.1.2` | **Final_Dolnytsky_part3_menaion.md:3.4.7.1.2**:<br>3.4.7.1.2: The choirs read: Psalm 102 "Bless the Lord, O my soul" and Psalm 145 "Praise the Lord, O my soul", "Glory, Both now", "Only-begotten Son" | 
- | `structures.structure_standard.sequence[2].source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.7.1.2` | **Final_Dolnytsky_part3_menaion.md:3.4.7.1.2**:<br>3.4.7.1.2: The choirs read: Psalm 102 "Bless the Lord, O my soul" and Psalm 145 "Praise the Lord, O my soul", "Glory, Both now", "Only-begotten Son" | 
- | `structures.structure_standard.sequence[4].source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.7.1.3` | **Final_Dolnytsky_part3_menaion.md:3.4.7.1.3**:<br>3.4.7.1.3: The Beatitudes: "In Thy kingdom... great in heaven", "Glory, Both now" | 
- | `structures.structure_standard.sequence[6].source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.7.1.3` | **Final_Dolnytsky_part3_menaion.md:3.4.7.1.3**:<br>3.4.7.1.3: "The heavenly choir", verse "Come unto Him", "The heavenly choir", Glory: "The Choir of holy angels", Both now: "Remit, pardon" (when there is no Liturgy, then Both now: "The Creed", also "Remit, forgive"). | 
- | `structures.structure_standard.sequence[7].source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.7.1.3` | **Final_Dolnytsky_part3_menaion.md:3.4.7.1.3**:<br>3.4.7.1.3: "Our Father", Kontakion of the Eve once and "Lord, have mercy" (12). | 
- | `structures.structure_standard.sequence[9].source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.7.1.4` | **Final_Dolnytsky_part3_menaion.md:3.4.7.1.4**:<br>3.4.7.1.4: The Priest goes out before the Holy Doors in an epitrachelion, reads the prayer "O All-Holy Trinity" (if there be Liturgy, then the Choir immediately: "It is truly meet" and the rest; if not, then before "It is truly meet" the Choir sings: "Blessed be the name of the Lord" (3) and Psalm "I will bless the Lord", and the Priest then waits before the Holy Doors until the end) | 
- | `structures.structure_standard.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.7.1.1` | **Final_Dolnytsky_part3_menaion.md:3.4.7.1.1**:<br>3.4.7.1.1: After the concluding prayer of the 9th Hour the Priest, having bowed before the Holy Doors, enters the sanctuary and sits in his place | 
+ | `structures.structure_lenten.sequence[0].source_ref` | `Dolnytsky_Typikon_Master.md:4.1.12.1` | **Dolnytsky_Typikon_Master.md:4.1.12.1**:<br>4.1.12.1: AT THE LITURGY | 
+ | `structures.structure_lenten.sequence[3].source_ref` | `Dolnytsky_Typikon_Master.md:4.1.13.1.2` | **Dolnytsky_Typikon_Master.md:4.1.13.1.2**:<br>4.1.13.1.2: After the 3rd Ode - Kontakion and Ikos of the Sunday and to the Saint, if he has one; Glory: his Sessional Hymn, Both now: his Theotokion; after the 6th - Kontakion and Ikos of the Triodion. | 
+ | `structures.structure_lenten.sequence[5].source_ref` | `Dolnytsky_Typikon_Master.md:4.1.13.1.3` | **Dolnytsky_Typikon_Master.md:4.1.13.1.3**:<br>4.1.13.1.3: Stichera of the Praises - 9: Sunday of the Octoechos on 8, with the usual verses of the Praises psalms, one of the Triodion with the verse "Arise, O Lord my God", then Glory: and again the same sticheron; Both now: "Most blessed Art Thou" | 
+ | `structures.structure_lenten.sequence[6].source_ref` | `Dolnytsky_Typikon_Master.md:4.1.13.1.4` | **Dolnytsky_Typikon_Master.md:4.1.13.1.4**:<br>4.1.13.1.4: AT THE HOURS: Instead of the Sunday Kontakion we read the Kontakion of the Triodion, the rest - according to the general rubric. | 
+ | `structures.structure_lenten.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.7.3` | **Dolnytsky_Typikon_Master.md:4.1.7.3**:<br>4.1.7.3: These three commemorations we make also at the Exaposteilaria following the canon. But the Lenten Exaposteilarion has only one troparion in each tone, which is sung three times, therefore, when it is sung the first time, the commemoration of the weekday service is added to it, when - the second time, with the refrain "Glory", then - the commemoration of all saints, and when the third time, with the refrain "Both now", then - the commemoration of the Theotokos. These commemorations are added where the colon is given, that is before "And save me". | 
+ | `structures.structure_standard.sequence[1].source_ref` | `Dolnytsky_Typikon_Master.md:3.4.7.1.2` | **Dolnytsky_Typikon_Master.md:3.4.7.1.2**:<br>3.4.7.1.2: The choirs read: Psalm 102 "Bless the Lord, O my soul" and Psalm 145 "Praise the Lord, O my soul", "Glory, Both now", "Only-begotten Son" | 
+ | `structures.structure_standard.sequence[2].source_ref` | `Dolnytsky_Typikon_Master.md:3.4.7.1.2` | **Dolnytsky_Typikon_Master.md:3.4.7.1.2**:<br>3.4.7.1.2: The choirs read: Psalm 102 "Bless the Lord, O my soul" and Psalm 145 "Praise the Lord, O my soul", "Glory, Both now", "Only-begotten Son" | 
+ | `structures.structure_standard.sequence[4].source_ref` | `Dolnytsky_Typikon_Master.md:3.4.7.1.3` | **Dolnytsky_Typikon_Master.md:3.4.7.1.3**:<br>3.4.7.1.3: The Beatitudes: "In Thy kingdom... great in heaven", "Glory, Both now" | 
+ | `structures.structure_standard.sequence[6].source_ref` | `Dolnytsky_Typikon_Master.md:3.4.7.1.3` | **Dolnytsky_Typikon_Master.md:3.4.7.1.3**:<br>3.4.7.1.3: "The heavenly choir", verse "Come unto Him", "The heavenly choir", Glory: "The Choir of holy angels", Both now: "Remit, pardon" (when there is no Liturgy, then Both now: "The Creed", also "Remit, forgive"). | 
+ | `structures.structure_standard.sequence[7].source_ref` | `Dolnytsky_Typikon_Master.md:3.4.7.1.3` | **Dolnytsky_Typikon_Master.md:3.4.7.1.3**:<br>3.4.7.1.3: "Our Father", Kontakion of the Eve once and "Lord, have mercy" (12). | 
+ | `structures.structure_standard.sequence[9].source_ref` | `Dolnytsky_Typikon_Master.md:3.4.7.1.4` | **Dolnytsky_Typikon_Master.md:3.4.7.1.4**:<br>3.4.7.1.4: The Priest goes out before the Holy Doors in an epitrachelion, reads the prayer "O All-Holy Trinity" (if there be Liturgy, then the Choir immediately: "It is truly meet" and the rest; if not, then before "It is truly meet" the Choir sings: "Blessed be the name of the Lord" (3) and Psalm "I will bless the Lord", and the Priest then waits before the Holy Doors until the end) | 
+ | `structures.structure_standard.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.7.1.1` | **Dolnytsky_Typikon_Master.md:3.4.7.1.1**:<br>3.4.7.1.1: After the concluding prayer of the 9th Hour the Priest, having bowed before the Holy Doors, enters the sanctuary and sits in his place | 
 
 ---
 
@@ -30618,11 +30618,11 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.great_compline_lenten.sequence[3].source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.8.5` | **Final_Dolnytsky_part4_triodion.md:4.1.8.5**:<br>4.1.8.5: At "O Gladsome Light" - Prokimenon of the Triodion, one reading of the Triodion and the second Prokimenon of the Triodion; then the Priest, having taken the triple-candle with the censer and exclaiming "Wisdom, Aright", begins "The Light of Christ", blessing with the triple-candle crosswise to the east, then, blessing to the west, says: "Illumines all"; all make three prostrations to the ground, and the Reader sings: "The Reading from Proverbs" and, when the Priest or Deacon exclaims: "Let us attend", reads the second reading of the Triodion | 
- | `structures.great_compline_lenten.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.7` | **Final_Dolnytsky_part1_structure.md:1.2.1.7**:<br>1.2.1.7: Priest**: "For Thine is the kingdom..." | 
- | `structures.great_compline_vigil.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.2` | **Final_Dolnytsky_part1_structure.md:1.5.1.2**:<br>1.5.1.2: If on a weekday the service is of a Feast and of a Saint**: *then the troparion of the service of the Feast twice, Glory: troparion of the Saint once, Both now: once more the troparion of the Feast*[^3a]*.* | 
- | `structures.small_compline.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1` | **Final_Dolnytsky_part1_structure.md:1.5.1**:<br>1.5.1: Order of Great Matins (With Vigil and Without Vigil) | 
- | `structures.structure_paschal.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.20.2` | **Final_Dolnytsky_part4_triodion.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
+ | `structures.great_compline_lenten.sequence[3].source_ref` | `Dolnytsky_Typikon_Master.md:4.1.8.5` | **Dolnytsky_Typikon_Master.md:4.1.8.5**:<br>4.1.8.5: At "O Gladsome Light" - Prokimenon of the Triodion, one reading of the Triodion and the second Prokimenon of the Triodion; then the Priest, having taken the triple-candle with the censer and exclaiming "Wisdom, Aright", begins "The Light of Christ", blessing with the triple-candle crosswise to the east, then, blessing to the west, says: "Illumines all"; all make three prostrations to the ground, and the Reader sings: "The Reading from Proverbs" and, when the Priest or Deacon exclaims: "Let us attend", reads the second reading of the Triodion | 
+ | `structures.great_compline_lenten.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.7` | **Dolnytsky_Typikon_Master.md:1.2.1.7**:<br>1.2.1.7: Priest**: "For Thine is the kingdom..." | 
+ | `structures.great_compline_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.2` | **Dolnytsky_Typikon_Master.md:1.5.1.2**:<br>1.5.1.2: If on a weekday the service is of a Feast and of a Saint**: *then the troparion of the service of the Feast twice, Glory: troparion of the Saint once, Both now: once more the troparion of the Feast*[^3a]*.* | 
+ | `structures.small_compline.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1` | **Dolnytsky_Typikon_Master.md:1.5.1**:<br>1.5.1: Order of Great Matins (With Vigil and Without Vigil) | 
+ | `structures.structure_paschal.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.20.2` | **Dolnytsky_Typikon_Master.md:4.2.20.2**:<br>4.2.20.2: AT THE LITURGY | 
 
 ---
 
@@ -30630,13 +30630,13 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.midnight_daily.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.3` | **Final_Dolnytsky_part1_structure.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
- | `structures.midnight_holy_saturday.sequence[3].source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.24` | **Final_Dolnytsky_part4_triodion.md:4.2.24**:<br>4.2.24: At the Liturgy: at the 3rd Antiphon, at "O come, let us worship", if Thou wishest, refrain the refrain: "Through the prayers of the Theotokos, who sing to Thee", as in the Pochaiv Triodion. | 
- | `structures.midnight_holy_saturday.sequence[4].source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.24` | **Final_Dolnytsky_part4_triodion.md:4.2.24**:<br>4.2.24: At the Liturgy: at the 3rd Antiphon, at "O come, let us worship", if Thou wishest, refrain the refrain: "Through the prayers of the Theotokos, who sing to Thee", as in the Pochaiv Triodion. | 
- | `structures.midnight_holy_saturday.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.23.1` | **Final_Dolnytsky_part4_triodion.md:4.2.23.1**:<br>4.2.23.1: AT THE LITURGY | 
- | `structures.midnight_saturday.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.3` | **Final_Dolnytsky_part1_structure.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
- | `structures.midnight_sunday.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.3` | **Final_Dolnytsky_part1_structure.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
- | `structures.midnight_weekday.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.3` | **Final_Dolnytsky_part1_structure.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
+ | `structures.midnight_daily.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.3` | **Dolnytsky_Typikon_Master.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
+ | `structures.midnight_holy_saturday.sequence[3].source_ref` | `Dolnytsky_Typikon_Master.md:4.2.24` | **Dolnytsky_Typikon_Master.md:4.2.24**:<br>4.2.24: At the Liturgy: at the 3rd Antiphon, at "O come, let us worship", if Thou wishest, refrain the refrain: "Through the prayers of the Theotokos, who sing to Thee", as in the Pochaiv Triodion. | 
+ | `structures.midnight_holy_saturday.sequence[4].source_ref` | `Dolnytsky_Typikon_Master.md:4.2.24` | **Dolnytsky_Typikon_Master.md:4.2.24**:<br>4.2.24: At the Liturgy: at the 3rd Antiphon, at "O come, let us worship", if Thou wishest, refrain the refrain: "Through the prayers of the Theotokos, who sing to Thee", as in the Pochaiv Triodion. | 
+ | `structures.midnight_holy_saturday.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.23.1` | **Dolnytsky_Typikon_Master.md:4.2.23.1**:<br>4.2.23.1: AT THE LITURGY | 
+ | `structures.midnight_saturday.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.3` | **Dolnytsky_Typikon_Master.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
+ | `structures.midnight_sunday.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.3` | **Dolnytsky_Typikon_Master.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
+ | `structures.midnight_weekday.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.3` | **Dolnytsky_Typikon_Master.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
 
 ---
 
@@ -30644,14 +30644,14 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `kneeling_vespers.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.23.1` | **Final_Dolnytsky_part4_triodion.md:4.2.23.1**:<br>4.2.23.1: AT THE LITURGY | 
- | `structures.great_vespers_vigil.sequence[0].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.1` | **Final_Dolnytsky_part1_structure.md:1.2.1.1**:<br>1.2.1.1: After censing the people, the deacons turn to the Holy Doors and the first exclaims:* | 
- | `structures.great_vespers_vigil.sequence[2].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.3` | **Final_Dolnytsky_part1_structure.md:1.2.1.3**:<br>1.2.1.3: When the Priest blesses the Entrance, both deacons stand before him in one row (longitudinal), that is, the first deacon stands before the Priest with his back to him, and the second before the first in the same way. At the conclusion of the stichera, the first Deacon makes the sign of the cross with the censer and exclaims:* | 
- | `structures.great_vespers_vigil.sequence[4].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.3` | **Final_Dolnytsky_part1_structure.md:1.2.1.3**:<br>1.2.1.3: When the Priest blesses the Entrance, both deacons stand before him in one row (longitudinal), that is, the first deacon stands before the Priest with his back to him, and the second before the first in the same way. At the conclusion of the stichera, the first Deacon makes the sign of the cross with the censer and exclaims:* | 
- | `structures.great_vespers_vigil.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.1` | **Final_Dolnytsky_part1_structure.md:1.2.1.1**:<br>1.2.1.1: If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.* | 
- | `structures.lenten_vespers.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.14` | **Final_Dolnytsky_part4_triodion.md:4.1.14**:<br>4.1.14: Monday, Tuesday, Wednesday, Thursday and Friday | 
- | `structures.passion_burial_vespers.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.1.3` | **Final_Dolnytsky_part4_triodion.md:4.1.1.3**:<br>4.1.1.3: AT THE LITURGY | 
- | `structures.presanctified_vespers.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.14.3.3` | **Final_Dolnytsky_part4_triodion.md:4.1.14.3.3**:<br>4.1.14.3.3: Note on the Veneration of the Precious Cross | 
+ | `kneeling_vespers.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.23.1` | **Dolnytsky_Typikon_Master.md:4.2.23.1**:<br>4.2.23.1: AT THE LITURGY | 
+ | `structures.great_vespers_vigil.sequence[0].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.1` | **Dolnytsky_Typikon_Master.md:1.2.1.1**:<br>1.2.1.1: After censing the people, the deacons turn to the Holy Doors and the first exclaims:* | 
+ | `structures.great_vespers_vigil.sequence[2].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.3` | **Dolnytsky_Typikon_Master.md:1.2.1.3**:<br>1.2.1.3: When the Priest blesses the Entrance, both deacons stand before him in one row (longitudinal), that is, the first deacon stands before the Priest with his back to him, and the second before the first in the same way. At the conclusion of the stichera, the first Deacon makes the sign of the cross with the censer and exclaims:* | 
+ | `structures.great_vespers_vigil.sequence[4].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.3` | **Dolnytsky_Typikon_Master.md:1.2.1.3**:<br>1.2.1.3: When the Priest blesses the Entrance, both deacons stand before him in one row (longitudinal), that is, the first deacon stands before the Priest with his back to him, and the second before the first in the same way. At the conclusion of the stichera, the first Deacon makes the sign of the cross with the censer and exclaims:* | 
+ | `structures.great_vespers_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.1` | **Dolnytsky_Typikon_Master.md:1.2.1.1**:<br>1.2.1.1: If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.* | 
+ | `structures.lenten_vespers.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.14` | **Dolnytsky_Typikon_Master.md:4.1.14**:<br>4.1.14: Monday, Tuesday, Wednesday, Thursday and Friday | 
+ | `structures.passion_burial_vespers.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.1.3` | **Dolnytsky_Typikon_Master.md:4.1.1.3**:<br>4.1.1.3: AT THE LITURGY | 
+ | `structures.presanctified_vespers.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.14.3.3` | **Dolnytsky_Typikon_Master.md:4.1.14.3.3**:<br>4.1.14.3.3: Note on the Veneration of the Precious Cross | 
 
 ---
 
@@ -30659,85 +30659,85 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.bridegroom_matins.overrides[0].new_component.content.components[1].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.13.3` | **Final_Dolnytsky_part4_triodion.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
- | `structures.bridegroom_matins.overrides[0].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.13.3` | **Final_Dolnytsky_part4_triodion.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
- | `structures.bridegroom_matins.overrides[1].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.13.3` | **Final_Dolnytsky_part4_triodion.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
- | `structures.bridegroom_matins.overrides[2].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.13.3` | **Final_Dolnytsky_part4_triodion.md:4.2.13.3**:<br>4.2.13.3: At all Hours: Sunday Troparion, and at the 3rd and 9th - also Glory: of the saint. Kontakia: at the 1st and 6th - of the Paralytic, at the 3rd and 9th - of the saint. | 
- | `structures.bridegroom_matins.overrides[3].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.13.3` | **Final_Dolnytsky_part4_triodion.md:4.2.13.3**:<br>4.2.13.3: Note: If two saints fall, then at Vespers or at Matins we select the Theotokion to the troparia according to the tone of the second, and on "God is the Lord" we sing all troparia once. | 
- | `structures.bridegroom_matins.overrides[4].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.13.3` | **Final_Dolnytsky_part4_triodion.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
- | `structures.bridegroom_matins.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.13.3` | **Final_Dolnytsky_part4_triodion.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
- | `structures.bright_matins.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.24` | **Final_Dolnytsky_part4_triodion.md:4.2.24**:<br>4.2.24: At the Liturgy: at the 3rd Antiphon, at "O come, let us worship", if Thou wishest, refrain the refrain: "Through the prayers of the Theotokos, who sing to Thee", as in the Pochaiv Triodion. | 
- | `structures.daily_matins.sequence[14].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.daily_matins.sequence[15].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.daily_matins.sequence[17].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.daily_matins.sequence[3].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.daily_matins.sequence[5].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.daily_matins.sequence[7].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.daily_matins.sequence[8].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.daily_matins.sequence[9].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.daily_matins.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `structures.great_matins.sequence[0].content.false_content.rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.5` | **Final_Dolnytsky_part1_structure.md:1.5.1.5**:<br>1.5.1.5: The Canon | 
- | `structures.great_matins.sequence[0].content.true_content.rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.5` | **Final_Dolnytsky_part1_structure.md:1.5.1.5**:<br>1.5.1.5: The Canon | 
- | `structures.great_matins.sequence[3].content.components[1].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2` | **Final_Dolnytsky_part1_structure.md:1.2**:<br>1.2: Vespers | 
- | `structures.great_matins.sequence[3].content.components[4].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2` | **Final_Dolnytsky_part1_structure.md:1.2**:<br>1.2: Vespers | 
- | `structures.great_matins.sequence[4].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.6` | **Final_Dolnytsky_part1_structure.md:1.5.1.6**:<br>1.5.1.6: If [it is] a Sunday service on Sunday**: *then we sing only the Resurrection troparion, one of the two placed in the Horologion, without Theotokion; the first - 'Today salvation has come to the world,' when the tone is odd, that is 1st, 3rd, 5th and 7th; and the second - 'Having risen from the tomb,' when the tone is even, that is 2nd, 4th, 6th and 8th.* | 
- | `structures.great_matins.sequence[5].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.4` | **Final_Dolnytsky_part1_structure.md:1.2.2.4**:<br>1.2.2.4: Conclusion | 
- | `structures.great_matins.sequence[7].content.components[14].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.1` | **Final_Dolnytsky_part1_structure.md:1.2.2.1**:<br>1.2.2.1: Beginning | 
- | `structures.great_matins.sequence[7].content.components[16].components[0].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.6` | **Final_Dolnytsky_part1_structure.md:1.5.1.6**:<br>1.5.1.6: From "Let everything that hath breath" to the end | 
- | `structures.great_matins.sequence[9].rubric.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.2` | **Final_Dolnytsky_part1_structure.md:1.5.2**:<br>1.5.2: Rubric for Deacons | 
- | `structures.great_matins.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.5` | **Final_Dolnytsky_part1_structure.md:1.5.1.5**:<br>1.5.1.5: The Canon | 
- | `structures.lenten_matins_weekday.overrides[0].new_component.content.components[1].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.4` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.4**:<br>4.1.9.1.4: Canons 3 [making] 14: Temple with heirmos on 6 and two of Theodore on 8. Katavasia after each ode - "I shall open" | 
- | `structures.lenten_matins_weekday.overrides[0].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.4` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.4**:<br>4.1.9.1.4: Canons 3 [making] 14: Temple with heirmos on 6 and two of Theodore on 8. Katavasia after each ode - "I shall open" | 
- | `structures.lenten_matins_weekday.overrides[11].new_component.content.components[1].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10.3.2` | **Final_Dolnytsky_part4_triodion.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
- | `structures.lenten_matins_weekday.overrides[11].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10.3.2` | **Final_Dolnytsky_part4_triodion.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
- | `structures.lenten_matins_weekday.overrides[12].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10.3.2` | **Final_Dolnytsky_part4_triodion.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
- | `structures.lenten_matins_weekday.overrides[13].new_component.content.components[1].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.6` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
- | `structures.lenten_matins_weekday.overrides[13].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.6` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE LITURGY: Everything - to the Saint, and the Epistle and Gospel first - of the day, and then - of the Saint. | 
- | `structures.lenten_matins_weekday.overrides[1].new_component.content.components[1].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.6` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
- | `structures.lenten_matins_weekday.overrides[1].new_component.content.components[3].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.6` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
- | `structures.lenten_matins_weekday.overrides[1].new_component.content.components[5].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.6` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
- | `structures.lenten_matins_weekday.overrides[1].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.6` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
- | `structures.lenten_matins_weekday.overrides[2].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10` | **Final_Dolnytsky_part4_triodion.md:4.1.10**:<br>4.1.10: Of Orthodoxy | 
- | `structures.lenten_matins_weekday.overrides[3].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.1` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.1**:<br>4.1.9.1.1: If it be Small Compline, then after "It is truly meet" we recite the Kontakion of the Great Martyr; if Great, then after the 1st Trisagion - Troparion of the Great Martyr, Glory, Both now: Theotokion (Sunday, in the tone of the Troparion of the Saint); after the 2nd Trisagion - usual troparia "Have mercy on us, O Lord"; after "It is truly meet" - Kontakion of the Great Martyr, and the Troparion "O Lord of Hosts" we do not recite | 
- | `structures.lenten_matins_weekday.overrides[4].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10.3.1` | **Final_Dolnytsky_part4_triodion.md:4.1.10.3.1**:<br>4.1.10.3.1: Troparion Sunday and "We venerate Thy most pure image", Glory, Both now: Kontakion of the Triodion | 
- | `structures.lenten_matins_weekday.overrides[5].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10` | **Final_Dolnytsky_part4_triodion.md:4.1.10**:<br>4.1.10: Of Orthodoxy | 
- | `structures.lenten_matins_weekday.overrides[6].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.11` | **Final_Dolnytsky_part4_triodion.md:4.1.11**:<br>4.1.11: Monday, Tuesday, Wednesday, Thursday and Friday of the Second Week of Great Lent | 
- | `structures.lenten_matins_weekday.overrides[7].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10.3.2` | **Final_Dolnytsky_part4_triodion.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
- | `structures.lenten_matins_weekday.overrides[8].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10.3.2` | **Final_Dolnytsky_part4_triodion.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
- | `structures.lenten_matins_weekday.overrides[9].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.10.3.2` | **Final_Dolnytsky_part4_triodion.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
- | `structures.lenten_matins_weekday.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.1` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.1**:<br>4.1.9.1.1: If it be Small Compline, then after "It is truly meet" we recite the Kontakion of the Great Martyr; if Great, then after the 1st Trisagion - Troparion of the Great Martyr, Glory, Both now: Theotokion (Sunday, in the tone of the Troparion of the Saint); after the 2nd Trisagion - usual troparia "Have mercy on us, O Lord"; after "It is truly meet" - Kontakion of the Great Martyr, and the Troparion "O Lord of Hosts" we do not recite | 
- | `structures.passion_matins.sequence[0].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.16.1` | **Final_Dolnytsky_part4_triodion.md:4.2.16.1**:<br>4.2.16.1: AT THE LITURGY | 
- | `structures.passion_matins.sequence[15].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.2.4` | **Final_Dolnytsky_part4_triodion.md:4.2.18.2.4**:<br>4.2.18.2.4: Stichera of the Praises on 8: 4 Sunday and of the Fathers on 4; Glory: of the Fathers, Both now: "Most blessed Art Thou" | 
- | `structures.passion_matins.sequence[17].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.16.10` | **Final_Dolnytsky_part4_triodion.md:4.2.16.10**:<br>4.2.16.10: AT THE HOURS: At all - Troparion "Let us the faithful praise" and Kontakion of the Blind Man. | 
- | `structures.passion_matins.sequence[19].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.3` | **Final_Dolnytsky_part4_triodion.md:4.2.18.3**:<br>4.2.18.3: Kontakia: at the 1st and 6th - of the feast, at the 3rd and 9th - to the Fathers. | 
- | `structures.passion_matins.sequence[1].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18` | **Final_Dolnytsky_part4_triodion.md:4.2.18**:<br>4.2.18: Seventh from the Resurrection. Tone 6. | 
- | `structures.passion_matins.sequence[20].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.3` | **Final_Dolnytsky_part4_triodion.md:4.2.18.3**:<br>4.2.18.3: Kontakia: at the 1st and 6th - of the feast, at the 3rd and 9th - to the Fathers. | 
- | `structures.passion_matins.sequence[22].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.4.1` | **Final_Dolnytsky_part4_triodion.md:4.2.18.4.1**:<br>4.2.18.4.1: After the Entrance: Sunday Troparion, of the feast and of the Fathers; Glory: Kontakion to the Fathers, Both now: of the feast | 
- | `structures.passion_matins.sequence[24].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.4.2` | **Final_Dolnytsky_part4_triodion.md:4.2.18.4.2**:<br>4.2.18.4.2: Everything else - only to the Fathers, only Communion Hymn - "Praise the Lord" and to the Fathers ("Rejoice in the Lord, O ye righteous") | 
- | `structures.passion_matins.sequence[25].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.4.2` | **Final_Dolnytsky_part4_triodion.md:4.2.18.4.2**:<br>4.2.18.4.2: Everything else - only to the Fathers, only Communion Hymn - "Praise the Lord" and to the Fathers ("Rejoice in the Lord, O ye righteous") | 
- | `structures.passion_matins.sequence[26].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.4.2` | **Final_Dolnytsky_part4_triodion.md:4.2.18.4.2**:<br>4.2.18.4.2: The service of the Holy Fathers is leavetaken according to the following rubric: | 
- | `structures.passion_matins.sequence[28].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.4.4` | **Final_Dolnytsky_part4_triodion.md:4.2.18.4.4**:<br>4.2.18.4.4: At the Aposticha - Stichera of the Fathers, only Both now: of the feast | 
- | `structures.passion_matins.sequence[2].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.1.1` | **Final_Dolnytsky_part4_triodion.md:4.2.18.1.1**:<br>4.2.18.1.1: On "Lord, I have cried" - 10 stichera: 3 Sunday, 3 of the Ascension and 4 of the Fathers; Glory: of the Fathers, Both now: 1st Theotokion | 
- | `structures.passion_matins.sequence[30].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.4.5` | **Final_Dolnytsky_part4_triodion.md:4.2.18.4.5**:<br>4.2.18.4.5: After "Now lettest Thou Thy servant depart" - Troparion of the Fathers, Glory: of the saint, Both now: of the feast. And thus the service of the Holy Fathers is leavetaken | 
- | `structures.passion_matins.sequence[32].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.4.5` | **Final_Dolnytsky_part4_triodion.md:4.2.18.4.5**:<br>4.2.18.4.5: After "Now lettest Thou Thy servant depart" - Troparion of the Fathers, Glory: of the saint, Both now: of the feast. And thus the service of the Holy Fathers is leavetaken | 
- | `structures.passion_matins.sequence[34].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.4.5` | **Final_Dolnytsky_part4_triodion.md:4.2.18.4.5**:<br>4.2.18.4.5: APODOSIS OF THE ASCENSION | 
- | `structures.passion_matins.sequence[3].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.1.3` | **Final_Dolnytsky_part4_triodion.md:4.2.18.1.3**:<br>4.2.18.1.3: Sunday Aposticha, Glory: of the Fathers, Both now: of the feast | 
- | `structures.passion_matins.sequence[4].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.16.4` | **Final_Dolnytsky_part4_triodion.md:4.2.16.4**:<br>4.2.16.4: AT MATINS | 
- | `structures.passion_matins.sequence[5].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18.2.3` | **Final_Dolnytsky_part4_triodion.md:4.2.18.2.3**:<br>4.2.18.2.3: Canons 3 [making] 14: Sunday with heirmos on 4, Ascension on 4 and of the Fathers on 6. Katavasia of the Descent | 
- | `structures.passion_matins.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.16` | **Final_Dolnytsky_part4_triodion.md:4.2.16**:<br>4.2.16: Everything - according to the rubric of the Sunday of the Paralytic here, on pp. 431-432 [→REF:p431-432]; only at Great Matins there will be the 8th Sunday Gospel and Katavasia - not of the Resurrection, but of the Ascension. | 
- | `structures.tomb_matins.overrides[0].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.2.5` | **Final_Dolnytsky_part4_triodion.md:4.2.21.2.5**:<br>4.2.21.2.5: AT THE HOURS: At all - Sunday Troparion, Glory: of the Saints, Kontakion - only of the Saints. | 
- | `structures.tomb_matins.overrides[1].new_component.content.components[0].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.3` | **Final_Dolnytsky_part4_triodion.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
- | `structures.tomb_matins.overrides[1].new_component.content.components[1].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.3` | **Final_Dolnytsky_part4_triodion.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
- | `structures.tomb_matins.overrides[1].new_component.content.components[2].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.3` | **Final_Dolnytsky_part4_triodion.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
-| `structures.tomb_matins.overrides[1].new_component.content.components[3].content.components[0].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md` | **Final_Dolnytsky_part4_triodion.md**:<br>L1: [Entire File: Final_Dolnytsky_part4_triodion.md] |
-| `structures.tomb_matins.overrides[1].new_component.content.components[3].content.components[2].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md` | **Final_Dolnytsky_part4_triodion.md**:<br>L1: [Entire File: Final_Dolnytsky_part4_triodion.md] |
-| `structures.tomb_matins.overrides[1].new_component.content.components[3].content.components[3].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md` | **Final_Dolnytsky_part4_triodion.md**:<br>L1: [Entire File: Final_Dolnytsky_part4_triodion.md] |
-| `structures.tomb_matins.overrides[1].new_component.content.components[3].content.components[4].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md` | **Final_Dolnytsky_part4_triodion.md**:<br>L1: [Entire File: Final_Dolnytsky_part4_triodion.md] |
- | `structures.tomb_matins.overrides[1].new_component.content.components[3].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.3.2` | **Final_Dolnytsky_part4_triodion.md:4.2.21.3.2**:<br>4.2.21.3.2: Prokimenon Sunday of the tone and of the Saints; Alleluia of the Saints, Apostle and Gospel of the Saints; Communion Hymn "Praise the Lord" and of the Saints ("Rejoice in the Lord, O ye righteous") | 
- | `structures.tomb_matins.overrides[1].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.3` | **Final_Dolnytsky_part4_triodion.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
- | `structures.tomb_matins.overrides[5].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.3` | **Final_Dolnytsky_part4_triodion.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
- | `structures.tomb_matins.overrides[6].new_component.rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.23` | **Final_Dolnytsky_part4_triodion.md:4.2.23**:<br>4.2.23: Transferred to the second Sunday after the Descent. | 
- | `structures.tomb_matins.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.1.3` | **Final_Dolnytsky_part4_triodion.md:4.2.21.1.3**:<br>4.2.21.1.3: Sunday Aposticha; Glory: of the Saints, Both now: their Theotokion | 
+ | `structures.bridegroom_matins.overrides[0].new_component.content.components[1].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.13.3` | **Dolnytsky_Typikon_Master.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
+ | `structures.bridegroom_matins.overrides[0].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.13.3` | **Dolnytsky_Typikon_Master.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
+ | `structures.bridegroom_matins.overrides[1].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.13.3` | **Dolnytsky_Typikon_Master.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
+ | `structures.bridegroom_matins.overrides[2].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.13.3` | **Dolnytsky_Typikon_Master.md:4.2.13.3**:<br>4.2.13.3: At all Hours: Sunday Troparion, and at the 3rd and 9th - also Glory: of the saint. Kontakia: at the 1st and 6th - of the Paralytic, at the 3rd and 9th - of the saint. | 
+ | `structures.bridegroom_matins.overrides[3].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.13.3` | **Dolnytsky_Typikon_Master.md:4.2.13.3**:<br>4.2.13.3: Note: If two saints fall, then at Vespers or at Matins we select the Theotokion to the troparia according to the tone of the second, and on "God is the Lord" we sing all troparia once. | 
+ | `structures.bridegroom_matins.overrides[4].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.13.3` | **Dolnytsky_Typikon_Master.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
+ | `structures.bridegroom_matins.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.13.3` | **Dolnytsky_Typikon_Master.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
+ | `structures.bright_matins.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.24` | **Dolnytsky_Typikon_Master.md:4.2.24**:<br>4.2.24: At the Liturgy: at the 3rd Antiphon, at "O come, let us worship", if Thou wishest, refrain the refrain: "Through the prayers of the Theotokos, who sing to Thee", as in the Pochaiv Triodion. | 
+ | `structures.daily_matins.sequence[14].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.daily_matins.sequence[15].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.daily_matins.sequence[17].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.daily_matins.sequence[3].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.daily_matins.sequence[5].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.daily_matins.sequence[7].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.daily_matins.sequence[8].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.daily_matins.sequence[9].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.daily_matins.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `structures.great_matins.sequence[0].content.false_content.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.5` | **Dolnytsky_Typikon_Master.md:1.5.1.5**:<br>1.5.1.5: The Canon | 
+ | `structures.great_matins.sequence[0].content.true_content.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.5` | **Dolnytsky_Typikon_Master.md:1.5.1.5**:<br>1.5.1.5: The Canon | 
+ | `structures.great_matins.sequence[3].content.components[1].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2` | **Dolnytsky_Typikon_Master.md:1.2**:<br>1.2: Vespers | 
+ | `structures.great_matins.sequence[3].content.components[4].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2` | **Dolnytsky_Typikon_Master.md:1.2**:<br>1.2: Vespers | 
+ | `structures.great_matins.sequence[4].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.6` | **Dolnytsky_Typikon_Master.md:1.5.1.6**:<br>1.5.1.6: If [it is] a Sunday service on Sunday**: *then we sing only the Resurrection troparion, one of the two placed in the Horologion, without Theotokion; the first - 'Today salvation has come to the world,' when the tone is odd, that is 1st, 3rd, 5th and 7th; and the second - 'Having risen from the tomb,' when the tone is even, that is 2nd, 4th, 6th and 8th.* | 
+ | `structures.great_matins.sequence[5].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.4` | **Dolnytsky_Typikon_Master.md:1.2.2.4**:<br>1.2.2.4: Conclusion | 
+ | `structures.great_matins.sequence[7].content.components[14].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.1` | **Dolnytsky_Typikon_Master.md:1.2.2.1**:<br>1.2.2.1: Beginning | 
+ | `structures.great_matins.sequence[7].content.components[16].components[0].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.6` | **Dolnytsky_Typikon_Master.md:1.5.1.6**:<br>1.5.1.6: From "Let everything that hath breath" to the end | 
+ | `structures.great_matins.sequence[9].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.2` | **Dolnytsky_Typikon_Master.md:1.5.2**:<br>1.5.2: Rubric for Deacons | 
+ | `structures.great_matins.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.5` | **Dolnytsky_Typikon_Master.md:1.5.1.5**:<br>1.5.1.5: The Canon | 
+ | `structures.lenten_matins_weekday.overrides[0].new_component.content.components[1].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.4` | **Dolnytsky_Typikon_Master.md:4.1.9.1.4**:<br>4.1.9.1.4: Canons 3 [making] 14: Temple with heirmos on 6 and two of Theodore on 8. Katavasia after each ode - "I shall open" | 
+ | `structures.lenten_matins_weekday.overrides[0].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.4` | **Dolnytsky_Typikon_Master.md:4.1.9.1.4**:<br>4.1.9.1.4: Canons 3 [making] 14: Temple with heirmos on 6 and two of Theodore on 8. Katavasia after each ode - "I shall open" | 
+ | `structures.lenten_matins_weekday.overrides[11].new_component.content.components[1].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10.3.2` | **Dolnytsky_Typikon_Master.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
+ | `structures.lenten_matins_weekday.overrides[11].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10.3.2` | **Dolnytsky_Typikon_Master.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
+ | `structures.lenten_matins_weekday.overrides[12].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10.3.2` | **Dolnytsky_Typikon_Master.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
+ | `structures.lenten_matins_weekday.overrides[13].new_component.content.components[1].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.6` | **Dolnytsky_Typikon_Master.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
+ | `structures.lenten_matins_weekday.overrides[13].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.6` | **Dolnytsky_Typikon_Master.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE LITURGY: Everything - to the Saint, and the Epistle and Gospel first - of the day, and then - of the Saint. | 
+ | `structures.lenten_matins_weekday.overrides[1].new_component.content.components[1].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.6` | **Dolnytsky_Typikon_Master.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
+ | `structures.lenten_matins_weekday.overrides[1].new_component.content.components[3].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.6` | **Dolnytsky_Typikon_Master.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
+ | `structures.lenten_matins_weekday.overrides[1].new_component.content.components[5].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.6` | **Dolnytsky_Typikon_Master.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
+ | `structures.lenten_matins_weekday.overrides[1].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.6` | **Dolnytsky_Typikon_Master.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
+ | `structures.lenten_matins_weekday.overrides[2].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10` | **Dolnytsky_Typikon_Master.md:4.1.10**:<br>4.1.10: Of Orthodoxy | 
+ | `structures.lenten_matins_weekday.overrides[3].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.1` | **Dolnytsky_Typikon_Master.md:4.1.9.1.1**:<br>4.1.9.1.1: If it be Small Compline, then after "It is truly meet" we recite the Kontakion of the Great Martyr; if Great, then after the 1st Trisagion - Troparion of the Great Martyr, Glory, Both now: Theotokion (Sunday, in the tone of the Troparion of the Saint); after the 2nd Trisagion - usual troparia "Have mercy on us, O Lord"; after "It is truly meet" - Kontakion of the Great Martyr, and the Troparion "O Lord of Hosts" we do not recite | 
+ | `structures.lenten_matins_weekday.overrides[4].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10.3.1` | **Dolnytsky_Typikon_Master.md:4.1.10.3.1**:<br>4.1.10.3.1: Troparion Sunday and "We venerate Thy most pure image", Glory, Both now: Kontakion of the Triodion | 
+ | `structures.lenten_matins_weekday.overrides[5].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10` | **Dolnytsky_Typikon_Master.md:4.1.10**:<br>4.1.10: Of Orthodoxy | 
+ | `structures.lenten_matins_weekday.overrides[6].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.11` | **Dolnytsky_Typikon_Master.md:4.1.11**:<br>4.1.11: Monday, Tuesday, Wednesday, Thursday and Friday of the Second Week of Great Lent | 
+ | `structures.lenten_matins_weekday.overrides[7].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10.3.2` | **Dolnytsky_Typikon_Master.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
+ | `structures.lenten_matins_weekday.overrides[8].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10.3.2` | **Dolnytsky_Typikon_Master.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
+ | `structures.lenten_matins_weekday.overrides[9].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.10.3.2` | **Dolnytsky_Typikon_Master.md:4.1.10.3.2**:<br>4.1.10.3.2: MONDAY, TUESDAY, WEDNESDAY, THURSDAY AND FRIDAY | 
+ | `structures.lenten_matins_weekday.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.1` | **Dolnytsky_Typikon_Master.md:4.1.9.1.1**:<br>4.1.9.1.1: If it be Small Compline, then after "It is truly meet" we recite the Kontakion of the Great Martyr; if Great, then after the 1st Trisagion - Troparion of the Great Martyr, Glory, Both now: Theotokion (Sunday, in the tone of the Troparion of the Saint); after the 2nd Trisagion - usual troparia "Have mercy on us, O Lord"; after "It is truly meet" - Kontakion of the Great Martyr, and the Troparion "O Lord of Hosts" we do not recite | 
+ | `structures.passion_matins.sequence[0].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.16.1` | **Dolnytsky_Typikon_Master.md:4.2.16.1**:<br>4.2.16.1: AT THE LITURGY | 
+ | `structures.passion_matins.sequence[15].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.2.4` | **Dolnytsky_Typikon_Master.md:4.2.18.2.4**:<br>4.2.18.2.4: Stichera of the Praises on 8: 4 Sunday and of the Fathers on 4; Glory: of the Fathers, Both now: "Most blessed Art Thou" | 
+ | `structures.passion_matins.sequence[17].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.16.10` | **Dolnytsky_Typikon_Master.md:4.2.16.10**:<br>4.2.16.10: AT THE HOURS: At all - Troparion "Let us the faithful praise" and Kontakion of the Blind Man. | 
+ | `structures.passion_matins.sequence[19].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.3` | **Dolnytsky_Typikon_Master.md:4.2.18.3**:<br>4.2.18.3: Kontakia: at the 1st and 6th - of the feast, at the 3rd and 9th - to the Fathers. | 
+ | `structures.passion_matins.sequence[1].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18` | **Dolnytsky_Typikon_Master.md:4.2.18**:<br>4.2.18: Seventh from the Resurrection. Tone 6. | 
+ | `structures.passion_matins.sequence[20].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.3` | **Dolnytsky_Typikon_Master.md:4.2.18.3**:<br>4.2.18.3: Kontakia: at the 1st and 6th - of the feast, at the 3rd and 9th - to the Fathers. | 
+ | `structures.passion_matins.sequence[22].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.4.1` | **Dolnytsky_Typikon_Master.md:4.2.18.4.1**:<br>4.2.18.4.1: After the Entrance: Sunday Troparion, of the feast and of the Fathers; Glory: Kontakion to the Fathers, Both now: of the feast | 
+ | `structures.passion_matins.sequence[24].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.4.2` | **Dolnytsky_Typikon_Master.md:4.2.18.4.2**:<br>4.2.18.4.2: Everything else - only to the Fathers, only Communion Hymn - "Praise the Lord" and to the Fathers ("Rejoice in the Lord, O ye righteous") | 
+ | `structures.passion_matins.sequence[25].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.4.2` | **Dolnytsky_Typikon_Master.md:4.2.18.4.2**:<br>4.2.18.4.2: Everything else - only to the Fathers, only Communion Hymn - "Praise the Lord" and to the Fathers ("Rejoice in the Lord, O ye righteous") | 
+ | `structures.passion_matins.sequence[26].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.4.2` | **Dolnytsky_Typikon_Master.md:4.2.18.4.2**:<br>4.2.18.4.2: The service of the Holy Fathers is leavetaken according to the following rubric: | 
+ | `structures.passion_matins.sequence[28].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.4.4` | **Dolnytsky_Typikon_Master.md:4.2.18.4.4**:<br>4.2.18.4.4: At the Aposticha - Stichera of the Fathers, only Both now: of the feast | 
+ | `structures.passion_matins.sequence[2].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.1.1` | **Dolnytsky_Typikon_Master.md:4.2.18.1.1**:<br>4.2.18.1.1: On "Lord, I have cried" - 10 stichera: 3 Sunday, 3 of the Ascension and 4 of the Fathers; Glory: of the Fathers, Both now: 1st Theotokion | 
+ | `structures.passion_matins.sequence[30].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.4.5` | **Dolnytsky_Typikon_Master.md:4.2.18.4.5**:<br>4.2.18.4.5: After "Now lettest Thou Thy servant depart" - Troparion of the Fathers, Glory: of the saint, Both now: of the feast. And thus the service of the Holy Fathers is leavetaken | 
+ | `structures.passion_matins.sequence[32].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.4.5` | **Dolnytsky_Typikon_Master.md:4.2.18.4.5**:<br>4.2.18.4.5: After "Now lettest Thou Thy servant depart" - Troparion of the Fathers, Glory: of the saint, Both now: of the feast. And thus the service of the Holy Fathers is leavetaken | 
+ | `structures.passion_matins.sequence[34].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.4.5` | **Dolnytsky_Typikon_Master.md:4.2.18.4.5**:<br>4.2.18.4.5: APODOSIS OF THE ASCENSION | 
+ | `structures.passion_matins.sequence[3].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.1.3` | **Dolnytsky_Typikon_Master.md:4.2.18.1.3**:<br>4.2.18.1.3: Sunday Aposticha, Glory: of the Fathers, Both now: of the feast | 
+ | `structures.passion_matins.sequence[4].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.16.4` | **Dolnytsky_Typikon_Master.md:4.2.16.4**:<br>4.2.16.4: AT MATINS | 
+ | `structures.passion_matins.sequence[5].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18.2.3` | **Dolnytsky_Typikon_Master.md:4.2.18.2.3**:<br>4.2.18.2.3: Canons 3 [making] 14: Sunday with heirmos on 4, Ascension on 4 and of the Fathers on 6. Katavasia of the Descent | 
+ | `structures.passion_matins.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.16` | **Dolnytsky_Typikon_Master.md:4.2.16**:<br>4.2.16: Everything - according to the rubric of the Sunday of the Paralytic here, on pp. 431-432 [→REF:p431-432]; only at Great Matins there will be the 8th Sunday Gospel and Katavasia - not of the Resurrection, but of the Ascension. | 
+ | `structures.tomb_matins.overrides[0].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.2.5` | **Dolnytsky_Typikon_Master.md:4.2.21.2.5**:<br>4.2.21.2.5: AT THE HOURS: At all - Sunday Troparion, Glory: of the Saints, Kontakion - only of the Saints. | 
+ | `structures.tomb_matins.overrides[1].new_component.content.components[0].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.3` | **Dolnytsky_Typikon_Master.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
+ | `structures.tomb_matins.overrides[1].new_component.content.components[1].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.3` | **Dolnytsky_Typikon_Master.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
+ | `structures.tomb_matins.overrides[1].new_component.content.components[2].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.3` | **Dolnytsky_Typikon_Master.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
+| `structures.tomb_matins.overrides[1].new_component.content.components[3].content.components[0].rubric.source_ref` | `Dolnytsky_Typikon_Master.md` | **Dolnytsky_Typikon_Master.md**:<br>L1: [Entire File: Dolnytsky_Typikon_Master.md] |
+| `structures.tomb_matins.overrides[1].new_component.content.components[3].content.components[2].rubric.source_ref` | `Dolnytsky_Typikon_Master.md` | **Dolnytsky_Typikon_Master.md**:<br>L1: [Entire File: Dolnytsky_Typikon_Master.md] |
+| `structures.tomb_matins.overrides[1].new_component.content.components[3].content.components[3].rubric.source_ref` | `Dolnytsky_Typikon_Master.md` | **Dolnytsky_Typikon_Master.md**:<br>L1: [Entire File: Dolnytsky_Typikon_Master.md] |
+| `structures.tomb_matins.overrides[1].new_component.content.components[3].content.components[4].rubric.source_ref` | `Dolnytsky_Typikon_Master.md` | **Dolnytsky_Typikon_Master.md**:<br>L1: [Entire File: Dolnytsky_Typikon_Master.md] |
+ | `structures.tomb_matins.overrides[1].new_component.content.components[3].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.3.2` | **Dolnytsky_Typikon_Master.md:4.2.21.3.2**:<br>4.2.21.3.2: Prokimenon Sunday of the tone and of the Saints; Alleluia of the Saints, Apostle and Gospel of the Saints; Communion Hymn "Praise the Lord" and of the Saints ("Rejoice in the Lord, O ye righteous") | 
+ | `structures.tomb_matins.overrides[1].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.3` | **Dolnytsky_Typikon_Master.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
+ | `structures.tomb_matins.overrides[5].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.3` | **Dolnytsky_Typikon_Master.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
+ | `structures.tomb_matins.overrides[6].new_component.rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.23` | **Dolnytsky_Typikon_Master.md:4.2.23**:<br>4.2.23: Transferred to the second Sunday after the Descent. | 
+ | `structures.tomb_matins.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.1.3` | **Dolnytsky_Typikon_Master.md:4.2.21.1.3**:<br>4.2.21.1.3: Sunday Aposticha; Glory: of the Saints, Both now: their Theotokion | 
 
 ---
 
@@ -30745,7 +30745,7 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.litiya.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.9` | **Final_Dolnytsky_part1_structure.md:1.2.1.9**:<br>1.2.1.9: During the censing.* | 
+ | `structures.litiya.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.9` | **Dolnytsky_Typikon_Master.md:1.2.1.9**:<br>1.2.1.9: During the censing.* | 
 
 ---
 
@@ -30753,14 +30753,14 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.liturgy_basil.source_ref` | `Final_Dolnytsky_appendix.md:6.1.5.1.31` | **Final_Dolnytsky_appendix.md:6.1.5.1.31**:<br>6.1.5.1.31: Then the | 
- | `structures.liturgy_chrysostom.sequence[0].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.15.4.2` | **Final_Dolnytsky_part4_triodion.md:4.2.15.4.2**:<br>4.2.15.4.2: MONDAY AND TUESDAY IN THE MIDDLE OF | 
- | `structures.liturgy_chrysostom.sequence[16].rubric.source_ref` | `Final_footnotes.md:6.4` | **Final_footnotes.md:6.4**:<br>6.4: [Diagram of the Lamb] NI KA IC XC **109.** The deacon, having taken wine and water, says to the priest: "Bless, Master, the holy union" and, when he has blessed, the deacon himself or the priest pours wine and a little water into the holy chalice, according to established prescriptions. **110.** Then the priest takes the second prosphora in his hands, however if there is no second or other prosphora, he finishes the prescribed liturgical actions on one, saying: "In honor and memory" and, having taken a particle, places it to the right of the holy bread, near its middle, saying: "At Thy right hand stood the Queen." **111.** Then, having taken the third prosphora, he says: "Of the honorable, heavenly," takes the first particle, places it to the left of the holy bread, beginning the first row. Then he says: "Of the honorable, glorious Prophet, Forerunner." The taken particle he places under the first and says: "Of the holy, glorious," and then places the third particle under the second, finishing the first row. Then he says: "Of our holy Fathers"; having taken the fourth particle, he places it next to the first, beginning the second row. Then he says: "Of the holy Apostle, Protomartyr" and, having taken the fifth particle, places it under the first [of the second row], with which he begins the second row. After this he says: "Of our venerable and God-bearing [Fathers]" and, having taken the sixth particle, places it under the second [of the second row], finishing the second row. Then he says: "Of the holy and wonderworking Unmercenaries." Having taken the seventh particle, he places it next to the first [of the second row], beginning the third row. Then again he says: "Of the holy and righteous Ancestors of God" and places the eighth particle under the first [of the third row]. He takes the ninth particle, saying: "Of Saint (Name) and all saints," and places it at the end of the third row, finishing it. **112.** After this he takes the fourth prosphora and says: "Remember, O Master, Lover of mankind, our most holy [Pontiff]," and places the taken particle below the holy bread. Then he mentions by name the living, whom he wishes, and for each name takes out a particle, saying: "Remember, O Lord, (Name)." **113.** Finally he takes the fifth prosphora, mentions the bishop who ordained him, and by name the deceased, whom he wishes. For each name he takes out a particle, saying: "Remember, O Lord, the soul." Then he says: "And of all in the hope of resurrection" and takes out a particle. After this he says: "Remember, O Lord, according to the multitude of Thy compassions" and takes out a particle. It should be noted that one may add other particles for the living and the deceased until the Great Entrance itself (see no. 192). **114.** He gathers the particles on the diskos under the holy bread, so that they be together and so that none falls off^[768]. **115.** The deacon takes the censer and, having put in incense, says to the priest: "Bless, Master, the incense" and immediately says himself: "Let us pray to the Lord," and the priest blesses and recites the Prayer of the Censer "Incense we offer to Thee" (see no. 20). Deacon: "Let us pray to the Lord." The priest, having censed the star-cover, places it over the holy bread, saying: "And the star came." Deacon: "Let us pray to the Lord." The priest, having censed likewise the first veil, covers with it the holy bread with the diskos and says: "The Lord reigns." Deacon: "Let us pray to the Lord. Cover, Master." The priest, having censed likewise the second veil, covers with it the holy chalice, saying: "Thy virtue." Deacon: "Let us pray to the Lord. Cover, Master." The priest, having censed in the same manner the third veil, the so-called *aer* [vozdukh], covers with it the diskos and chalice, saying: "Cover us with the shelter." Then the priest, having taken the censer, censes the table of oblation, bowing together with the deacon, and says: "Blessed is our God," and the deacon responds: "Always, now and ever." The priest gives the censer to the deacon either now, or after the Prayer of the Offering. **116.** Then the deacon says: "For the precious gifts offered," and the priest, making no sign of blessing, recites the Prayer of the Offering: "O God, our God," after which he makes the dismissal there, speaking thus: "Glory to Thee, O Christ God." Deacon: "Glory, Both now," "Lord, have mercy" (3), "Bless." On Sunday the priest says the dismissal thus: "Christ, Who rose from the dead," and on other days: "Christ, our true God." Deacon: "Amen." **117.** After the dismissal of the Proskomedia, the priest goes before the holy table, and the deacon censes the table of oblation three times, then the holy table from the four sides, saying quietly: "In the tomb" and the 50th(51st) Psalm, after which he censes the icon behind the altar. He goes out of the sanctuary through the northern doors, comes before the holy doors and, having bowed before them, censes the icons of the southern part of the iconostasis, beginning from the icon of the Savior, then -- the icons of the northern part, beginning from the icon of the Theotokos, and then -- the choirs, right and left. He censes the faithful either from the solea, or, if there is a custom, going through the church to the very narthex. Having returned through the southern doors into the sanctuary, he censes the holy table once more, only from the front, and likewise -- the celebrant (see nos. 9, 20, 33, 39, 54; also no. 177). **118.** Then he gives the censer to the server, and himself stands to the right of the priest. Standing together before the holy table, they recite "O Heavenly King." Then they bow three times, saying: "Glory to God in the highest" (2), "O Lord, open my lips," then they kiss: the priest -- the Holy Gospel, and the deacon -- the holy table (see no. 102). After this the deacon bows his head before the priest and, holding the orarion with three fingers of his right hand, says: "It is time." The priest signs him and says: "Blessed is our God," and the deacon: "Pray for me, Master." Priest: "May the Lord direct thy steps." And again the deacon: "Remember me, holy Master." Priest: "May the Lord God remember thee." Deacon: "Amen." The deacon, having made a small bow and holding the orarion with three fingers of his right hand, goes out through the northern doors, for the holy doors remain closed until the Entrance itself and, having stood at his place before the holy doors, makes piously three small bows and prays quietly: "O Lord, open my lips." After this, he raises the end of the orarion with his right hand and exclaims: "Bless, Master." **119.** And the priest, standing in the middle before the holy table and making the sign of the cross over it with the Holy Gospel^[769], begins loudly: "Blessed is the kingdom." Choir: "Amen." The deacon sings the Great Litany "In peace let us pray to the Lord," and the priest recites quietly the Prayer of the First Antiphon "O Lord our God." Exclamation: "For to Thee belongs." Choir: "Amen." The First Antiphon or the First Typika Psalm is sung, and the deacon, having made a small bow, departs from his place and stands before the icon of Christ, holding the orarion with three fingers of his right hand. **120.** After the completion of the Antiphon, the deacon returns to his place and, having made a small bow, exclaims: "Again and again." And the priest recites quietly the Prayer of the Second Antiphon: "O Lord our God, save Thy people." Exclamation: "For Thine is the dominion." Choir: "Amen." Likewise the Second Antiphon or Typika [Psalm] is sung. The deacon does the same as at the first prayer, only he stands now before the icon of the Theotokos. After the Antiphon the choir sings: "Glory, Both now," "Only-begotten Son," and the priest says nothing and at "became man" does not bow. **121.** Then the deacon, having returned again to the usual place, sings: "Again and again," and the priest recites quietly the Prayer of the Third Antiphon "Thou who hast given us." Exclamation: "For Thou art a good." Choir: "Amen." The deacon returns into the sanctuary through the southern doors. Here the holy doors are opened. **122.** The Third Antiphon or the Beatitudes, if it is Sunday, is sung. When the singers reach "Glory," the priest and deacon, standing before the holy table, make three small bows. Then the priest takes the Holy Gospel, gives it to the deacon and lowers the phelonion. Both go around the holy table from the right side and, having gone out through the northern doors, preceded by candle-bearers, make the Little Entrance. Having come before the holy doors, the candle-bearers stand on opposite sides: one -- near the icon of the Theotokos, and the other -- of the Savior, the priest -- in the middle, and the deacon -- slightly in front of him, to the right. Both bow their heads and the deacon says in a low voice: "Let us pray to the Lord," and the priest recites quietly the Prayer of the Entrance "O Master, Lord our God." After the completion of the prayer, the deacon says in a low voice to the priest, holding the orarion with three fingers and pointing to the east: "Bless, Master, the holy entrance." The priest blesses to the east and says: "Blessed is the entrance." Then the deacon presents to the priest the Holy Gospel for kissing. When the last verse of the Antiphon or Beatitudes is finished, the deacon goes out to the center, stands before the priest, raises his hands slightly and, showing the Holy Gospel^[770], exclaims: "Wisdom, arise." Then they enter the sanctuary and the deacon places the Holy Gospel on the throne, and the candle-bearers, having bowed together before the holy doors, return to their places. The choir sings: "Come, let us worship," "Save us... who art wonderful in the saints...", and if it is Sunday: "Save us... who rose from the dead...". After this -- the usual troparia. **123.** The priest recites quietly the Prayer of the Trisagion "O Holy God." When the singers reach the last troparion, the deacon bows his head before the priest and, holding the orarion with three fingers in his hand, says: "Bless, Master, the time of the Thrice-Holy," and the priest blesses him and exclaims: "For Holy art Thou, our God." The deacon withdraws to the holy doors and, turned to the people, with the end of the orarion raised by three fingers of the right hand, exclaims: "and unto ages of ages." Choir: "Amen." During the singing of the Trisagion, the priest and deacon also recite it, making simultaneously three small bows before the holy table. **124.** Then the deacon says to the priest: "Command, Master" and departs to the High Place. The priest, going, says: "Blessed is he that comes." Deacon: "Bless, Master," and the priest: "Blessed art Thou on the throne" and blesses the High Place. It is known that the priest should not go up to the High Place, nor sit on it. It befits him to sit on the southern side of the High Throne. **125.** After the completion of the Trisagion, the deacon approaches the holy doors and, holding the orarion with three fingers of the raised right hand, says: "Let us be attentive," and the priest blesses the people and exclaims: "Peace be to all." Then again the deacon: "Wisdom, let us be attentive" and returns to the priest. The choir sings the Prokimenon, the Psalm of David. After the Prokimenon, the deacon: "Wisdom," and the reader, dressed in a sticharion, in the middle of the sanctuary [temple], before the solea, reads the title of the Apostle: "The Acts...". And again the deacon: "Let us be attentive." After the completion of the reading of the Apostle, the priest says: "Peace be to thee." Deacon: "Wisdom, let us be attentive." The choir sings "Alleluia" with verses. **126.** During the singing of "Alleluia," the deacon, having taken the censer and put incense into it, approaches the priest and says: "Bless, Master, the incense." Having received the blessing from the priest, who says: "Blessed is our God," he censes around the holy table, the whole sanctuary, the priest, the icons of the sanctuary, the icons of the iconostasis, both choirs and the people (see nos. 33 and 75). And the priest, standing before the holy table, recites quietly the Prayer before the Gospel "Illumine our hearts." The deacon, having given away the censer, approaches the priest and, having bowed his head before him and holding the orarion with his fingers, points to the Holy Gospel and says loudly: "Bless, Master, the proclaimer of the holy Apostle." The priest, blessing him, exclaims: "May God, through the prayers," and gives him the Holy Gospel, and the deacon answers: "Amen" and, having bowed to the Holy Gospel, takes it, goes out through the holy doors, preceded by candle-bearers who go out through the side doors, stands on the ambo or not far from the holy doors at the designated place, there places the Holy Gospel on the analogion and reads it, turned to the people. The priest stands before the throne and, looking to the west, exclaims: "Wisdom, arise, let us hear the Holy Gospel." Then he blesses: "Peace be to all." Choir: "And to thy spirit." Deacon: "The reading from the Holy Gospel according to (Name)." Choir: "Glory to Thee, O Lord, glory to Thee." Priest: "Let us be attentive." After the reading of the Gospel, the priest says to the deacon: "Peace be to thee who proclaimest." Choir: "Glory to Thee, O Lord, glory to Thee." The deacon comes to the very holy doors and gives the rolled Holy Gospel to the priest^[771], who kisses it and places it in the middle of the throne before the tabernacle or places it on the right side of the holy table; the holy doors are closed again. **127.** The deacon stands at the usual place and begins thus: "Let us all say." The priest recites quietly the Prayer "O Lord our God." Exclamation: "For a merciful." Choir: "Amen." Then the deacon: "Pray, ye catechumens." The priest quietly recites the Prayer for the Catechumens "O Lord our God." Exclamation: "That with us they also." Choir: "Amen." The priest unfolds the antimension [*iliton*]. The deacon says loudly: "All catechumens, depart; catechumens, depart; all catechumens, depart. Let no catechumen remain. Only the faithful." **128.** The priest recites quietly the First Prayer of the Faithful "We thank Thee." Deacon: "Help us, save us, have mercy." Choir: "Lord, have mercy." Deacon: "Wisdom." Exclamation: "For to Thee belongs." Choir: "Amen." Deacon: "Again and again." The priest recites quietly the Second Prayer of the Faithful "Again and oftentimes." Deacon: "Help us, save us, have mercy." Choir: "Lord, have mercy." Deacon: "Wisdom" and enters the sanctuary through the northern doors^[772]. The priest, not turning to the people, exclaims: "That being kept under Thy dominion." Choir: "Amen"; and the holy doors are opened. **129.** During the singing of the Cherubic Hymn, the deacon, having taken the censer and put incense into it, approaches the priest, saying: "Bless, Master, the incense" and, having received the blessing: "Blessed is God," recites the 50th(51st) Psalm and censes around the holy table, the icon behind the altar, the icons of the iconostasis, both choirs and the people. At the end, having returned through the southern doors into the sanctuary, he censes the priest^[773]. The priest, having lifted his hands up, recites quietly the prayer "No one is worthy." After the censing, the deacon stands to the right of the priest, holding the censer on the ring finger of his left hand. The priest together with the deacon, having lifted their hands up, recite the Cherubic Hymn three times, each time making a small bow. After this, where there exists a custom, the priest and deacon kiss the holy table and, if they wish, the altar cross; then they go, the deacon -- in front, directly to the side altar. There the priest, having taken the censer, censes the Holy Gifts crosswise, praying quietly: "O God, be merciful to me a sinner," gives the censer to the deacon, who holds it on one of the fingers of his right hand. The deacon says to the priest: "Take up, Master," and the priest takes the large veil, which is called the *aer*, and places it on the deacon's left shoulder, saying: "Lift up your hands." Then he takes the holy diskos, covered with the small veil, and places it with attentiveness and piety on the deacon's head^[774], and the deacon, holding the end of the orarion with his left hand, holds the diskos with both hands on his head. The priest himself takes the chalice, covered with the small veil, and holds it before him. Both go out through the northern doors, preceded by candle-bearers. These last arrive at the very holy doors and stand on both sides of them. The deacon, going out, calls: "All of you, Orthodox Christians" and enters through the holy doors into the sanctuary, where he waits for the priest on the right side. The priest exclaims: "Our most holy [Pontiff]" and before the holy doors, when he exclaims "And all of you, Orthodox Christians," he turns to the people^[775]; then he enters the sanctuary. | 
- | `structures.liturgy_chrysostom.sequence[3].rubric.source_ref` | `Final_footnotes.md:6.4` | **Final_footnotes.md:6.4**:<br>6.4: [Diagram of the Lamb] NI KA IC XC **109.** The deacon, having taken wine and water, says to the priest: "Bless, Master, the holy union" and, when he has blessed, the deacon himself or the priest pours wine and a little water into the holy chalice, according to established prescriptions. **110.** Then the priest takes the second prosphora in his hands, however if there is no second or other prosphora, he finishes the prescribed liturgical actions on one, saying: "In honor and memory" and, having taken a particle, places it to the right of the holy bread, near its middle, saying: "At Thy right hand stood the Queen." **111.** Then, having taken the third prosphora, he says: "Of the honorable, heavenly," takes the first particle, places it to the left of the holy bread, beginning the first row. Then he says: "Of the honorable, glorious Prophet, Forerunner." The taken particle he places under the first and says: "Of the holy, glorious," and then places the third particle under the second, finishing the first row. Then he says: "Of our holy Fathers"; having taken the fourth particle, he places it next to the first, beginning the second row. Then he says: "Of the holy Apostle, Protomartyr" and, having taken the fifth particle, places it under the first [of the second row], with which he begins the second row. After this he says: "Of our venerable and God-bearing [Fathers]" and, having taken the sixth particle, places it under the second [of the second row], finishing the second row. Then he says: "Of the holy and wonderworking Unmercenaries." Having taken the seventh particle, he places it next to the first [of the second row], beginning the third row. Then again he says: "Of the holy and righteous Ancestors of God" and places the eighth particle under the first [of the third row]. He takes the ninth particle, saying: "Of Saint (Name) and all saints," and places it at the end of the third row, finishing it. **112.** After this he takes the fourth prosphora and says: "Remember, O Master, Lover of mankind, our most holy [Pontiff]," and places the taken particle below the holy bread. Then he mentions by name the living, whom he wishes, and for each name takes out a particle, saying: "Remember, O Lord, (Name)." **113.** Finally he takes the fifth prosphora, mentions the bishop who ordained him, and by name the deceased, whom he wishes. For each name he takes out a particle, saying: "Remember, O Lord, the soul." Then he says: "And of all in the hope of resurrection" and takes out a particle. After this he says: "Remember, O Lord, according to the multitude of Thy compassions" and takes out a particle. It should be noted that one may add other particles for the living and the deceased until the Great Entrance itself (see no. 192). **114.** He gathers the particles on the diskos under the holy bread, so that they be together and so that none falls off^[768]. **115.** The deacon takes the censer and, having put in incense, says to the priest: "Bless, Master, the incense" and immediately says himself: "Let us pray to the Lord," and the priest blesses and recites the Prayer of the Censer "Incense we offer to Thee" (see no. 20). Deacon: "Let us pray to the Lord." The priest, having censed the star-cover, places it over the holy bread, saying: "And the star came." Deacon: "Let us pray to the Lord." The priest, having censed likewise the first veil, covers with it the holy bread with the diskos and says: "The Lord reigns." Deacon: "Let us pray to the Lord. Cover, Master." The priest, having censed likewise the second veil, covers with it the holy chalice, saying: "Thy virtue." Deacon: "Let us pray to the Lord. Cover, Master." The priest, having censed in the same manner the third veil, the so-called *aer* [vozdukh], covers with it the diskos and chalice, saying: "Cover us with the shelter." Then the priest, having taken the censer, censes the table of oblation, bowing together with the deacon, and says: "Blessed is our God," and the deacon responds: "Always, now and ever." The priest gives the censer to the deacon either now, or after the Prayer of the Offering. **116.** Then the deacon says: "For the precious gifts offered," and the priest, making no sign of blessing, recites the Prayer of the Offering: "O God, our God," after which he makes the dismissal there, speaking thus: "Glory to Thee, O Christ God." Deacon: "Glory, Both now," "Lord, have mercy" (3), "Bless." On Sunday the priest says the dismissal thus: "Christ, Who rose from the dead," and on other days: "Christ, our true God." Deacon: "Amen." **117.** After the dismissal of the Proskomedia, the priest goes before the holy table, and the deacon censes the table of oblation three times, then the holy table from the four sides, saying quietly: "In the tomb" and the 50th(51st) Psalm, after which he censes the icon behind the altar. He goes out of the sanctuary through the northern doors, comes before the holy doors and, having bowed before them, censes the icons of the southern part of the iconostasis, beginning from the icon of the Savior, then -- the icons of the northern part, beginning from the icon of the Theotokos, and then -- the choirs, right and left. He censes the faithful either from the solea, or, if there is a custom, going through the church to the very narthex. Having returned through the southern doors into the sanctuary, he censes the holy table once more, only from the front, and likewise -- the celebrant (see nos. 9, 20, 33, 39, 54; also no. 177). **118.** Then he gives the censer to the server, and himself stands to the right of the priest. Standing together before the holy table, they recite "O Heavenly King." Then they bow three times, saying: "Glory to God in the highest" (2), "O Lord, open my lips," then they kiss: the priest -- the Holy Gospel, and the deacon -- the holy table (see no. 102). After this the deacon bows his head before the priest and, holding the orarion with three fingers of his right hand, says: "It is time." The priest signs him and says: "Blessed is our God," and the deacon: "Pray for me, Master." Priest: "May the Lord direct thy steps." And again the deacon: "Remember me, holy Master." Priest: "May the Lord God remember thee." Deacon: "Amen." The deacon, having made a small bow and holding the orarion with three fingers of his right hand, goes out through the northern doors, for the holy doors remain closed until the Entrance itself and, having stood at his place before the holy doors, makes piously three small bows and prays quietly: "O Lord, open my lips." After this, he raises the end of the orarion with his right hand and exclaims: "Bless, Master." **119.** And the priest, standing in the middle before the holy table and making the sign of the cross over it with the Holy Gospel^[769], begins loudly: "Blessed is the kingdom." Choir: "Amen." The deacon sings the Great Litany "In peace let us pray to the Lord," and the priest recites quietly the Prayer of the First Antiphon "O Lord our God." Exclamation: "For to Thee belongs." Choir: "Amen." The First Antiphon or the First Typika Psalm is sung, and the deacon, having made a small bow, departs from his place and stands before the icon of Christ, holding the orarion with three fingers of his right hand. **120.** After the completion of the Antiphon, the deacon returns to his place and, having made a small bow, exclaims: "Again and again." And the priest recites quietly the Prayer of the Second Antiphon: "O Lord our God, save Thy people." Exclamation: "For Thine is the dominion." Choir: "Amen." Likewise the Second Antiphon or Typika [Psalm] is sung. The deacon does the same as at the first prayer, only he stands now before the icon of the Theotokos. After the Antiphon the choir sings: "Glory, Both now," "Only-begotten Son," and the priest says nothing and at "became man" does not bow. **121.** Then the deacon, having returned again to the usual place, sings: "Again and again," and the priest recites quietly the Prayer of the Third Antiphon "Thou who hast given us." Exclamation: "For Thou art a good." Choir: "Amen." The deacon returns into the sanctuary through the southern doors. Here the holy doors are opened. **122.** The Third Antiphon or the Beatitudes, if it is Sunday, is sung. When the singers reach "Glory," the priest and deacon, standing before the holy table, make three small bows. Then the priest takes the Holy Gospel, gives it to the deacon and lowers the phelonion. Both go around the holy table from the right side and, having gone out through the northern doors, preceded by candle-bearers, make the Little Entrance. Having come before the holy doors, the candle-bearers stand on opposite sides: one -- near the icon of the Theotokos, and the other -- of the Savior, the priest -- in the middle, and the deacon -- slightly in front of him, to the right. Both bow their heads and the deacon says in a low voice: "Let us pray to the Lord," and the priest recites quietly the Prayer of the Entrance "O Master, Lord our God." After the completion of the prayer, the deacon says in a low voice to the priest, holding the orarion with three fingers and pointing to the east: "Bless, Master, the holy entrance." The priest blesses to the east and says: "Blessed is the entrance." Then the deacon presents to the priest the Holy Gospel for kissing. When the last verse of the Antiphon or Beatitudes is finished, the deacon goes out to the center, stands before the priest, raises his hands slightly and, showing the Holy Gospel^[770], exclaims: "Wisdom, arise." Then they enter the sanctuary and the deacon places the Holy Gospel on the throne, and the candle-bearers, having bowed together before the holy doors, return to their places. The choir sings: "Come, let us worship," "Save us... who art wonderful in the saints...", and if it is Sunday: "Save us... who rose from the dead...". After this -- the usual troparia. **123.** The priest recites quietly the Prayer of the Trisagion "O Holy God." When the singers reach the last troparion, the deacon bows his head before the priest and, holding the orarion with three fingers in his hand, says: "Bless, Master, the time of the Thrice-Holy," and the priest blesses him and exclaims: "For Holy art Thou, our God." The deacon withdraws to the holy doors and, turned to the people, with the end of the orarion raised by three fingers of the right hand, exclaims: "and unto ages of ages." Choir: "Amen." During the singing of the Trisagion, the priest and deacon also recite it, making simultaneously three small bows before the holy table. **124.** Then the deacon says to the priest: "Command, Master" and departs to the High Place. The priest, going, says: "Blessed is he that comes." Deacon: "Bless, Master," and the priest: "Blessed art Thou on the throne" and blesses the High Place. It is known that the priest should not go up to the High Place, nor sit on it. It befits him to sit on the southern side of the High Throne. **125.** After the completion of the Trisagion, the deacon approaches the holy doors and, holding the orarion with three fingers of the raised right hand, says: "Let us be attentive," and the priest blesses the people and exclaims: "Peace be to all." Then again the deacon: "Wisdom, let us be attentive" and returns to the priest. The choir sings the Prokimenon, the Psalm of David. After the Prokimenon, the deacon: "Wisdom," and the reader, dressed in a sticharion, in the middle of the sanctuary [temple], before the solea, reads the title of the Apostle: "The Acts...". And again the deacon: "Let us be attentive." After the completion of the reading of the Apostle, the priest says: "Peace be to thee." Deacon: "Wisdom, let us be attentive." The choir sings "Alleluia" with verses. **126.** During the singing of "Alleluia," the deacon, having taken the censer and put incense into it, approaches the priest and says: "Bless, Master, the incense." Having received the blessing from the priest, who says: "Blessed is our God," he censes around the holy table, the whole sanctuary, the priest, the icons of the sanctuary, the icons of the iconostasis, both choirs and the people (see nos. 33 and 75). And the priest, standing before the holy table, recites quietly the Prayer before the Gospel "Illumine our hearts." The deacon, having given away the censer, approaches the priest and, having bowed his head before him and holding the orarion with his fingers, points to the Holy Gospel and says loudly: "Bless, Master, the proclaimer of the holy Apostle." The priest, blessing him, exclaims: "May God, through the prayers," and gives him the Holy Gospel, and the deacon answers: "Amen" and, having bowed to the Holy Gospel, takes it, goes out through the holy doors, preceded by candle-bearers who go out through the side doors, stands on the ambo or not far from the holy doors at the designated place, there places the Holy Gospel on the analogion and reads it, turned to the people. The priest stands before the throne and, looking to the west, exclaims: "Wisdom, arise, let us hear the Holy Gospel." Then he blesses: "Peace be to all." Choir: "And to thy spirit." Deacon: "The reading from the Holy Gospel according to (Name)." Choir: "Glory to Thee, O Lord, glory to Thee." Priest: "Let us be attentive." After the reading of the Gospel, the priest says to the deacon: "Peace be to thee who proclaimest." Choir: "Glory to Thee, O Lord, glory to Thee." The deacon comes to the very holy doors and gives the rolled Holy Gospel to the priest^[771], who kisses it and places it in the middle of the throne before the tabernacle or places it on the right side of the holy table; the holy doors are closed again. **127.** The deacon stands at the usual place and begins thus: "Let us all say." The priest recites quietly the Prayer "O Lord our God." Exclamation: "For a merciful." Choir: "Amen." Then the deacon: "Pray, ye catechumens." The priest quietly recites the Prayer for the Catechumens "O Lord our God." Exclamation: "That with us they also." Choir: "Amen." The priest unfolds the antimension [*iliton*]. The deacon says loudly: "All catechumens, depart; catechumens, depart; all catechumens, depart. Let no catechumen remain. Only the faithful." **128.** The priest recites quietly the First Prayer of the Faithful "We thank Thee." Deacon: "Help us, save us, have mercy." Choir: "Lord, have mercy." Deacon: "Wisdom." Exclamation: "For to Thee belongs." Choir: "Amen." Deacon: "Again and again." The priest recites quietly the Second Prayer of the Faithful "Again and oftentimes." Deacon: "Help us, save us, have mercy." Choir: "Lord, have mercy." Deacon: "Wisdom" and enters the sanctuary through the northern doors^[772]. The priest, not turning to the people, exclaims: "That being kept under Thy dominion." Choir: "Amen"; and the holy doors are opened. **129.** During the singing of the Cherubic Hymn, the deacon, having taken the censer and put incense into it, approaches the priest, saying: "Bless, Master, the incense" and, having received the blessing: "Blessed is God," recites the 50th(51st) Psalm and censes around the holy table, the icon behind the altar, the icons of the iconostasis, both choirs and the people. At the end, having returned through the southern doors into the sanctuary, he censes the priest^[773]. The priest, having lifted his hands up, recites quietly the prayer "No one is worthy." After the censing, the deacon stands to the right of the priest, holding the censer on the ring finger of his left hand. The priest together with the deacon, having lifted their hands up, recite the Cherubic Hymn three times, each time making a small bow. After this, where there exists a custom, the priest and deacon kiss the holy table and, if they wish, the altar cross; then they go, the deacon -- in front, directly to the side altar. There the priest, having taken the censer, censes the Holy Gifts crosswise, praying quietly: "O God, be merciful to me a sinner," gives the censer to the deacon, who holds it on one of the fingers of his right hand. The deacon says to the priest: "Take up, Master," and the priest takes the large veil, which is called the *aer*, and places it on the deacon's left shoulder, saying: "Lift up your hands." Then he takes the holy diskos, covered with the small veil, and places it with attentiveness and piety on the deacon's head^[774], and the deacon, holding the end of the orarion with his left hand, holds the diskos with both hands on his head. The priest himself takes the chalice, covered with the small veil, and holds it before him. Both go out through the northern doors, preceded by candle-bearers. These last arrive at the very holy doors and stand on both sides of them. The deacon, going out, calls: "All of you, Orthodox Christians" and enters through the holy doors into the sanctuary, where he waits for the priest on the right side. The priest exclaims: "Our most holy [Pontiff]" and before the holy doors, when he exclaims "And all of you, Orthodox Christians," he turns to the people^[775]; then he enters the sanctuary. | 
- | `structures.liturgy_chrysostom.source_ref` | `Final_Dolnytsky_appendix.md:6.1.5.1.31` | **Final_Dolnytsky_appendix.md:6.1.5.1.31**:<br>6.1.5.1.31: Then the | 
- | `structures.liturgy_presanctified.sequence[3].rubric.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.12` | **Final_Dolnytsky_part4_triodion.md:4.1.12**:<br>4.1.12: Saturday of the Second Week of Great Lent | 
- | `structures.liturgy_presanctified.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.14.3.3` | **Final_Dolnytsky_part4_triodion.md:4.1.14.3.3**:<br>4.1.14.3.3: Note on the Veneration of the Precious Cross | 
- | `structures.vesperal_merge_logic.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.6.3` | **Final_Dolnytsky_part3_menaion.md:3.4.6.3**:<br>3.4.6.3: Nothing special, except the Liturgy of Basil the Great with Vespers of the Feast on the Eve of the Nativity and Theophany, if they fall on one of the five fast days, from Monday to Friday. For if they fall on Saturday or on Sunday, then on the Eve there will be the Liturgy of Chrysostom, at its proper time without Vespers, and afterwards - Vespers of the Feast, at its proper time. On the Feast itself - Liturgy of Basil the Great without Vespers. On Friday, before the Eve, to which the Royal Hours are transferred, the typikon gives no Liturgy, this is adhered to also by the Lviv Synod. | 
+ | `structures.liturgy_basil.source_ref` | `Dolnytsky_Typikon_Master.md:6.1.5.1.31` | **Dolnytsky_Typikon_Master.md:6.1.5.1.31**:<br>6.1.5.1.31: Then the | 
+ | `structures.liturgy_chrysostom.sequence[0].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.15.4.2` | **Dolnytsky_Typikon_Master.md:4.2.15.4.2**:<br>4.2.15.4.2: MONDAY AND TUESDAY IN THE MIDDLE OF | 
+ | `structures.liturgy_chrysostom.sequence[16].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:6.4` | **Dolnytsky_Typikon_Master.md:6.4**:<br>6.4: [Diagram of the Lamb] NI KA IC XC **109.** The deacon, having taken wine and water, says to the priest: "Bless, Master, the holy union" and, when he has blessed, the deacon himself or the priest pours wine and a little water into the holy chalice, according to established prescriptions. **110.** Then the priest takes the second prosphora in his hands, however if there is no second or other prosphora, he finishes the prescribed liturgical actions on one, saying: "In honor and memory" and, having taken a particle, places it to the right of the holy bread, near its middle, saying: "At Thy right hand stood the Queen." **111.** Then, having taken the third prosphora, he says: "Of the honorable, heavenly," takes the first particle, places it to the left of the holy bread, beginning the first row. Then he says: "Of the honorable, glorious Prophet, Forerunner." The taken particle he places under the first and says: "Of the holy, glorious," and then places the third particle under the second, finishing the first row. Then he says: "Of our holy Fathers"; having taken the fourth particle, he places it next to the first, beginning the second row. Then he says: "Of the holy Apostle, Protomartyr" and, having taken the fifth particle, places it under the first [of the second row], with which he begins the second row. After this he says: "Of our venerable and God-bearing [Fathers]" and, having taken the sixth particle, places it under the second [of the second row], finishing the second row. Then he says: "Of the holy and wonderworking Unmercenaries." Having taken the seventh particle, he places it next to the first [of the second row], beginning the third row. Then again he says: "Of the holy and righteous Ancestors of God" and places the eighth particle under the first [of the third row]. He takes the ninth particle, saying: "Of Saint (Name) and all saints," and places it at the end of the third row, finishing it. **112.** After this he takes the fourth prosphora and says: "Remember, O Master, Lover of mankind, our most holy [Pontiff]," and places the taken particle below the holy bread. Then he mentions by name the living, whom he wishes, and for each name takes out a particle, saying: "Remember, O Lord, (Name)." **113.** Finally he takes the fifth prosphora, mentions the bishop who ordained him, and by name the deceased, whom he wishes. For each name he takes out a particle, saying: "Remember, O Lord, the soul." Then he says: "And of all in the hope of resurrection" and takes out a particle. After this he says: "Remember, O Lord, according to the multitude of Thy compassions" and takes out a particle. It should be noted that one may add other particles for the living and the deceased until the Great Entrance itself (see no. 192). **114.** He gathers the particles on the diskos under the holy bread, so that they be together and so that none falls off^[768]. **115.** The deacon takes the censer and, having put in incense, says to the priest: "Bless, Master, the incense" and immediately says himself: "Let us pray to the Lord," and the priest blesses and recites the Prayer of the Censer "Incense we offer to Thee" (see no. 20). Deacon: "Let us pray to the Lord." The priest, having censed the star-cover, places it over the holy bread, saying: "And the star came." Deacon: "Let us pray to the Lord." The priest, having censed likewise the first veil, covers with it the holy bread with the diskos and says: "The Lord reigns." Deacon: "Let us pray to the Lord. Cover, Master." The priest, having censed likewise the second veil, covers with it the holy chalice, saying: "Thy virtue." Deacon: "Let us pray to the Lord. Cover, Master." The priest, having censed in the same manner the third veil, the so-called *aer* [vozdukh], covers with it the diskos and chalice, saying: "Cover us with the shelter." Then the priest, having taken the censer, censes the table of oblation, bowing together with the deacon, and says: "Blessed is our God," and the deacon responds: "Always, now and ever." The priest gives the censer to the deacon either now, or after the Prayer of the Offering. **116.** Then the deacon says: "For the precious gifts offered," and the priest, making no sign of blessing, recites the Prayer of the Offering: "O God, our God," after which he makes the dismissal there, speaking thus: "Glory to Thee, O Christ God." Deacon: "Glory, Both now," "Lord, have mercy" (3), "Bless." On Sunday the priest says the dismissal thus: "Christ, Who rose from the dead," and on other days: "Christ, our true God." Deacon: "Amen." **117.** After the dismissal of the Proskomedia, the priest goes before the holy table, and the deacon censes the table of oblation three times, then the holy table from the four sides, saying quietly: "In the tomb" and the 50th(51st) Psalm, after which he censes the icon behind the altar. He goes out of the sanctuary through the northern doors, comes before the holy doors and, having bowed before them, censes the icons of the southern part of the iconostasis, beginning from the icon of the Savior, then -- the icons of the northern part, beginning from the icon of the Theotokos, and then -- the choirs, right and left. He censes the faithful either from the solea, or, if there is a custom, going through the church to the very narthex. Having returned through the southern doors into the sanctuary, he censes the holy table once more, only from the front, and likewise -- the celebrant (see nos. 9, 20, 33, 39, 54; also no. 177). **118.** Then he gives the censer to the server, and himself stands to the right of the priest. Standing together before the holy table, they recite "O Heavenly King." Then they bow three times, saying: "Glory to God in the highest" (2), "O Lord, open my lips," then they kiss: the priest -- the Holy Gospel, and the deacon -- the holy table (see no. 102). After this the deacon bows his head before the priest and, holding the orarion with three fingers of his right hand, says: "It is time." The priest signs him and says: "Blessed is our God," and the deacon: "Pray for me, Master." Priest: "May the Lord direct thy steps." And again the deacon: "Remember me, holy Master." Priest: "May the Lord God remember thee." Deacon: "Amen." The deacon, having made a small bow and holding the orarion with three fingers of his right hand, goes out through the northern doors, for the holy doors remain closed until the Entrance itself and, having stood at his place before the holy doors, makes piously three small bows and prays quietly: "O Lord, open my lips." After this, he raises the end of the orarion with his right hand and exclaims: "Bless, Master." **119.** And the priest, standing in the middle before the holy table and making the sign of the cross over it with the Holy Gospel^[769], begins loudly: "Blessed is the kingdom." Choir: "Amen." The deacon sings the Great Litany "In peace let us pray to the Lord," and the priest recites quietly the Prayer of the First Antiphon "O Lord our God." Exclamation: "For to Thee belongs." Choir: "Amen." The First Antiphon or the First Typika Psalm is sung, and the deacon, having made a small bow, departs from his place and stands before the icon of Christ, holding the orarion with three fingers of his right hand. **120.** After the completion of the Antiphon, the deacon returns to his place and, having made a small bow, exclaims: "Again and again." And the priest recites quietly the Prayer of the Second Antiphon: "O Lord our God, save Thy people." Exclamation: "For Thine is the dominion." Choir: "Amen." Likewise the Second Antiphon or Typika [Psalm] is sung. The deacon does the same as at the first prayer, only he stands now before the icon of the Theotokos. After the Antiphon the choir sings: "Glory, Both now," "Only-begotten Son," and the priest says nothing and at "became man" does not bow. **121.** Then the deacon, having returned again to the usual place, sings: "Again and again," and the priest recites quietly the Prayer of the Third Antiphon "Thou who hast given us." Exclamation: "For Thou art a good." Choir: "Amen." The deacon returns into the sanctuary through the southern doors. Here the holy doors are opened. **122.** The Third Antiphon or the Beatitudes, if it is Sunday, is sung. When the singers reach "Glory," the priest and deacon, standing before the holy table, make three small bows. Then the priest takes the Holy Gospel, gives it to the deacon and lowers the phelonion. Both go around the holy table from the right side and, having gone out through the northern doors, preceded by candle-bearers, make the Little Entrance. Having come before the holy doors, the candle-bearers stand on opposite sides: one -- near the icon of the Theotokos, and the other -- of the Savior, the priest -- in the middle, and the deacon -- slightly in front of him, to the right. Both bow their heads and the deacon says in a low voice: "Let us pray to the Lord," and the priest recites quietly the Prayer of the Entrance "O Master, Lord our God." After the completion of the prayer, the deacon says in a low voice to the priest, holding the orarion with three fingers and pointing to the east: "Bless, Master, the holy entrance." The priest blesses to the east and says: "Blessed is the entrance." Then the deacon presents to the priest the Holy Gospel for kissing. When the last verse of the Antiphon or Beatitudes is finished, the deacon goes out to the center, stands before the priest, raises his hands slightly and, showing the Holy Gospel^[770], exclaims: "Wisdom, arise." Then they enter the sanctuary and the deacon places the Holy Gospel on the throne, and the candle-bearers, having bowed together before the holy doors, return to their places. The choir sings: "Come, let us worship," "Save us... who art wonderful in the saints...", and if it is Sunday: "Save us... who rose from the dead...". After this -- the usual troparia. **123.** The priest recites quietly the Prayer of the Trisagion "O Holy God." When the singers reach the last troparion, the deacon bows his head before the priest and, holding the orarion with three fingers in his hand, says: "Bless, Master, the time of the Thrice-Holy," and the priest blesses him and exclaims: "For Holy art Thou, our God." The deacon withdraws to the holy doors and, turned to the people, with the end of the orarion raised by three fingers of the right hand, exclaims: "and unto ages of ages." Choir: "Amen." During the singing of the Trisagion, the priest and deacon also recite it, making simultaneously three small bows before the holy table. **124.** Then the deacon says to the priest: "Command, Master" and departs to the High Place. The priest, going, says: "Blessed is he that comes." Deacon: "Bless, Master," and the priest: "Blessed art Thou on the throne" and blesses the High Place. It is known that the priest should not go up to the High Place, nor sit on it. It befits him to sit on the southern side of the High Throne. **125.** After the completion of the Trisagion, the deacon approaches the holy doors and, holding the orarion with three fingers of the raised right hand, says: "Let us be attentive," and the priest blesses the people and exclaims: "Peace be to all." Then again the deacon: "Wisdom, let us be attentive" and returns to the priest. The choir sings the Prokimenon, the Psalm of David. After the Prokimenon, the deacon: "Wisdom," and the reader, dressed in a sticharion, in the middle of the sanctuary [temple], before the solea, reads the title of the Apostle: "The Acts...". And again the deacon: "Let us be attentive." After the completion of the reading of the Apostle, the priest says: "Peace be to thee." Deacon: "Wisdom, let us be attentive." The choir sings "Alleluia" with verses. **126.** During the singing of "Alleluia," the deacon, having taken the censer and put incense into it, approaches the priest and says: "Bless, Master, the incense." Having received the blessing from the priest, who says: "Blessed is our God," he censes around the holy table, the whole sanctuary, the priest, the icons of the sanctuary, the icons of the iconostasis, both choirs and the people (see nos. 33 and 75). And the priest, standing before the holy table, recites quietly the Prayer before the Gospel "Illumine our hearts." The deacon, having given away the censer, approaches the priest and, having bowed his head before him and holding the orarion with his fingers, points to the Holy Gospel and says loudly: "Bless, Master, the proclaimer of the holy Apostle." The priest, blessing him, exclaims: "May God, through the prayers," and gives him the Holy Gospel, and the deacon answers: "Amen" and, having bowed to the Holy Gospel, takes it, goes out through the holy doors, preceded by candle-bearers who go out through the side doors, stands on the ambo or not far from the holy doors at the designated place, there places the Holy Gospel on the analogion and reads it, turned to the people. The priest stands before the throne and, looking to the west, exclaims: "Wisdom, arise, let us hear the Holy Gospel." Then he blesses: "Peace be to all." Choir: "And to thy spirit." Deacon: "The reading from the Holy Gospel according to (Name)." Choir: "Glory to Thee, O Lord, glory to Thee." Priest: "Let us be attentive." After the reading of the Gospel, the priest says to the deacon: "Peace be to thee who proclaimest." Choir: "Glory to Thee, O Lord, glory to Thee." The deacon comes to the very holy doors and gives the rolled Holy Gospel to the priest^[771], who kisses it and places it in the middle of the throne before the tabernacle or places it on the right side of the holy table; the holy doors are closed again. **127.** The deacon stands at the usual place and begins thus: "Let us all say." The priest recites quietly the Prayer "O Lord our God." Exclamation: "For a merciful." Choir: "Amen." Then the deacon: "Pray, ye catechumens." The priest quietly recites the Prayer for the Catechumens "O Lord our God." Exclamation: "That with us they also." Choir: "Amen." The priest unfolds the antimension [*iliton*]. The deacon says loudly: "All catechumens, depart; catechumens, depart; all catechumens, depart. Let no catechumen remain. Only the faithful." **128.** The priest recites quietly the First Prayer of the Faithful "We thank Thee." Deacon: "Help us, save us, have mercy." Choir: "Lord, have mercy." Deacon: "Wisdom." Exclamation: "For to Thee belongs." Choir: "Amen." Deacon: "Again and again." The priest recites quietly the Second Prayer of the Faithful "Again and oftentimes." Deacon: "Help us, save us, have mercy." Choir: "Lord, have mercy." Deacon: "Wisdom" and enters the sanctuary through the northern doors^[772]. The priest, not turning to the people, exclaims: "That being kept under Thy dominion." Choir: "Amen"; and the holy doors are opened. **129.** During the singing of the Cherubic Hymn, the deacon, having taken the censer and put incense into it, approaches the priest, saying: "Bless, Master, the incense" and, having received the blessing: "Blessed is God," recites the 50th(51st) Psalm and censes around the holy table, the icon behind the altar, the icons of the iconostasis, both choirs and the people. At the end, having returned through the southern doors into the sanctuary, he censes the priest^[773]. The priest, having lifted his hands up, recites quietly the prayer "No one is worthy." After the censing, the deacon stands to the right of the priest, holding the censer on the ring finger of his left hand. The priest together with the deacon, having lifted their hands up, recite the Cherubic Hymn three times, each time making a small bow. After this, where there exists a custom, the priest and deacon kiss the holy table and, if they wish, the altar cross; then they go, the deacon -- in front, directly to the side altar. There the priest, having taken the censer, censes the Holy Gifts crosswise, praying quietly: "O God, be merciful to me a sinner," gives the censer to the deacon, who holds it on one of the fingers of his right hand. The deacon says to the priest: "Take up, Master," and the priest takes the large veil, which is called the *aer*, and places it on the deacon's left shoulder, saying: "Lift up your hands." Then he takes the holy diskos, covered with the small veil, and places it with attentiveness and piety on the deacon's head^[774], and the deacon, holding the end of the orarion with his left hand, holds the diskos with both hands on his head. The priest himself takes the chalice, covered with the small veil, and holds it before him. Both go out through the northern doors, preceded by candle-bearers. These last arrive at the very holy doors and stand on both sides of them. The deacon, going out, calls: "All of you, Orthodox Christians" and enters through the holy doors into the sanctuary, where he waits for the priest on the right side. The priest exclaims: "Our most holy [Pontiff]" and before the holy doors, when he exclaims "And all of you, Orthodox Christians," he turns to the people^[775]; then he enters the sanctuary. | 
+ | `structures.liturgy_chrysostom.sequence[3].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:6.4` | **Dolnytsky_Typikon_Master.md:6.4**:<br>6.4: [Diagram of the Lamb] NI KA IC XC **109.** The deacon, having taken wine and water, says to the priest: "Bless, Master, the holy union" and, when he has blessed, the deacon himself or the priest pours wine and a little water into the holy chalice, according to established prescriptions. **110.** Then the priest takes the second prosphora in his hands, however if there is no second or other prosphora, he finishes the prescribed liturgical actions on one, saying: "In honor and memory" and, having taken a particle, places it to the right of the holy bread, near its middle, saying: "At Thy right hand stood the Queen." **111.** Then, having taken the third prosphora, he says: "Of the honorable, heavenly," takes the first particle, places it to the left of the holy bread, beginning the first row. Then he says: "Of the honorable, glorious Prophet, Forerunner." The taken particle he places under the first and says: "Of the holy, glorious," and then places the third particle under the second, finishing the first row. Then he says: "Of our holy Fathers"; having taken the fourth particle, he places it next to the first, beginning the second row. Then he says: "Of the holy Apostle, Protomartyr" and, having taken the fifth particle, places it under the first [of the second row], with which he begins the second row. After this he says: "Of our venerable and God-bearing [Fathers]" and, having taken the sixth particle, places it under the second [of the second row], finishing the second row. Then he says: "Of the holy and wonderworking Unmercenaries." Having taken the seventh particle, he places it next to the first [of the second row], beginning the third row. Then again he says: "Of the holy and righteous Ancestors of God" and places the eighth particle under the first [of the third row]. He takes the ninth particle, saying: "Of Saint (Name) and all saints," and places it at the end of the third row, finishing it. **112.** After this he takes the fourth prosphora and says: "Remember, O Master, Lover of mankind, our most holy [Pontiff]," and places the taken particle below the holy bread. Then he mentions by name the living, whom he wishes, and for each name takes out a particle, saying: "Remember, O Lord, (Name)." **113.** Finally he takes the fifth prosphora, mentions the bishop who ordained him, and by name the deceased, whom he wishes. For each name he takes out a particle, saying: "Remember, O Lord, the soul." Then he says: "And of all in the hope of resurrection" and takes out a particle. After this he says: "Remember, O Lord, according to the multitude of Thy compassions" and takes out a particle. It should be noted that one may add other particles for the living and the deceased until the Great Entrance itself (see no. 192). **114.** He gathers the particles on the diskos under the holy bread, so that they be together and so that none falls off^[768]. **115.** The deacon takes the censer and, having put in incense, says to the priest: "Bless, Master, the incense" and immediately says himself: "Let us pray to the Lord," and the priest blesses and recites the Prayer of the Censer "Incense we offer to Thee" (see no. 20). Deacon: "Let us pray to the Lord." The priest, having censed the star-cover, places it over the holy bread, saying: "And the star came." Deacon: "Let us pray to the Lord." The priest, having censed likewise the first veil, covers with it the holy bread with the diskos and says: "The Lord reigns." Deacon: "Let us pray to the Lord. Cover, Master." The priest, having censed likewise the second veil, covers with it the holy chalice, saying: "Thy virtue." Deacon: "Let us pray to the Lord. Cover, Master." The priest, having censed in the same manner the third veil, the so-called *aer* [vozdukh], covers with it the diskos and chalice, saying: "Cover us with the shelter." Then the priest, having taken the censer, censes the table of oblation, bowing together with the deacon, and says: "Blessed is our God," and the deacon responds: "Always, now and ever." The priest gives the censer to the deacon either now, or after the Prayer of the Offering. **116.** Then the deacon says: "For the precious gifts offered," and the priest, making no sign of blessing, recites the Prayer of the Offering: "O God, our God," after which he makes the dismissal there, speaking thus: "Glory to Thee, O Christ God." Deacon: "Glory, Both now," "Lord, have mercy" (3), "Bless." On Sunday the priest says the dismissal thus: "Christ, Who rose from the dead," and on other days: "Christ, our true God." Deacon: "Amen." **117.** After the dismissal of the Proskomedia, the priest goes before the holy table, and the deacon censes the table of oblation three times, then the holy table from the four sides, saying quietly: "In the tomb" and the 50th(51st) Psalm, after which he censes the icon behind the altar. He goes out of the sanctuary through the northern doors, comes before the holy doors and, having bowed before them, censes the icons of the southern part of the iconostasis, beginning from the icon of the Savior, then -- the icons of the northern part, beginning from the icon of the Theotokos, and then -- the choirs, right and left. He censes the faithful either from the solea, or, if there is a custom, going through the church to the very narthex. Having returned through the southern doors into the sanctuary, he censes the holy table once more, only from the front, and likewise -- the celebrant (see nos. 9, 20, 33, 39, 54; also no. 177). **118.** Then he gives the censer to the server, and himself stands to the right of the priest. Standing together before the holy table, they recite "O Heavenly King." Then they bow three times, saying: "Glory to God in the highest" (2), "O Lord, open my lips," then they kiss: the priest -- the Holy Gospel, and the deacon -- the holy table (see no. 102). After this the deacon bows his head before the priest and, holding the orarion with three fingers of his right hand, says: "It is time." The priest signs him and says: "Blessed is our God," and the deacon: "Pray for me, Master." Priest: "May the Lord direct thy steps." And again the deacon: "Remember me, holy Master." Priest: "May the Lord God remember thee." Deacon: "Amen." The deacon, having made a small bow and holding the orarion with three fingers of his right hand, goes out through the northern doors, for the holy doors remain closed until the Entrance itself and, having stood at his place before the holy doors, makes piously three small bows and prays quietly: "O Lord, open my lips." After this, he raises the end of the orarion with his right hand and exclaims: "Bless, Master." **119.** And the priest, standing in the middle before the holy table and making the sign of the cross over it with the Holy Gospel^[769], begins loudly: "Blessed is the kingdom." Choir: "Amen." The deacon sings the Great Litany "In peace let us pray to the Lord," and the priest recites quietly the Prayer of the First Antiphon "O Lord our God." Exclamation: "For to Thee belongs." Choir: "Amen." The First Antiphon or the First Typika Psalm is sung, and the deacon, having made a small bow, departs from his place and stands before the icon of Christ, holding the orarion with three fingers of his right hand. **120.** After the completion of the Antiphon, the deacon returns to his place and, having made a small bow, exclaims: "Again and again." And the priest recites quietly the Prayer of the Second Antiphon: "O Lord our God, save Thy people." Exclamation: "For Thine is the dominion." Choir: "Amen." Likewise the Second Antiphon or Typika [Psalm] is sung. The deacon does the same as at the first prayer, only he stands now before the icon of the Theotokos. After the Antiphon the choir sings: "Glory, Both now," "Only-begotten Son," and the priest says nothing and at "became man" does not bow. **121.** Then the deacon, having returned again to the usual place, sings: "Again and again," and the priest recites quietly the Prayer of the Third Antiphon "Thou who hast given us." Exclamation: "For Thou art a good." Choir: "Amen." The deacon returns into the sanctuary through the southern doors. Here the holy doors are opened. **122.** The Third Antiphon or the Beatitudes, if it is Sunday, is sung. When the singers reach "Glory," the priest and deacon, standing before the holy table, make three small bows. Then the priest takes the Holy Gospel, gives it to the deacon and lowers the phelonion. Both go around the holy table from the right side and, having gone out through the northern doors, preceded by candle-bearers, make the Little Entrance. Having come before the holy doors, the candle-bearers stand on opposite sides: one -- near the icon of the Theotokos, and the other -- of the Savior, the priest -- in the middle, and the deacon -- slightly in front of him, to the right. Both bow their heads and the deacon says in a low voice: "Let us pray to the Lord," and the priest recites quietly the Prayer of the Entrance "O Master, Lord our God." After the completion of the prayer, the deacon says in a low voice to the priest, holding the orarion with three fingers and pointing to the east: "Bless, Master, the holy entrance." The priest blesses to the east and says: "Blessed is the entrance." Then the deacon presents to the priest the Holy Gospel for kissing. When the last verse of the Antiphon or Beatitudes is finished, the deacon goes out to the center, stands before the priest, raises his hands slightly and, showing the Holy Gospel^[770], exclaims: "Wisdom, arise." Then they enter the sanctuary and the deacon places the Holy Gospel on the throne, and the candle-bearers, having bowed together before the holy doors, return to their places. The choir sings: "Come, let us worship," "Save us... who art wonderful in the saints...", and if it is Sunday: "Save us... who rose from the dead...". After this -- the usual troparia. **123.** The priest recites quietly the Prayer of the Trisagion "O Holy God." When the singers reach the last troparion, the deacon bows his head before the priest and, holding the orarion with three fingers in his hand, says: "Bless, Master, the time of the Thrice-Holy," and the priest blesses him and exclaims: "For Holy art Thou, our God." The deacon withdraws to the holy doors and, turned to the people, with the end of the orarion raised by three fingers of the right hand, exclaims: "and unto ages of ages." Choir: "Amen." During the singing of the Trisagion, the priest and deacon also recite it, making simultaneously three small bows before the holy table. **124.** Then the deacon says to the priest: "Command, Master" and departs to the High Place. The priest, going, says: "Blessed is he that comes." Deacon: "Bless, Master," and the priest: "Blessed art Thou on the throne" and blesses the High Place. It is known that the priest should not go up to the High Place, nor sit on it. It befits him to sit on the southern side of the High Throne. **125.** After the completion of the Trisagion, the deacon approaches the holy doors and, holding the orarion with three fingers of the raised right hand, says: "Let us be attentive," and the priest blesses the people and exclaims: "Peace be to all." Then again the deacon: "Wisdom, let us be attentive" and returns to the priest. The choir sings the Prokimenon, the Psalm of David. After the Prokimenon, the deacon: "Wisdom," and the reader, dressed in a sticharion, in the middle of the sanctuary [temple], before the solea, reads the title of the Apostle: "The Acts...". And again the deacon: "Let us be attentive." After the completion of the reading of the Apostle, the priest says: "Peace be to thee." Deacon: "Wisdom, let us be attentive." The choir sings "Alleluia" with verses. **126.** During the singing of "Alleluia," the deacon, having taken the censer and put incense into it, approaches the priest and says: "Bless, Master, the incense." Having received the blessing from the priest, who says: "Blessed is our God," he censes around the holy table, the whole sanctuary, the priest, the icons of the sanctuary, the icons of the iconostasis, both choirs and the people (see nos. 33 and 75). And the priest, standing before the holy table, recites quietly the Prayer before the Gospel "Illumine our hearts." The deacon, having given away the censer, approaches the priest and, having bowed his head before him and holding the orarion with his fingers, points to the Holy Gospel and says loudly: "Bless, Master, the proclaimer of the holy Apostle." The priest, blessing him, exclaims: "May God, through the prayers," and gives him the Holy Gospel, and the deacon answers: "Amen" and, having bowed to the Holy Gospel, takes it, goes out through the holy doors, preceded by candle-bearers who go out through the side doors, stands on the ambo or not far from the holy doors at the designated place, there places the Holy Gospel on the analogion and reads it, turned to the people. The priest stands before the throne and, looking to the west, exclaims: "Wisdom, arise, let us hear the Holy Gospel." Then he blesses: "Peace be to all." Choir: "And to thy spirit." Deacon: "The reading from the Holy Gospel according to (Name)." Choir: "Glory to Thee, O Lord, glory to Thee." Priest: "Let us be attentive." After the reading of the Gospel, the priest says to the deacon: "Peace be to thee who proclaimest." Choir: "Glory to Thee, O Lord, glory to Thee." The deacon comes to the very holy doors and gives the rolled Holy Gospel to the priest^[771], who kisses it and places it in the middle of the throne before the tabernacle or places it on the right side of the holy table; the holy doors are closed again. **127.** The deacon stands at the usual place and begins thus: "Let us all say." The priest recites quietly the Prayer "O Lord our God." Exclamation: "For a merciful." Choir: "Amen." Then the deacon: "Pray, ye catechumens." The priest quietly recites the Prayer for the Catechumens "O Lord our God." Exclamation: "That with us they also." Choir: "Amen." The priest unfolds the antimension [*iliton*]. The deacon says loudly: "All catechumens, depart; catechumens, depart; all catechumens, depart. Let no catechumen remain. Only the faithful." **128.** The priest recites quietly the First Prayer of the Faithful "We thank Thee." Deacon: "Help us, save us, have mercy." Choir: "Lord, have mercy." Deacon: "Wisdom." Exclamation: "For to Thee belongs." Choir: "Amen." Deacon: "Again and again." The priest recites quietly the Second Prayer of the Faithful "Again and oftentimes." Deacon: "Help us, save us, have mercy." Choir: "Lord, have mercy." Deacon: "Wisdom" and enters the sanctuary through the northern doors^[772]. The priest, not turning to the people, exclaims: "That being kept under Thy dominion." Choir: "Amen"; and the holy doors are opened. **129.** During the singing of the Cherubic Hymn, the deacon, having taken the censer and put incense into it, approaches the priest, saying: "Bless, Master, the incense" and, having received the blessing: "Blessed is God," recites the 50th(51st) Psalm and censes around the holy table, the icon behind the altar, the icons of the iconostasis, both choirs and the people. At the end, having returned through the southern doors into the sanctuary, he censes the priest^[773]. The priest, having lifted his hands up, recites quietly the prayer "No one is worthy." After the censing, the deacon stands to the right of the priest, holding the censer on the ring finger of his left hand. The priest together with the deacon, having lifted their hands up, recite the Cherubic Hymn three times, each time making a small bow. After this, where there exists a custom, the priest and deacon kiss the holy table and, if they wish, the altar cross; then they go, the deacon -- in front, directly to the side altar. There the priest, having taken the censer, censes the Holy Gifts crosswise, praying quietly: "O God, be merciful to me a sinner," gives the censer to the deacon, who holds it on one of the fingers of his right hand. The deacon says to the priest: "Take up, Master," and the priest takes the large veil, which is called the *aer*, and places it on the deacon's left shoulder, saying: "Lift up your hands." Then he takes the holy diskos, covered with the small veil, and places it with attentiveness and piety on the deacon's head^[774], and the deacon, holding the end of the orarion with his left hand, holds the diskos with both hands on his head. The priest himself takes the chalice, covered with the small veil, and holds it before him. Both go out through the northern doors, preceded by candle-bearers. These last arrive at the very holy doors and stand on both sides of them. The deacon, going out, calls: "All of you, Orthodox Christians" and enters through the holy doors into the sanctuary, where he waits for the priest on the right side. The priest exclaims: "Our most holy [Pontiff]" and before the holy doors, when he exclaims "And all of you, Orthodox Christians," he turns to the people^[775]; then he enters the sanctuary. | 
+ | `structures.liturgy_chrysostom.source_ref` | `Dolnytsky_Typikon_Master.md:6.1.5.1.31` | **Dolnytsky_Typikon_Master.md:6.1.5.1.31**:<br>6.1.5.1.31: Then the | 
+ | `structures.liturgy_presanctified.sequence[3].rubric.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.12` | **Dolnytsky_Typikon_Master.md:4.1.12**:<br>4.1.12: Saturday of the Second Week of Great Lent | 
+ | `structures.liturgy_presanctified.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.14.3.3` | **Dolnytsky_Typikon_Master.md:4.1.14.3.3**:<br>4.1.14.3.3: Note on the Veneration of the Precious Cross | 
+ | `structures.vesperal_merge_logic.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.6.3` | **Dolnytsky_Typikon_Master.md:3.4.6.3**:<br>3.4.6.3: Nothing special, except the Liturgy of Basil the Great with Vespers of the Feast on the Eve of the Nativity and Theophany, if they fall on one of the five fast days, from Monday to Friday. For if they fall on Saturday or on Sunday, then on the Eve there will be the Liturgy of Chrysostom, at its proper time without Vespers, and afterwards - Vespers of the Feast, at its proper time. On the Feast itself - Liturgy of Basil the Great without Vespers. On Friday, before the Eve, to which the Royal Hours are transferred, the typikon gives no Liturgy, this is adhered to also by the Lviv Synod. | 
 
 ---
 
@@ -30768,7 +30768,7 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
-| `structures.structure_royal.source_ref` | `Final_Dolnytsky_part3_menaion.md` | **Final_Dolnytsky_part3_menaion.md**:<br>L1: [Entire File: Final_Dolnytsky_part3_menaion.md] |
+| `structures.structure_royal.source_ref` | `Dolnytsky_Typikon_Master.md` | **Dolnytsky_Typikon_Master.md**:<br>L1: [Entire File: Dolnytsky_Typikon_Master.md] |
 
 ---
 
@@ -30776,7 +30776,7 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `structures.all_night_vigil.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.1.1` | **Final_Dolnytsky_part1_structure.md:1.2.1.1**:<br>1.2.1.1: If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.* | 
+ | `structures.all_night_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.1.1` | **Dolnytsky_Typikon_Master.md:1.2.1.1**:<br>1.2.1.1: If the Bishop is also present**: *then in this case, it is proper for the deacons to approach his throne and cense him both together, and after this, having withdrawn to the middle, to cense the kliroi, etc.* | 
 
 ---
 
@@ -30784,45 +30784,45 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `logic_definitions.case_01_sunday_simple_saint.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.1.3.4` | **Final_Dolnytsky_part2_general_rubrics.md:2.1.3.4**:<br>2.1.3.4: Prokimenon of the resurrection of the current tone from the *Octoechos*, or from the *Heirmologion | 
- | `logic_definitions.case_01_sunday_simple_saint.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.2.1.9` | **Final_Dolnytsky_part2_general_rubrics.md:2.2.1.9**:<br>2.2.1.9: Sometimes he has also on the Aposticha of Matins, after the stichera of the *Octoechos*, one sticheron with its own refrain, and in addition to that a Doxastikon (November 17) | 
- | `logic_definitions.case_01_sunday_simple_saint.variables.vespers_stichera_distribution.logic_switch.saint_on_6.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.1.3.7` | **Final_Dolnytsky_part2_general_rubrics.md:2.1.3.7**:<br>2.1.3.7: If a saint on 6 occurs**, then there shall be the Resurrection Canon with Heirmos on 4 and Cross-Resurrection on 2, of the Theotokos on 2 and of the saint on 6. | 
- | `logic_definitions.case_02_weekday_simple_saint.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.3.2` | **Final_Dolnytsky_part2_general_rubrics.md:2.3.2**:<br>2.3.2: If two saints occur**, then there will be to the first saint - 3 and to the second - 3, Glory, Both now: 1st Theotokion of the tone. If there be a Doxastikon to the first saint, then after it is taken that same 1st Theotokion with the refrain "Both now". | 
- | `logic_definitions.case_03_saturday_simple_saint.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.6.4` | **Final_Dolnytsky_part2_general_rubrics.md:2.6.4**:<br>2.6.4: Dismissal with the commemoration of the Sunday and of the saint | 
- | `logic_definitions.case_04_sunday_polyeleos.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.8.2.2` | **Final_Dolnytsky_part2_general_rubrics.md:2.8.2.2**:<br>2.8.2.2: Everything else up to the canon - Sunday, as usual | 
- | `logic_definitions.case_05_weekday_polyeleos.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.10` | **Final_Dolnytsky_part2_general_rubrics.md:2.10**:<br>2.10: Feast of the Lord on a Sunday and Weekdays | 
- | `logic_definitions.case_05_weekday_polyeleos.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.11.1.1` | **Final_Dolnytsky_part2_general_rubrics.md:2.11.1.1**:<br>2.11.1.1: Kathisma 1 (*“Blessed is the man”*), according to the Typikon - all three antiphons, by our custom today - only selected verses | 
- | `logic_definitions.case_06_sunday_vigil.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.11.1.7` | **Final_Dolnytsky_part2_general_rubrics.md:2.11.1.7**:<br>2.11.1.7: At the Blessing of Loaves: Troparion of the feast thrice | 
- | `logic_definitions.case_06_sunday_vigil.variables.aposticha_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.12.5` | **Final_Dolnytsky_part2_general_rubrics.md:2.12.5**:<br>2.12.5: Instead of *“It is truly meet”* - Heirmos of the 9th Ode of the canon of the feast. However, we will present separate and full models | 
- | `logic_definitions.case_06_sunday_vigil.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.13.1.4` | **Final_Dolnytsky_part2_general_rubrics.md:2.13.1.4**:<br>2.13.1.4: AT THE Midnight Office: Trinitarian Canon of the *Octoechos* of the current tone and other things, as usual. | 
- | `logic_definitions.case_07_weekday_vigil.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.13.2` | **Final_Dolnytsky_part2_general_rubrics.md:2.13.2**:<br>2.13.2: AT Great Matins | 
- | `logic_definitions.case_07_weekday_vigil.variables.aposticha_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.14.2` | **Final_Dolnytsky_part2_general_rubrics.md:2.14.2**:<br>2.14.2: If two saints occur**, then there will be to the first - 3 and to the second - 3, Glory, Both now: of the feast. | 
- | `logic_definitions.case_07_weekday_vigil.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.14.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.14.3**:<br>2.14.3: On the Aposticha: stichera of the feast, Glory: to the saint, if there be, Both now: of the feast, if - not, then Glory, Both now: of the feast | 
- | `logic_definitions.case_08_sunday_forefeast.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.14.1` | **Final_Dolnytsky_part2_general_rubrics.md:2.14.1**:<br>2.14.1: Canon of the Most Holy Theotokos, according to the sequence of the *Octoechos*. After *“It is truly meet”* - Kontakion of the feast alone. | 
- | `logic_definitions.case_08_sunday_forefeast.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.15.1` | **Final_Dolnytsky_part2_general_rubrics.md:2.15.1**:<br>2.15.1: AT Great Vespers | 
- | `logic_definitions.case_09_weekday_forefeast.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.15.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.15.3**:<br>2.15.3: AT Great Matins | 
- | `logic_definitions.case_10_feast_of_lord.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.18` | **Final_Dolnytsky_part2_general_rubrics.md:2.18**:<br>2.18: On *“Lord, I have cried”* and on the Aposticha - everything to the saint, only Both now: of the feast; also at the end - Troparion of the saint, Glory, Both now: of the feast. | 
- | `logic_definitions.case_10_feast_of_lord.variables.aposticha_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5` | **Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5**:<br>2.19.1.5: the Great Dismissal with the commemoration Sunday and of the saint, whose day it is. | 
- | `logic_definitions.case_10_feast_of_lord.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.18.1` | **Final_Dolnytsky_part2_general_rubrics.md:2.18.1**:<br>2.18.1: AT Great Matins, AT THE HOURS AND AT THE LITURGY | 
- | `logic_definitions.case_11_feast_of_theotokos_sunday.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.3**:<br>2.20.3: No Entrance, nor readings; Prokimenon of the day from the *Horologion | 
- | `logic_definitions.case_11_feast_of_theotokos_sunday.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_12_feast_of_theotokos_weekday.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_13_afterfeast_sunday_simple.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_13_afterfeast_sunday_simple.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_14_afterfeast_weekday_simple.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_15_afterfeast_sunday_polyeleos.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_15_afterfeast_sunday_polyeleos.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_16_afterfeast_weekday_polyeleos.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_16_afterfeast_weekday_polyeleos.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_17_afterfeast_sunday_vigil.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_17_afterfeast_sunday_vigil.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_18_afterfeast_weekday_vigil.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_18_afterfeast_weekday_vigil.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_19_apodosis_sunday.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_19_apodosis_sunday.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_20_apodosis_weekday.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.case_20_apodosis_weekday.variables.praises_distribution.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `logic_definitions.special_vigil_override.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.14.4` | **Final_Dolnytsky_part2_general_rubrics.md:2.14.4**:<br>2.14.4: If two saints occur**, then the troparion of the first saint, Glory: of the second, Both now: of the feast. | 
+ | `logic_definitions.case_01_sunday_simple_saint.source_ref` | `Dolnytsky_Typikon_Master.md:2.1.3.4` | **Dolnytsky_Typikon_Master.md:2.1.3.4**:<br>2.1.3.4: Prokimenon of the resurrection of the current tone from the *Octoechos*, or from the *Heirmologion | 
+ | `logic_definitions.case_01_sunday_simple_saint.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.2.1.9` | **Dolnytsky_Typikon_Master.md:2.2.1.9**:<br>2.2.1.9: Sometimes he has also on the Aposticha of Matins, after the stichera of the *Octoechos*, one sticheron with its own refrain, and in addition to that a Doxastikon (November 17) | 
+ | `logic_definitions.case_01_sunday_simple_saint.variables.vespers_stichera_distribution.logic_switch.saint_on_6.source_ref` | `Dolnytsky_Typikon_Master.md:2.1.3.7` | **Dolnytsky_Typikon_Master.md:2.1.3.7**:<br>2.1.3.7: If a saint on 6 occurs**, then there shall be the Resurrection Canon with Heirmos on 4 and Cross-Resurrection on 2, of the Theotokos on 2 and of the saint on 6. | 
+ | `logic_definitions.case_02_weekday_simple_saint.source_ref` | `Dolnytsky_Typikon_Master.md:2.3.2` | **Dolnytsky_Typikon_Master.md:2.3.2**:<br>2.3.2: If two saints occur**, then there will be to the first saint - 3 and to the second - 3, Glory, Both now: 1st Theotokion of the tone. If there be a Doxastikon to the first saint, then after it is taken that same 1st Theotokion with the refrain "Both now". | 
+ | `logic_definitions.case_03_saturday_simple_saint.source_ref` | `Dolnytsky_Typikon_Master.md:2.6.4` | **Dolnytsky_Typikon_Master.md:2.6.4**:<br>2.6.4: Dismissal with the commemoration of the Sunday and of the saint | 
+ | `logic_definitions.case_04_sunday_polyeleos.source_ref` | `Dolnytsky_Typikon_Master.md:2.8.2.2` | **Dolnytsky_Typikon_Master.md:2.8.2.2**:<br>2.8.2.2: Everything else up to the canon - Sunday, as usual | 
+ | `logic_definitions.case_05_weekday_polyeleos.source_ref` | `Dolnytsky_Typikon_Master.md:2.10` | **Dolnytsky_Typikon_Master.md:2.10**:<br>2.10: Feast of the Lord on a Sunday and Weekdays | 
+ | `logic_definitions.case_05_weekday_polyeleos.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.11.1.1` | **Dolnytsky_Typikon_Master.md:2.11.1.1**:<br>2.11.1.1: Kathisma 1 (*“Blessed is the man”*), according to the Typikon - all three antiphons, by our custom today - only selected verses | 
+ | `logic_definitions.case_06_sunday_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:2.11.1.7` | **Dolnytsky_Typikon_Master.md:2.11.1.7**:<br>2.11.1.7: At the Blessing of Loaves: Troparion of the feast thrice | 
+ | `logic_definitions.case_06_sunday_vigil.variables.aposticha_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.12.5` | **Dolnytsky_Typikon_Master.md:2.12.5**:<br>2.12.5: Instead of *“It is truly meet”* - Heirmos of the 9th Ode of the canon of the feast. However, we will present separate and full models | 
+ | `logic_definitions.case_06_sunday_vigil.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.13.1.4` | **Dolnytsky_Typikon_Master.md:2.13.1.4**:<br>2.13.1.4: AT THE Midnight Office: Trinitarian Canon of the *Octoechos* of the current tone and other things, as usual. | 
+ | `logic_definitions.case_07_weekday_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:2.13.2` | **Dolnytsky_Typikon_Master.md:2.13.2**:<br>2.13.2: AT Great Matins | 
+ | `logic_definitions.case_07_weekday_vigil.variables.aposticha_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.14.2` | **Dolnytsky_Typikon_Master.md:2.14.2**:<br>2.14.2: If two saints occur**, then there will be to the first - 3 and to the second - 3, Glory, Both now: of the feast. | 
+ | `logic_definitions.case_07_weekday_vigil.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.14.3` | **Dolnytsky_Typikon_Master.md:2.14.3**:<br>2.14.3: On the Aposticha: stichera of the feast, Glory: to the saint, if there be, Both now: of the feast, if - not, then Glory, Both now: of the feast | 
+ | `logic_definitions.case_08_sunday_forefeast.source_ref` | `Dolnytsky_Typikon_Master.md:2.14.1` | **Dolnytsky_Typikon_Master.md:2.14.1**:<br>2.14.1: Canon of the Most Holy Theotokos, according to the sequence of the *Octoechos*. After *“It is truly meet”* - Kontakion of the feast alone. | 
+ | `logic_definitions.case_08_sunday_forefeast.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.15.1` | **Dolnytsky_Typikon_Master.md:2.15.1**:<br>2.15.1: AT Great Vespers | 
+ | `logic_definitions.case_09_weekday_forefeast.source_ref` | `Dolnytsky_Typikon_Master.md:2.15.3` | **Dolnytsky_Typikon_Master.md:2.15.3**:<br>2.15.3: AT Great Matins | 
+ | `logic_definitions.case_10_feast_of_lord.source_ref` | `Dolnytsky_Typikon_Master.md:2.18` | **Dolnytsky_Typikon_Master.md:2.18**:<br>2.18: On *“Lord, I have cried”* and on the Aposticha - everything to the saint, only Both now: of the feast; also at the end - Troparion of the saint, Glory, Both now: of the feast. | 
+ | `logic_definitions.case_10_feast_of_lord.variables.aposticha_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.19.1.5` | **Dolnytsky_Typikon_Master.md:2.19.1.5**:<br>2.19.1.5: the Great Dismissal with the commemoration Sunday and of the saint, whose day it is. | 
+ | `logic_definitions.case_10_feast_of_lord.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.18.1` | **Dolnytsky_Typikon_Master.md:2.18.1**:<br>2.18.1: AT Great Matins, AT THE HOURS AND AT THE LITURGY | 
+ | `logic_definitions.case_11_feast_of_theotokos_sunday.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.3` | **Dolnytsky_Typikon_Master.md:2.20.3**:<br>2.20.3: No Entrance, nor readings; Prokimenon of the day from the *Horologion | 
+ | `logic_definitions.case_11_feast_of_theotokos_sunday.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_12_feast_of_theotokos_weekday.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_13_afterfeast_sunday_simple.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_13_afterfeast_sunday_simple.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_14_afterfeast_weekday_simple.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_15_afterfeast_sunday_polyeleos.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_15_afterfeast_sunday_polyeleos.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_16_afterfeast_weekday_polyeleos.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_16_afterfeast_weekday_polyeleos.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_17_afterfeast_sunday_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_17_afterfeast_sunday_vigil.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_18_afterfeast_weekday_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_18_afterfeast_weekday_vigil.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_19_apodosis_sunday.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_19_apodosis_sunday.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_20_apodosis_weekday.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.case_20_apodosis_weekday.variables.praises_distribution.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `logic_definitions.special_vigil_override.source_ref` | `Dolnytsky_Typikon_Master.md:2.14.4` | **Dolnytsky_Typikon_Master.md:2.14.4**:<br>2.14.4: If two saints occur**, then the troparion of the first saint, Glory: of the second, Both now: of the feast. | 
 
 ---
 
@@ -30830,17 +30830,17 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.01.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1` | **Final_Dolnytsky_part3_menaion.md:3.1**:<br>3.1: September | 
- | `month_settings.days.06.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1` | **Final_Dolnytsky_part3_menaion.md:3.1**:<br>3.1: September | 
- | `month_settings.days.07.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.2.2` | **Final_Dolnytsky_part3_menaion.md:3.1.2.2**:<br>3.1.2.2: I. In the Forefeast of the Nativity of the Most Holy Theotokos | 
- | `month_settings.days.08.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.2.2.2` | **Final_Dolnytsky_part3_menaion.md:3.1.2.2.2**:<br>3.1.2.2.2: II. On the Feast of the Nativity of the Most Holy Theotokos | 
- | `month_settings.days.09.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.2.2.2` | **Final_Dolnytsky_part3_menaion.md:3.1.2.2.2**:<br>3.1.2.2.2: III. In the Afterfeast of the Nativity of the Most Holy Theotokos | 
- | `month_settings.days.12.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.2.2.2` | **Final_Dolnytsky_part3_menaion.md:3.1.2.2.2**:<br>3.1.2.2.2: IV. On the Apodosis of the Feast of the Nativity of the Most Holy Theotokos | 
- | `month_settings.days.13.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.3` | **Final_Dolnytsky_part3_menaion.md:3.1.3**:<br>3.1.3: September: Memory of the Renovation of the Temple of the Resurrection | 
- | `month_settings.days.14.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.4` | **Final_Dolnytsky_part3_menaion.md:3.1.4**:<br>3.1.4: September: Universal Exaltation of the Precious Cross | 
- | `month_settings.days.21.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.4` | **Final_Dolnytsky_part3_menaion.md:3.1.4**:<br>3.1.4: The service of this feast is celebrated according to the general rule of Great Feasts of the Lord. However, it differs from other feasts in that on this feast the Bringing Out, Exaltation of the precious Cross and Veneration of it takes place. The Bringing Out from the sacristy to the mensa takes place in the Eve of the feast, after the dismissal of Small Vespers, or if there is none, then before the beginning of Great Vespers. From the mensa to the tetrapod - on the very day of the feast at Matins, during the Great Doxology. The Exaltation (Vozdvyzhennia) takes place on the tetrapod after the Great Doxology. The Veneration - immediately after the Exaltation and after every service celebrated in the church until the Apodosis of the feast (21 September). All this happens as presented below, first of all - the preparation of the precious Cross. | 
- | `month_settings.days.23.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.8` | **Final_Dolnytsky_part3_menaion.md:3.1.8**:<br>3.1.8: September: Conception of St. John the Baptist | 
- | `month_settings.days.26.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.1.9` | **Final_Dolnytsky_part3_menaion.md:3.1.9**:<br>3.1.9: September: Falling Asleep of the Holy Apostle John the Theologian | 
+ | `month_settings.days.01.source_ref` | `Dolnytsky_Typikon_Master.md:3.1` | **Dolnytsky_Typikon_Master.md:3.1**:<br>3.1: September | 
+ | `month_settings.days.06.source_ref` | `Dolnytsky_Typikon_Master.md:3.1` | **Dolnytsky_Typikon_Master.md:3.1**:<br>3.1: September | 
+ | `month_settings.days.07.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.2.2` | **Dolnytsky_Typikon_Master.md:3.1.2.2**:<br>3.1.2.2: I. In the Forefeast of the Nativity of the Most Holy Theotokos | 
+ | `month_settings.days.08.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.2.2.2` | **Dolnytsky_Typikon_Master.md:3.1.2.2.2**:<br>3.1.2.2.2: II. On the Feast of the Nativity of the Most Holy Theotokos | 
+ | `month_settings.days.09.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.2.2.2` | **Dolnytsky_Typikon_Master.md:3.1.2.2.2**:<br>3.1.2.2.2: III. In the Afterfeast of the Nativity of the Most Holy Theotokos | 
+ | `month_settings.days.12.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.2.2.2` | **Dolnytsky_Typikon_Master.md:3.1.2.2.2**:<br>3.1.2.2.2: IV. On the Apodosis of the Feast of the Nativity of the Most Holy Theotokos | 
+ | `month_settings.days.13.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.3` | **Dolnytsky_Typikon_Master.md:3.1.3**:<br>3.1.3: September: Memory of the Renovation of the Temple of the Resurrection | 
+ | `month_settings.days.14.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.4` | **Dolnytsky_Typikon_Master.md:3.1.4**:<br>3.1.4: September: Universal Exaltation of the Precious Cross | 
+ | `month_settings.days.21.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.4` | **Dolnytsky_Typikon_Master.md:3.1.4**:<br>3.1.4: The service of this feast is celebrated according to the general rule of Great Feasts of the Lord. However, it differs from other feasts in that on this feast the Bringing Out, Exaltation of the precious Cross and Veneration of it takes place. The Bringing Out from the sacristy to the mensa takes place in the Eve of the feast, after the dismissal of Small Vespers, or if there is none, then before the beginning of Great Vespers. From the mensa to the tetrapod - on the very day of the feast at Matins, during the Great Doxology. The Exaltation (Vozdvyzhennia) takes place on the tetrapod after the Great Doxology. The Veneration - immediately after the Exaltation and after every service celebrated in the church until the Apodosis of the feast (21 September). All this happens as presented below, first of all - the preparation of the precious Cross. | 
+ | `month_settings.days.23.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.8` | **Dolnytsky_Typikon_Master.md:3.1.8**:<br>3.1.8: September: Conception of St. John the Baptist | 
+ | `month_settings.days.26.source_ref` | `Dolnytsky_Typikon_Master.md:3.1.9` | **Dolnytsky_Typikon_Master.md:3.1.9**:<br>3.1.9: September: Falling Asleep of the Holy Apostle John the Theologian | 
 
 ---
 
@@ -30848,13 +30848,13 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.01.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.2` | **Final_Dolnytsky_part3_menaion.md:3.2**:<br>3.2: October | 
- | `month_settings.days.06.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.2` | **Final_Dolnytsky_part3_menaion.md:3.2**:<br>3.2: October | 
- | `month_settings.days.09.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.2` | **Final_Dolnytsky_part3_menaion.md:3.2**:<br>3.2: October | 
- | `month_settings.days.18.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.2` | **Final_Dolnytsky_part3_menaion.md:3.2**:<br>3.2: October | 
- | `month_settings.days.23.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.2` | **Final_Dolnytsky_part3_menaion.md:3.2**:<br>3.2: October | 
- | `month_settings.days.26.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.2` | **Final_Dolnytsky_part3_menaion.md:3.2**:<br>3.2: October | 
- | `month_settings.days.28.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.2` | **Final_Dolnytsky_part3_menaion.md:3.2**:<br>3.2: October | 
+ | `month_settings.days.01.source_ref` | `Dolnytsky_Typikon_Master.md:3.2` | **Dolnytsky_Typikon_Master.md:3.2**:<br>3.2: October | 
+ | `month_settings.days.06.source_ref` | `Dolnytsky_Typikon_Master.md:3.2` | **Dolnytsky_Typikon_Master.md:3.2**:<br>3.2: October | 
+ | `month_settings.days.09.source_ref` | `Dolnytsky_Typikon_Master.md:3.2` | **Dolnytsky_Typikon_Master.md:3.2**:<br>3.2: October | 
+ | `month_settings.days.18.source_ref` | `Dolnytsky_Typikon_Master.md:3.2` | **Dolnytsky_Typikon_Master.md:3.2**:<br>3.2: October | 
+ | `month_settings.days.23.source_ref` | `Dolnytsky_Typikon_Master.md:3.2` | **Dolnytsky_Typikon_Master.md:3.2**:<br>3.2: October | 
+ | `month_settings.days.26.source_ref` | `Dolnytsky_Typikon_Master.md:3.2` | **Dolnytsky_Typikon_Master.md:3.2**:<br>3.2: October | 
+ | `month_settings.days.28.source_ref` | `Dolnytsky_Typikon_Master.md:3.2` | **Dolnytsky_Typikon_Master.md:3.2**:<br>3.2: October | 
 
 ---
 
@@ -30862,15 +30862,15 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.08.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3` | **Final_Dolnytsky_part3_menaion.md:3.3**:<br>3.3: November | 
- | `month_settings.days.12.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3` | **Final_Dolnytsky_part3_menaion.md:3.3**:<br>3.3: November | 
- | `month_settings.days.13.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3` | **Final_Dolnytsky_part3_menaion.md:3.3**:<br>3.3: November | 
- | `month_settings.days.14.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3` | **Final_Dolnytsky_part3_menaion.md:3.3**:<br>3.3: November | 
- | `month_settings.days.15.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3` | **Final_Dolnytsky_part3_menaion.md:3.3**:<br>3.3: November | 
- | `month_settings.days.16.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3` | **Final_Dolnytsky_part3_menaion.md:3.3**:<br>3.3: November | 
- | `month_settings.days.21.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3` | **Final_Dolnytsky_part3_menaion.md:3.3**:<br>3.3: November | 
- | `month_settings.days.25.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3.4` | **Final_Dolnytsky_part3_menaion.md:3.3.4**:<br>3.3.4: November: Apodosis of the Entry of the Most Holy Theotokos | 
- | `month_settings.days.30.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.3` | **Final_Dolnytsky_part3_menaion.md:3.3**:<br>3.3: November | 
+ | `month_settings.days.08.source_ref` | `Dolnytsky_Typikon_Master.md:3.3` | **Dolnytsky_Typikon_Master.md:3.3**:<br>3.3: November | 
+ | `month_settings.days.12.source_ref` | `Dolnytsky_Typikon_Master.md:3.3` | **Dolnytsky_Typikon_Master.md:3.3**:<br>3.3: November | 
+ | `month_settings.days.13.source_ref` | `Dolnytsky_Typikon_Master.md:3.3` | **Dolnytsky_Typikon_Master.md:3.3**:<br>3.3: November | 
+ | `month_settings.days.14.source_ref` | `Dolnytsky_Typikon_Master.md:3.3` | **Dolnytsky_Typikon_Master.md:3.3**:<br>3.3: November | 
+ | `month_settings.days.15.source_ref` | `Dolnytsky_Typikon_Master.md:3.3` | **Dolnytsky_Typikon_Master.md:3.3**:<br>3.3: November | 
+ | `month_settings.days.16.source_ref` | `Dolnytsky_Typikon_Master.md:3.3` | **Dolnytsky_Typikon_Master.md:3.3**:<br>3.3: November | 
+ | `month_settings.days.21.source_ref` | `Dolnytsky_Typikon_Master.md:3.3` | **Dolnytsky_Typikon_Master.md:3.3**:<br>3.3: November | 
+ | `month_settings.days.25.source_ref` | `Dolnytsky_Typikon_Master.md:3.3.4` | **Dolnytsky_Typikon_Master.md:3.3.4**:<br>3.3.4: November: Apodosis of the Entry of the Most Holy Theotokos | 
+ | `month_settings.days.30.source_ref` | `Dolnytsky_Typikon_Master.md:3.3` | **Dolnytsky_Typikon_Master.md:3.3**:<br>3.3: November | 
 
 ---
 
@@ -30878,17 +30878,17 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.04.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4` | **Final_Dolnytsky_part3_menaion.md:3.4**:<br>3.4: December | 
- | `month_settings.days.05.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4` | **Final_Dolnytsky_part3_menaion.md:3.4**:<br>3.4: December | 
- | `month_settings.days.06.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4` | **Final_Dolnytsky_part3_menaion.md:3.4**:<br>3.4: December | 
- | `month_settings.days.09.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4` | **Final_Dolnytsky_part3_menaion.md:3.4**:<br>3.4: December | 
- | `month_settings.days.12.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4` | **Final_Dolnytsky_part3_menaion.md:3.4**:<br>3.4: December | 
- | `month_settings.days.24.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.7` | **Final_Dolnytsky_part3_menaion.md:3.4.7**:<br>3.4.7: December: Eve of the Nativity of Christ | 
- | `month_settings.days.25.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.8` | **Final_Dolnytsky_part3_menaion.md:3.4.8**:<br>3.4.8: December: Nativity of our Lord Jesus Christ | 
- | `month_settings.days.26.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.9` | **Final_Dolnytsky_part3_menaion.md:3.4.9**:<br>3.4.9: December: Synaxis of the Most Holy Theotokos | 
- | `month_settings.days.27.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.5.5.1` | **Final_Dolnytsky_part3_menaion.md:3.4.5.5.1**:<br>3.4.5.5.1: , 21, 22, 23 December | 
- | `month_settings.floating_rules.sunday_ancestors.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.5` | **Final_Dolnytsky_part3_menaion.md:3.4.5**:<br>3.4.5: Sunday of the Holy Fathers before the Nativity of Christ | 
- | `month_settings.floating_rules.sunday_forefathers.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.2` | **Final_Dolnytsky_part3_menaion.md:3.4.2**:<br>3.4.2: Sunday of the Holy Forefathers | 
+ | `month_settings.days.04.source_ref` | `Dolnytsky_Typikon_Master.md:3.4` | **Dolnytsky_Typikon_Master.md:3.4**:<br>3.4: December | 
+ | `month_settings.days.05.source_ref` | `Dolnytsky_Typikon_Master.md:3.4` | **Dolnytsky_Typikon_Master.md:3.4**:<br>3.4: December | 
+ | `month_settings.days.06.source_ref` | `Dolnytsky_Typikon_Master.md:3.4` | **Dolnytsky_Typikon_Master.md:3.4**:<br>3.4: December | 
+ | `month_settings.days.09.source_ref` | `Dolnytsky_Typikon_Master.md:3.4` | **Dolnytsky_Typikon_Master.md:3.4**:<br>3.4: December | 
+ | `month_settings.days.12.source_ref` | `Dolnytsky_Typikon_Master.md:3.4` | **Dolnytsky_Typikon_Master.md:3.4**:<br>3.4: December | 
+ | `month_settings.days.24.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.7` | **Dolnytsky_Typikon_Master.md:3.4.7**:<br>3.4.7: December: Eve of the Nativity of Christ | 
+ | `month_settings.days.25.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.8` | **Dolnytsky_Typikon_Master.md:3.4.8**:<br>3.4.8: December: Nativity of our Lord Jesus Christ | 
+ | `month_settings.days.26.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.9` | **Dolnytsky_Typikon_Master.md:3.4.9**:<br>3.4.9: December: Synaxis of the Most Holy Theotokos | 
+ | `month_settings.days.27.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.5.5.1` | **Dolnytsky_Typikon_Master.md:3.4.5.5.1**:<br>3.4.5.5.1: , 21, 22, 23 December | 
+ | `month_settings.floating_rules.sunday_ancestors.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.5` | **Dolnytsky_Typikon_Master.md:3.4.5**:<br>3.4.5: Sunday of the Holy Fathers before the Nativity of Christ | 
+ | `month_settings.floating_rules.sunday_forefathers.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.2` | **Dolnytsky_Typikon_Master.md:3.4.2**:<br>3.4.2: Sunday of the Holy Forefathers | 
 
 ---
 
@@ -30896,10 +30896,10 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.01.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.5` | **Final_Dolnytsky_part3_menaion.md:3.5**:<br>3.5: January | 
- | `month_settings.days.05.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.4.6.3` | **Final_Dolnytsky_part3_menaion.md:3.4.6.3**:<br>3.4.6.3: Nothing special, except the Liturgy of Basil the Great with Vespers of the Feast on the Eve of the Nativity and Theophany, if they fall on one of the five fast days, from Monday to Friday. For if they fall on Saturday or on Sunday, then on the Eve there will be the Liturgy of Chrysostom, at its proper time without Vespers, and afterwards - Vespers of the Feast, at its proper time. On the Feast itself - Liturgy of Basil the Great without Vespers. On Friday, before the Eve, to which the Royal Hours are transferred, the typikon gives no Liturgy, this is adhered to also by the Lviv Synod. | 
- | `month_settings.days.06.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.5.4` | **Final_Dolnytsky_part3_menaion.md:3.5.4**:<br>3.5.4: January: Holy Theophany | 
- | `month_settings.days.30.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.5.17` | **Final_Dolnytsky_part3_menaion.md:3.5.17**:<br>3.5.17: JANUARY | 
+ | `month_settings.days.01.source_ref` | `Dolnytsky_Typikon_Master.md:3.5` | **Dolnytsky_Typikon_Master.md:3.5**:<br>3.5: January | 
+ | `month_settings.days.05.source_ref` | `Dolnytsky_Typikon_Master.md:3.4.6.3` | **Dolnytsky_Typikon_Master.md:3.4.6.3**:<br>3.4.6.3: Nothing special, except the Liturgy of Basil the Great with Vespers of the Feast on the Eve of the Nativity and Theophany, if they fall on one of the five fast days, from Monday to Friday. For if they fall on Saturday or on Sunday, then on the Eve there will be the Liturgy of Chrysostom, at its proper time without Vespers, and afterwards - Vespers of the Feast, at its proper time. On the Feast itself - Liturgy of Basil the Great without Vespers. On Friday, before the Eve, to which the Royal Hours are transferred, the typikon gives no Liturgy, this is adhered to also by the Lviv Synod. | 
+ | `month_settings.days.06.source_ref` | `Dolnytsky_Typikon_Master.md:3.5.4` | **Dolnytsky_Typikon_Master.md:3.5.4**:<br>3.5.4: January: Holy Theophany | 
+ | `month_settings.days.30.source_ref` | `Dolnytsky_Typikon_Master.md:3.5.17` | **Dolnytsky_Typikon_Master.md:3.5.17**:<br>3.5.17: JANUARY | 
 
 ---
 
@@ -30907,8 +30907,8 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.02.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.6.2` | **Final_Dolnytsky_part3_menaion.md:3.6.2**:<br>3.6.2: February: Meeting of the Lord | 
- | `month_settings.days.24.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.6.4` | **Final_Dolnytsky_part3_menaion.md:3.6.4**:<br>3.6.4: February: First and Second Finding of the Precious Head of the Forerunner | 
+ | `month_settings.days.02.source_ref` | `Dolnytsky_Typikon_Master.md:3.6.2` | **Dolnytsky_Typikon_Master.md:3.6.2**:<br>3.6.2: February: Meeting of the Lord | 
+ | `month_settings.days.24.source_ref` | `Dolnytsky_Typikon_Master.md:3.6.4` | **Dolnytsky_Typikon_Master.md:3.6.4**:<br>3.6.4: February: First and Second Finding of the Precious Head of the Forerunner | 
 
 ---
 
@@ -30916,8 +30916,8 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.09.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.7` | **Final_Dolnytsky_part3_menaion.md:3.7**:<br>3.7: March | 
- | `month_settings.days.25.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.7.3.17` | **Final_Dolnytsky_part3_menaion.md:3.7.3.17**:<br>3.7.3.17: ANNUNCIATION | 
+ | `month_settings.days.09.source_ref` | `Dolnytsky_Typikon_Master.md:3.7` | **Dolnytsky_Typikon_Master.md:3.7**:<br>3.7: March | 
+ | `month_settings.days.25.source_ref` | `Dolnytsky_Typikon_Master.md:3.7.3.17` | **Dolnytsky_Typikon_Master.md:3.7.3.17**:<br>3.7.3.17: ANNUNCIATION | 
 
 ---
 
@@ -30925,10 +30925,10 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.01.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.8` | **Final_Dolnytsky_part3_menaion.md:3.8**:<br>3.8: April | 
- | `month_settings.days.23.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.8` | **Final_Dolnytsky_part3_menaion.md:3.8**:<br>3.8: April | 
- | `month_settings.days.25.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.8.2` | **Final_Dolnytsky_part3_menaion.md:3.8.2**:<br>3.8.2: April: Holy Apostle and Evangelist Mark | 
- | `month_settings.days.30.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.8` | **Final_Dolnytsky_part3_menaion.md:3.8**:<br>3.8: April | 
+ | `month_settings.days.01.source_ref` | `Dolnytsky_Typikon_Master.md:3.8` | **Dolnytsky_Typikon_Master.md:3.8**:<br>3.8: April | 
+ | `month_settings.days.23.source_ref` | `Dolnytsky_Typikon_Master.md:3.8` | **Dolnytsky_Typikon_Master.md:3.8**:<br>3.8: April | 
+ | `month_settings.days.25.source_ref` | `Dolnytsky_Typikon_Master.md:3.8.2` | **Dolnytsky_Typikon_Master.md:3.8.2**:<br>3.8.2: April: Holy Apostle and Evangelist Mark | 
+ | `month_settings.days.30.source_ref` | `Dolnytsky_Typikon_Master.md:3.8` | **Dolnytsky_Typikon_Master.md:3.8**:<br>3.8: April | 
 
 ---
 
@@ -30936,10 +30936,10 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.08.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.9.3` | **Final_Dolnytsky_part3_menaion.md:3.9.3**:<br>3.9.3: May: Holy Apostle and Evangelist John the Theologian | 
- | `month_settings.days.09.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.9.4` | **Final_Dolnytsky_part3_menaion.md:3.9.4**:<br>3.9.4: May: Translation of the relics of our holy father Nicholas | 
- | `month_settings.days.11.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.8.3` | **Final_Dolnytsky_part3_menaion.md:3.8.3**:<br>3.8.3: April | 
- | `month_settings.days.21.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.9.6` | **Final_Dolnytsky_part3_menaion.md:3.9.6**:<br>3.9.6: May: Constantine and Helen | 
+ | `month_settings.days.08.source_ref` | `Dolnytsky_Typikon_Master.md:3.9.3` | **Dolnytsky_Typikon_Master.md:3.9.3**:<br>3.9.3: May: Holy Apostle and Evangelist John the Theologian | 
+ | `month_settings.days.09.source_ref` | `Dolnytsky_Typikon_Master.md:3.9.4` | **Dolnytsky_Typikon_Master.md:3.9.4**:<br>3.9.4: May: Translation of the relics of our holy father Nicholas | 
+ | `month_settings.days.11.source_ref` | `Dolnytsky_Typikon_Master.md:3.8.3` | **Dolnytsky_Typikon_Master.md:3.8.3**:<br>3.8.3: April | 
+ | `month_settings.days.21.source_ref` | `Dolnytsky_Typikon_Master.md:3.9.6` | **Dolnytsky_Typikon_Master.md:3.9.6**:<br>3.9.6: May: Constantine and Helen | 
 
 ---
 
@@ -30947,11 +30947,11 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.11.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.10` | **Final_Dolnytsky_part3_menaion.md:3.10**:<br>3.10: June | 
- | `month_settings.days.19.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.10` | **Final_Dolnytsky_part3_menaion.md:3.10**:<br>3.10: June | 
- | `month_settings.days.24.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.10` | **Final_Dolnytsky_part3_menaion.md:3.10**:<br>3.10: June | 
- | `month_settings.days.29.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.10.2` | **Final_Dolnytsky_part3_menaion.md:3.10.2**:<br>3.10.2: and | 
- | `month_settings.days.30.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.10` | **Final_Dolnytsky_part3_menaion.md:3.10**:<br>3.10: June | 
+ | `month_settings.days.11.source_ref` | `Dolnytsky_Typikon_Master.md:3.10` | **Dolnytsky_Typikon_Master.md:3.10**:<br>3.10: June | 
+ | `month_settings.days.19.source_ref` | `Dolnytsky_Typikon_Master.md:3.10` | **Dolnytsky_Typikon_Master.md:3.10**:<br>3.10: June | 
+ | `month_settings.days.24.source_ref` | `Dolnytsky_Typikon_Master.md:3.10` | **Dolnytsky_Typikon_Master.md:3.10**:<br>3.10: June | 
+ | `month_settings.days.29.source_ref` | `Dolnytsky_Typikon_Master.md:3.10.2` | **Dolnytsky_Typikon_Master.md:3.10.2**:<br>3.10.2: and | 
+ | `month_settings.days.30.source_ref` | `Dolnytsky_Typikon_Master.md:3.10` | **Dolnytsky_Typikon_Master.md:3.10**:<br>3.10: June | 
 
 ---
 
@@ -30959,15 +30959,15 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.05.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11` | **Final_Dolnytsky_part3_menaion.md:3.11**:<br>3.11: July | 
- | `month_settings.days.10.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11` | **Final_Dolnytsky_part3_menaion.md:3.11**:<br>3.11: July | 
- | `month_settings.days.11.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11` | **Final_Dolnytsky_part3_menaion.md:3.11**:<br>3.11: July | 
- | `month_settings.days.15.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11` | **Final_Dolnytsky_part3_menaion.md:3.11**:<br>3.11: July | 
- | `month_settings.days.20.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11` | **Final_Dolnytsky_part3_menaion.md:3.11**:<br>3.11: July | 
- | `month_settings.days.24.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11` | **Final_Dolnytsky_part3_menaion.md:3.11**:<br>3.11: July | 
- | `month_settings.days.25.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11.4` | **Final_Dolnytsky_part3_menaion.md:3.11.4**:<br>3.11.4: July: Dormition of St. Anne, mother of the Most Holy Theotokos | 
- | `month_settings.days.27.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11` | **Final_Dolnytsky_part3_menaion.md:3.11**:<br>3.11: July | 
- | `month_settings.floating_rules.sunday_fathers_six_councils.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11` | **Final_Dolnytsky_part3_menaion.md:3.11**:<br>3.11: July | 
+ | `month_settings.days.05.source_ref` | `Dolnytsky_Typikon_Master.md:3.11` | **Dolnytsky_Typikon_Master.md:3.11**:<br>3.11: July | 
+ | `month_settings.days.10.source_ref` | `Dolnytsky_Typikon_Master.md:3.11` | **Dolnytsky_Typikon_Master.md:3.11**:<br>3.11: July | 
+ | `month_settings.days.11.source_ref` | `Dolnytsky_Typikon_Master.md:3.11` | **Dolnytsky_Typikon_Master.md:3.11**:<br>3.11: July | 
+ | `month_settings.days.15.source_ref` | `Dolnytsky_Typikon_Master.md:3.11` | **Dolnytsky_Typikon_Master.md:3.11**:<br>3.11: July | 
+ | `month_settings.days.20.source_ref` | `Dolnytsky_Typikon_Master.md:3.11` | **Dolnytsky_Typikon_Master.md:3.11**:<br>3.11: July | 
+ | `month_settings.days.24.source_ref` | `Dolnytsky_Typikon_Master.md:3.11` | **Dolnytsky_Typikon_Master.md:3.11**:<br>3.11: July | 
+ | `month_settings.days.25.source_ref` | `Dolnytsky_Typikon_Master.md:3.11.4` | **Dolnytsky_Typikon_Master.md:3.11.4**:<br>3.11.4: July: Dormition of St. Anne, mother of the Most Holy Theotokos | 
+ | `month_settings.days.27.source_ref` | `Dolnytsky_Typikon_Master.md:3.11` | **Dolnytsky_Typikon_Master.md:3.11**:<br>3.11: July | 
+ | `month_settings.floating_rules.sunday_fathers_six_councils.source_ref` | `Dolnytsky_Typikon_Master.md:3.11` | **Dolnytsky_Typikon_Master.md:3.11**:<br>3.11: July | 
 
 ---
 
@@ -30975,12 +30975,12 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `month_settings.days.01.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.12` | **Final_Dolnytsky_part3_menaion.md:3.12**:<br>3.12: August | 
- | `month_settings.days.06.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.12.2` | **Final_Dolnytsky_part3_menaion.md:3.12.2**:<br>3.12.2: August: Transfiguration of the Lord | 
- | `month_settings.days.15.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.12.3` | **Final_Dolnytsky_part3_menaion.md:3.12.3**:<br>3.12.3: August: Dormition of the Most Holy Theotokos | 
- | `month_settings.days.23.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.11.4.1` | **Final_Dolnytsky_part3_menaion.md:3.11.4.1**:<br>3.11.4.1: RULE | 
- | `month_settings.days.29.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.12.5` | **Final_Dolnytsky_part3_menaion.md:3.12.5**:<br>3.12.5: August: Beheading of the Precious Head of St. John the Baptist | 
- | `month_settings.days.31.source_ref` | `Final_Dolnytsky_part3_menaion.md:3.12.6` | **Final_Dolnytsky_part3_menaion.md:3.12.6**:<br>3.12.6: August: Deposition of the Sash of the Most Holy Theotokos | 
+ | `month_settings.days.01.source_ref` | `Dolnytsky_Typikon_Master.md:3.12` | **Dolnytsky_Typikon_Master.md:3.12**:<br>3.12: August | 
+ | `month_settings.days.06.source_ref` | `Dolnytsky_Typikon_Master.md:3.12.2` | **Dolnytsky_Typikon_Master.md:3.12.2**:<br>3.12.2: August: Transfiguration of the Lord | 
+ | `month_settings.days.15.source_ref` | `Dolnytsky_Typikon_Master.md:3.12.3` | **Dolnytsky_Typikon_Master.md:3.12.3**:<br>3.12.3: August: Dormition of the Most Holy Theotokos | 
+ | `month_settings.days.23.source_ref` | `Dolnytsky_Typikon_Master.md:3.11.4.1` | **Dolnytsky_Typikon_Master.md:3.11.4.1**:<br>3.11.4.1: RULE | 
+ | `month_settings.days.29.source_ref` | `Dolnytsky_Typikon_Master.md:3.12.5` | **Dolnytsky_Typikon_Master.md:3.12.5**:<br>3.12.5: August: Beheading of the Precious Head of St. John the Baptist | 
+ | `month_settings.days.31.source_ref` | `Dolnytsky_Typikon_Master.md:3.12.6` | **Dolnytsky_Typikon_Master.md:3.12.6**:<br>3.12.6: August: Deposition of the Sash of the Most Holy Theotokos | 
 
 ---
 
@@ -30988,10 +30988,10 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `aposticha_theotokia.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.10.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.10.3**:<br>2.10.3: Antiphons, Entrance and everything else - to the feast. Instead of the Trisagion, on the Exaltation of the Holy Cross and on the Sunday of the Adoration of the Cross we sing "Before Thy Cross"; on the Nativity of Christ, on Theophany, on Lazarus Saturday, on Great Saturday, during Bright Week and on Pentecost Sunday is sung "As many as have been baptized into Christ". Instead of *“It is truly meet”*, according to our later Typikon, is taken the Heirmos of the 9th Ode of the Festal Canon with the festal refrain. | 
- | `theotokia_tables.dismissal_theotokia.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.6` | **Final_Dolnytsky_part1_structure.md:1.5.1.6**:<br>1.5.1.6: On Feasts of the Lord and of the Theotokos at Glory, Both now there is only one stichera, on Feasts of Polyeleos Saints: one - at Glory and the second (Theotokion) - at Both now; on Sundays: at Glory - the current Gospel stichera, one of the eleven, and at Both now - the Theotokion of the Horologion 'Most blessed Art Thou.'* | 
- | `theotokia_tables.stavrotheotokia.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5` | **Final_Dolnytsky_part2_general_rubrics.md:2.5.3.5**:<br>2.5.3.5: Canons two: 1st - of the Theotokos, one of the two usual ones ("Having traversed the moisture", Tone 2 of Sunday Matins, or "Having crossed the water", Tone 8 of Compline on Tuesday) with the Heirmos on 6, then to the saint one or two canons on 8 | 
- | `theotokia_tables.sunday_theotokia.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.6` | **Final_Dolnytsky_part1_structure.md:1.5.1.6**:<br>1.5.1.6: Verse 1**: *'Let everything that hath breath praise the Lord: Praise the Lord from the heavens, praise Him in the highest, to Thee belongs a hymn, O God'**.* | 
+ | `aposticha_theotokia.source_ref` | `Dolnytsky_Typikon_Master.md:2.10.3` | **Dolnytsky_Typikon_Master.md:2.10.3**:<br>2.10.3: Antiphons, Entrance and everything else - to the feast. Instead of the Trisagion, on the Exaltation of the Holy Cross and on the Sunday of the Adoration of the Cross we sing "Before Thy Cross"; on the Nativity of Christ, on Theophany, on Lazarus Saturday, on Great Saturday, during Bright Week and on Pentecost Sunday is sung "As many as have been baptized into Christ". Instead of *“It is truly meet”*, according to our later Typikon, is taken the Heirmos of the 9th Ode of the Festal Canon with the festal refrain. | 
+ | `theotokia_tables.dismissal_theotokia.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.6` | **Dolnytsky_Typikon_Master.md:1.5.1.6**:<br>1.5.1.6: On Feasts of the Lord and of the Theotokos at Glory, Both now there is only one stichera, on Feasts of Polyeleos Saints: one - at Glory and the second (Theotokion) - at Both now; on Sundays: at Glory - the current Gospel stichera, one of the eleven, and at Both now - the Theotokion of the Horologion 'Most blessed Art Thou.'* | 
+ | `theotokia_tables.stavrotheotokia.source_ref` | `Dolnytsky_Typikon_Master.md:2.5.3.5` | **Dolnytsky_Typikon_Master.md:2.5.3.5**:<br>2.5.3.5: Canons two: 1st - of the Theotokos, one of the two usual ones ("Having traversed the moisture", Tone 2 of Sunday Matins, or "Having crossed the water", Tone 8 of Compline on Tuesday) with the Heirmos on 6, then to the saint one or two canons on 8 | 
+ | `theotokia_tables.sunday_theotokia.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.6` | **Dolnytsky_Typikon_Master.md:1.5.1.6**:<br>1.5.1.6: Verse 1**: *'Let everything that hath breath praise the Lord: Praise the Lord from the heavens, praise Him in the highest, to Thee belongs a hymn, O God'**.* | 
 
 ---
 
@@ -30999,12 +30999,12 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `logic_map.co_suffering_theotokos.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.1.3` | **Final_Dolnytsky_part4_triodion.md:4.1.1.3**:<br>4.1.1.3: AT THE LITURGY | 
- | `logic_map.feast_of_eucharist.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.1.3` | **Final_Dolnytsky_part4_triodion.md:4.1.1.3**:<br>4.1.1.3: AT THE LITURGY | 
- | `logic_map.sunday_blind_man.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.16.1` | **Final_Dolnytsky_part4_triodion.md:4.2.16.1**:<br>4.2.16.1: AT THE LITURGY | 
- | `logic_map.sunday_myrrhbearers.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.10.2` | **Final_Dolnytsky_part4_triodion.md:4.2.10.2**:<br>4.2.10.2: AT THE LITURGY | 
- | `logic_map.sunday_paralytic.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.12.4` | **Final_Dolnytsky_part4_triodion.md:4.2.12.4**:<br>4.2.12.4: AT THE LITURGY | 
- | `logic_map.sunday_samaritan.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.14.1` | **Final_Dolnytsky_part4_triodion.md:4.2.14.1**:<br>4.2.14.1: AT THE LITURGY | 
+ | `logic_map.co_suffering_theotokos.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.1.3` | **Dolnytsky_Typikon_Master.md:4.1.1.3**:<br>4.1.1.3: AT THE LITURGY | 
+ | `logic_map.feast_of_eucharist.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.1.3` | **Dolnytsky_Typikon_Master.md:4.1.1.3**:<br>4.1.1.3: AT THE LITURGY | 
+ | `logic_map.sunday_blind_man.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.16.1` | **Dolnytsky_Typikon_Master.md:4.2.16.1**:<br>4.2.16.1: AT THE LITURGY | 
+ | `logic_map.sunday_myrrhbearers.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.10.2` | **Dolnytsky_Typikon_Master.md:4.2.10.2**:<br>4.2.10.2: AT THE LITURGY | 
+ | `logic_map.sunday_paralytic.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.12.4` | **Dolnytsky_Typikon_Master.md:4.2.12.4**:<br>4.2.12.4: AT THE LITURGY | 
+ | `logic_map.sunday_samaritan.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.14.1` | **Dolnytsky_Typikon_Master.md:4.2.14.1**:<br>4.2.14.1: AT THE LITURGY | 
 
 ---
 
@@ -31012,16 +31012,16 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `troparia_rules.conditions[0].source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.2` | **Final_Dolnytsky_part1_structure.md:1.5.1.2**:<br>1.5.1.2: If the service is Sunday and of a Saint with his own troparion**: *then the Sunday troparion of the current tone twice, Glory: troparion of the Saint once, and Both now: Theotokion from the Sunday ones, according to the tone of the troparion of the Saint.* | 
- | `troparia_rules.conditions[1].source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `troparia_rules.conditions[2].source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.2` | **Final_Dolnytsky_part1_structure.md:1.5.1.2**:<br>1.5.1.2: If the service is Sunday and of two Saints with their own troparia**: *then the Sunday troparion of the current tone once, troparion of the first Saint once, Glory: troparion of the second Saint once, Both now: Theotokion from the Sunday ones, according to the tone of the Doxastikon, that is of the second Saint**.* | 
- | `troparia_rules.conditions[3].source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.2` | **Final_Dolnytsky_part1_structure.md:1.5.1.2**:<br>1.5.1.2: If the service is Sunday and of a Feast, and of a Saint**: *then the troparion of the current tone twice, Glory: troparion of the Saint once, Both now: troparion of the service of the Feast once**.* | 
- | `troparia_rules.conditions[4].source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.2` | **Final_Dolnytsky_part1_structure.md:1.5.1.2**:<br>1.5.1.2: If the service is of a Saint on a weekday**: *then the troparion of the Saint twice, and also Glory, Both now: Theotokion, according to the tone of the troparion of the Saint, or from the Sunday ones if the Saint is a Polyeleos one, or a Dismissal one if [he is] non-Polyeleos, but then the Theotokion will be according to the tone of the troparion of the Saint and according to the day of the week.* | 
-| `troparia_rules.conditions[5].source_ref` | `Final_Dolnytsky_part1_structure.md` | **Final_Dolnytsky_part1_structure.md**:<br>L1: [Entire File: Final_Dolnytsky_part1_structure.md] |
- | `troparia_rules.conditions[6].source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.2` | **Final_Dolnytsky_part1_structure.md:1.5.1.2**:<br>1.5.1.2: If two non-Polyeleos Saints**: *then the troparion of the first Saint twice, Glory: of the second once, Both now: Dismissal Theotokion, according to the tone of the second Saint and according to the day of the week.* | 
- | `troparia_rules.conditions[7].source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.2` | **Final_Dolnytsky_part1_structure.md:1.5.1.2**:<br>1.5.1.2: If on a weekday the service is of a Feast and of a Saint**: *then the troparion of the service of the Feast twice, Glory: troparion of the Saint once, Both now: once more the troparion of the Feast*[^3a]*.* | 
- | `troparia_rules.conditions[8].source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.2` | **Final_Dolnytsky_part1_structure.md:1.5.1.2**:<br>1.5.1.2: If on a weekday the service is of a Feast and of two Saints with their own troparia**: *then the troparion of the service of the Feast once, troparion of the first Saint once, Glory: of the second Saint once, and also Both now: troparion of the service of the Feast once**.* | 
- | `troparia_rules.conditions[9].source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.3` | **Final_Dolnytsky_part1_structure.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
+ | `troparia_rules.conditions[0].source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.2` | **Dolnytsky_Typikon_Master.md:1.5.1.2**:<br>1.5.1.2: If the service is Sunday and of a Saint with his own troparion**: *then the Sunday troparion of the current tone twice, Glory: troparion of the Saint once, and Both now: Theotokion from the Sunday ones, according to the tone of the troparion of the Saint.* | 
+ | `troparia_rules.conditions[1].source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `troparia_rules.conditions[2].source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.2` | **Dolnytsky_Typikon_Master.md:1.5.1.2**:<br>1.5.1.2: If the service is Sunday and of two Saints with their own troparia**: *then the Sunday troparion of the current tone once, troparion of the first Saint once, Glory: troparion of the second Saint once, Both now: Theotokion from the Sunday ones, according to the tone of the Doxastikon, that is of the second Saint**.* | 
+ | `troparia_rules.conditions[3].source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.2` | **Dolnytsky_Typikon_Master.md:1.5.1.2**:<br>1.5.1.2: If the service is Sunday and of a Feast, and of a Saint**: *then the troparion of the current tone twice, Glory: troparion of the Saint once, Both now: troparion of the service of the Feast once**.* | 
+ | `troparia_rules.conditions[4].source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.2` | **Dolnytsky_Typikon_Master.md:1.5.1.2**:<br>1.5.1.2: If the service is of a Saint on a weekday**: *then the troparion of the Saint twice, and also Glory, Both now: Theotokion, according to the tone of the troparion of the Saint, or from the Sunday ones if the Saint is a Polyeleos one, or a Dismissal one if [he is] non-Polyeleos, but then the Theotokion will be according to the tone of the troparion of the Saint and according to the day of the week.* | 
+| `troparia_rules.conditions[5].source_ref` | `Dolnytsky_Typikon_Master.md` | **Dolnytsky_Typikon_Master.md**:<br>L1: [Entire File: Dolnytsky_Typikon_Master.md] |
+ | `troparia_rules.conditions[6].source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.2` | **Dolnytsky_Typikon_Master.md:1.5.1.2**:<br>1.5.1.2: If two non-Polyeleos Saints**: *then the troparion of the first Saint twice, Glory: of the second once, Both now: Dismissal Theotokion, according to the tone of the second Saint and according to the day of the week.* | 
+ | `troparia_rules.conditions[7].source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.2` | **Dolnytsky_Typikon_Master.md:1.5.1.2**:<br>1.5.1.2: If on a weekday the service is of a Feast and of a Saint**: *then the troparion of the service of the Feast twice, Glory: troparion of the Saint once, Both now: once more the troparion of the Feast*[^3a]*.* | 
+ | `troparia_rules.conditions[8].source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.2` | **Dolnytsky_Typikon_Master.md:1.5.1.2**:<br>1.5.1.2: If on a weekday the service is of a Feast and of two Saints with their own troparia**: *then the troparion of the service of the Feast once, troparion of the first Saint once, Glory: of the second Saint once, and also Both now: troparion of the service of the Feast once**.* | 
+ | `troparia_rules.conditions[9].source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.3` | **Dolnytsky_Typikon_Master.md:1.5.1.3**:<br>1.5.1.3: From the Troparia to the Gradual | 
 
 ---
 
@@ -31029,7 +31029,7 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `canon_refrains.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.1.5` | **Final_Dolnytsky_part1_structure.md:1.5.1.5**:<br>1.5.1.5: The Canon | 
+ | `canon_refrains.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.1.5` | **Dolnytsky_Typikon_Master.md:1.5.1.5**:<br>1.5.1.5: The Canon | 
 
 ---
 
@@ -31037,8 +31037,8 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
-| `system_settings.general_rules.G1.source_ref` | `Final_Dolnytsky_part5_temple.md` | **Final_Dolnytsky_part5_temple.md**:<br>L1: [Entire File: Final_Dolnytsky_part5_temple.md] |
- | `system_settings.general_rules.G3.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+| `system_settings.general_rules.G1.source_ref` | `Dolnytsky_Typikon_Master.md` | **Dolnytsky_Typikon_Master.md**:<br>L1: [Entire File: Dolnytsky_Typikon_Master.md] |
+ | `system_settings.general_rules.G3.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
 
 ---
 
@@ -31046,8 +31046,8 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `daily_matins_override.source_ref` | `Final_Dolnytsky_part1_structure.md:1.2.2.5` | **Final_Dolnytsky_part1_structure.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
- | `katavasia_seasons.source_ref` | `Final_Dolnytsky_part1_structure.md:1.5.2.1` | **Final_Dolnytsky_part1_structure.md:1.5.2.1**:<br>1.5.2.1: at 'God is the Lord' and at the subsequent troparia;* | 
+ | `daily_matins_override.source_ref` | `Dolnytsky_Typikon_Master.md:1.2.2.5` | **Dolnytsky_Typikon_Master.md:1.2.2.5**:<br>1.2.2.5: Priest:* | 
+ | `katavasia_seasons.source_ref` | `Dolnytsky_Typikon_Master.md:1.5.2.1` | **Dolnytsky_Typikon_Master.md:1.5.2.1**:<br>1.5.2.1: at 'God is the Lord' and at the subsequent troparia;* | 
 
 ---
 
@@ -31055,10 +31055,10 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `bridegroom_canon_type.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.13.3` | **Final_Dolnytsky_part4_triodion.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
- | `passion_gospel_formula.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.18` | **Final_Dolnytsky_part4_triodion.md:4.2.18**:<br>4.2.18: Sunday of the Holy Fathers of the First Nicaean Council | 
- | `psalm_50_intercession.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.1.9.1.6` | **Final_Dolnytsky_part4_triodion.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
- | `tomb_matins_encomia_stations.source_ref` | `Final_Dolnytsky_part4_triodion.md:4.2.21.3` | **Final_Dolnytsky_part4_triodion.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
+ | `bridegroom_canon_type.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.13.3` | **Dolnytsky_Typikon_Master.md:4.2.13.3**:<br>4.2.13.3: After the Entrance: Sunday Troparion, Glory: Kontakion of the Paralytic, Both now: Kontakion of the Resurrection. Everything else - of the Paralytic. Communion Hymn - "Receive the Body of Christ" and "Praise the Lord". | 
+ | `passion_gospel_formula.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.18` | **Dolnytsky_Typikon_Master.md:4.2.18**:<br>4.2.18: Sunday of the Holy Fathers of the First Nicaean Council | 
+ | `psalm_50_intercession.source_ref` | `Dolnytsky_Typikon_Master.md:4.1.9.1.6` | **Dolnytsky_Typikon_Master.md:4.1.9.1.6**:<br>4.1.9.1.6: AT THE HOURS: At all: Troparion and Kontakion to the Saint. | 
+ | `tomb_matins_encomia_stations.source_ref` | `Dolnytsky_Typikon_Master.md:4.2.21.3` | **Dolnytsky_Typikon_Master.md:4.2.21.3**:<br>4.2.21.3: AT THE LITURGY | 
 
 ---
 
@@ -31066,12 +31066,12 @@ This section catalogs how individual service slots in the JSON databases map to 
 
 | JSON Path | Citation Target | Source Excerpt |
 | :--- | :--- | :--- |
- | `small_vespers_distribution.case_06_sunday_vigil.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.11.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.11.2.3**:<br>2.11.2.3: Gradual of the current tone, afterwards - "Resurrection of Christ"; everything else up to the canon - to the feast | 
- | `small_vespers_distribution.case_07_weekday_vigil.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.13.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.13.2.3**:<br>2.13.2.3: Praises stichera - 8, that is: 4 Sunday from the *Octoechos* and 4 of the feast with two of its refrains. Glory: Gospel Sticheron, Both now: "Most Blessed Art Thou" | 
- | `small_vespers_distribution.case_10_feast_lord.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.18.1` | **Final_Dolnytsky_part2_general_rubrics.md:2.18.1**:<br>2.18.1: Everything according to the general Typikon of a Polyeleos saint with the Afterfeast on weekdays, as here above (page 103-104). | 
- | `small_vespers_distribution.case_11_theotokos_sunday.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.1.1` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.1.1**:<br>2.20.1.1: Canon of the Theotokos - current of the *Octoechos | 
- | `small_vespers_distribution.case_12_theotokos_weekday.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.18` | **Final_Dolnytsky_part2_general_rubrics.md:2.18**:<br>2.18: On *“Lord, I have cried”* and on the Aposticha - everything to the saint, only Both now: of the feast; also at the end - Troparion of the saint, Glory, Both now: of the feast. | 
- | `small_vespers_distribution.case_17_afterfeast_sunday_vigil.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
- | `small_vespers_distribution.case_18_afterfeast_weekday_vigil.source_ref` | `Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3` | **Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `small_vespers_distribution.case_06_sunday_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:2.11.2.3` | **Dolnytsky_Typikon_Master.md:2.11.2.3**:<br>2.11.2.3: Gradual of the current tone, afterwards - "Resurrection of Christ"; everything else up to the canon - to the feast | 
+ | `small_vespers_distribution.case_07_weekday_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:2.13.2.3` | **Dolnytsky_Typikon_Master.md:2.13.2.3**:<br>2.13.2.3: Praises stichera - 8, that is: 4 Sunday from the *Octoechos* and 4 of the feast with two of its refrains. Glory: Gospel Sticheron, Both now: "Most Blessed Art Thou" | 
+ | `small_vespers_distribution.case_10_feast_lord.source_ref` | `Dolnytsky_Typikon_Master.md:2.18.1` | **Dolnytsky_Typikon_Master.md:2.18.1**:<br>2.18.1: Everything according to the general Typikon of a Polyeleos saint with the Afterfeast on weekdays, as here above (page 103-104). | 
+ | `small_vespers_distribution.case_11_theotokos_sunday.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.1.1` | **Dolnytsky_Typikon_Master.md:2.20.1.1**:<br>2.20.1.1: Canon of the Theotokos - current of the *Octoechos | 
+ | `small_vespers_distribution.case_12_theotokos_weekday.source_ref` | `Dolnytsky_Typikon_Master.md:2.18` | **Dolnytsky_Typikon_Master.md:2.18**:<br>2.18: On *“Lord, I have cried”* and on the Aposticha - everything to the saint, only Both now: of the feast; also at the end - Troparion of the saint, Glory, Both now: of the feast. | 
+ | `small_vespers_distribution.case_17_afterfeast_sunday_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
+ | `small_vespers_distribution.case_18_afterfeast_weekday_vigil.source_ref` | `Dolnytsky_Typikon_Master.md:2.20.2.3` | **Dolnytsky_Typikon_Master.md:2.20.2.3**:<br>2.20.2.3: Apostle and Gospel on the Apodosis of a feast of the Lord - only of the day, on the Apodosis of a feast of the Theotokos - first of the day, and then - of the feast | 
 
 ---
