@@ -533,7 +533,7 @@ class CalendarMixin:
     def _apply_lookahead(self, context, rubrics):
         # 1. Vespers LOOKAHEAD (Saturday Evening -> Sunday)
         # Citation: Final_Dolnytsky_part2_general_rubrics.md:2.1.3.4
-        if context["day_of_week"] == 6: # Saturday
+        if context["day_of_week"] == 6 and context.get("is_sunday_vigil"): # Saturday Vigil
             current_date = date(context["year"], context["month"], context["day"])
             next_date = current_date + timedelta(days=1)
             next_ctx = self.get_liturgical_context(next_date)

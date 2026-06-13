@@ -31,6 +31,8 @@ class CeremonialMixin:
                 rank_val = self.calculate_rank(context)
             except Exception:
                 rank_val = 5
+        from engine.utils.type_utils import parse_rank_integer
+        rank_val = parse_rank_integer(rank_val)
                 
         month = context.get("month", 0)
         day = context.get("day", 0)
@@ -295,8 +297,8 @@ class CeremonialMixin:
             "lord_i_have_cried": {
                 "type": "great", "scope": "full",
                 "who": "deacon",
-                "description": "Deacon performs Great censing of the entire church during 'Lord, I have cried'",
-                "citation": "Dolnytsky I:20 — At 'Lord I have cried'"
+                "description": "Deacon performs Great censing of the entire church during 'Lord, I Call'",
+                "citation": "Dolnytsky I:20 — At 'Lord, I Call'"
             },
             "polyeleos": {
                 "type": "great", "scope": "full",

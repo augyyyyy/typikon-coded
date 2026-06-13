@@ -2,7 +2,7 @@
   "file_metadata": {
     "year": 2026,
     "pascha_date": "2026-04-05",
-    "generated_at": "2026-06-13T00:33:26.761533Z",
+    "generated_at": "2026-06-13T03:34:50.105135Z",
     "engine_version": "1.2.0"
   },
   "days": {
@@ -293,37 +293,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (1-3)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -1540,37 +1574,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (1-10)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -2728,7 +2796,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
       "lviv_paradigm_number": 5,
@@ -2736,12 +2803,11 @@
       "variables": {
         "rank": "rank_polyeleos",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_7",
         "suppress_octoechos": true,
         "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -2783,7 +2849,7 @@
         }
       },
       "overrides": {
-        "vespers_type": "great_vespers_vigil",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "doxology_type": "great_doxology"
       },
@@ -3998,7 +4064,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -4006,9 +4071,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -4066,10 +4128,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -5049,37 +5108,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (1-31)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -6417,20 +6510,12 @@
       ],
       "late_service_type": null,
       "triodion_key": "saturday_meatfare",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_meatfare",
       "lviv_paradigm_number": 22,
       "rubrics_title": "Saturday of Souls (Meatfare)",
-      "variables": {
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha"
-      },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "variables": {},
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -7304,22 +7389,15 @@
       ],
       "late_service_type": null,
       "triodion_key": "cheesefare_week_general",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "cheesefare_week_general",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
       "variables": {
         "triodion_period": "cheesefare",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_3"
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -8250,7 +8328,6 @@
       ],
       "late_service_type": null,
       "triodion_key": "saturday_lent_1",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_1",
       "lviv_paradigm_number": 22,
@@ -8260,15 +8337,11 @@
           "saint_theodore"
         ],
         "season": "lent",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_4"
       },
       "overrides": {
-        "matins_type": "great_matins",
-        "liturgy_type": "liturgy_chrysostom",
-        "vespers_type": "great_vespers_vigil"
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
       },
       "readings": {
         "type": "liturgy_readings",
@@ -9185,22 +9258,17 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
       "lviv_paradigm_number": 22,
       "rubrics_title": "Saint of the Day (2-28)",
       "variables": {
         "rank": "rank_lent_alleluia",
-        "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha"
+        "vespers_type": "daily_vespers"
       },
       "overrides": {
-        "matins_type": "great_matins",
-        "liturgy_type": "liturgy_chrysostom",
-        "vespers_type": "great_vespers_vigil"
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
       },
       "readings": {
         "type": "liturgy_readings",
@@ -10164,22 +10232,17 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
       "lviv_paradigm_number": 22,
       "rubrics_title": "Saint of the Day (3-7)",
       "variables": {
         "rank": "rank_lent_alleluia",
-        "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha"
+        "vespers_type": "daily_vespers"
       },
       "overrides": {
-        "matins_type": "great_matins",
-        "liturgy_type": "liturgy_chrysostom",
-        "vespers_type": "great_vespers_vigil"
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
       },
       "readings": {
         "type": "liturgy_readings",
@@ -11099,22 +11162,17 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lent_2_3_4",
       "lviv_paradigm_number": 22,
       "rubrics_title": "Saint of the Day (3-14)",
       "variables": {
         "rank": "rank_lent_alleluia",
-        "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha"
+        "vespers_type": "daily_vespers"
       },
       "overrides": {
-        "matins_type": "great_matins",
-        "liturgy_type": "liturgy_chrysostom",
-        "vespers_type": "great_vespers_vigil"
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
       },
       "readings": {
         "type": "liturgy_readings",
@@ -12044,22 +12102,17 @@
       ],
       "late_service_type": null,
       "triodion_key": "saturday_akathist",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_akathist",
       "lviv_paradigm_number": 22,
       "rubrics_title": "Saturday of the Akathist",
       "variables": {
         "matins_insert_akathist_sections": true,
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_8"
       },
       "overrides": {
-        "matins_type": "great_matins",
-        "liturgy_type": "liturgy_chrysostom",
-        "vespers_type": "great_vespers_vigil"
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
       },
       "readings": {
         "type": "liturgy_readings",
@@ -12881,16 +12934,12 @@
         ]
       },
       "triodion_key": "saturday_lazarus",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_lazarus",
       "lviv_paradigm_number": 22,
       "rubrics_title": "SATURDAY OF THE RIGHTEOUS LAZARUS",
       "variables": {
         "liturgy_trisagion_replace": "all_baptized",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "title": "SATURDAY OF THE RIGHTEOUS LAZARUS",
         "feast_id": "lazarus_saturday",
         "dolnytsky_rank": "LORD",
@@ -12976,9 +13025,8 @@
         ]
       },
       "overrides": {
-        "matins_type": "great_matins",
-        "liturgy_type": "liturgy_chrysostom",
-        "vespers_type": "great_vespers_vigil"
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
       },
       "readings": {
         "type": "liturgy_readings",
@@ -13762,7 +13810,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "bright_week",
-      "period": "feast",
+      "period": "afterfeast",
       "paradigm_id": "bright_week",
       "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
@@ -13847,7 +13895,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "bright_week",
-      "period": "feast",
+      "period": "afterfeast",
       "paradigm_id": "bright_week",
       "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
@@ -13932,7 +13980,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "bright_week",
-      "period": "feast",
+      "period": "afterfeast",
       "paradigm_id": "bright_week",
       "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
@@ -14017,7 +14065,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "bright_week",
-      "period": "feast",
+      "period": "afterfeast",
       "paradigm_id": "bright_week",
       "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
@@ -14102,7 +14150,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "bright_week",
-      "period": "feast",
+      "period": "afterfeast",
       "paradigm_id": "bright_week",
       "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
@@ -14187,8 +14235,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "bright_week",
-      "is_sunday_vigil": true,
-      "period": "feast",
+      "period": "afterfeast",
       "paradigm_id": "bright_week",
       "lviv_paradigm_number": 25,
       "rubrics_title": "Bright Week",
@@ -14203,15 +14250,11 @@
               "qty": 6
             }
           ]
-        },
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha"
+        }
       },
       "overrides": {
         "hours_type": "structure_paschal",
-        "matins_type": "great_matins",
-        "vespers_type": "great_vespers_vigil"
+        "matins_type": "bright_matins"
       },
       "readings": {
         "type": "liturgy_readings",
@@ -14716,20 +14759,12 @@
       ],
       "late_service_type": null,
       "triodion_key": "pentecostarion_general_weekday",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
       "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
-      "variables": {
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha"
-      },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "variables": {},
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -15258,7 +15293,6 @@
       ],
       "late_service_type": null,
       "triodion_key": "pentecostarion_general_weekday",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
       "lviv_paradigm_number": 26,
@@ -15266,15 +15300,9 @@
       "variables": {
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_3"
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -15661,7 +15689,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "pentecostarion_general_weekday",
-      "period": "normal",
+      "period": "afterfeast",
       "paradigm_id": "pentecostarion_general_weekday",
       "lviv_paradigm_number": 26,
       "rubrics_title": "menaion.apr_30.james_brother_john",
@@ -15757,7 +15785,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "pentecostarion_general_weekday",
-      "period": "normal",
+      "period": "afterfeast",
       "paradigm_id": "pentecostarion_general_weekday",
       "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
@@ -15832,20 +15860,12 @@
       ],
       "late_service_type": null,
       "triodion_key": "pentecostarion_general_weekday",
-      "is_sunday_vigil": true,
-      "period": "normal",
+      "period": "afterfeast",
       "paradigm_id": "pentecostarion_general_weekday",
       "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
-      "variables": {
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha"
-      },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "variables": {},
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -15921,7 +15941,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "sunday_samaritan",
-      "period": "normal",
+      "period": "afterfeast",
       "paradigm_id": "sunday_samaritan",
       "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of the Samaritan Woman",
@@ -15999,7 +16019,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "pentecostarion_general_weekday",
-      "period": "normal",
+      "period": "afterfeast",
       "paradigm_id": "pentecostarion_general_weekday",
       "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
@@ -16074,7 +16094,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "pentecostarion_general_weekday",
-      "period": "normal",
+      "period": "afterfeast",
       "paradigm_id": "pentecostarion_general_weekday",
       "lviv_paradigm_number": 26,
       "rubrics_title": "Pentecostarion Weekday",
@@ -16399,7 +16419,6 @@
       ],
       "late_service_type": null,
       "triodion_key": "pentecostarion_general_weekday",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "pentecostarion_general_weekday",
       "lviv_paradigm_number": 26,
@@ -16413,15 +16432,9 @@
         "communion_hymn": "righteous_memory",
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_5"
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -16856,69 +16869,52 @@
       "dolnytsky_commemoration": "Ven. Pachomius the Great.",
       "dolnytsky_rank_code": "[6 SM]",
       "dolnytsky_title": "Ven. Pachomius the Great.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_15.ven_pachomius_great",
+          "name": "Ven. Pachomius the Great.",
+          "rank": 4,
+          "rank_code": "[6 SM]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-15)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -16982,79 +16978,55 @@
       "dolnytsky_commemoration": "Ven. Theodore the Sanctified.",
       "dolnytsky_rank_code": "[4 TR]",
       "dolnytsky_title": "Ven. Theodore the Sanctified.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_16.ven_theodore_sanctified",
+          "name": "Ven. Theodore the Sanctified.",
+          "rank": 5,
+          "rank_code": "[4 TR]"
+        }
+      ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-16)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -17125,7 +17097,7 @@
       ],
       "late_service_type": null,
       "triodion_key": "sunday_fathers_1st_council",
-      "period": "feast",
+      "period": "afterfeast",
       "paradigm_id": "sunday_fathers_1st_council",
       "lviv_paradigm_number": 27,
       "rubrics_title": "Sunday of the Holy Fathers of the 1st Council",
@@ -17194,69 +17166,52 @@
       "dolnytsky_commemoration": "Martyr Theodotus of Ancyra and with him Peter, Dionysius and seven virgins.",
       "dolnytsky_rank_code": "[4 NO]",
       "dolnytsky_title": "Martyr Theodotus of Ancyra and with him Peter, Dionysius and seven virgins.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_18.theodotus_ancyra_with_him_peter_dionysius_seven_virgins",
+          "name": "Martyr Theodotus of Ancyra and with him Peter, Dionysius and seven virgins.",
+          "rank": 5,
+          "rank_code": "[4 NO]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-18)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -17320,69 +17275,52 @@
       "dolnytsky_commemoration": "Hieromartyr Patrick.",
       "dolnytsky_rank_code": "[4 NO]",
       "dolnytsky_title": "Hieromartyr Patrick.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_19.patrick",
+          "name": "Hieromartyr Patrick.",
+          "rank": 5,
+          "rank_code": "[4 NO]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-19)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -17446,69 +17384,52 @@
       "dolnytsky_commemoration": "Martyr Thallelaus and those with him.",
       "dolnytsky_rank_code": "[4 NO]",
       "dolnytsky_title": "Martyr Thallelaus and those with him.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_20.thallelaus_those_with_him",
+          "name": "Martyr Thallelaus and those with him.",
+          "rank": 5,
+          "rank_code": "[4 NO]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-20)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -17572,11 +17493,18 @@
       "dolnytsky_commemoration": "Constantine and Helena.",
       "dolnytsky_rank_code": "[POL]",
       "dolnytsky_title": "Constantine and Helena.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_21.constantine_and_helen",
+          "name": "Constantine and Helena.",
+          "rank": 2,
+          "rank_code": "[POL]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_16",
+      "lviv_paradigm_number": 16,
       "rubrics_title": "menaion.may_21.constantine_and_helen",
       "variables": {
         "matins_gospel": "john_10_9_16",
@@ -17588,62 +17516,91 @@
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
-          "total_count": 8,
+          "total_count": 10,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
-              "qty": 8
+              "qty": 6
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
           "total_count": 3,
           "distribution": [
             {
-              "source": "menaion",
+              "source": "triodion",
               "type": "feast",
               "qty": 3
             }
           ],
-          "glory": "feast_doxastikon",
+          "glory": "saint_doxastikon",
           "both_now": "feast_theotokion"
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
+              "source": "menaion",
               "type": "feast",
-              "qty": 12,
+              "qty": 10,
               "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
             }
           ]
         },
         "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 4
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "total_count": 6,
+          "logic_switch": {
+            "4_saint": {
+              "total_count": 4,
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ]
+            },
+            "6_mixed": {
+              "total_count": 6,
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "feast",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                }
+              ]
             }
-          ],
-          "glory": "feast_doxastikon",
+          },
+          "glory": "saint_doxastikon",
           "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
         }
       },
-      "overrides": {},
+      "overrides": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "doxology_type": "great_doxology"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -17800,20 +17757,12 @@
       ],
       "late_service_type": null,
       "triodion_key": "saturday_soul_pentecost",
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "saturday_soul_pentecost",
       "lviv_paradigm_number": 22,
       "rubrics_title": "Saturday of Souls (Pentecost)",
-      "variables": {
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha"
-      },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "variables": {},
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -18036,69 +17985,52 @@
       "dolnytsky_commemoration": "Ap. Carpus.",
       "dolnytsky_rank_code": "[4 TR]",
       "dolnytsky_title": "Ap. Carpus.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_26.ap_carpus",
+          "name": "Ap. Carpus.",
+          "rank": 5,
+          "rank_code": "[4 TR]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-26)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -18162,69 +18094,52 @@
       "dolnytsky_commemoration": "Hieromartyr Therapont.",
       "dolnytsky_rank_code": "[4 NO]",
       "dolnytsky_title": "Hieromartyr Therapont.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_27.therapont",
+          "name": "Hieromartyr Therapont.",
+          "rank": 5,
+          "rank_code": "[4 NO]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-27)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -18288,69 +18203,52 @@
       "dolnytsky_commemoration": "Ven. Nicetas, Bishop of Chalcedon.",
       "dolnytsky_rank_code": "[4 TR]",
       "dolnytsky_title": "Ven. Nicetas, Bishop of Chalcedon.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_28.ven_nicetas_bishop_chalcedon",
+          "name": "Ven. Nicetas, Bishop of Chalcedon.",
+          "rank": 5,
+          "rank_code": "[4 TR]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-28)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -18414,69 +18312,52 @@
       "dolnytsky_commemoration": "Martyr Theodosia the Virgin.",
       "dolnytsky_rank_code": "[4 TR]",
       "dolnytsky_title": "Martyr Theodosia the Virgin.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "may_29.theodosia_virgin",
+          "name": "Martyr Theodosia the Virgin.",
+          "rank": 5,
+          "rank_code": "[4 TR]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (5-29)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -18547,7 +18428,6 @@
       "saints": [],
       "is_fore_or_afterfeast": true,
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
       "lviv_paradigm_number": 20,
@@ -18555,9 +18435,6 @@
       "variables": {
         "rank": "rank_doxology",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_8",
         "suppress_octoechos": true,
         "suppress_menaion_saint": true,
@@ -18579,10 +18456,7 @@
           "inherits": "CASE_10"
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -19349,69 +19223,52 @@
       "dolnytsky_commemoration": "Hieromartyr Dorotheus.",
       "dolnytsky_rank_code": "[4 TR]",
       "dolnytsky_title": "Hieromartyr Dorotheus.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "jun_05.dorotheus",
+          "name": "Hieromartyr Dorotheus.",
+          "rank": 5,
+          "rank_code": "[4 TR]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (6-5)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -19478,79 +19335,55 @@
       "dolnytsky_commemoration": "Venerables Bessarion and Hilarion.",
       "dolnytsky_rank_code": "[4 TR]",
       "dolnytsky_title": "Venerables Bessarion and Hilarion.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "jun_06.bessarion_hilarion",
+          "name": "Venerables Bessarion and Hilarion.",
+          "rank": 5,
+          "rank_code": "[4 TR]"
+        }
+      ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (6-6)",
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -19614,11 +19447,18 @@
       "dolnytsky_commemoration": "Hieromartyr Theodotus, Bishop of Ancyra.",
       "dolnytsky_rank_code": "[4 TR]",
       "dolnytsky_title": "Hieromartyr Theodotus, Bishop of Ancyra.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "jun_07.theodotus_bishop_ancyra",
+          "name": "Hieromartyr Theodotus, Bishop of Ancyra.",
+          "rank": 5,
+          "rank_code": "[4 TR]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_13",
+      "lviv_paradigm_number": 13,
       "rubrics_title": "Saint of the Day (6-7)",
       "variables": {
         "rank": "rank_simple_4",
@@ -19626,60 +19466,69 @@
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
         "aposticha_type": "sunday_aposticha",
-        "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
+          "total_count": 10,
           "distribution": [
             {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
-          "distribution": [
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
               "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
             {
               "source": "menaion",
               "type": "feast",
               "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
+        },
+        "praises_distribution": {
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.20.2.3",
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 4,
+              "note": "4 feast; if saint has praises stichera, replace feast with 4 saint"
             }
           ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          "glory": "eothinon_gospel_sticheron",
+          "both_now": "most_blessed_art_thou"
         }
       },
       "overrides": {
@@ -19742,69 +19591,52 @@
       "dolnytsky_commemoration": "Great Martyr Theodore Stratelates.",
       "dolnytsky_rank_code": "[6 SM]",
       "dolnytsky_title": "Great Martyr Theodore Stratelates.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "jun_08.great_theodore_stratelates",
+          "name": "Great Martyr Theodore Stratelates.",
+          "rank": 4,
+          "rank_code": "[6 SM]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (6-8)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -19871,11 +19703,18 @@
       "dolnytsky_commemoration": "St. Cyril, Archbishop of Alexandria.",
       "dolnytsky_rank_code": "[6 SM]",
       "dolnytsky_title": "St. Cyril, Archbishop of Alexandria.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "jun_09.st_cyril_archbishop_alexandria",
+          "name": "St. Cyril, Archbishop of Alexandria.",
+          "rank": 4,
+          "rank_code": "[6 SM]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day",
       "variables": {
         "liturgy_readings": [
@@ -19909,59 +19748,35 @@
         "menaion_rank": "rank_simple_6",
         "rank": "rank_simple_6",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -20027,69 +19842,52 @@
       "dolnytsky_commemoration": "Hieromartyr Timothy.",
       "dolnytsky_rank_code": "[4 NO]",
       "dolnytsky_title": "Hieromartyr Timothy.",
-      "saints": [],
+      "saints": [
+        {
+          "id": "jun_10.timothy",
+          "name": "Hieromartyr Timothy.",
+          "rank": 5,
+          "rank_code": "[4 NO]"
+        }
+      ],
       "late_service_type": null,
-      "period": "feast",
-      "paradigm_id": "CASE_10",
-      "lviv_paradigm_number": 10,
+      "period": "afterfeast",
+      "paradigm_id": "CASE_14",
+      "lviv_paradigm_number": 14,
       "rubrics_title": "Hieromartyr Timothy",
       "variables": {
         "menaion_rank": "rank_simple_4",
         "rank": "rank_simple_4",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 8
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.19.1.5",
-          "total_count": 3,
+          "total_count": 6,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
               "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          ]
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
-              "irmos": true
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.18.1",
-          "total_count": 4,
-          "distribution": [
-            {
               "source": "menaion",
               "type": "feast",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 4
             }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
+          ]
         }
       },
       "overrides": {},
@@ -20491,7 +20289,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -20499,9 +20296,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -20559,10 +20353,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -21754,7 +21545,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -21762,9 +21552,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -21822,10 +21609,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -22999,37 +22783,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (6-27)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -24183,37 +24001,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (7-4)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -25248,37 +25100,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "menaion.jul_11.olga_princess",
       "variables": {
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -26475,7 +26361,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -26483,9 +26368,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -26543,10 +26425,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -27630,7 +27509,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
       "lviv_paradigm_number": 5,
@@ -27638,13 +27516,12 @@
       "variables": {
         "menaion_rank": "rank_doxology",
         "rank": "rank_doxology",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_8",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -27686,7 +27563,7 @@
         }
       },
       "overrides": {
-        "vespers_type": "great_vespers_vigil",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "doxology_type": "great_doxology"
       },
@@ -28824,7 +28701,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -28843,9 +28719,6 @@
         "communion_hymn": "light_of_your_countenance",
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_1",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
@@ -28904,10 +28777,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -30015,7 +29885,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -30023,9 +29892,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -30083,10 +29949,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -31043,7 +30906,6 @@
       "dolnytsky_title": "**DORMITION OF THE MOST HOLY THEOTOKOS.**",
       "saints": [],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "CASE_12",
@@ -31075,7 +30937,6 @@
         "rank": "rank_vigil_theotokos",
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_3",
         "suppress_octoechos": true,
         "suppress_menaion_saint": true,
@@ -31199,8 +31060,8 @@
       ],
       "late_service_type": null,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_01",
+      "lviv_paradigm_number": 1,
       "rubrics_title": "Saint of the Day (8-16)",
       "variables": {
         "rank": "rank_doxology",
@@ -31210,18 +31071,168 @@
         "aposticha_type": "sunday_aposticha",
         "vespers_stichera_distribution": {
           "total_count": 10,
-          "distribution": [
-            {
-              "source": "octoechos",
-              "qty": 7
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 7
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                }
+              ]
             },
-            {
-              "source": "menaion",
-              "qty": 3
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            },
+            "saint_on_6": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 6
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ],
+              "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.1.3.7"
             }
-          ],
+          },
           "glory": "saint_doxastikon_if_present",
           "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "katavasia": "katavasia_lookup_by_date",
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "cross_res",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "theotokos",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "theotokos",
+                  "qty": 2
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 4
+                }
+              ]
+            }
+          }
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.2.1.9",
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 2
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 2
+                }
+              ]
+            }
+          },
+          "glory": "saint_doxastikon_if_present",
+          "both_now": "most_blessed_art_thou"
+        },
+        "liturgy_variables": {
+          "antiphons": "typical",
+          "troparia": [
+            "res_trop",
+            "saint_trop",
+            "patron_trop"
+          ],
+          "kontakia": [
+            "res_kontakion",
+            "saint_kontakion",
+            "patron_kontakion"
+          ]
         }
       },
       "overrides": {
@@ -32228,7 +32239,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -32236,9 +32246,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -32296,10 +32303,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -33415,7 +33419,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
       "lviv_paradigm_number": 5,
@@ -33437,7 +33440,6 @@
         "rank": "rank_vigil_saint",
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_5",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
@@ -34619,37 +34621,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (9-5)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -35751,7 +35787,6 @@
       "is_fore_or_afterfeast": true,
       "is_afterfeast": true,
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "apodosis",
       "paradigm_id": "CASE_20",
       "lviv_paradigm_number": 20,
@@ -35759,9 +35794,6 @@
       "variables": {
         "menaion_rank": "rank_doxology",
         "rank": "rank_doxology",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_7",
         "suppress_octoechos": true,
         "suppress_menaion_saint": true,
@@ -35783,10 +35815,7 @@
           "inherits": "CASE_10"
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -35856,8 +35885,8 @@
       "is_forefeast": true,
       "late_service_type": null,
       "period": "forefeast",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_08",
+      "lviv_paradigm_number": 8,
       "rubrics_title": "menaion.sept_13.forefeast_cross",
       "variables": {
         "liturgy_readings": [
@@ -35874,15 +35903,66 @@
           "distribution": [
             {
               "source": "octoechos",
-              "qty": 7
+              "type": "resurrection",
+              "qty": 4
             },
             {
               "source": "menaion",
+              "type": "forefeast",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
               "qty": 3
             }
           ],
-          "glory": "saint_doxastikon_if_present",
+          "glory": "forefeast_doxastikon",
           "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "menaion",
+              "type": "forefeast",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
+        },
+        "praises_distribution": {
+          "source_ref": "Final_Dolnytsky_part2_general_rubrics.md:2.15.1",
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint_or_feast",
+              "qty": 4,
+              "note": "4 to saint if he has, otherwise 4 of feast from Aposticha with refrains"
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "most_blessed_art_thou"
         }
       },
       "overrides": {
@@ -36831,7 +36911,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -36839,9 +36918,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -36899,10 +36975,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -38054,7 +38127,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
       "lviv_paradigm_number": 5,
@@ -38064,7 +38136,6 @@
         "rank": "rank_vigil_saint",
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_1",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
@@ -39260,37 +39331,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (10-3)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -40433,7 +40538,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -40441,9 +40545,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -40501,10 +40602,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -41733,7 +41831,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -41741,9 +41838,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -41801,10 +41895,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -42956,37 +43047,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (10-24)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -44185,7 +44310,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -44193,9 +44317,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -44253,10 +44374,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -45485,37 +45603,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (11-7)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -46550,7 +46702,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
       "lviv_paradigm_number": 5,
@@ -46558,13 +46709,12 @@
       "variables": {
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_8",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -46606,7 +46756,7 @@
         }
       },
       "overrides": {
-        "vespers_type": "great_vespers_vigil",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "doxology_type": "great_doxology"
       },
@@ -47812,7 +47962,6 @@
       "dolnytsky_title": "**ENTRY OF THE MOST HOLY THEOTOKOS INTO THE TEMPLE.**",
       "saints": [],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "feast_level": "theotokos",
       "period": "feast",
       "paradigm_id": "CASE_12",
@@ -47834,7 +47983,6 @@
         "rank": "rank_vigil_theotokos",
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_1",
         "suppress_octoechos": true,
         "suppress_menaion_saint": true,
@@ -49149,37 +49297,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (11-28)",
       "variables": {
         "rank": "rank_simple_6",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -50351,7 +50533,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_05",
       "lviv_paradigm_number": 5,
@@ -50359,13 +50540,12 @@
       "variables": {
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_3",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -50407,7 +50587,7 @@
         }
       },
       "overrides": {
-        "vespers_type": "great_vespers_vigil",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "doxology_type": "great_doxology"
       },
@@ -51496,37 +51676,71 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
-      "paradigm_id": "fallback_default",
-      "lviv_paradigm_number": null,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "menaion.dec_12.spyridon_trimythous",
       "variables": {
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "qty": 3
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
+              "qty": 6,
+              "irmos": true
             },
             {
               "source": "menaion",
-              "qty": 3
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
-          ],
-          "glory": "saint_doxastikon_if_present",
-          "both_now": "dogmatikon_current_tone"
+          ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -52549,7 +52763,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -52557,9 +52770,6 @@
       "variables": {
         "rank": "rank_simple_4",
         "vespers_type": "daily_vespers",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -52617,10 +52827,7 @@
           ]
         }
       },
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -53760,7 +53967,6 @@
         }
       ],
       "late_service_type": null,
-      "is_sunday_vigil": true,
       "period": "normal",
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
@@ -53775,7 +53981,6 @@
         "rank": "rank_vigil_theotokos",
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
-        "aposticha_type": "sunday_aposticha",
         "praises_both_now": "use_resurrectional_theotokion_tone_6",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {

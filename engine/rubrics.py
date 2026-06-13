@@ -292,15 +292,12 @@ class RubricsMixin:
              feast_type = "theotokos"
              context["feast_level"] = "theotokos"
              
+        elif "apodosis" in full_text:
+             period = "apodosis"
         elif "forefeast" in full_text:
              period = "forefeast"
-        elif "afterfeast" in full_text:
+        elif "afterfeast" in full_text or context.get("is_afterfeast"):
              period = "afterfeast"
-        elif "apodosis" in full_text:
-             period = "apodosis" 
-             # Logic cases for Apodosis usually fall under Afterfeast or special case. 
-             # Case 16 is Apodosis. Let's see triggers.
-             pass
              
         # Legacy Fallbacks
         if period == "normal":

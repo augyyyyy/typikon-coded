@@ -546,7 +546,9 @@ body.dark-theme .quick-btn {
 }
 
 .context-col {
-    width: 350px;
+    width: 22%;
+    min-width: 240px;
+    max-width: 350px;
     flex-shrink: 0;
     height: 100%;
 }
@@ -885,7 +887,7 @@ body.dark-theme .digest-style code {
    ========================================================================== */
 .browser-layout {
     display: grid;
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: minmax(240px, 20%) 1fr;
     gap: 24px;
     flex-grow: 1;
     min-height: 0;
@@ -1153,7 +1155,7 @@ body.dark-theme .stat-num {
 /* Linter Layout: Two panels side-by-side */
 .linter-layout {
     display: grid;
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: minmax(240px, 22%) 1fr;
     gap: 24px;
     flex-grow: 1;
     min-height: 0;
@@ -2151,6 +2153,11 @@ body.dev-mode-active div.roadmap-layout-grid.dev-element {
     min-width: 0 !important;
     height: 100% !important;
     overflow: hidden;
+}
+
+.document-card.split-layout-active .document-view {
+    padding: 16px 20px !important;
+    font-size: 1.05rem !important;
 }
 
 .document-card.split-layout-active #doc-booklet {

@@ -66,6 +66,8 @@ Before claiming ANY digest section is "done":
 
 13. **LITURGICAL AUTHORITY CONFLATION (CONFIRMATION BIAS)** — Confusing a textual compilation (e.g., the 2014 Stamford Divine Office) with the rubrical authority (Dolnytsky/Ordo) simply because a configuration string is named `stamford_2014`. Never invent non-existent rulebooks (e.g., claiming there is a "Stamford Typikon"). The math/logic is *always* Dolnytsky/Ordo; the text profile/database is what corresponds to the Stamford compilation.
 
+14. **UI ROBOT JARGON NEGLECT** — Restricting compliance terminology audits to backend text files while neglecting browser UI text. Hardcoding programmer labels like `"Active"`, `"Max: "`, or static cycle limits (like `"9 Services Max"`) in web templates or JS logic is prohibited. All user-facing displays must utilize clean, natural liturgical English.
+
 ### 0.5 Anti-Pattern #8: Context Window Dilution (The "Fog of War")
 
 > [!CAUTION]
@@ -385,5 +387,34 @@ When switching models:
 2. **Fast-Path Resolution**: Added lazy loading in `EngineCore` (`engine/core.py`) and fast-paths in `get_liturgical_context` (`engine/calendar.py`), `resolve_rubrics` (`engine/rubrics.py`), and `resolve_liturgy_readings` (`engine/resolvers/liturgy.py`) that bypass runtime calculations if an almanac for the queried year is present.
 3. **Lviv Paradigm Mappings**: Mapped the 20 Dolnytsky general case paradigms directly to their canonical Paradigm/Format Numbers (1-20) from Isidor Dolnytsky's general rubrics (Part II) and the 7 consolidated Moveable Cycle General Paradigms (21-27) in `json_db/lviv_format_map.json`, replacing all unauthoritative Petras format mappings.
 4. **Validation and Hardening**: Added `tests/test_annual_almanac_consistency.py` to assert that live calculations match the precomputed almanac exactly across all 365 days, including verification of the consolidated Lviv paradigm numbers (1-27). Fixed a critical type mismatch where `context["rank"]` was stored as a string (e.g. `"rank_polyeleos"`) instead of an integer in the almanac, preventing runtime crashes in `check_presanctified_trigger`. All 310 tests pass successfully.
+
+
+## XVII. UGCC Terminology Alignment & Weekday Propers Recovery (2026-06-12)
+
+1. **Liturgical Compliance & Vocabulary Standards**:
+   - Following the **Royal Doors Liturgical Vocabulary Matrix**, we standardized key terminology to meet Ukrainian Greek Catholic Church (UGCC) English standards.
+   - Standardized `Exaposteilarion` (Greek scientific style) to **`Exapostilarion`** (omitting the middle `e`).
+   - Standardized `Holy Doors` (an Orthodox/Greek-inspired term) to **`Royal Doors`** (namesake of the portal).
+   - Implemented this in the post-processing filter in `digest/base.py` to recursively clean output strings.
+
+2. **Weekday Matins Gospel & Exapostilarion Resolution**:
+   - **Gospel Suppression Bug**: Weekday Great Feasts and Polyeleos/Vigil saints were missing their Matins Gospels. Investigated `check_gospel_service()` in `engine/resolvers/matins.py` and found a backward rank comparison: it checked `rank >= 3` (suppressing Gospels for rank 1 and 2), which has been corrected to `rank <= 2` (rank 1 = Vigil, rank 2 = Polyeleos).
+   - **Dynamic Matins Gospel Lookup**: Weekday feast/saint Gospels are now dynamically extracted in `resolve_matins_gospel()` from the liturgical liturgy readings instead of returning a stub `None`.
+   - **Dynamic Exapostilarion Stacking**: Completed the weekday exapostilarion resolver stub (`resolve_exapostilarion()` in `engine/resolvers/matins.py`). It now queries, matches, and stacks the exapostilarions for the Feast, the Saint(s), and the corresponding Theotokion.
+
+3. **Graduals Recovery**:
+   - Weekday Polyeleos/Vigil services were missing their Gradual Hymns. In `digest/base.py`, the skeleton filter for the graduals block checked `rank > 1` (suppressing it for rank 2/Polyeleos weekdays). Updated the condition to `rank > 2` (or checking if it is a Sunday / Feast of the Lord/Theotokos) to guarantee Gradual Hymns are correctly outputted on Vigil and Polyeleos weekdays.
+
+## XVIII. Final UGCC Terminology Alignment & Sanity Hardening (2026-06-13)
+
+1. **Liturgical Title and Commemoration Formatting**:
+   - Resolved a bug where saint-name cleaning prepended `"St. "` to non-saint feast/event names (e.g. `"St. **Nativity of St. John the Baptist.**"`), by updating the `_clean_name` logic to check against a blacklist of feast/event words (like "Nativity", "Translation", "Synaxis", "Annunciation") and strip markdown bold asterisks `**`.
+   - Prevented raw database keys (e.g., `menaion.jun_24.nativity_john_baptist`) from leaking into digest headers. The header generator now uses the human-readable `dolnytsky_title` from the almanac, falling back to humanized keys if missing.
+2. **Royal Doors Terminology Standardization**:
+   - Unified terminology translation in `digest/base.py` to replace both `"Holy Doors"` and `"holy doors"` (lowercase) with `"Royal Doors"` (properly capitalized proper noun), conforming with Eastern Christian English standards.
+3. **Combination Header Replacement Safety**:
+   - Corrected the dynamic saint replacement logic in `digest/base.py`'s combination header routines to use regex word boundaries `\bsaint\b` instead of substring matching. This prevented a major bug where words like `"Saints"` (plural) inside a saint's name matched `"saint"` and caused massive text duplication (e.g. on June 28, Translation of the Relics of Saints Cyrus and John).
+
+
 
 

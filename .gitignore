@@ -137,3 +137,9 @@ Abstract_*.txt
 Service_*.txt
 digest_output.*
 digest_vespers_*.txt
+cantor_dashboard/assets.zip
+Digest_*.md
+Digest_*_test.md
+compliance_report_*.md
+wing1_audit_report.md
+wing2_audit_report.md

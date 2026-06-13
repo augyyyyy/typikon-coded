@@ -62,7 +62,7 @@ key_to_file = {}
 
 def load_databases():
     print("Pre-loading Stamford databases...")
-    stamford_dir = os.path.join(REPO_DIR, "json_db", "stamford")
+    stamford_dir = os.path.join(REPO_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets")
     backup_dir = os.path.join(REPO_DIR, "json_db", "stamford_backup")
     
     # Load standardized
@@ -193,7 +193,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             self.send_json_error("Endpoint not found", 404)
 
     def api_books(self):
-        stamford_dir = os.path.join(REPO_DIR, "json_db", "stamford")
+        stamford_dir = os.path.join(REPO_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets")
         books_data = []
         if os.path.exists(stamford_dir):
             for fname in sorted(os.listdir(stamford_dir)):

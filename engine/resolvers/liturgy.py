@@ -566,6 +566,33 @@ class LiturgyMixin:
         Great Feast: Proper of feast
         Weekday: Tone-appropriate or proper of day
         """
+        def resolve_str_hymn(key):
+            known_hymns = {
+                "righteous_memory": "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings.",
+                "their_sound_has_gone_forth": "Their sound hath gone forth into all the earth, and their words unto the ends of the world."
+            }
+            if key in known_hymns:
+                return {
+                    "type": "communion_hymn",
+                    "text": known_hymns[key],
+                    "ref_key": key
+                }
+            try:
+                asset = self.get_text(key, context=context)
+                if asset and isinstance(asset, dict) and "content" in asset:
+                    return {
+                        "type": "communion_hymn",
+                        "text": asset["content"],
+                        "ref_key": key
+                    }
+            except Exception:
+                pass
+            return {
+                "type": "communion_hymn",
+                "text": key,
+                "ref_key": ""
+            }
+
         if rubrics:
             overrides = rubrics.get("variables", {}) or rubrics.get("overrides", {})
             
@@ -582,11 +609,7 @@ class LiturgyMixin:
                             "ref_key": c_h.get("ref_key", "")
                         }
                     elif isinstance(c_h, str):
-                        return {
-                            "type": "communion_hymn",
-                            "text": c_h,
-                            "ref_key": ""
-                        }
+                        return resolve_str_hymn(c_h)
             
             # 2. Check for direct communion_hymn override
             c_h = overrides.get("communion_hymn")
@@ -598,21 +621,7 @@ class LiturgyMixin:
                         "ref_key": c_h.get("ref_key", "")
                     }
                 elif isinstance(c_h, str):
-                    try:
-                        asset = self.get_text(c_h, context=context)
-                        if asset and isinstance(asset, dict) and "content" in asset:
-                            return {
-                                "type": "communion_hymn",
-                                "text": asset["content"],
-                                "ref_key": c_h
-                            }
-                    except Exception:
-                        pass
-                    return {
-                        "type": "communion_hymn",
-                        "text": c_h,
-                        "ref_key": ""
-                    }
+                    return resolve_str_hymn(c_h)
 
         day_of_week = context.get("day_of_week", 0)
         from engine.utils.type_utils import parse_rank_integer

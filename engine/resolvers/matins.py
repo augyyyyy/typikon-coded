@@ -1498,13 +1498,102 @@ class MatinsMixin:
         """
         Resolves the Gospel Reading for Matins.
         """
-        # 1. Check for Feast Gospel (Stub: needs Menaion lookup)
+        # 1. Check for Feast / Saint Gospel on weekdays
+        rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
+        day_of_week = context.get("day_of_week", 0)
         
+        def format_gospel_key(key):
+            if not key:
+                return ""
+            mapping = {
+                "luke_1_39_49_56": "Luke 1:39-49, 56",
+                "john_21_15_25": "John 21:15-25",
+                "luke_1_24_25_57_68": "Luke 1:24-25, 57-68",
+                "matthew_10_16_22": "Matthew 10:16-22",
+                "matthew_13_24_30": "Matthew 13:24-30",
+                "john_10_9_16": "John 10:9-16",
+                "matthew_4_18_23": "Matthew 4:18-23",
+                "matthew_25_1_13": "Matthew 25:1-13",
+                "matthew_1_18_25": "Matthew 1:18-25",
+                "mark_1_9_11": "Mark 1:9-11",
+                "luke_2_25_32": "Luke 2:25-32",
+                "luke_7_17_30": "Luke 7:17-30",
+                "luke_21_12_19": "Luke 21:12-19",
+                "john_10_1_9": "John 10:1-9",
+                "matthew_28_16_20": "Matthew 28:16-20",
+                "matthew_11_27_30": "Matthew 11:27-30",
+                "luke_4_22_30": "Luke 4:22-30",
+                "luke_9_28_36": "Luke 9:28-36",
+                "matthew_14_1_13": "Matthew 14:1-13"
+            }
+            if key in mapping:
+                return mapping[key]
+            parts = key.split('_')
+            if len(parts) >= 2:
+                book = parts[0].capitalize()
+                chap = parts[1]
+                verses = parts[2:]
+                if len(verses) == 2:
+                    return f"{book} {chap}:{verses[0]}-{verses[1]}"
+                elif len(verses) > 2:
+                    return f"{book} {chap}:{verses[0]}-{verses[1]}, {', '.join(verses[2:])}"
+                elif len(verses) == 1:
+                    return f"{book} {chap}:{verses[0]}"
+            return key.replace('_', ' ').title()
+
+        if day_of_week != 0 and rank <= 2:
+            # Check if there is an explicit matins_gospel key
+            variables = context.get("variables", {})
+            matins_gospel = variables.get("matins_gospel") or context.get("matins_gospel")
+            if matins_gospel:
+                title = "Gospel of the Feast"
+                rubrics_title = context.get("rubrics_title")
+                if rubrics_title:
+                    try:
+                        title = f"Gospel of the Feast ({self.get_text(rubrics_title)})"
+                    except Exception:
+                        pass
+                return {
+                    "type": "saint",
+                    "title": title,
+                    "text": format_gospel_key(matins_gospel)
+                }
+            
+            # Fallback: check saints and liturgy readings
+            saints = context.get("saints", [])
+            if saints:
+                saint_name = saints[0].get("name", "").rstrip('.')
+                readings_data = context.get("readings")
+                if not readings_data:
+                    try:
+                        readings_data = self.resolve_liturgy_readings(context)
+                    except Exception:
+                        readings_data = None
+                
+                gospel_text = "Luke 10:16-21"  # Default fallback
+                if readings_data:
+                    r_list = readings_data.get("readings", []) if isinstance(readings_data, dict) else readings_data
+                    for r in r_list:
+                        g = r.get("gospel", {})
+                        if g.get("source") == "menaion" or "saint" in g.get("ref_key", ""):
+                            gospel_text = g.get("text", gospel_text)
+                            break
+                    else:
+                        if r_list:
+                            gospel_text = r_list[-1].get("gospel", {}).get("text", gospel_text)
+                
+                if "Apostles" in saint_name:
+                    title = f"Gospel to {saint_name}"
+                else:
+                    title = f"Gospel to Saint {saint_name}"
+                return {
+                    "type": "saint",
+                    "title": title,
+                    "text": gospel_text
+                }
+                
         # 2. Sunday Gospel (Eothinon)
-        day_of_week = context.get("day_of_week")
         if day_of_week == 0: # Sunday
-            # Calculate Eothinon based on date or pass from context
-            # Default to 1 if missing for prototype
             eothinon_num = context.get("eothinon_number", 1) 
             return {
                 "reading_key": f"eothinon.gospel_{eothinon_num}",
@@ -1563,6 +1652,33 @@ class MatinsMixin:
              items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_{eothinon_num}"})
              items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_theotokion_{eothinon_num}"})
              
+             # Plus any saint exapostilarion if Sunday Polyeleos
+             saints = context.get("saints", [])
+             rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
+             if rank <= 2 and saints:
+                  saint_id = saints[0].get("id")
+                  items.insert(2, {"type": "fixed_ref", "ref_key": f"menaion.{saint_id}.exapostilarion"})
+                  
+        else:
+             # Weekday Feast / Saint exapostilarion
+             rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
+             saints = context.get("saints", [])
+             has_feast_exap = any(s.get("rank", 5) <= 3 for s in saints) or rank <= 2
+             
+             if has_feast_exap:
+                  is_afterfeast = context.get("is_afterfeast") or context.get("period") in ("afterfeast", "apodosis")
+                  if is_afterfeast:
+                       if context.get("period") == "apodosis" or "eucharist" in context.get("period", "") or context.get("pascha_offset") == 60:
+                            items.append({"type": "fixed_ref", "ref_key": "pentecostarion.eucharist.exapostilarion"})
+                  
+                  if saints:
+                       saint_id = saints[0].get("id")
+                       items.append({"type": "fixed_ref", "ref_key": f"menaion.{saint_id}.exapostilarion"})
+                       
+                  if is_afterfeast:
+                       if context.get("period") == "apodosis" or "eucharist" in context.get("period", "") or context.get("pascha_offset") == 60:
+                            items.append({"type": "fixed_ref", "ref_key": "pentecostarion.eucharist.exapostilarion_theotokion"})
+             
         return items
 
 
@@ -1573,15 +1689,14 @@ class MatinsMixin:
         Returns False for simple Weekdays (Daily Matins).
         """
         day = context.get("day_of_week") # 0=Sunday
-        rank = parse_rank_integer(context.get("rank", 0)) # 0=Simple, ...
+        rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
         
         # Sundays always have Gospel
         if day == 0:
             return True
             
-        # Feasts of Polyeleos rank or higher (approximate check)
-        # Assuming rank 3+ is Polyeleos/Vigil
-        if rank >= 3:
+        # Feasts of Polyeleos rank or higher (rank 1 = Feast, rank 2 = Vigil/Polyeleos)
+        if rank <= 2:
             return True
             
         return False
@@ -1712,7 +1827,7 @@ class MatinsMixin:
             base_key = f"tone_{tone}.sun_matins.stichera_praises"
             source_data = self.get_text(base_key, context=context)
             if source_data and "_segments" in source_data:
-                 for i, seg in enumerate(source_data["_segments"]):
+                 for i, seg in enumerate(source_data["_segments"][:8]):
                      items.append({"type": "sticheron", "content": seg, "addr": f"{base_key}[{i}]"})
             
             items.append({"type": "fixed_ref", "ref_key": f"eothinon.praises_glory_gospel_{context.get('eothinon_number', 1)}"})

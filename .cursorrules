@@ -103,6 +103,8 @@ A FULL liturgical day digest must account for ALL of these services (where appli
 4. **No Abbreviations in Output**: The generated digest must use full, unabbreviated liturgical terms.
 5. **Vestment Colours**: Must include ALL valid options for the day (e.g., "Bright [blue for the forefeast or gold]"), not just a single colour.
 6. **Transfer Notes**: When saints are transferred, the digest must state WHERE they are transferred to and WHY.
+7. **UGCC Terminology & Spelling (CRITICAL)**: Always standardize spelling of `Exaposteilarion` to `Exapostilarion` (no middle `e`) and `Holy Doors` to `Royal Doors` in all output generators and digests. Adhere strictly to the UGCC/Royal Doors Vocabulary Matrix.
+8. **Weekday Propers Recovery**: Ensure weekday Polyeleos/Vigil/Great Feast days correctly resolve their Matins Gospel (extracted dynamically from Liturgical readings) and exapostilarions (resolved via exapostilarion stacks) without being suppressed by backward rank comparisons.
 
 ---
 
@@ -205,3 +207,40 @@ When importing/parsing raw General Menaion files, translate their names to align
 * Angels -> angels
 * Fools -> fools_for_christ
 * St John Baptist -> forerunner
+
+---
+
+## XVII. UGCC Terminology Alignment and Weekday Propers Recovery (2026-06-12)
+
+1. **Liturgical Terminology Standardization**:
+   - Strictly adhere to UGCC standard translations: standardizing "Exaposteilarion" (Greek scientific) to **"Exapostilarion"** and "Holy Doors" to **"Royal Doors"**.
+   - These replacements are executed during post-processing in the digest generator (`digest/base.py`) to guarantee no non-UGCC terms leak into user-facing output.
+2. **Weekday Propers Recovery & Logic Fixes**:
+   - Corrected rank logic in `check_gospel_service()` inside [engine/resolvers/matins.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/matins.py) from `rank >= 3` to `rank <= 2` (where rank 1 = Vigil, 2 = Polyeleos). This allows weekday great feasts and Polyeleos/Vigil services to resolve their Matins Gospel.
+   - Dynamic lookups implemented for `resolve_matins_gospel()` to extract the proper Saint or Feast Gospel from the Liturgical readings under weekday settings.
+   - Dynamic stacking logic implemented for `resolve_exapostilarion()` to compile and merge exapostilarions from the Feast, the Saints, and the Theotokion.
+   - Restored Graduals in [digest/base.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/digest/base.py) by updating the suppression filter on the graduals block to check `rank > 2` (Vigil/Polyeleos or higher) instead of `rank > 1`.
+
+---
+
+## XVIII. Final UGCC Terminology Alignment and Sanity Hardening (2026-06-13)
+
+1. **Liturgical Title and Commemoration Formatting**:
+   - Avoid prepending `"St. "` to non-saint feast/event names (e.g., descriptions starting with event/feast words like "Nativity", "Translation", "Synaxis", "Annunciation", etc.). Clean these names by stripping markdown bold asterisks `**` and trailing dots.
+   - Suppress printing raw database keys (e.g., `menaion.jun_24.nativity_john_baptist`) as headers in the user-facing digest output; instead, retrieve and capitalize the clean `dolnytsky_title` from the almanac, falling back to humanized keys if it is missing.
+2. **Royal Doors Standardization**:
+   - Both `"Holy Doors"` and `"holy doors"` (lowercase) must be standardized to `"Royal Doors"` (properly capitalized proper noun), ensuring correct UGCC formatting throughout.
+3. **Combination Header Replacement Safety**:
+   - When substituting the generic label `"saint"` with the resolved saint name in combination headers, search and replace utilizing word boundaries `\bsaint\b` (not arbitrary substrings) to prevent duplicating words when saints' names contain words like `"Saints"` (e.g., Translation of the Relics of Saints Cyrus and John).
+
+---
+
+## XIX. Cantor Dashboard UI Robot Speak and Terminology Auditing (2026-06-13)
+
+1. **Dashboard UI Jargon Prohibition**:
+   - The Cantor Dashboard web interface (`cantor_dashboard/index.html` and `cantor_dashboard/main.js`) is fully subject to the strict compliance scope against "robot talk" and raw developer/programmer speak.
+   - User-facing labels, tags, badges, and headers must use clean, natural liturgical terminology (e.g., "Limit:" instead of raw shorthand "Max:", and counting commemorations directly as "Commemorations" rather than appending machine labels like "Active").
+2. **Dashboard Linter Integration**:
+   - The database linter (`scripts/lint_liturgical_db.py`) is extended to verify frontend UI code, flagging instances of "robot speak", leaked internal database keys, or non-standard limit labels in user-facing lines.
+
+

@@ -4,7 +4,7 @@ import re
 
 # File Paths
 REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_DIR = os.path.join(REPO_DIR, "json_db", "stamford")
+DB_DIR = os.path.join(REPO_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets")
 AUDIT_DIR = os.path.join(REPO_DIR, "audit_results")
 
 # Ensure audit directory exists
@@ -243,6 +243,63 @@ def run_linter():
         total_file_issues = sum(len(x) for x in file_report.values())
         if total_file_issues > 0:
             report["files"][filename] = file_report
+
+    # Pass 2: Audit frontend UI files for "robot speak" and banned developer terms
+    frontend_dir = os.path.join(REPO_DIR, "cantor_dashboard")
+    frontend_files = ["main.js", "index.html"]
+    for fname in frontend_files:
+        fpath = os.path.join(frontend_dir, fname)
+        if not os.path.exists(fpath):
+            continue
+        report["summary"]["total_files_checked"] += 1
+        ui_report = {
+            "terminology": [],
+            "pronoun": [],
+            "hieratic": [],
+            "typography": []
+        }
+        try:
+            with open(fpath, "r", encoding="utf-8") as f:
+                content = f.read()
+                lines = content.splitlines()
+                for idx, line in enumerate(lines):
+                    # Check for "Active" in user-facing UI labels/values (ignoring typical programming identifiers)
+                    if "Active" in line and not any(x in line for x in ["class", "activeClass", "activeCount", "active_saints", "ActiveCount", "Active (Dolnytsky"]):
+                        if "badge" in line or "context-val" in line or "context-row" in line or "commemText" in line or "textContent" in line:
+                            ui_report["terminology"].append({
+                                "key": f"Line {idx+1}",
+                                "type": "ui_robot_speak",
+                                "snippet": line.strip(),
+                                "message": "Raw developer jargon 'Active' detected in user-facing UI line."
+                            })
+                            report["summary"]["total_terminology_issues"] += 1
+                    
+                    # Check for "Max:" as raw shorthand in UI text
+                    if "Max:" in line and "Dolnytsky Limit" not in line and "MaxMs" not in line:
+                        ui_report["terminology"].append({
+                            "key": f"Line {idx+1}",
+                            "type": "ui_robot_speak",
+                            "snippet": line.strip(),
+                            "message": "Raw developer shorthand 'Max:' detected in UI line."
+                        })
+                        report["summary"]["total_terminology_issues"] += 1
+
+                    # Check for "9 Services Max" cycle limit
+                    if "9 Services Max" in line:
+                        ui_report["terminology"].append({
+                            "key": f"Line {idx+1}",
+                            "type": "ui_robot_speak",
+                            "snippet": line.strip(),
+                            "message": "Useless static services cycle limit '9 Services Max' detected in UI line."
+                        })
+                        report["summary"]["total_terminology_issues"] += 1
+        except Exception as e:
+            print(f"Failed to lint UI file {fname}: {e}")
+
+        # Add to file issues if found
+        total_ui_issues = sum(len(x) for x in ui_report.values())
+        if total_ui_issues > 0:
+            report["files"][f"cantor_dashboard/{fname}"] = ui_report
 
     # Complete Summary calculation
     report["summary"]["total_issues"] = (

@@ -376,6 +376,175 @@ document.addEventListener("DOMContentLoaded", () => {
         return `<span style="color: var(--text-primary); font-weight: 500; font-size: 0.85rem;" title="${prostrations.reason}">Allowed</span>`;
     }
 
+    function getLiturgicalBookInfo(ctx) {
+        // 1. Determine Triodion Book
+        let triodionBook = "N/A";
+        const seasonId = ctx.season_id || "";
+        const season = ctx.season || "";
+        if (seasonId === "triodion" || season === "lent" || season === "pre_lent") {
+            triodionBook = "Lenten";
+        } else if (seasonId === "pentecostarion" || season === "pascha") {
+            triodionBook = "Floral";
+        }
+
+        // 2. Determine Menaion Book and Rank/Class
+        let menaionBook = "N/A";
+        let menaionDetail = "";
+        const rankCode = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
+        const rankVal = ctx.rank !== undefined ? parseInt(ctx.rank) : 5;
+        
+        // Categorize Saint Types
+        function getSaintTypes(str) {
+            const s = (str || "").toLowerCase();
+            const types = [];
+            if (s.includes("martyrs") || s.includes("мученики")) {
+                types.push("Martyrs");
+            } else if (s.includes("martyr") || s.includes("мученик") || s.includes("passion-bearer")) {
+                types.push("Martyr");
+            }
+            if (s.includes("bishops") || s.includes("hierarchs") || s.includes("святители")) {
+                types.push("Hierarchs");
+            } else if (s.includes("bishop") || s.includes("hierarch") || s.includes("святитель") || s.includes("pope") || s.includes("archbishop") || s.includes("metropolitan")) {
+                types.push("Hierarch");
+            }
+            if (s.includes("apostles") || s.includes("апостолы")) {
+                types.push("Apostles");
+            } else if (s.includes("apostle") || s.includes("апостол") || s.includes("evangelist")) {
+                types.push("Apostle");
+            }
+            if (s.includes("venerables") || s.includes("преподобные") || s.includes("monks") || s.includes("nuns")) {
+                types.push("Venerables");
+            } else if (s.includes("venerable") || s.includes("преподобн") || s.includes("monk") || s.includes("nun") || s.includes("hermit") || s.includes("ascetic")) {
+                types.push("Venerable");
+            }
+            if (s.includes("prophets") || s.includes("пророки")) {
+                types.push("Prophets");
+            } else if (s.includes("prophet") || s.includes("пророк")) {
+                types.push("Prophet");
+            }
+            if (types.length === 0) {
+                types.push("Saint");
+            }
+            return types;
+        }
+
+        let saintTypes = [];
+        if (ctx.saints && ctx.saints.length > 0) {
+            ctx.saints.forEach(s => {
+                const sTypes = getSaintTypes(s.name);
+                sTypes.forEach(t => {
+                    if (!saintTypes.includes(t)) {
+                        saintTypes.push(t);
+                    }
+                });
+            });
+        } else {
+            saintTypes = getSaintTypes(ctx.dolnytsky_commemoration || "");
+        }
+
+        // Check if Festal vs General
+        const isFestal = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(rankCode) || rankVal <= 2;
+        
+        let classNum = "V";
+        if (rankCode === "[LORD]" || rankCode === "[MOG]" || rankVal === 1) {
+            classNum = "I";
+        } else if (rankCode === "[VIGIL]" || rankVal === 2) {
+            classNum = "II";
+        } else if (rankCode === "[POL]" || rankVal === 3) {
+            classNum = "III";
+        } else if (rankCode === "[GT DOX]" || rankCode === "[6 SM]" || rankCode === "[4 A+G]" || rankVal === 4) {
+            classNum = "IV";
+        } else {
+            classNum = "V";
+        }
+        
+        menaionDetail = `Class ${classNum}`;
+        
+        if (isFestal) {
+            menaionBook = "Festal";
+        } else {
+            menaionBook = "General";
+            if (saintTypes.length > 0) {
+                menaionBook += ` — ${saintTypes.join(" & ")}`;
+            }
+        }
+
+        return {
+            triodion: triodionBook,
+            menaion: menaionBook,
+            menaionDetail: menaionDetail
+        };
+    }
+
+    function formatServiceKey(key) {
+        if (!key) return "";
+        let cleaned = key.replace(/_/g, ' ');
+        cleaned = cleaned.replace(/structure /i, "");
+        cleaned = cleaned.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        return cleaned;
+    }
+
+    function getLiturgicalCombination(rubrics) {
+        const vars = rubrics.variables || {};
+        const overs = rubrics.overrides || {};
+        
+        const vType = overs.vespers_type || vars.vespers_type || "daily_vespers";
+        const mType = overs.matins_type || vars.matins_type || "daily_matins";
+        const lType = overs.liturgy_type || vars.liturgy_type || "liturgy_chrysostom";
+        const hType = overs.hours_type || vars.hours_type || "structure_standard";
+        
+        const vespersMap = {
+            "daily_vespers": "Daily Vespers",
+            "great_vespers": "Great Vespers",
+            "great_vespers_vigil": "Great Vespers (Vigil)",
+            "lenten_vespers": "Lenten Vespers",
+            "presanctified_vespers": "Presanctified Vespers",
+            "vespers_with_vigil": "Great Vespers (Vigil)"
+        };
+        
+        const matinsMap = {
+            "daily_matins": "Daily Matins",
+            "great_matins": "Great Matins",
+            "great_matins_vigil": "Great Matins (Vigil)",
+            "lenten_matins": "Lenten Matins",
+            "lenten_matins_weekday": "Lenten Matins",
+            "bridegroom_matins": "Bridegroom Matins",
+            "passion_matins": "Passion Matins",
+            "tomb_matins": "Tomb Matins",
+            "bright_matins": "Bright Matins"
+        };
+        
+        const liturgyMap = {
+            "liturgy_chrysostom": "St. John Chrysostom",
+            "liturgy_basil": "St. Basil the Great",
+            "presanctified_liturgy": "Presanctified Liturgy",
+            "presanctified": "Presanctified Liturgy",
+            "aliturgical": "Aliturgical (No Liturgy)"
+        };
+        
+        const hoursMap = {
+            "structure_standard": "Standard Hours",
+            "structure_lenten": "Lenten Hours",
+            "structure_royal": "Royal Hours",
+            "structure_paschal": "Paschal Hours"
+        };
+        
+        const vLabel = vespersMap[vType] || formatServiceKey(vType);
+        const mLabel = matinsMap[mType] || formatServiceKey(mType);
+        const lLabel = liturgyMap[lType] || formatServiceKey(lType);
+        const hLabel = hoursMap[hType] || formatServiceKey(hType);
+        
+        // Check if it's an All-Night Vigil (Great Vespers + Great Matins combined)
+        const isVigil = (vType === "great_vespers" || vType === "great_vespers_vigil" || vType === "vespers_with_vigil") && 
+                        (mType === "great_matins" || mType === "great_matins_vigil");
+        
+        if (isVigil) {
+            return `All-Night Vigil (${lLabel})`;
+        }
+        
+        return `${vLabel} + ${mLabel} + ${lLabel}`;
+    }
+
     function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial) {
         let html = "";
         
@@ -398,16 +567,89 @@ document.addEventListener("DOMContentLoaded", () => {
         // Fasting Discipline Row
         html += `<div class="context-row"><span class="context-label">Fasting Discipline</span><span class="context-val">${formatFastingBadge(fasting)}</span></div>`;
         
+        // Liturgical Source Books & Classification
+        html += `<div class="context-section-header">Source Books & Classification</div>`;
+        const bookInfo = getLiturgicalBookInfo(ctx);
+        if (bookInfo.triodion !== "N/A") {
+            html += `<div class="context-row"><span class="context-label">Triodion</span><span class="context-val">${bookInfo.triodion}</span></div>`;
+        }
+        html += `<div class="context-row"><span class="context-label">Menaion</span><span class="context-val">${bookInfo.menaion}</span></div>`;
+        
+        // Structure & Structural Limits
+        html += `<div class="context-section-header">Structure & Limits</div>`;
+        
+        // Commemorations limit resolution
+        let activeCount = 0;
+        if (ctx.saints && ctx.saints.length > 0) {
+            ctx.saints.forEach(s => {
+                const name = s.name || "";
+                const parts = name.split(/\s+and\s+|\s+&\s+|;/i).filter(p => p.trim().length > 0);
+                activeCount += parts.length;
+            });
+        } else if (ctx.dolnytsky_commemoration) {
+            const parts = ctx.dolnytsky_commemoration.split(/\s+and\s+|\s+&\s+|;/i).filter(p => p.trim().length > 0);
+            activeCount = parts.length;
+        }
+        
+        const transferredCount = ctx.transferred_saints ? ctx.transferred_saints.length : 0;
+        let commemText = `${activeCount} (Dolnytsky Limit: 2)`;
+        if (transferredCount > 0) {
+            commemText += ` + ${transferredCount} Transferred`;
+        }
+        html += `<div class="context-row"><span class="context-label">Commemorations</span><span class="context-val">${commemText}</span></div>`;
+        
+        // Service Combination resolution
+        const combinationVal = getLiturgicalCombination(rubrics);
+        html += `<div class="context-row"><span class="context-label">Combination</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${combinationVal}</span></div>`;
+        
         // Rank & Commemoration
         html += `<div class="context-section-header">Commemoration & Class</div>`;
         const code = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
         html += `<div class="context-row"><span class="context-label">Rank Code</span><span class="context-val">${translateRankCode(code)}</span></div>`;
+        html += `<div class="context-row"><span class="context-label">Class</span><span class="context-val">${bookInfo.menaionDetail}</span></div>`;
         
-        const titleVal = cleanLiturgicalText(ctx.dolnytsky_title || "Daily Liturgy");
+        let titleVal = cleanLiturgicalText(ctx.dolnytsky_title || "Divine Liturgy");
+        const commVal = cleanLiturgicalText(ctx.dolnytsky_commemoration || "None");
+        
+        if (titleVal === commVal && (ctx.rank === undefined || parseInt(ctx.rank) >= 5)) {
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const dayName = days[ctx.day_of_week] || "Daily";
+            
+            const vars = rubrics.variables || {};
+            const overs = rubrics.overrides || {};
+            const lType = overs.liturgy_type || vars.liturgy_type || "liturgy_chrysostom";
+            
+            if (lType === "aliturgical") {
+                titleVal = `${dayName} Daily Services (Aliturgical)`;
+            } else if (lType === "presanctified_liturgy" || lType === "presanctified") {
+                titleVal = `${dayName} Liturgy of the Presanctified Gifts`;
+            } else if (lType === "liturgy_basil") {
+                titleVal = `${dayName} Divine Liturgy of St. Basil the Great`;
+            } else {
+                titleVal = `${dayName} Divine Liturgy`;
+            }
+        }
+        
         html += `<div class="context-row"><span class="context-label">Service Title</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${titleVal}</span></div>`;
         
-        const commVal = cleanLiturgicalText(ctx.dolnytsky_commemoration || "None");
-        const commHtml = commVal === "None" ? `<span style="color: var(--text-muted);">None</span>` : commVal;
+        let commHtml = "";
+        if (commVal === "None") {
+            commHtml = `<span style="color: var(--text-muted);">None</span>`;
+        } else {
+            const parts = commVal.split(/\s+and\s+|\s+&\s+|;/i)
+                .map(p => p.trim())
+                .filter(p => p.length > 0);
+            
+            if (parts.length > 1) {
+                commHtml = `<ul class="commem-list" style="margin: 0; padding: 0; list-style: none; text-align: right;">`;
+                parts.forEach(p => {
+                    commHtml += `<li style="margin-bottom: 6px; line-height: 1.3;">${p}</li>`;
+                });
+                commHtml += `</ul>`;
+            } else {
+                commHtml = commVal;
+            }
+        }
         html += `<div class="context-row"><span class="context-label">Commemoration</span><span class="context-val" style="max-width: 65%; word-break: break-word;">${commHtml}</span></div>`;
         
         // Ceremonial Settings

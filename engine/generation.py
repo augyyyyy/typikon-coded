@@ -478,7 +478,7 @@ class GenerationMixin:
                                    res = self.resolve_vespers_stichera(enriched_context)
                                    # Format info
                                    total = res.get("total_count", 0)
-                                   digest.append(f"At 'Lord, I have cried': {total} stichera")
+                                   digest.append(f"At 'Lord, I Call': {total} stichera")
                                    for item in res.get("distribution", []):
                                         c = item.get('count', item.get('qty', '?'))
                                         s = item.get('source', item.get('type', '')).upper()
@@ -486,7 +486,7 @@ class GenerationMixin:
                                    if "glory" in res: digest.append(f"Glory... {res['glory']}")
                                    if "both_now" in res: digest.append(f"Both Now... {res['both_now']}")
                               except:
-                                   digest.append("At 'Lord, I have cried': (Logic Error)")
+                                   digest.append("At 'Lord, I Call': (Logic Error)")
 
                 # 4. Sequences (Recurse)
                 elif slot_type == "sequence":
