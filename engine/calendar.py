@@ -133,6 +133,7 @@ class CalendarMixin:
                 day_context = copy.deepcopy(almanac["days"][date_str])
                 day_context["_almanac_used"] = True
                 self._enrich_classification_fields(day_context)
+                day_context["recension"] = self.version_id
                 return day_context
 
         if self.paschalion == "julian":
@@ -331,6 +332,7 @@ class CalendarMixin:
                  late_service = "aliturgical"
         
         context["late_service_type"] = late_service
+        context["recension"] = self.version_id
 
         self._enrich_classification_fields(context)
         return context

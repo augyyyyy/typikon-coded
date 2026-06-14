@@ -149,17 +149,28 @@ class TextDBMixin:
     def get_text(self, text_id, logic_requirement=None, context=None):
         """
         Public accessor for text_db.
-        If logic_requirement is provided and text is missing, attempts fallback to General Menaion 
-        before returning a structured MISSING asset.
+        Implements hierarchical fallback:
+          1. Selected Recension DB (e.g. st_sergius_db, lviv_db if present)
+          2. Stamford base recension (self.text_db)
+          3. General Menaion fallback (self.general_menaion_db)
+          4. Humanized missing placeholder
         """
         item = None
-        # 0. Recension Priority (e.g. St. Sergius Unabridged)
-        if context and context.get("recension") == "st_sergius":
-            # Attempt lookup in St. Sergius DB
-            serge_item = self.st_sergius_db.get(text_id)
-            if serge_item:
-                item = copy.deepcopy(serge_item)
-            else:
+        recension = context.get("recension") if context else None
+        
+        # 0. Recension Database Lookup
+        if recension:
+            # Check for specific db (e.g., self.st_sergius_db or a future self.lviv_db)
+            db_attr = f"{recension}_db"
+            if hasattr(self, db_attr):
+                rec_db = getattr(self, db_attr)
+                if rec_db:
+                    item = rec_db.get(text_id)
+                    if item:
+                        item = copy.deepcopy(item)
+            
+            # Special St. Sergius consolidated indexed resolution
+            if not item and recension == "st_sergius" and hasattr(self, "st_sergius_db") and self.st_sergius_db:
                 # Check for indexed variants (e.g. key_1, key_2...)
                 # and special suffixes (glory, both_now)
                 indexed_items = []
@@ -201,7 +212,7 @@ class TextDBMixin:
                         "source": "St. Sergius Unabridged (consolidated)"
                     }
         
-        # 1. Primary Lookup (if not already found in st_sergius_db)
+        # 1. Primary Lookup (if not already found in recension db)
         if not item:
             item = self.text_db.get(text_id)
 
@@ -233,7 +244,6 @@ class TextDBMixin:
                 else:
                     clean_content = raw_text
 
-                    
                 # Musical Syntax: Handle * and **
                 # Store segments for musical phrasing
                 item["_segments"] = [s.strip() for s in clean_content.split("*") if s.strip()]
@@ -269,16 +279,16 @@ class TextDBMixin:
                     rendered_item["_source"] = f"General Menaion ({st_class})"
                     return rendered_item
 
-        # 3. Missing Handler
-        if logic_requirement:
-            return {
-                "title": "Missing Component",
-                "content": f"[MISSING_COMPONENT: {text_id} | REQUIRED_BY: {logic_requirement}]",
-                "source": "System Logic",
-                "is_missing": True
-            }
-        
-        return None
+        # 3. Missing Handler (Human-readable clean placeholder)
+        humanized = text_id.split(".")[-1].replace("_", " ").title()
+        req_str = f" | Required by: {logic_requirement}" if logic_requirement else ""
+        rec_name = recension.replace("_", " ").title() if recension else "Stamford"
+        return {
+            "title": humanized,
+            "content": f"[{humanized} (Missing in {rec_name}{req_str})]",
+            "source": "System Logic",
+            "is_missing": True
+        }
 
     # --- Phase 8: Advanced Collision Logic (Double Feasts) ---
 

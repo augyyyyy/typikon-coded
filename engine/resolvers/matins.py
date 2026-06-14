@@ -1563,7 +1563,9 @@ class MatinsMixin:
                 rubrics_title = context.get("rubrics_title")
                 if rubrics_title:
                     try:
-                        title = f"Gospel of the Feast ({self.get_text(rubrics_title)})"
+                        res = self.get_text(rubrics_title)
+                        res_val = res.get("title") if isinstance(res, dict) else res
+                        title = f"Gospel of the Feast ({res_val})"
                     except Exception:
                         pass
                 return {

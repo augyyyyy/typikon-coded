@@ -246,9 +246,9 @@ class GenerationMixin:
         else:
             return copy.deepcopy(structure_def.get("sequence", []))
 
+    def generate_full_booklet(self, context, rubrics, include_ceremonial=False):
 
-    def generate_full_booklet(self, context, rubrics):
-
+            context["include_ceremonial"] = include_ceremonial
             booklet = [f"DATE: {context['date']}\nFEAST: {rubrics['title']}\n"]
 
             # Determine Matins override first
@@ -307,10 +307,13 @@ class GenerationMixin:
                 if service_name == "Midnight Office":
                      mode_data = self.resolve_midnight_office_mode(context)
                      if "mode" in mode_data:
-                         # Map "sunday" -> "midnight_sunday"
-                         root_id = f"midnight_{mode_data['mode']}"
+                          # Map "sunday" -> "midnight_sunday"
+                          root_id = f"midnight_{mode_data['mode']}"
 
-                booklet.append(f"\n--- {service_name.upper()} ({root_id}) ---")
+                if include_ceremonial:
+                    booklet.append(f"\n--- {service_name.upper()} ({root_id}) ---")
+                else:
+                    booklet.append(f"\n--- {service_name.upper()} ---")
 
                 struct_data = self._load_json(service["file"])
                 # Use new inheritance helper
@@ -343,9 +346,11 @@ class GenerationMixin:
                                          # Get sequence (handles inheritance too)
                                          sub_seq = self._get_structure_sequence(linked_data, target_id)
                                          if sub_seq:
-                                             booklet.append(f"[{slot.get('id','LINK')}] >>> EXPANDING LINK: {target_id} <<<")
+                                             if include_ceremonial:
+                                                 booklet.append(f"[{slot.get('id','LINK')}] >>> EXPANDING LINK: {target_id} <<<")
                                              process_sequence(sub_seq, depth + 1)
-                                             booklet.append(f"[{slot.get('id','LINK')}] <<< END LINK <<<")
+                                             if include_ceremonial:
+                                                 booklet.append(f"[{slot.get('id','LINK')}] <<< END LINK <<<")
                                          else:
                                              booklet.append(f"[{slot.get('id','LINK')}] ERROR: Link target '{target_id}' not found.")
                                      except Exception as e:
@@ -359,7 +364,8 @@ class GenerationMixin:
                             print(f"WARNING: Slot missing ID in {service_name}: {slot}")
                         
                         text = self._resolve_slot(slot, rubrics, context)
-                        booklet.append(f"[{slot_id}] {text}")
+                        if text and text.strip():
+                            booklet.append(text)
 
                 process_sequence(skeleton)
 
@@ -778,113 +784,366 @@ class GenerationMixin:
         output.append(f"      (Generator logic for {method} not specificed)")
         return output
 
-
     def _resolve_slot(self, slot, rubrics, context=None):
-        # ... (This logic is stable, no changes needed)
-        output_lines = []
-        if "rubric" in slot:
-            r = slot["rubric"];
-            if isinstance(r, dict):
-                output_lines.append(f"\n   >>> RUBRIC: {r.get('title', '')} <<<")
-                if "source_ref" in r: output_lines.append(f"   (Source): {r['source_ref']}")
-                if "ordo_ref" in r: output_lines.append(f"   (Ordo): {r['ordo_ref']}")
-                if "roles" in r:
-                    for role, text in r['roles'].items(): output_lines.append(f"   [{role.upper()}]: {text}")
-                output_lines.append("")
-            else:
-                output_lines.append(f"   RUBRIC: {r}")
-        
-        content = slot.get("content", {});
+        # Check ceremonial filtering
+        include_ceremonial = False
+        if context:
+            include_ceremonial = context.get("include_ceremonial", False)
+            
+        slot_id = slot.get("id", "")
+        content = slot.get("content", {})
+        if not content and "type" in slot:
+            content = slot
         slot_type = content.get("type")
         
-        if slot_type == "fixed_ref":
-            ref_key = content.get('ref_key')
-            if ref_key in self.text_db:
-                # Found in Text DB - Return full text
-                text_block = self.text_db[ref_key]
-                output_lines.append(f"   >>> {text_block.get('title', ref_key)} <<<")
-                content_val = text_block.get('content', '')
-                if isinstance(content_val, dict):
-                     output_lines.append(json.dumps(content_val, indent=2))
-                else:
-                     output_lines.append(str(content_val))
-            else:
-                # Fallback
-                output_lines.append(f"   {ref_key}")
-        elif slot_type == "fixed_group":
-            output_lines.append(f"   Group: {', '.join(content.get('ref_keys', []))}")
-        elif slot_type == "variable_logic":
-            logic = content.get("logic", {})
-            func_name = logic.get("function")
-            args = logic.get("args", {})
+        ceremonial_slot_ids = {
+            "vesting_rite", "opening_vigil", "censing_psalm_103", 
+            "censing_lord_i_have_cried", "censing_entrance", 
+            "doors_entrance", "resolve_door_state", "fasting_rule"
+        }
+        
+        ceremonial_functions = {
+            "resolve_vestment_set", "resolve_censing_annotation", 
+            "resolve_door_state", "resolve_clergy_variant", "resolve_fasting_rule"
+        }
+        
+        func_name = None
+        if slot_type == "variable_logic":
+            func_name = content.get("logic", {}).get("function")
             
+        if not include_ceremonial:
+            if slot_id in ceremonial_slot_ids or func_name in ceremonial_functions:
+                return ""  # Suppress this slot entirely!
+                
+        # 1. Format Rubric if present (Instructional directions)
+        output_lines = []
+        if "rubric" in slot:
+            r = slot["rubric"]
+            if isinstance(r, dict):
+                title = r.get("title", "")
+                sources = []
+                if "source_ref" in r:
+                    sources.append(r["source_ref"])
+                if "ordo_ref" in r:
+                    sources.append(f"Ordo {r['ordo_ref']}")
+                citation_html = ""
+                if sources:
+                    cit_str = ", ".join(sources)
+                    citation_html = f' <sup class="citation-sup" title="Citation: {cit_str}">{cit_str}</sup>'
+                
+                if title:
+                    output_lines.append(f'<span class="rubric">{title}{citation_html}</span>')
+                elif citation_html:
+                    output_lines.append(f'<p>{citation_html}</p>')
+                
+                # Add role-based dialogue
+                if "roles" in r:
+                    for role, text in r["roles"].items():
+                        # Skip minor sanctuary clergy instructions if include_ceremonial is False
+                        if not include_ceremonial and role.lower() in ("priest", "deacon", "subdeacon") and slot_id in ceremonial_slot_ids:
+                            continue
+                        output_lines.append(f'<p><span class="actor">{role.upper()}</span> {text}</p>')
+            else:
+                output_lines.append(f'<span class="rubric">{r}</span>')
+                 
+        # 2. Resolve and Hydrate Content
+        if slot_type == "fixed_ref":
+            ref_key = content.get("ref_key")
+            item = self.get_text(ref_key, context=context)
+            if item:
+                title = item.get("title", ref_key)
+                text_val = item.get("content", "")
+                cit_html = ""
+                if "source" in item:
+                    cit_html = f' <sup class="citation-sup" title="Source: {item["source"]}">{item["source"]}</sup>'
+                output_lines.append(f'<div class="title-medium">{title}{cit_html}</div>')
+                for p_text in text_val.split("\n"):
+                    p_text = p_text.strip()
+                    if p_text:
+                        output_lines.append(f'<p>{p_text}</p>')
+            else:
+                humanized = ref_key.split(".")[-1].replace("_", " ").title()
+                output_lines.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
+                 
+        elif slot_type == "fixed_group":
+            for ref_key in content.get("ref_keys", []):
+                item = self.get_text(ref_key, context=context)
+                if item:
+                    title = item.get("title", ref_key)
+                    text_val = item.get("content", "")
+                    cit_html = ""
+                    if "source" in item:
+                        cit_html = f' <sup class="citation-sup" title="Source: {item["source"]}">{item["source"]}</sup>'
+                    output_lines.append(f'<div class="title-medium">{title}{cit_html}</div>')
+                    for p_text in text_val.split("\n"):
+                        p_text = p_text.strip()
+                        if p_text:
+                            output_lines.append(f'<p>{p_text}</p>')
+                else:
+                    humanized = ref_key.split(".")[-1].replace("_", " ").title()
+                    output_lines.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
+                     
+        elif slot_type == "variable_logic":
+            # Execute the logic method
             if hasattr(self, func_name):
                 try:
-                    # Execute Logic
-                    func = getattr(self, func_name)
-                    if context:
-                        import inspect
-                        sig = inspect.signature(func)
-                        call_kwargs = {}
-                        
-                        # Enrich context
-                        enriched = {**context, **rubrics.get("variables", {}), "variables": rubrics.get("variables", {})}
-                        enriched["overrides"] = rubrics.get("overrides", {})
-                        if rubrics.get("is_sunday_vigil"):
-                            enriched["is_sunday_vigil"] = True
-                            
-                        normalized_args = {}
-                        for k, v in args.items():
-                            if k == "pos":
-                                normalized_args["position"] = v
-                            elif k == "num":
-                                normalized_args["num"] = v
-                            else:
-                                normalized_args[k] = v
-                                
-                        if "rubrics" in sig.parameters:
-                            call_kwargs["rubrics"] = rubrics
-                            
-                        for param_name in sig.parameters:
-                            if param_name in normalized_args:
-                                call_kwargs[param_name] = normalized_args[param_name]
-                                
-                        params = list(sig.parameters.values())
-                        has_context = len(params) > 0
-                        if has_context:
-                            result = func(enriched, **call_kwargs)
-                        else:
-                            result = func()
-                    else:
-                        # Fallback for when context isn't passed (legacy calls)
-                        result = f"[PENDING EXECUTION: {func_name}]"
-
-                    if isinstance(result, list):
-                        output_lines.append(f"   >>> LOGIC RESULT: {func_name} <<<")
-                        for item in result:
-                            # Handle different result types (strings vs objects)
-                            if isinstance(item, dict):
-                                output_lines.append(f"      - {item.get('title', item.get('id', 'Unknown'))}")
-                            else:
-                                output_lines.append(f"      - {item}")
-                    elif isinstance(result, dict):
-                         output_lines.append(f"   >>> LOGIC RESULT: {func_name} <<<")
-                         output_lines.append(f"      {result.get('title', 'Result Object')}")
-                    else:
-                        output_lines.append(f"   >>> LOGIC RESULT: {func_name} <<<")
-                        output_lines.append(f"      {result}")
-                        
+                     func = getattr(self, func_name)
+                     if context:
+                         import inspect
+                         sig = inspect.signature(func)
+                         call_kwargs = {}
+                         
+                         # Enrich context
+                         enriched = {**context, **rubrics.get("variables", {}), "variables": rubrics.get("variables", {})}
+                         enriched["overrides"] = rubrics.get("overrides", {})
+                         if rubrics.get("is_sunday_vigil"):
+                             enriched["is_sunday_vigil"] = True
+                             
+                         args = content.get("logic", {}).get("args", {})
+                         normalized_args = {}
+                         for k, v in args.items():
+                             if k == "pos":
+                                 normalized_args["position"] = v
+                             elif k == "num":
+                                 normalized_args["num"] = v
+                             else:
+                                 normalized_args[k] = v
+                                 
+                         if "rubrics" in sig.parameters:
+                             call_kwargs["rubrics"] = rubrics
+                             
+                         for param_name in sig.parameters:
+                             if param_name in normalized_args:
+                                 call_kwargs[param_name] = normalized_args[param_name]
+                                 
+                         params = list(sig.parameters.values())
+                         has_context = len(params) > 0
+                         if has_context:
+                             result = func(enriched, **call_kwargs)
+                         else:
+                             result = func()
+                     else:
+                         result = f"[Pending execution: {func_name}]"
+                         
+                     # Hydrate and Format the logic result
+                     hydrated = self._hydrate_and_format_logic_result(result, func_name, context)
+                     if hydrated:
+                         output_lines.append(hydrated)
+                         
                 except Exception as e:
-                     output_lines.append(f"   [LOGIC ERROR]: {func_name} - {e}")
+                     output_lines.append(f'<p class="rubric">[Logic Error: {func_name} - {e}]</p>')
             else:
-                 output_lines.append(f"   [MISSING LOGIC]: {func_name}")
+                 output_lines.append(f'<p class="rubric">[Missing Logic Resolver: {func_name}]</p>')
+                 
+        elif slot_type == "generator":
+            generator_method = content.get("generator_method")
+            args = content.get("args", {})
+            if generator_method == "generate_stichera_sequence":
+                try:
+                     res = self.resolve_vespers_stichera(context)
+                     hydrated = self._hydrate_and_format_logic_result(res, "resolve_vespers_stichera", context)
+                     if hydrated:
+                         output_lines.append(hydrated)
+                except Exception as e:
+                     output_lines.append(f'<p class="rubric">[Generator Error: {generator_method} - {e}]</p>')
+            elif generator_method == "generate_antiphons":
+                try:
+                     res = self.resolve_liturgy_antiphons(context, rubrics)
+                     hydrated = self._hydrate_and_format_logic_result(res, "resolve_liturgy_antiphons", context)
+                     if hydrated:
+                         output_lines.append(hydrated)
+                except Exception as e:
+                     output_lines.append(f'<p class="rubric">[Generator Error: {generator_method} - {e}]</p>')
+            elif generator_method == "generate_hour_troparia":
+                try:
+                     hour_num = args.get("hour", 1)
+                     res = self.resolve_hours_collision(context, hour_num=hour_num)
+                     hydrated = self._hydrate_and_format_logic_result(res, "resolve_hours_collision", context)
+                     if hydrated:
+                         output_lines.append(hydrated)
+                except Exception as e:
+                     output_lines.append(f'<p class="rubric">[Generator Error: {generator_method} - {e}]</p>')
+            else:
+                 output_lines.append(f'<p class="rubric">[Generator: {generator_method} (not fully formatted)]</p>')
+                 
         elif slot_type == "sequence":
-             output_lines.append("   Sequence:")
+             output_lines.append('<div class="title-medium">Sequence</div>')
              for comp in content.get("components", []):
-                    output_lines.append(f"      - {comp}")
-                    
-        return "\n".join(output_lines)
+                 output_lines.append(f'<p>{comp}</p>')
+                 
+        return "\n\n".join(output_lines)
 
+    def _hydrate_and_format_logic_result(self, result, func_name, context):
+        if not result:
+            return ""
+            
+        output = []
+        
+        # Case 1: Result is a canon block
+        if isinstance(result, dict) and result.get("type") == "canon_block":
+            return self._format_canon_block(result, context)
+            
+        # Case 2: Result is a dictionary representing a structured chant group (like stichera or aposticha)
+        elif isinstance(result, dict) and ("items" in result or "components" in result):
+            items = result.get("items") or result.get("components") or []
+            
+            title = result.get("type", "Stichera").title()
+            tone = result.get("tone") or (context.get("tone") if context else None)
+            tone_str = f" (Tone {tone})" if tone else ""
+            output.append(f'<div class="title-medium">{title}{tone_str}</div>')
+            
+            for idx, item_key in enumerate(items):
+                ref_key = item_key
+                if isinstance(item_key, dict):
+                    ref_key = item_key.get("id")
+                    
+                if not ref_key:
+                    continue
+                    
+                # Fetch text
+                text_item = self.get_text(ref_key, context=context)
+                if text_item:
+                    content = text_item.get("content", "")
+                    h_title = text_item.get("title") or ref_key.split(".")[-1].replace("_", " ").title()
+                    item_label = f"{h_title} {idx+1}" if len(items) > 1 else h_title
+                    output.append(f'<p><strong>{item_label}</strong>: {content}</p>')
+                else:
+                    humanized = ref_key.split(".")[-1].replace("_", " ").title()
+                    output.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
+                    
+            # Handle Glory
+            glory_key = result.get("glory")
+            if glory_key and glory_key != "(No Saint Doxastikon)":
+                text_item = self.get_text(glory_key, context=context)
+                if text_item:
+                    output.append(f'<p><strong>Glory</strong>: {text_item.get("content", "")}</p>')
+                    
+            # Handle Both Now
+            both_now_key = result.get("both_now")
+            if both_now_key and both_now_key != "None":
+                text_item = self.get_text(both_now_key, context=context)
+                if text_item:
+                    output.append(f'<p><strong>Both now</strong>: {text_item.get("content", "")}</p>')
+                    
+            return "\n\n".join(output)
+            
+        # Case 3: Result is a list of objects (like readings)
+        elif isinstance(result, list):
+            for res_item in result:
+                if isinstance(res_item, dict):
+                    ref_key = res_item.get("ref_key", "")
+                    content_val = res_item.get("content", "")
+                    title = res_item.get("title", res_item.get("type", "Item")).title()
+                    
+                    cit_str = f' <sup class="citation-sup" title="Key: {ref_key}">{ref_key}</sup>' if ref_key else ""
+                    output.append(f'<div class="title-medium">{title}{cit_str}</div>')
+                    output.append(f'<p>{content_val}</p>')
+                else:
+                    output.append(f'<p>{str(res_item)}</p>')
+            return "\n\n".join(output)
+            
+        # Case 4: Result has 'sequence' (like troparia/kontakia stacking)
+        elif isinstance(result, dict) and "sequence" in result:
+            tone = result.get('tone', '?')
+            tone_str = f" (Tone {tone})" if tone != '?' else ""
+            output.append(f'<div class="title-medium">Troparia & Kontakia{tone_str}</div>')
+            for item in result["sequence"]:
+                content_key = item.get("content")
+                if content_key:
+                    text_item = self.get_text(content_key, context=context)
+                    if text_item:
+                        title = text_item.get('title') or content_key.split(".")[-1].replace("_", " ").title()
+                        output.append(f'<p><strong>{title}</strong>: {text_item.get("content", "")}</p>')
+                    else:
+                        humanized = content_key.split(".")[-1].replace("_", " ").title()
+                        output.append(f'<p class="rubric">[Missing text: {humanized} ({content_key})]</p>')
+            return "\n\n".join(output)
+            
+        # Case 5: Result has 'vestments' (ceremonial vesting set)
+        elif isinstance(result, dict) and "vestments" in result:
+            v_list = result.get("vestments", [])
+            note = result.get("note", "")
+            ordo = result.get("ordo_ref", "")
+            roles_str = ", ".join(v.capitalize() for v in v_list)
+            cit_str = f' <sup class="citation-sup" title="Ordo: {ordo}">{ordo}</sup>' if ordo else ""
+            output.append(f'<span class="rubric">VESTMENT SET: Vests in {roles_str}. {note}{cit_str}</span>')
+            return "\n\n".join(output)
+            
+        # Case 6: Standard dictionary with 'content' (like fasting rule)
+        elif isinstance(result, dict) and "content" in result:
+            output.append(f'<p>{result["content"]}</p>')
+            return "\n\n".join(output)
+            
+        # Case 7: Standard dictionary with 'note' (like fasting rule or clergy variant)
+        elif isinstance(result, dict) and "note" in result:
+            output.append(f'<p>{result["note"]}</p>')
+            return "\n\n".join(output)
+            
+        # Case 8: Simple string or fallback
+        else:
+            res_str = str(result)
+            if not res_str.startswith("<"):
+                return f'<p>{res_str}</p>'
+            return res_str
+
+    def _format_canon_block(self, result, context):
+        output = []
+        output.append('<div class="title-large">The Canon</div>')
+        
+        dist_str = ", ".join(f"{d.get('source','').capitalize()} ({d.get('qty',0)})" for d in result.get("distribution", []))
+        output.append(f'<p class="rubric">Structure: {dist_str} | Total: {result.get("total_count", 0)} Odes</p>')
+        
+        for o in result.get("odes", []):
+            if "ode" in o:
+                num = o["ode"]
+                output.append(f'<div class="title-medium">Ode {num}</div>')
+                
+                for d in o.get("distribution", []):
+                    source = d.get("source")
+                    qty = d.get("qty", 0)
+                    is_irmos = d.get("irmos", False)
+                    
+                    tone = context.get("tone", 1) if context else 1
+                    s_id = "saint"
+                    if context and context.get("saints"):
+                        s_id = context["saints"][0].get("id", "saint")
+                        
+                    if is_irmos:
+                        irmos_key = f"octoechos.tone_{tone}.canon.ode_{num}.irmos" if source == "octoechos" else f"menaion.{s_id}.canon.ode_{num}.irmos"
+                        irmos_item = self.get_text(irmos_key, context=context)
+                        if irmos_item and not irmos_item.get("is_missing"):
+                            output.append(f'<p><strong>(Irmos)</strong> {irmos_item.get("content")}</p>')
+                        else:
+                            output.append(f'<p class="rubric"><strong>(Irmos - Tone {tone})</strong> [Sing Irmos of {source.capitalize()} Ode {num}]</p>')
+                            
+                    troparia_key = f"octoechos.tone_{tone}.canon.ode_{num}.troparia" if source == "octoechos" else f"menaion.{s_id}.canon.ode_{num}.troparia"
+                    troparia_item = self.get_text(troparia_key, context=context)
+                    if troparia_item and not troparia_item.get("is_missing"):
+                        output.append(f'<p>{troparia_item.get("content")}</p>')
+                    else:
+                        output.append(f'<p class="rubric">[Troparia of {source.capitalize()} ({qty}x) - Tone {tone}]</p>')
+            else:
+                i_type = o.get("type", "")
+                if i_type == "kathisma":
+                    output.append('<div class="title-medium">Sessional Hymns (Kathisma)</div>')
+                    for item in o.get("components", []):
+                        ref_key = item.get("id")
+                        text_item = self.get_text(ref_key, context=context)
+                        if text_item and not text_item.get("is_missing"):
+                            output.append(f'<p><strong>{text_item.get("title", ref_key)}</strong>: {text_item.get("content")}</p>')
+                        else:
+                            output.append(f'<p class="rubric">[Sessional Hymn ({ref_key})]</p>')
+                elif i_type == "kontakion":
+                    output.append('<div class="title-medium">Kontakion & Ikos</div>')
+                    for item in o.get("components", []):
+                        ref_key = item.get("id")
+                        text_item = self.get_text(ref_key, context=context)
+                        if text_item and not text_item.get("is_missing"):
+                            output.append(f'<p><strong>{text_item.get("title", ref_key)}</strong>: {text_item.get("content")}</p>')
+                        else:
+                            output.append(f'<p class="rubric">[Kontakion/Ikos ({ref_key})]</p>')
+                            
+        return "\n\n".join(output)
 
     def _extract_logic_metadata(self, func_name):
         """

@@ -86,11 +86,20 @@
                             <select id="opt-version" class="select-input">
                                 <option value="stamford_2014" selected>Stamford Divine Office (2014)</option>
                                 <option value="lviv_2018">Lviv Dolnytsky Recension (2018)</option>
+                                <option value="st_sergius">St. Sergius Recension</option>
                             </select>
                         </div>
                         <div class="settings-group">
                             <label for="opt-temple-feast" class="settings-label">Temple Patronal Feast Override:</label>
                             <input type="text" id="opt-temple-feast" class="text-input" placeholder="MM-DD (e.g. 06-09)" maxlength="5">
+                        </div>
+                        <div class="settings-group">
+                            <span class="settings-label">Ceremonial Rubrics:</span>
+                            <div class="radio-group">
+                                <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                                    <input type="checkbox" id="opt-include-ceremonial" style="width: auto; cursor: pointer; margin-right: 4px;"> Include Sanctuary Rubrics
+                                </label>
+                            </div>
                         </div>
                         <div class="settings-group">
                             <span class="settings-label">Digest Layout Mode:</span>

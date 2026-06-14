@@ -58,10 +58,15 @@ class EngineCore:
         self.version_map = {
             "stamford": "stamford_2014",
             "stamford_2014": "stamford_2014",
+            "lviv_2018": "lviv_2018",
+            "lviv": "lviv_2018",
+            "st_sergius": "st_sergius",
             "other": "other_tradition_2025"
         }
         self.folder_map = {
              "stamford_2014": "stamford",
+             "lviv_2018": "lviv",
+             "st_sergius": "st_sergius",
              "other_tradition_2025": "other"
         }
         

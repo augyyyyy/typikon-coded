@@ -269,6 +269,8 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         version = query.get("version", ["stamford_2014"])[0]
         temple_feast = query.get("temple_feast", [None])[0]
         digest_mode = query.get("digest_mode", ["full"])[0]
+        include_ceremonial_val = query.get("include_ceremonial", ["false"])[0]
+        include_ceremonial = include_ceremonial_val.lower() == "true"
 
         try:
             target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
@@ -320,7 +322,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     serializable_context[k] = v
 
             rubrics = engine.resolve_rubrics(context)
-            booklet = engine.generate_full_booklet(context, rubrics)
+            booklet = engine.generate_full_booklet(context, rubrics, include_ceremonial=include_ceremonial)
             digest = engine.generate_typikon_digest(context, rubrics, mode=digest_mode)
             fasting = engine.resolve_fasting_rule(context)
 

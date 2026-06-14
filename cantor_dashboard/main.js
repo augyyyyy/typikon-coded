@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         templeFeast: localStorage.getItem("cantor-opt-temple-feast") || "",
         digestMode: localStorage.getItem("cantor-opt-digest-mode") || "full",
         devMode: localStorage.getItem("cantor-opt-dev-mode") === "true",
+        includeCeremonial: localStorage.getItem("cantor-opt-include-ceremonial") === "true",
         // Profiles state
         profiles: JSON.parse(localStorage.getItem("cantor-profiles") || "{}"),
         activeProfile: localStorage.getItem("cantor-active-profile") || "default",
@@ -280,7 +281,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 paschalion: state.paschalion,
                 version: state.version,
                 temple_feast: state.templeFeast,
-                digest_mode: state.digestMode
+                digest_mode: state.digestMode,
+                include_ceremonial: state.includeCeremonial
             });
             const response = await fetch(`${API_BASE}/api/resolve?${params.toString()}`);
             if (!response.ok) {
@@ -930,6 +932,15 @@ document.addEventListener("DOMContentLoaded", () => {
             p = p.trim();
             if (!p) return;
 
+            // If the paragraph is already HTML (starts with '<'), render it directly
+            if (p.startsWith("<")) {
+                if (p.includes('class="title-large"')) {
+                    isFirstParagraph = true;
+                }
+                html += p;
+                return;
+            }
+
             // Check if paragraph is a section header (e.g. --- VESPERS ---)
             if (p.startsWith("---") && p.endsWith("---")) {
                 const headerText = p.replace(/^-+\s*/, "").replace(/\s*-+$/, "");
@@ -983,7 +994,7 @@ document.addEventListener("DOMContentLoaded", () => {
             escapedP = escapedP.replace(/✚/g, '<span class="cross-icon" style="font-size:inherit;">✚</span>');
 
             // Apply drop cap class to first text paragraph of a section
-            if (isFirstParagraph && !match && !p.startsWith("DATE:") && !p.startsWith("FEAST:")) {
+            if (isFirstParagraph && !match && !p.startsWith("DATE:") && !p.startsWith("FEAST:") && !p.startsWith("<") && !p.startsWith("[")) {
                 html += `<p class="drop-cap">${escapedP}</p>`;
                 isFirstParagraph = false;
             } else {
@@ -1767,10 +1778,25 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/'/g, "&#039;");
     }
 
+    function updateRecensionBadge() {
+        const badge = document.querySelector(".recension-badge");
+        if (!badge) return;
+        
+        let recensionText = "Stamford Recension";
+        if (state.version === "lviv_2018") {
+            recensionText = "Lviv Recension";
+        } else if (state.version === "st_sergius") {
+            recensionText = "St. Sergius Recension";
+        }
+        badge.textContent = recensionText;
+    }
+
     /* ==========================================================================
        LITURGICAL PARAMETERS SYSTEM
        ========================================================================== */
     function initSettings() {
+        // Update badge initially
+        updateRecensionBadge();
         const optPaschalionGreg = document.getElementById("opt-paschalion-gregorian");
         const optPaschalionJul = document.getElementById("opt-paschalion-julian");
         const optVersion = document.getElementById("opt-version");
@@ -1778,6 +1804,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const optDigestFull = document.getElementById("opt-digest-full");
         const optDigestQuick = document.getElementById("opt-digest-quick");
         const chkDevMode = document.getElementById("chk-dev-mode");
+        const optIncludeCeremonial = document.getElementById("opt-include-ceremonial");
 
         if (state.paschalion === "julian") {
             if (optPaschalionJul) optPaschalionJul.checked = true;
@@ -1799,6 +1826,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         document.body.classList.toggle("dev-mode-active", state.devMode);
 
+        if (optIncludeCeremonial) {
+            optIncludeCeremonial.checked = state.includeCeremonial;
+        }
+
         const saveRadioSetting = (name, stateKey, storageKey) => {
             document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
                 input.addEventListener("change", (e) => {
@@ -1818,6 +1849,8 @@ document.addEventListener("DOMContentLoaded", () => {
             optVersion.addEventListener("change", (e) => {
                 state.version = e.target.value;
                 localStorage.setItem("cantor-opt-version", e.target.value);
+                // Dynamically update recension badge
+                updateRecensionBadge();
                 if (state.selectedDate) {
                     resolveDate(state.selectedDate);
                 }
@@ -1838,6 +1871,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (state.selectedDate) {
                         resolveDate(state.selectedDate);
                     }
+                }
+            });
+        }
+
+        if (optIncludeCeremonial) {
+            optIncludeCeremonial.addEventListener("change", (e) => {
+                state.includeCeremonial = e.target.checked;
+                localStorage.setItem("cantor-opt-include-ceremonial", e.target.checked);
+                if (state.selectedDate) {
+                    resolveDate(state.selectedDate);
                 }
             });
         }
@@ -2282,7 +2325,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 paschalion: state.paschalion,
                 version: state.version,
                 templeFeast: state.templeFeast,
-                digestMode: state.digestMode
+                digestMode: state.digestMode,
+                includeCeremonial: state.includeCeremonial
             };
 
             localStorage.setItem("cantor-profiles", JSON.stringify(state.profiles));
@@ -2328,7 +2372,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 paschalion: "gregorian",
                 version: "stamford_2014",
                 templeFeast: "",
-                digestMode: "full"
+                digestMode: "full",
+                includeCeremonial: false
             };
 
             if (pName !== "default" && state.profiles[pName]) {
@@ -2340,12 +2385,14 @@ document.addEventListener("DOMContentLoaded", () => {
             state.version = config.version;
             state.templeFeast = config.templeFeast;
             state.digestMode = config.digestMode;
+            state.includeCeremonial = config.includeCeremonial === true;
 
             // Sync storage
             localStorage.setItem("cantor-opt-paschalion", config.paschalion);
             localStorage.setItem("cantor-opt-version", config.version);
             localStorage.setItem("cantor-opt-temple-feast", config.templeFeast);
             localStorage.setItem("cantor-opt-digest-mode", config.digestMode);
+            localStorage.setItem("cantor-opt-include-ceremonial", state.includeCeremonial);
 
             // Sync UI inputs
             const optPaschalionGreg = document.getElementById("opt-paschalion-gregorian");
@@ -2354,6 +2401,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const optTempleFeast = document.getElementById("opt-temple-feast");
             const optDigestFull = document.getElementById("opt-digest-full");
             const optDigestQuick = document.getElementById("opt-digest-quick");
+            const optIncludeCeremonial = document.getElementById("opt-include-ceremonial");
 
             if (optPaschalionGreg && optPaschalionJul) {
                 if (config.paschalion === "julian") optPaschalionJul.checked = true;
@@ -2365,6 +2413,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (config.digestMode === "quick") optDigestQuick.checked = true;
                 else optDigestFull.checked = true;
             }
+            if (optIncludeCeremonial) {
+                optIncludeCeremonial.checked = state.includeCeremonial;
+            }
+
+            // Update recension badge dynamically
+            updateRecensionBadge();
 
             // Trigger resolve Date if date picked
             if (state.selectedDate) {
