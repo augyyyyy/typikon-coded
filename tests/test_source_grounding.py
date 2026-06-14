@@ -75,3 +75,38 @@ class TestSourceGrounding:
                             
         assert not missing_decorators, f"STRICT MODE FAIL: The following functions lack the @liturgical_source decorator: {list(set(missing_decorators))}"
         assert not missing_ordo, f"STRICT MODE FAIL: The following physical/choreographic functions lack an Ordo Celebrationis citation: {list(set(missing_ordo))}"
+
+
+    def test_no_hardcoded_verses_in_formatter(self):
+        """
+        Verify that no hardcoded Elizabethan/arbitrary prokeimena verses exist in digest/formatters/common.py,
+        and that it relies on dynamic lookups from the Horologion assets instead.
+        """
+        import os
+        formatter_path = os.path.join("digest", "formatters", "common.py")
+        with open(formatter_path, "r", encoding="utf-8") as f:
+            content = f.read()
+            
+        # These legacy/Elizabethan strings should not be in the file anymore
+        banned_strings = [
+            "hath girded Himself",
+            "Holiness becometh Thy house",
+            "Hearken unto my soul",
+            "Thy salvation, O God, shall uphold me",
+            "Let the poor see and be glad",
+            "Thou hast made Thy power known",
+            "barbarous people",
+            "Thy wonders from the beginning"
+        ]
+        
+        found_banned = [s for s in banned_strings if s in content]
+        assert not found_banned, f"Audit Fail: Hardcoded legacy prokeimena verses found in {formatter_path}: {found_banned}"
+
+        # Check that psalm_116 and psalm_68 lookups are present
+        assert "horologion.psalm_116" in content, "Audit Fail: horologion.psalm_116 lookup is missing in common.py"
+        assert "horologion.psalm_68" in content, "Audit Fail: horologion.psalm_68 lookup is missing in common.py"
+
+        # Check that sessional formatter maps saint categories
+        assert "saint_categories" in content, "Audit Fail: saint_categories lookup is missing in sessional formatter"
+        assert "Venerable Woman" in content, "Audit Fail: Venerable Woman mapping is missing in sessional formatter"
+        assert "Venerable Mother" in content, "Audit Fail: Venerable Mother mapping is missing in sessional formatter"

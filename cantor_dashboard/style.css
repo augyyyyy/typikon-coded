@@ -285,16 +285,41 @@ html, body {
     display: flex;
     flex-direction: column;
     position: relative;
+    min-width: 0;
 }
 
-/* Tab Panels */
 .tab-panel {
     display: none;
     width: 100%;
     height: 100%;
     flex-direction: column;
     padding: 32px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.tab-panel::-webkit-scrollbar,
+.calendar-layout::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.tab-panel::-webkit-scrollbar-track,
+.calendar-layout::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+.tab-panel::-webkit-scrollbar-thumb,
+.calendar-layout::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+.tab-panel::-webkit-scrollbar-thumb:hover,
+.calendar-layout::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
 }
 
 .tab-panel.active {
@@ -470,6 +495,7 @@ input[type="date"]:focus, input[type="text"]:focus, select:focus {
     background: rgba(197, 160, 89, 0.15);
     color: var(--gold-accent);
     border: 1px solid rgba(197, 160, 89, 0.3);
+    white-space: nowrap;
 }
 
 .badge-category {
@@ -551,6 +577,11 @@ body.dark-theme .quick-btn {
     flex-grow: 1;
     min-height: 0;
     height: 0; /* Forces definite height chain for children percentage height resolution */
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 /* Draggable Resize Handles */
@@ -583,17 +614,13 @@ body.dark-theme .quick-btn {
 }
 
 .resize-handle-split {
-    display: none;
+    display: block;
     width: 16px;
     cursor: col-resize;
     background: transparent;
     position: relative;
     flex-shrink: 0;
     z-index: 10;
-}
-
-.document-card.split-layout-active .resize-handle-split {
-    display: block;
 }
 
 .resize-handle-split::before {
@@ -638,7 +665,7 @@ body.dragging-active {
 
 .document-col {
     flex-grow: 1;
-    min-width: 0; /* Prevents flex overflow */
+    min-width: 650px; /* Prevent document panel from shrinking below content wrapper min-width on desktop */
     height: 100%;
 }
 
@@ -965,7 +992,121 @@ body.dark-theme .digest-style code {
     margin: 14px 0;
 }
 
-/* ==========================================================================
+.digest-style em, .service-section-body em {
+    color: var(--rubric-color);
+    font-style: italic;
+}
+
+.digest-style strong, .service-section-body strong {
+    color: var(--rubric-color);
+    font-weight: 700;
+}
+
+/* Metadata Badges for Vestments & Fasting */
+.metadata-badge-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    margin-top: 4px;
+}
+
+.metadata-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: 1px solid transparent;
+}
+
+/* Vestment color theme */
+.metadata-badge.vestment {
+    background: rgba(197, 160, 89, 0.12);
+    color: var(--gold-accent);
+    border-color: rgba(197, 160, 89, 0.25);
+}
+
+body.dark-theme .metadata-badge.vestment {
+    background: rgba(197, 160, 89, 0.22);
+    color: #e5c185;
+    border-color: rgba(197, 160, 89, 0.4);
+}
+
+/* Fasting rule theme */
+.metadata-badge.fasting {
+    background: rgba(144, 0, 0, 0.08);
+    color: var(--rubric-color);
+    border-color: rgba(144, 0, 0, 0.18);
+}
+
+body.dark-theme .metadata-badge.fasting {
+    background: rgba(255, 92, 92, 0.12);
+    color: #ff8c8c;
+    border-color: rgba(255, 92, 92, 0.25);
+}
+
+/* Citations & Tooltips */
+.citation-sup {
+    color: var(--gold-accent);
+    font-weight: 600;
+    cursor: help;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    margin-left: 3px;
+    padding: 1px 3px;
+    border-radius: 3px;
+    background: rgba(197, 160, 89, 0.08);
+    transition: all 0.2s ease;
+}
+
+.citation-sup:hover {
+    color: var(--rubric-color);
+    background: rgba(144, 0, 0, 0.08);
+    text-decoration: underline;
+}
+
+body.dark-theme .citation-sup {
+    background: rgba(197, 160, 89, 0.15);
+}
+
+body.dark-theme .citation-sup:hover {
+    color: #ff8c8c;
+    background: rgba(255, 92, 92, 0.15);
+}
+
+/* Liturgical Text & Rubric Styling (Say the Black, Do the Red) */
+.rubric {
+    color: var(--rubric-color);
+    font-style: italic;
+    font-weight: 500;
+}
+
+.sung-text {
+    color: var(--text-primary);
+    font-family: "Georgia", "Cambria", "Times New Roman", Times, serif;
+    font-weight: 400;
+}
+
+/* Indented blockquotes for scripture/stichoi verses */
+.verse {
+    border-left: 2px dashed var(--gold-accent);
+    padding-left: 16px;
+    margin: 8px 0 8px 16px !important;
+    background: rgba(0, 0, 0, 0.015);
+    border-radius: 0 4px 4px 0;
+}
+
+body.dark-theme .verse {
+    background: rgba(255, 255, 255, 0.03);
+    border-left-color: var(--gold-accent);
+}
+
+/* ==========================================================================================
    TAB 2: LITURGICAL BOOK BROWSER
    ========================================================================== */
 .browser-layout {
@@ -1308,6 +1449,7 @@ body.dark-theme .linter-file-item.active {
     font-weight: 700;
     padding: 2px 8px;
     border-radius: 12px;
+    white-space: nowrap;
 }
 
 .linter-file-badge.has-errors {
@@ -1369,6 +1511,7 @@ body.dark-theme .linter-file-item.active {
     border-radius: 4px;
     background: var(--status-err-bg);
     color: var(--status-err-text);
+    white-space: nowrap;
 }
 
 .issue-description {
@@ -1429,7 +1572,27 @@ body.dark-theme .issue-ctx-box {
 /* ==========================================================================
    RESPONSIVE LAYOUT
    ========================================================================== */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
+    .calendar-layout {
+        flex-direction: column;
+        height: auto;
+        overflow-x: visible !important;
+    }
+    
+    .context-col {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+    }
+    
+    .document-col {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+    }
+    
     .calendar-layout, .browser-layout, .linter-layout {
         grid-template-columns: 1fr;
         height: auto;
@@ -1540,6 +1703,7 @@ body.dark-theme .issue-ctx-box {
         display: block !important;
         width: 100% !important;
         height: auto !important;
+        min-width: 0 !important;
     }
     
     .document-card {
@@ -1553,6 +1717,7 @@ body.dark-theme .issue-ctx-box {
     .document-content-wrapper {
         height: auto !important;
         overflow: visible !important;
+        min-width: 0 !important;
     }
     
     .doc-panel.active {
@@ -1847,6 +2012,7 @@ body.dark-theme .timeline-block {
     padding: 2px 6px;
     border-radius: 4px;
     align-self: center;
+    white-space: nowrap;
 }
 
 .forefeast .timeline-type-badge { background: rgba(0, 0, 0, 0.05); color: var(--text-secondary); }
@@ -1904,6 +2070,7 @@ body.dark-theme .forefeast .timeline-type-badge { background: rgba(255, 255, 255
     letter-spacing: 0.05em;
     padding: 2px 8px;
     border-radius: 12px;
+    white-space: nowrap;
 }
 
 .details-badge.forefeast { background: rgba(0, 0, 0, 0.05); color: var(--text-secondary); }
@@ -2224,61 +2391,174 @@ body.dev-mode-active div.roadmap-layout-grid.dev-element {
 /* ==========================================================================
    SPLIT VIEW LAYOUT & PARISH PROFILES
    ========================================================================== */
-.document-card.split-layout-active .document-content-wrapper {
+.document-card .document-content-wrapper {
     display: flex;
     flex-direction: row;
-    height: calc(100% - 53px);
+    height: 100%;
     overflow: hidden;
+    min-width: 650px;
 }
 
-.document-card.split-layout-active .doc-panel {
-    display: flex !important;
+/* Layout structures */
+.main-panel {
+    display: flex;
     flex-direction: column;
-    flex: 0 0 auto;
-    width: 50%;
-    max-width: 50%;
-    min-width: 0 !important;
-    height: 100% !important;
+    height: 100%;
     overflow: hidden;
+    min-width: 0;
+    flex: 0 0 auto;
 }
 
-.document-card.split-layout-active .document-view {
+.main-panel .doc-panel {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Collapsible Reference Panel */
+.reference-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    min-width: 0;
+    flex: 0 0 auto;
+    border-left: 1px solid var(--card-border);
+    background: var(--card-bg);
+}
+
+body.dark-theme .reference-panel {
+    background: var(--card-bg-dark, #1c1c1e);
+}
+
+.reference-panel.collapsed {
+    display: none !important;
+}
+
+.reference-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid var(--card-border);
+    height: 41px;
+    box-sizing: border-box;
+}
+
+body.dark-theme .reference-panel-header {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.reference-tabs {
+    display: flex;
+    gap: 6px;
+}
+
+.ref-tab-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted, #8e8e93);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+body.dark-theme .ref-tab-btn {
+    color: #a1a1a5;
+}
+
+.ref-tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.ref-tab-btn.active {
+    background: rgba(197, 160, 89, 0.1);
+    border-color: rgba(197, 160, 89, 0.3);
+    color: var(--gold-accent) !important;
+}
+
+.btn-close-reference {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+}
+
+.btn-close-reference:hover {
+    opacity: 1;
+}
+
+.reference-panel-content {
+    flex-grow: 1;
+    height: calc(100% - 41px);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.reference-panel-content .doc-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.reference-panel-content .doc-panel[style*="display: none"] {
+    display: none !important;
+}
+
+.reference-panel-content .doc-panel:not([style*="display: none"]) {
+    display: flex !important;
+}
+
+.reference-panel-content .document-view {
     padding: 16px 20px !important;
     font-size: 1.05rem !important;
 }
 
-.document-card.split-layout-active #doc-booklet {
-    border-right: none;
-}
-
-.document-card.split-layout-active .doc-tab-btn {
-    color: var(--rubric-color);
-    border-bottom: 2px solid var(--rubric-color);
-    background: var(--card-bg);
-    pointer-events: none;
-}
-
-body.dark-theme .document-card.split-layout-active .doc-tab-btn {
-    color: var(--gold-accent);
-    border-bottom-color: var(--gold-accent);
-}
-
-@media screen and (max-width: 992px) {
-    .document-card.split-layout-active .document-content-wrapper {
-        grid-template-columns: 1fr;
+@media screen and (max-width: 768px) {
+    .document-card .document-content-wrapper {
+        flex-direction: column !important;
         height: auto;
         overflow: visible;
+        min-width: 0 !important;
     }
-    .document-card.split-layout-active .doc-panel {
-        height: auto !important;
-        overflow: visible !important;
+    .main-panel {
         width: 100% !important;
         max-width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
         flex: 1 1 auto !important;
     }
-    .document-card.split-layout-active #doc-booklet {
-        border-right: none;
-        border-bottom: 1px solid var(--card-border);
+    .reference-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        flex: 1 1 auto !important;
+        border-left: none;
+        border-top: 1px solid var(--card-border);
     }
     .resize-handle-split {
         display: none !important;
@@ -2337,7 +2617,7 @@ body.dark-theme #btn-delete-profile {
     overflow-y: auto !important;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
     .tab-panel {
         overflow-y: auto !important;
     }
@@ -2352,6 +2632,7 @@ body.dark-theme #btn-delete-profile {
     border-radius: 4px;
     display: inline-block;
     letter-spacing: 0.03em;
+    white-space: nowrap;
 }
 .badge-season.season-lent {
     background: rgba(144, 0, 0, 0.15);
@@ -2406,6 +2687,12 @@ body.light-theme .badge-season.season-ordinary {
     padding: 3px 8px;
     border-radius: 4px;
     display: inline-block;
+    white-space: nowrap;
+}
+body.light-theme .badge-tone {
+    background: rgba(197, 160, 89, 0.1);
+    color: #856404;
+    border-color: rgba(197, 160, 89, 0.3);
 }
 
 .badge-eothinon {
@@ -2417,6 +2704,7 @@ body.light-theme .badge-season.season-ordinary {
     padding: 3px 8px;
     border-radius: 4px;
     display: inline-block;
+    white-space: nowrap;
 }
 body.light-theme .badge-eothinon {
     background: rgba(59, 130, 246, 0.08);
@@ -2431,6 +2719,7 @@ body.light-theme .badge-eothinon {
     padding: 3px 8px;
     border-radius: 4px;
     display: inline-block;
+    white-space: nowrap;
 }
 .badge-rank.rank-major {
     background: rgba(144, 0, 0, 0.15);
@@ -2463,6 +2752,7 @@ body.dark-theme .badge-rank.rank-minor {
     border-radius: 4px;
     display: inline-block;
     letter-spacing: 0.03em;
+    white-space: nowrap;
 }
 .badge-fast.fast-no_fast {
     background: rgba(16, 185, 129, 0.15);
@@ -2530,12 +2820,13 @@ body.light-theme .badge-fast.fast-xerophagy {
     border-radius: 4px;
     display: inline-block;
     letter-spacing: 0.03em;
+    white-space: nowrap;
 }
 .badge-color.color-red { background: rgba(239, 68, 68, 0.15); color: #ff5c5c; border: 1px solid rgba(239, 68, 68, 0.3); }
 body.light-theme .badge-color.color-red { background: rgba(220, 38, 38, 0.08); color: #dc2626; border-color: rgba(220, 38, 38, 0.2); }
 
 .badge-color.color-gold { background: rgba(197, 160, 89, 0.2); color: #e0be7e; border: 1px solid rgba(197, 160, 89, 0.4); }
-body.light-theme .badge-color.color-gold { background: rgba(197, 160, 89, 0.1); color: #b8860b; border-color: rgba(197, 160, 89, 0.3); }
+body.light-theme .badge-color.color-gold { background: rgba(197, 160, 89, 0.1); color: #856404; border-color: rgba(197, 160, 89, 0.3); }
 
 .badge-color.color-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
 body.light-theme .badge-color.color-blue { background: rgba(37, 99, 235, 0.08); color: #2563eb; border-color: rgba(37, 99, 235, 0.2); }

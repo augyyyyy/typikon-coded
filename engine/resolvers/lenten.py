@@ -8,6 +8,7 @@ import os
 import re
 from datetime import date, timedelta
 import copy
+from engine.utils.type_utils import parse_rank_integer
 
 
 class LentenMixin:
@@ -442,7 +443,7 @@ class LentenMixin:
         - Sunday/Feast in Lent: No prostrations
         """
         day_of_week = context.get("day_of_week", 0)
-        is_polyeleos = context.get("rank", 5) <= 3
+        is_polyeleos = parse_rank_integer(context.get("rank", 5)) <= 3
         week_of_lent = context.get("triodion_week", 1)
         
         result = {
@@ -629,7 +630,7 @@ class LentenMixin:
         - Feast day falling on a Presanctified day → Entrance with Gospel
         - Holy Week (specific days) → Entrance with Gospel
         """
-        rank = context.get("rank", 5)
+        rank = parse_rank_integer(context.get("rank", 5))
         triodion_week = context.get("triodion_week", 1)
         day_of_week = context.get("day_of_week", 3)
         feast_id = context.get("feast_id", None)
@@ -695,7 +696,7 @@ class LentenMixin:
         """
         triodion_week = context.get("triodion_week", 1)
         day_of_week = context.get("day_of_week", 3)
-        rank = context.get("rank", 5)
+        rank = parse_rank_integer(context.get("rank", 5))
         feast_id = context.get("feast_id", None)
         
         result = {
@@ -964,7 +965,10 @@ class LentenMixin:
         
         # Ensure rank is calculated
         rank = context.get("rank")
-        if rank is None: rank = self.calculate_rank(context)
+        if rank is None: 
+            rank = self.calculate_rank(context)
+        else:
+            rank = parse_rank_integer(rank)
         
         if rank <= 3: 
             return False 

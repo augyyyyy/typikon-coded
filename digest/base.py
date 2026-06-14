@@ -6,9 +6,10 @@ from datetime import datetime
 
 
 class DigestGeneratorBase:
-    def __init__(self, engine):
+    def __init__(self, engine, include_ceremonial=False):
         self.engine = engine
         self.mode = "full"
+        self.include_ceremonial = include_ceremonial
 
 
     def _roman_tone(self, tone):
@@ -165,26 +166,82 @@ class DigestGeneratorBase:
             
         # Extract the base part (after the last dot)
         parts = key.split('.')
+        
+        # Check if the key contains a fixed calendar date (e.g. jun_13 or jun_24)
+        date_match = re.search(r'\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)_(\d+)\b', key, re.IGNORECASE)
+        fixed_saint_name = None
+        is_exact_saint_id = False
+        if date_match and hasattr(self, 'engine') and getattr(self.engine, 'dolnytsky_fixed', None):
+            months_map = {
+                "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+                "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12
+            }
+            m_str = date_match.group(1).lower()
+            day_val = int(date_match.group(2))
+            month_val = months_map.get(m_str)
+            if month_val:
+                lookup_key = f"{month_val}-{day_val}"
+                day_entry = self.engine.dolnytsky_fixed.get(lookup_key)
+                if day_entry:
+                    entries = day_entry.get("entries", [])
+                    matched_entry = None
+                    matched_suffix = None
+                    if len(entries) > 1:
+                        # Find the entry that matches the key
+                        for entry in entries:
+                            ent_desc = entry.get("description", "")
+                            cleaned = re.sub(r'[^a-z0-9\s]', '', ent_desc.lower())
+                            words = cleaned.split()
+                            filt = [w for w in words if w not in ["apostles", "apostle", "holy", "saint", "saints", "venerable", "venerables", "hieromartyr", "martyr", "martyrs", "prophet", "and", "of", "the"]]
+                            if not filt:
+                                filt = words
+                            suffix = "_".join(filt)
+                            if suffix in key.lower():
+                                matched_entry = entry
+                                matched_suffix = suffix
+                                break
+                    if not matched_entry and entries:
+                        matched_entry = entries[0]
+                        ent_desc = matched_entry.get("description", "")
+                        cleaned = re.sub(r'[^a-z0-9\s]', '', ent_desc.lower())
+                        words = cleaned.split()
+                        filt = [w for w in words if w not in ["apostles", "apostle", "holy", "saint", "saints", "venerable", "venerables", "hieromartyr", "martyr", "martyrs", "prophet", "and", "of", "the"]]
+                        if not filt:
+                            filt = words
+                        matched_suffix = "_".join(filt)
+                        
+                    if matched_entry:
+                        raw_desc = matched_entry.get("description", "")
+                        fixed_saint_name = self._clean_name(raw_desc)
+                        # Check if this is the exact saint ID (the last part of key matches suffix)
+                        if parts and matched_suffix and parts[-1].lower() == matched_suffix.lower():
+                            is_exact_saint_id = True
+
         if len(parts) >= 2 and parts[-1].lower() in ("troparion", "kontakion", "stichera", "doxastikon", "theotokion", "exapostilarion", "glory"):
             category = parts[-1].lower()
             subject = parts[-2]
             
-            subject_map = {
-                "bartholomew_barnabas": "Apostles Bartholomew and Barnabas",
-                "eucharist": "the Feast",
-                "feast": "the Feast"
-            }
-            subject_human = subject_map.get(subject.lower())
+            subject_human = fixed_saint_name
             if not subject_human:
-                words = subject.replace('_', ' ').split()
-                capitalized_words = [w.capitalize() if w.lower() not in ('of', 'the', 'in', 'and', 'to', 'a', 'for', 'with', 'from', 'at') else w.lower() for w in words]
-                subject_human = " ".join(capitalized_words)
-                
+                subject_map = {
+                    "bartholomew_barnabas": "Apostles Bartholomew and Barnabas",
+                    "eucharist": "the Feast",
+                    "feast": "the Feast"
+                }
+                subject_human = subject_map.get(subject.lower())
+                if not subject_human:
+                    words = subject.replace('_', ' ').split()
+                    capitalized_words = [w.capitalize() if w.lower() not in ('of', 'the', 'in', 'and', 'to', 'a', 'for', 'with', 'from', 'at') else w.lower() for w in words]
+                    subject_human = " ".join(capitalized_words)
+                    
             if category == "theotokion":
                 return f"Theotokion of {subject_human}"
             if category == "glory":
                 return f"Doxastikon of {subject_human}"
             return f"{category.capitalize()} of {subject_human}"
+            
+        if is_exact_saint_id and fixed_saint_name:
+            return fixed_saint_name
             
         base = parts[-1] if parts else key
         
@@ -1266,7 +1323,7 @@ class DigestGeneratorBase:
                     if res.get("type") == "saint":
                         prok_res = self.engine.resolve_matins_prokeimenon(enriched, rubrics)
                         if prok_res:
-                            digest.append(f"Prokeimenon: {prok_res.get('text')} (Tone {self._roman_tone(prok_res.get('tone'))}).  ")
+                            digest.append(f"**Prokeimenon:**  \n> {prok_res.get('text')} (Tone {self._roman_tone(prok_res.get('tone'))}).  ")
                         digest.append(f"**Matins Gospel:** {res.get('title')}: {res.get('text')}.  ")
                     else:
                         eothinon_num = enriched.get("eothinon_number", 1)
@@ -1752,19 +1809,19 @@ class DigestGeneratorBase:
                                         tone_roman = self._roman_tone(tone)
                                         text = p.get("text") or p.get("content") or "The righteous shall rejoice in the Lord..."
                                         text_clean = text.strip('"').rstrip('.')
-                                        r_parts.append(f"**Prokeimenon:** Tone {tone_roman}: \"{text_clean}\"")
+                                        r_parts.append(f"**Prokeimenon:**  \n> Tone {tone_roman}: \"{text_clean}\"")
                                     e = r.get("epistle", {})
                                     if e:
                                         text = e.get("text") or e.get("content") or "Romans 7:14-8:2"
-                                        r_parts.append(f"**Epistle:** of the day ({text})")
+                                        r_parts.append(f"**Epistle:**  \n> of the day ({text})")
                                     a = r.get("alleluia", {})
                                     if a:
                                         tone = a.get("tone") or (p.get("tone") if p else None) or 4
-                                        r_parts.append(f"**Alleluia:** Tone {self._roman_tone(tone) if isinstance(tone, int) else tone}, with verses of the day.")
+                                        r_parts.append(f"**Alleluia:**  \n> Tone {self._roman_tone(tone) if isinstance(tone, int) else tone}, with verses of the day.")
                                     g = r.get("gospel", {})
                                     if g:
                                         text = g.get("text") or g.get("content") or "Matthew 10:9-15"
-                                        r_parts.append(f"**Gospel:** of the day ({text})")
+                                        r_parts.append(f"**Gospel:**  \n> of the day ({text})")
                                     
                                     # Communion hymn lookup
                                     c_text = "In everlasting remembrance shall the righteous be..."
@@ -1833,23 +1890,23 @@ class DigestGeneratorBase:
                                         label = "Prokeimenon"
                                     if text:
                                         text_clean = text.strip('"').rstrip('.')
-                                        digest.append(f"**{label}:**{tone_str}: \"{text_clean}\"".replace(" :", ":").replace("::", ":").strip())
+                                        p_body = f"{tone_str.strip()}: \"{text_clean}\"" if tone_str.strip() else f"\"{text_clean}\""
+                                        digest.append(f"**{label}:**  \n> {p_body}")
                                     else:
                                         ref_key = p.get("ref_key", "")
                                         val = get_ref_label_local(ref_key, "Prokeimenon")
-                                        if val == "*of the day*":
-                                            digest.append(f"**{label}:** {val}{tone_str}")
-                                        else:
-                                            digest.append(f"**{label}:** {val}{' (Tone ' + self._roman_tone(p.get('tone')) + ')' if p.get('tone') else ''}")
+                                        val_clean = val.strip('*')
+                                        p_body = f"{val_clean}{' (Tone ' + self._roman_tone(p.get('tone')) + ')' if p.get('tone') else ''}"
+                                        digest.append(f"**{label}:**  \n> {p_body}")
                                 elif slot_id == "liturgy_epistle" and "epistle" in r:
                                     e = r["epistle"]
                                     text = e.get("text") or e.get("content")
                                     if text:
-                                        digest.append(f"**Epistle:** {text}")
+                                        digest.append(f"**Epistle:**  \n> {text}")
                                     else:
                                         ref_key = e.get("ref_key", "")
                                         val = get_ref_label_local(ref_key, "Epistle")
-                                        digest.append(f"**Epistle:** {val}")
+                                        digest.append(f"**Epistle:**  \n> {val.strip('*')}")
                                 elif slot_id == "liturgy_alleluia" and "alleluia" in r:
                                     try:
                                         all_res = r["alleluia"]
@@ -1873,7 +1930,7 @@ class DigestGeneratorBase:
                                                 val = get_ref_label_local(ref_key, "Alleluia")
                                                 tone = all_res.get("tone")
                                                 tone_str = f" (Tone {self._roman_tone(tone)})" if tone else ""
-                                                digest.append(f"**Alleluia:** {val}{tone_str}")
+                                                digest.append(f"**Alleluia:**  \n> {val.strip('*')}{tone_str}")
                                             else:
                                                 formatted = self._format_resolve_liturgy_alleluia(all_res, enriched)
                                                 if formatted:
@@ -1884,11 +1941,11 @@ class DigestGeneratorBase:
                                     g = r["gospel"]
                                     text = g.get("text") or g.get("content")
                                     if text:
-                                        digest.append(f"**Gospel:** {text}")
+                                        digest.append(f"**Gospel:**  \n> {text}")
                                     else:
                                         ref_key = g.get("ref_key", "")
                                         val = get_ref_label_local(ref_key, "Gospel")
-                                        digest.append(f"**Gospel:** {val}")
+                                        digest.append(f"**Gospel:**  \n> {val.strip('*')}")
                     except Exception as e:
                         digest.append(f"[ERROR: Resolving liturgy readings failed - {e}]")
                 elif "kontakion" in str(slot_id):
@@ -2139,6 +2196,20 @@ class DigestGeneratorBase:
 
 
     def _format_logic_hook(self, func_name, args, context, rubrics, digest):
+        # Suppress ceremonial and choreographic rubrics in the Typikon Digest if not requested
+        include_ceremonial = getattr(self, "include_ceremonial", False) or context.get("include_ceremonial", False)
+        if not include_ceremonial and func_name in (
+            "resolve_censing_annotation",
+            "resolve_door_state",
+            "resolve_curtain_state",
+            "resolve_vestment_set",
+            "resolve_bow_type",
+            "resolve_hand_position",
+            "resolve_role_view",
+            "resolve_cantor_signal"
+        ):
+            return
+
         redirects = {
             "resolve_alleluia": "resolve_liturgy_alleluia",
             "resolve_megalynarion": "resolve_liturgy_megalynarion",

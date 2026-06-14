@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Profiles state
         profiles: JSON.parse(localStorage.getItem("cantor-profiles") || "{}"),
         activeProfile: localStorage.getItem("cantor-active-profile") || "default",
-        // Split view layout state
-        splitView: localStorage.getItem("cantor-opt-split-view") === "true",
+        // Collapsible reference panel state
+        referenceOpen: localStorage.getItem("cantor-reference-open") !== "false",
+        selectedRefTab: localStorage.getItem("cantor-selected-ref-tab") || "doc-digest",
+        parsedServices: null,
         // Roadmap state
         roadmapData: null,
         activeFeastDayIndex: null
@@ -53,6 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
         digestContent: document.getElementById("digest-content"),
         printBookletBtn: document.getElementById("print-booklet-btn"),
         copyBtns: document.querySelectorAll(".copy-btn"),
+        btnToggleReference: document.getElementById("btn-toggle-reference"),
+        btnCloseReference: document.getElementById("btn-close-reference"),
+        serviceDigestSelect: document.getElementById("service-digest-select"),
+        serviceDigestContent: document.getElementById("service-digest-content"),
         
         // Tab 2: Book Browser
         bookSelect: document.getElementById("book-select"),
@@ -205,9 +211,49 @@ document.addEventListener("DOMContentLoaded", () => {
                 copyTextToClipboard(state.currentBookletText, "Booklet text copied!");
             } else if (sourceId === "digest-content") {
                 copyTextToClipboard(state.currentDigestText, "Digest markdown copied!");
+            } else if (sourceId === "service-digest-content") {
+                const serviceSelect = document.getElementById("service-digest-select");
+                const selectedService = serviceSelect ? serviceSelect.value : "all";
+                if (selectedService === "all") {
+                    copyTextToClipboard(state.currentDigestText, "Full Digest copied!");
+                } else {
+                    let combinedText = "";
+                    let found = false;
+                    if (state.parsedServices) {
+                        if (state.parsedServices[selectedService]) {
+                            found = true;
+                            combinedText = state.parsedServices[selectedService];
+                        } else {
+                            Object.entries(state.parsedServices).forEach(([key, text]) => {
+                                const genericName = getGenericServiceName(key);
+                                let matches = false;
+                                if (genericName === selectedService ||
+                                    (selectedService === "Vespers" && genericName === "Vesperal Liturgy") ||
+                                    (selectedService === "Divine Liturgy" && genericName === "Vesperal Liturgy")) {
+                                    matches = true;
+                                }
+                                if (matches) {
+                                    found = true;
+                                    combinedText += `## ${key}\n\n${text}\n\n`;
+                                }
+                            });
+                        }
+                    }
+                    if (found) {
+                        copyTextToClipboard(combinedText.trim(), `${selectedService} text copied!`);
+                    } else {
+                        showToast(`No text found for ${selectedService}`);
+                    }
+                }
             }
         });
     });
+
+    if (el.serviceDigestSelect) {
+        el.serviceDigestSelect.addEventListener("change", () => {
+            renderServiceDigestContent();
+        });
+    }
 
     // Print booklet view
     el.printBookletBtn.addEventListener("click", () => {
@@ -256,6 +302,11 @@ document.addEventListener("DOMContentLoaded", () => {
             renderBookletHtml(data.booklet);
             renderDigestHtml(data.digest);
             
+            state.parsedServices = parseServiceDigest(data.digest);
+            renderServiceDigestDropdown();
+            renderServiceDigestContent();
+            updateReferenceLayout();
+            
         } catch (err) {
             console.error("Error resolving date: ", err);
             renderErrorState(err.message, err.stack);
@@ -276,6 +327,11 @@ document.addEventListener("DOMContentLoaded", () => {
             `<div class="trace-line warn">Failed to communicate with local Typikon backend engine. Make sure python server is running on port 8080.</div>`;
         el.bookletContent.innerHTML = '<p class="placeholder-text" style="color: var(--rubric-color);">Propers could not be resolved due to engine error.</p>';
         el.digestContent.innerHTML = '<p class="placeholder-text" style="color: var(--rubric-color);">Typikon digest generation failed.</p>';
+        if (el.serviceDigestContent) {
+            el.serviceDigestContent.innerHTML = '<p class="placeholder-text" style="color: var(--rubric-color);">Service digest generation failed.</p>';
+        }
+        state.parsedServices = null;
+        renderServiceDigestDropdown();
     }
 
     function formatHumanDate(dateStr) {
@@ -948,10 +1004,235 @@ document.addEventListener("DOMContentLoaded", () => {
         el.digestContent.scrollTop = 0;
     }
 
+    function parseServiceDigest(digestText) {
+        const services = {};
+        if (!digestText) return services;
+        
+        const lines = digestText.split("\n");
+        let currentService = "General Info";
+        services[currentService] = [];
+        
+        for (let line of lines) {
+            const match = line.match(/^##\s*(.*?)$/);
+            if (match) {
+                currentService = match[1].trim();
+                services[currentService] = [];
+            } else {
+                services[currentService].push(line);
+            }
+        }
+        
+        // Clean up empty lines
+        for (let key in services) {
+            let arr = services[key];
+            while (arr.length > 0 && arr[0].trim() === "") {
+                arr.shift();
+            }
+            while (arr.length > 0 && arr[arr.length - 1].trim() === "") {
+                arr.pop();
+            }
+            if (arr.length === 0) {
+                delete services[key];
+            } else {
+                services[key] = arr.join("\n");
+            }
+        }
+        
+        return services;
+    }
+
+    function getGenericServiceName(title) {
+        const t = title.toUpperCase();
+        if (t.includes("VESPERAL LITURGY")) return "Vesperal Liturgy";
+        if (t.includes("VESPERS") || t.includes("VESPERAL")) return "Vespers";
+        if (t.includes("COMPLINE")) return "Compline";
+        if (t.includes("MIDNIGHT")) return "Midnight Office";
+        if (t.includes("MATINS")) return "Matins";
+        if (t.includes("FIRST HOUR")) return "First Hour";
+        if (t.includes("THIRD HOUR")) return "Third Hour";
+        if (t.includes("SIXTH HOUR")) return "Sixth Hour";
+        if (t.includes("NINTH HOUR")) return "Ninth Hour";
+        if (t.includes("HOURS")) return "Hours";
+        if (t.includes("LITURGY")) return "Divine Liturgy";
+        return title;
+    }
+
+    function getServiceOrderWeight(title) {
+        const generic = getGenericServiceName(title);
+        const order = [
+            "General Info",
+            "Vespers",
+            "Vesperal Liturgy",
+            "Compline",
+            "Midnight Office",
+            "Matins",
+            "First Hour",
+            "Third Hour",
+            "Sixth Hour",
+            "Ninth Hour",
+            "Hours",
+            "Divine Liturgy"
+        ];
+        const index = order.indexOf(generic);
+        return index !== -1 ? index : 99;
+    }
+
+    function renderServiceDigestDropdown() {
+        // Dropdown options are statically defined in index.html to preserve selection.
+        if (!el.serviceDigestSelect) return;
+        if (!el.serviceDigestSelect.value) {
+            el.serviceDigestSelect.value = "all";
+        }
+    }
+
+    function extractMetadata(text) {
+        if (!text) return { cleanText: "", vestment: null, fasting: null };
+        let cleanText = text;
+        let vestment = null;
+        let fasting = null;
+
+        // Extract Vestment color
+        const vestmentRegex = /^(?:-|\*|\*\*|\s)*Vestment colou?r:\s*(.*?)(?:\r?\n|$)/mi;
+        const vestmentMatch = cleanText.match(vestmentRegex);
+        if (vestmentMatch) {
+            vestment = vestmentMatch[1].trim();
+            cleanText = cleanText.replace(vestmentRegex, "").trim();
+        }
+
+        // Extract Fasting rule
+        const fastingRegex = /^(?:-|\*|\*\*|\s)*Fasting (?:Rule)?:\s*(.*?)(?:\r?\n|$)/mi;
+        const fastingMatch = cleanText.match(fastingRegex);
+        if (fastingMatch) {
+            fasting = fastingMatch[1].trim();
+            cleanText = cleanText.replace(fastingRegex, "").trim();
+        }
+
+        return { cleanText, vestment, fasting };
+    }
+
+    function renderServiceDigestContent() {
+        if (!el.serviceDigestSelect || !el.serviceDigestContent) return;
+        
+        const selected = el.serviceDigestSelect.value;
+        
+        if (selected === "all") {
+            if (!state.parsedServices || Object.keys(state.parsedServices).length === 0) {
+                el.serviceDigestContent.innerHTML = '<p class="placeholder-text">No service rubrics found.</p>';
+                return;
+            }
+            
+            let html = "";
+            Object.entries(state.parsedServices).forEach(([serviceName, text]) => {
+                const { cleanText, vestment, fasting } = extractMetadata(text);
+                let badgesHtml = "";
+                if (vestment || fasting) {
+                    badgesHtml = `<div class="metadata-badge-container">`;
+                    if (vestment) {
+                        badgesHtml += `<span class="metadata-badge vestment">Vestment: ${vestment}</span>`;
+                    }
+                    if (fasting) {
+                        badgesHtml += `<span class="metadata-badge fasting">Fasting: ${fasting}</span>`;
+                    }
+                    badgesHtml += `</div>`;
+                }
+                html += `
+                    <div class="service-digest-section glass-container" style="margin-bottom: 24px; padding: 20px; border-radius: 8px;">
+                        <h4 class="service-section-title" style="font-family: var(--font-heading); color: var(--gold-accent); border-bottom: 1px solid var(--card-border); padding-bottom: 8px; margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">${serviceName}</h4>
+                        ${badgesHtml}
+                        <div class="service-section-body">${formatMarkdownHtml(cleanText)}</div>
+                    </div>
+                `;
+            });
+            el.serviceDigestContent.innerHTML = html;
+        } else {
+            let html = "";
+            let found = false;
+            
+            if (state.parsedServices) {
+                // First check if there is an exact key match (e.g. "General Info")
+                if (state.parsedServices[selected]) {
+                    found = true;
+                    const { cleanText, vestment, fasting } = extractMetadata(state.parsedServices[selected]);
+                    let badgesHtml = "";
+                    if (vestment || fasting) {
+                        badgesHtml = `<div class="metadata-badge-container">`;
+                        if (vestment) {
+                            badgesHtml += `<span class="metadata-badge vestment">Vestment: ${vestment}</span>`;
+                        }
+                        if (fasting) {
+                            badgesHtml += `<span class="metadata-badge fasting">Fasting: ${fasting}</span>`;
+                        }
+                        badgesHtml += `</div>`;
+                    }
+                    html += `
+                        <div class="service-digest-section glass-container" style="margin-bottom: 24px; padding: 20px; border-radius: 8px;">
+                            <h4 class="service-section-title" style="font-family: var(--font-heading); color: var(--gold-accent); border-bottom: 1px solid var(--card-border); padding-bottom: 8px; margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">${selected}</h4>
+                            ${badgesHtml}
+                            <div class="service-section-body">${formatMarkdownHtml(cleanText)}</div>
+                        </div>
+                    `;
+                } else {
+                    // Iterate and match based on generic name mapping
+                    Object.entries(state.parsedServices).forEach(([serviceName, text]) => {
+                        const genericName = getGenericServiceName(serviceName);
+                        let matches = false;
+                        
+                        if (genericName === selected) {
+                            matches = true;
+                        } else if (selected === "Vespers" && genericName === "Vesperal Liturgy") {
+                            matches = true;
+                        } else if (selected === "Divine Liturgy" && genericName === "Vesperal Liturgy") {
+                            matches = true;
+                        }
+                        
+                        if (matches) {
+                            found = true;
+                            const { cleanText, vestment, fasting } = extractMetadata(text);
+                            let badgesHtml = "";
+                            if (vestment || fasting) {
+                                badgesHtml = `<div class="metadata-badge-container">`;
+                                if (vestment) {
+                                    badgesHtml += `<span class="metadata-badge vestment">Vestment: ${vestment}</span>`;
+                                }
+                                if (fasting) {
+                                    badgesHtml += `<span class="metadata-badge fasting">Fasting: ${fasting}</span>`;
+                                }
+                                badgesHtml += `</div>`;
+                            }
+                            html += `
+                                <div class="service-digest-section glass-container" style="margin-bottom: 24px; padding: 20px; border-radius: 8px;">
+                                    <h4 class="service-section-title" style="font-family: var(--font-heading); color: var(--gold-accent); border-bottom: 1px solid var(--card-border); padding-bottom: 8px; margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">${serviceName}</h4>
+                                    ${badgesHtml}
+                                    <div class="service-section-body">${formatMarkdownHtml(cleanText)}</div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+            }
+            
+            if (!found) {
+                el.serviceDigestContent.innerHTML = `<p class="placeholder-text" style="font-family: var(--font-heading); color: var(--text-secondary); text-align: center; margin-top: 40px; font-size: 1.1rem;">${selected} is not served on this day.</p>`;
+                return;
+            }
+            
+            el.serviceDigestContent.innerHTML = html;
+        }
+        el.serviceDigestContent.scrollTop = 0;
+    }
+
     // Markdown-to-HTML parser for Typikon Digest
     function formatMarkdownHtml(mdText) {
         let html = escapeHtml(mdText);
         
+        // Restore approved liturgical styling HTML tags after escaping
+        html = html.replace(/&lt;span class=&quot;rubric&quot;&gt;(.*?)&lt;\/span&gt;/gi, '<span class="rubric">$1</span>');
+        html = html.replace(/&lt;span class=&quot;sung-text&quot;&gt;(.*?)&lt;\/span&gt;/gi, '<span class="sung-text">$1</span>');
+        html = html.replace(/&lt;blockquote class=&quot;verse&quot;&gt;(.*?)&lt;\/blockquote&gt;/gi, '<blockquote class="verse">$1</blockquote>');
+        
+        // Parse citations like [Dolnytsky §12] into superscript elements
+        html = html.replace(/\[([^\]]*?(?:Dolnytsky|Ordo|Typikon|Rubric|Note|Rule|§)[^\]]*?)\]/gi, '<sup class="citation-sup" title="Source Authority: $1">$1</sup>');
+
         // Parse GitHub-style alert blocks before other markdown replacements
         html = html.replace(/&gt;\s*\[!NOTE\]\r?\n&gt;\s*\*\*Rubric\*\*:\s*(.*?)(?=\r?\n|$)/g, '<div class="markdown-alert"><div class="markdown-alert-title">✦ Note</div><p><strong>Rubric</strong>: $1</p></div>');
         
@@ -1053,8 +1334,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Run resolution on load
     initSettings();
     initProfiles();
-    initSplitView();
-    initDraggableColumns();
+    initReferencePanel();
+    initReferenceResize();
     resolveDate(state.selectedDate);
 
     /* ==========================================================================
@@ -1772,72 +2053,104 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ==========================================================================
-       SPLIT VIEW LAYOUT SYSTEM
+       IDE-STYLE REFERENCE PANEL LAYOUT SYSTEM
        ========================================================================== */
-    function applySplitViewWidths() {
-        const docBooklet = document.getElementById("doc-booklet");
-        const docDigest = document.getElementById("doc-digest");
-        const docCard = document.querySelector(".document-card");
+    function updateReferenceLayout() {
+        const mainPanel = document.getElementById("main-document-panel");
+        const refPanel = document.getElementById("reference-panel");
+        const refResize = document.getElementById("reference-resize");
+        const btnToggleRef = document.getElementById("btn-toggle-reference");
 
-        if (!docBooklet || !docDigest || !docCard) return;
+        if (!mainPanel || !refPanel || !refResize || !btnToggleRef) return;
 
-        if (docCard.classList.contains("split-layout-active")) {
-            const savedSplitPercent = localStorage.getItem("cantor-split-percent") || "50";
-            const percent = parseFloat(savedSplitPercent);
-            docBooklet.style.width = percent + "%";
-            docBooklet.style.maxWidth = percent + "%";
-            docDigest.style.width = (100 - percent) + "%";
-            docDigest.style.maxWidth = (100 - percent) + "%";
-        } else {
-            docBooklet.style.width = "";
-            docBooklet.style.maxWidth = "";
-            docDigest.style.width = "";
-            docDigest.style.maxWidth = "";
-        }
-    }
+        const isOpen = state.referenceOpen;
+        localStorage.setItem("cantor-reference-open", isOpen);
 
-    function initSplitView() {
-        const btnToggleLayout = document.getElementById("btn-toggle-layout");
-        const docCard = document.querySelector(".document-card");
+        if (isOpen) {
+            refPanel.classList.remove("collapsed");
+            refResize.style.display = "block";
+            btnToggleRef.innerHTML = "📖 Hide Reference Panel";
+            btnToggleRef.classList.remove("btn-primary");
+            btnToggleRef.classList.add("btn-secondary");
 
-        if (!btnToggleLayout || !docCard) return;
-
-        // Apply initial state
-        if (state.splitView) {
-            docCard.classList.add("split-layout-active");
-            btnToggleLayout.innerHTML = "📖 Tabbed View";
-        } else {
-            docCard.classList.remove("split-layout-active");
-            btnToggleLayout.innerHTML = "📖 Split View";
-        }
-
-        applySplitViewWidths();
-
-        btnToggleLayout.addEventListener("click", () => {
-            state.splitView = !state.splitView;
-            localStorage.setItem("cantor-opt-split-view", state.splitView);
+            // Restore width percentage
+            const savedPercent = localStorage.getItem("cantor-reference-percent") || "40";
+            const percent = parseFloat(savedPercent);
             
-            if (state.splitView) {
-                docCard.classList.add("split-layout-active");
-                btnToggleLayout.innerHTML = "📖 Tabbed View";
-                showToast("Split view enabled (Booklet & Digest side-by-side)");
-            } else {
-                docCard.classList.remove("split-layout-active");
-                btnToggleLayout.innerHTML = "📖 Split View";
-                showToast("Tabbed view enabled");
-            }
-            applySplitViewWidths();
-        });
+            mainPanel.style.width = (100 - percent) + "%";
+            mainPanel.style.maxWidth = (100 - percent) + "%";
+            refPanel.style.width = percent + "%";
+            refPanel.style.maxWidth = percent + "%";
+        } else {
+            refPanel.classList.add("collapsed");
+            refResize.style.display = "none";
+            btnToggleRef.innerHTML = "📖 Show Reference Panel";
+            btnToggleRef.classList.remove("btn-secondary");
+            btnToggleRef.classList.add("btn-primary");
+
+            mainPanel.style.width = "100%";
+            mainPanel.style.maxWidth = "100%";
+        }
     }
 
-    function initDraggableColumns() {
+    function initReferencePanel() {
+        const btnToggleRef = document.getElementById("btn-toggle-reference");
+        const btnCloseRef = document.getElementById("btn-close-reference");
+        const refTabs = document.querySelectorAll(".ref-tab-btn");
+
+        if (btnToggleRef) {
+            btnToggleRef.addEventListener("click", () => {
+                state.referenceOpen = !state.referenceOpen;
+                updateReferenceLayout();
+            });
+        }
+
+        if (btnCloseRef) {
+            btnCloseRef.addEventListener("click", () => {
+                state.referenceOpen = false;
+                updateReferenceLayout();
+            });
+        }
+
+        // Set up tab switching in the reference panel
+        refTabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                const targetId = tab.getAttribute("data-ref-target");
+                
+                // Update tabs active state
+                refTabs.forEach(t => t.classList.remove("active"));
+                tab.classList.add("active");
+
+                // Toggle visibility of panels inside the reference panel
+                const docDigest = document.getElementById("doc-digest");
+                const docServiceDigest = document.getElementById("doc-service-digest");
+
+                if (docDigest) docDigest.style.display = targetId === "doc-digest" ? "flex" : "none";
+                if (docServiceDigest) docServiceDigest.style.display = targetId === "doc-service-digest" ? "flex" : "none";
+
+                // Save selection
+                state.selectedRefTab = targetId;
+                localStorage.setItem("cantor-selected-ref-tab", targetId);
+            });
+        });
+
+        // Initialize active tab from state
+        const activeTabBtn = Array.from(refTabs).find(tab => tab.getAttribute("data-ref-target") === state.selectedRefTab);
+        if (activeTabBtn) {
+            activeTabBtn.click();
+        }
+
+        updateReferenceLayout();
+    }
+
+    function initReferenceResize() {
         const sidebarResize = document.getElementById("main-sidebar-resize");
         const contextCol = document.querySelector(".context-col");
 
-        const splitResize = document.getElementById("split-view-resize");
-        const docBooklet = document.getElementById("doc-booklet");
-        const docDigest = document.getElementById("doc-digest");
+        const refResize = document.getElementById("reference-resize");
         const contentWrapper = document.querySelector(".document-content-wrapper");
+        const mainPanel = document.getElementById("main-document-panel");
+        const refPanel = document.getElementById("reference-panel");
 
         if (!sidebarResize || !contextCol) return;
 
@@ -1885,38 +2198,43 @@ document.addEventListener("DOMContentLoaded", () => {
             document.addEventListener("mouseup", onMouseUp);
         });
 
-        // Split view dragging
-        if (splitResize && docBooklet && docDigest && contentWrapper) {
-            splitResize.addEventListener("mousedown", (e) => {
+        // Reference panel dragging
+        if (refResize && contentWrapper && mainPanel && refPanel) {
+            refResize.addEventListener("mousedown", (e) => {
+                if (!state.referenceOpen) return;
+
                 e.preventDefault();
                 document.body.classList.add("dragging-active");
-                splitResize.classList.add("dragging");
+                refResize.classList.add("dragging");
 
                 const startX = e.clientX;
                 const containerWidth = contentWrapper.getBoundingClientRect().width;
-                const startBookletWidth = docBooklet.getBoundingClientRect().width;
+                const startMainWidth = mainPanel.getBoundingClientRect().width;
 
                 function onMouseMove(moveEvent) {
                     const deltaX = moveEvent.clientX - startX;
-                    const newBookletWidth = startBookletWidth + deltaX;
+                    const newMainWidth = startMainWidth + deltaX;
                     
-                    let percent = (newBookletWidth / containerWidth) * 100;
+                    let mainPercent = (newMainWidth / containerWidth) * 100;
                     
-                    if (percent < 20) percent = 20;
-                    if (percent > 80) percent = 80;
+                    // Constrain reference panel width between 20% and 50% (main panel between 50% and 80%)
+                    if (mainPercent < 50) mainPercent = 50;
+                    if (mainPercent > 80) mainPercent = 80;
 
-                    docBooklet.style.width = percent + "%";
-                    docBooklet.style.maxWidth = percent + "%";
-                    docDigest.style.width = (100 - percent) + "%";
-                    docDigest.style.maxWidth = (100 - percent) + "%";
+                    const refPercent = 100 - mainPercent;
+
+                    mainPanel.style.width = mainPercent + "%";
+                    mainPanel.style.maxWidth = mainPercent + "%";
+                    refPanel.style.width = refPercent + "%";
+                    refPanel.style.maxWidth = refPercent + "%";
                 }
 
                 function onMouseUp() {
                     document.body.classList.remove("dragging-active");
-                    splitResize.classList.remove("dragging");
+                    refResize.classList.remove("dragging");
 
-                    const finalPercent = (docBooklet.getBoundingClientRect().width / contentWrapper.getBoundingClientRect().width) * 100;
-                    localStorage.setItem("cantor-split-percent", finalPercent.toFixed(2));
+                    const finalRefPercent = (refPanel.getBoundingClientRect().width / contentWrapper.getBoundingClientRect().width) * 100;
+                    localStorage.setItem("cantor-reference-percent", finalRefPercent.toFixed(2));
 
                     document.removeEventListener("mousemove", onMouseMove);
                     document.removeEventListener("mouseup", onMouseUp);

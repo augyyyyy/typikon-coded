@@ -196,6 +196,10 @@ class CeremonialMixin:
             return {"color": "blue", "alt": "light_blue",
                     "citation": "Dolnytsky I — Theotokos feast, blue"}
         
+        # 9. Sunday default: gold
+        if day_of_week == 0:
+            return {"color": "gold", "citation": "Sunday — gold vestments"}
+        
         # 7. Martyrs: red
         if any(w in full_text for w in ["martyr", "мученик"]):
             return {"color": "red", "citation": "Martyrs — red vestments"}
@@ -204,10 +208,6 @@ class CeremonialMixin:
         if any(w in full_text for w in ["hierarch", "venerable", "confessor",
                                         "unmercenary", "святитель"]):
             return {"color": "gold", "citation": "Hierarchs/Venerables — gold"}
-        
-        # 9. Sunday default: gold
-        if day_of_week == 0:
-            return {"color": "gold", "citation": "Sunday — gold vestments"}
         
         # 10. Default weekday: green
         return {"color": "green", "citation": "Default weekday — green"}

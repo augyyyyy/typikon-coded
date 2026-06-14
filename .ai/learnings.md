@@ -484,3 +484,58 @@ When switching models:
 
 5. **Weekday Stichera Splits**:
    - Weekday stichera at Vespers defaults to 6: split is 3 Octoechos (tone) + 3 saint (Menaion) for daily/simple saints, whereas Six-Stichera (`[6 SM]`) or Great Doxology (`[GT DOX]`) saints scale to 6 saint stichera, suppressing the Octoechos.
+
+---
+
+## XXIV. Jumbled Commemorations & Heuristic Auditing Gates (2026-06-14)
+
+1. **Jumbled Commemorations Remediation**:
+   - Multiple separate commemorations sharing a single rank tag in the raw calendar source must never be merged into a single description in [calendar_dolnytsky.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/calendar_dolnytsky.json). Doing so creates "super person" saints (e.g., December 4 St. Barbara & St. John of Damascus) and causes logic failures.
+   - Programmatically split these combined strings on semicolons `;` or manual exceptions into separate dict items within the `entries` array. This triggers correct canon, troparia, and kontakia stacking inside the logic engine.
+
+2. **365-Day Heuristic Auditing**:
+   - To prevent "under-testing", we established [test_all_days_compliance.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/tests/test_all_days_compliance.py) in the core `pytest` suite.
+   - This test sweeps all 365 days of the year, running local heuristics to assert that no raw keys, Python lists/dicts, fallback strings (like "Saints 2"), double prefixes, or `[ERROR:` logs leak into any user-facing generated digests.
+   - Using this audit, we caught and fixed a silent type-mismatch error (crashes when checking string-based ranks vs integers) in `engine/resolvers/lenten.py` during Lenten Presanctified days (Feb 24, Mar 9, Mar 25, Apr 1). All 365 days of 2026 now pass cleanly.
+
+---
+
+## XXV. IDE-style Reference Panel Layout & UI Standards (2026-06-14)
+
+1. **Focused Primary Workspace (Option 2)**:
+   - Implemented a collapsible, resizable right-side reference drawer for auxiliary documents (**Typikon Digest** and **Service Digest**), keeping the **Cantor Service Booklet** as the primary full-width viewport.
+   - This layout mirrors an IDE workspace, allocating maximum horizontal space for reading the booklet while keeping rubrics docked in a collapsible sidebar.
+   
+2. **DOM Preservation vs. InnerHTML Clearing**:
+   - Discovered that using `parent.innerHTML = ""` to clear container layouts when child nodes (panels) are currently inside them deletes their entire subtrees and event handlers, resulting in empty panels on subsequent appends due to garbage collection.
+   - Fixed by appending panels back to their parent `.document-content-wrapper` (where CSS hides them via `display: none !important`) *before* clearing the split containers. This keeps their DOM trees intact.
+
+3. **Canonical Ordering & Service Names Normalization**:
+   - The Select Service dropdown inside the Service Digest now maps specific header keys (like `GREAT VESPERS` or `DIVINE LITURGY OF ST. JOHN CHRYSOSTOM`) to clean, generic names (`Vespers`, `Divine Liturgy`) via `getGenericServiceName()`.
+   - The dropdown options are canonically ordered (`getServiceOrderWeight()`) matching the Byzantine daily cycle (Vespers, Compline, Midnight Office, Matins, Hours, Liturgy).
+
+4. **Horizontal Scrolling & Min-Width Constraints**:
+   - Set a `min-width: 650px` on `.document-content-wrapper` and `overflow-x: auto` on `.tab-panel` to ensure readable panel proportions on narrow viewports, displaying themed scrollbars rather than clipping columns.
+
+---
+
+## XXVI. Service Digest Formatting, Citations, and Prokeimena Perfecting (2026-06-14)
+
+1. **Say the Black, Do the Red CSS rules**:
+   - Mapped `em` (italics) and `strong` (bold) styles inside the `.digest-style` and `.service-section-body` classes to display using `var(--rubric-color)`. In light mode, this resolves to a liturgical deep burgundy (`#900000`), and in dark mode to bright red (`#ff5c5c`). This cleanly splits liturgical instruction from chant text.
+2. **Gold Accent Blockquotes**:
+   - Structured scripture readings and hymnal verses (prokeimena, epistles, gospels, communion hymns) inside Markdown blockquotes (`>`) in the backend formatters.
+   - Frontend styling renders these blockquotes with `border-left: 3px solid var(--rubric-color)`, padding, and italic font.
+3. **Pill Badges Extraction**:
+   - Implemented `extractMetadata(text)` in `cantor_dashboard/main.js` to scan for `Vestment colour:` or `Fasting Rule:`, extract the values, remove the text rows from the body to avoid double-printing, and render them as styled tags right below service headers.
+4. **Tooltipped Citations**:
+   - Formatted bracketed authority tags (e.g. `[Dolnytsky §12]`, `[Ordo §20]`) into inline `<sup class="citation-sup" title="...">...</sup>` tags with red-gold hover highlights and canonical explanation tooltips.
+5. **Prokeimena Dynamic Sourcing**:
+   - Refactored `_format_resolve_prokeimenon` in `digest/formatters/common.py` to retrieve Saturday evening, daily, and Lenten Sunday great prokeimena dynamically from Horologion JSON assets (`horologion.psalm_116` / `10cb16e9.json` and `horologion.psalm_68` / `01f928f8.json`) instead of hardcoding.
+   - Standardized Lenten Sunday Great Prokeimena translations to the official Stamford non-Elizabethan UGCC translations.
+   - Added automated linter test `test_no_hardcoded_verses_in_formatter` in `tests/test_source_grounding.py` to assert that no raw strings regress in the formatter.
+6. **Gendered Saint Sessional Prefixes**:
+   - Refactored `_format_resolve_sessional` in `digest/formatters/common.py` to inspect active saint categories and map names to standardized UGCC gendered, monastic prefixes (e.g., "Venerable Father", "Holy Hieromartyr", "Venerable Mother", "Holy Apostle") instead of defaulting to generic "Saint".
+7. **Ceremonial Pruning**:
+   - Added an `include_ceremonial` flag (defaulting to `False`) to the digest generator. When `False`, sanctuary-only instructions (closed/open doors, bows, deacon positions, censings) are suppressed to focus the cantor digest purely on chanted text.
+

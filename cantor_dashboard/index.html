@@ -145,35 +145,63 @@
                     <!-- Column 2: Documents (Booklet & Digest) -->
                     <div class="layout-column document-col">
                         <div class="card glass-container document-card">
-                            <div class="document-tabs" id="document-tabs-bar">
-                                <button class="doc-tab-btn active" id="btn-tab-booklet" data-doc-target="doc-booklet">Cantor Service Booklet</button>
-                                <button class="doc-tab-btn" id="btn-tab-digest" data-doc-target="doc-digest">Typikon Digest</button>
-                                <button class="btn btn-secondary btn-sm" id="btn-toggle-layout" style="flex-grow: 0; border: none; background: transparent; border-left: 1px solid var(--card-border); border-radius: 0; font-size: 0.8rem; padding: 16px 20px; font-family: var(--font-heading); color: var(--gold-accent); cursor: pointer; transition: all 0.2s ease;">
-                                    📖 Toggle Split View
-                                </button>
-                            </div>
-                            
                             <div class="document-content-wrapper">
-                                <!-- Booklet View -->
-                                <div class="doc-panel active" id="doc-booklet">
-                                    <div class="doc-controls">
-                                        <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="booklet-content">📋 Copy Booklet Text</button>
-                                        <button class="btn btn-secondary btn-sm print-btn" id="print-booklet-btn">🖨️ Print View</button>
-                                    </div>
-                                    <div id="booklet-content" class="document-view book-style scrollable">
-                                        <p class="placeholder-text">Propers and service texts will load here...</p>
+                                <!-- Main Panel: Cantor Service Booklet (always visible) -->
+                                <div class="main-panel" id="main-document-panel">
+                                    <div class="doc-panel active" id="doc-booklet">
+                                        <div class="doc-controls">
+                                            <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="booklet-content">📋 Copy Booklet Text</button>
+                                            <button class="btn btn-secondary btn-sm print-btn" id="print-booklet-btn">🖨️ Print View</button>
+                                            <button class="btn btn-primary btn-sm" id="btn-toggle-reference" style="margin-left: auto;">📖 Show Reference Panel</button>
+                                        </div>
+                                        <div id="booklet-content" class="document-view book-style scrollable">
+                                            <p class="placeholder-text">Propers and service texts will load here...</p>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="resize-handle-split" id="split-view-resize"></div>
+                                <div class="resize-handle-split" id="reference-resize"></div>
 
-                                <!-- Digest View -->
-                                <div class="doc-panel" id="doc-digest">
-                                    <div class="doc-controls">
-                                        <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="digest-content">📋 Copy Digest Markdown</button>
+                                <!-- Collapsible Reference Panel (holds Typikon Digest and Service Digest) -->
+                                <div class="reference-panel" id="reference-panel">
+                                    <div class="reference-panel-header">
+                                        <div class="reference-tabs">
+                                            <button class="ref-tab-btn active" id="btn-ref-tab-digest" data-ref-target="doc-digest">Typikon Digest</button>
+                                            <button class="ref-tab-btn" id="btn-ref-tab-service-digest" data-ref-target="doc-service-digest">Service Digest</button>
+                                        </div>
+                                        <button class="btn-close-reference" id="btn-close-reference" title="Close Panel">❌</button>
                                     </div>
-                                    <div id="digest-content" class="document-view digest-style scrollable">
-                                        <p class="placeholder-text">Liturgical rubrics and structural instructions will load here...</p>
+                                    <div class="reference-panel-content" id="reference-panel-content">
+                                        <!-- Digest View -->
+                                        <div class="doc-panel" id="doc-digest">
+                                            <div class="doc-controls">
+                                                <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="digest-content">📋 Copy Digest Markdown</button>
+                                            </div>
+                                            <div id="digest-content" class="document-view digest-style scrollable">
+                                                <p class="placeholder-text">Liturgical rubrics and structural instructions will load here...</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Service Digest View -->
+                                        <div class="doc-panel" id="doc-service-digest" style="display: none;">
+                                            <div class="doc-controls">
+                                                <label for="service-digest-select" style="font-family: var(--font-heading); color: var(--gold-accent); margin-right: 8px;">Select Service:</label>
+                                                <select id="service-digest-select" class="select-input" style="width: auto; padding: 4px 12px; font-size: 0.85rem;">
+                                                    <option value="all">All Services</option>
+                                                    <option value="General Info">General Info</option>
+                                                    <option value="Vespers">Vespers</option>
+                                                    <option value="Compline">Compline</option>
+                                                    <option value="Midnight Office">Midnight Office</option>
+                                                    <option value="Matins">Matins</option>
+                                                    <option value="Hours">Hours</option>
+                                                    <option value="Divine Liturgy">Divine Liturgy</option>
+                                                </select>
+                                                <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="service-digest-content" style="margin-left: auto;">📋 Copy Service Text</button>
+                                            </div>
+                                            <div id="service-digest-content" class="document-view digest-style scrollable">
+                                                <p class="placeholder-text">Select a service to display its step-by-step rubrics...</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

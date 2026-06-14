@@ -1,0 +1,21 @@
+# Task List: Typikon Digest Perfection & Encyclopedic Expansion
+
+- [x] **Phase 1: Backend Pruning & Formatting (`digest/formatters/common.py` and `digest/base.py`)**
+  - [x] Prune ceremonial/sanctuary rubrics (curtains, doors) from Cantor Digest flow. Add a toggle in backend.
+  - [x] Refactor `_format_resolve_prokeimenon` to output semantic HTML tags (`<span class="rubric">`, `<span class="sung-text">`) and wrap verses in `<blockquote class="verse">`.
+  - [x] Refactor sessional/Saint classification strings to output specific, gendered, monastic prefixes.
+- [ ] **Phase 2: Frontend Design Tokens & Custom CSS (`cantor_dashboard/style.css`)**
+  - [ ] Implement color tokens: `--liturgical-red`, `--liturgical-black`, `--liturgical-gold`, etc.
+  - [ ] Implement premium serif typography styling for `.sung-text`.
+  - [ ] Implement `.rubric` styling (red, italic, semi-bold).
+  - [ ] Implement `.verse` blockquote styling with a distinct left border.
+  - [ ] Implement hover card and tooltip styling for citation elements (`.citation-sup`).
+- [ ] **Phase 3: Frontend Parser & Dashboard Interactivity (`cantor_dashboard/main.js` and `index.html`)**
+  - [ ] Update `formatMarkdownHtml` to translate raw backend format markers into standard CSS-styled spans.
+  - [ ] Implement interactive tooltips for citations (`[Dolnytsky §X]`).
+  - [ ] Implement collapsible UI service cards (9th Hour, Great Vespers, Matins, Liturgy).
+  - [ ] Expose Lviv Typikon rank code as premium visual badges.
+  - [ ] Implement the "Full Service" Festal Explorer component.
+- [ ] **Phase 4: Testing & Verification**
+  - [x] Run automated pytest suite to verify backend resolver integrity.
+  - [x] Verify digest rendering against the February 1st PDF Gold Standard.

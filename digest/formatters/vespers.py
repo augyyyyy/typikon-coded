@@ -116,24 +116,9 @@ class VespersFormatterMixin:
         # 1. Format the Prokeimenon if present
         for item in res:
             if isinstance(item, dict) and item.get("type") in ("prokeimenon", "sunday_prokeimenon", "daily_prokeimenon", "festal_prokeimenon"):
-                p_type = item.get("type")
-                tone = item.get("tone")
-                tone_roman = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
-                text = item.get("text") or item.get("content")
-                
-                if p_type == "prokeimenon" and item.get("ref_key") == "prokeimenon.saturday_evening":
-                    parts.append("Prokeimenon: The Lord is King (Tone VI).")
-                elif p_type == "sunday_prokeimenon":
-                    parts.append(f"Prokeimenon: {text} (Tone {tone_roman}).")
-                elif p_type == "festal_prokeimenon":
-                    parts.append(f"Prokeimenon: Festal Prokeimenon in Tone {tone_roman}.")
-                elif p_type == "daily_prokeimenon":
-                    day_names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-                    day_idx = item.get("day_of_week", 0)
-                    day_str = day_names[day_idx]
-                    parts.append(f"Prokeimenon: Daily Prokeimenon for {day_str} evening, Tone {tone_roman}.")
-                else:
-                    parts.append(f"Prokeimenon: {text or 'sung according to the Typikon'} (Tone {tone_roman}).")
+                p_text = self._format_resolve_prokeimenon(item, context)
+                if p_text:
+                    parts.append(p_text)
                 break
         
         # 2. Format the Readings

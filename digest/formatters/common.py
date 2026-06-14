@@ -324,25 +324,167 @@ class CommonFormatterMixin:
     def _format_resolve_prokeimenon(self, res, context):
         if not res:
             return ""
+        
+        # Tone extraction
         tone = res.get('tone')
-        tone_roman = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
-        if res.get("type") == "daily_prokeimenon":
+        if tone is None:
+            ref_key = res.get("ref_key", "")
+            if "saturday_evening" in ref_key:
+                tone = 6
+            elif "great_prokeimenon_sunday_lent" in ref_key:
+                tone = 8
+            elif "great_prokeimenon_bright_week_tone_8" in ref_key:
+                tone = 8
+            elif "great_prokeimenon_bright_week_tone_7" in ref_key:
+                tone = 7
+        
+        tone_roman = self._roman_tone(tone) if isinstance(tone, int) else str(tone) if tone else ""
+        
+        # Text extraction
+        text = res.get('text') or res.get('content')
+        if not text and res.get('prokeimenon_id'):
+            text = res.get('prokeimenon_id').replace('_', ' ')
+            
+        ref_key = res.get("ref_key", "")
+        variant = res.get("variant", "")
+        res_type = res.get("type", "")
+        
+        if "saturday_evening" in ref_key or (context.get("day_of_week") == 6 and not variant):
+            p_title = "Prokeimenon of Saturday Evening (Sunday prep)"
+        elif variant == "great" or "great_prokeimenon" in ref_key:
+            p_title = "Great Prokeimenon"
+        elif res_type == "daily_prokeimenon":
             day_name = {
                 0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
                 4: "Thursday", 5: "Friday", 6: "Saturday"
             }.get(context.get("day_of_week", 4), "Thursday")
-            tone_str = f"Tone {tone_roman} ({day_name} of the Octoechos)"
+            p_title = f"Daily Prokeimenon ({day_name} of the Octoechos)"
+        elif res_type == "festal_prokeimenon":
+            p_title = "Festal Prokeimenon"
         else:
-            tone_str = f"Tone {tone_roman}" if tone_roman else ""
+            p_title = "Prokeimenon"
+
+        tone_str = f"Tone {tone_roman}" if tone_roman else ""
+        
+        # verses
+        verses = []
+        
+        # Dynamic lookup from Horologion asset horologion.psalm_116
+        psalm_116 = self.engine.get_text("horologion.psalm_116")
+        content_116 = psalm_116.get("content", "") if psalm_116 else ""
+        
+        day_headers = {
+            0: "On Sunday Evening:",
+            1: "On Monday Evening:",
+            2: "On Tuesday Evening:",
+            3: "On Wednesday Evening:",
+            4: "On Thursday Evening:",
+            5: "On Friday Evening:",
+            6: "On Saturday Evening:",
+        }
+        
+        # 1. Saturday Evening / Daily Prokeimenon dynamic lookup
+        day_header = None
+        if "saturday_evening" in ref_key or (context.get("day_of_week") == 6 and not variant):
+            day_header = "On Saturday Evening:"
+        elif res_type == "daily_prokeimenon" and context.get("day_of_week") is not None:
+            day_header = day_headers.get(context.get("day_of_week"))
             
-        text = res.get('text')
+        if day_header and content_116:
+            # Parse daily prokeimenon refrain and verses from psalm_116
+            lines = content_116.split('\n')
+            found = False
+            refrain = ""
+            parsed_verses = []
+            for line in lines:
+                line_strip = line.strip()
+                if not line_strip:
+                    continue
+                if found:
+                    if (line_strip.startswith("On ") and "Evening:" in line_strip) or \
+                       line_strip.startswith("During the Great Fast") or \
+                       line_strip.startswith("The Great Prokimena"):
+                        break
+                    if not refrain:
+                        refrain = line_strip.replace('*', '').replace('  ', ' ').strip()
+                    elif line_strip.startswith("Verse:"):
+                        v_text = line_strip[len("Verse:"):].replace('*', '').replace('  ', ' ').strip()
+                        parsed_verses.append(v_text)
+                elif line_strip.startswith(day_header):
+                    found = True
+            
+            if refrain:
+                text = refrain
+                verses = parsed_verses
+
+        # 2. Great Lenten Sunday Prokeimenon dynamic lookup from horologion.psalm_68
+        elif "great_prokeimenon_sunday_lent" in ref_key:
+            psalm_68 = self.engine.get_text("horologion.psalm_68")
+            content_68 = psalm_68.get("content", "") if psalm_68 else ""
+            if content_68:
+                lines = content_68.split('\n')
+                refrain = ""
+                parsed_verses = []
+                for line in lines:
+                    line_strip = line.strip()
+                    if not line_strip:
+                        continue
+                    if line_strip.startswith("If there are readings"):
+                        break
+                    if line_strip.startswith("Verse:"):
+                        v_text = line_strip[len("Verse:"):].replace('*', '').replace('  ', ' ').strip()
+                        parsed_verses.append(v_text)
+                    elif not refrain:
+                        refrain = line_strip.replace('*', '').replace('  ', ' ').strip()
+                if refrain:
+                    text = refrain
+                    verses = parsed_verses
+            else:
+                # Fallback if psalm_68 is empty/missing
+                text = "Turn not away Your face from Your servant, for I am in distress; answer me quickly; draw near to my soul and redeem it."
+                verses = [
+                    "Let Your salvation, O God, protect me.",
+                    "Let the poor see and rejoice.",
+                    "Seek God, and your soul shall live."
+                ]
+                
+        # 3. Fallbacks for other special/Great Prokeimena
+        elif "great_prokeimenon_feast_evening" in ref_key or "great_prokeimenon_bright_week" in ref_key:
+            if tone == 7:
+                text = "Who is so great a God as our God? You are the God Who works wonders."
+                verses = [
+                    "You made Your power known among the peoples.",
+                    "And I said: Now have I begun; this change is of the right hand of the Most High.",
+                    "I remembered the works of the Lord; for I will remember Your wonders from the beginning."
+                ]
+            elif tone == 8:
+                text = "Who is so great a God as our God? You are the God Who works wonders."
+                verses = [
+                    "When Israel went out of Egypt, the house of Jacob from a people of foreign tongue.",
+                    "The sea saw it and fled; Jordan was turned back."
+                ]
+                
         if text:
-            text_clean = text.strip('"').rstrip('.')
-            return f"Prokeimenon: {tone_str}: \"{text_clean}\""
-        fallback_text = res.get('text', 'sung according to the Typikon')
+            text_clean = text.replace('*', '').replace('  ', ' ').strip('"').rstrip('.')
+            html = f'<span class="rubric">{p_title}'
+            if tone_str:
+                html += f', {tone_str}'
+            html += f':</span> <span class="sung-text">"{text_clean}"</span>'
+            
+            if verses:
+                for v in verses:
+                    html += f'\n<blockquote class="verse"><span class="rubric">Stichos:</span> <span class="sung-text">{v}</span></blockquote>'
+            return html
+            
+        fallback_text = text or 'sung according to the Typikon'
         if fallback_text and not fallback_text.startswith('*') and not fallback_text.endswith('*') and len(fallback_text) > 2:
             fallback_text = f"*{fallback_text}*"
-        return f"**Prokeimenon:** {fallback_text} (Tone {res.get('tone', '')})."
+            
+        html = f'<span class="rubric">{p_title}'
+        if tone_str:
+            html += f' ({tone_str})'
+        html += f':</span> <span class="sung-text">{fallback_text}</span>'
+        return html
 
 
     def _format_resolve_sessional(self, res, context):
@@ -355,6 +497,37 @@ class CommonFormatterMixin:
         if "triodion" in val.lower():
             return "We sing the sessional hymns from the Triodion."
         if "menaion" in val.lower() or "saint" in val.lower():
+            categories = context.get("saint_categories", [])
+            if categories:
+                cat = categories[0]
+                mapping = {
+                    "Prophet": "Holy Prophet",
+                    "Prophets": "Holy Prophets",
+                    "Apostle": "Holy Apostle",
+                    "Apostles": "Holy Apostles",
+                    "Martyr": "Holy Martyr",
+                    "Martyrs": "Holy Martyrs",
+                    "Hieromartyr": "Holy Hieromartyr",
+                    "Hieromartyrs": "Holy Hieromartyrs",
+                    "Venerable Martyr": "Holy Venerable Martyr",
+                    "Venerable Martyrs": "Holy Venerable Martyrs",
+                    "Venerable Woman": "Venerable Mother",
+                    "Venerable Women": "Venerable Mothers",
+                    "Venerable": "Venerable Father",
+                    "Venerables": "Venerable Fathers",
+                    "Hierarch": "Holy Hierarch",
+                    "Hierarchs": "Holy Hierarchs",
+                    "Unmercenary": "Holy Unmercenary",
+                    "Unmercenaries": "Holy Unmercenaries",
+                    "Holy Fathers": "Holy Fathers",
+                    "Angels": "Holy Angels",
+                    "Woman Martyr": "Holy Woman Martyr",
+                    "Women Martyrs": "Holy Women Martyrs",
+                    "Fool for Christ": "Holy Fool for Christ",
+                    "Fools for Christ": "Holy Fools for Christ",
+                }
+                term = mapping.get(cat, "Saint")
+                return f"We sing the sessional hymns of the {term}."
             return "We sing the sessional hymns of the Saint."
         return f"Sessional Hymns: {self.humanize_key(val)}."
 

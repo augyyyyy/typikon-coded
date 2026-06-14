@@ -230,19 +230,19 @@ class LiturgyFormatterMixin:
         if tone is None or str(tone).lower() == "none":
             return ""
         tone_roman = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
-        tone_str = f" Tone {tone_roman}" if tone_roman else ""
+        tone_str = f"Tone {tone_roman}" if tone_roman else ""
         
         verses = res.get("verses", [])
         if verses:
             vs_str = "; ".join(verses)
-            return f"**Alleluia:**{tone_str}, with verses: \"{vs_str}\"."
+            return f"**Alleluia:**  \n> {tone_str}: \"{vs_str}\"."
             
         is_weekday = 0 < context.get("day_of_week", 0) <= 5
         is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
         if is_weekday and is_simple:
-            return f"**Alleluia:**{tone_str}, with verses of the day."
+            return f"**Alleluia:**  \n> {tone_str}, with verses of the day."
             
-        return f"**Alleluia:** sung in Tone {tone_roman}."
+        return f"**Alleluia:**  \n> sung in Tone {tone_roman}."
 
 
     def _format_resolve_liturgy_megalynarion(self, res, context):
@@ -252,9 +252,9 @@ class LiturgyFormatterMixin:
             text = res.get("text")
             if text and not text.startswith('*') and not text.endswith('*') and len(text) > 2:
                 text = f"*{text}*"
-            return f"**Instead of 'It is truly proper':** {text}."
+            return f"**Instead of 'It is truly proper':**  \n> {text}."
         elif res.get("type") == "irmos_ode_9" or res.get("ref_key") == "festal_zadostoinyk" or res.get("type") == "variable":
-            return "**Instead of 'It is truly proper':** we sing the Heirmos of Ode 9 of the Canon."
+            return "**Instead of 'It is truly proper':**  \n> we sing the Heirmos of Ode 9 of the Canon."
         return ""
 
 
@@ -267,7 +267,7 @@ class LiturgyFormatterMixin:
             return ""
         text = res.get('text')
         cleaned_text = self._clean_hymn_text(text)
-        return f"**Communion Hymn:** {cleaned_text}"
+        return f"**Communion Hymn:**  \n> {cleaned_text}"
 
 
     def _format_resolve_liturgy_hymns(self, res, context):

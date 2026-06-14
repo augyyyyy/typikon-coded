@@ -1,0 +1,283 @@
+{
+    "version": "1.0.0",
+    "last_updated": "2026-06-14T02:40:00Z",
+    "last_model": "Gemini 3.5 Flash (High)",
+    "project_summary": "Typikon Coded: Ruthenian Typikon Logic Engine - Automating Byzantine liturgical calculation based on Dolnytsky's Typikon. Uses JSON-driven logic with 20 paradigms for feast ranking and service generation.",
+    "file_inventory": {
+        "json_files": 82,
+        "python_files": 180,
+        "txt_files": 80,
+        "json_breakdown": {
+            "assets/stamford/horologion": 191,
+            "assets/stamford/eothinon": 92,
+            "json_db": 46,
+            "assets/stamford/pentecostarion": 34,
+            "assets/stamford/triodion": 31,
+            "json_db/stamford": 12,
+            "json_db/st_sergius": 1
+        },
+        "txt_breakdown": {
+            "Stamford_Recensions_TXT": 11,
+            "Services_Resolves": 10,
+            "Typikon_Sources": 8,
+            "Services_Main": 6
+        }
+    },
+    "active_tasks": [
+        {
+            "id": "ASSET-001",
+            "title": "Fills Missing Asset Keys",
+            "description": "Create stubs and populate content for 33 missing asset keys identified in audit",
+            "status": "completed",
+            "priority": "high",
+            "created": "2026-02-05T22:30:00-05:00",
+            "estimated_hours": 10,
+            "subtasks": [
+                {
+                    "title": "Create stubs for 33 missing keys",
+                    "completed": true
+                },
+                {
+                    "title": "Populate Critical Paschal hymns",
+                    "completed": true
+                },
+                {
+                    "title": "Populate Critical Holy Week hymns",
+                    "completed": true
+                },
+                {
+                    "title": "Populate Lenten Hours troparia",
+                    "completed": true
+                }
+            ],
+            "related_files": [
+                "assets/stamford/pentecostarion.json",
+                "assets/stamford/triodion.json",
+                "assets/stamford/horologion.json"
+            ]
+        }
+    ],
+    "implementation_plans": [
+        {
+            "id": "PLAN-001",
+            "title": "Encyclopedia Documentation Reconciliation",
+            "description": "7-phase plan to reconcile all encyclopedia documentation with Dolnytsky Typikon",
+            "created": "2026-01-31T19:30:00-05:00",
+            "target_completion": "2026-02-15T00:00:00-05:00",
+            "total_estimated_hours": 120,
+            "status": "in_progress",
+            "phases": [
+                {
+                    "phase_number": 1,
+                    "title": "Critical Documentation Fixes",
+                    "status": "completed",
+                    "tasks": [
+                        {
+                            "title": "Fix matins_logic_audit.md",
+                            "completed": true
+                        },
+                        {
+                            "title": "Correct Gate 5 documentation",
+                            "completed": true
+                        },
+                        {
+                            "title": "Remove imprecise language",
+                            "completed": true
+                        },
+                        {
+                            "title": "Add hymn counts",
+                            "completed": true
+                        }
+                    ]
+                },
+                {
+                    "phase_number": 2,
+                    "title": "Gate-by-Gate Typikon Verification",
+                    "status": "completed",
+                    "tasks": [
+                        {
+                            "title": "Implement resolve_anabathmoi()",
+                            "completed": true
+                        },
+                        {
+                            "title": "Implement resolve_hypakoe()",
+                            "completed": true
+                        },
+                        {
+                            "title": "Expand Gate 6 documentation",
+                            "completed": true
+                        },
+                        {
+                            "title": "Add Katavasia grids",
+                            "completed": true
+                        }
+                    ]
+                },
+                {
+                    "phase_number": 3,
+                    "title": "Comprehensive Matins Layout",
+                    "status": "completed",
+                    "tasks": [
+                        {
+                            "title": "Create encyclopedia_matins_structure.md",
+                            "completed": true
+                        },
+                        {
+                            "title": "Audit resolve files",
+                            "completed": true
+                        }
+                    ]
+                },
+                {
+                    "phase_number": 7,
+                    "title": "Per-Hour Encyclopedia Creation",
+                    "status": "completed",
+                    "tasks": [
+                        {
+                            "title": "Create encyclopedia_hours_hooks.md",
+                            "completed": true
+                        },
+                        {
+                            "title": "Create encyclopedia_vespers_hooks.md",
+                            "completed": true
+                        },
+                        {
+                            "title": "Create encyclopedia_compline_hooks.md",
+                            "completed": true
+                        },
+                        {
+                            "title": "Create encyclopedia_liturgy_hooks.md",
+                            "completed": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "completed_milestones": [
+        {
+            "title": "Initial Commit",
+            "completed_date": "2026-01-28T00:00:00-05:00"
+        },
+        {
+            "title": "20 Liturgical Paradigms Implemented",
+            "completed_date": "2026-01-29T00:00:00-05:00"
+        },
+        {
+            "title": "13/13 Matins Logic Gates (Core Functions)",
+            "completed_date": "2026-01-31T01:15:00-05:00"
+        },
+        {
+            "title": "Stamford Troparia Ingestion",
+            "completed_date": "2026-01-31T02:50:00-05:00"
+        },
+        {
+            "title": "Schema Governance System",
+            "completed_date": "2026-01-31T02:50:00-05:00"
+        },
+        {
+            "title": "Logic Core Complete (All Services)",
+            "completed_date": "2026-02-05T22:00:00-05:00",
+            "description": "Implementation of logic gates for Vespers, Hours, Compline, Midnight Office, and Liturgy."
+        },
+        {
+            "title": "Lenten Logic Gap Fixes",
+            "completed_date": "2026-02-06T10:00:00-05:00",
+            "description": "Resolved critical logic gaps for Lenten Matins (Alleluia, Canon), Compline (Troparia), and Midnight Office."
+        },
+        {
+            "title": "Menaion & Triodion Parsing and Ingestion",
+            "completed_date": "2026-05-18T00:00:00-04:00",
+            "description": "Parsed and merged extensive text databases for the Menaion and Lenten Triodion cycles."
+        },
+        {
+            "title": "Litiya & Royal Hours Logic and Structure",
+            "completed_date": "2026-06-05T18:00:00-04:00",
+            "description": "Implemented full service structure JSON files and resolver functions for Litiya and Royal Hours."
+        },
+        {
+            "title": "Octoechos & General Menaion Ingestion and Fallback",
+            "completed_date": "2026-06-06T12:00:00-04:00",
+            "description": "Ingested all 8 Tones of the Octoechos (470 keys) and 21 saint classes of the General Menaion (175 keys). Fixed cascading fallback lookups and St. Timothy calendar logic."
+        },
+        {
+            "title": "St. Sergius Recension Initial Import",
+            "completed_date": "2026-06-06T12:30:00-04:00",
+            "description": "Implemented St. Sergius PDF downloader, clean text extractor, and procedural structurer mapping Tone 1 to text_st_sergius.json."
+        },
+        {
+            "title": "Digest Purge & Error Safety",
+            "completed_date": "2026-06-06T12:51:00-04:00",
+            "description": "Purged hardcoded canon logic/maps in typikon_digest_generator.py, re-implemented Ode 3/6 interludes dynamically, eliminated silent exception swallowing (pass), fixed beatitudes parameter mismatch, and verified all 255 tests passing."
+        },
+        {
+            "title": "June 2026 Liturgical Remediation and 0-100 Multi-Audit",
+            "completed_date": "2026-06-13T12:00:00-04:00",
+            "description": "Resolved Compline/Midnight Office suppresses, Matins Gradual duplication, Hours Troparia combination on Afterfeasts, Saturday morning lookahead capping, key leaks, and almanac consistency sync, achieving 100% pass on 318 tests."
+        },
+        {
+            "title": "Backend-Driven UI Classification & Auditing Improvements",
+            "completed_date": "2026-06-13T15:00:00-04:00",
+            "description": "Relocated all frontend classification logic to the Python backend; corrected [4 A+G] simple saint Class V mapping; added automated LLM UI Auditor sampling 15 dates."
+        },
+        {
+            "title": "General Menaion Category Badging & Sunday Precedence",
+            "completed_date": "2026-06-13T17:30:00-04:00",
+            "description": "Strict mapping of saint names to standard General Menaion categories (e.g. Forerunner -> Prophet badge); sequence-based Sunday readings override combination for Vigil/Polyeleos commemorations; implemented Apostles' Fast logic and Vespers stichera split rules."
+        },
+        {
+            "title": "Draggable Column Resizing & Production Render Deployment",
+            "completed_date": "2026-06-13T19:15:00-04:00",
+            "description": "Implemented draggable layout column handles for both main sidebar and split view with localStorage state persistence. Configured server.py for cloud deployment with dynamic PORT env binding and healthz checks, and created render.yaml blueprint for instant deployment on Render.com."
+        },
+        {
+            "title": "Service Digest Styling, Citations, and Prokeimena Sourcing",
+            "completed_date": "2026-06-14T02:40:00Z",
+            "description": "Implemented 'Say the Black, Do the Red' CSS styling; wrapped readings and verses in blockquotes with gold borders; extracted vestment and fasting metadata into pill badges; transformed source authority tags into tooltipped citations; dynamically sourced prokeimena from Horologion JSONs; mapped UGCC gendered saint prefixes; and implemented sanctuary rubrics filtering."
+        }
+    ],
+    "key_decisions": [
+        {
+            "date": "2026-01-31T19:30:00-05:00",
+            "decision": "Gate 5 Hypakoe/Anabathmoi are SEQUENTIAL, not mutually exclusive",
+            "rationale": "Dolnytsky Part I Line 159 explicitly states: 'After the Hypakoe...the Gradual (Stepenna) of the current tone is sung'"
+        },
+        {
+            "date": "2026-01-31T19:30:00-05:00",
+            "decision": "All encyclopedia documentation must cite specific Dolnytsky lines",
+            "rationale": "Removes ambiguity and allows verification against source texts"
+        },
+        {
+            "date": "2026-02-05T21:00:00-05:00",
+            "decision": "Prioritize Presanctified/Lenten Logic override mechanisms",
+            "rationale": "Critical for upcoming Lenten season support."
+        }
+    ],
+    "known_issues": [
+        {
+            "id": "GAP-001",
+            "title": "Missing Text Assets",
+            "severity": "high",
+            "file": "audit_findings_asset_gaps.md",
+            "description": "33 confirmed missing asset keys, primarily in Triodion and Pentecostarion"
+        }
+    ],
+    "abandoned_features": [
+        {
+            "title": "MyFirstGui UI Components",
+            "reason": "Project pivoted to purely focus on the headless Python logic engine Typikon Coded."
+        },
+        {
+            "title": "Legacy Redundancy Scripts",
+            "file": "scripts/analyze_redundancy.py",
+            "reason": "Deprecated due to hardcoded absolute paths from an older project structure."
+        }
+    ],
+    "not_started_features": [
+        {
+            "title": "Modular Book Generation",
+            "description": "Dynamic formatting of output for different physical booklet structures."
+        }
+    ],
+    "context_for_next_session": "Completed full digest formatting, styling, and prokeimena sourcing updates. Formatted readings/verses to gold border blockquotes, added pill badges for vestments/fasting, set up tooltipped citation superscripts, and dynamically sourced prokeimena from Horologion JSON assets. Standardized gendered saint sessional prefixes and implemented ceremonial rubrics filtering. Full test suite passing (322/322). Ready for handoff and deployment."
+}

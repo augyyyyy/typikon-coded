@@ -3,13 +3,13 @@ class LentenFormatterMixin:
         if not res:
             return ""
         if res.get("type") == "prokeimenon":
-            return f"Prokeimenon: {self.humanize_key(res.get('ref_key'))}"
+            return f"**Prokeimenon:**  \n> {self.humanize_key(res.get('ref_key'))}"
         parts = []
         for comp in res.get("components", []):
             if comp.get("type") == "prokeimenon":
-                parts.append(f"Prokeimenon: {self.humanize_key(comp.get('ref_key'))}")
+                parts.append(f"**Prokeimenon:**  \n> {self.humanize_key(comp.get('ref_key'))}")
             elif comp.get("type") == "reading":
-                parts.append(f"Reading from {comp.get('source', '').capitalize()}")
+                parts.append(f"**Reading:**  \n> from {comp.get('source', '').capitalize()}")
         return "\n".join(parts)
 
 
@@ -115,10 +115,10 @@ class LentenFormatterMixin:
                     parts.append(f"Prokeimenon ({self.humanize_key(comp.get('ref_key', ''))})")
                 elif c_type == "reading":
                     parts.append(f"Reading from {comp.get('source', '').capitalize()}")
-            return "At the readings: " + " then ".join(parts) + "."
+            return "**At the readings:**  \n> " + " then ".join(parts) + "."
         else:
             ref = res.get("ref_key", "")
-            return f"Prokeimenon: {self.humanize_key(ref)}."
+            return f"**Prokeimenon:**  \n> {self.humanize_key(ref)}."
 
 
     def _format_resolve_lenten_ending(self, res, context):

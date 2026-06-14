@@ -541,6 +541,9 @@ class CalendarMixin:
             if entries:
                 rank_code = entries[0].get("rank_code", "")
                 description = entries[0].get("description", "")
+                description = description.replace("**", "").strip()
+                if description.endswith("."):
+                    description = description[:-1].strip()
                 
                 # Map rank code to normalized rank
                 rank_map = {
@@ -582,6 +585,9 @@ class CalendarMixin:
                     saints = []
                     for e in entries:
                         name = e.get("description", "")
+                        name_clean = name.replace("**", "").strip()
+                        if name_clean.endswith("."):
+                            name_clean = name_clean[:-1].strip()
                         # Procedural snake_case id generation as fallback
                         cleaned = re.sub(r'[^a-z0-9\s]', '', name.lower())
                         words = cleaned.split()
@@ -597,7 +603,7 @@ class CalendarMixin:
                         
                         saints.append({
                             "id": saint_id,
-                            "name": name,
+                            "name": name_clean,
                             "rank": rank_numeric.get(e.get("rank_code", ""), 5),
                             "rank_code": e.get("rank_code", "")
                         })

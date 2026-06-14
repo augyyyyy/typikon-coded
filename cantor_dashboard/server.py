@@ -134,6 +134,14 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         path = parsed_url.path
         query = urllib.parse.parse_qs(parsed_url.query)
 
+        # Health check endpoint for cloud providers
+        if path == "/healthz":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"OK")
+            return
+
         # Route API requests
         if path.startswith("/api/"):
             self.handle_api(path, query)

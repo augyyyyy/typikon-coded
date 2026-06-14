@@ -13,6 +13,9 @@
 3. **`.ai/learnings.md`** — Deep memory: 20 Paradigms, 13 Matins Gates, data schemas, ANTI-PATTERNS.
 4. **`.agent/brain/project_brainprint.md`** — Baseline: directory structure, test counts, architecture, known issues.
 5. **`.agent/brain/AGENT_STARTUP_CONTEXT.md`** — Hierarchy of authority (Ordo > Dolnytsky > Liturgicon).
+6. **`master_unimplemented_roadmap.md`** (`.agent/brain/master_unimplemented_roadmap.md`) — Inventory of historically abandoned/decoupled plans (Pyodide Wasm, MEI, CS Translation, Yasinovsky).
+7. **`authoritative_sourcing_assessment.md`** (`.agent/brain/authoritative_sourcing_assessment.md`) — Audit of canonical sources, UGCC terminology, and visual aesthetics standards.
+
 
 ---
 
@@ -317,3 +320,62 @@ When importing/parsing raw General Menaion files, translate their names to align
 
 3. **Weekday Stichera Splits**:
    - Weekday stichera at Vespers defaults to 6: split is 3 Octoechos (tone) + 3 saint (Menaion) for daily/simple saints, whereas Six-Stichera (`[6 SM]`) or Great Doxology (`[GT DOX]`) saints scale to 6 saint stichera, suppressing the Octoechos.
+
+---
+
+## XXIV. The "Assume Nothing Useful Was Done" Protocol (2026-06-13)
+
+1. **Mandatory Post-Development Heuristic Auditing**:
+   - In accordance with the "Assume Nothing Useful Was Done" protocol, you must never trust your own generation or minor tests to prove success. Assume your edits have introduced regressions, key leaks, or type comparison errors on untested dates.
+   - You must run the 365-day automated heuristic audit via pytest (`pytest tests/test_all_days_compliance.py`) to verify that all 365 days of the calendar year are free from formatting failures, leaked programmer keys, and runtime crashes.
+   - Any model failing to verify 100% daily coverage across the entire annual cycle is in direct violation of project compliance rules.
+
+2. **Jumbled Commemoration Separation Gate**:
+   - Every day in the calendar database ([calendar_dolnytsky.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/calendar_dolnytsky.json)) that contains multiple independent commemorations must have them split into separate dictionaries inside the `entries` array.
+   - Semicolons `;` in raw text descriptions must always be split into individual elements. Jumbling them as a single string is strictly prohibited.
+
+---
+
+## XXV. IDE-style Reference Panel Layout & UI Standards (2026-06-14)
+
+1. **Collapsible Slide-Out Reference Panel**:
+   - The dashboard uses an **IDE-style Slide-Out Reference Panel** where the **Cantor Service Booklet** is the primary panel and is always visible (100% width by default when the reference panel is closed).
+   - The **Typikon Digest** and **Service Digest** are auxiliary references placed inside a collapsible right panel that can be toggled using `btn-toggle-reference`.
+   - Layout parameters (panel open state, active tab, and split percentages) must be persisted in `localStorage` (`cantor-reference-open`, `cantor-selected-ref-tab`, `cantor-reference-percent`).
+
+2. **DOM Preservation & Node Shuffling**:
+   - In dynamic layouts, clearing elements using `innerHTML = ""` when child nodes (panels) are inside will completely destroy their subtrees and event handlers.
+   - To preserve DOM nodes, they must be safely detached by appending them back to their permanent parent wrapper (`wrapper.appendChild(docBooklet)`, etc.) *before* clearing the inner HTML of their current containers.
+
+3. **Canonical Service Digest Ordering & Terminology**:
+   - The **Service Digest** Select Service dropdown must map specific daily service titles (like `GREAT VESPERS` or `SUNDAY MATINS`) to generic daily services (`Vespers`, `Matins`, `Divine Liturgy`, etc.) for clean UI display.
+   - Dropdown options must be sorted canonically to match the Byzantine daily cycle (Vespers, Compline, Midnight Office, Matins, Hours, Liturgy).
+
+4. **Horizontal Scrolling & Minimum Widths**:
+   - Enforce a `min-width: 650px` on `.document-content-wrapper` to prevent panels from squishing into unreadable widths.
+   - Enable `overflow-x: auto; overflow-y: hidden;` on the main `.tab-panel` with themed scrollbars. This ensures a horizontal scrollbar appears naturally on smaller screens without clipping the layout.
+
+5. **Server Management Policy**:
+   - You must never start or restart the dashboard server locally during a session (e.g. running `server.py`). The user will handle server processes externally.
+
+---
+
+## XXVI. Service Digest Formatting, Citations, and Prokeimena Sourcing Rules (2026-06-14)
+
+1. **Liturgical Coloring Standard ("Say the Black, Do the Red")**:
+   - Inside service content panes (like `.digest-style` and `.service-section-body`), all instructions and rubrical actions (contained within `em` or `strong` tags) must be styled in liturgical red/burgundy (`var(--rubric-color)`: `#900000` in light theme / `#ff5c5c` in dark theme), while spoken texts remain in normal theme colors.
+2. **Reading/Verse Formatting (Gold Border Blockquotes)**:
+   - Bible readings and hymnal verses (e.g. Prokeimena, Epistles, Gospels, Alleluias, Megalynaria, and Communion Hymns) must be structured inside Markdown blockquotes (`>`) in the backend.
+   - The frontend styles these blockquotes with a left-accented gold border (`3px solid var(--rubric-color)`), inner padding, and italicized text to clearly demarcate the proper liturgical chant texts from procedural directions.
+3. **Pill Badge Metadata Extraction**:
+   - Important metadata headers such as `Vestment colour:` or `Fasting Rule:` must be programmatically extracted from the text body using `extractMetadata(text)` on the frontend and rendered as soft, theme-responsive pill badges under the section headers, removing them from the main text block to prevent visual clutter.
+4. **Tooltipped Citations**:
+   - Bracketed source authority tags (e.g., `[Dolnytsky §12]`, `[Ordo §20]`) must be dynamically transformed in HTML to superscript tags (`<sup class="citation-sup" title="Source Authority: $1">$1</sup>`) which change color on hover and display clean browser tooltips explaining their canonical validity.
+5. **Dynamic Horologion Sourcing for Prokeimena**:
+   - Saturday evening, weekday, and Lenten Sunday great prokeimena must be dynamically retrieved from Horologion JSON assets (e.g. `horologion.psalm_116` and `horologion.psalm_68`) rather than utilizing legacy hardcoded formatters.
+   - Maintain the linter check `test_no_hardcoded_verses_in_formatter` in `tests/test_source_grounding.py` to prevent regression.
+6. **Gendered Saint Classifications & Sessional Prefixes**:
+   - Sessional hymn resolvers must inspect the active saint categories and map names to standardized UGCC gendered, monastic prefixes (e.g., "Venerable Father", "Holy Hieromartyr", "Venerable Mother", "Holy Apostle") rather than defaulting to generic "Saint".
+7. **Ceremonial Sanctuary Rubrics Filtering**:
+   - The digest generator supports an `include_ceremonial` boolean (defaulting to `False` in cantor digest). When `False`, minor sanctuary-focused rubrics (e.g., deacon positioning, curtain opening, censing directions, bow counts) are filtered out, leaving the cantor with a streamlined text-only chanting guide.
+

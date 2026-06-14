@@ -5,7 +5,11 @@
     "entries": [
       {
         "rank_code": "[POL]",
-        "description": "Beginning of the New Year; Ven. Symeon Stylites."
+        "description": "Beginning of the New Year"
+      },
+      {
+        "rank_code": "[POL]",
+        "description": "Ven. Symeon Stylites"
       }
     ],
     "raw_source": "* **1** **[POL]** Beginning of the New Year; Ven. Symeon Stylites."
@@ -16,7 +20,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Martyr Mamas; Ven. John the Faster."
+        "description": "Martyr Mamas"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. John the Faster"
       }
     ],
     "raw_source": "* **2** **[4 A+G]** Martyr Mamas; Ven. John the Faster."
@@ -27,7 +35,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Hieromartyr Anthimus; Ven. Theoctistus."
+        "description": "Hieromartyr Anthimus"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Theoctistus"
       }
     ],
     "raw_source": "* **3** **[4 A+G]** Hieromartyr Anthimus; Ven. Theoctistus."
@@ -38,7 +50,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Hieromartyr Babylas; Ven. Moses the God-seer."
+        "description": "Hieromartyr Babylas"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Moses the God-seer"
       }
     ],
     "raw_source": "* **4** **[4 A+G]** Hieromartyr Babylas; Ven. Moses the God-seer."
@@ -60,7 +76,15 @@
     "entries": [
       {
         "rank_code": "[6 SM]",
-        "description": "Miracle of the Archistrategos Michael; Praises Stichera; Martyr Eudoxius."
+        "description": "Miracle of the Archistrategos Michael"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Praises Stichera"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Martyr Eudoxius"
       }
     ],
     "raw_source": "* **6** **[6 SM]** Miracle of the Archistrategos Michael; Praises Stichera; Martyr Eudoxius."
@@ -71,7 +95,11 @@
     "entries": [
       {
         "rank_code": "[6 SM]",
-        "description": "Forefeast of the Nativity of the Most Holy Theotokos; Martyr Sozon."
+        "description": "Forefeast of the Nativity of the Most Holy Theotokos"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Martyr Sozon"
       }
     ],
     "raw_source": "* **7** **[6 SM]** Forefeast of the Nativity of the Most Holy Theotokos; Martyr Sozon."
@@ -137,7 +165,11 @@
     "entries": [
       {
         "rank_code": "[GT DOX]",
-        "description": "Dedication of the Temple [of the Resurrection]. Forefeast of the Precious Cross; Hieromartyr Cornelius the Centurion."
+        "description": "Dedication of the Temple [of the Resurrection]. Forefeast of the Precious Cross"
+      },
+      {
+        "rank_code": "[GT DOX]",
+        "description": "Hieromartyr Cornelius the Centurion"
       }
     ],
     "raw_source": "* **13** **[GT DOX]** Dedication of the Temple [of the Resurrection]. Forefeast of the Precious Cross; Hieromartyr Cornelius the Centurion."
@@ -236,7 +268,15 @@
     "entries": [
       {
         "rank_code": "[6 SM]",
-        "description": "Hieromartyr Phocas; Prophet Jonah and Ven. Jonah."
+        "description": "Hieromartyr Phocas"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Prophet Jonah"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Ven. Jonah"
       }
     ],
     "raw_source": "* **22** **[6 SM]** Hieromartyr Phocas; Prophet Jonah and Ven. Jonah."
@@ -346,7 +386,11 @@
     "entries": [
       {
         "rank_code": "[6 SM]",
-        "description": "Hieromartyr Cyprian; Martyr Justina."
+        "description": "Hieromartyr Cyprian"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Martyr Justina"
       }
     ],
     "raw_source": "* **2** **[6 SM]** Hieromartyr Cyprian; Martyr Justina."
@@ -445,7 +489,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Apostle Philip, one of the seven deacons; Ven. Theophanes."
+        "description": "Apostle Philip, one of the seven deacons"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Theophanes"
       }
     ],
     "raw_source": "* **11** **[4 A+G]** Apostle Philip, one of the seven deacons; Ven. Theophanes."
@@ -456,7 +504,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Martyrs Probus, Tarachus and Andronicus; Ven. Cosmas."
+        "description": "Martyrs Probus, Tarachus and Andronicus"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Cosmas"
       }
     ],
     "raw_source": "* **12** **[4 A+G]** Martyrs Probus, Tarachus and Andronicus; Ven. Cosmas."
@@ -478,7 +530,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Martyrs Nazarius, Gervasius, Protasius and Celsus; Ven. Paraskeva."
+        "description": "Martyrs Nazarius, Gervasius, Protasius and Celsus"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Paraskeva"
       }
     ],
     "raw_source": "* **14** **[4 A+G]** Martyrs Nazarius, Gervasius, Protasius and Celsus; Ven. Paraskeva."
@@ -511,7 +567,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Prophet Hosea and Monk-Martyr Andrew of Crete."
+        "description": "Prophet Hosea"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Monk-Martyr Andrew of Crete"
       }
     ],
     "raw_source": "* **17** **[4 TR]** Prophet Hosea and Monk-Martyr Andrew of Crete."
@@ -533,7 +593,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Prophet Joel and Martyr Varus."
+        "description": "Prophet Joel"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Martyr Varus"
       }
     ],
     "raw_source": "* **19** **[4 TR]** Prophet Joel and Martyr Varus."
@@ -632,7 +696,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva."
+        "description": "Martyrs Terence and Neonilla, Ven. Stephen"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Martyr Paraskeva"
       }
     ],
     "raw_source": "* **28** **[4 TR]** Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva."
@@ -669,7 +737,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus."
+        "description": "Apostles Stachys, Amplias, Urban and Narcissus"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Martyr Epimachus"
       }
     ],
     "raw_source": "* **31** **[4 TR]** Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus."
@@ -713,7 +785,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Ven. Joannicius and Martyr Nicander."
+        "description": "Ven. Joannicius"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Martyr Nicander"
       }
     ],
     "raw_source": "* **4** **[4 A+G]** Ven. Joannicius and Martyr Nicander."
@@ -746,7 +822,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Martyr Hieron and those with him; Ven. Lazarus."
+        "description": "Martyr Hieron and those with him"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Lazarus"
       }
     ],
     "raw_source": "* **7** **[4 A+G]** Martyr Hieron and those with him; Ven. Lazarus."
@@ -768,7 +848,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Martyrs Onesiphorus and Porphyrius; Ven. Matrona."
+        "description": "Martyrs Onesiphorus and Porphyrius"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Ven. Matrona"
       }
     ],
     "raw_source": "* **9** **[4 TR]** Martyrs Onesiphorus and Porphyrius; Ven. Matrona."
@@ -790,7 +874,15 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Martyrs Menas, Victor and Vincent; Martyr Stephanida; Ven. Theodore the Studite."
+        "description": "Martyrs Menas, Victor and Vincent"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Martyr Stephanida"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Theodore the Studite"
       }
     ],
     "raw_source": "* **11** **[4 A+G]** Martyrs Menas, Victor and Vincent; Martyr Stephanida; Ven. Theodore the Studite."
@@ -805,7 +897,11 @@
       },
       {
         "rank_code": "[4 A+G]",
-        "description": "St. John the Merciful; Ven. Nilus."
+        "description": "St. John the Merciful"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Nilus"
       }
     ],
     "raw_source": "* **12** **[VIGIL]** **St. Hieromartyr Josaphat (On Sunday)**; **[4 A+G]** St. John the Merciful; Ven. Nilus."
@@ -956,7 +1052,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Hieromartyr Clement, Pope of Rome; Peter of Alexandria."
+        "description": "Hieromartyr Clement, Pope of Rome"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Peter of Alexandria"
       },
       {
         "rank_code": "[GT DOX]",
@@ -982,7 +1082,11 @@
     "entries": [
       {
         "rank_code": "[6 SM]",
-        "description": "Great Martyr James the Persian; Ven. Palladius."
+        "description": "Great Martyr James the Persian"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Ven. Palladius"
       }
     ],
     "raw_source": "* **27** **[6 SM]** Great Martyr James the Persian; Ven. Palladius."
@@ -993,7 +1097,11 @@
     "entries": [
       {
         "rank_code": "[6 SM]",
-        "description": "Monk-Martyr Stephen; Martyr Irenarchus."
+        "description": "Monk-Martyr Stephen"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Martyr Irenarchus"
       }
     ],
     "raw_source": "* **28** **[6 SM]** Monk-Martyr Stephen; Martyr Irenarchus."
@@ -1004,7 +1112,11 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Martyrs Paramon and Philoumenos; Ven. Acacius."
+        "description": "Martyrs Paramon and Philoumenos"
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Ven. Acacius"
       }
     ],
     "raw_source": "* **29** **[4 NO]** Martyrs Paramon and Philoumenos; Ven. Acacius."
@@ -1059,7 +1171,11 @@
     "entries": [
       {
         "rank_code": "[6 SM]",
-        "description": "Great Martyr Barbara; Ven. John of Damascus."
+        "description": "Great Martyr Barbara"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Ven. John of Damascus"
       }
     ],
     "raw_source": "* **4** **[6 SM]** Great Martyr Barbara; Ven. John of Damascus."
@@ -1301,7 +1417,11 @@
     "entries": [
       {
         "rank_code": "[GT DOX]",
-        "description": "Synaxis of the Most Holy Theotokos and St. Joseph; Hieromartyr Euthymius."
+        "description": "Synaxis of the Most Holy Theotokos and St. Joseph"
+      },
+      {
+        "rank_code": "[GT DOX]",
+        "description": "Hieromartyr Euthymius"
       }
     ],
     "raw_source": "* **26** **[GT DOX]** Synaxis of the Most Holy Theotokos and St. Joseph; Hieromartyr Euthymius."
@@ -1338,7 +1458,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Fourteen thousand martyred infants; Ven. Marcellus."
+        "description": "Fourteen thousand martyred infants"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Marcellus"
       }
     ],
     "raw_source": "* **29** **[4 A+G]** Fourteen thousand martyred infants; Ven. Marcellus."
@@ -1371,7 +1495,11 @@
     "entries": [
       {
         "rank_code": "[VIGIL]",
-        "description": "**Circumcision of the Lord; St. Basil the Great.**"
+        "description": "**Circumcision of the Lord"
+      },
+      {
+        "rank_code": "[VIGIL]",
+        "description": "St. Basil the Great.**"
       }
     ],
     "raw_source": "* **1** **[VIGIL]** **Circumcision of the Lord; St. Basil the Great.**"
@@ -1393,7 +1521,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "St. Sylvester, Pope of Rome; Prop. Malachi"
+        "description": "St. Sylvester, Pope of Rome"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Prop. Malachi"
       },
       {
         "rank_code": "[4 A+G]",
@@ -1419,7 +1551,11 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Martyrs Theopemptus and Theonas; Ven. Syncletica."
+        "description": "Martyrs Theopemptus and Theonas"
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Ven. Syncletica"
       }
     ],
     "raw_source": "* **5** **[4 NO]** Martyrs Theopemptus and Theonas; Ven. Syncletica."
@@ -1452,7 +1588,11 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Ven. George the Chozebite; Ven. Domnica."
+        "description": "Ven. George the Chozebite"
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Ven. Domnica"
       }
     ],
     "raw_source": "* **8** **[4 NO]** Ven. George the Chozebite; Ven. Domnica."
@@ -1474,7 +1614,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "St. Gregory of Nyssa; Ven. Dometian."
+        "description": "St. Gregory of Nyssa"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ven. Dometian"
       }
     ],
     "raw_source": "* **10** **[4 A+G]** St. Gregory of Nyssa; Ven. Dometian."
@@ -1533,7 +1677,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Ven. Paul of Thebes and John the Hut-dweller."
+        "description": "Ven. Paul of Thebes"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "John the Hut-dweller"
       }
     ],
     "raw_source": "* **15** **[4 A+G]** Ven. Paul of Thebes and John the Hut-dweller."
@@ -1599,7 +1747,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Ven. Maximus; Martyr Neophytus."
+        "description": "Ven. Maximus"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Martyr Neophytus"
       }
     ],
     "raw_source": "* **21** **[4 A+G]** Ven. Maximus; Martyr Neophytus."
@@ -1952,7 +2104,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Ven. Timothy of Symbola; St. Eustathius."
+        "description": "Ven. Timothy of Symbola"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "St. Eustathius"
       }
     ],
     "raw_source": "* **21** **[4 TR]** Ven. Timothy of Symbola; St. Eustathius."
@@ -2616,7 +2772,11 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Hieromartyr Januarius and those with him; Hieromartyr Theodore of Perge."
+        "description": "Hieromartyr Januarius and those with him"
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Hieromartyr Theodore of Perge"
       }
     ],
     "raw_source": "* **21** **[4 NO]** Hieromartyr Januarius and those with him; Hieromartyr Theodore of Perge."
@@ -2693,7 +2853,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Apostles James and Sosipater; Martyrs Maximus, Dada and Quintilian."
+        "description": "Apostles James and Sosipater"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Martyrs Maximus, Dada and Quintilian"
       }
     ],
     "raw_source": "* **28** **[4 TR]** Apostles James and Sosipater; Martyrs Maximus, Dada and Quintilian."
@@ -3211,7 +3375,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Martyr Aquilina and St. Triphyllius, Bishop of Leucosia."
+        "description": "Martyr Aquilina"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "St. Triphyllius, Bishop of Leucosia."
       }
     ],
     "raw_source": "* **13** **[4 TR]** Martyr Aquilina and St. Triphyllius, Bishop of Leucosia."
@@ -3553,7 +3721,11 @@
     "entries": [
       {
         "rank_code": "[6 SM]",
-        "description": "Synaxis of St. Archangel Gabriel; Ven. Stephen of St. Sabbas."
+        "description": "Synaxis of St. Archangel Gabriel"
+      },
+      {
+        "rank_code": "[6 SM]",
+        "description": "Ven. Stephen of St. Sabbas"
       }
     ],
     "raw_source": "* **13** **[6 SM]** Synaxis of St. Archangel Gabriel; Ven. Stephen of St. Sabbas."
@@ -3641,7 +3813,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Venerables Simeon and John; Prop. Ezekiel."
+        "description": "Venerables Simeon and John"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Prop. Ezekiel"
       }
     ],
     "raw_source": "* **21** **[4 TR]** Venerables Simeon and John; Prop. Ezekiel."
@@ -3770,7 +3946,11 @@
     "entries": [
       {
         "rank_code": "[GT DOX]",
-        "description": "Procession of the Precious Cross; Maccabean Martyrs."
+        "description": "Procession of the Precious Cross"
+      },
+      {
+        "rank_code": "[GT DOX]",
+        "description": "Maccabean Martyrs"
       }
     ],
     "raw_source": "* **1** **[GT DOX]** Procession of the Precious Cross; Maccabean Martyrs."
@@ -3814,7 +3994,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Forefeast of the Transfiguration; Martyr Eusignius."
+        "description": "Forefeast of the Transfiguration"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Martyr Eusignius"
       }
     ],
     "raw_source": "* **5** **[4 TR]** Forefeast of the Transfiguration; Martyr Eusignius."
@@ -3994,7 +4178,11 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Ap. Thaddeus; Martyr Bassa and her children."
+        "description": "Ap. Thaddeus"
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Martyr Bassa and her children"
       }
     ],
     "raw_source": "* **21** **[4 TR]** Ap. Thaddeus; Martyr Bassa and her children."
@@ -4038,7 +4226,11 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Return of the relics of Ap. Bartholomew; Ap. Titus."
+        "description": "Return of the relics of Ap. Bartholomew"
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Ap. Titus"
       }
     ],
     "raw_source": "* **25** **[4 A+G]** Return of the relics of Ap. Bartholomew; Ap. Titus."

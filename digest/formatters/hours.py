@@ -47,12 +47,12 @@ class HoursFormatterMixin:
                             comps.append("Resurrectional troparion")
                         elif c == "trop_saint":
                             if saints:
-                                comps.append(f"troparion of {self.humanize_key(saints[0].get('name', 'Saint'))}")
+                                comps.append(f"troparion of {self._clean_name(saints[0].get('name', 'Saint'))}")
                             else:
                                 comps.append("troparion of the Saint")
                         elif c == "trop_saint_2":
                             if len(saints) >= 2:
-                                comps.append(f"troparion of {self.humanize_key(saints[1].get('name', 'second Saint'))}")
+                                comps.append(f"troparion of {self._clean_name(saints[1].get('name', 'second Saint'))}")
                             else:
                                 comps.append("troparion of the second Saint")
                         elif c == "trop_day":
@@ -108,10 +108,17 @@ class HoursFormatterMixin:
                         elif source in ("saints", "saint"):
                             s_list = context.get("saints", [])
                             if s_list:
-                                name = s_list[0].get("name", "Saint").rstrip('.')
+                                name = self._clean_name(s_list[0].get("name", "Saint")).rstrip('.')
                                 kont_str = f"Kontakion of {name}"
                             else:
                                 kont_str = "Kontakion of the Saint"
+                        elif source == "saints_2":
+                            s_list = context.get("saints", [])
+                            if len(s_list) >= 2:
+                                name = self._clean_name(s_list[1].get("name", "second Saint")).rstrip('.')
+                                kont_str = f"Kontakion of {name}"
+                            else:
+                                kont_str = "Kontakion of the second Saint"
                         else:
                             kont_str = self.humanize_key(source)
                 else:
