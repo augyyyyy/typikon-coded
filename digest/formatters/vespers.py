@@ -216,11 +216,15 @@ class VespersFormatterMixin:
         if not res:
             return ""
         prok = res.get("prokeimenon", {}).get("text", "")
+        if self._is_missing(prok):
+            prok = "Prokeimenon of Passion Vespers"
         p1 = f"{res.get('paremia_1', {}).get('book')} {res.get('paremia_1', {}).get('chapter')}"
         p2 = f"{res.get('paremia_2', {}).get('book')} {res.get('paremia_2', {}).get('chapter')}"
         p3 = f"{res.get('paremia_3', {}).get('book')} {res.get('paremia_3', {}).get('chapter')}"
         epistle = f"{res.get('epistle', {}).get('book')} {res.get('epistle', {}).get('chapter')}"
         gospel = res.get("gospel", {}).get("content", "")
+        if self._is_missing(gospel):
+            gospel = "Gospel reading of Passion Vespers"
         sources = ", ".join(res.get("gospel", {}).get("sources", []))
         return (
             f"At Passion Vespers:\n"

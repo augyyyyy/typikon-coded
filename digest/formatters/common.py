@@ -371,7 +371,9 @@ class CommonFormatterMixin:
         
         # Dynamic lookup from Horologion asset horologion.psalm_116
         psalm_116 = self.engine.get_text("horologion.psalm_116")
-        content_116 = psalm_116.get("content", "") if psalm_116 else ""
+        content_116 = psalm_116.get("content", "") if psalm_116 and not self._is_missing(psalm_116) else ""
+        if self._is_missing(content_116):
+            content_116 = ""
         
         day_headers = {
             0: "On Sunday Evening:",
@@ -420,7 +422,9 @@ class CommonFormatterMixin:
         # 2. Great Lenten Sunday Prokeimenon dynamic lookup from horologion.psalm_68
         elif "great_prokeimenon_sunday_lent" in ref_key:
             psalm_68 = self.engine.get_text("horologion.psalm_68")
-            content_68 = psalm_68.get("content", "") if psalm_68 else ""
+            content_68 = psalm_68.get("content", "") if psalm_68 and not self._is_missing(psalm_68) else ""
+            if self._is_missing(content_68):
+                content_68 = ""
             if content_68:
                 lines = content_68.split('\n')
                 refrain = ""

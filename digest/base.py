@@ -20,6 +20,41 @@ class DigestGeneratorBase:
             return str(tone)
 
 
+    def _is_missing(self, item):
+        if not item:
+            return True
+        if isinstance(item, dict):
+            if item.get("is_missing"):
+                return True
+            for k in ("content", "text"):
+                val = item.get(k)
+                if val and self._is_missing(val):
+                    return True
+            return False
+        if isinstance(item, str):
+            item_strip = item.strip()
+            if not item_strip:
+                return True
+            if item_strip.startswith("[") and item_strip.endswith("]"):
+                item_lower = item_strip.lower()
+                if "missing" in item_lower or "stub" in item_lower or "error" in item_lower:
+                    return True
+            if "missing in" in item_strip.lower():
+                return True
+            if "missing text" in item_strip.lower():
+                return True
+            if "missing logic" in item_strip.lower():
+                return True
+            if "logic missing" in item_strip.lower():
+                return True
+            if "missing_data" in item_strip.lower():
+                return True
+            if "missing_litany" in item_strip.lower():
+                return True
+        return False
+
+
+
     def _capitalize_name(self, name):
         if not name:
             return ""
@@ -834,10 +869,12 @@ class DigestGeneratorBase:
         for key in (f"eothinon.{num}.gospel", f"eothinon.eothinon_{num}_gospel"):
             try:
                 asset = self.engine.get_text(key)
-                if asset and asset.get("content"):
-                    parts = asset["content"].split("\n\n")
-                    if parts:
-                        return parts[0].strip()
+                if asset and not self._is_missing(asset) and asset.get("content"):
+                    content = asset.get("content")
+                    if not self._is_missing(content):
+                        parts = content.split("\n\n")
+                        if parts:
+                            return parts[0].strip()
             except Exception:
                 pass
         return ""
@@ -1807,12 +1844,20 @@ class DigestGeneratorBase:
                                     if p:
                                         tone = p.get("tone") or 7
                                         tone_roman = self._roman_tone(tone)
-                                        text = p.get("text") or p.get("content") or "The righteous shall rejoice in the Lord..."
+                                        text = p.get("text") or p.get("content")
+                                        if self._is_missing(text):
+                                            text = None
+                                        if not text:
+                                            text = "The righteous shall rejoice in the Lord..."
                                         text_clean = text.strip('"').rstrip('.')
                                         r_parts.append(f"**Prokeimenon:**  \n> Tone {tone_roman}: \"{text_clean}\"")
                                     e = r.get("epistle", {})
                                     if e:
-                                        text = e.get("text") or e.get("content") or "Romans 7:14-8:2"
+                                        text = e.get("text") or e.get("content")
+                                        if self._is_missing(text):
+                                            text = None
+                                        if not text:
+                                            text = "Romans 7:14-8:2"
                                         r_parts.append(f"**Epistle:**  \n> of the day ({text})")
                                     a = r.get("alleluia", {})
                                     if a:
@@ -1820,15 +1865,21 @@ class DigestGeneratorBase:
                                         r_parts.append(f"**Alleluia:**  \n> Tone {self._roman_tone(tone) if isinstance(tone, int) else tone}, with verses of the day.")
                                     g = r.get("gospel", {})
                                     if g:
-                                        text = g.get("text") or g.get("content") or "Matthew 10:9-15"
+                                        text = g.get("text") or g.get("content")
+                                        if self._is_missing(text):
+                                            text = None
+                                        if not text:
+                                            text = "Matthew 10:9-15"
                                         r_parts.append(f"**Gospel:**  \n> of the day ({text})")
                                     
                                     # Communion hymn lookup
                                     c_text = "In everlasting remembrance shall the righteous be..."
                                     try:
                                         kin_res = self.engine.resolve_communion_hymn(enriched, rubrics)
-                                        if kin_res and kin_res.get("text"):
+                                        if kin_res and kin_res.get("text") and not self._is_missing(kin_res.get("text")):
                                             c_text = kin_res["text"]
+                                        elif kin_res and kin_res.get("content") and not self._is_missing(kin_res.get("content")):
+                                            c_text = kin_res["content"]
                                     except Exception:
                                         pass
                                     cleaned_c = self._clean_hymn_text(c_text)
@@ -1877,10 +1928,14 @@ class DigestGeneratorBase:
                                 if slot_id == "liturgy_prokeimenon" and "prokeimenon" in r:
                                     p = r["prokeimenon"]
                                     text = p.get("text") or p.get("content")
+                                    if self._is_missing(text):
+                                        text = None
                                     if not text and p.get("ref_key"):
                                         asset = self.engine.get_text(p["ref_key"])
-                                        if asset:
+                                        if asset and not self._is_missing(asset):
                                             text = asset.get("content")
+                                            if self._is_missing(text):
+                                                text = None
                                             if asset.get("tone") and not p.get("tone"):
                                                 p["tone"] = asset["tone"]
                                     tone_str = f" Tone {self._roman_tone(p.get('tone'))}" if p.get("tone") else ""
@@ -1901,6 +1956,8 @@ class DigestGeneratorBase:
                                 elif slot_id == "liturgy_epistle" and "epistle" in r:
                                     e = r["epistle"]
                                     text = e.get("text") or e.get("content")
+                                    if self._is_missing(text):
+                                        text = None
                                     if text:
                                         digest.append(f"**Epistle:**  \n> {text}")
                                     else:
@@ -1913,11 +1970,15 @@ class DigestGeneratorBase:
                                         if all_res:
                                             ref_key = all_res.get("ref_key", "")
                                             text = all_res.get("text") or all_res.get("content")
+                                            if self._is_missing(text):
+                                                text = None
+                                                all_res["text"] = None
+                                                all_res["content"] = None
                                             if ref_key and not text and not all_res.get("verses"):
                                                 asset = self.engine.get_text(ref_key)
-                                                if asset:
+                                                if asset and not self._is_missing(asset):
                                                     raw_content = asset.get("content")
-                                                    if raw_content:
+                                                    if raw_content and not self._is_missing(raw_content):
                                                         if isinstance(raw_content, str):
                                                             all_res["verses"] = [v.strip() for v in raw_content.split("\n") if v.strip()]
                                                         elif isinstance(raw_content, list):
@@ -1926,6 +1987,8 @@ class DigestGeneratorBase:
                                                         all_res["tone"] = asset["tone"]
                                             
                                             text = all_res.get("text") or all_res.get("content")
+                                            if self._is_missing(text):
+                                                text = None
                                             if ref_key.startswith("menaion.") and not text and not all_res.get("verses"):
                                                 val = get_ref_label_local(ref_key, "Alleluia")
                                                 tone = all_res.get("tone")
@@ -1940,6 +2003,8 @@ class DigestGeneratorBase:
                                 elif slot_id == "liturgy_gospel" and "gospel" in r:
                                     g = r["gospel"]
                                     text = g.get("text") or g.get("content")
+                                    if self._is_missing(text):
+                                        text = None
                                     if text:
                                         digest.append(f"**Gospel:**  \n> {text}")
                                     else:
@@ -2106,17 +2171,17 @@ class DigestGeneratorBase:
                 if ref_key:
                     ref_key_lower = ref_key.lower()
                     is_trivial = False
-                    if "litany" in ref_key_lower or "our_father" in ref_key_lower or "trisagion" in ref_key_lower or "creed" in ref_key_lower:
+                    if "litany" in ref_key_lower or "litanies" in ref_key_lower or "our_father" in ref_key_lower or "trisagion" in ref_key_lower or "creed" in ref_key_lower:
                         is_trivial = True
-                    elif ref_key_lower.startswith("horologion."):
+                    elif ref_key_lower.startswith("horologion.") or ref_key_lower.startswith("liturgikon."):
                         is_trivial = True
                     
                     if not is_trivial:
                         txt_res = self.engine.get_text(ref_key)
-                        if txt_res and "content" in txt_res:
+                        if txt_res and not self._is_missing(txt_res) and "content" in txt_res:
                             title = self.humanize_key(ref_key)
                             text_body = txt_res["content"].strip()
-                            if "[STUB]" not in text_body:
+                            if not self._is_missing(text_body) and "[STUB]" not in text_body:
                                 digest.append(f"**{title}:** {text_body}")
 
                 

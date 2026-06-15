@@ -158,6 +158,8 @@ class MatinsFormatterMixin:
             
         if isinstance(res, dict):
             text = res.get("text") or res.get("content")
+            if self._is_missing(text):
+                text = None
             key = res.get("id") or res.get("katavasia_id") or ""
             tone = res.get("tone")
             if isinstance(tone, int):

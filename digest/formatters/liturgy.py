@@ -17,13 +17,16 @@ class LiturgyFormatterMixin:
             for k in ["prokeimenon", "epistle", "alleluia", "gospel", "communion_hymn"]:
                 p = reading.get(k, {})
                 if p:
-                    if p.get("text") or p.get("content"):
+                    txt = p.get("text") or p.get("content")
+                    if txt and not self._is_missing(txt):
                         return True
                     ref_key = p.get("ref_key", "")
                     if ref_key and ref_key in self.engine.text_db:
                         entry = self.engine.text_db[ref_key]
-                        if entry.get("text") or entry.get("content") or entry.get("title"):
-                            return True
+                        if not self._is_missing(entry):
+                            entry_txt = entry.get("text") or entry.get("content")
+                            if entry_txt and not self._is_missing(entry_txt):
+                                return True
             return False
             
         hydrated_any = any(is_hydrated(r) for r in readings_data)
@@ -41,6 +44,8 @@ class LiturgyFormatterMixin:
                 tone = p.get("tone")
                 t_str = f"Tone {self._roman_tone(tone)}" if tone else ""
                 text = p.get("text") or p.get("content")
+                if self._is_missing(text):
+                    text = None
                 if len(readings_data) > 1:
                     label = "Prokeimenon (Feast - sung twice)" if idx == 0 else "Prokeimenon (Saint - sung once, without verse)"
                 else:
@@ -61,6 +66,8 @@ class LiturgyFormatterMixin:
             e = reading.get("epistle", {})
             if e:
                 text = e.get("text") or e.get("content")
+                if self._is_missing(text):
+                    text = None
                 if text:
                     ref = text
                 else:
@@ -80,6 +87,8 @@ class LiturgyFormatterMixin:
                     a_str = f"**Alleluia:** {t_str}, with verses of the day." if t_str else "**Alleluia:** with verses of the day."
                 else:
                     text = a.get("text") or a.get("content")
+                    if self._is_missing(text):
+                        text = None
                     if text:
                         a_str = f"**Alleluia:** {t_str}, with verses: \"{text}\"."
                     else:
@@ -101,6 +110,8 @@ class LiturgyFormatterMixin:
             g = reading.get("gospel", {})
             if g:
                 text = g.get("text") or g.get("content")
+                if self._is_missing(text):
+                    text = None
                 if text:
                     ref = text
                 else:
@@ -124,7 +135,7 @@ class LiturgyFormatterMixin:
             
         try:
             kin_res = self.engine.resolve_communion_hymn(context, rubrics)
-            if kin_res and kin_res.get("text"):
+            if kin_res and kin_res.get("text") and not self._is_missing(kin_res.get("text")):
                 lines.append(f"**Communion Hymn:** \"{kin_res['text']}\"")
         except Exception as e:
             pass
@@ -250,9 +261,12 @@ class LiturgyFormatterMixin:
             return ""
         if res.get("text"):
             text = res.get("text")
-            if text and not text.startswith('*') and not text.endswith('*') and len(text) > 2:
-                text = f"*{text}*"
-            return f"**Instead of 'It is truly proper':**  \n> {text}."
+            if self._is_missing(text):
+                text = None
+            if text:
+                if not text.startswith('*') and not text.endswith('*') and len(text) > 2:
+                    text = f"*{text}*"
+                return f"**Instead of 'It is truly proper':**  \n> {text}."
         elif res.get("type") == "irmos_ode_9" or res.get("ref_key") == "festal_zadostoinyk" or res.get("type") == "variable":
             return "**Instead of 'It is truly proper':**  \n> we sing the Heirmos of Ode 9 of the Canon."
         return ""
@@ -406,8 +420,17 @@ class LiturgyFormatterMixin:
             for k in ["prokeimenon", "epistle", "alleluia", "gospel", "communion_hymn"]:
                 p = reading.get(k, {})
                 if p:
-                    if p.get("text") or p.get("content"):
+                    txt = p.get("text") or p.get("content")
+                    if txt and not self._is_missing(txt):
                         return True
+                    ref_key = p.get("ref_key", "")
+                    if ref_key and ref_key in self.engine.text_db:
+                        entry = self.engine.text_db[ref_key]
+                        if not self._is_missing(entry):
+                            entry_txt = entry.get("text") or entry.get("content")
+                            if entry_txt and not self._is_missing(entry_txt):
+                                return True
+            return False
         # Keep all reading slots (even if unhydrated) to ensure placeholders are displayed
         # for saints' readings on double-reading days.
         readings = res["readings"]
@@ -447,6 +470,8 @@ class LiturgyFormatterMixin:
                 tone_roman = self._roman_tone(tone)
                 tone_str = f"Tone {tone_roman}" if tone_roman else ""
                 text = p.get("text") or p.get("content")
+                if self._is_missing(text):
+                    text = None
                 if len(readings) > 1:
                     label = "Prokeimenon (Feast - sung twice)" if idx == 0 else "Prokeimenon (Saint - sung once, without verse)"
                 else:
@@ -465,6 +490,8 @@ class LiturgyFormatterMixin:
             e = reading.get("epistle", {})
             if e:
                 text = e.get("text") or e.get("content")
+                if self._is_missing(text):
+                    text = None
                 if text:
                     if is_weekday and is_simple:
                         r_parts.append(f"**Epistle:** of the day ({text})")
@@ -481,6 +508,8 @@ class LiturgyFormatterMixin:
                 tone_roman = self._roman_tone(tone)
                 tone_str = f"Tone {tone_roman}" if tone_roman else ""
                 text = a.get("text") or a.get("content")
+                if self._is_missing(text):
+                    text = None
                 verses = a.get("verses", [])
                 
                 if is_weekday and is_simple:
@@ -501,6 +530,8 @@ class LiturgyFormatterMixin:
             g = reading.get("gospel", {})
             if g:
                 text = g.get("text") or g.get("content")
+                if self._is_missing(text):
+                    text = None
                 if text:
                     if is_weekday and is_simple:
                         r_parts.append(f"**Gospel:** of the day ({text})")
@@ -514,6 +545,8 @@ class LiturgyFormatterMixin:
             c = reading.get("communion_hymn", {})
             if c:
                 text = c.get("text") or c.get("content")
+                if self._is_missing(text):
+                    text = None
                 if text:
                     cleaned_text = self._clean_hymn_text(text)
                     if is_weekday and is_simple:

@@ -1219,14 +1219,15 @@ class VespersMixin:
         # Weekday - fixed daily prokeimena
         weekday_prokeimena = {
             0: {"tone": 8, "text": "Behold now, bless the Lord, all ye servants of the Lord.", "prokeimenon_id": "prokeimenon_weekday_tone_8"},
-            1: {"tone": 1, "text": "Thy mercy, O Lord, shall follow me all the days of my life.", "prokeimenon_id": "prokeimenon_weekday_tone_1"},
-            2: {"tone": 5, "text": "Save me, O God, by Thy name, and judge me by Thy strength.", "prokeimenon_id": "prokeimenon_weekday_tone_5"},
-            3: {"tone": 7, "text": "My help cometh from the Lord, Who hath made heaven and earth.", "prokeimenon_id": "prokeimenon_weekday_tone_7"},
-            4: {"tone": 7, "text": "O God, Thou art my defender, and Thy mercy shall go before me.", "prokeimenon_id": "prokeimenon_weekday_tone_7"},
-            5: {"tone": 7, "text": "O God, Thou art my strength; Haste Thee to help me.", "prokeimenon_id": "prokeimenon_weekday_tone_7_sat"}
+            1: {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"},
+            2: {"tone": 1, "text": "Thy mercy, O Lord, shall follow me all the days of my life.", "prokeimenon_id": "prokeimenon_weekday_tone_1"},
+            3: {"tone": 5, "text": "Save me, O God, by Thy name, and judge me by Thy strength.", "prokeimenon_id": "prokeimenon_weekday_tone_5"},
+            4: {"tone": 6, "text": "My help cometh from the Lord, Who hath made heaven and earth.", "prokeimenon_id": "prokeimenon_weekday_tone_6"},
+            5: {"tone": 7, "text": "O God, Thou art my defender, and Thy mercy shall go before me.", "prokeimenon_id": "prokeimenon_weekday_tone_7"},
+            6: {"tone": 6, "text": "The Lord reigns, He is clothed in majesty.", "prokeimenon_id": "prokeimenon_weekday_tone_6_sat"}
         }
         
-        data = weekday_prokeimena.get(day_of_week, {"tone": 1, "text": "Thy mercy, O Lord, shall follow me all the days of my life.", "prokeimenon_id": "prokeimenon_weekday_tone_1"})
+        data = weekday_prokeimena.get(day_of_week, {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"})
         return {
             "type": "daily_prokeimenon",
             "tone": data["tone"],
