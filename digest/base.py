@@ -165,6 +165,8 @@ class DigestGeneratorBase:
                     return f"{book_name} {num_parts[0]}:{num_parts[1]}-{num_parts[2]}"
                 elif len(num_parts) == 6:
                     return f"{book_name} {num_parts[0]}:{num_parts[1]}-{num_parts[2]}, {num_parts[3]}-{num_parts[4]}, {num_parts[5]}"
+                elif len(num_parts) == 5:
+                    return f"{book_name} {num_parts[0]}:{num_parts[1]}-{num_parts[2]}, {num_parts[3]}-{num_parts[4]}"
                 elif len(num_parts) == 2:
                     return f"{book_name} {num_parts[0]}:{num_parts[1]}"
                 elif len(num_parts) == 1:
@@ -670,7 +672,9 @@ class DigestGeneratorBase:
             res = self.engine.resolve_saint_transfer(enriched, rubrics)
             if res and res.get("transferred"):
                 target = res.get('target', 'a convenient time').replace('_', ' ')
-                digest.append(f"The service to {res.get('saint_name', 'the Saint')} is transferred to {target}.")
+                verb = "are" if res.get("saint_count", 1) > 1 else "is"
+                noun = "services" if res.get("saint_count", 1) > 1 else "service"
+                digest.append(f"The {noun} to {res.get('saint_name', 'the Saint')} {verb} transferred to {target}.")
         except Exception as e:
             digest.append(f"[ERROR: resolve_saint_transfer failed - {e}]")
 
@@ -1137,7 +1141,9 @@ class DigestGeneratorBase:
             res = self.engine.resolve_saint_transfer(enriched, rubrics)
             if res and res.get("transferred"):
                 target = res.get('target', 'a convenient time').replace('_', ' ')
-                digest.append(f"The service to {res.get('saint_name', 'the Saint')} is transferred to {target}.  ")
+                verb = "are" if res.get("saint_count", 1) > 1 else "is"
+                noun = "services" if res.get("saint_count", 1) > 1 else "service"
+                digest.append(f"The {noun} to {res.get('saint_name', 'the Saint')} {verb} transferred to {target}.  ")
         except Exception as e:
             digest.append(f"[RESOLVE ERROR: resolve_saint_transfer: {e}]  ")
             

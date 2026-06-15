@@ -37,10 +37,10 @@ When resolving any rubrical question, follow this strict precedence:
 - **Active Task List**: Review `task.md` in this directory to see what you are currently working on.
 - **Current Project State**: The Hub (Typikon Coded) is conceptually **100% complete** regarding core logic, service structures (including complex structures like Small Vespers and Great Compline), and digest formatting. 
 - **The Hub and Spoke Ecosystem**: Typikon Coded operates as the central "Hub". It awaits text hydration from external "Spokes" (e.g., Revitalize, Translation, Kyivan Musicology projects), which drop formatted JSON files into `Data/Inbox/`.
-- **Verified Resolver Metrics (2026-06-14, v3.14)**:
+- **Verified Resolver Metrics (2026-06-15, v3.15)**:
   - **207** `resolve_` methods defined in the engine.
   - **83** unique resolvers referenced by JSON struct files.
-  - **322 tests** passing cleanly in the pytest suite.
+  - **328 tests** passing cleanly in the pytest suite.
   - **Formatting & Citation Standards**: Styled "Say the Black, Do the Red" rubrics, gold border blockquotes, pill badges for vestments/fasting, and tooltipped citations.
   - **Liturgical Sourcing & Prefixes**: Dynamic prokeimena retrieval from Horologion JSONs, gendered saint sessional prefixes, and `include_ceremonial` digest pruning.
   - **Backend-Driven UI Classification**: Classifications, badges, and categories are centralized in the backend (`engine/calendar.py`), which the cantor dashboard frontend consumes directly.

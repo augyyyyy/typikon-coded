@@ -985,11 +985,41 @@ body.dark-theme .digest-style code {
 }
 
 .digest-style blockquote {
-    border-left: 3px solid var(--rubric-color);
-    padding-left: 14px;
+    border-left: none;
+    padding-left: 0;
     color: var(--text-secondary);
     font-style: italic;
     margin: 14px 0;
+}
+
+.digest-header {
+    text-align: center;
+    border-bottom: 3px double var(--gold-accent);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.readings-group {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    row-gap: 8px;
+    column-gap: 16px;
+    margin: 16px 0;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-divider);
+    border-radius: 6px;
+}
+
+.readings-label {
+    font-weight: 700;
+    color: var(--gold-accent);
+    text-align: right;
+    padding-right: 8px;
+}
+
+.readings-value {
+    color: var(--text-primary);
 }
 
 .digest-style em, .service-section-body em {

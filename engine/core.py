@@ -155,7 +155,7 @@ class EngineCore:
         self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/floral_triodion.json")
         
         # Primary Source: Dolnytsky Calendar Data (Fixed & Movable)
-        self.dolnytsky_fixed = self._load_json("json_db/calendar_dolnytsky.json")
+        self.dolnytsky_fixed = self._load_json("json_db/calendar_dolnytsky_split.json")
         self.dolnytsky_movable = self._load_json("json_db/calendar_dolnytsky_movable.json")
         self.katavasia_seasons = self._load_json("json_db/katavasia_seasons.json")
         

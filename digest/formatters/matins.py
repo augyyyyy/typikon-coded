@@ -131,6 +131,37 @@ class MatinsFormatterMixin:
                 f"**Matins Gospel:** {res.get('title')}: {res.get('text')}. "
                 "Response: Glory to Thee, O Lord, glory to Thee."
             )
+        
+        reading_key = res.get("reading_key", "")
+        # Check if it is a Sunday Eothinon Gospel
+        if "eothinon.gospel_" in reading_key or (res.get("title") and "(Eothinon)" in res.get("title")):
+            # Extract Eothinon number
+            try:
+                num = int(reading_key.split("_")[-1])
+            except ValueError:
+                num = 1
+                for part in res.get("title", "").split():
+                    if part.isdigit():
+                        num = int(part)
+                        break
+            
+            # Roman numerals and citations mapping
+            eothinon_map = {
+                1: ("I", "(116) Matthew 28:16-20"),
+                2: ("II", "(70) Mark 16:1-8"),
+                3: ("III", "(71) Mark 16:9-20"),
+                4: ("IV", "(112) Luke 24:1-12"),
+                5: ("V", "(113) Luke 24:12-35"),
+                6: ("VI", "(114) Luke 24:36-53"),
+                7: ("VII", "(63) John 20:1-10"),
+                8: ("VIII", "(64) John 20:11-18"),
+                9: ("IX", "(65) John 20:19-31"),
+                10: ("X", "(66) John 21:1-14"),
+                11: ("XI", "(67) John 21:15-25")
+            }
+            roman, citation = eothinon_map.get(num, ("I", "(116) Matthew 28:16-20"))
+            return f"Matins Gospel {roman}: {citation}."
+
         title = res.get("title") or res.get("reading_key") or "Matins Gospel"
         return f"Matins Gospel: {title}."
 
@@ -172,11 +203,18 @@ class MatinsFormatterMixin:
                 val = f'"{text}"'
             else:
                 val = self.humanize_key(key)
+                if self._is_missing(val):
+                    val = "Katavasia of the Saint"
                 if val and not val.startswith('"') and not val.endswith('"') and len(val) > 5:
                     val = f"*{val}*"
             formatted = f"**Katavasia:** {val}{tone_str}."
         else:
-            val = self.humanize_key(res)
+            if self._is_missing(res):
+                val = "Katavasia of the Saint"
+            else:
+                val = self.humanize_key(res)
+                if self._is_missing(val):
+                    val = "Katavasia of the Saint"
             if val and not val.startswith('"') and not val.endswith('"') and len(val) > 5:
                 val = f"*{val}*"
             formatted = f"**Katavasia:** {val}."

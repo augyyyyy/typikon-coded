@@ -1,6 +1,6 @@
 # Project Brainprint: Typikon Coded
-**Forensic Codebase Audit — v3.14**
-*Audit Date: 2026-06-14 | Prior Audit: 2026-06-13 (v3.13)*
+**Forensic Codebase Audit — v3.15**
+*Audit Date: 2026-06-15 | Prior Audit: 2026-06-14 (v3.14)*
 
 ---
 
@@ -21,7 +21,7 @@
 
 ## Executive Summary
 
-**Typikon Coded** is a Python-based liturgical constraint-logic engine that dynamically generates Byzantine Rite service texts according to the Dolnytsky Typikon (Lviv, 2010). The project reached v0.5.0 maturity in early February 2026. **Phase 0 (Triage), Phase 1 (Architectural Standardization), Phase 2 (Feature Development through Phase 32), and Phase 3 (June 2026 Liturgical Remediation and 0-100 Multi-Audit)** are complete as of June 2026. As of June 2026, the project achieved 100% citation grounding, mathematically mapping all engine logic and JSON constraints to the canonical text of the Typikon and Ordo. The former 11,109-line monolith (`ruthenian_engine.py`) has been surgically deduplicated and decomposed into a mixin-based modular package (`engine/`) containing 11,795 lines across 16 modules. The system is backed by a mature 322-test suite (100% pass rate). Schema validation covers 26/26 JSON files (13 text assets + 13 service structures).
+**Typikon Coded** is a Python-based liturgical constraint-logic engine that dynamically generates Byzantine Rite service texts according to the Dolnytsky Typikon (Lviv, 2010). The project reached v0.5.0 maturity in early February 2026. **Phase 0 (Triage), Phase 1 (Architectural Standardization), Phase 2 (Feature Development through Phase 32), and Phase 3 (June 2026 Liturgical Remediation and 0-100 Multi-Audit)** are complete as of June 2026. As of June 2026, the project achieved 100% citation grounding, mathematically mapping all engine logic and JSON constraints to the canonical text of the Typikon and Ordo. The former 11,109-line monolith (`ruthenian_engine.py`) has been surgically deduplicated and decomposed into a mixin-based modular package (`engine/`) containing 11,795 lines across 16 modules. The system is backed by a mature 328-test suite (100% pass rate). Schema validation covers 14 JSON files (1 text asset + 13 service structures) passing schema checks.
 
 ---
 
@@ -33,11 +33,11 @@
 |-----------|--------|
 | **Language** | Python 3.8+ (running 3.14.2 locally) |
 | **Framework** | None — pure stdlib (`json`, `os`, `datetime`, `copy`, `argparse`) |
-| **Testing** | `pytest` 9.0.2 (**318 tests**, 100% pass, ~12.36s) |
-| **Schema Validation** | `jsonschema` 4.26.0 — **26/26 files passing** (13 text + 13 struct) |
-| **Data Format** | JSON flat-file database (83 files in `json_db/` incl. subdirs) |
+| **Testing** | `pytest` 9.0.2 (**328 tests**, 100% pass, ~39.76s) |
+| **Schema Validation** | `jsonschema` 4.26.0 — **14 files passing** (1 text + 13 struct) |
+| **Data Format** | JSON flat-file database (62 files in `json_db/` incl. subdirs) |
 | **Version** | v0.5.0 (Logic Core Complete, per README changelog) |
-| **VCS** | Git, 66 total commits |
+| **VCS** | Git, 72 total commits |
 | **Paschalion** | Dual Julian/Gregorian computus implemented inline |
 | **Global API Keys** | Shared `.env` at root. Contains `[deepseek-v4-pro]`/`DEEPSEEK_API_KEY` |
 
@@ -88,14 +88,14 @@ Typikon Coded/                              # Root (23 subdirs, 12 files)
 ├── scratch_append_matins.py                # 🔴 DEAD CODE — one-time injection script
 ├── scratch_insert_phase2.py                # 🔴 DEAD CODE — one-time injection script
 ├── update_json.py                          # ⚠️ One-time migration script (likely already run)
-├── json_db/                                # 83 files — Liturgical database
+├── json_db/                                # 62 files — Liturgical database
 │   ├── 00_*.json                           # 4 system registries & components
 │   ├── 01*_struct_*.json                   # 13 service structure skeletons
 │   ├── 02*_logic_*.json                    # 26 logic/rules modules
 │   ├── 02b_01–12_*.json                    # 12 monthly Menaion logic files
 │   ├── 03_assets_map.json                  # Asset mapping
 │   ├── 04_logic_*.json                     # 2 vespers logic files
-│   ├── calendar_dolnytsky*.json            # 2 calendar files (fixed + movable)
+│   ├── calendar_dolnytsky*.json            # 3 calendar files (fixed, movable, split)
 │   ├── common/                             # 1 file (General Menaion fallback)
 │   ├── st_sergius/                         # text_st_sergius.json (Tone 1)
 │   └── stamford_backup/                    # Backup copies
@@ -109,7 +109,7 @@ Typikon Coded/                              # Root (23 subdirs, 12 files)
 │   ├── triodion/                           # ⚠️ Only Sundays 1 (Orthodoxy) & 3 (Cross)
 │   └── stamford/                           # 6 subdirs + _id_map.json (~392 atomic files)
 ├── tests/                                  # 48 test files, 254 tests
-├── scripts/                                # 43 utility/generation/debug scripts
+├── scripts/                                # 61 utility/generation/debug scripts
 │   └── debug/                              # EMPTY (scripts archived to archive/debug_2026Q1/)
 ├── parsers/                                # 18 ingestion scripts (including Octoechos, General Menaion, Triodia, and St. Sergius pipeline) + archive/
 ├── schemas/                                # 4 files (JSON Schema governance)
@@ -118,6 +118,8 @@ Typikon Coded/                              # Root (23 subdirs, 12 files)
 │   ├── Service Books/                      # Recensions/, Services/, Typikon/
 │   │   └── Recensions/                     # Stamford Divine Office/JSON/assets/ text DB files
 │   └── *.txt                               # ref1, use_cases, system_instructions, etc.
+├── scratch/                                # 57 files — Ignored scratch scripts
+│   └── audit_recursive_resolvers.py        # Recursive resolver auditor
 ├── archive/                                # Safe storage of legacy files
 │   ├── docs/                               # 5 original .md docs (pre-consolidation)
 │   ├── debug_2026Q1/                       # 46 historical debug/patch/verify scripts
@@ -395,15 +397,15 @@ All known mismatches (alleluia, megalynarion, readings) have been successfully m
 Engine:          engine/ (11,795 lines across 16 modules)
 Shim:            ruthenian_engine.py (15 lines → engine/)
 Digest Gen:      typikon_digest_generator.py (3,129 lines)
-Tests:           322 passing / 0 failing (pytest, ~14s)
-Schema valid:    26/26 (13 text + 13 struct, jsonschema 4.26.0)
+Tests:           328 passing / 0 failing (pytest, ~39.76s)
+Schema valid:    14 files passing (1 text + 13 struct, jsonschema 4.26.0)
 Resolvers:       207 exist in engine / 83 referenced by JSON structs / 150 have formatters
 Missing resolvers: 0
 Missing formatters: 0
-JSON DB:         85 files in json_db/ (incl. subdirs)
+JSON DB:         62 files in json_db/ (incl. subdirs)
 Python files:    182 total (excl. .venv, __pycache__)
 PDF Gold Stds:   8 files in Desktop/Typikon digest/
-Git commits:     68
+Git commits:     72
 Phase 0:         COMPLETE
 Phase 1:         COMPLETE (monolith → modular engine)
 Almanac Mode:    COMPLETE (Common/Annual Typikon fast path)
@@ -414,4 +416,4 @@ Reference Files: Migrated from .txt to .md (outline mapped, line count preserved
 ```
 
 ---
-*Document Status: Authoritative Baseline v3.14 — Updated 2026-06-14 (June 2026 Remediation, Styling, Citations, Prokeimena Sourcing, and Prefix Classifications implemented). Cross-verified by consistency tests.*
+*Document Status: Authoritative Baseline v3.15 — Updated 2026-06-15 (Calendar Database Splitting, Vespers Prokeimena logic corrections, length-5 Scripture Humanization, and Recursive Resolver Audit implemented). Cross-verified by consistency tests.*

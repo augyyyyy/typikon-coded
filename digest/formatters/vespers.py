@@ -218,14 +218,37 @@ class VespersFormatterMixin:
         prok = res.get("prokeimenon", {}).get("text", "")
         if self._is_missing(prok):
             prok = "Prokeimenon of Passion Vespers"
-        p1 = f"{res.get('paremia_1', {}).get('book')} {res.get('paremia_1', {}).get('chapter')}"
-        p2 = f"{res.get('paremia_2', {}).get('book')} {res.get('paremia_2', {}).get('chapter')}"
-        p3 = f"{res.get('paremia_3', {}).get('book')} {res.get('paremia_3', {}).get('chapter')}"
-        epistle = f"{res.get('epistle', {}).get('book')} {res.get('epistle', {}).get('chapter')}"
+            
+        paremia_1 = res.get("paremia_1", {})
+        if self._is_missing(paremia_1.get("book")) or self._is_missing(paremia_1.get("chapter")):
+            p1 = "Reading 1 of Passion Vespers"
+        else:
+            p1 = f"{paremia_1.get('book')} {paremia_1.get('chapter')}"
+
+        paremia_2 = res.get("paremia_2", {})
+        if self._is_missing(paremia_2.get("book")) or self._is_missing(paremia_2.get("chapter")):
+            p2 = "Reading 2 of Passion Vespers"
+        else:
+            p2 = f"{paremia_2.get('book')} {paremia_2.get('chapter')}"
+
+        paremia_3 = res.get("paremia_3", {})
+        if self._is_missing(paremia_3.get("book")) or self._is_missing(paremia_3.get("chapter")):
+            p3 = "Reading 3 of Passion Vespers"
+        else:
+            p3 = f"{paremia_3.get('book')} {paremia_3.get('chapter')}"
+
+        epistle_data = res.get("epistle", {})
+        if self._is_missing(epistle_data.get("book")) or self._is_missing(epistle_data.get("chapter")):
+            epistle = "Epistle of Passion Vespers"
+        else:
+            epistle = f"{epistle_data.get('book')} {epistle_data.get('chapter')}"
+
         gospel = res.get("gospel", {}).get("content", "")
         if self._is_missing(gospel):
             gospel = "Gospel reading of Passion Vespers"
-        sources = ", ".join(res.get("gospel", {}).get("sources", []))
+            
+        g_sources = res.get("gospel", {}).get("sources", [])
+        sources = ", ".join(g_sources) if g_sources else "Passion Gospels"
         return (
             f"At Passion Vespers:\n"
             f"  - Prokeimenon: '{prok}'\n"

@@ -1234,12 +1234,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Markdown-to-HTML parser for Typikon Digest
     function formatMarkdownHtml(mdText) {
+        if (!mdText) return "";
+        let headerHtml = "";
+        let bodyText = mdText;
+        const h2Index = mdText.indexOf("##");
+        if (h2Index !== -1) {
+            const headerText = mdText.substring(0, h2Index);
+            bodyText = mdText.substring(h2Index);
+            headerHtml = `<div class="digest-header">${formatMarkdownHtmlInner(headerText)}</div>`;
+        }
+        return headerHtml + formatMarkdownHtmlInner(bodyText);
+    }
+
+    function formatMarkdownHtmlInner(mdText) {
         let html = escapeHtml(mdText);
         
         // Restore approved liturgical styling HTML tags after escaping
         html = html.replace(/&lt;span class=&quot;rubric&quot;&gt;(.*?)&lt;\/span&gt;/gi, '<span class="rubric">$1</span>');
         html = html.replace(/&lt;span class=&quot;sung-text&quot;&gt;(.*?)&lt;\/span&gt;/gi, '<span class="sung-text">$1</span>');
         html = html.replace(/&lt;blockquote class=&quot;verse&quot;&gt;(.*?)&lt;\/blockquote&gt;/gi, '<blockquote class="verse">$1</blockquote>');
+        
+        // Restore readings group styling tags after escaping
+        html = html.replace(/&lt;div class=&quot;readings-group&quot;&gt;/gi, '<div class="readings-group">');
+        html = html.replace(/&lt;\/div&gt;/gi, '</div>');
+        html = html.replace(/&lt;span class=&quot;readings-label&quot;&gt;(.*?)&lt;\/span&gt;/gi, '<span class="readings-label">$1</span>');
+        html = html.replace(/&lt;span class=&quot;readings-value&quot;&gt;(.*?)&lt;\/span&gt;/gi, '<span class="readings-value">$1</span>');
         
         // Parse citations like [Dolnytsky §12] into superscript elements
         html = html.replace(/\[([^\]]*?(?:Dolnytsky|Ordo|Typikon|Rubric|Note|Rule|§)[^\]]*?)\]/gi, '<sup class="citation-sup" title="Source Authority: $1">$1</sup>');

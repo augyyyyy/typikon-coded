@@ -33,96 +33,8 @@ class LiturgyFormatterMixin:
         if hydrated_any:
             readings_data = [r for r in readings_data if is_hydrated(r)]
             
-        prokeimena_lines = []
-        epistle_lines = []
-        alleluia_lines = []
-        gospel_lines = []
+        lines = [self._format_resolve_liturgy_readings({"readings": readings_data}, context)]
         
-        for idx, reading in enumerate(readings_data):
-            p = reading.get("prokeimenon", {})
-            if p:
-                tone = p.get("tone")
-                t_str = f"Tone {self._roman_tone(tone)}" if tone else ""
-                text = p.get("text") or p.get("content")
-                if self._is_missing(text):
-                    text = None
-                if len(readings_data) > 1:
-                    label = "Prokeimenon (Feast - sung twice)" if idx == 0 else "Prokeimenon (Saint - sung once, without verse)"
-                else:
-                    label = "Prokeimenon"
-                if text:
-                    text_clean = text.strip('"').rstrip('.')
-                    p_str = f"**{label}:** {t_str}: \"{text_clean}\"".replace(" :", ":").replace("::", ":").strip()
-                else:
-                    ref = self.humanize_key(p.get("ref_key", ""))
-                    ref_clean = ref.replace("Prokimenon", "").replace("Prokeimenon", "").strip()
-                    ref_key_lower = p.get("ref_key", "").lower()
-                    if not ref_clean or ref_clean.lower() in ("prokeimenon", "prokeimenon_daily") or "day_" in ref_key_lower or "day " in ref_clean.lower():
-                        p_str = f"**{label}:** of the day{', ' + t_str if t_str else ''}."
-                    else:
-                        p_str = f"**{label}:** {t_str}: \"{ref_clean}...\"".replace(" :", ":").replace("::", ":").strip()
-                prokeimena_lines.append(p_str)
-                    
-            e = reading.get("epistle", {})
-            if e:
-                text = e.get("text") or e.get("content")
-                if self._is_missing(text):
-                    text = None
-                if text:
-                    ref = text
-                else:
-                    ref = self.humanize_key(e.get("ref_key", ""))
-                    ref_key_lower = e.get("ref_key", "").lower()
-                    if not ref or ref.lower() in ("epistle", "epistle_daily", "apostol.weekday", "weekday") or "day_" in ref_key_lower or "day " in ref.lower():
-                        ref = "of the day"
-                epistle_lines.append(f"**Epistle:** {ref}")
-                
-            a = reading.get("alleluia", {})
-            if a:
-                tone = a.get("tone") or (p.get("tone") if p else None)
-                t_str = f"Tone {self._roman_tone(tone)}" if tone else ""
-                is_weekday = 0 < context.get("day_of_week", 0) <= 5
-                is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
-                if is_weekday and is_simple:
-                    a_str = f"**Alleluia:** {t_str}, with verses of the day." if t_str else "**Alleluia:** with verses of the day."
-                else:
-                    text = a.get("text") or a.get("content")
-                    if self._is_missing(text):
-                        text = None
-                    if text:
-                        a_str = f"**Alleluia:** {t_str}, with verses: \"{text}\"."
-                    else:
-                        verses = a.get("verses")
-                        if verses:
-                            vs_str = "; ".join(verses)
-                            v_str = f", with verses: \"{vs_str}\""
-                            a_str = f"**Alleluia:** {t_str}{v_str}."
-                        else:
-                            ref = self.humanize_key(a.get("ref_key", ""))
-                            ref_clean = ref.replace("Alleluia", "").strip()
-                            ref_key_lower = a.get("ref_key", "").lower()
-                            if not ref_clean or ref_clean.lower() in ("alleluia", "alleluia_daily") or "day_" in ref_key_lower or "day " in ref_clean.lower() or ref_clean.lower() == "weekday":
-                                a_str = f"**Alleluia:** of the day{', ' + t_str if t_str else ''}."
-                            else:
-                                a_str = f"**Alleluia:** {t_str}".strip()
-                alleluia_lines.append(a_str)
-                
-            g = reading.get("gospel", {})
-            if g:
-                text = g.get("text") or g.get("content")
-                if self._is_missing(text):
-                    text = None
-                if text:
-                    ref = text
-                else:
-                    ref = self.humanize_key(g.get("ref_key", ""))
-                    ref_key_lower = g.get("ref_key", "").lower()
-                    if not ref or ref.lower() in ("gospel", "gospel_daily", "evangelion.weekday", "weekday") or "day_" in ref_key_lower or "day " in ref.lower():
-                        ref = "of the day"
-                gospel_lines.append(f"**Gospel:** {ref}")
-                
-        lines = prokeimena_lines + epistle_lines + alleluia_lines + gospel_lines
-                
         try:
             meg_res = self.engine.resolve_liturgy_megalynarion(context, rubrics)
             if meg_res:
@@ -130,13 +42,6 @@ class LiturgyFormatterMixin:
                 if formatted_meg:
                     clean_meg = formatted_meg.replace("Instead of 'It is truly proper':", "").strip()
                     lines.append(f"**Instead of 'It is truly proper':** {clean_meg}")
-        except Exception as e:
-            pass
-            
-        try:
-            kin_res = self.engine.resolve_communion_hymn(context, rubrics)
-            if kin_res and kin_res.get("text") and not self._is_missing(kin_res.get("text")):
-                lines.append(f"**Communion Hymn:** \"{kin_res['text']}\"")
         except Exception as e:
             pass
             
@@ -463,6 +368,7 @@ class LiturgyFormatterMixin:
         parts = []
         for idx, reading in enumerate(readings):
             r_parts = []
+            r_parts.append('<div class="readings-group">')
             
             p = reading.get("prokeimenon", {})
             if p:
@@ -472,20 +378,17 @@ class LiturgyFormatterMixin:
                 text = p.get("text") or p.get("content")
                 if self._is_missing(text):
                     text = None
-                if len(readings) > 1:
-                    label = "Prokeimenon (Feast - sung twice)" if idx == 0 else "Prokeimenon (Saint - sung once, without verse)"
-                else:
-                    label = "Prokeimenon"
                 if text:
                     text_clean = text.strip('"').rstrip('.')
-                    r_parts.append(f"**{label}:** {tone_str}: \"{text_clean}\"")
+                    val = f'{text_clean} ({tone_str})' if tone_str else text_clean
                 else:
                     ref_key = p.get("ref_key", "")
-                    val = get_ref_label(ref_key, "Prokeimenon")
-                    if val == "*of the day*":
-                        r_parts.append(f"**{label}:** {val}{', Tone ' + tone_roman if tone_roman else ''}")
-                    else:
-                        r_parts.append(f"**{label}:** {val} (Tone {tone_roman})" if tone_roman else f"**{label}:** {val}")
+                    val = get_ref_label(ref_key, "Prokeimenon").replace("*", "")
+                    if tone_roman:
+                        val += f" (Tone {tone_roman})"
+                
+                label = "Prokeimenon (Feast)" if len(readings) > 1 and idx == 0 else "Prokeimenon (Saint)" if len(readings) > 1 else "Prokeimenon"
+                r_parts.append(f'<span class="readings-label">{label}:</span><span class="readings-value">{val}</span>')
                 
             e = reading.get("epistle", {})
             if e:
@@ -494,13 +397,16 @@ class LiturgyFormatterMixin:
                     text = None
                 if text:
                     if is_weekday and is_simple:
-                        r_parts.append(f"**Epistle:** of the day ({text})")
+                        val = f"of the day ({text})"
                     else:
-                        r_parts.append(f"**Epistle:** {text}")
+                        val = text
                 else:
                     ref_key = e.get("ref_key", "")
-                    val = get_ref_label(ref_key, "Epistle")
-                    r_parts.append(f"**Epistle:** {val}")
+                    val = get_ref_label(ref_key, "Epistle").replace("*", "")
+                
+                label = "Epistles" if len(readings) > 1 and idx == 0 else "Epistle" if len(readings) > 1 else "Epistle"
+                # Wait, if there are multiple readings, let's call it Epistles or Epistle
+                r_parts.append(f'<span class="readings-label">{label}:</span><span class="readings-value">{val}</span>')
                 
             a = reading.get("alleluia", {})
             if a:
@@ -513,19 +419,20 @@ class LiturgyFormatterMixin:
                 verses = a.get("verses", [])
                 
                 if is_weekday and is_simple:
-                    r_parts.append(f"**Alleluia:** {tone_str}: 'Alleluia, Alleluia, Alleluia, glory to Thee, O God.'")
+                    val = f"{tone_str}: 'Alleluia, Alleluia, Alleluia, glory to Thee, O God.'" if tone_str else "'Alleluia, Alleluia, Alleluia, glory to Thee, O God.'"
                 elif text:
-                    r_parts.append(f"**Alleluia:** {tone_str}, with verses: \"{text}\"" if tone_str else f"**Alleluia:** with verses: \"{text}\"")
+                    val = f'sung in {tone_str} with verses: "{text}"' if tone_str else f'with verses: "{text}"'
                 elif verses:
                     vs_str = "; ".join(verses)
-                    r_parts.append(f"**Alleluia:** {tone_str}, with verses: \"{vs_str}\"" if tone_str else f"**Alleluia:** with verses: \"{vs_str}\"")
+                    val = f'sung in {tone_str} with verses: "{vs_str}"' if tone_str else f'with verses: "{vs_str}"'
                 else:
                     ref_key = a.get("ref_key", "")
-                    val = get_ref_label(ref_key, "Alleluia")
-                    if val == "*of the day*":
-                        r_parts.append(f"**Alleluia:** {val}{', Tone ' + tone_roman if tone_roman else ''}")
-                    else:
-                        r_parts.append(f"**Alleluia:** {val} (Tone {tone_roman})" if tone_roman else f"**Alleluia:** {val}")
+                    val = get_ref_label(ref_key, "Alleluia").replace("*", "")
+                    if tone_roman:
+                        val += f" (Tone {tone_roman})"
+                
+                label = "Alleluia (Feast)" if len(readings) > 1 and idx == 0 else "Alleluia (Saint)" if len(readings) > 1 else "Alleluia"
+                r_parts.append(f'<span class="readings-label">{label}:</span><span class="readings-value">{val}</span>')
                 
             g = reading.get("gospel", {})
             if g:
@@ -534,14 +441,16 @@ class LiturgyFormatterMixin:
                     text = None
                 if text:
                     if is_weekday and is_simple:
-                        r_parts.append(f"**Gospel:** of the day ({text})")
+                        val = f"of the day ({text})"
                     else:
-                        r_parts.append(f"**Gospel:** {text}")
+                        val = text
                 else:
                     ref_key = g.get("ref_key", "")
-                    val = get_ref_label(ref_key, "Gospel")
-                    r_parts.append(f"**Gospel:** {val}")
- 
+                    val = get_ref_label(ref_key, "Gospel").replace("*", "")
+                
+                label = "Gospels" if len(readings) > 1 and idx == 0 else "Gospel" if len(readings) > 1 else "Gospel"
+                r_parts.append(f'<span class="readings-label">{label}:</span><span class="readings-value">{val}</span>')
+                
             c = reading.get("communion_hymn", {})
             if c:
                 text = c.get("text") or c.get("content")
@@ -550,16 +459,20 @@ class LiturgyFormatterMixin:
                 if text:
                     cleaned_text = self._clean_hymn_text(text)
                     if is_weekday and is_simple:
-                        r_parts.append(f"**Communion Hymn:** of the day: {cleaned_text}")
+                        val = f"of the day: {cleaned_text}"
                     else:
-                        r_parts.append(f"**Communion Hymn:** {cleaned_text}")
+                        val = cleaned_text
                 else:
                     ref_str = self.humanize_key(c.get("ref_key", ""))
                     if is_weekday and is_simple:
-                        r_parts.append(f"**Communion Hymn:** of the day: {ref_str}")
+                        val = f"of the day: {ref_str}"
                     else:
-                        r_parts.append(f"**Communion Hymn:** {ref_str}")
+                        val = ref_str
                 
+                label = "Communion Hymn (Feast)" if len(readings) > 1 and idx == 0 else "Communion Hymn (Saint)" if len(readings) > 1 else "Communion Hymn"
+                r_parts.append(f'<span class="readings-label">{label}:</span><span class="readings-value">{val}</span>')
+                
+            r_parts.append('</div>')
             parts.append("\n".join(r_parts))
             
         if len(readings) > 1:

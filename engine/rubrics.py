@@ -544,25 +544,66 @@ class RubricsMixin:
         day_of_week = context.get("day_of_week", 0)
         rank = context.get("dolnytsky_rank", "")
         
+        saints = context.get("transferred_saints", context.get("saints", []))
+        all_saints_flat = []
+        for s in saints:
+            if "all_parsed_saints" in s:
+                for ps in s["all_parsed_saints"]:
+                    name_clean = ps.get("name", "").strip()
+                    all_saints_flat.append({
+                        "name": name_clean,
+                        "title": ps.get("title", ""),
+                        "gender": ps.get("gender", "unknown"),
+                        "monastic": ps.get("monastic", False),
+                        "rank_code": s.get("rank_code", "")
+                    })
+            else:
+                all_saints_flat.append(s)
+
+        def format_joint_names(s_list):
+            formatted = []
+            for s in s_list:
+                name = s.get("name", s.get("id", ""))
+                # Check if it starts with or contains event phrases to avoid prefixing
+                is_event = any(w in name.lower() for w in (
+                    "translation of", "synaxis of", "apodosis", "forefeast", "afterfeast",
+                    "conception", "nativity", "annunciation", "dormition", "falling-asleep",
+                    "placing", "finding", "beginning", "exposition", "beheading", "exaltation",
+                    "elevation", "encounter", "meeting", "slaying", "miracle", "apparition",
+                    "return of", "memory of", "commemoration of"
+                ))
+                if is_event:
+                    formatted.append(name)
+                    continue
+                # Prepend St./Ven. if missing
+                if not any(name.startswith(p) for p in ("St.", "Ven.", "Holy", "Prophet", "Apostle", "Righteous", "Venerable")):
+                    title = s.get("title", "")
+                    if title:
+                        name = f"{title} {name}"
+                    else:
+                        name = "St. " + name
+                formatted.append(name)
+            if len(formatted) == 0:
+                return "the Saint", 0
+            if len(formatted) == 1:
+                return formatted[0], 1
+            if len(formatted) == 2:
+                return f"{formatted[0]} and {formatted[1]}", 2
+            return ", ".join(formatted[:-1]) + " and " + formatted[-1], len(formatted)
+
         # Sundays of Triodion with simple saints
         if day_of_week == 0 and season == "triodion":
-            saints = context.get("transferred_saints", context.get("saints", []))
             simple_saints = [
-                s for s in saints 
+                s for s in all_saints_flat 
                 if s.get("rank_code", "") not in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]", "[POLUELEOS]")
                 and not any(w in s.get("name", "").lower() for w in ("forefeast", "afterfeast", "apodosis", "meeting", "encounter"))
             ]
             if simple_saints:
-                formatted_names = []
-                for s in simple_saints:
-                    name = s.get("name", s.get("id", ""))
-                    if not name.startswith("St.") and not name.startswith("Ven.") and not name.startswith("Holy"):
-                        name = "St. " + name
-                    formatted_names.append(name)
-                names_str = " or ".join(formatted_names)
+                names_str, count = format_joint_names(simple_saints)
                 return {
                     "transferred": True,
                     "saint_name": names_str,
+                    "saint_count": count,
                     "target": "the previous Friday at Compline, or another convenient time, whenever the ecclesiarch so wishes",
                     "citation": "Dolnytsky Part 3 — Triodion Sunday saint transfer"
                 }
@@ -576,16 +617,17 @@ class RubricsMixin:
             return None
             
         if day_of_week in (1, 2, 3, 4, 5) and rank not in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
-            saints = context.get("transferred_saints", context.get("saints", []))
             simple_saints = [
-                s for s in saints
+                s for s in all_saints_flat
                 if s.get("rank_code", "") not in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]", "[POLUELEOS]")
                 and not any(w in s.get("name", "").lower() for w in ("forefeast", "afterfeast", "apodosis", "meeting", "encounter"))
             ]
             if simple_saints:
+                names_str, count = format_joint_names(simple_saints)
                 return {
                     "transferred": True,
-                    "saint_name": simple_saints[0].get("name", simple_saints[0].get("id", "unknown")),
+                    "saint_name": names_str,
+                    "saint_count": count,
                     "target": "previous_friday_compline",
                     "citation": "Dolnytsky Part 4 — Lenten saint transfer to Friday Compline"
                 }

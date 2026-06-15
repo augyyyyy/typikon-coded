@@ -494,8 +494,9 @@ class CommonFormatterMixin:
     def _format_resolve_sessional(self, res, context):
         if not res: return ""
         val = res.get('id', 'Sessional')
-        if "octoechos" in val.lower():
-            if "sunday" in val.lower() or "resurrection" in val.lower():
+        val_lower = val.lower()
+        if "octoechos" in val_lower or "sidalen_res" in val_lower or "res" in val_lower:
+            if "sunday" in val_lower or "res" in val_lower or "resurrection" in val_lower:
                 return "We sing the resurrectional sessional hymns in the tone of the week, from the Octoechos."
             return "We sing the sessional hymns from the Octoechos."
         if "triodion" in val.lower():

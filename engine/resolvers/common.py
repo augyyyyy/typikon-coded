@@ -1161,33 +1161,34 @@ class CommonResolverMixin:
              overrides = collision["rubric"]["variables"]
              if "matins_canon_distribution" in overrides and "katavasia" in overrides["matins_canon_distribution"]:
                   kat_id = overrides["matins_canon_distribution"]["katavasia"]
-                  tone = 4
-                  text = "Seasonal Katavasia"
-                  if "cheesefare" in kat_id:
-                       tone = 6
-                       text = "When Israel passed on foot"
-                  elif "orthodoxy" in kat_id:
-                       tone = 4
-                       text = "Israel of old crossed the depth"
-                  elif "cross" in kat_id:
-                       tone = 1
-                       text = "Moses the servant of God"
-                  elif "lazarus" in kat_id:
-                       tone = 8
-                       text = "Having crossed the water"
-                  elif "theotokos" in kat_id:
-                       tone = 4
-                       text = "I will open my mouth"
-                  
-                  return {
-                      "type": "triodion_katavasia",
-                      "katavasia_id": kat_id,
-                      "id": kat_id,
-                      "text": text,
-                      "tone": tone,
-                      "frequency": "after_each_ode",
-                      "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-                  }
+                  if kat_id != "seasonal_katavasia":
+                      tone = 4
+                      text = "Seasonal Katavasia"
+                      if "cheesefare" in kat_id:
+                           tone = 6
+                           text = "When Israel passed on foot"
+                      elif "orthodoxy" in kat_id:
+                           tone = 4
+                           text = "Israel of old crossed the depth"
+                      elif "cross" in kat_id:
+                           tone = 1
+                           text = "Moses the servant of God"
+                      elif "lazarus" in kat_id:
+                           tone = 8
+                           text = "Having crossed the water"
+                      elif "theotokos" in kat_id:
+                           tone = 4
+                           text = "I will open my mouth"
+                      
+                      return {
+                          "type": "triodion_katavasia",
+                          "katavasia_id": kat_id,
+                          "id": kat_id,
+                          "text": text,
+                          "tone": tone,
+                          "frequency": "after_each_ode",
+                          "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                      }
         
         from engine.utils.type_utils import parse_rank_integer
         rank = parse_rank_integer(context.get('rank', 5))

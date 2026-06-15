@@ -92,6 +92,31 @@ def run_heuristics_for_date(engine: RuthenianEngine, target_date: date):
         if match:
             errors.append(f"Unresolved logical block or error: '{match.group(0)}' in digest.")
 
+    # 6. Check for spelling standard violations (enforcing UGCC norm)
+    spelling_violations = [
+        (r"\bprokimenon\b", "Prokimenon (must use Prokeimenon)"),
+        (r"\bprokimena\b", "Prokimena (must use Prokeimena)"),
+        (r"\bkinonicon\b", "Kinonicon (must use Communion Hymn)"),
+        (r"\bkinonica\b", "Kinonica (must use Communion Hymns)"),
+        (r"\bholy doors\b", "Holy Doors (must use Royal Doors)"),
+        (r"\bexaposteilarion\b", "Exaposteilarion (must use Exapostilarion)"),
+        (r"\blytia\b", "Lytia (must use Litiya)"),
+        (r"\blitia\b", "Litia (must use Litiya)"),
+        (r"\bpre-feast\b", "Pre-feast (must use Forefeast)"),
+        (r"\bpost-feast\b", "Post-feast (must use Afterfeast)"),
+        (r"\bpre\s+feast\b", "Pre feast (must use Forefeast)"),
+        (r"\bpost\s+feast\b", "Post feast (must use Afterfeast)"),
+        (r"\bleave-taking\b", "Leave-taking (must use Apodosis)"),
+        (r"\bleave\s+taking\b", "Leave taking (must use Apodosis)"),
+        (r"\bstepenna\b", "Stepenna (must use Gradual)"),
+        (r"\banabathmoi\b", "Anabathmoi (must use Gradual)")
+    ]
+    
+    for pattern, name in spelling_violations:
+        match = re.search(pattern, digest, re.IGNORECASE)
+        if match:
+            errors.append(f"Spelling standard violation: '{match.group(0)}' -> {name}")
+
     return errors
 
 def audit_full_year():

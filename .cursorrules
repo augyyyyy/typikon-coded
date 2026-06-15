@@ -119,10 +119,10 @@ A FULL liturgical day digest must account for ALL of these services (where appli
 ## Validation & Testing
 Run these commands before committing any major logic changes:
 ```bash
-# Full test suite (318 tests expected)
+# Full test suite (328 tests expected)
 $env:PYTHONPATH="."; .venv\Scripts/pytest
 
-# Validate JSON schemas (26/26 files expected)
+# Validate JSON schemas (14 files expected)
 python tests/validate_schemas.py
 
 # Matins stress tests specifically
@@ -168,7 +168,7 @@ When the user switches from a thinking/planning model (e.g., Claude Opus) to an 
 5. **If the plan becomes obsolete** or needs significant changes, update the plan and request user approval before continuing.
 6. **Context Dilution Protocol**: When context windows grow too long and the pre-flight/post-flight guidelines are at risk of being diluted or ignored, the 1M context `deepseek-v4-pro` model (configured with thinking mode enabled) must be invoked via the robust `get_deepseek_key()` loader (or suggested to the user for execution) to run deep forensic audits and preserve absolute compliance.
 
-### Verified Resolver Metrics & State (Updated: 2026-06-06)
+### Verified Resolver Metrics & State (Updated: 2026-06-15, v3.15)
 * **The Hub and Spoke Model**: Typikon Coded is the Hub. It only handles logic and structure. It awaits text from Spokes (e.g., Translation, Revitalize) via `Data/Inbox/`.
 * **Hub Logic State**: 100% Complete. (Even complex edge cases like Small Vespers and Great Compline are fully wired).
 * **207** `resolve_` methods exist in engine
@@ -379,3 +379,26 @@ When importing/parsing raw General Menaion files, translate their names to align
 7. **Ceremonial Sanctuary Rubrics Filtering**:
    - The digest generator supports an `include_ceremonial` boolean (defaulting to `False` in cantor digest). When `False`, minor sanctuary-focused rubrics (e.g., deacon positioning, curtain opening, censing directions, bow counts) are filtered out, leaving the cantor with a streamlined text-only chanting guide.
 
+---
+
+## XXVII. AI-Driven Calendar Database Split & Recursive Resolver-Level Auditing (2026-06-15)
+
+1. **AI-Driven Calendar Database Split**:
+   - Implemented a pre-compilation script (`scripts/parse_calendar_with_llm.py`) utilizing the DeepSeek API to segment multi-saint descriptions in `calendar_dolnytsky.json` into discrete, typed saint entries.
+   - Saved the structured dataset to `json_db/calendar_dolnytsky_split.json` containing detailed schema tags (`name`, `title`, `gender`, `monastic`, `is_saint`).
+
+2. **Saint Transfer Grammar Pluralization**:
+   - Updated `engine/calendar.py` to ingest the split calendar database, maintaining `saint_count = 1` for combined saint commemorations sharing a single troparion (like Bartholomew & Barnabas) to keep rank logic sound, while loading individual saint metadata into `all_parsed_saints`.
+   - Refactored `resolve_saint_transfer` in `engine/rubrics.py` to flatten the parsed saints list and format grammatically correct singular or pluralized transfer notes (e.g., using "is transferred" or "are transferred" based on count).
+
+3. **Liturgy & Vespers Prokeimena Correctness**:
+   - Fixed a logic leak where weekday Vespers on the eve of a Great Feast (rank 1) fell back to `resolve_prokeimenon` (which is Matins/Liturgy specific). Since the feast's liturgy details were absent from the Vespers context, it returned a malformed key (`"prokeimenon_"`), which humanized to a broken `"prokeimenon "` key leakage.
+   - Fixed by modifying `resolve_vespers_prokeimenon` and `resolve_vespers_readings_logic` in `engine/resolvers/vespers.py` to fetch weekday daily prokeimena directly from the daily weekday prokeimena map, preventing Matins/Liturgy overrides.
+
+4. **Scripture Reference Humanization (Length 5)**:
+   - Added support for 5-part scripture reference keys (like `"luke_2_20_21_40_52"`) inside `humanize_key` in `digest/base.py` by adding a `len(num_parts) == 5` branch. This maps them cleanly to standard citation formatting with colons and commas: `Luke 2:20-21, 40-52`.
+
+5. **Pass 3: Recursive White-Box Resolver Audit**:
+   - Developed `scratch/audit_recursive_resolvers.py` to discover and dynamically execute all active logic resolvers for a given date in isolation.
+   - Recursively validates the raw returned lists/dictionaries for UGCC spelling compliance, error placeholders (`[ERROR:`, `[RESOLVE:`), and confirms that all referenced text database (`text_db`) keys exist before booklet formatting is performed.
+   - Ran this auditor against January 2026, confirming that all 31 days pass cleanly with **0 failures** at the resolver level.

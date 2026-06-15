@@ -539,3 +539,26 @@ When switching models:
 7. **Ceremonial Pruning**:
    - Added an `include_ceremonial` flag (defaulting to `False`) to the digest generator. When `False`, sanctuary-only instructions (closed/open doors, bows, deacon positions, censings) are suppressed to focus the cantor digest purely on chanted text.
 
+---
+
+## XXVII. AI-Driven Calendar Database Split & Recursive Resolver-Level Auditing (2026-06-15)
+
+1. **AI-Driven Calendar Database Split**:
+   - Implemented a pre-compilation script (`scripts/parse_calendar_with_llm.py`) utilizing the DeepSeek API to segment multi-saint descriptions in `calendar_dolnytsky.json` into discrete, typed saint entries.
+   - Saved the structured dataset to `json_db/calendar_dolnytsky_split.json` containing detailed schema tags (`name`, `title`, `gender`, `monastic`, `is_saint`).
+
+2. **Saint Transfer Grammar Pluralization**:
+   - Updated `engine/calendar.py` to ingest the split calendar database, maintaining `saint_count = 1` for combined saint commemorations sharing a single troparion (like Bartholomew & Barnabas) to keep rank logic sound, while loading individual saint metadata into `all_parsed_saints`.
+   - Refactored `resolve_saint_transfer` in `engine/rubrics.py` to flatten the parsed saints list and format grammatically correct singular or pluralized transfer notes (e.g., using "is transferred" or "are transferred" based on count).
+
+3. **Liturgy & Vespers Prokeimena Correctness**:
+   - Fixed a logic leak where weekday Vespers on the eve of a Great Feast (rank 1) fell back to `resolve_prokeimenon` (which is Matins/Liturgy specific). Since the feast's liturgy details were absent from the Vespers context, it returned a malformed key (`"prokeimenon_"`), which humanized to a broken `"prokeimenon "` key leakage.
+   - Fixed by modifying `resolve_vespers_prokeimenon` and `resolve_vespers_readings_logic` in `engine/resolvers/vespers.py` to fetch weekday daily prokeimena directly from the daily weekday prokeimena map, preventing Matins/Liturgy overrides.
+
+4. **Scripture Reference Humanization (Length 5)**:
+   - Added support for 5-part scripture reference keys (like `"luke_2_20_21_40_52"`) inside `humanize_key` in `digest/base.py` by adding a `len(num_parts) == 5` branch. This maps them cleanly to standard citation formatting with colons and commas: `Luke 2:20-21, 40-52`.
+
+5. **Pass 3: Recursive White-Box Resolver Audit**:
+   - Developed `scratch/audit_recursive_resolvers.py` to discover and dynamically execute all active logic resolvers for a given date in isolation.
+   - Recursively validates the raw returned lists/dictionaries for UGCC spelling compliance, error placeholders (`[ERROR:`, `[RESOLVE:`), and confirms that all referenced text database (`text_db`) keys exist before booklet formatting is performed.
+   - Ran this auditor against January 2026, confirming that all 31 days pass cleanly with **0 failures** at the resolver level.

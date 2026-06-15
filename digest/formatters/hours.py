@@ -82,21 +82,21 @@ class HoursFormatterMixin:
                 if isinstance(kont_res, dict):
                     source = kont_res.get("source")
                     if source == "resurrection":
-                        kont_str = "Resurrection"
+                        kont_str = "Resurrectional kontakion"
                     elif source == "triodion":
-                        kont_str = "Triodion"
+                        kont_str = "Kontakion of the Triodion"
                     elif source == "triodion_saint":
                         r_title_lower = rubrics.get("title", "").lower()
                         if "palamas" in r_title_lower:
-                            kont_str = "St. Gregory Palamas"
+                            kont_str = "Kontakion of St. Gregory Palamas"
                         elif "john of the ladder" in r_title_lower or "climacus" in r_title_lower:
-                            kont_str = "St. John Climacus"
+                            kont_str = "Kontakion of St. John Climacus"
                         else:
-                            kont_str = "Saint"
+                            kont_str = "Kontakion of the Saint"
                     elif source == "saint_or_feast":
                         title_lower = context.get("dolnytsky_title", "").lower()
-                        lbl = "forefeast" if "forefeast" in title_lower or "prefeast" in title_lower else "afterfeast" if "afterfeast" in title_lower else "feast"
-                        kont_str = lbl
+                        lbl = "Forefeast" if "forefeast" in title_lower or "prefeast" in title_lower else "Afterfeast" if "afterfeast" in title_lower else "Feast"
+                        kont_str = f"Kontakion of the {lbl}"
                     else:
                         if source == "feast":
                             pascha_offset = context.get("pascha_offset")
@@ -120,9 +120,9 @@ class HoursFormatterMixin:
                             else:
                                 kont_str = "Kontakion of the second Saint"
                         else:
-                            kont_str = self.humanize_key(source)
+                            kont_str = f"Kontakion of {self.humanize_key(source)}"
                 else:
-                    kont_str = self.humanize_key(kont_res)
+                    kont_str = f"Kontakion of the {self.humanize_key(kont_res)}"
                 kontakia_by_hour[h] = kont_str
             except Exception as e:
                 kontakia_by_hour[h] = f"[ERROR: {e}]"

@@ -115,7 +115,9 @@ class VespersMixin:
             
             if glory is None:
                 glory = "saint_doxastikon_if_present"
-            if 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
+            if context.get("day_of_week") == 0:
+                both_now = f"octoechos.dogmatikon_tone_{context.get('tone', 1)}"
+            elif 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
                 both_now = "pentecostarion.eucharist.vespers.theotokion_lord_i_call"
             elif context.get("is_fore_or_afterfeast") or context.get("is_afterfeast"):
                 both_now = "feast_theotokion"
@@ -354,12 +356,12 @@ class VespersMixin:
             resolved_glory = "triodion.doxasticon"
 
         resolved_both_now = resolve_hymn_key(both_now, context)
-        if 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
+        if context.get("day_of_week") == 0:
+            resolved_both_now = f"octoechos.dogmatikon_tone_{context.get('tone', 1)}"
+        elif 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
             resolved_both_now = "pentecostarion.eucharist.vespers.theotokion_lord_i_call"
         elif context.get("is_fore_or_afterfeast") or context.get("is_afterfeast"):
             resolved_both_now = "feast_theotokion"
-        elif (not resolved_both_now or resolved_both_now == "None") and (context.get("day_of_week") == 0 or context.get("is_sunday_vigil")):
-            resolved_both_now = f"octoechos.dogmatikon_tone_{context.get('tone', 1)}"
 
         expanded_items = expand_distribution(dist, context)
 
@@ -1233,8 +1235,9 @@ class VespersMixin:
             "tone": data["tone"],
             "text": data["text"],
             "prokeimenon_id": data["prokeimenon_id"],
-            "day_of_week": day_of_week
+            "ref_key": f"prokeimenon.weekday_tone_{data['tone']}"
         }
+
 
     def resolve_vespers_prokeimenon(self, context, rubrics=None):
         """
@@ -1243,7 +1246,26 @@ class VespersMixin:
         res = self.resolve_vespers_readings_logic(context, rubrics)
         if res and isinstance(res, list) and len(res) > 0:
             return res[0]
-        return self.resolve_prokeimenon(context)
+            
+        # Fallback to daily weekday prokeimenon (Vespers standard)
+        day_of_week = context.get('day_of_week', 0)
+        weekday_prokeimena = {
+            0: {"tone": 8, "text": "Behold now, bless the Lord, all ye servants of the Lord.", "prokeimenon_id": "prokeimenon_weekday_tone_8"},
+            1: {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"},
+            2: {"tone": 1, "text": "Thy mercy, O Lord, shall follow me all the days of my life.", "prokeimenon_id": "prokeimenon_weekday_tone_1"},
+            3: {"tone": 5, "text": "Save me, O God, by Thy name, and judge me by Thy strength.", "prokeimenon_id": "prokeimenon_weekday_tone_5"},
+            4: {"tone": 6, "text": "My help cometh from the Lord, Who hath made heaven and earth.", "prokeimenon_id": "prokeimenon_weekday_tone_6"},
+            5: {"tone": 7, "text": "O God, Thou art my defender, and Thy mercy shall go before me.", "prokeimenon_id": "prokeimenon_weekday_tone_7"},
+            6: {"tone": 6, "text": "The Lord reigns, He is clothed in majesty.", "prokeimenon_id": "prokeimenon_weekday_tone_6_sat"}
+        }
+        data = weekday_prokeimena.get(day_of_week, {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"})
+        return {
+            "type": "daily_prokeimenon",
+            "tone": data["tone"],
+            "text": data["text"],
+            "prokeimenon_id": data["prokeimenon_id"],
+            "ref_key": f"prokeimenon.weekday_tone_{data['tone']}"
+        }
 
 
     def resolve_vespers_readings_logic(self, context, rubrics=None):
@@ -1261,28 +1283,28 @@ class VespersMixin:
         # Check for Great Prokeimenon Precedence (Rule 1)
         if is_lent and day == 1: # Sunday evening in Great Lent (liturgically Monday)
              prokeimenon = {
-                 "type": "prokeimenon",
-                 "variant": "great",
-                 "ref_key": "triodion.great_prokeimenon_sunday_lent",
-                 "content": "Turn not away Thy face from Thy servant..."
-             }
+                  "type": "prokeimenon",
+                  "variant": "great",
+                  "ref_key": "triodion.great_prokeimenon_sunday_lent",
+                  "content": "Turn not away Thy face from Thy servant..."
+              }
         elif offset is not None and 0 <= offset <= 6: # Bright Week daily
              bright_tones = {0: 8, 1: 7, 2: 8, 3: 7, 4: 8, 5: 7, 6: 8}
              t = bright_tones.get(offset, 8)
              prokeimenon = {
-                 "type": "prokeimenon",
-                 "variant": "great",
-                 "ref_key": f"pentecostarion.great_prokeimenon_bright_week_tone_{t}",
-                 "content": "Who is so great a God as our God..." if t == 8 else "Our God is in heaven and on earth..."
-             }
+                  "type": "prokeimenon",
+                  "variant": "great",
+                  "ref_key": f"pentecostarion.great_prokeimenon_bright_week_tone_{t}",
+                  "content": "Who is so great a God as our God..." if t == 8 else "Our God is in heaven and on earth..."
+              }
         elif (context.get("is_feast_evening") and (paradigm == "p_feast_lord" or rank == 1)) or (offset is not None and offset == 60 and day == 4):
              prokeimenon = {
-                 "type": "prokeimenon",
-                 "variant": "great",
-                 "ref_key": "menaion.great_prokeimenon_feast_evening",
-                 "tone": 7,
-                 "content": "Who is so great a God as our God? Thou art the God Who workest wonders."
-             }
+                  "type": "prokeimenon",
+                  "variant": "great",
+                  "ref_key": "menaion.great_prokeimenon_feast_evening",
+                  "tone": 7,
+                  "content": "Who is so great a God as our God? Thou art the God Who workest wonders."
+              }
         elif day == 0 or context.get("is_sunday_vigil"): # Sunday (Sat Eve)
              prokeimenon = {
                   "type": "prokeimenon",
@@ -1291,13 +1313,29 @@ class VespersMixin:
                   "content": "The Lord is King, He is clothed with majesty."
               }
         else:
-             # Daily Prokeimenon
-             prokeimenon = self.resolve_prokeimenon(context)
+             # Daily Prokeimenon - Vespers always uses the daily weekday prokeimenon directly
+             weekday_prokeimena = {
+                 0: {"tone": 8, "text": "Behold now, bless the Lord, all ye servants of the Lord.", "prokeimenon_id": "prokeimenon_weekday_tone_8"},
+                 1: {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"},
+                 2: {"tone": 1, "text": "Thy mercy, O Lord, shall follow me all the days of my life.", "prokeimenon_id": "prokeimenon_weekday_tone_1"},
+                 3: {"tone": 5, "text": "Save me, O God, by Thy name, and judge me by Thy strength.", "prokeimenon_id": "prokeimenon_weekday_tone_5"},
+                 4: {"tone": 6, "text": "My help cometh from the Lord, Who hath made heaven and earth.", "prokeimenon_id": "prokeimenon_weekday_tone_6"},
+                 5: {"tone": 7, "text": "O God, Thou art my defender, and Thy mercy shall go before me.", "prokeimenon_id": "prokeimenon_weekday_tone_7"},
+                 6: {"tone": 6, "text": "The Lord reigns, He is clothed in majesty.", "prokeimenon_id": "prokeimenon_weekday_tone_6_sat"}
+             }
+             data = weekday_prokeimena.get(day, {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"})
+             prokeimenon = {
+                 "type": "daily_prokeimenon",
+                 "tone": data["tone"],
+                 "text": data["text"],
+                 "prokeimenon_id": data["prokeimenon_id"],
+                 "ref_key": f"prokeimenon.weekday_tone_{data['tone']}"
+             }
 
         # 2. Readings
         readings = []
-        rank = parse_rank_integer(context.get("rank", 5))
-        if rank <= 3: # Vigil/Feast
+        rank_int = parse_rank_integer(context.get("rank", 5))
+        if rank_int <= 3: # Vigil/Feast
              pass
         
         return [prokeimenon] + readings

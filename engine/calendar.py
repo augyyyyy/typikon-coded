@@ -585,30 +585,80 @@ class CalendarMixin:
                         "[GT DOX]": 4, "[6 SM]": 5, "[4 A+G]": 5, "[4 NO]": 5, "[4 TR]": 5,
                     }
                     saints = []
-                    for e in entries:
-                        name = e.get("description", "")
-                        name_clean = name.replace("**", "").strip()
-                        if name_clean.endswith("."):
-                            name_clean = name_clean[:-1].strip()
-                        # Procedural snake_case id generation as fallback
-                        cleaned = re.sub(r'[^a-z0-9\s]', '', name.lower())
-                        words = cleaned.split()
-                        filtered_words = [w for w in words if w not in ["apostles", "apostle", "holy", "saint", "saints", "venerable", "venerables", "hieromartyr", "martyr", "martyrs", "prophet", "and", "of", "the"]]
-                        if not filtered_words:
-                            filtered_words = words
-                        saint_id_suffix = "_".join(filtered_words)
-                        month_str = {
-                            1: "jan", 2: "feb", 3: "mar", 4: "apr", 5: "may", 6: "jun",
-                            7: "jul", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"
-                        }.get(target_date.month, "unknown")
-                        saint_id = f"{month_str}_{target_date.day:02d}.{saint_id_suffix}"
-                        
-                        saints.append({
-                            "id": saint_id,
-                            "name": name_clean,
-                            "rank": rank_numeric.get(e.get("rank_code", ""), 5),
-                            "rank_code": e.get("rank_code", "")
-                        })
+                    for entry_idx, e in enumerate(entries):
+                        parsed = e.get("parsed_saints", [])
+                        if parsed:
+                            # Filter out non-saints first
+                            parsed_saints_only = [ps for ps in parsed if ps.get("is_saint", True)]
+                            if not parsed_saints_only:
+                                parsed_saints_only = [{
+                                    "name": e.get("description", ""),
+                                    "title": "",
+                                    "gender": "unknown",
+                                    "monastic": False,
+                                    "is_saint": True
+                                }]
+                            
+                            # Only use the first saint to represent the structural core of the commemoration
+                            ps = parsed_saints_only[0]
+                            name_clean = ps.get("name", "").strip()
+                            name_clean = name_clean.replace("**", "").strip()
+                            if name_clean.endswith("."):
+                                name_clean = name_clean[:-1].strip()
+                            
+                            # Generate ID
+                            cleaned = re.sub(r'[^a-z0-9\s]', '', name_clean.lower())
+                            words = cleaned.split()
+                            filtered_words = [w for w in words if w not in ["apostles", "apostle", "holy", "saint", "saints", "venerable", "venerables", "hieromartyr", "martyr", "martyrs", "prophet", "and", "of", "the"]]
+                            if not filtered_words:
+                                filtered_words = words
+                            saint_id_suffix = "_".join(filtered_words)
+                            month_str = {
+                                1: "jan", 2: "feb", 3: "mar", 4: "apr", 5: "may", 6: "jun",
+                                7: "jul", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"
+                            }.get(target_date.month, "unknown")
+                            saint_id = f"{month_str}_{target_date.day:02d}.{saint_id_suffix}"
+                            
+                            saints.append({
+                                "id": saint_id,
+                                "name": name_clean,
+                                "title": ps.get("title", ""),
+                                "gender": ps.get("gender", "unknown"),
+                                "monastic": ps.get("monastic", False),
+                                "rank": rank_numeric.get(e.get("rank_code", ""), 5),
+                                "rank_code": e.get("rank_code", ""),
+                                "entry_index": entry_idx,
+                                "all_parsed_saints": parsed_saints_only
+                            })
+                        else:
+                            name = e.get("description", "")
+                            name_clean = name.replace("**", "").strip()
+                            if name_clean.endswith("."):
+                                name_clean = name_clean[:-1].strip()
+                            
+                            cleaned = re.sub(r'[^a-z0-9\s]', '', name.lower())
+                            words = cleaned.split()
+                            filtered_words = [w for w in words if w not in ["apostles", "apostle", "holy", "saint", "saints", "venerable", "venerables", "hieromartyr", "martyr", "martyrs", "prophet", "and", "of", "the"]]
+                            if not filtered_words:
+                                filtered_words = words
+                            saint_id_suffix = "_".join(filtered_words)
+                            month_str = {
+                                1: "jan", 2: "feb", 3: "mar", 4: "apr", 5: "may", 6: "jun",
+                                7: "jul", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"
+                            }.get(target_date.month, "unknown")
+                            saint_id = f"{month_str}_{target_date.day:02d}.{saint_id_suffix}"
+                            
+                            saints.append({
+                                "id": saint_id,
+                                "name": name_clean,
+                                "title": "",
+                                "gender": "unknown",
+                                "monastic": False,
+                                "rank": rank_numeric.get(e.get("rank_code", ""), 5),
+                                "rank_code": e.get("rank_code", ""),
+                                "entry_index": entry_idx,
+                                "all_parsed_saints": [{"name": name_clean, "title": "", "gender": "unknown", "monastic": False, "is_saint": True}]
+                            })
                     result["saints"] = saints
 
         # Check title/subtitle for forefeast, afterfeast, apodosis
