@@ -1802,7 +1802,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!badge) return;
         
         let recensionText = "Stamford Recension";
-        if (state.version === "lviv_2018") {
+        if (state.version === "lviv_1899") {
             recensionText = "Lviv Recension";
         } else if (state.version === "st_sergius") {
             recensionText = "St. Sergius Recension";

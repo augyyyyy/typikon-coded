@@ -235,6 +235,12 @@ Before declaring any task or ticket complete, the agent must run and pass the fo
 - **Principle**: You must actively assume that your changes have broken the engine in ways that standard unit tests or a 15-day sample set did not detect. Proving a fix is correct on one day is not proof of success for the remaining 364 days.
 - **Action**: Always run a full-year heuristic sweep (`pytest tests/test_all_days_compliance.py`) to verify that the changes do not result in hidden crashes or key leakage on other dates.
 
+### 10.4 Windows Pager-Lock Mitigation
+- **Principle**: Running terminal commands that produce long output (like `git diff` or `git log`) defaults to pagers under Windows PowerShell. This blocks execution and freezes the agent session indefinitely.
+- **Action**: Always bypass pagers by specifying CLI arguments or overriding environment variables. For example:
+  *   Use `git --no-pager diff --stat` instead of standard `git diff`.
+  *   Use `git --no-pager log -n 5` instead of standard `git log`.
+
 ---
 
 ## 11. IDE-style Reference Panel Layout & UI Standards (Updated: 2026-06-14)

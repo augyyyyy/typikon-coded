@@ -37,10 +37,12 @@ When resolving any rubrical question, follow this strict precedence:
 - **Active Task List**: Review `task.md` in this directory to see what you are currently working on.
 - **Current Project State**: The Hub (Typikon Coded) is conceptually **100% complete** regarding core logic, service structures (including complex structures like Small Vespers and Great Compline), and digest formatting. 
 - **The Hub and Spoke Ecosystem**: Typikon Coded operates as the central "Hub". It awaits text hydration from external "Spokes" (e.g., Revitalize, Translation, Kyivan Musicology projects), which drop formatted JSON files into `Data/Inbox/`.
-- **Verified Resolver Metrics (2026-06-16, v3.16)**:
-  - **207** `resolve_` methods defined in the engine.
+- **Baseline Reference Metrics (Subject to Dynamic Verification)**:
+  > [!WARNING]
+  > The metrics below are historical baselines. Never cite these numbers in progress reports or plans without running verification commands (e.g., `pytest` or `grep`) to check the active codebase state, as hardcoded metrics naturally drift.
+  - **207** `resolve_` methods defined in the engine (Verify: count methods in `engine/`).
   - **83** unique resolvers referenced by JSON struct files.
-  - **337 tests** passing cleanly in the pytest suite (100% pass rate).
+  - **336+ tests** passing cleanly in the pytest suite (Verify: run `pytest`).
   - **100% Part III Completeness**: Configured all 26 Menaion calendar and override dates from Part III of the master Dolnytsky Typikon across the monthly JSON logic files.
   - **Floating Sunday Fathers**: Mapped the Sunday of the Fathers of the 7th Ecumenical Council (October 11) using the dynamic floating rule `sunday_fathers_seventh_council` mapping to the closest Sunday within October 8–14.
   - **Formatting & Citation Standards**: Styled "Say the Black, Do the Red" rubrics, gold border blockquotes, pill badges for vestments/fasting, and tooltipped citations.

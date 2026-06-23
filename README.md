@@ -50,7 +50,7 @@ python generate_typikon_service.py
 python generate_typikon_service.py --date 2026-01-11
 
 # Test a different recension logic
-python generate_typikon_service.py --version other_tradition_2025
+python generate_typikon_service.py --version st_sergius
 
 # Load private assets (Plugin Architecture)
 python generate_typikon_service.py --date 2026-01-06 --external "C:/MyPrivateAssets"

@@ -133,7 +133,7 @@ Returns the resolved liturgical parameters, booklet text, digest text, and execu
 - **Query Parameters**:
   - `date`: String (`YYYY-MM-DD`, required).
   - `paschalion`: String (`gregorian` | `julian`, default: `gregorian`).
-  - `version`: String (`stamford_2014` | `lviv_2018`, default: `stamford_2014`).
+  - `version`: String (`stamford_2014` | `lviv_1899`, default: `stamford_2014`).
   - `temple_feast`: String (`MM-DD`, optional, default: null).
   - `digest_mode`: String (`full` | `quick`, default: `full`).
 

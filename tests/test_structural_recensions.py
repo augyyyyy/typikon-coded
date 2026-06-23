@@ -17,7 +17,7 @@ def test_structural_recension_invariance():
     Checks all 365 days of 2026.
     """
     engine_stamford = RuthenianEngine(base_dir=str(PROJECT_ROOT), version="stamford_2014")
-    engine_lviv = RuthenianEngine(base_dir=str(PROJECT_ROOT), version="lviv_2018")
+    engine_lviv = RuthenianEngine(base_dir=str(PROJECT_ROOT), version="lviv_1899")
     
     start_date = date(2026, 1, 1)
     end_date = date(2026, 12, 31)

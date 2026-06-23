@@ -24,6 +24,7 @@
 2. **Asset Agnosticism**: The Logic Engine only knows unique IDs, not text strings. Swapping translations (e.g., Stamford vs. Ruthenian) requires no logic code changes.
 3. **Strict Hierarchical Overrides**: Rules apply in layers: Universal (Octoechos) -> Fixed (Menaion) -> Dynamic (Triodion/Pentecostarion) -> Local (Temple).
 4. **Modular Engine**: Logic lives in `engine/` as domain-specific mixin modules. `ruthenian_engine.py` at root is a 15-line backward-compat shim. Never add logic to the shim.
+5. **Recension Fallback Transparency**: If a custom recension (e.g. `lviv_1899`) falls back to Stamford texts due to missing assets in its directory, the engine must log warning messages. Silent fallbacks obscure missing data and are prohibited.
 
 ---
 
@@ -63,6 +64,11 @@ These anti-patterns have caused repeated regressions. Violating ANY of these is 
 
 ### 7. NO CLAIMING A SECTION IS "DONE" WITHOUT VERIFYING AGAINST THE PDF
 * A section is "done" when its output matches the PDF gold standard for that date. Not before.
+
+### 8. NO INTERACTIVE TERMINAL LOCKING (WINDOWS PAGER)
+* **BAD**: Running commands like `git diff` or `git log` directly in PowerShell without pager overrides.
+* **WHY**: Windows defaults to interactive pagers like `less` or `more` that block execution waiting for keyboard input, freezing the session.
+* **GOOD**: Always bypass the pager using flags (e.g. `git --no-pager diff --stat`) or environment overrides (e.g. `PAGER=cat`).
 
 ---
 

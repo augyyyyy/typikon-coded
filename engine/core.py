@@ -54,20 +54,17 @@ class EngineCore:
         if self.variable_recension_path:
              print(f"Engine: Variable Recension -> [{self.variable_recension_path}]")
         
-        # Identifier Standardization
         self.version_map = {
             "stamford": "stamford_2014",
             "stamford_2014": "stamford_2014",
-            "lviv_2018": "lviv_2018",
-            "lviv": "lviv_2018",
-            "st_sergius": "st_sergius",
-            "other": "other_tradition_2025"
+            "lviv_1899": "lviv_1899",
+            "lviv": "lviv_1899",
+            "st_sergius": "st_sergius"
         }
         self.folder_map = {
              "stamford_2014": "stamford",
-             "lviv_2018": "lviv",
-             "st_sergius": "st_sergius",
-             "other_tradition_2025": "other"
+             "lviv_1899": "lviv",
+             "st_sergius": "st_sergius"
         }
         
         self.version_id = self.version_map.get(version, version)
