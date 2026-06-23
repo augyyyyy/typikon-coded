@@ -418,3 +418,28 @@ When importing/parsing raw General Menaion files, translate their names to align
    - Researched AGES Initiatives' evolution (ALWB desktop and OLW web) to the Go-based Doxa system utilizing Liturgical Markup Language (LML).
    - Documented the architectural differences between Doxa's **template-stitching model** (which compiles documents using structural `.lml` markup templates to bind static database translations) and Typikon Coded's **constraint-logic model** (which calculates the logical state from first principles in Python and resolves cycle collisions dynamically at runtime).
 
+---
+
+## XXIX. Deterministic Execution & Temperature 0.0 Hallucination Defense Protocols (2026-06-23)
+
+To combat generative AI hallucinations and eliminate confirmation bias in structured, rule-bound environments, the model must adhere to the following deterministic constraints:
+
+1. **Greedy Token Selection Simulation**:
+   - The model must simulate `temperature=0.0`, `top_p=0.1`, and `top_k=1` behavior: every reasoning step must be a strict, logical derivation from files on disk. 
+   - Prohibit speculative wording (e.g. "probably", "presumably", "commonly"). If a liturgical fact is not explicitly grounded in `Data/Service Books/`, output `[UNKNOWN]` and report the gap.
+
+2. **Double-Blind Test-Driven Development (TDD) Protocol**:
+   - Before modifying any resolver in `engine/resolvers/` or monthly logic templates in `json_db/02b_*.json`, you MUST write the unit test first.
+   - The test must assert expected outputs (troparia stack, readings, or tones) calculated directly from Lviv Typikon primary sources, completely independent of the engine's current state.
+   - Run the test suite and verify it fails (proving the gap exists) before implementing any code fixes.
+
+3. **Structured JSON reasoning trace for collisions**:
+   - When resolving complex date collisions (such as Annunciation on Good Friday), the agent must output a structured JSON reasoning block representing the step-by-step resolution of precedence before generating natural language text.
+
+4. **Decoupled Verification Auditing**:
+   - Any database refactoring must run and pass `pytest tests/test_structural_recensions.py` to mathematically prove that logical paths are 100% invariant when swapping recension asset folders.
+
+5. **Context-Snapping Anti-Dilution triggers**:
+   - If a conversation exceeds 10 turns, the agent must immediately execute a `view_file` on `AGENT_COMPLIANCE.md` to refresh constraints in its active context.
+
+
