@@ -35,6 +35,14 @@
           }
         ]
       },
+      "24": {
+        "title_key": "menaion.mar_24.forefeast_annunciation",
+        "rank": "rank_simple_6",
+        "period": "forefeast",
+        "linked_feast_id": "03-25",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.7.2.8.3",
+        "base_template": "CASE_08"
+      },
       "25": {
         "title_key": "menaion.mar_25.annunciation",
         "rank": "rank_vigil_theotokos",
@@ -307,6 +315,13 @@
           "megalynarion": "receive_o_earth_glad_tidings",
           "communion_hymn": "the_lord_has_chosen_zion"
         }
+      },
+      "26": {
+        "title_key": "menaion.mar_26.apodosis_annunciation",
+        "rank": "rank_apodosis",
+        "period": "apodosis",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.7.3.26",
+        "base_template": "CASE_20"
       }
     }
   }

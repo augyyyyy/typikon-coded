@@ -216,6 +216,15 @@ class TextDBMixin:
         if not item:
             item = self.text_db.get(text_id)
 
+        # 1.5 Dynamic Variable Resolution
+        if not item and context:
+            resolved_val = self._resolve_variable_ref(text_id, context)
+            if resolved_val:
+                if isinstance(resolved_val, dict):
+                    item = resolved_val
+                elif isinstance(resolved_val, str) and resolved_val != text_id:
+                    item = self.get_text(resolved_val, logic_requirement, context)
+
         if item:
             # Deep copy to avoid mutation
             item = copy.deepcopy(item)
@@ -412,6 +421,23 @@ class TextDBMixin:
              concrete_key = mapping[ref_key]
              if concrete_key:
                   return self.get_text(concrete_key, context=context)
+        
+        # Assets Map Fallback Check
+        if hasattr(self, "assets_map") and self.assets_map:
+            for domain, domain_data in self.assets_map.get("asset_domains", {}).items():
+                domain_map = domain_data.get("map", {})
+                if ref_key in domain_map:
+                    mapped_path = domain_map[ref_key]
+                    if domain == "menaion":
+                        parts = mapped_path.split("/")
+                        if len(parts) >= 3:
+                            month = parts[0]
+                            day = parts[1]
+                            filename = parts[2].replace(".json", "")
+                            section = "vespers" if filename in ("litiya", "stichera_vespers", "stichera_vespers_great", "aposticha") else "matins"
+                            concrete_key = f"menaion.{month}{day}.{section}.{filename}"
+                            if concrete_key in self.text_db:
+                                return self.get_text(concrete_key, context=context)
         
         return None
 

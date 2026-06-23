@@ -511,7 +511,7 @@ class VespersMixin:
             "roles": {
                 "priest": "Stand before the table with loaves. Read the Artoklasia prayer. Sign the loaves crosswise with one loaf.",
                 "deacon": "Cense the loaves during the prayer.",
-                "choir": "Sing troparia as prescribed (see troparia array)."
+                "choir": "Sing troparia as prescribed."
             }
         }
 
@@ -1248,7 +1248,7 @@ class VespersMixin:
             return res[0]
             
         # Fallback to daily weekday prokeimenon (Vespers standard)
-        day_of_week = context.get('day_of_week', 0)
+        day_of_week = (context.get('day_of_week', 0) - 1) % 7
         weekday_prokeimena = {
             0: {"tone": 8, "text": "Behold now, bless the Lord, all ye servants of the Lord.", "prokeimenon_id": "prokeimenon_weekday_tone_8"},
             1: {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"},
@@ -1323,7 +1323,7 @@ class VespersMixin:
                  5: {"tone": 7, "text": "O God, Thou art my defender, and Thy mercy shall go before me.", "prokeimenon_id": "prokeimenon_weekday_tone_7"},
                  6: {"tone": 6, "text": "The Lord reigns, He is clothed in majesty.", "prokeimenon_id": "prokeimenon_weekday_tone_6_sat"}
              }
-             data = weekday_prokeimena.get(day, {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"})
+             data = weekday_prokeimena.get((day - 1) % 7, {"tone": 4, "text": "The Lord hears me when I cry out to Him.", "prokeimenon_id": "prokeimenon_weekday_tone_4"})
              prokeimenon = {
                  "type": "daily_prokeimenon",
                  "tone": data["tone"],
@@ -1334,10 +1334,24 @@ class VespersMixin:
 
         # 2. Readings
         readings = []
-        rank_int = parse_rank_integer(context.get("rank", 5))
-        if rank_int <= 3: # Vigil/Feast
-             pass
-        
+        if rubrics:
+             overrides = {**rubrics.get("variables", {}), **rubrics.get("overrides", {})}
+             r_overrides = overrides.get("vespers_readings")
+             if r_overrides:
+                 for key in r_overrides:
+                     text_item = self.get_text(key, context=context)
+                     content_str = ""
+                     title_str = key.replace("_", " ").title()
+                     if text_item:
+                         content_str = text_item.get("content", "")
+                         title_str = text_item.get("title") or title_str
+                     readings.append({
+                         "type": "reading",
+                         "ref_key": key,
+                         "title": title_str,
+                         "content": content_str
+                     })
+         
         return [prokeimenon] + readings
 
 

@@ -34,6 +34,12 @@
       }
     },
     "days": {
+      "02": {
+        "title_key": "menaion.jul_02.deposition_robe",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11.1",
+        "base_template": "CASE_05"
+      },
       "05": {
         "title_key": "menaion.jul_05.athanasius_athos",
         "rank": "rank_polyeleos",
@@ -134,6 +140,13 @@
         "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
         "base_template": "CASE_05"
+      },
+      "31": {
+        "title_key": "menaion.jul_31.forefeast_cross",
+        "rank": "rank_simple_4",
+        "period": "forefeast",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.11.5",
+        "base_template": "CASE_08"
       }
     }
   }

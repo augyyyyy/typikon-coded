@@ -386,10 +386,15 @@ class TestHorologionCore(unittest.TestCase):
         res_ann = self.engine.resolve_fasting_rule(ctx_ann)
         self.assertEqual(res_ann["type"], "fish_permitted")
 
-        # 4. Publican and Pharisee Wednesday (offset -73) -> no_fast
-        ctx_free = {"season_id": "triodion", "pascha_offset": -73, "day_of_week": 3}
+        # 4. Publican and Pharisee Wednesday (offset -67 is post-Sunday, fast-free) -> no_fast
+        ctx_free = {"season_id": "triodion", "pascha_offset": -67, "day_of_week": 3}
         res_free = self.engine.resolve_fasting_rule(ctx_free)
         self.assertEqual(res_free["type"], "no_fast")
+
+        # 4b. Wednesday before Sunday of Publican & Pharisee (offset -73) -> fast_day
+        ctx_before = {"season_id": "triodion", "pascha_offset": -73, "day_of_week": 3}
+        res_before = self.engine.resolve_fasting_rule(ctx_before)
+        self.assertEqual(res_before["type"], "fast_day")
 
         # 5. Normal Wednesday (ordinary season, Rank 5) -> fast_day
         ctx_norm = {"season_id": "ordinary", "pascha_offset": 100, "day_of_week": 3, "rank": 5}

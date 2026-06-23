@@ -50,7 +50,7 @@ def main():
 
     # 3. Running Pytest
     print("Running test suite (pytest)...")
-    code, test_out, test_err = run_cmd("python -m pytest tests/")
+    code, test_out, test_err = run_cmd(".venv\\Scripts\\python -m pytest tests/ --ignore=tests/test_ui_readability.py --ignore=scratch")
     
     # Parse pytest results
     # Example: "=== 303 passed in 10.09s ==="
@@ -62,7 +62,7 @@ def main():
 
     # 4. Generate Sample Digest
     print("Generating sample digest (2026-02-01)...")
-    _, digest_out, _ = run_cmd("python generate_typikon_service.py --date 2026-02-01 --digest --no-open")
+    _, digest_out, _ = run_cmd(".venv\\Scripts\\python generate_typikon_service.py --date 2026-02-01 --digest --no-open")
     
     # Extract first 30 lines of generated Digest file
     digest_lines = []

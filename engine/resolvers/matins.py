@@ -1787,9 +1787,15 @@ class MatinsMixin:
                 if source == "octoechos":
                     base_key = f"tone_{tone}.sun_matins.stichera_praises" if group_type == "matins_praises" else f"tone_{tone}.sun_matins.stichera_aposticha"
                 elif source == "menaion":
-                    # Assuming context has fixed_date or similar
-                    date_key = context.get("date_id", "01_01")
-                    base_key = f"menaion.{date_key}.stichera_praises"
+                    month = context.get("month", "01")
+                    day = context.get("day", 1)
+                    try:
+                        day_str_z = str(day).zfill(2)
+                    except Exception:
+                        day_str_z = "01"
+                    date_key_4 = f"{month}{day_str_z}"
+                    section = "matins"
+                    base_key = f"menaion.{date_key_4}.{section}.stichera_{group_type.split('_')[-1]}"
                 else:
                     base_key = f"{source}.stichera_{group_type}"
 
@@ -1808,11 +1814,43 @@ class MatinsMixin:
                         active_count += 1
                 else:
                     # Fallback to summary reference if data missing
+                    humanized_base = base_key
+                    parts = base_key.split(".")
+                    if len(parts) >= 3 and parts[0] == "menaion":
+                        m_d_part = parts[1]
+                        if len(m_d_part) == 4 and m_d_part.isdigit():
+                            m_d = [m_d_part[:2], m_d_part[2:]]
+                        else:
+                            m_d = m_d_part.split("_")
+                            
+                        if len(m_d) == 2:
+                            try:
+                                import calendar
+                                month_name = calendar.month_abbr[int(m_d[0])]
+                                day_num = int(m_d[1])
+                                h_name = f"Menaion ({month_name} {day_num})"
+                            except Exception:
+                                h_name = "Menaion"
+                        else:
+                            h_name = "Menaion"
+                        
+                        h_type = parts[-1].replace("_", " ").title()
+                        if "Stichera" in h_type and "Praises" in h_type:
+                            h_type = "Praises Stichera"
+                        elif "Stichera" in h_type and "Aposticha" in h_type:
+                            h_type = "Aposticha Stichera"
+                            
+                        humanized_base = f"{h_name} {h_type}"
+                    elif len(parts) >= 2:
+                        humanized_base = " ".join(parts).replace("_", " ").title()
+                    else:
+                        humanized_base = base_key.replace("_", " ").title()
+
                     items.append({
                         "type": "stichera_block",
                         "source": source,
                         "qty": qty,
-                        "note": f"Fetch {qty} from {base_key} (MISSING_DATA)"
+                        "note": f"Sing {qty} Stichera from {humanized_base} (propers missing)"
                     })
 
             # Glory / Both Now

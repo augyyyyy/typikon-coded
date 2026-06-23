@@ -79,6 +79,16 @@ class ResolverRegistry:
                     logic = obj.get("logic", {})
                     if isinstance(logic, dict) and "function" in logic:
                         funcs.add(logic["function"])
+                elif obj.get("type") == "generator":
+                    gen_method = obj.get("generator_method")
+                    resolver_mapping = {
+                        "generate_stichera_sequence": "resolve_vespers_stichera",
+                        "generate_antiphons": "resolve_liturgy_antiphons",
+                        "generate_hour_troparia": "resolve_hours_collision"
+                    }
+                    mapped_func = resolver_mapping.get(gen_method)
+                    if mapped_func:
+                        funcs.add(mapped_func)
                 
                 # Check nested components
                 if "components" in obj:

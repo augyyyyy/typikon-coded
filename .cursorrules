@@ -402,3 +402,19 @@ When importing/parsing raw General Menaion files, translate their names to align
    - Developed `scratch/audit_recursive_resolvers.py` to discover and dynamically execute all active logic resolvers for a given date in isolation.
    - Recursively validates the raw returned lists/dictionaries for UGCC spelling compliance, error placeholders (`[ERROR:`, `[RESOLVE:`), and confirms that all referenced text database (`text_db`) keys exist before booklet formatting is performed.
    - Ran this auditor against January 2026, confirming that all 31 days pass cleanly with **0 failures** at the resolver level.
+
+---
+
+## XXVIII. 100% Part III Completeness & Doxa/LML Comparative Research (2026-06-16)
+
+1. **100% Part III Completeness (Menaion Overrides)**:
+   - Configured all 26 calendar and override dates for Part III of the master Dolnytsky Typikon ("SPECIFIC RUBRICS FOR CERTAIN SERVICES OF THE MENAION") across the monthly JSON logic files (`json_db/02b_*.json`).
+   - Mapped the Sunday of the Fathers of the Seventh Ecumenical Council (October 11) using the dynamic floating rule `sunday_fathers_seventh_council` mapping to the closest Sunday within October 8–14.
+   - Implemented St. Josaphat (October 31) as a Vigil Saint (`rank_vigil_saint`) with full Litiya and scripture overrides.
+   - Added missing overrides for January, March, May, July, and August, ensuring that all 26 dates are fully integrated with appropriate ranks and sequence logic.
+   - Precompiled and verified consistency of the precomputed annual almanac cache (`annual_almanac_2026.json`).
+
+2. **Doxa/LML Research & Architecture Comparison**:
+   - Researched AGES Initiatives' evolution (ALWB desktop and OLW web) to the Go-based Doxa system utilizing Liturgical Markup Language (LML).
+   - Documented the architectural differences between Doxa's **template-stitching model** (which compiles documents using structural `.lml` markup templates to bind static database translations) and Typikon Coded's **constraint-logic model** (which calculates the logical state from first principles in Python and resolves cycle collisions dynamically at runtime).
+

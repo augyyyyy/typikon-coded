@@ -11,6 +11,23 @@ class TestAnnualAlmanacConsistency(unittest.TestCase):
         almanac_path = os.path.join("json_db", "almanac", "annual_almanac_2026.json")
         self.assertTrue(os.path.exists(almanac_path), f"Almanac file not found at {almanac_path}")
         
+        # Freshness Check: Enforce almanac is newer than engine source edits
+        import glob
+        engine_files = (
+            glob.glob(os.path.join("engine", "*.py")) + 
+            glob.glob(os.path.join("engine", "resolvers", "*.py"))
+        )
+        self.assertTrue(len(engine_files) > 0, "No engine source files found to check mtime.")
+        max_engine_mtime = max(os.path.getmtime(f) for f in engine_files)
+        almanac_mtime = os.path.getmtime(almanac_path)
+        
+        self.assertGreaterEqual(
+            almanac_mtime, max_engine_mtime,
+            f"Almanac cache is stale! (Mtime: {datetime.datetime.fromtimestamp(almanac_mtime)} vs "
+            f"Engine Mtime: {datetime.datetime.fromtimestamp(max_engine_mtime)}). "
+            f"Please run 'python scripts/generate_annual_almanac.py' to regenerate it."
+        )
+        
         with open(almanac_path, "r", encoding="utf-8") as f:
             almanac = json.load(f)
             

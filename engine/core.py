@@ -125,6 +125,7 @@ class EngineCore:
         recension_dir = "Data/Service Books/Recensions/Stamford Divine Office/JSON/assets"
         self._load_versioned_texts(f"{recension_dir}/text_horologion.json")
         self._load_versioned_texts(f"{recension_dir}/text_horologion_supplement.json")
+        self._load_versioned_texts(f"{recension_dir}/text_menaion.json")
         self._load_versioned_texts(f"{recension_dir}/text_eothinon.json")
         self._load_versioned_texts(f"{recension_dir}/text_octoechos.json")
         self._load_versioned_texts(f"{recension_dir}/text_pentecostarion.json")
@@ -132,6 +133,7 @@ class EngineCore:
         self._load_versioned_texts(f"{recension_dir}/text_weekdays.json")
         self._load_versioned_texts(f"{recension_dir}/text_theotokia.json")
         self._load_versioned_texts("json_db/text_pentecostarion_pascha.json")
+        self._load_versioned_texts()
         
         self.general_menaion_db = self._load_json("json_db/common/text_general_menaion.json")
         # Overlay recension-specific General Menaion if available

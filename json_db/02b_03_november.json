@@ -108,6 +108,12 @@
           "communion_hymn": "cup_of_salvation"
         }
       },
+      "24": {
+        "title_key": "menaion.nov_24.catherine_and_mercurius",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.3.3",
+        "base_template": "CASE_05"
+      },
       "25": {
         "title_key": "menaion.nov_25.apodosis_entrance",
         "rank": "rank_doxology",

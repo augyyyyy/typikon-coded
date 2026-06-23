@@ -29,6 +29,39 @@
           }
         ],
         "variables": {
+          "suppress_menaion_saint": false,
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 4
+              },
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 4
+              }
+            ],
+            "glory": "saint",
+            "both_now": "feast_theotokion"
+          },
+          "matins_canon_distribution": {
+            "distribution": [
+              {
+                "source": "feast",
+                "type": "feast",
+                "qty": 6,
+                "irmos": true
+              },
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 6
+              }
+            ]
+          },
           "vespers_readings": [
             "genesis_17",
             "proverbs_8",
@@ -114,6 +147,45 @@
           "communion_hymn": "grace_of_god_has_appeared"
         }
       },
+      "07": {
+        "title_key": "menaion.jan_07.synaxis_forerunner",
+        "rank": "rank_simple_6",
+        "period": "afterfeast",
+        "linked_feast_id": "01-06",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.5.5",
+        "base_template": "CASE_09",
+        "variables": {
+          "liturgy_readings": [
+            "acts_19_1_8",
+            "john_1_29_34"
+          ]
+        }
+      },
+      "11": {
+        "title_key": "menaion.jan_11.theodosius_cenobiarch",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.5.8",
+        "base_template": "CASE_05"
+      },
+      "14": {
+        "title_key": "menaion.jan_14.apodosis_theophany",
+        "rank": "rank_apodosis",
+        "period": "apodosis",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.5.9",
+        "base_template": "CASE_20"
+      },
+      "17": {
+        "title_key": "menaion.jan_17.anthony_great",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.5.17",
+        "base_template": "CASE_05"
+      },
+      "20": {
+        "title_key": "menaion.jan_20.euthymius_great",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.5.20",
+        "base_template": "CASE_05"
+      },
       "30": {
         "title_key": "menaion.jan_30.three_hierarchs",
         "rank": "rank_vigil_saint",
@@ -141,6 +213,18 @@
         "st_name": "Timothy",
         "is_vigil": false,
         "has_polyeleos": false
+      },
+      "25": {
+        "title_key": "menaion.jan_25.gregory_theologian",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.5.25",
+        "base_template": "CASE_05"
+      },
+      "27": {
+        "title_key": "menaion.jan_27.translation_relics_chrysostom",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.5.27",
+        "base_template": "CASE_05"
       }
     }
   }

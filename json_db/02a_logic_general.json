@@ -738,7 +738,8 @@
         "rank_id": [
           "rank_simple",
           "rank_simple_4",
-          "rank_simple_6"
+          "rank_simple_6",
+          "rank_doxology"
         ],
         "period": [
           "forefeast"
@@ -1045,7 +1046,8 @@
         "rank_id": [
           "rank_simple",
           "rank_simple_4",
-          "rank_simple_6"
+          "rank_simple_6",
+          "rank_doxology"
         ],
         "period": [
           "afterfeast"

@@ -111,6 +111,20 @@
           }
         }
       },
+      "16": {
+        "title_key": "menaion.aug_16.image_not_made_by_hands",
+        "rank": "rank_simple_6",
+        "period": "afterfeast",
+        "linked_feast_id": "08-15",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.12.4",
+        "base_template": "CASE_09",
+        "variables": {
+          "liturgy_readings": [
+            "colossians_1_12_18",
+            "luke_9_51_56_10_22_24"
+          ]
+        }
+      },
       "23": {
         "title_key": "menaion.aug_23.apodosis_dormition",
         "rank": "rank_doxology",

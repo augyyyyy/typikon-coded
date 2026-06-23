@@ -860,8 +860,7 @@ class CommonFormatterMixin:
         for t in res.get("troparia", []):
             ref = t.get("ref_key", "")
             cnt = t.get("count", 1)
-            source = t.get("source", "")
-            troparia_parts.append(f"{self.humanize_key(ref)} ({source}) x{cnt}")
+            troparia_parts.append(f"{self.humanize_key(ref)} x{cnt}")
         troparia_str = ", ".join(troparia_parts)
         roles = res.get("roles", {})
         priest_action = roles.get("priest", "")

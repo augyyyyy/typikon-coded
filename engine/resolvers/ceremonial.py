@@ -38,12 +38,12 @@ class CeremonialMixin:
         day = context.get("day", 0)
         
         # 1. Fast-Free Weeks (Splotnyye Sedmitsy)
-        # Publican and Pharisee Week: -76 <= pascha_offset <= -70
+        # Publican and Pharisee Week: -69 <= pascha_offset <= -63
         # Bright Week: 0 <= pascha_offset <= 6
         # Trinity Week: 49 <= pascha_offset <= 55
         # Post-Nativity: month == 12 and day >= 25 or month == 1 and day <= 4
         is_fast_free = False
-        if -76 <= pascha_offset <= -70:
+        if -69 <= pascha_offset <= -63:
             is_fast_free = True
         elif 0 <= pascha_offset <= 6:
             is_fast_free = True

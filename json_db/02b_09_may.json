@@ -10,6 +10,18 @@
   "month_settings": {
     "month_id": 5,
     "days": {
+      "03": {
+        "title_key": "menaion.may_03.theodosius_caves",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.9.1",
+        "base_template": "CASE_05"
+      },
+      "07": {
+        "title_key": "menaion.may_07.sign_precious_cross",
+        "rank": "rank_simple_4",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.9.2",
+        "base_template": "CASE_02"
+      },
       "08": {
         "title_key": "menaion.may_08.john_theologian",
         "rank": "rank_vigil_saint",
@@ -74,6 +86,12 @@
           "communion_hymn": "righteous_memory"
         }
       },
+      "10": {
+        "title_key": "menaion.may_10.apostle_simon",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.9.5",
+        "base_template": "CASE_05"
+      },
       "11": {
         "title_key": "menaion.may_11.cyril_and_methodius",
         "rank": "rank_vigil_saint",
@@ -106,6 +124,12 @@
           ],
           "troparia_sequence": "saint_constantine_stacking"
         }
+      },
+      "25": {
+        "title_key": "menaion.may_25.finding_head_baptist",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.9.5",
+        "base_template": "CASE_05"
       }
     }
   }

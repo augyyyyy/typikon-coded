@@ -283,11 +283,15 @@ class RubricsMixin:
         d_commem = context.get("dolnytsky_commemoration", "")
         full_text = f"{d_title} {d_commem}".lower()
         
-        if d_rank == "LORD":
+        m_rank = context.get("variables", {}).get("menaion_rank", "") or context.get("menaion_rank", "")
+        if not m_rank and "rank" in context.get("variables", {}):
+             m_rank = context["variables"]["rank"]
+             
+        if d_rank == "LORD" or (isinstance(m_rank, str) and m_rank.startswith("rank_vigil_lord")):
              period = "feast"
              feast_type = "lord"
              context["feast_level"] = "lord" # Backfill for other logic
-        elif d_rank == "THEOTOKOS" or d_rank == "MOG":
+        elif d_rank == "THEOTOKOS" or d_rank == "MOG" or (isinstance(m_rank, str) and m_rank.startswith("rank_vigil_theotokos")):
              period = "feast"
              feast_type = "theotokos"
              context["feast_level"] = "theotokos"
@@ -880,14 +884,14 @@ class RubricsMixin:
                     rubrics["_trace"].append(f"Override: Set {k}='{v}' from General Case.")
 
         # Check for explicit suppress_saints or suppress_menaion_saint variable from collision/general case overrides
-        if rubrics.get("variables", {}).get("suppress_saints") or rubrics.get("variables", {}).get("suppress_menaion_saint"):
+        if rubrics.get("variables", {}).get("suppress_saints") or rubrics.get("variables", {}).get("suppress_menaion_saint") is True:
             context["saints"] = []
             rubrics["_trace"].append("Saint Suppression: Suppressed all saints from active context.")
         elif (context.get("feast_level") == "lord" or context.get("menaion_class") == "Class I — Great Feast") and not (
             context.get("is_afterfeast") or
             context.get("is_forefeast") or
             context.get("period") in ("afterfeast", "forefeast", "apodosis")
-        ):
+        ) and rubrics.get("variables", {}).get("suppress_menaion_saint") is not False:
             context["saints"] = []
             rubrics["_trace"].append("Saint Suppression: Auto-suppressed all saints on Class I Great Feast.")
 

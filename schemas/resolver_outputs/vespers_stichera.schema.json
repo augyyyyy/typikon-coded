@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vespers Stichera Resolver Output Schema",
+  "type": "object",
+  "properties": {
+    "total_count": { "type": "integer", "minimum": 0 },
+    "distribution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": { "type": "string" },
+          "qty": { "type": "integer", "minimum": 0 },
+          "count": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "glory": { "type": "string" },
+    "both_now": { "type": "string" },
+    "case_id": { "type": "string" }
+  },
+  "required": ["total_count", "distribution", "items", "glory", "both_now", "case_id"]
+}

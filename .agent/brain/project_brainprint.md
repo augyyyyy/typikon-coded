@@ -1,6 +1,6 @@
 # Project Brainprint: Typikon Coded
-**Forensic Codebase Audit — v3.15**
-*Audit Date: 2026-06-15 | Prior Audit: 2026-06-14 (v3.14)*
+**Forensic Codebase Audit — v3.16**
+*Audit Date: 2026-06-16 | Prior Audit: 2026-06-15 (v3.15)*
 
 ---
 
@@ -21,7 +21,7 @@
 
 ## Executive Summary
 
-**Typikon Coded** is a Python-based liturgical constraint-logic engine that dynamically generates Byzantine Rite service texts according to the Dolnytsky Typikon (Lviv, 2010). The project reached v0.5.0 maturity in early February 2026. **Phase 0 (Triage), Phase 1 (Architectural Standardization), Phase 2 (Feature Development through Phase 32), and Phase 3 (June 2026 Liturgical Remediation and 0-100 Multi-Audit)** are complete as of June 2026. As of June 2026, the project achieved 100% citation grounding, mathematically mapping all engine logic and JSON constraints to the canonical text of the Typikon and Ordo. The former 11,109-line monolith (`ruthenian_engine.py`) has been surgically deduplicated and decomposed into a mixin-based modular package (`engine/`) containing 11,795 lines across 16 modules. The system is backed by a mature 328-test suite (100% pass rate). Schema validation covers 14 JSON files (1 text asset + 13 service structures) passing schema checks.
+**Typikon Coded** is a Python-based liturgical constraint-logic engine that dynamically generates Byzantine Rite service texts according to the Dolnytsky Typikon (Lviv, 2010). The project reached v0.5.0 maturity in early February 2026. **Phase 0 (Triage), Phase 1 (Architectural Standardization), Phase 2 (Feature Development through Phase 32), and Phase 3 (June 2026 Liturgical Remediation and 0-100 Multi-Audit)** are complete as of June 2026. As of June 2026, the project achieved 100% citation grounding, mathematically mapping all engine logic and JSON constraints to the canonical text of the Typikon and Ordo. The former 11,109-line monolith (`ruthenian_engine.py`) has been surgically deduplicated and decomposed into a mixin-based modular package (`engine/`) containing 11,795 lines across 16 modules. The system is backed by a mature 337-test suite (100% pass rate). Schema validation covers 14 JSON files (1 text asset + 13 service structures) passing schema checks.
 
 ---
 
@@ -397,7 +397,7 @@ All known mismatches (alleluia, megalynarion, readings) have been successfully m
 Engine:          engine/ (11,795 lines across 16 modules)
 Shim:            ruthenian_engine.py (15 lines → engine/)
 Digest Gen:      typikon_digest_generator.py (3,129 lines)
-Tests:           328 passing / 0 failing (pytest, ~39.76s)
+Tests:           337 passing / 0 failing (pytest, ~47.27s)
 Schema valid:    14 files passing (1 text + 13 struct, jsonschema 4.26.0)
 Resolvers:       207 exist in engine / 83 referenced by JSON structs / 150 have formatters
 Missing resolvers: 0
@@ -405,10 +405,10 @@ Missing formatters: 0
 JSON DB:         62 files in json_db/ (incl. subdirs)
 Python files:    182 total (excl. .venv, __pycache__)
 PDF Gold Stds:   8 files in Desktop/Typikon digest/
-Git commits:     72
+Git commits:     73+
 Phase 0:         COMPLETE
 Phase 1:         COMPLETE (monolith → modular engine)
-Almanac Mode:    COMPLETE (Common/Annual Typikon fast path)
+Almanac Mode:    COMPLETE (100% Part III Completeness)
 Debug graveyard: CLEARED (archived to archive/debug_2026Q1/)
 Duplicate defs:  RESOLVED
 Empty dirs:      REMOVED
@@ -416,4 +416,4 @@ Reference Files: Migrated from .txt to .md (outline mapped, line count preserved
 ```
 
 ---
-*Document Status: Authoritative Baseline v3.15 — Updated 2026-06-15 (Calendar Database Splitting, Vespers Prokeimena logic corrections, length-5 Scripture Humanization, and Recursive Resolver Audit implemented). Cross-verified by consistency tests.*
+*Document Status: Authoritative Baseline v3.16 — Updated 2026-06-16 (100% Part III Completeness - 26 Menaion calendar and override dates configured, October 11 Sunday Fathers floating rule, St. Josaphat Vigil Saint, and Doxa/LML comparative research integrated). Cross-verified by consistency tests.*

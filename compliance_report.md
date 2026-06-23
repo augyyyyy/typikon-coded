@@ -1,84 +1,70 @@
 ### *** Typikon Compliance Gate Report ***
 
-**Test Suite Result:** `========================= 317 passed`
-**Files Changed:** 43
+**Test Suite Result:** `========================= 336 passed`
+**Files Changed:** 45
 
 #### Git Diff Summary:
 ```
-.ai/learnings.md                         |    67 +
- .cursorrules                             |    26 +-
- Digest_2026-02-01.md                     |   101 +-
- Digest_2026-06-11.md                     |    20 +-
- Digest_2026-06-24.md                     |    31 +-
- cantor_dashboard/index.html              |     4 +
- cantor_dashboard/main.js                 |   440 +-
- cantor_dashboard/style.css               |   105 +-
- compliance_report.md                     |   130 +-
- digest/base.py                           |    67 +-
- digest/formatters/common.py              |     6 +-
- digest/formatters/compline.py            |     5 +-
- digest/formatters/matins.py              |     4 +-
- engine/calendar.py                       |   222 +-
- engine/core.py                           |     1 +
- engine/generation.py                     |    21 +-
- engine/resolvers/ceremonial.py           |    16 +
- engine/resolvers/common.py               |     7 +
- engine/resolvers/hours.py                |    28 +-
- engine/resolvers/liturgy.py              |   164 +-
- engine/resolvers/matins.py               |    26 +-
- engine/resolvers/vespers.py              |    47 +-
- engine/rubrics.py                        |    55 +-
- engine/text_db.py                        |    11 +
- json_db/01g_struct_midnight.json         |    14 +
- json_db/02a_logic_general.json           |     4 +-
- json_db/02c_logic_triodion.json          |    14 +-
- json_db/almanac/annual_almanac_2026.json | 10363 +++++++++++++++++------------
- json_db/calendar_dolnytsky.json          |     2 +-
- json_db/text_pentecostarion_pascha.json  |    30 +
- scripts/deepseek_compliance_audit.py     |    12 +-
- scripts/lint_liturgical_db.py            |     4 +-
- scripts/standardize_liturgical_db.py     |     4 +-
- scripts/test_pascha_rubrics.py           |     2 +-
- tests/test_advanced_collisions.py        |     2 +-
- tests/test_gospel_selection.py           |     4 +-
- tests/test_matins_gold_standard.py       |     6 +-
- tests/test_prokeimenon_precedence.py     |    45 +
- tests/test_semantic_linting.py           |    16 +-
- 39 files changed, 7554 insertions(+), 4572 deletions(-)
+.agent/brain/AGENT_STARTUP_CONTEXT.md    |   6 +-
+ .agent/brain/PROJECT_STATE.json          |  11 +-
+ .agent/brain/project_brainprint.md       |  14 +-
+ .ai/learnings.md                         | 210 ++++++++
+ .cursorrules                             |  16 +
+ Digest_2026-02-01.md                     |  12 +-
+ compliance_report.md                     | 137 ++---
+ digest/formatters/common.py              |   3 +-
+ engine/core.py                           |   2 +
+ engine/generation.py                     | 721 ++++++++++++++++++++++++-
+ engine/resolver_registry.py              |  10 +
+ engine/resolvers/ceremonial.py           |   4 +-
+ engine/resolvers/liturgy.py              |  84 ++-
+ engine/resolvers/matins.py               |  46 +-
+ engine/resolvers/vespers.py              |  28 +-
+ engine/rubrics.py                        |  12 +-
+ engine/text_db.py                        |  26 +
+ json_db/02a_logic_general.json           |   6 +-
+ json_db/02b_02_october.json              |  44 ++
+ json_db/02b_03_november.json             |   6 +
+ json_db/02b_04_december.json             |  19 +
+ json_db/02b_05_january.json              |  84 +++
+ json_db/02b_06_february.json             |   8 +
+ json_db/02b_07_march.json                |  15 +
+ json_db/02b_09_may.json                  |  24 +
+ json_db/02b_11_july.json                 |  13 +
+ json_db/02b_12_august.json               |  14 +
+ json_db/almanac/annual_almanac_2026.json | 898 +++++++++++++++----------------
+ scripts/audit_all_days_heuristics.py     |  85 +--
+ scripts/audit_january.py                 |  45 +-
+ scripts/compliance_gate.py               |   4 +-
+ tests/test_annual_almanac_consistency.py |  17 +
+ tests/test_horologion_core.py            |   9 +-
+ tests/test_semantic_linting.py           |  90 ++++
+ 34 files changed, 2073 insertions(+), 650 deletions(-)
 ```
 
 #### [WARNING] Compliance Violations:
-- digest/base.py:646 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- digest/base.py:686 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- digest/base.py:814 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- digest/base.py:1991 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- digest/base.py:2152 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- digest/base.py:2157 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- digest/base.py:2242 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- digest/formatters/matins.py:182 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
 - engine/generation.py:120 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/generation.py:573 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/generation.py:654 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/generation.py:821 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/generation.py:893 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/resolvers/common.py:469 - Bare 'except: pass' detected (violates compliance rule 2).
-- engine/resolvers/common.py:695 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/resolvers/common.py:808 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/resolvers/common.py:1247 - Bare 'except: pass' detected (violates compliance rule 2).
-- engine/resolvers/common.py:1327 - Bare 'except: pass' detected (violates compliance rule 2).
-- engine/resolvers/hours.py:87 - Bare 'except: pass' detected (violates compliance rule 2).
-- engine/resolvers/hours.py:194 - Bare 'except: pass' detected (violates compliance rule 2).
-- engine/resolvers/hours.py:372 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/resolvers/hours.py:496 - Bare 'except: pass' detected (violates compliance rule 2).
+- engine/generation.py:585 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/generation.py:666 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/generation.py:905 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/generation.py:995 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/generation.py:1105 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/generation.py:1770 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/generation.py:1890 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
 - engine/resolvers/liturgy.py:208 - Bare 'except: pass' detected (violates compliance rule 2).
 - engine/resolvers/matins.py:581 - Bare 'except: pass' detected (violates compliance rule 2).
 - engine/resolvers/matins.py:1410 - Bare 'except: pass' detected (violates compliance rule 2).
-- engine/resolvers/vespers.py:775 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- engine/resolvers/vespers.py:970 - Bare 'except: pass' detected (violates compliance rule 2).
-- engine/rubrics.py:968 - Bare 'except: pass' detected (violates compliance rule 2).
-- engine/rubrics.py:1139 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- scripts/deepseek_compliance_audit.py:459 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
-- scripts/audit_ui_with_llm.py:215 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/resolvers/vespers.py:777 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/resolvers/vespers.py:972 - Bare 'except: pass' detected (violates compliance rule 2).
+- engine/rubrics.py:1014 - Bare 'except: pass' detected (violates compliance rule 2).
+- engine/rubrics.py:1185 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/text_db.py:165 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/text_db.py:173 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- engine/text_db.py:426 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- scripts/run_liturgical_audit_pipeline.py:203 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- scripts/run_liturgical_audit_pipeline.py:335 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- tests/test_musical_mode_coherence.py:115 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
+- tests/test_resolver_outputs_compliance.py:74 - Potential 'hasattr' guard check (ensure else branch is provided or documented).
 
 #### Sample Digest Preview (First 30 Lines):
 ```markdown
@@ -86,19 +72,17 @@
 
 FOREFEAST OF THE MEETING - TONE I.
 Sunday service combined with that of the Triodion, and that of the forefeast.
-The service to St. Martyr Tryphon. is transferred to the previous Friday at Compline, or another convenient time, whenever the ecclesiarch so wishes.
+The service to Martyr Tryphon is transferred to the previous Friday at Compline, or another convenient time, whenever the ecclesiarch so wishes.
 Vestment colour: Bright (Gold or blue for the forefeast).
 
 ## GREAT VESPERS
 
-Vestments (priest): epitrachelion, phelonion. The phelonion is blessed and kissed before the Entrance.
-Fasting Rule: No fasting restrictions.
-Censing: Priest censes entire church during Psalm 103.
-Censing: Deacon performs Great censing of the entire church during 'Lord, I Call'.
-*At Lord, I Call…* we sing 4 Resurrectional Stichera from the Octoechos, 3 Stichera from the Triodion, and 3 Forefeast Stichera from the Menaion; Glory... doxastikon from the Triodion; Both now: Theotokion of the Feast.
-Censing: Small censing at the entrance.
-The Royal Doors are opened.
-Prokeimenon: The Lord is King (Tone VI).
+Fasting Rule: Fast-free week, no fasting restrictions.
+*At Lord, I Call…* we sing 4 Resurrectional Stichera from the Octoechos, 3 Stichera from the Triodion, and 3 Forefeast Stichera from the Menaion; Glory... doxastikon from the Triodion; Both now: Dogmatic Theotokion in the tone of the week.
+<span class="rubric">Prokeimenon of Saturday Evening (Sunday prep), Tone VI:</span> <span class="sung-text">"The Lord reigns, He is clothed in majesty"</span>
+<blockquote class="verse"><span class="rubric">Stichos:</span> <span class="sung-text">Robed is the Lord and girt about with strength.</span></blockquote>
+<blockquote class="verse"><span class="rubric">Stichos:</span> <span class="sung-text">For He has made the world firm, which shall not be moved.</span></blockquote>
+<blockquote class="verse"><span class="rubric">Stichos:</span> <span class="sung-text">Holiness befits Your house, O Lord, for length of days.</span></blockquote>
 **At the Aposticha:** We sing the resurrectional aposticha in the tone of the week, from the Octoechos; Glory... doxastikon from the Triodion; Both now: doxastikon of the forefeast.
 **At the Dismissal Troparia:** We sing the Sunday (resurrectional) troparion in the tone of the week; Glory, Both now: Theotokion.
 
@@ -112,4 +96,6 @@ Troparia: Sunday Troparion from the Octoechos, Troparion of the Temple, *"O God 
 Triadic Canon: Canon Trinity in Tone 1.
 Midnight Troparia: Sunday Hypakoe in Tone 1.
 Prayer: Prayer Holy Trinity All Creating.
+
+## SUNDAY MATINS
 ```

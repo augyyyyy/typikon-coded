@@ -548,6 +548,201 @@ When switching models:
    - Saved the structured dataset to `json_db/calendar_dolnytsky_split.json` containing detailed schema tags (`name`, `title`, `gender`, `monastic`, `is_saint`).
 
 2. **Saint Transfer Grammar Pluralization**:
+- **Context Truncation**: Bypassed loading python codebase in `scripts/deepseek_compliance_audit.py`, saving ~110,000 tokens of redundant prompt bloat.
+   - **Month-Based Slicing**: Sliced Menaion reference files to load only the specific month matching the target date, and skipped loading the Triodion text when the target date is outside Lenten/Paschal seasons.
+   - **Lectionary Injection**: Injected programmatically calculated ground-truth lectionary readings into the LLM prompt to suppress hallucinations of scriptural requirements.
+   - **Atomized Audits**: Shifted to service-by-service audits (`--service X`) instead of auditing the entire day at once.
+
+3. **Reference Files Markdown Migration**:
+   - **In-Place Formatting**: Renamed all `Final_Dolnytsky_*.txt` files and `Ordo_Celebrationis_1996_CLEAN.md` to `.md` format. Modified header formatting in-place to preserve exact line counts, protecting all database line-grounding (`source_ref`) citations.
+   - **Search & Replace**: Ran a global script to update file references across all JSON, Python, and Markdown files in the codebase, and deleted duplicate plain text files. All 306 unit tests passed successfully.
+
+## XV. Saint Suppression and Weekday Feast Paradigm Resolution (2026-06-12)
+
+1. **Saint Suppression Bug (Co-suffering of the Theotokos)**:
+   - Unified the saint suppression logic in `_resolve_rubrics_logic` inside [engine/rubrics.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/rubrics.py) by clearing `context["saints"] = []` when either `suppress_saints` or `suppress_menaion_saint` is set in the variables context. This prevents daily saint propers from bleeding into service structures during major feasts.
+   - Modified `case_10_feast_of_lord` in [json_db/02a_logic_general.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02a_logic_general.json) to assign the proper `"glory": "feast_doxastikon"` and `"both_now": "feast_theotokion"` in `vespers_stichera_distribution` to prevent falling back to daily weekday saint doxastikon/theotokion.
+
+2. **Feast Paradigm Integration**:
+   - Updated `identify_paradigm` in [engine/rubrics.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/rubrics.py) to check `feast_level` and return `"p_feast_theotokos"` or `"p_feast_lord"` for weekday feasts of the Lord or Theotokos.
+   - Updated `hours.py` (`resolve_hours_troparia` and `resolve_hours_kontakion`), `matins.py` (`resolve_matins_dismissal_troparion`), and `vespers.py` (`resolve_vespers_troparia_simple`) to check `feast_level` and fallback to paradigm matching, ensuring festal troparia and kontakion resolve correctly instead of falling back to daily weekday saint behavior.
+
+3. **Wednesday/Friday Liturgy Precedence**:
+   - Modified [engine/resolvers/liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/liturgy.py) to bypass Wednesday/Friday Cross precedence for feasts of the Lord/Theotokos, selecting the `"festal_only"` template.
+
+4. **Sessional Hymns**:
+   - Updated [engine/resolvers/common.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/common.py) (`resolve_sessional`) to pull sessional hymns from the Triodion/Pentecostarion for moveable feasts of rank 3 or higher.
+
+5. **Pentecostarion Fuzzer**:
+   - Added [scripts/pentecostarion_fuzzer.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/scripts/pentecostarion_fuzzer.py) to audit and log resolved liturgical variables (Compline canon, Katavasia, Magnificat, fasting rules) across all offsets (0 to 67) of the 2026 Pentecostarion/Eucharist cycle.
+
+## XVI. Common & Annual Typikon Engine Optimization (2026-06-12)
+
+1. **Almanac Architecture**: Decoupled yearly calendar calculations and Paschalion math from liturgical skeleton resolution. Created `scripts/generate_annual_almanac.py` to precompute and write the entire context, variables, overrides, readings, and Lviv paradigm numbers for every date of the year to `json_db/almanac/annual_almanac_<year>.json`.
+2. **Fast-Path Resolution**: Added lazy loading in `EngineCore` (`engine/core.py`) and fast-paths in `get_liturgical_context` (`engine/calendar.py`), `resolve_rubrics` (`engine/rubrics.py`), and `resolve_liturgy_readings` (`engine/resolvers/liturgy.py`) that bypass runtime calculations if an almanac for the queried year is present.
+3. **Lviv Paradigm Mappings**: Mapped the 20 Dolnytsky general case paradigms directly to their canonical Paradigm/Format Numbers (1-20) from Isidor Dolnytsky's general rubrics (Part II) and the 7 consolidated Moveable Cycle General Paradigms (21-27) in `json_db/lviv_format_map.json`, replacing all unauthoritative Petras format mappings.
+4. **Validation and Hardening**: Added `tests/test_annual_almanac_consistency.py` to assert that live calculations match the precomputed almanac exactly across all 365 days, including verification of the consolidated Lviv paradigm numbers (1-27). Fixed a critical type mismatch where `context["rank"]` was stored as a string (e.g. `"rank_polyeleos"`) instead of an integer in the almanac, preventing runtime crashes in `check_presanctified_trigger`. All 310 tests pass successfully.
+
+
+## XVII. UGCC Terminology Alignment & Weekday Propers Recovery (2026-06-12)
+
+1. **Liturgical Compliance & Vocabulary Standards**:
+   - Following the **Royal Doors Liturgical Vocabulary Matrix**, we standardized key terminology to meet Ukrainian Greek Catholic Church (UGCC) English standards.
+   - Standardized `Exaposteilarion` (Greek scientific style) to **`Exapostilarion`** (omitting the middle `e`).
+   - Standardized `Holy Doors` (an Orthodox/Greek-inspired term) to **`Royal Doors`** (namesake of the portal).
+   - Implemented this in the post-processing filter in `digest/base.py` to recursively clean output strings.
+
+2. **Weekday Matins Gospel & Exapostilarion Resolution**:
+   - **Gospel Suppression Bug**: Weekday Great Feasts and Polyeleos/Vigil saints were missing their Matins Gospels. Investigated `check_gospel_service()` in `engine/resolvers/matins.py` and found a backward rank comparison: it checked `rank >= 3` (suppressing Gospels for rank 1 and 2), which has been corrected to `rank <= 2` (rank 1 = Vigil, rank 2 = Polyeleos).
+   - **Dynamic Matins Gospel Lookup**: Weekday feast/saint Gospels are now dynamically extracted in `resolve_matins_gospel()` from the liturgical liturgy readings instead of returning a stub `None`.
+   - **Dynamic Exapostilarion Stacking**: Completed the weekday exapostilarion resolver stub (`resolve_exapostilarion()` in `engine/resolvers/matins.py`). It now queries, matches, and stacks the exapostilarions for the Feast, the Saint(s), and the corresponding Theotokion.
+
+3. **Graduals Recovery**:
+   - Weekday Polyeleos/Vigil services were missing their Gradual Hymns. In `digest/base.py`, the skeleton filter for the graduals block checked `rank > 1` (suppressing it for rank 2/Polyeleos weekdays). Updated the condition to `rank > 2` (or checking if it is a Sunday / Feast of the Lord/Theotokos) to guarantee Gradual Hymns are correctly outputted on Vigil and Polyeleos weekdays.
+
+## XVIII. Final UGCC Terminology Alignment & Sanity Hardening (2026-06-13)
+
+1. **Liturgical Title and Commemoration Formatting**:
+   - Resolved a bug where saint-name cleaning prepended `"St. "` to non-saint feast/event names (e.g. `"St. **Nativity of St. John the Baptist.**"`), by updating the `_clean_name` logic to check against a blacklist of feast/event words (like "Nativity", "Translation", "Synaxis", "Annunciation") and strip markdown bold asterisks `**`.
+   - Prevented raw database keys (e.g., `menaion.jun_24.nativity_john_baptist`) from leaking into digest headers. The header generator now uses the human-readable `dolnytsky_title` from the almanac, falling back to humanized keys if missing.
+2. **Royal Doors Terminology Standardization**:
+   - Unified terminology translation in `digest/base.py` to replace both `"Holy Doors"` and `"holy doors"` (lowercase) with `"Royal Doors"` (properly capitalized proper noun), conforming with Eastern Christian English standards.
+3. **Combination Header Replacement Safety**:
+   - Corrected the dynamic saint replacement logic in `digest/base.py`'s combination header routines to use regex word boundaries `\bsaint\b` instead of substring matching. This prevented a major bug where words like `"Saints"` (plural) inside a saint's name matched `"saint"` and caused massive text duplication (e.g. on June 28, Translation of the Relics of Saints Cyrus and John).
+
+## XXI. June 2026 Liturgical Remediation and 0-100 Multi-Audit (2026-06-13)
+
+1. **Midnight Office Feast Mode Suppression**:
+   - **Issue**: Weekday Compline and Midnight Office (specifically the Prayer of St. Mardarius and prayer for the dead) should be suppressed/adjusted on afterfeasts and vigils.
+   - **Fix**: Created `midnight_feast` in [01g_struct_midnight.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/01g_struct_midnight.json) to inherit from `midnight_daily` but delete `closing_prayer` and `part_ii_block`. Modified Matins/Hours resolver in [hours.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/hours.py) (`resolve_midnight_office_mode`) to activate `feast` mode on weekdays during afterfeasts/vigils, omitting the prayer "Remember" and using the proper dismissal.
+
+2. **Matins Gradual Duplication & Terminology**:
+   - **Issue**: Gradual printed twice (from the Gospel rite and the main Matins structure).
+   - **Fix**: Modified [common.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/digest/formatters/common.py) to suppress formatting for `resolve_gradual` when it's part of duplicate slots. Standardized the term `"Anabathmoi"` to `"Gradual"` in [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/digest/formatters/matins.py) (`_format_resolve_anabathmoi`) to output `Gradual (Hymns of Ascents): ...`.
+
+3. **Hours Troparia Afterfeasts**:
+   - **Issue**: Hour troparia were not combined properly on weekday afterfeasts with a Polyeleos saint.
+   - **Fix**: Updated assertions in [test_semantic_linting.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/tests/test_semantic_linting.py) to verify Feast + Glory + Saint troparia combined at all hours (1st, 3rd, 6th, 9th).
+
+4. **Saturday Morning Lookahead & Capping**:
+   - **Issue**: Lookahead overrides were bleeding Resurrectional elements into Saturday morning services, and Sunday praises exceeded the canonical limit.
+   - **Fix**: Isolated lookahead logic in [calendar.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/calendar.py) (`_apply_lookahead`) to only execute when `is_sunday_vigil` is set. Hard-capped praises to 8 in [matins.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/matins.py) and praises formatter.
+
+5. **Key Leak and Humanizing**:
+   - **Issue**: Raw database path keys (like `menaion.jun_13.aquilina...`) and string-based communion keys (like `"righteous_memory"`) leaked into digests.
+   - **Fix**: Updated [base.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/digest/base.py) (`humanize_key`) to skip processing keys with dots or tone prefixes. Added dynamic mapping of string keys to full translations inside `resolve_communion_hymn` in [liturgy.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/liturgy.py).
+
+6. **Almanac Sync**:
+   - **Issue**: Engine changes caused mismatch between live resolution and the pre-computed almanac.
+   - **Fix**: Regenerated `annual_almanac_2026.json` to keep cached variables in sync, restoring a 100% pass rate in the pytest suite.
+
+## XXII. Backend-Driven UI Classification & Auditing Improvements (2026-06-13)
+
+1. **Centralized UI Classification Logic**:
+   - Transferred all liturgical classification logic (the assignment of `triodion_book`, `menaion_book`, `menaion_class`, and `saint_categories` fields) from frontend Javascript (`cantor_dashboard/main.js`) to the Python backend (`engine/calendar.py`).
+   - The cantor frontend dashboard now retrieves and renders badges directly from backend-supplied JSON fields, ensuring exact alignment between UI badges and backend logic.
+
+2. **Rank Code [4 A+G] Correction**:
+   - Corrected rank code mapping for `[4 A+G]` ("Apostle & Gospel"). Standardized its classification to `Class V — Simple` (not Great Doxology) and resolved as simple saint cases (e.g. `CASE_01` on Sundays) to prevent matins praises or dismissal overrides.
+
+3. **Movable Feasts Precedence & Pre-computed Almanac**:
+   - Fixed a bug where simple saints falling on moveable feasts (e.g. Pascha, Ascension, Pentecost) overrode the feast's rank code. Added `39` (Ascension), `49` (Pentecost), and `60` (Eucharist) to the `movable_overrides` map in `_lookup_dolnytsky_calendar`.
+   - Guarded fixed calendar lookup to prevent overwriting `dolnytsky_rank_code` if a movable override has already set it.
+   - Centralized solemnity checks: high solemnity `rank_val` (1, 2, 3) must take precedence in the class resolver before checking the saint's specific `rank_code`.
+
+4. **Commemoration Period Splitting**:
+   - Configured splitting of commemoration strings on `\.\s+` (periods followed by space) as well as standard delimiters (`and`, `&`, `;`) to ensure correct category extraction (e.g., separating "Synaxis of the 70 Apostles. Ven. Theoctistus." into two distinct saint parts).
+
+5. **Automated LLM UI Auditor**:
+   - Created `scripts/audit_ui_with_llm.py` to sample 15 dates in 2026 (spanning ordinary, feast, and collision categories), extract context JSON/digest outputs, and request an LLM review via the DeepSeek API to catch formatting, terminology, key leakage, or rubric drift.
+
+## XXIII. General Menaion Classification Badges & Sunday Precedence Logic (2026-06-13)
+
+1. **Liturgical Category Badges (St. John the Baptist)**:
+   - Category badges for saint commemorations must represent standard General Menaion service categories (e.g. *Prophet*, *Apostle*, *Hierarch*, *Martyr*, *Venerable*) rather than arbitrary titles.
+   - Since St. John the Baptist has no "Common of the Forerunner" category in standard General Menaion services and is celebrated under the Common of a Prophet, his category badge must resolve to `Prophet` (not `Forerunner` or `Saint`).
+   - Mapped `john the baptist`, `john the forerunner`, and `forerunner` to `Prophet` on the backend (`engine/calendar.py`) and frontend (`cantor_dashboard/main.js`).
+
+2. **Sunday Readings Override Precedence**:
+   - Modified `resolve_liturgy_readings` in `engine/resolvers/liturgy.py` to correctly evaluate the precedence of custom overrides:
+     - On weekdays and Sundays without Vigil/Polyeleos commemorations (such as Triodion Sundays), the custom overrides are returned directly, replacing default readings.
+     - On Sundays when a Vigil or Polyeleos saint (rank <= 3) is commemorated, the engine combines the Sunday resurrectional readings with the saint's overridden readings.
+     - Prevents double-nesting by extracting the readings list if the override is already dictionary-wrapped.
+
+3. **Apostles' Fast Core Logic**:
+   - The Apostles' Fast begins on the Monday after All Saints Sunday (pascha_offset >= 57) and ends on the eve of SS Peter and Paul (June 28).
+   - Mondays, Wednesdays, and Fridays during the fast are fast days (strict abstinence from meat and dairy) with Lviv Synod citations, subject to standard festal overrides (e.g. wine/oil or fish mitigations).
+
+4. **Service Title UI Standard**:
+   - The "Service Title" row on the UI is reserved exclusively for special service structures (e.g., "Bridegroom Matins", "Royal Hours of Theophany", "Liturgy of the Presanctified Gifts"), Vigil services, and Great Feasts.
+   - For ordinary days, it displays "Standard Sunday Services" or "Standard Daily Services" instead of repeating the saint's name.
+
+5. **Weekday Stichera Splits**:
+   - Weekday stichera at Vespers defaults to 6: split is 3 Octoechos (tone) + 3 saint (Menaion) for daily/simple saints, whereas Six-Stichera (`[6 SM]`) or Great Doxology (`[GT DOX]`) saints scale to 6 saint stichera, suppressing the Octoechos.
+
+---
+
+## XXIV. Jumbled Commemorations & Heuristic Auditing Gates (2026-06-14)
+
+1. **Jumbled Commemorations Remediation**:
+   - Multiple separate commemorations sharing a single rank tag in the raw calendar source must never be merged into a single description in [calendar_dolnytsky.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/calendar_dolnytsky.json). Doing so creates "super person" saints (e.g., December 4 St. Barbara & St. John of Damascus) and causes logic failures.
+   - Programmatically split these combined strings on semicolons `;` or manual exceptions into separate dict items within the `entries` array. This triggers correct canon, troparia, and kontakia stacking inside the logic engine.
+
+2. **365-Day Heuristic Auditing**:
+   - To prevent "under-testing", we established [test_all_days_compliance.py](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/tests/test_all_days_compliance.py) in the core `pytest` suite.
+   - This test sweeps all 365 days of the year, running local heuristics to assert that no raw keys, Python lists/dicts, fallback strings (like "Saints 2"), double prefixes, or `[ERROR:` logs leak into any user-facing generated digests.
+   - Using this audit, we caught and fixed a silent type-mismatch error (crashes when checking string-based ranks vs integers) in `engine/resolvers/lenten.py` during Lenten Presanctified days (Feb 24, Mar 9, Mar 25, Apr 1). All 365 days of 2026 now pass cleanly.
+
+---
+
+## XXV. IDE-style Reference Panel Layout & UI Standards (2026-06-14)
+
+1. **Focused Primary Workspace (Option 2)**:
+   - Implemented a collapsible, resizable right-side reference drawer for auxiliary documents (**Typikon Digest** and **Service Digest**), keeping the **Cantor Service Booklet** as the primary full-width viewport.
+   - This layout mirrors an IDE workspace, allocating maximum horizontal space for reading the booklet while keeping rubrics docked in a collapsible sidebar.
+   
+2. **DOM Preservation vs. InnerHTML Clearing**:
+   - Discovered that using `parent.innerHTML = ""` to clear container layouts when child nodes (panels) are currently inside them deletes their entire subtrees and event handlers, resulting in empty panels on subsequent appends due to garbage collection.
+   - Fixed by appending panels back to their parent `.document-content-wrapper` (where CSS hides them via `display: none !important`) *before* clearing the split containers. This keeps their DOM trees intact.
+
+3. **Canonical Ordering & Service Names Normalization**:
+   - The Select Service dropdown inside the Service Digest now maps specific header keys (like `GREAT VESPERS` or `DIVINE LITURGY OF ST. JOHN CHRYSOSTOM`) to clean, generic names (`Vespers`, `Divine Liturgy`) via `getGenericServiceName()`.
+   - The dropdown options are canonically ordered (`getServiceOrderWeight()`) matching the Byzantine daily cycle (Vespers, Compline, Midnight Office, Matins, Hours, Liturgy).
+
+4. **Horizontal Scrolling & Min-Width Constraints**:
+   - Set a `min-width: 650px` on `.document-content-wrapper` and `overflow-x: auto` on `.tab-panel` to ensure readable panel proportions on narrow viewports, displaying themed scrollbars rather than clipping columns.
+
+---
+
+## XXVI. Service Digest Formatting, Citations, and Prokeimena Perfecting (2026-06-14)
+
+1. **Say the Black, Do the Red CSS rules**:
+   - Mapped `em` (italics) and `strong` (bold) styles inside the `.digest-style` and `.service-section-body` classes to display using `var(--rubric-color)`. In light mode, this resolves to a liturgical deep burgundy (`#900000`), and in dark mode to bright red (`#ff5c5c`). This cleanly splits liturgical instruction from chant text.
+2. **Gold Accent Blockquotes**:
+   - Structured scripture readings and hymnal verses (prokeimena, epistles, gospels, communion hymns) inside Markdown blockquotes (`>`) in the backend formatters.
+   - Frontend styling renders these blockquotes with `border-left: 3px solid var(--rubric-color)`, padding, and italic font.
+3. **Pill Badges Extraction**:
+   - Implemented `extractMetadata(text)` in `cantor_dashboard/main.js` to scan for `Vestment colour:` or `Fasting Rule:`, extract the values, remove the text rows from the body to avoid double-printing, and render them as styled tags right below service headers.
+4. **Tooltipped Citations**:
+   - Formatted bracketed authority tags (e.g. `[Dolnytsky §12]`, `[Ordo §20]`) into inline `<sup class="citation-sup" title="...">...</sup>` tags with red-gold hover highlights and canonical explanation tooltips.
+5. **Prokeimena Dynamic Sourcing**:
+   - Refactored `_format_resolve_prokeimenon` in `digest/formatters/common.py` to retrieve Saturday evening, daily, and Lenten Sunday great prokeimena dynamically from Horologion JSON assets (`horologion.psalm_116` / `10cb16e9.json` and `horologion.psalm_68` / `01f928f8.json`) instead of hardcoding.
+   - Standardized Lenten Sunday Great Prokeimena translations to the official Stamford non-Elizabethan UGCC translations.
+   - Added automated linter test `test_no_hardcoded_verses_in_formatter` in `tests/test_source_grounding.py` to assert that no raw strings regress in the formatter.
+6. **Gendered Saint Sessional Prefixes**:
+   - Refactored `_format_resolve_sessional` in `digest/formatters/common.py` to inspect active saint categories and map names to standardized UGCC gendered, monastic prefixes (e.g., "Venerable Father", "Holy Hieromartyr", "Venerable Mother", "Holy Apostle") instead of defaulting to generic "Saint".
+7. **Ceremonial Pruning**:
+   - Added an `include_ceremonial` flag (defaulting to `False`) to the digest generator. When `False`, sanctuary-only instructions (closed/open doors, bows, deacon positions, censings) are suppressed to focus the cantor digest purely on chanted text.
+
+---
+
+## XXVII. AI-Driven Calendar Database Split & Recursive Resolver-Level Auditing (2026-06-15)
+
+1. **AI-Driven Calendar Database Split**:
+   - Implemented a pre-compilation script (`scripts/parse_calendar_with_llm.py`) utilizing the DeepSeek API to segment multi-saint descriptions in `calendar_dolnytsky.json` into discrete, typed saint entries.
+   - Saved the structured dataset to `json_db/calendar_dolnytsky_split.json` containing detailed schema tags (`name`, `title`, `gender`, `monastic`, `is_saint`).
+
+2. **Saint Transfer Grammar Pluralization**:
    - Updated `engine/calendar.py` to ingest the split calendar database, maintaining `saint_count = 1` for combined saint commemorations sharing a single troparion (like Bartholomew & Barnabas) to keep rank logic sound, while loading individual saint metadata into `all_parsed_saints`.
    - Refactored `resolve_saint_transfer` in `engine/rubrics.py` to flatten the parsed saints list and format grammatically correct singular or pluralized transfer notes (e.g., using "is transferred" or "are transferred" based on count).
 
@@ -562,3 +757,18 @@ When switching models:
    - Developed `scratch/audit_recursive_resolvers.py` to discover and dynamically execute all active logic resolvers for a given date in isolation.
    - Recursively validates the raw returned lists/dictionaries for UGCC spelling compliance, error placeholders (`[ERROR:`, `[RESOLVE:`), and confirms that all referenced text database (`text_db`) keys exist before booklet formatting is performed.
    - Ran this auditor against January 2026, confirming that all 31 days pass cleanly with **0 failures** at the resolver level.
+
+---
+
+## XXVIII. 100% Part III Completeness & Doxa/LML Comparative Research (2026-06-16)
+
+1. **100% Part III Completeness (Menaion Overrides)**:
+   - Configured all 26 calendar and override dates for Part III of the master Dolnytsky Typikon ("SPECIFIC RUBRICS FOR CERTAIN SERVICES OF THE MENAION") across the monthly JSON logic files (`json_db/02b_*.json`).
+   - Mapped the Sunday of the Fathers of the Seventh Ecumenical Council (October 11) using the dynamic floating rule `sunday_fathers_seventh_council` mapping to the closest Sunday within October 8–14.
+   - Implemented St. Josaphat (October 31) as a Vigil Saint (`rank_vigil_saint`) with full Litiya and scripture overrides.
+   - Added missing overrides for January, March, May, July, and August, ensuring that all 26 dates are fully integrated with appropriate ranks and sequence logic.
+   - Precompiled and verified consistency of the precomputed annual almanac cache (`annual_almanac_2026.json`).
+
+2. **Doxa/LML Research & Architecture Comparison**:
+   - Researched AGES Initiatives' evolution (ALWB desktop and OLW web) to the Go-based Doxa system utilizing Liturgical Markup Language (LML).
+   - Documented the architectural differences between Doxa's **template-stitching model** (which compiles documents using structural `.lml` markup templates to bind static database translations) and Typikon Coded's **constraint-logic model** (which calculates the logical state from first principles in Python and resolves cycle collisions dynamically at runtime).

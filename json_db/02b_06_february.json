@@ -10,6 +10,14 @@
     "month_id": 2,
     "leap_year_rule": "standard_shift_24_to_23",
     "days": {
+      "01": {
+        "title_key": "menaion.feb_01.forefeast_meeting",
+        "rank": "rank_simple_6",
+        "period": "forefeast",
+        "linked_feast_id": "02-02",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.6.1",
+        "base_template": "CASE_08"
+      },
       "02": {
         "title_key": "menaion.feb_02.meeting_of_lord",
         "rank": "rank_vigil_lord",

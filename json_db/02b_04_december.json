@@ -111,6 +111,18 @@
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4",
         "base_template": "CASE_05"
       },
+      "13": {
+        "title_key": "menaion.dec_13.eustratius_and_others",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.4.3",
+        "base_template": "CASE_05"
+      },
+      "17": {
+        "title_key": "menaion.dec_17.prophet_daniel_and_youths",
+        "rank": "rank_simple_6",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.4.4",
+        "base_template": "CASE_02"
+      },
       "24": {
         "title_key": "menaion.dec_24.nativity_paramony",
         "rank": "rank_simple_6",
@@ -193,6 +205,13 @@
           ],
           "troparia_sequence": "nativity_stephen_stacking"
         }
+      },
+      "31": {
+        "title_key": "menaion.dec_31.apodosis_nativity",
+        "rank": "rank_apodosis",
+        "period": "apodosis",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.4.14",
+        "base_template": "CASE_20"
       }
     }
   }

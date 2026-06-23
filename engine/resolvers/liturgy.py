@@ -225,7 +225,89 @@ class LiturgyMixin:
         """
         Resolves the order of Troparia and Kontakia (L-03) with Temple Logic.
         """
-        collision_override = context.get("variables", {}).get("liturgy_hymns_override")
+        collision_override = context.get("variables", {}).get("liturgy_hymns_override") or context.get("overrides", {}).get("liturgy_hymns_override")
+        if not collision_override and rubrics:
+            collision_override = rubrics.get("variables", {}).get("liturgy_hymns_override") or rubrics.get("overrides", {}).get("liturgy_hymns_override")
+            
+        if not collision_override:
+            collision_override = context.get("variables", {}).get("troparia_sequence") or context.get("overrides", {}).get("troparia_sequence")
+            if not collision_override and rubrics:
+                collision_override = rubrics.get("variables", {}).get("troparia_sequence") or rubrics.get("overrides", {}).get("troparia_sequence")
+                
+        if collision_override and isinstance(collision_override, str):
+            mapping = {
+                "circumcision_basil_glory_kont_basil_bn_kont_circumcision": [
+                    {"type": "troparion", "source": "feast"},
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "glory"},
+                    {"type": "kontakion", "source": "menaion_saint"},
+                    {"type": "both_now"},
+                    {"type": "kontakion", "source": "feast"}
+                ],
+                "indiction_simeon_glory_kont_simeon_bn_kont_indiction": [
+                    {"type": "troparion", "source": "feast"},
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "glory"},
+                    {"type": "kontakion", "source": "menaion_saint"},
+                    {"type": "both_now"},
+                    {"type": "kontakion", "source": "feast"}
+                ],
+                "ascension_john_glory_kont_john_bn_kont_ascension": [
+                    {"type": "troparion", "source": "feast"},
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "glory"},
+                    {"type": "kontakion", "source": "menaion_saint"},
+                    {"type": "both_now"},
+                    {"type": "kontakion", "source": "feast"}
+                ],
+                "feast_glory_bn_kont_feast": [
+                    {"type": "troparion", "source": "feast"},
+                    {"type": "glory_both_now"},
+                    {"type": "kontakion", "source": "feast"}
+                ],
+                "saint_demetrius_earthquake_stacking": [
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "troparion", "source": "feast"},
+                    {"type": "glory"},
+                    {"type": "kontakion", "source": "menaion_saint"},
+                    {"type": "both_now"},
+                    {"type": "kontakion", "source": "feast"}
+                ],
+                "nativity_synaxis_stacking": [
+                    {"type": "troparion", "source": "feast"},
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "glory"},
+                    {"type": "kontakion", "source": "menaion_saint"},
+                    {"type": "both_now"},
+                    {"type": "kontakion", "source": "feast"}
+                ],
+                "nativity_stephen_stacking": [
+                    {"type": "troparion", "source": "feast"},
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "glory"},
+                    {"type": "kontakion", "source": "menaion_saint"},
+                    {"type": "both_now"},
+                    {"type": "kontakion", "source": "feast"}
+                ],
+                "saint_constantine_stacking": [
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "glory"},
+                    {"type": "kontakion", "source": "menaion_saint"},
+                    {"type": "both_now"},
+                    {"type": "theotokion", "source": "resurrection"}
+                ],
+                "cross_maccabees_stacking": [
+                    {"type": "troparion", "source": "feast"},
+                    {"type": "troparion", "source": "menaion_saint"},
+                    {"type": "glory"},
+                    {"type": "kontakion", "source": "menaion_saint"},
+                    {"type": "both_now"},
+                    {"type": "kontakion", "source": "feast"}
+                ]
+            }
+            if collision_override in mapping:
+                collision_override = mapping[collision_override]
+
         if collision_override:
             return {
                 "type": "hymn_stack",

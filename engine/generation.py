@@ -366,6 +366,11 @@ class GenerationMixin:
                         text = self._resolve_slot(slot, rubrics, context)
                         if text and text.strip():
                             booklet.append(text)
+                            
+                        # Recurse into nested sequence if it exists
+                        nested_seq = slot.get("sequence") or content.get("sequence")
+                        if nested_seq and isinstance(nested_seq, list) and slot_type != "sequence":
+                            process_sequence(nested_seq, depth + 1)
 
                 process_sequence(skeleton)
 
@@ -387,6 +392,7 @@ class GenerationMixin:
              abstract.append("")
         else:
              abstract.append("")
+        return "\n".join(abstract)
 
 
     def generate_typikon_digest(self, context, rubrics, mode="full"):
@@ -784,6 +790,17 @@ class GenerationMixin:
         output.append(f"      (Generator logic for {method} not specificed)")
         return output
 
+    def _get_humanized_title(self, item, ref_key):
+        if not ref_key:
+            return ""
+        title = None
+        if item and isinstance(item, dict):
+            title = item.get("title")
+        if not title or title == ref_key or "." in str(title) or "_" in str(title):
+            last_part = ref_key.split(".")[-1]
+            title = last_part.replace("_", " ").strip().title()
+        return title
+
     def _resolve_slot(self, slot, rubrics, context=None):
         # Check ceremonial filtering
         include_ceremonial = False
@@ -851,7 +868,7 @@ class GenerationMixin:
             ref_key = content.get("ref_key")
             item = self.get_text(ref_key, context=context)
             if item:
-                title = item.get("title", ref_key)
+                title = self._get_humanized_title(item, ref_key)
                 text_val = item.get("content", "")
                 cit_html = ""
                 if "source" in item:
@@ -869,7 +886,7 @@ class GenerationMixin:
             for ref_key in content.get("ref_keys", []):
                 item = self.get_text(ref_key, context=context)
                 if item:
-                    title = item.get("title", ref_key)
+                    title = self._get_humanized_title(item, ref_key)
                     text_val = item.get("content", "")
                     cit_html = ""
                     if "source" in item:
@@ -926,7 +943,7 @@ class GenerationMixin:
                          result = f"[Pending execution: {func_name}]"
                          
                      # Hydrate and Format the logic result
-                     hydrated = self._hydrate_and_format_logic_result(result, func_name, context)
+                     hydrated = self._hydrate_and_format_logic_result(result, func_name, context, rubrics)
                      if hydrated:
                          output_lines.append(hydrated)
                          
@@ -966,14 +983,200 @@ class GenerationMixin:
             else:
                  output_lines.append(f'<p class="rubric">[Generator: {generator_method} (not fully formatted)]</p>')
                  
+        elif slot_type == "slot_variable":
+            slot_id = content.get("slot_id") or content.get("id") or slot.get("slot_id") or slot.get("id")
+            
+            # Extract month and day
+            dt = context.get("date")
+            if isinstance(dt, str):
+                parts = dt.split("-")
+                month = parts[1]
+                day = parts[2]
+            elif hasattr(dt, "month") and hasattr(dt, "day"):
+                month = f"{dt.month:02d}"
+                day = f"{dt.day:02d}"
+            else:
+                month = context.get("month", "01")
+                day = context.get("day", "01")
+                
+            # Enrich context
+            enriched = {**context, **rubrics.get("variables", {}), "variables": rubrics.get("variables", {})}
+            enriched["overrides"] = rubrics.get("overrides", {})
+            if rubrics.get("is_sunday_vigil"):
+                enriched["is_sunday_vigil"] = True
+            
+            if slot_id in ("liturgy_prokeimenon", "liturgy_epistle", "liturgy_alleluia", "liturgy_gospel", "prokeimenon", "epistle", "alleluia", "gospel"):
+                try:
+                    res = self.resolve_liturgy_readings(enriched, rubrics)
+                    if res and "readings" in res:
+                        # Iterate through each reading set
+                        for r_set in res["readings"]:
+                            if not isinstance(r_set, dict):
+                                continue
+                            
+                            # Determine what part of the reading set we need
+                            part_key = None
+                            if "prokeimenon" in slot_id:
+                                part_key = "prokeimenon"
+                            elif "epistle" in slot_id:
+                                part_key = "epistle"
+                            elif "alleluia" in slot_id:
+                                part_key = "alleluia"
+                            elif "gospel" in slot_id:
+                                part_key = "gospel"
+                                
+                            if part_key and part_key in r_set:
+                                pk = r_set[part_key]
+                                ref_key = pk.get("ref_key", "")
+                                text_val = pk.get("text") or pk.get("content") or ""
+                                tone = pk.get("tone")
+                                
+                                # Check if text_val is a placeholder or empty, and fetch from text_db
+                                if ref_key and (not text_val or "[missing" in str(text_val).lower() or "[stub" in str(text_val).lower()):
+                                    text_item = self.get_text(ref_key, context=context)
+                                    if text_item:
+                                        text_val = text_item.get("content", "")
+                                        if not tone:
+                                            tone = text_item.get("tone")
+                                            
+                                # If text_val is still empty and ref_key is present, use humanized key as fallback
+                                if not text_val and ref_key:
+                                    text_val = f"[{ref_key.split('.')[-1].replace('_', ' ').title()} (Missing)]"
+                                
+                                # Format output
+                                part_title = part_key.title()
+                                tone_str = f" (Tone {tone})" if tone else ""
+                                
+                                if part_key == "prokeimenon":
+                                    output_lines.append(f'<p><strong>Prokeimenon</strong>{tone_str}: {text_val}</p>')
+                                elif part_key == "alleluia":
+                                    output_lines.append(f'<p><strong>Alleluia</strong>{tone_str}: {text_val}</p>')
+                                else:
+                                    # Epistle or Gospel
+                                    clean_title = ref_key.split(".")[-1].replace("_", " ").title() if ref_key else part_title
+                                    output_lines.append(f'<p><strong>{part_title}</strong> ({clean_title}): {text_val}</p>')
+                except Exception as e:
+                    output_lines.append(f'<p class="rubric">[Logic Error: resolve_liturgy_readings - {e}]</p>')
+                    
+            elif "kontakion" in str(slot_id):
+                # Call resolve_hours_kontakion
+                hour_num = content.get("hour")
+                if not hour_num and slot_id and "hour_" in str(slot_id):
+                    parts = str(slot_id).split("_")
+                    if len(parts) >= 2:
+                        try:
+                            hour_num = int(parts[1])
+                        except ValueError:
+                            pass
+                if not hour_num:
+                    hour_num = 1
+                enriched["hour"] = hour_num
+                try:
+                    res = self.resolve_hours_kontakion(enriched, rubrics)
+                    if res:
+                        source = res.get("source", "saint_or_feast")
+                        # Look up target key based on source
+                        ref_key = None
+                        if source == "feast":
+                            ref_key = f"menaion.{month}{day}.vespers.kontakion"
+                        elif source == "saints":
+                            s_id = "saint"
+                            if enriched.get("saints"):
+                                s_id = enriched["saints"][0].get("id", "saint")
+                            ref_key = f"menaion.{s_id}.matins.kontakion"
+                            
+                        text_val = None
+                        if ref_key:
+                            text_item = self.get_text(ref_key, context=context)
+                            if text_item:
+                                text_val = text_item.get("content")
+                                
+                        if not text_val:
+                            # generic text
+                            text_val = f"Kontakion of the {source.title()}"
+                            
+                        output_lines.append(f'<p><strong>Kontakion</strong>: {text_val}</p>')
+                except Exception as e:
+                    output_lines.append(f'<p class="rubric">[Logic Error: resolve_hours_kontakion - {e}]</p>')
+
+        elif slot_type == "conditional_block":
+            logic_data = content.get("logic", {})
+            func_name = logic_data.get("function")
+            if func_name and hasattr(self, func_name):
+                try:
+                    func = getattr(self, func_name)
+                    import inspect
+                    sig = inspect.signature(func)
+                    
+                    enriched = {**context, **rubrics.get("variables", {}), "variables": rubrics.get("variables", {})}
+                    enriched["overrides"] = rubrics.get("overrides", {})
+                    
+                    call_kwargs = {}
+                    args_data = logic_data.get("args", {})
+                    if isinstance(args_data, dict):
+                        for k, v in args_data.items():
+                            if k in sig.parameters:
+                                call_kwargs[k] = v
+                                
+                    if "rubrics" in sig.parameters:
+                        call_kwargs["rubrics"] = rubrics
+                    
+                    params = list(sig.parameters.values())
+                    has_context = len(params) > 0
+                    
+                    result = func(enriched, **call_kwargs) if has_context else func()
+                    
+                    sub_slot = content.get("true_content") if result else content.get("false_content")
+                    if sub_slot:
+                        sub_type = sub_slot.get("type")
+                        if sub_type == "structure_ref":
+                            target_file = sub_slot.get("file")
+                            target_id = sub_slot.get("root_id")
+                            if target_file and target_id:
+                                full_path = os.path.join(self.json_db, target_file)
+                                if not os.path.exists(full_path):
+                                    full_path = target_file
+                                if os.path.exists(full_path):
+                                    with open(full_path, 'r', encoding='utf-8') as f:
+                                        linked_data = json.load(f)
+                                    sub_seq = self._get_structure_sequence(linked_data, target_id)
+                                    if sub_seq:
+                                        for seq_slot in sub_seq:
+                                            txt = self._resolve_slot(seq_slot, rubrics, context)
+                                            if txt and txt.strip():
+                                                output_lines.append(txt)
+                        else:
+                            txt = self._resolve_slot(sub_slot, rubrics, context)
+                            if txt and txt.strip():
+                                output_lines.append(txt)
+                except Exception as e:
+                    output_lines.append(f'<p class="rubric">[Conditional Block Error: {func_name} - {e}]</p>')
+            else:
+                output_lines.append(f'<p class="rubric">[Missing Conditional Logic: {func_name}]</p>')
+
         elif slot_type == "sequence":
-             output_lines.append('<div class="title-medium">Sequence</div>')
              for comp in content.get("components", []):
-                 output_lines.append(f'<p>{comp}</p>')
+                 txt = self._resolve_slot(comp, rubrics, context)
+                 if txt and txt.strip():
+                     output_lines.append(txt)
                  
         return "\n\n".join(output_lines)
+    def _split_and_wrap(self, html_prefix, content):
+        if not content:
+            return []
+        # Support both string and dictionary structures if they leak into content
+        if isinstance(content, dict):
+            content = content.get("content", "") or content.get("text", "")
+        content_str = str(content)
+        lines = [line.strip() for line in content_str.split("\n") if line.strip()]
+        if not lines:
+            return []
+        res = [f'<p>{html_prefix}{lines[0]}</p>']
+        for line in lines[1:]:
+            res.append(f'<p>{line}</p>')
+        return res
 
-    def _hydrate_and_format_logic_result(self, result, func_name, context):
+    def _hydrate_and_format_logic_result(self, result, func_name, context, rubrics=None):
         if not result:
             return ""
             
@@ -996,6 +1199,8 @@ class GenerationMixin:
                 ref_key = item_key
                 if isinstance(item_key, dict):
                     ref_key = item_key.get("id")
+                    if not ref_key and "type" in item_key:
+                        ref_key = self._resolve_logical_chant_key(item_key, context, rubrics)
                     
                 if not ref_key:
                     continue
@@ -1006,7 +1211,8 @@ class GenerationMixin:
                     content = text_item.get("content", "")
                     h_title = text_item.get("title") or ref_key.split(".")[-1].replace("_", " ").title()
                     item_label = f"{h_title} {idx+1}" if len(items) > 1 else h_title
-                    output.append(f'<p><strong>{item_label}</strong>: {content}</p>')
+                    html_prefix = f"<strong>{item_label}</strong>: "
+                    output.extend(self._split_and_wrap(html_prefix, content))
                 else:
                     humanized = ref_key.split(".")[-1].replace("_", " ").title()
                     output.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
@@ -1016,14 +1222,16 @@ class GenerationMixin:
             if glory_key and glory_key != "(No Saint Doxastikon)":
                 text_item = self.get_text(glory_key, context=context)
                 if text_item:
-                    output.append(f'<p><strong>Glory</strong>: {text_item.get("content", "")}</p>')
+                    html_prefix = "<strong>Glory</strong>: "
+                    output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                     
             # Handle Both Now
             both_now_key = result.get("both_now")
             if both_now_key and both_now_key != "None":
                 text_item = self.get_text(both_now_key, context=context)
                 if text_item:
-                    output.append(f'<p><strong>Both now</strong>: {text_item.get("content", "")}</p>')
+                    html_prefix = "<strong>Both now</strong>: "
+                    output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                     
             return "\n\n".join(output)
             
@@ -1033,32 +1241,440 @@ class GenerationMixin:
                 if isinstance(res_item, dict):
                     ref_key = res_item.get("ref_key", "")
                     content_val = res_item.get("content", "")
-                    title = res_item.get("title", res_item.get("type", "Item")).title()
+                    title = res_item.get("title")
                     
-                    cit_str = f' <sup class="citation-sup" title="Key: {ref_key}">{ref_key}</sup>' if ref_key else ""
+                    if res_item.get("type") == "stichera_block":
+                        title = f"Stichera Block ({res_item.get('source', '').capitalize()})"
+                        content_val = res_item.get("note", "")
+                    
+                    if ref_key and (not content_val or not title):
+                        text_item = self.get_text(ref_key, context=context)
+                        if text_item:
+                            if not content_val:
+                                content_val = text_item.get("content", "")
+                            if not title:
+                                title = text_item.get("title") or self._get_humanized_title(text_item, ref_key)
+                                
+                    title = title or res_item.get("type", "Item").title()
+                    
+                    source_name = ""
+                    if ref_key:
+                        text_item = self.get_text(ref_key, context=context)
+                        if text_item and text_item.get("source"):
+                            source_name = text_item["source"]
+                    cit_str = f' <sup class="citation-sup" title="Source: {source_name}">{source_name}</sup>' if source_name else ""
+                    
                     output.append(f'<div class="title-medium">{title}{cit_str}</div>')
-                    output.append(f'<p>{content_val}</p>')
+                    for p_text in content_val.split("\n"):
+                        p_text = p_text.strip()
+                        if p_text:
+                            output.append(f'<p>{p_text}</p>')
                 else:
                     output.append(f'<p>{str(res_item)}</p>')
             return "\n\n".join(output)
+
+        # Case 3.5: Result is a readings container (like liturgy_readings)
+        elif isinstance(result, dict) and "readings" in result:
+            readings_list = result["readings"]
+            for r_set in readings_list:
+                if isinstance(r_set, dict):
+                    # Prokeimenon
+                    pk = r_set.get("prokeimenon", {})
+                    if pk:
+                        ref_key = pk.get("ref_key", "")
+                        if ref_key:
+                            text_item = self.get_text(ref_key, context=context)
+                            if text_item:
+                                html_prefix = f'<strong>Prokeimenon</strong> (Tone {text_item.get("tone", pk.get("tone", "?"))}): '
+                                output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+                            else:
+                                output.append(f'<p class="rubric">[Missing Prokeimenon: {ref_key}]</p>')
+                    
+                    # Epistle
+                    ep = r_set.get("epistle", {})
+                    if ep:
+                        ref_key = ep.get("ref_key", "")
+                        if ref_key:
+                            text_item = self.get_text(ref_key, context=context)
+                            if text_item:
+                                title = text_item.get("title") or ref_key.split(".")[-1].replace("_", " ").title()
+                                html_prefix = f'<strong>Epistle</strong> ({title}): '
+                                output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+                            else:
+                                output.append(f'<p class="rubric">[Missing Epistle: {ref_key}]</p>')
+                    
+                    # Alleluia
+                    al = r_set.get("alleluia", {})
+                    if al:
+                        ref_key = al.get("ref_key", "")
+                        if ref_key:
+                            text_item = self.get_text(ref_key, context=context)
+                            if text_item:
+                                html_prefix = f'<strong>Alleluia</strong> (Tone {text_item.get("tone", al.get("tone", "?"))}): '
+                                output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+                            else:
+                                output.append(f'<p class="rubric">[Missing Alleluia: {ref_key}]</p>')
+                    
+                    # Gospel
+                    gs = r_set.get("gospel", {})
+                    if gs:
+                        ref_key = gs.get("ref_key", "")
+                        if ref_key:
+                            text_item = self.get_text(ref_key, context=context)
+                            if text_item:
+                                title = text_item.get("title") or ref_key.split(".")[-1].replace("_", " ").title()
+                                html_prefix = f'<strong>Gospel</strong> ({title}): '
+                                output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+                            else:
+                                output.append(f'<p class="rubric">[Missing Gospel: {ref_key}]</p>')
+                else:
+                    output.append(f'<p>{str(r_set)}</p>')
+            return "\n\n".join(output)
             
-        # Case 4: Result has 'sequence' (like troparia/kontakia stacking)
-        elif isinstance(result, dict) and "sequence" in result:
+        # Case 4: Result has 'sequence' or 'troparia_sequence' (like troparia/kontakia stacking)
+        elif isinstance(result, dict) and ("sequence" in result or "troparia_sequence" in result):
             tone = result.get('tone', '?')
             tone_str = f" (Tone {tone})" if tone != '?' else ""
             output.append(f'<div class="title-medium">Troparia & Kontakia{tone_str}</div>')
-            for item in result["sequence"]:
-                content_key = item.get("content")
+            
+            seq_items = result.get("sequence") or result.get("troparia_sequence") or []
+            kontakion_winner = result.get("kontakion_winner")
+            
+            for item in seq_items:
+                content_key = item.get("content") or item.get("target") or item.get("id")
                 if content_key:
                     text_item = self.get_text(content_key, context=context)
                     if text_item:
                         title = text_item.get('title') or content_key.split(".")[-1].replace("_", " ").title()
-                        output.append(f'<p><strong>{title}</strong>: {text_item.get("content", "")}</p>')
+                        html_prefix = f'<strong>{title}</strong>: '
+                        output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                     else:
                         humanized = content_key.split(".")[-1].replace("_", " ").title()
                         output.append(f'<p class="rubric">[Missing text: {humanized} ({content_key})]</p>')
+                        
+            if kontakion_winner:
+                text_item = self.get_text(kontakion_winner, context=context)
+                if text_item:
+                    title = text_item.get('title') or kontakion_winner.split(".")[-1].replace("_", " ").title()
+                    html_prefix = f'<strong>{title}</strong>: '
+                    output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+                else:
+                    humanized = kontakion_winner.split(".")[-1].replace("_", " ").title()
+                    output.append(f'<p class="rubric">[Missing text: {humanized} ({kontakion_winner})]</p>')
             return "\n\n".join(output)
+
+        # Case 4.1: Result is Litiya content structure
+        elif isinstance(result, dict) and result.get("prayer") == "horologion.litiya_prayer":
+            output.append('<div class="title-large">Litiya</div>')
             
+            # Format stichera
+            stichera_groups = result.get("stichera", [])
+            for group in stichera_groups:
+                menaion_key = context.get("menaion_key", "")
+                target_key = f"{menaion_key}.vespers.litiya" if menaion_key else "litiya_menaion"
+                
+                text_item = self.get_text(target_key, context=context)
+                if text_item:
+                    html_prefix = "<strong>Litiya Stichera</strong>: "
+                    output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+                else:
+                    output.append(f'<p class="rubric">[Missing Litiya Stichera: {target_key}]</p>')
+            
+            # Format Glory / Both Now
+            glory = result.get("glory")
+            both_now = result.get("both_now")
+            if glory:
+                if "glory" in glory:
+                    menaion_key = context.get("menaion_key", "")
+                    glory_key = f"{menaion_key}.vespers.doxastichon_litiya" if menaion_key else glory
+                else:
+                    glory_key = glory
+                
+                text_item = self.get_text(glory_key, context=context)
+                if text_item:
+                    html_prefix = "<strong>Glory</strong>: "
+                    output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+            
+            if both_now:
+                if "both_now" in both_now:
+                    menaion_key = context.get("menaion_key", "")
+                    both_now_key = f"{menaion_key}.vespers.theotokion_litiya" if menaion_key else both_now
+                else:
+                    both_now_key = both_now
+                
+                text_item = self.get_text(both_now_key, context=context)
+                if text_item:
+                    html_prefix = "<strong>Both now</strong>: "
+                    output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+            
+            # Format Litiya Prayer
+            prayer_key = result.get("prayer", "horologion.litiya_prayer")
+            text_item = self.get_text(prayer_key, context=context)
+            if text_item:
+                title = text_item.get("title", "Litiya Prayers")
+                output.append(f'<div class="title-medium">{title}</div>')
+                output.extend(self._split_and_wrap("", text_item.get("content", "")))
+            else:
+                output.append(f'<p class="rubric">[Missing Litiya Prayers: {prayer_key}]</p>')
+                
+            return "\n\n".join(output)
+
+        # Case 4.2: Result is Artoklasia content structure
+        elif isinstance(result, dict) and result.get("prayer") == "horologion.artoklasia_prayer":
+            output.append('<div class="title-large">Blessing of Loaves (Artoklasia)</div>')
+            
+            # Rubric
+            rubric_str = result.get("rubric", "")
+            ordo = result.get("ordo_ref", "")
+            cit_str = f' <sup class="citation-sup" title="Ordo: {ordo}">{ordo}</sup>' if ordo else ""
+            if rubric_str:
+                output.append(f'<p class="rubric">{rubric_str}{cit_str}</p>')
+                
+            # Roles instructions
+            roles = result.get("roles", {})
+            for role, text in roles.items():
+                output.extend(self._split_and_wrap(f'<span class="actor">{role.upper()}</span> ', text))
+                
+            # Troparia instruction
+            troparia_config = result.get("troparia", [])
+            for t_item in troparia_config:
+                ref = t_item.get("ref_key")
+                count = t_item.get("count", 1)
+                text_item = self.get_text(ref, context=context)
+                if text_item:
+                    title = text_item.get("title") or ref.split(".")[-1].replace("_", " ").title()
+                    html_prefix = f"<strong>{title} (x{count})</strong>: "
+                    output.extend(self._split_and_wrap(html_prefix, text_item.get('content', '')))
+                else:
+                    title = ref.split(".")[-1].replace("_", " ").title()
+                    output.append(f'<p class="rubric"><strong>{title} (x{count})</strong>: [Missing: {ref}]</p>')
+            
+            if not troparia_config and "troparion" in result:
+                t_item = result["troparion"]
+                ref = t_item.get("key")
+                count = t_item.get("count", 1)
+                text_item = self.get_text(ref, context=context)
+                if text_item:
+                    title = text_item.get("title") or ref.split(".")[-1].replace("_", " ").title()
+                    html_prefix = f"<strong>{title} (x{count})</strong>: "
+                    output.extend(self._split_and_wrap(html_prefix, text_item.get('content', '')))
+            
+            # Artoklasia Prayer
+            prayer_key = result.get("prayer")
+            text_item = self.get_text(prayer_key, context=context)
+            if text_item:
+                title = text_item.get("title", "Artoklasia Prayer")
+                output.append(f'<div class="title-medium">{title}</div>')
+                output.extend(self._split_and_wrap("", text_item.get("content", "")))
+            else:
+                output.append(f'<p class="rubric">[Missing Artoklasia Prayer: {prayer_key}]</p>')
+                
+            return "\n\n".join(output)
+
+        # Case 4.3: Result is a Psalms / Kathisma / Polyeleos block
+        elif isinstance(result, dict) and result.get("type") in ("psalms", "kathisma", "polyeleos"):
+            k_id = result.get("id", "")
+            if result.get("type") == "polyeleos":
+                k_id = "horologion.polyeleos"
+            k_num = result.get("kathisma_number", k_id.split("_")[-1] if "_" in k_id else "")
+            title = f"Kathisma {k_num}" if k_num else "Kathisma"
+            
+            text_item = self.get_text(k_id, context=context) or self.get_text(f"horologion.{k_id}", context=context)
+            content_val = ""
+            if text_item and not text_item.get("is_missing"):
+                title = text_item.get("title") or title
+                content_val = text_item.get("content", "")
+            else:
+                content_val = f"[Read Kathisma {k_num} from the Psalter]" if k_num else f"[Read {k_id.replace('_', ' ').title()} from the Psalter]"
+                
+            output.append(f'<div class="title-medium">{title}</div>')
+            if content_val:
+                for p_text in content_val.split("\n"):
+                    p_text = p_text.strip()
+                    if p_text:
+                        output.append(f'<p>{p_text}</p>')
+            return "\n\n".join(output)
+
+        # Case 4.4: Result is a Sessional Hymn / group
+        elif isinstance(result, dict) and result.get("type") in ("sessional", "sessional_group"):
+            s_id = result.get("id", "")
+            title = "Sessional Hymns"
+            
+            text_item = self.get_text(s_id, context=context) or self.get_text(f"horologion.{s_id}", context=context)
+            content_val = ""
+            if text_item and not text_item.get("is_missing"):
+                title = text_item.get("title") or title
+                content_val = text_item.get("content", "")
+            else:
+                humanized = s_id.replace("_", " ").title()
+                content_val = f"[Sessional Hymns: {humanized}]"
+                
+            output.append(f'<div class="title-medium">{title}</div>')
+            if content_val:
+                for p_text in content_val.split("\n"):
+                    p_text = p_text.strip()
+                    if p_text:
+                        output.append(f'<p>{p_text}</p>')
+            return "\n\n".join(output)
+
+        # Case 4.5: Result is a Fixed Reference block
+        elif isinstance(result, dict) and result.get("type") == "fixed_ref":
+            ref_key = result.get("ref_key")
+            item = self.get_text(ref_key, context=context)
+            if item:
+                title = self._get_humanized_title(item, ref_key)
+                text_val = item.get("content", "")
+                cit_html = ""
+                if "source" in item:
+                    cit_html = f' <sup class="citation-sup" title="Source: {item["source"]}">{item["source"]}</sup>'
+                output.append(f'<div class="title-medium">{title}{cit_html}</div>')
+                for p_text in text_val.split("\n"):
+                    p_text = p_text.strip()
+                    if p_text:
+                        output.append(f'<p>{p_text}</p>')
+            else:
+                humanized = ref_key.split(".")[-1].replace("_", " ").title()
+                output.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
+            return "\n\n".join(output)
+
+        # Case 4.6: Result is a Prayer block
+        elif isinstance(result, dict) and result.get("type") == "prayer":
+            ref_key = result.get("ref_key")
+            item = self.get_text(ref_key, context=context)
+            if item:
+                title = self._get_humanized_title(item, ref_key)
+                text_val = item.get("content", "")
+                output.append(f'<div class="title-medium">{title}</div>')
+                for p_text in text_val.split("\n"):
+                    p_text = p_text.strip()
+                    if p_text:
+                        output.append(f'<p>{p_text}</p>')
+            else:
+                humanized = ref_key.split(".")[-1].replace("_", " ").title()
+                output.append(f'<p class="rubric">[Missing prayer: {humanized} ({ref_key})]</p>')
+            return "\n\n".join(output)
+
+        # Case 4.7: Result is a Daily Prokeimenon
+        elif isinstance(result, dict) and result.get("type") == "daily_prokeimenon":
+            tone = result.get("tone")
+            text = result.get("text", "")
+            verse = result.get("verse", "")
+            output.append(f'<div class="title-medium">Daily Prokeimenon (Tone {tone})</div>')
+            output.append(f'<p>{text}</p>')
+            if verse:
+                output.append(f'<p><span class="rubric">Verse:</span> {verse}</p>')
+            return "\n\n".join(output)
+
+        # Case 4.8: Result is a Canon descriptor
+        elif isinstance(result, dict) and result.get("type") == "canon":
+            subject = result.get("subject", "").capitalize()
+            book = result.get("book", "").capitalize()
+            output.append(f'<p class="rubric">[Canon to the {subject} ({book})]</p>')
+            return "\n\n".join(output)
+
+        # Case 4.9: Result is a Weekday Dismissal Theotokion / Stavrotheotokion
+        elif isinstance(result, dict) and result.get("type") in ("weekday_dismissal_theotokion", "weekday_dismissal_stavrotheotokion"):
+            ref_key = result.get("ref_key")
+            item = self.get_text(ref_key, context=context)
+            if item:
+                title = item.get("title") or "Theotokion"
+                text_val = item.get("content", "")
+                output.append(f'<div class="title-medium">{title}</div>')
+                for p_text in text_val.split("\n"):
+                    p_text = p_text.strip()
+                    if p_text:
+                        output.append(f'<p>{p_text}</p>')
+            else:
+                humanized = ref_key.split(".")[-1].replace("_", " ").title()
+                output.append(f'<p class="rubric">[Missing Theotokion: {humanized} ({ref_key})]</p>')
+            return "\n\n".join(output)
+
+        # Case 4.10: Result is a Standard structured text
+        elif isinstance(result, dict) and result.get("type") == "standard":
+            ref_key = result.get("ref_key", "")
+            text = result.get("text", "")
+            title = result.get("title", ref_key.split(".")[-1].replace("_", " ").title() if ref_key else "Prayer")
+            output.append(f'<div class="title-medium">{title}</div>')
+            for p_text in text.split("\n"):
+                p_text = p_text.strip()
+                if p_text:
+                    output.append(f'<p>{p_text}</p>')
+            return "\n\n".join(output)
+
+        # Case 4.11: Result is a dynamic Generator block
+        elif isinstance(result, dict) and result.get("type") == "generator":
+            method = result.get("generator_method")
+            args = result.get("args", {})
+            if method == "generate_antiphons":
+                res = self.resolve_liturgy_antiphons(context, rubrics)
+                return self._hydrate_and_format_logic_result(res, "resolve_liturgy_antiphons", context, rubrics)
+            elif method == "generate_hour_troparia":
+                hour_num = args.get("hour", 1)
+                res = self.resolve_hours_collision(context, hour_num=hour_num)
+                return self._hydrate_and_format_logic_result(res, "resolve_hours_collision", context, rubrics)
+            return f'<p class="rubric">[Generator: {method} ({str(args)})]</p>'
+
+        # Case 4.12: Result has troparia/kontakia lists
+        elif isinstance(result, dict) and ("troparia" in result or "kontakia" in result):
+            troparia = result.get("troparia", [])
+            for item in troparia:
+                t_id = item.get("troparion_id") or item.get("id") or item.get("ref_key")
+                tone = item.get("tone", "")
+                tone_str = f" (Tone {tone})" if tone else ""
+                if t_id:
+                    text_item = self.get_text(t_id, context=context)
+                    if text_item:
+                        title = text_item.get("title") or t_id.split(".")[-1].replace("_", " ").title()
+                        html_prefix = f'<strong>{title}{tone_str}</strong>: '
+                        output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+                    else:
+                        humanized = t_id.split(".")[-1].replace("_", " ").title()
+                        output.append(f'<p class="rubric">[Missing Troparion: {humanized} ({t_id})]</p>')
+                        
+            kontakia = result.get("kontakia", [])
+            for item in kontakia:
+                k_id = item.get("kontakion_id") or item.get("id") or item.get("ref_key")
+                tone = item.get("tone", "")
+                tone_str = f" (Tone {tone})" if tone else ""
+                if k_id:
+                    text_item = self.get_text(k_id, context=context)
+                    if text_item:
+                        title = text_item.get("title") or k_id.split(".")[-1].replace("_", " ").title()
+                        html_prefix = f'<strong>{title}{tone_str}</strong>: '
+                        output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+                    else:
+                        humanized = k_id.split(".")[-1].replace("_", " ").title()
+                        output.append(f'<p class="rubric">[Missing Kontakion: {humanized} ({k_id})]</p>')
+            return "\n\n".join(output)
+
+        # Case 4.13: Result is a Communion Hymn dict
+        elif isinstance(result, dict) and result.get("type") == "communion_hymn":
+            text = result.get("text") or ""
+            ref_key = result.get("ref_key")
+            source_name = ""
+            if ref_key:
+                text_item = self.get_text(ref_key, context=context)
+                if text_item and text_item.get("source"):
+                    source_name = text_item["source"]
+            cit_str = f' <sup class="citation-sup" title="Source: {source_name}">{source_name}</sup>' if source_name else ""
+            html_prefix = f"<strong>Communion Hymn</strong>{cit_str}: "
+            output.extend(self._split_and_wrap(html_prefix, text))
+            return "\n\n".join(output)
+
+        # Case 4.14: Result is a Post-Communion Hymn dict
+        elif isinstance(result, dict) and result.get("type") == "post_communion":
+            hymn = result.get("hymn") or ""
+            ref_key = result.get("ref_key")
+            source_name = ""
+            if ref_key:
+                text_item = self.get_text(ref_key, context=context)
+                if text_item and text_item.get("source"):
+                    source_name = text_item["source"]
+            cit_str = f' <sup class="citation-sup" title="Source: {source_name}">{source_name}</sup>' if source_name else ""
+            html_prefix = f"<strong>Post-Communion Hymn</strong>{cit_str}: "
+            output.extend(self._split_and_wrap(html_prefix, hymn))
+            return "\n\n".join(output)
+
         # Case 5: Result has 'vestments' (ceremonial vesting set)
         elif isinstance(result, dict) and "vestments" in result:
             v_list = result.get("vestments", [])
@@ -1130,7 +1746,8 @@ class GenerationMixin:
                         ref_key = item.get("id")
                         text_item = self.get_text(ref_key, context=context)
                         if text_item and not text_item.get("is_missing"):
-                            output.append(f'<p><strong>{text_item.get("title", ref_key)}</strong>: {text_item.get("content")}</p>')
+                            title = self._get_humanized_title(text_item, ref_key)
+                            output.append(f'<p><strong>{title}</strong>: {text_item.get("content")}</p>')
                         else:
                             output.append(f'<p class="rubric">[Sessional Hymn ({ref_key})]</p>')
                 elif i_type == "kontakion":
@@ -1139,7 +1756,8 @@ class GenerationMixin:
                         ref_key = item.get("id")
                         text_item = self.get_text(ref_key, context=context)
                         if text_item and not text_item.get("is_missing"):
-                            output.append(f'<p><strong>{text_item.get("title", ref_key)}</strong>: {text_item.get("content")}</p>')
+                            title = self._get_humanized_title(text_item, ref_key)
+                            output.append(f'<p><strong>{title}</strong>: {text_item.get("content")}</p>')
                         else:
                             output.append(f'<p class="rubric">[Kontakion/Ikos ({ref_key})]</p>')
                             
@@ -1248,3 +1866,68 @@ class GenerationMixin:
             explanation = "Temple Priority Logic: Sunday + Temple + Saint (Standard Order)."
 
         return explanation
+
+
+    def _resolve_logical_chant_key(self, item_key, context, rubrics=None):
+        if not isinstance(item_key, dict):
+            return item_key
+            
+        c_type = item_key.get("type")
+        source = item_key.get("source")
+        
+        # Check if id is explicitly provided
+        if item_key.get("id"):
+            return item_key["id"]
+        if item_key.get("ref_key"):
+            return item_key["ref_key"]
+            
+        # Get date details from context
+        dt = context.get("date")
+        if isinstance(dt, str):
+            parts = dt.split("-")
+            month = parts[1]
+            day = parts[2]
+        elif hasattr(dt, "month") and hasattr(dt, "day"):
+            month = f"{dt.month:02d}"
+            day = f"{dt.day:02d}"
+        else:
+            month = context.get("month", "01")
+            day = context.get("day", "01")
+            
+        menaion_key = f"menaion.{month}{day}"
+        tone = context.get("tone", 1)
+        
+        if c_type == "glory" or source == "glory":
+            return "horologion.glory"
+        if c_type == "both_now" or source == "both_now":
+            return "horologion.both_now"
+        if c_type == "glory_both_now" or source == "glory_both_now":
+            return "horologion.glory_both_now"
+            
+        if source == "feast":
+            if c_type == "troparion":
+                return f"{menaion_key}.vespers.troparion"
+            elif c_type == "kontakion":
+                return f"{menaion_key}.vespers.kontakion"
+        elif source == "menaion_saint":
+            if month == "01" and day == "01":
+                if c_type == "troparion":
+                    return f"{menaion_key}.vespers.troparion_basil"
+                elif c_type == "kontakion":
+                    return f"{menaion_key}.matins.kontakion_basil"
+            else:
+                if c_type == "troparion":
+                    return f"{menaion_key}.vespers.troparion"
+                elif c_type == "kontakion":
+                    return f"{menaion_key}.vespers.kontakion"
+        elif source == "resurrection":
+            if c_type == "troparion":
+                return f"tone_{tone}.troparion.resurrection"
+            elif c_type == "kontakion":
+                return f"tone_{tone}.kontakion.resurrection"
+        elif source == "temple":
+            return f"general.temple.{c_type}"
+        elif source == "cross":
+            return f"weekday.wednesday.{c_type}"
+            
+        return f"{c_type}_{source}"

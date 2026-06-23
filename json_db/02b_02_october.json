@@ -8,6 +8,30 @@
   },
   "month_settings": {
     "month_id": 10,
+    "floating_rules": {
+      "sunday_fathers_seventh_council": {
+        "date_range": {
+          "start": 8,
+          "end": 14
+        },
+        "triggers": {
+          "day_of_week": [
+            0
+          ]
+        },
+        "rank_override": "rank_polyeleos",
+        "title_key": "menaion.floating.sunday_fathers_seventh_council",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2.2",
+        "variables": {
+          "vespers_stichera_distribution": "fathers_councils_logic",
+          "matins_gospel": "matthew_28_16_20",
+          "liturgy_readings": [
+            "hebrews_13_7_16",
+            "john_17_1_13"
+          ]
+        }
+      }
+    },
     "days": {
       "01": {
         "title_key": "menaion.oct_01.protection_theotokos",
@@ -89,6 +113,26 @@
         "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_05"
+      },
+      "31": {
+        "title_key": "menaion.oct_31.st_josaphat",
+        "rank": "rank_vigil_saint",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.2.4",
+        "base_template": "CASE_06",
+        "variables": {
+          "vespers_readings": [
+            "wisdom_5_15_6_3",
+            "wisdom_3_1_9",
+            "wisdom_4_7_15"
+          ],
+          "litiya_stichera": "st_josaphat_litiya",
+          "matins_gospel": "john_10_9_16",
+          "liturgy_readings": [
+            "hebrews_4_14_5_6",
+            "john_10_9_16"
+          ],
+          "communion_hymn": "righteous_memory"
+        }
       }
     }
   }
