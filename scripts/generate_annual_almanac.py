@@ -20,13 +20,24 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Generate Annual Liturgical Almanac")
     parser.add_argument("--year", type=int, default=2026, help="Year to generate (e.g. 2026)")
     parser.add_argument("--output-dir", type=str, default="json_db/almanac", help="Output directory")
+    parser.add_argument("--version", type=str, default="lviv", help="Engine version to generate")
     return parser.parse_args()
 
 def main():
     args = parse_args()
     year = args.year
     output_dir = args.output_dir
-    output_file = os.path.join(output_dir, f"annual_almanac_{year}.json")
+    version = args.version
+
+    # Initialize the engine to determine the output path dynamically
+    print(f"Almanac Gen: Initializing engine for year {year} (version: {version})...")
+    engine = RuthenianEngine(version=version)
+
+    version_id = engine.version_id
+    if version_id == "lviv":
+        output_file = os.path.join(output_dir, f"annual_almanac_{year}.json")
+    else:
+        output_file = os.path.join(output_dir, f"annual_almanac_{version_id}_{year}.json")
 
     # Clean existing file to force clean generation from live engine logic
     if os.path.exists(output_file):
@@ -35,9 +46,6 @@ def main():
             os.remove(output_file)
         except Exception as e:
             print(f"WARNING: Could not remove existing file: {e}")
-
-    print(f"Almanac Gen: Initializing engine for year {year}...")
-    engine = RuthenianEngine()
 
     # Load Lviv Typikon Paradigm Numbers mapping
     map_path = os.path.join("json_db", "lviv_format_map.json")
@@ -106,7 +114,6 @@ def main():
 
     # Write output
     os.makedirs(output_dir, exist_ok=True)
-    output_file = os.path.join(output_dir, f"annual_almanac_{year}.json")
     print(f"Almanac Gen: Writing output to {output_file}...")
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(almanac_envelope, f, indent=2, ensure_ascii=False)

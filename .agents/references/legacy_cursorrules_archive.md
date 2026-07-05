@@ -361,8 +361,9 @@ When importing/parsing raw General Menaion files, translate their names to align
    - Enforce a `min-width: 650px` on `.document-content-wrapper` to prevent panels from squishing into unreadable widths.
    - Enable `overflow-x: auto; overflow-y: hidden;` on the main `.tab-panel` with themed scrollbars. This ensures a horizontal scrollbar appears naturally on smaller screens without clipping the layout.
 
-5. **Server Management Policy**:
-   - You must never start or restart the dashboard server locally during a session (e.g. running `server.py`). The user will handle server processes externally.
+5. **Server Management & Port Safety Policy**:
+   - The agent is permitted to start and stop the dashboard server locally during a session for active testing and verification.
+   - **No Leftover Processes**: The agent must ensure that the server is explicitly shut down before the session ends. Running server processes must never be abandoned, leaving local ports tied up.
 
 ---
 

@@ -676,8 +676,23 @@ class CommonFormatterMixin:
 
 
     def _format_resolve_artoklasia(self, res, context):
-        if not res: return ""
-        return "Blessing of the loaves (Artoklasia)."
+        if not res:
+            return ""
+        if "action" in res:
+            action = res.get("action", "")
+            ref = res.get("ordo_ref", "")
+            ref_str = f" [{ref}]" if ref else ""
+            return f"Artoklasia{ref_str}: {action}"
+            
+        if not res.get("included"):
+            return ""
+        troparia_parts = []
+        for t in res.get("troparia", []):
+            ref = t.get("ref_key", "")
+            cnt = t.get("count", 1)
+            troparia_parts.append(f"{self.humanize_key(ref)} x{cnt}")
+        troparia_str = ", ".join(troparia_parts)
+        return f"At the Blessing of Loaves (Artoklasia): we sing {troparia_str}."
 
 
     def _format_resolve_post_ode9_hymn(self, res, context):
@@ -853,27 +868,6 @@ class CommonFormatterMixin:
         return f"Vigil Opening: {self.humanize_key(ref)}."
 
 
-    def _format_resolve_artoklasia(self, res, context):
-        if not res or not res.get("included"):
-            return ""
-        troparia_parts = []
-        for t in res.get("troparia", []):
-            ref = t.get("ref_key", "")
-            cnt = t.get("count", 1)
-            troparia_parts.append(f"{self.humanize_key(ref)} x{cnt}")
-        troparia_str = ", ".join(troparia_parts)
-        roles = res.get("roles", {})
-        priest_action = roles.get("priest", "")
-        deacon_action = roles.get("deacon", "")
-        choir_action = roles.get("choir", "")
-        return (
-            f"At the Blessing of Loaves (Artoklasia):\n"
-            f"  - Rubric: {res.get('rubric', '')}.\n"
-            f"  - Troparia to sing: {troparia_str}.\n"
-            f"  - Priest action: {priest_action}\n"
-            f"  - Deacon action: {deacon_action}\n"
-            f"  - Choir action: {choir_action}"
-        )
 
 
     def _format_resolve_prophecy_reading(self, res, context):

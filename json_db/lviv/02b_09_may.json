@@ -1,0 +1,12 @@
+{
+  "month_settings": {
+    "month_id": 5,
+    "days": {
+      "11": {
+        "title_key": "menaion.0511.mocius",
+        "rank": "rank_simple",
+        "source_ref": "Dolnytsky_Typikon_Master.md:5.3.9"
+      }
+    }
+  }
+}

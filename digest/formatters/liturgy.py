@@ -345,12 +345,15 @@ class LiturgyFormatterMixin:
                 return f"*{fallback_default}*"
             if ref_key.startswith("menaion."):
                 name = "Saint"
-                s_list = context.get("saints", [])
-                for s in s_list:
-                    s_id = s.get("id", "")
-                    if s_id and s_id in ref_key:
-                        name = s.get("name", "Saint")
-                        break
+                if context.get("feast_level") in ("lord", "theotokos") or context.get("is_fore_or_afterfeast"):
+                    name = "the Feast"
+                else:
+                    s_list = context.get("saints", [])
+                    for s in s_list:
+                        s_id = s.get("id", "")
+                        if s_id and s_id in ref_key:
+                            name = s.get("name", "Saint")
+                            break
                 if name == "Saint":
                     parts = ref_key.split('.')
                     if len(parts) >= 3:

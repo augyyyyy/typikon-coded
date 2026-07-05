@@ -43,3 +43,22 @@ class TestJune2026AuditRegression:
         commem_29 = ctx_jun_29.get("commemoration", "")
         assert "**" not in commem_29, f"Double asterisks leaked in commemoration: {commem_29}"
         assert not commem_29.endswith("."), f"Trailing period leaked in commemoration: {commem_29}"
+
+    def test_saint_feast_vestment_colors(self):
+        # June 24, 2026: Nativity of St. John the Baptist (Vigil) -> GOLD
+        ctx_jun_24 = self.engine.get_liturgical_context(date(2026, 6, 24))
+        rubrics_24 = self.engine.resolve_rubrics(ctx_jun_24)
+        vest_24 = self.engine.resolve_vestment_color(ctx_jun_24, rubrics_24)
+        assert vest_24.get("color") == "gold", f"Expected gold for June 24, got {vest_24.get('color')}"
+        
+        # June 29, 2026: Chief Apostles Peter & Paul (Vigil) -> GOLD
+        ctx_jun_29 = self.engine.get_liturgical_context(date(2026, 6, 29))
+        rubrics_29 = self.engine.resolve_rubrics(ctx_jun_29)
+        vest_29 = self.engine.resolve_vestment_color(ctx_jun_29, rubrics_29)
+        assert vest_29.get("color") == "gold", f"Expected gold for June 29, got {vest_29.get('color')}"
+        
+        # August 29, 2026: Beheading of John the Baptist (Polyeleos) -> RED
+        ctx_aug_29 = self.engine.get_liturgical_context(date(2026, 8, 29))
+        rubrics_aug = self.engine.resolve_rubrics(ctx_aug_29)
+        vest_aug = self.engine.resolve_vestment_color(ctx_aug_29, rubrics_aug)
+        assert vest_aug.get("color") == "red", f"Expected red for August 29, got {vest_aug.get('color')}"

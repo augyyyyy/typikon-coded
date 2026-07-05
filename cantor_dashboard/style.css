@@ -2708,6 +2708,50 @@ body.light-theme .badge-season.season-ordinary {
     border-color: rgba(16, 185, 129, 0.2);
 }
 
+.badge-season.season-Theophany {
+    background: rgba(37, 99, 235, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(37, 99, 235, 0.3);
+}
+body.light-theme .badge-season.season-Theophany {
+    background: rgba(37, 99, 235, 0.08);
+    color: #1d4ed8;
+    border-color: rgba(37, 99, 235, 0.2);
+}
+
+.badge-season.season-Christmas {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+body.light-theme .badge-season.season-Christmas {
+    background: rgba(245, 158, 11, 0.08);
+    color: #d97706;
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.badge-season.season-Nativity_Fast {
+    background: rgba(144, 0, 0, 0.15);
+    color: #ff5c5c;
+    border: 1px solid rgba(144, 0, 0, 0.3);
+}
+body.light-theme .badge-season.season-Nativity_Fast {
+    background: rgba(144, 0, 0, 0.08);
+    color: var(--rubric-color);
+    border-color: rgba(144, 0, 0, 0.2);
+}
+
+.badge-season.season-holy_week {
+    background: rgba(139, 92, 246, 0.15);
+    color: #a78bfa;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+body.light-theme .badge-season.season-holy_week {
+    background: rgba(139, 92, 246, 0.08);
+    color: #6d28d9;
+    border-color: rgba(139, 92, 246, 0.2);
+}
+
 .badge-tone {
     background: rgba(197, 160, 89, 0.15);
     color: var(--gold-accent);

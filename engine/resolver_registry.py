@@ -268,7 +268,20 @@ class ResolverRegistry:
             "check_service_type",
             "resolve_kathisma_choice",
             "resolve_canon_ode_troparion",
-            "resolve_dismissal_universal"
+            "resolve_dismissal_universal",
+            "resolve_side_door_state",
+            "resolve_incense_blessing",
+            "resolve_deacon_role",
+            "resolve_concelebration_roles",
+            "resolve_vespers_censing_sequence",
+            "resolve_litya_procession",
+            "resolve_artoklasia",
+            "resolve_polyeleos_movement",
+            "resolve_matins_gospel_censing",
+            "resolve_proskomedia_vessels",
+            "resolve_liturgy_entrances",
+            "resolve_presanctified_transfer",
+            "resolve_presanctified_censing"
         }
         if actual_name in common_allowed:
             return True

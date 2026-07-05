@@ -12,7 +12,7 @@ class TestGoldStandardTruth:
         truth_table = [
             # Great Feasts (Class I)
             (date(2026, 1, 6), "Class I — Great Feast", "[LORD]", "CASE_10"),
-            (date(2026, 3, 25), "Class I — Great Feast", "[MOG]", "lent_general_weekday"),
+            (date(2026, 3, 25), "Class I — Great Feast", "[MOG]", "CASE_12"),
             (date(2026, 8, 6), "Class I — Great Feast", "[LORD]", "CASE_10"),
             (date(2026, 8, 15), "Class I — Great Feast", "[MOG]", "CASE_12"), # Saturday Feast of Theotokos
             (date(2026, 9, 8), "Class I — Great Feast", "[MOG]", "CASE_12"), # Weekday Feast of Theotokos
@@ -28,8 +28,8 @@ class TestGoldStandardTruth:
             # Polyeleos Saints (Class III)
             (date(2026, 1, 20), "Class III — Polyeleos", "[POL]", "CASE_05"),
             
-            # Simple Saint with [4 A+G] (Class V) on Sunday
-            (date(2026, 1, 4), "Class V — Simple", "[4 A+G]", "CASE_01")
+            # Simple Saint with [4 A+G] (Class V) on Sunday Forefeast
+            (date(2026, 1, 4), "Class V — Simple", "[4 A+G]", "CASE_08")
         ]
 
         for dt, expected_class, expected_rank, expected_paradigm in truth_table:

@@ -24,8 +24,11 @@ class TestMathematicalLimits(unittest.TestCase):
             weekday = ctx["day_of_week"]
             offset = ctx["pascha_offset"]
             
-            # 1. Tone invariant: always between 1 and 8
-            self.assertTrue(1 <= ctx["tone"] <= 8, f"Tone out of bounds on {curr}: {ctx['tone']}")
+            # 1. Tone invariant: always between 1 and 8, or None on suspended days
+            if ctx["tone"] is not None:
+                self.assertTrue(1 <= ctx["tone"] <= 8, f"Tone out of bounds on {curr}: {ctx['tone']}")
+            else:
+                self.assertTrue(-8 <= offset <= -1, f"Tone was None on non-suspended day {curr} with offset {offset}")
             
             # 2. Eothinon invariant: either None or between 1 and 11
             eothinon = ctx.get("eothinon_number")

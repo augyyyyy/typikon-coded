@@ -1,10 +1,12 @@
 {
   "file_metadata": {
     "filename": "01j_struct_litiya.json",
-    "version": "1.0",
-    "last_updated": "2026-06-11",
-    "authority": "Lviv (Dolnytsky) Typikon (2010)",
-    "scope": "Litiya Service Matrix"
+    "version": "1.1",
+    "last_updated": "2026-06-23",
+    "authority": "Ordo Celebrationis §57–§66; Dolnytsky Typikon Part I §1.2.1.6",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
+    "scope": "Litiya and Loaves Blessing (Artoklasia) Ordinary (Wing 2)",
+    "description": "Systematic ordinary of the Litiya service, outlining narthex procession, censing, petitions, return to tetrapod, and blessing of bread, wheat, wine, and oil."
   },
   "structures": {
     "litiya": {
@@ -12,11 +14,14 @@
       "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.9",
       "sequence": [
         {
-          "id": "litiya_stichera",
+          "id": "litiya_procession",
           "rubric": {
-            "title": "Stichera of the Litiya",
+            "title": "Procession to the Narthex",
+            "ordo_ref": "§57",
             "roles": {
-              "choir": "Sing the Stichera of the Litiya."
+              "priest": "Vest in epitrachelion and phelonion, carry hand cross, exit sanctuary through northern door, process to narthex.",
+              "deacon": "Carry censer, walk ahead of priest, censing the nave during procession.",
+              "cantor": "Chant the Litiya stichera of the Feast or Saint during procession."
             }
           },
           "content": {
@@ -27,17 +32,50 @@
           }
         },
         {
-          "id": "litiya_intercessors",
+          "id": "litiya_censing",
           "rubric": {
-            "title": "The Intercessory Prayers",
+            "title": "Narthex Censing",
+            "ordo_ref": "§57",
             "roles": {
-              "deacon": "Read the petitions.",
-              "choir": "Sing Lord, have mercy."
+              "priest": "Stand in narthex before the tetrapod, make three bows.",
+              "deacon": "Cense the local icons in the narthex, then cense the priest, clergy, and people."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "censing_narthex"
+          }
+        },
+        {
+          "id": "litiya_petitions",
+          "rubric": {
+            "title": "Litiya Petitions",
+            "ordo_ref": "§58",
+            "roles": {
+              "priest": "Exclaim the priestly prayer 'Hear us, O God...'",
+              "deacon": "Intone the litany of the Litiya ('O God, save Your people...').",
+              "cantor": "Respond 'Lord, have mercy' 40x, 30x, 50x after each appointed petition."
             }
           },
           "content": {
             "type": "fixed_ref",
             "ref_key": "horologion.litiya_prayers"
+          }
+        },
+        {
+          "id": "return_procession",
+          "rubric": {
+            "title": "Return Procession",
+            "ordo_ref": "§59",
+            "roles": {
+              "priest": "Process from narthex into the nave, stand before the tetrapod.",
+              "deacon": "Lead procession carrying the candle, stand at tetrapod.",
+              "cantor": "Sing the Aposticha stichera during the return procession."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "procession_to_tetrapod"
           }
         }
       ]

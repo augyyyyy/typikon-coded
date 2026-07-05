@@ -686,10 +686,7 @@ class DigestGeneratorBase:
                 alt = f" or {res['alt'].replace('_', ' ')}" if res.get("alt") else ""
                 is_dark = res["color"] in ("black", "dark_purple", "purple")
                 tone_type = "Dark" if is_dark else "Bright"
-                if res["color"] == "gold" and "white" in alt:
-                    digest.append(f"Vestment colour: Bright [blue for the forefeast or gold].")
-                else:
-                    digest.append(f"Vestment colour: {tone_type} ({color}{alt}).")
+                digest.append(f"Vestment colour: {tone_type} ({color}{alt}).")
         except Exception as e:
             digest.append(f"[ERROR: resolve_vestment_color failed - {e}]")
              
@@ -1907,12 +1904,15 @@ class DigestGeneratorBase:
                                     return f"*{fallback_default}*"
                                 if ref_key.startswith("menaion."):
                                     name = "Saint"
-                                    s_list = enriched.get("saints", [])
-                                    for s in s_list:
-                                        s_id = s.get("id", "")
-                                        if s_id and s_id in ref_key:
-                                            name = s.get("name", "Saint")
-                                            break
+                                    if enriched.get("feast_level") in ("lord", "theotokos") or enriched.get("is_fore_or_afterfeast"):
+                                        name = "the Feast"
+                                    else:
+                                        s_list = enriched.get("saints", [])
+                                        for s in s_list:
+                                            s_id = s.get("id", "")
+                                            if s_id and s_id in ref_key:
+                                                name = s.get("name", "Saint")
+                                                break
                                     if name == "Saint":
                                         parts = ref_key.split('.')
                                         if len(parts) >= 3:

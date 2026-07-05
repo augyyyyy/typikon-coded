@@ -36,7 +36,7 @@ class EngineCore:
     """Mixin providing core methods for RuthenianEngine."""
 
 
-    def __init__(self, base_dir=".", temple_feast_date=None, version="stamford_2014", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None):
+    def __init__(self, base_dir=".", temple_feast_date=None, version="royal_doors", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None):
         self.base_dir = base_dir
         self.json_db = os.path.join(base_dir, "json_db")
         self.paschalion = paschalion # 'gregorian' or 'julian'
@@ -57,13 +57,15 @@ class EngineCore:
         self.version_map = {
             "stamford": "stamford_2014",
             "stamford_2014": "stamford_2014",
-            "lviv_1899": "lviv_1899",
-            "lviv": "lviv_1899",
+            "royal_doors": "royal_doors",
+            "lviv": "lviv",
+            "lviv_2010": "lviv",
             "st_sergius": "st_sergius"
         }
         self.folder_map = {
              "stamford_2014": "stamford",
-             "lviv_1899": "lviv",
+             "royal_doors": "stamford",
+             "lviv": "lviv",
              "st_sergius": "st_sergius"
         }
         
@@ -115,30 +117,62 @@ class EngineCore:
         self.collision_db = self._load_json("json_db/02k_logic_collisions.json")
         
         # Load Text Databases (Multi-Layer Strategy)
+        self.royal_doors_db = {}
+        self.stamford_db = {}
         self.text_db = {} 
-        # The original _load_versioned_texts() and _load_bulk_files() are replaced by the following explicit loads
-        # Recension text assets (service book content specific to the tradition)
-        # Define recension folder path (decoupled from json_db/)
-        recension_dir = "Data/Service Books/Recensions/Stamford Divine Office/JSON/assets"
-        self._load_versioned_texts(f"{recension_dir}/text_horologion.json")
-        self._load_versioned_texts(f"{recension_dir}/text_horologion_supplement.json")
-        self._load_versioned_texts(f"{recension_dir}/text_menaion.json")
-        self._load_versioned_texts(f"{recension_dir}/text_eothinon.json")
-        self._load_versioned_texts(f"{recension_dir}/text_octoechos.json")
-        self._load_versioned_texts(f"{recension_dir}/text_pentecostarion.json")
-        self._load_versioned_texts(f"{recension_dir}/text_triodion.json")
-        self._load_versioned_texts(f"{recension_dir}/text_weekdays.json")
-        self._load_versioned_texts(f"{recension_dir}/text_theotokia.json")
+        
+        # Set primary and backup database references
+        if self.version_id == "royal_doors":
+            self.primary_db = self.royal_doors_db
+            self.backup_db = self.stamford_db
+        elif self.version_id == "stamford_2014":
+            self.primary_db = self.stamford_db
+            self.backup_db = {}
+        else:
+            # Custom version selection (fallback to empty backup, direct loaded text_db primary)
+            self.primary_db = self.text_db
+            self.backup_db = self.stamford_db
+
+        # 1. Load Royal Doors (Primary) Recension
+        rd_dir = "Data/Service Books/Recensions/Royal Doors/JSON/assets"
+        self._load_versioned_texts(f"{rd_dir}/text_horologion.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_horologion_supplement.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_menaion.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_eothinon.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_octoechos.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_pentecostarion.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_triodion.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_weekdays.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_theotokia.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts(f"{rd_dir}/text_liturgikon.json", target_db=self.royal_doors_db)
+        
+        # 2. Load Stamford (Backup) Recension
+        stam_dir = "Data/Service Books/Recensions/Stamford Divine Office/JSON/assets"
+        self._load_versioned_texts(f"{stam_dir}/text_horologion.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_horologion_supplement.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_menaion.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_eothinon.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_octoechos.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_pentecostarion.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_triodion.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_weekdays.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_theotokia.json", target_db=self.stamford_db)
+        self._load_versioned_texts(f"{stam_dir}/text_liturgikon.json", target_db=self.stamford_db)
+
+        # 3. Load other common/shared texts
         self._load_versioned_texts("json_db/text_pentecostarion_pascha.json")
         self._load_versioned_texts()
         
+        # 4. Load General Menaion databases
         self.general_menaion_db = self._load_json("json_db/common/text_general_menaion.json")
-        # Overlay recension-specific General Menaion if available
-        recension_menaion_path = f"{recension_dir}/text_general_menaion.json"
-        abs_common_path = os.path.abspath(os.path.join(self.base_dir, recension_menaion_path))
-        if os.path.exists(abs_common_path):
-            recension_common = self._load_json(abs_common_path)
-            self.general_menaion_db.update(recension_common)
+        # Overlay Stamford General Menaion (backup)
+        stam_common_path = os.path.abspath(os.path.join(self.base_dir, f"{stam_dir}/text_general_menaion.json"))
+        if os.path.exists(stam_common_path):
+            self.general_menaion_db.update(self._load_json(stam_common_path))
+        # Overlay Royal Doors General Menaion (primary)
+        rd_common_path = os.path.abspath(os.path.join(self.base_dir, f"{rd_dir}/text_general_menaion.json"))
+        if os.path.exists(rd_common_path):
+            self.general_menaion_db.update(self._load_json(rd_common_path))
         
         # Load External Assets (Fixed and Variable Recensions)
         if self.fixed_recension_path and os.path.exists(self.fixed_recension_path):
@@ -149,12 +183,18 @@ class EngineCore:
             # Legacy single-path fallback
             self._load_external_assets(self.external_assets_dir, "Legacy")
             
-        # Load New Triodion Parsed Data
-        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/lenten_triodion.json")
-        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/floral_triodion.json")
-        
+        # Load Triodion Parsed Data
+        self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/lenten_triodion.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/floral_triodion.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/lenten_triodion.json", target_db=self.stamford_db)
+        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/floral_triodion.json", target_db=self.stamford_db)
         # Primary Source: Dolnytsky Calendar Data (Fixed & Movable)
-        self.dolnytsky_fixed = self._load_json("json_db/calendar_dolnytsky_split.json")
+        # 'lviv' uses the 2010 Lviv Typikon calendar; others use the modern/reformed UGCC calendar
+        calendar_file = "json_db/calendar_royal_doors.json" if self.version_id != "lviv" else "json_db/calendar_lviv.json"
+        if not os.path.exists(os.path.join(self.base_dir, calendar_file)):
+            calendar_file = "json_db/calendar_dolnytsky_split.json"
+
+        self.dolnytsky_fixed = self._load_json(calendar_file)
         self.dolnytsky_movable = self._load_json("json_db/calendar_dolnytsky_movable.json")
         self.katavasia_seasons = self._load_json("json_db/katavasia_seasons.json")
         
@@ -195,14 +235,21 @@ class EngineCore:
 
     def _get_almanac(self, year):
         if year not in self._almanacs:
-            almanac_path = os.path.join(self.json_db, "almanac", f"annual_almanac_{year}.json")
+            # Check for version-specific almanac first
+            version_almanac = f"annual_almanac_{self.version_id}_{year}.json"
+            almanac_path = os.path.join(self.json_db, "almanac", version_almanac)
+            
+            # Fallback for lviv to the default pre-computed almanac
+            if not os.path.exists(almanac_path) and self.version_id == "lviv":
+                almanac_path = os.path.join(self.json_db, "almanac", f"annual_almanac_{year}.json")
+                
             if os.path.exists(almanac_path):
                 try:
                     with open(almanac_path, "r", encoding="utf-8") as f:
                         self._almanacs[year] = json.load(f)
-                    print(f"Engine: Loaded pre-computed almanac for year {year}")
+                    print(f"Engine: Loaded pre-computed almanac for year {year} ({os.path.basename(almanac_path)})")
                 except Exception as e:
-                    print(f"WARNING: Failed to load almanac for year {year}: {e}")
+                    print(f"WARNING: Failed to load almanac {almanac_path}: {e}")
                     self._almanacs[year] = None
             else:
                 self._almanacs[year] = None

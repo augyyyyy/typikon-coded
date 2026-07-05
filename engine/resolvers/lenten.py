@@ -9,6 +9,8 @@ import re
 from datetime import date, timedelta
 import copy
 from engine.utils.type_utils import parse_rank_integer
+from engine.core import liturgical_source
+
 
 
 class LentenMixin:
@@ -574,22 +576,21 @@ class LentenMixin:
         return result
 
 
-    def resolve_presanctified_transfer(self, context, rubrics=None):
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L1615:§226")
+    def resolve_presanctified_transfer(self, context, rubrics=None, moment=None):
         """
         Presanctified Gifts Transfer during Kathisma 18.
-        Citation: Dolnytsky Part IV Lines 340-355 (Presanctified Transfer)
+        Citation: Dolnytsky Part IV Lines 340-355 / Ordo §226.
         
         During the reading of Kathisma 18, the Priest transfers the 
         previously consecrated Gifts from the Altar of Preparation 
         to the Holy Table.
-        
-        Structure:
-        1. Kathisma 18 begins
-        2. Priest vests in phelonion (if not already)
-        3. Transfer Gifts silently during psalm reading
-        4. Place Diskos and Chalice on Antimension
-        5. Cover with Aer
         """
+        if moment is not None:
+            return {
+                "transfer": "Priest transfers the Presanctified Lamb from the artophorion on the Holy Table to the diskos on the Prothesis table in complete silence.",
+                "ordo_ref": "§226"
+            }
         triodion_week = context.get("triodion_week", 1)
         day_of_week = context.get("day_of_week", 3)  # Wed=3 or Fri=5
         
@@ -970,7 +971,15 @@ class LentenMixin:
         else:
             rank = parse_rank_integer(rank)
         
-        if rank <= 3: 
+        rank_code = context.get("dolnytsky_rank_code") or context.get("fixed_rank_code") or ""
+        menaion_rank_val = context.get("menaion_rank") or context.get("variables", {}).get("menaion_rank") or ""
+        is_polyeleos = ("POL" in rank_code or "POLYELEOS" in rank_code or 
+                        (isinstance(menaion_rank_val, str) and menaion_rank_val.startswith("rank_polyeleos")) or
+                        (not rank_code and rank == 4))
+        
+        is_vigil_or_great = (rank <= 3 and not is_polyeleos)
+        
+        if is_vigil_or_great: 
             return False 
             
         if is_lent:
@@ -982,9 +991,13 @@ class LentenMixin:
             if not is_holy_week and day in [3, 5]: # Wed, Fri
                 return True
                 
-            # Rule 3: Polyeleos (Rank 4) Feast on a Weekday (e.g. 40 Martyrs, John the Baptist)
-            if (rank == 4 or "40 Martyrs" in context.get("title", "")) and day in [1, 2, 3, 4, 5]:
+            # Rule 3: Polyeleos Feast on a Weekday (e.g. 40 Martyrs, John the Baptist)
+            if (is_polyeleos or "40 Martyrs" in context.get("title", "")) and day in [1, 2, 3, 4, 5]:
                  return True
+                 
+            # Rule 4: Apodosis of the Annunciation (offset -10)
+            if context.get("pascha_offset") == -10 and day in [1, 2, 3, 4, 5]:
+                return True
 
         return False
 

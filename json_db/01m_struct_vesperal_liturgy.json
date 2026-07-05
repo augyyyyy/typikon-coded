@@ -1,0 +1,236 @@
+{
+  "file_metadata": {
+    "filename": "01m_struct_vesperal_liturgy.json",
+    "version": "1.0",
+    "last_updated": "2026-06-23",
+    "authority": "Ordo Celebrationis 1944 §19g, §288",
+    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
+    "scope": "Structure of the Vesperal Liturgy (Wing 2)",
+    "description": "Systematic ordinary of the Vesperal Liturgy, mapping the Vespers opening, readings sequence, transition gate, and Liturgy ordinary."
+  },
+  "structures": {
+    "vesperal_liturgy": {
+      "title_key": "titles.vesperal_liturgy",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.7",
+      "sequence": [
+        {
+          "id": "vesperal_opening",
+          "rubric": {
+            "title": "Vesperal Opening",
+            "ordo_ref": "§30, §288",
+            "roles": {
+              "priest": "Open royal doors, stand before Holy Table, exclaim: 'Blessed is the kingdom...'",
+              "deacon": "Stand at right hand, raise orarion, exclaim: 'Bless, Master.'"
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "triodion.presanctified.opening"
+          }
+        },
+        {
+          "id": "proemial_psalm",
+          "rubric": {
+            "title": "The Proemial Psalm",
+            "ordo_ref": "§31, §288",
+            "roles": {
+              "priest": "Exit sanctuary via north door to read Vespers Prayers 4-8 silently before closed royal doors.",
+              "deacon": "Close royal doors, stand with candle before them.",
+              "cantor": "Chant Psalm 103 ('Bless the Lord, O my soul')."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.psalm_103"
+          }
+        },
+        {
+          "id": "great_synapte",
+          "rubric": {
+            "title": "Great Litany",
+            "ordo_ref": "§31, §288",
+            "roles": {
+              "priest": "Stand inside Altar, exclaim: 'For to You is due all glory...'",
+              "deacon": "Exclaim Great Synapte from before the royal doors."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litany_great"
+          }
+        },
+        {
+          "id": "kathisma_selection",
+          "rubric": {
+            "title": "Kathisma Reading",
+            "ordo_ref": "§32, §288",
+            "roles": {
+              "priest": "Read Vespers Prayers 1-3 silently during Antiphons.",
+              "deacon": "Exclaim Small Synapte after each antiphon.",
+              "cantor": "Chant the appointed Kathisma (suppressed on certain Eve feasts)."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_daily_kathisma"
+            }
+          }
+        },
+        {
+          "id": "lord_i_have_cried",
+          "rubric": {
+            "title": "At Lord, I Call",
+            "ordo_ref": "§33, §288",
+            "roles": {
+              "deacon": "Perform full censing of Altar and church, censing the local icons and choirs.",
+              "cantor": "Chant 'Lord, I have cried...' with stichera from Menaion or Triodion."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_vespers_stichera"
+            }
+          }
+        },
+        {
+          "id": "entrance_gospel",
+          "rubric": {
+            "title": "The Entrance with the Gospel",
+            "ordo_ref": "§34, §288",
+            "roles": {
+              "priest": "Carry the Gospel book in the Entrance procession (or censer if standard). Exclaim Entrance prayer secretly.",
+              "deacon": "Carry censer, walk ahead of priest. Exclaim: 'Wisdom! Stand aright!'"
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.gladsome_light"
+          }
+        },
+        {
+          "id": "readings_sequence",
+          "rubric": {
+            "title": "Old Testament Prophecies",
+            "ordo_ref": "§34, §288",
+            "roles": {
+              "priest": "Sit on high place or stand at Holy Table during the readings.",
+              "deacon": "Exclaim: 'Wisdom!', 'Let us be attentive!' before and after reading titles.",
+              "cantor": "Chant the appointed Old Testament Paremias."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_vesperal_liturgy_readings"
+            }
+          }
+        },
+        {
+          "id": "liturgical_transition_gate",
+          "rubric": {
+            "title": "Transition to Divine Liturgy",
+            "ordo_ref": "§288",
+            "roles": {
+              "priest": "Return to Holy Table, stand inside Altar. Exclaim the Liturgy Trisagion exclamation.",
+              "deacon": "Stand at Holy Table. Exclaim: 'Let us pray to the Lord.'",
+              "cantor": "Chant the Trisagion (or 'As many as have been baptized...' on Great Saturday/Christmas/Theophany)."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_trisagion_type"
+            }
+          }
+        },
+        {
+          "id": "epistle_gospel_liturgy",
+          "rubric": {
+            "title": "Epistle and Gospel",
+            "ordo_ref": "§19d",
+            "roles": {
+              "priest": "Read Gospel facing people from soleas or royal doors. Bless: 'Peace be to all.'",
+              "deacon": "Exclaim: 'Wisdom! Let us be attentive!'",
+              "cantor": "Chant the Epistle, Alleluia, and respond to the Gospel."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_liturgy_readings"
+            }
+          }
+        },
+        {
+          "id": "liturgy_faithful_cherubic",
+          "rubric": {
+            "title": "The Liturgy of the Faithful and Great Entrance",
+            "ordo_ref": "§128, §129",
+            "roles": {
+              "priest": "Recite Cherubic Hymn silently. Process diskos and chalice through royal doors. Place on Holy Table. Close doors and curtain.",
+              "deacon": "Perform opening censing. Process before priest with censer."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_cherubic_hymn"
+            }
+          }
+        },
+        {
+          "id": "anaphora_basil_or_chrysostom",
+          "rubric": {
+            "title": "The Eucharistic Anaphora",
+            "ordo_ref": "§134–§138",
+            "roles": {
+              "priest": "Exclaim the Institution Narratives: 'Take, eat...', 'Drink of this...'. Blessing and consecration of Gifts. Elevate: 'Thine of Thine own...'",
+              "deacon": "Elevate diskos and chalice during elevation."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_anaphora_type"
+            }
+          }
+        },
+        {
+          "id": "communion_rite",
+          "rubric": {
+            "title": "Clergy and Faithful Communion",
+            "ordo_ref": "§138–§145, §19d",
+            "roles": {
+              "priest": "Communicate inside Altar, distribute Communion to faithful.",
+              "deacon": "Assist at Communion, close royal doors after Liturgy."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_communion_hymn"
+            }
+          }
+        },
+        {
+          "id": "dismissal",
+          "rubric": {
+            "title": "The Dismissal",
+            "ordo_ref": "§145",
+            "roles": {
+              "priest": "Say Dismissal from royal doors."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_liturgy_dismissal"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

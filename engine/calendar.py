@@ -14,6 +14,30 @@ def get_liturgical_category(name: str) -> str:
         return "Saint"
     n = name.lower()
     
+    # 0. Check for Non-Saint Commemorations (Feasts, Forefeasts, Afterfeasts)
+    if "forefeast" in n:
+        return "Forefeast"
+    if "afterfeast" in n:
+        return "Afterfeast"
+    if "apodosis" in n or "leave-taking" in n or "leave taking" in n:
+        return "Apodosis"
+    if any(p in n for p in ["nativity of st. john", "beheading of st. john", "protection of the"]):
+        return "Feast"
+    if any(w in n for w in ["feast", "nativity", "theophany", "circumcision", "presentation", "meeting", "annunciation", "transfiguration", "dormition", "elevation", "entry"]):
+        # Verify it's not a saint name containing these words (use word boundaries to prevent matching "most")
+        saint_patterns = [
+            r'\bsaint\b',
+            r'\bst\b',
+            r'\bst\.',
+            r'\bven\b',
+            r'\bvenerable\b',
+            r'\bmartyr\b',
+            r'\bapostle\b',
+            r'\bprophet\b'
+        ]
+        if not any(re.search(pat, n) for pat in saint_patterns):
+            return "Feast"
+    
     # Strip out "equal-to-the-apostles" or "equal to the apostles" for plural/category checks
     n_for_plural = re.sub(r'equal[- ]to[- ]the[- ]apostles?', '', n)
     
@@ -36,10 +60,10 @@ def get_liturgical_category(name: str) -> str:
         parts = n_for_plural.split(',')
         if len(parts) > 1:
             after_comma = parts[1].strip()
-            singular_titles = ['bishop', 'pope', 'abbot', 'monk', 'nun', 'martyr', 'hierarch', 'archbishop', 'metropolitan', 'patriarch', 'priest', 'deacon', 'king', 'prince', 'writer', 'disciple', 'apostle', 'forerunner']
-            is_title = any(after_comma.startswith(t) for t in singular_titles)
-            if not is_title:
+            # It is plural if the text after the comma starts with a saint prefix (indicating a second saint)
+            if re.match(r'^(st\.|sts\.|ven\.|st\b|sts\b|ven\b|venerable\b|saint\b|saints\b)', after_comma):
                 is_plural = True
+
 
     # Check categories by priority
     if re.search(r'\bforerunner\b', n) or re.search(r'\bjohn the baptist\b', n):
@@ -193,12 +217,30 @@ class CalendarMixin:
         if season_id == "triodion":
             if triodion_period in ["great_lent", "clean_monday"] or triodion_period.startswith("sunday_") and -48 <= delta <= -8:
                  season = "lent"
-            elif triodion_period.startswith("holy_") or triodion_period == "palm_sunday":
+            elif triodion_period == "palm_sunday":
                  season = "lent"
+            elif triodion_period.startswith("holy_"):
+                 season = "holy_week"
             elif triodion_period in ["pre_lent", "cheesefare"] or triodion_period.startswith("sunday_publican") or triodion_period.startswith("sunday_prodigal") or triodion_period.startswith("sunday_meatfare") or triodion_period.startswith("sunday_cheesefare"):
                  season = "pre_lent"
         elif season_id == "pentecostarion":
-             season = "pascha" if delta < 39 else "ordinary"
+             if 39 <= delta <= 47:
+                 season = "Ascension"
+             elif 49 <= delta <= 55:
+                 season = "Pentecost"
+             elif 60 <= delta <= 67:
+                 season = "Eucharist"
+             else:
+                 season = "pascha" if delta < 39 else "ordinary"
+        elif season_id == "octoechos":
+             # Check for Christmas / Theophany seasons
+             m, d = target_date.month, target_date.day
+             if (m == 11 and d >= 15) or (m == 12 and d <= 24):
+                 season = "Nativity_Fast"
+             elif (m == 12 and d >= 25) or (m == 1 and d <= 4):
+                 season = "Christmas"
+             elif (m == 1 and d >= 5 and d <= 14):
+                 season = "Theophany"
             
         # --- TONE CALCULATION (Octoechos 1-8) ---
         # Citation: Dolnytsky Part V, "Second Sunday after the Descent of the Holy Spirit":
@@ -251,6 +293,10 @@ class CalendarMixin:
                 tone = (weeks_since_start % 8) + 1
             else:
                 tone = 1  # Fallback (should not happen in practice)
+                
+        # Lazarus Saturday, Palm Sunday, and Holy Week: weekly Octoechos tone is completely suspended
+        if delta is not None and -8 <= delta <= -1:
+            tone = None
 
         # --- EOTHINON GOSPEL CYCLE (1-11, Sundays only) ---
         # Citation: The 11 Resurrection Gospels rotate weekly starting from Thomas Sunday.
@@ -342,13 +388,28 @@ class CalendarMixin:
         triodion_book = "N/A"
         season_id = context.get("season_id", "")
         season = context.get("season", "")
+        pascha_offset = context.get("pascha_offset")
         if season_id == "triodion" or season in ["lent", "pre_lent"]:
             triodion_book = "Lenten"
-        elif season_id == "pentecostarion" or season == "pascha":
+        elif (season_id == "pentecostarion" or season == "pascha") and (pascha_offset is not None and pascha_offset <= 67):
             triodion_book = "Floral"
             
         # 2. Determine Menaion Book and Class
-        rank_code = context.get("fixed_rank_code") or context.get("dolnytsky_rank_code") or ""
+        # Compare rank priority to determine rank_code (smaller priority number is higher rank)
+        rank_priority = {
+            "[LORD]": 1, "LORD": 1, "[MOG]": 1, "THEOTOKOS": 1,
+            "[VIGIL]": 2, "VIGIL": 2, "[POL]": 3, "POLYELEOS": 3,
+            "[GT DOX]": 4, "GT_DOX": 4, "[6 SM]": 5, "SIX": 5,
+            "[4 A+G]": 5, "[4 TR]": 5, "[4 NO]": 5, "SIMPLE": 5, "NO": 5
+        }
+        code_1 = context.get("dolnytsky_rank_code") or ""
+        code_2 = context.get("fixed_rank_code") or ""
+        p1 = rank_priority.get(code_1, 5)
+        p2 = rank_priority.get(code_2, 5)
+        rank_code = code_1 if p1 <= p2 else code_2
+        if not rank_code:
+            rank_code = code_1 or code_2
+            
         rank_val = self.calculate_rank(context)
         if context.get("day_of_week") == 0 and rank_val > 4:
             rank_val = 4
@@ -412,7 +473,7 @@ class CalendarMixin:
         if comm_val != "None":
             cleaned_comm = comm_val.rstrip(".")
             parts = [p.strip() for p in re.split(
-                r'\s+and\s+|\s+&\s+|;|(?<!\bSt)(?<!\bSts)(?<!\bVen)(?<!\bBp)(?<!\bAp)(?<!\bAps)(?<!\bMetr)(?<!\bArchbp)(?<!\bPatr)(?<!\bMart)(?<!\bProp)\.\s+', 
+                r';|(?<!\bSt)(?<!\bSts)(?<!\bVen)(?<!\bBp)(?<!\bAp)(?<!\bAps)(?<!\bMetr)(?<!\bArchbp)(?<!\bPatr)(?<!\bMart)(?<!\bProp)\.\s+', 
                 cleaned_comm, 
                 flags=re.IGNORECASE
             ) if p.strip()]
@@ -434,11 +495,11 @@ class CalendarMixin:
           [POL]      → Polyeleos-rank saint (Rank 2)
           [GT DOX]   → Great Doxology (Rank 3)
           [6 SM]     → Six stichera, small (Rank 4)
-          [4 A+G]    → Four stichera, Alleluia & Gospel (Rank 4)
-          [4 NO]     → Four stichera, no special features (Rank 5)
-          [4 TR]     → Four stichera, Troparion (Rank 5)
+          [4 A+G]    → Saint on 4, Apostle & Gospel (Rank 4)
+          [4 NO]     → Saint on 4, no special features (Rank 5)
+          [4 TR]     → Saint on 4, Troparion (Rank 5)
         """
-        result = {}
+        result = {"saints": []}
         
         # ── 1. MOVABLE CYCLE OVERRIDES (Dolnytsky Part V) ──────────────────
         movable_overrides = {
@@ -449,6 +510,14 @@ class CalendarMixin:
             -29: ("Third Saturday of Lent", "ALLELUIA"),
             -22: ("Fourth Saturday of Lent", "ALLELUIA"),
             -15: ("Saturday of the Akathist", "GT_DOX"),
+            -8: ("Lazarus Saturday", "LORD"),
+            -7: ("Palm Sunday: Entrance of Our Lord into Jerusalem", "LORD"),
+            -6: ("Great and Holy Monday", "LORD"),
+            -5: ("Great and Holy Tuesday", "LORD"),
+            -4: ("Great and Holy Wednesday", "LORD"),
+            -3: ("Great and Holy Thursday", "LORD"),
+            -2: ("Great and Holy Friday", "LORD"),
+            -1: ("Great and Holy Saturday", "LORD"),
              # Paschal Cycle
               0: ("Pascha: RESURRECTION OF CHRIST", "LORD"),
              39: ("Ascension of Our Lord", "LORD"),
@@ -482,8 +551,23 @@ class CalendarMixin:
             
         # Inject moveable feast metadata directly into result
         if delta is not None:
+            # Lazarus Saturday, Palm Sunday, and Holy Week (offsets -8 to -1)
+            if -8 <= delta <= -1:
+                result["feast_level"] = "lord"
+                if delta == -8:
+                    result["feast_id"] = "lazarus_saturday"
+                    result["is_feast"] = True
+                    result["rank"] = 1
+                elif delta == -7:
+                    result["feast_id"] = "palm_sunday"
+                    result["is_feast"] = True
+                    result["rank"] = 1
+                else:
+                    result["feast_id"] = "holy_week"
+                    result["is_feast"] = True
+                    result["rank"] = 1
             # Pascha & Bright Week (offsets 0 to 6)
-            if 0 <= delta <= 6:
+            elif 0 <= delta <= 6:
                 result["feast_id"] = "pascha"
                 result["feast_level"] = "lord"
                 if delta == 0:
@@ -536,16 +620,26 @@ class CalendarMixin:
                 result["feast_level"] = "theotokos"
         
         # ── 2. FIXED CALENDAR LOOKUP ──────────────────────────────────────
+        if delta is not None and -8 <= delta <= 6:
+            return result
+
         key = f"{target_date.month}-{target_date.day}"
         if self.dolnytsky_fixed and key in self.dolnytsky_fixed:
             entry = self.dolnytsky_fixed[key]
             entries = entry.get("entries", [])
             if entries:
                 rank_code = entries[0].get("rank_code", "")
-                description = entries[0].get("description", "")
-                description = description.replace("**", "").strip()
-                if description.endswith("."):
-                    description = description[:-1].strip()
+                
+                # Concatenate all entry descriptions for commemorations
+                descriptions_cleaned = []
+                for entry_item in entries:
+                    desc_item = entry_item.get("description", "")
+                    desc_item = desc_item.replace("**", "").strip()
+                    if desc_item.endswith("."):
+                        desc_item = desc_item[:-1].strip()
+                    if desc_item:
+                        descriptions_cleaned.append(desc_item)
+                description = "; ".join(descriptions_cleaned)
                 
                 # Map rank code to normalized rank
                 rank_map = {
@@ -571,6 +665,11 @@ class CalendarMixin:
                 result["dolnytsky_commemoration"] = description
                 if "dolnytsky_rank_code" not in result:
                     result["dolnytsky_rank_code"] = rank_code
+                if "feast_level" not in result:
+                    if rank_code == "[LORD]":
+                        result["feast_level"] = "lord"
+                    elif rank_code == "[MOG]":
+                        result["feast_level"] = "theotokos"
                 
                 if "dolnytsky_title" not in result:
                     result["dolnytsky_title"] = description
@@ -661,17 +760,149 @@ class CalendarMixin:
                             })
                     result["saints"] = saints
 
-        # Check title/subtitle for forefeast, afterfeast, apodosis
+        # Check title/subtitle or explicit date ranges for forefeast, afterfeast, apodosis
+        m, d = target_date.month, target_date.day
+        
+        is_fixed_forefeast = False
+        is_fixed_afterfeast = False
+        is_fixed_apodosis = False
+        is_fixed_feast_day = False
+        linked_feast = None
+        
+        # Nativity season: Dec 20-24 forefeast, Dec 25 feast, Dec 26-30 afterfeast, Dec 31 apodosis
+        if m == 12 and 20 <= d <= 24:
+            is_fixed_forefeast = True
+            linked_feast = "nativity"
+        elif m == 12 and d == 25:
+            is_fixed_feast_day = True
+            linked_feast = "nativity"
+        elif m == 12 and 26 <= d <= 30:
+            is_fixed_afterfeast = True
+            linked_feast = "nativity"
+        elif m == 12 and d == 31:
+            is_fixed_apodosis = True
+            linked_feast = "nativity"
+            
+        # Theophany season: Jan 2-5 forefeast, Jan 6 feast, Jan 7-13 afterfeast, Jan 14 apodosis
+        elif m == 1 and 2 <= d <= 5:
+            is_fixed_forefeast = True
+            linked_feast = "theophany"
+        elif m == 1 and d == 6:
+            is_fixed_feast_day = True
+            linked_feast = "theophany"
+        elif m == 1 and 7 <= d <= 13:
+            is_fixed_afterfeast = True
+            linked_feast = "theophany"
+        elif m == 1 and d == 14:
+            is_fixed_apodosis = True
+            linked_feast = "theophany"
+            
+        # Meeting of the Lord: Feb 1 forefeast, Feb 2 feast, Feb 3-8 afterfeast, Feb 9 apodosis
+        elif m == 2 and d == 1:
+            is_fixed_forefeast = True
+            linked_feast = "meeting"
+        elif m == 2 and d == 2:
+            is_fixed_feast_day = True
+            linked_feast = "meeting"
+        elif m == 2 and 3 <= d <= 8:
+            is_fixed_afterfeast = True
+            linked_feast = "meeting"
+        elif m == 2 and d == 9:
+            is_fixed_apodosis = True
+            linked_feast = "meeting"
+            
+        # Transfiguration: Aug 6 feast, Aug 5 forefeast, Aug 7-12 afterfeast, Aug 13 apodosis
+        elif m == 8 and d == 5:
+            is_fixed_forefeast = True
+            linked_feast = "transfiguration"
+        elif m == 8 and d == 6:
+            is_fixed_feast_day = True
+            linked_feast = "transfiguration"
+        elif m == 8 and 7 <= d <= 12:
+            is_fixed_afterfeast = True
+            linked_feast = "transfiguration"
+        elif m == 8 and d == 13:
+            is_fixed_apodosis = True
+            linked_feast = "transfiguration"
+            
+        # Dormition: Aug 15 feast, Aug 14 forefeast, Aug 16-22 afterfeast, Aug 23 apodosis
+        elif m == 8 and d == 14:
+            is_fixed_forefeast = True
+            linked_feast = "dormition"
+        elif m == 8 and d == 15:
+            is_fixed_feast_day = True
+            linked_feast = "dormition"
+        elif m == 8 and 16 <= d <= 22:
+            is_fixed_afterfeast = True
+            linked_feast = "dormition"
+        elif m == 8 and d == 23:
+            is_fixed_apodosis = True
+            linked_feast = "dormition"
+            
+        # Nativity of Theotokos: Sep 8 feast, Sep 9-11 afterfeast, Sep 12 apodosis
+        # Note: Forefeast is Sep 7
+        elif m == 9 and d == 7:
+            is_fixed_forefeast = True
+            linked_feast = "nativity_theotokos"
+        elif m == 9 and d == 8:
+            is_fixed_feast_day = True
+            linked_feast = "nativity_theotokos"
+        elif m == 9 and 9 <= d <= 11:
+            is_fixed_afterfeast = True
+            linked_feast = "nativity_theotokos"
+        elif m == 9 and d == 12:
+            is_fixed_apodosis = True
+            linked_feast = "nativity_theotokos"
+            
+        # Exaltation of the Cross: Sep 14 feast, Sep 15-20 afterfeast, Sep 21 apodosis
+        # Note: Forefeast is Sep 13
+        elif m == 9 and d == 13:
+            is_fixed_forefeast = True
+            linked_feast = "exaltation_cross"
+        elif m == 9 and d == 14:
+            is_fixed_feast_day = True
+            linked_feast = "exaltation_cross"
+        elif m == 9 and 15 <= d <= 20:
+            is_fixed_afterfeast = True
+            linked_feast = "exaltation_cross"
+        elif m == 9 and d == 21:
+            is_fixed_apodosis = True
+            linked_feast = "exaltation_cross"
+            
+        # Presentation: Nov 21 feast, Nov 22-24 afterfeast, Nov 25 apodosis
+        # Note: Forefeast is Nov 20
+        elif m == 11 and d == 20:
+            is_fixed_forefeast = True
+            linked_feast = "presentation"
+        elif m == 11 and d == 21:
+            is_fixed_feast_day = True
+            linked_feast = "presentation"
+        elif m == 11 and 22 <= d <= 24:
+            is_fixed_afterfeast = True
+            linked_feast = "presentation"
+        elif m == 11 and d == 25:
+            is_fixed_apodosis = True
+            linked_feast = "presentation"
+
         title_lower = (result.get("dolnytsky_title") or "").lower()
         subtitle_lower = (result.get("dolnytsky_subtitle") or "").lower()
         full_title_lower = f"{title_lower} {subtitle_lower}"
-        if "forefeast" in full_title_lower or "afterfeast" in full_title_lower or "apodosis" in full_title_lower:
-            result["is_fore_or_afterfeast"] = True
-            if "forefeast" in full_title_lower:
-                result["is_forefeast"] = True
-            if "afterfeast" in full_title_lower or "apodosis" in full_title_lower:
-                result["is_afterfeast"] = True
         
+        if is_fixed_forefeast or is_fixed_afterfeast or is_fixed_apodosis or "forefeast" in full_title_lower or "afterfeast" in full_title_lower or "apodosis" in full_title_lower:
+            result["is_fore_or_afterfeast"] = True
+            if is_fixed_forefeast or "forefeast" in full_title_lower:
+                result["is_forefeast"] = True
+            if is_fixed_afterfeast or is_fixed_apodosis or "afterfeast" in full_title_lower or "apodosis" in full_title_lower:
+                result["is_afterfeast"] = True
+                
+        if is_fixed_feast_day or result.get("is_fore_or_afterfeast"):
+            if linked_feast in ["nativity", "theophany", "transfiguration", "exaltation_cross", "dormition", "nativity_theotokos", "presentation", "meeting"]:
+                result["season"] = linked_feast.title()
+                if linked_feast in ["nativity", "theophany", "transfiguration", "exaltation_cross"]:
+                    result["feast_level"] = "lord"
+                elif linked_feast in ["dormition", "nativity_theotokos", "meeting", "presentation"]:
+                    result["feast_level"] = "theotokos"
+                
         return result
 
 
@@ -873,7 +1104,8 @@ class CalendarMixin:
             return ((offset - 63) // 7 % 8) + 1
         else:
             # Pre-Pascha: use context['tone'] which should be set by get_liturgical_context
-            return context.get("tone", 1)
+            t = context.get("tone")
+            return t if t is not None else 1
 
 
     def calculate_eothinon_gospel(self, context):

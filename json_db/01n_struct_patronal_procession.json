@@ -1,0 +1,157 @@
+{
+  "file_metadata": {
+    "filename": "01n_struct_patronal_procession.json",
+    "version": "1.0",
+    "last_updated": "2026-06-23",
+    "authority": "Dolnytsky Typikon Part V Chapters I & II",
+    "scope": "Patronal Feast Processions and Blessing Rites (Wing 2)",
+    "description": "Defines the structural sequence of the Outdoor Water Blessing and Patronal Procession, specifying the micro-actions and roles for priest, deacon, and cantor."
+  },
+  "structures": {
+    "patronal_water_blessing": {
+      "title_key": "titles.patronal_water_blessing",
+      "source_ref": "Dolnytsky_Typikon_Master.md:5.1",
+      "sequence": [
+        {
+          "id": "water_procession",
+          "rubric": {
+            "title": "Procession to the Water Basin",
+            "roles": {
+              "priest": "Vest in phelonion, carry the hand cross on a decorated diskos upon his head, process from Altar to the font prepared outside or in the narthex.",
+              "deacon": "Carry censer, process ahead of priest, censing the route.",
+              "cantor": "Chant troparia of the Cross ('Save, O Lord, Your people...') and of the Patron Saint."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "procession_to_water_font"
+          }
+        },
+        {
+          "id": "blessing_prayers",
+          "rubric": {
+            "title": "Blessing Prayers and Litany",
+            "roles": {
+              "priest": "Stand before font facing east. Exclaim blessing, read the water blessing prayers.",
+              "deacon": "Say the litany of the water blessing, censing the water in the form of a cross.",
+              "cantor": "Sing 'Lord, have mercy' and respond to petitions."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "liturgikon.water_blessing_prayers"
+          }
+        },
+        {
+          "id": "immersion_cross",
+          "rubric": {
+            "title": "Threefold Immersion of the Cross",
+            "roles": {
+              "priest": "Dip the hand cross vertically into the water three times in the form of a cross, singing the troparion 'Save, O Lord...' three times.",
+              "cantor": "Repeat the troparion of the Cross after the priest."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "immersion_of_cross"
+          }
+        },
+        {
+          "id": "sprinkling_rite",
+          "rubric": {
+            "title": "Sprinkling of the Temple and Faithful",
+            "roles": {
+              "priest": "Take the sprinkler, sprinkle the water toward the four directions, then sprinkle the church building, icons, and the people.",
+              "cantor": "Sing the patronal troparion and sessional hymns during the sprinkling."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "sprinkling_with_holy_water"
+          }
+        }
+      ]
+    },
+    "patronal_procession": {
+      "title_key": "titles.patronal_procession",
+      "source_ref": "Dolnytsky_Typikon_Master.md:5.2",
+      "sequence": [
+        {
+          "id": "procession_start",
+          "rubric": {
+            "title": "Opening of Procession",
+            "roles": {
+              "priest": "Take the Monstrance (containing the Holy Eucharist) or the Patronal Icon, stand under the processional canopy in the nave.",
+              "deacon": "Open the church doors, stand before the priest with the censer."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "commence_procession"
+          }
+        },
+        {
+          "id": "procession_route",
+          "rubric": {
+            "title": "Procession Around the Church",
+            "roles": {
+              "priest": "Carry the Holy Eucharist or Icon slowly around the exterior of the church, blessing the area.",
+              "deacon": "Walk directly in front of the priest, censing backward toward the Eucharist/Icon.",
+              "cantor": "Chant the patronal stichera and troparia, preceding the clergy with processional cross, banners, and candles."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "procession_route_around_church"
+          }
+        },
+        {
+          "id": "station_readings",
+          "rubric": {
+            "title": "Station Gospel Readings",
+            "roles": {
+              "priest": "Stop at each of the four stations (East, South, West, North) to read the designated Gospel passage.",
+              "deacon": "Exclaim 'Let us be attentive!' and cense the Gospel and priest before each reading.",
+              "cantor": "Chant the Epistle, Alleluia, and respond to the Gospels."
+            }
+          },
+          "content": {
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_royal_readings"
+            }
+          }
+        },
+        {
+          "id": "station_prayers",
+          "rubric": {
+            "title": "Intercessions for the Four Directions",
+            "roles": {
+              "priest": "Exclaim the station collect and bless with the Eucharist/Icon in the form of a cross.",
+              "deacon": "Intone special litanies for the peace of the world, civil authorities, founders, and the parish.",
+              "cantor": "Chant 'Lord, have mercy' (3x or 12x) after each petition."
+            }
+          },
+          "content": {
+            "type": "fixed_ref",
+            "ref_key": "horologion.litiya_prayers"
+          }
+        },
+        {
+          "id": "procession_conclusion",
+          "rubric": {
+            "title": "Return and Final Blessing",
+            "roles": {
+              "priest": "Re-enter the church, place the Eucharist or Icon back on the Holy Table or tetrapod, exclaim the Te Deum, give final blessing, and intone the 'Many Years'.",
+              "cantor": "Sing the Te Deum conclusion and intone the 'Many Years' (Mnohaya Lěta)."
+            }
+          },
+          "content": {
+            "type": "fixed_action",
+            "action": "conclude_procession"
+          }
+        }
+      ]
+    }
+  }
+}

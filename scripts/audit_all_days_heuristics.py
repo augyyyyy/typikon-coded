@@ -21,7 +21,7 @@ def run_heuristics_for_date(engine: RuthenianEngine, target_date: date, check_bo
     except Exception as e:
         return [f"Engine crash on date {target_date.isoformat()}: {str(e)}"]
 
-    # 1. Check for raw internal key leakages
+    # Heuristic Patterns
     leak_patterns = [
         r"\bmenaion\.\w+",
         r"\boctoechos\.\w+",
@@ -35,41 +35,33 @@ def run_heuristics_for_date(engine: RuthenianEngine, target_date: date, check_bo
         r"_kontakion\b"
     ]
     
-    # 2. Check for raw Python list/dictionary dumps
     python_dumps = [
         r"\{\s*['\"]\w+['\"]\s*:",
         r"\[\s*['\"]trop_",
         r"\[\s*['\"]kont_"
     ]
-
-    # 3. Check for double saint prefixes and bad grammar
+    
     double_prefixes = [
         r"\bSt\.\s+(Nativity|Translation|Synaxis|Annunciation|Dormition|Theophany|Elevation)\b",
         r"\bSt\.\s+St\.\b",
         r"\bSaint\s+Saint\b"
     ]
     
-    # 4. Check for unhumanized fallbacks
     unhumanized_patterns = [
         r"\bSaints\s+2\b",
         r"\bsecond\s+Saint\b",
         r"\b[A-Z_]+_ERR\b"
     ]
     
-    # 5. Check for engine errors/placeholders in digest
     error_patterns = [
         r"\[ERROR:",
         r"\[RESOLVE:",
         r"\[CHECK:"
     ]
     
-    # 5b. Check for developer jargon or internal database terms
     jargon_words = ["array", "list", "dict", "variable", "suffix", "ref_key", "override", "fallback_default", "programmer", "stub"]
-
-    # 5c. Check for parenthetical category leaks
     parenthetical_pattern = r"\((feast|theotokos|saint|octoechos|triodion|pentecostarion)\)"
 
-    # 6. Check for spelling standard violations (enforcing UGCC norm)
     spelling_violations = [
         (r"\bprokimenon\b", "Prokimenon (must use Prokeimenon)"),
         (r"\bprokimena\b", "Prokimena (must use Prokeimena)"),
@@ -89,7 +81,6 @@ def run_heuristics_for_date(engine: RuthenianEngine, target_date: date, check_bo
         (r"\banabathmoi\b", "Anabathmoi (must use Gradual)")
     ]
 
-    # Run checks on digest, and booklet (if enabled)
     targets = [("digest", digest)]
     if check_booklet:
         targets.append(("booklet", booklet))
@@ -136,30 +127,46 @@ def run_heuristics_for_date(engine: RuthenianEngine, target_date: date, check_bo
 
     return errors
 
+def traverse_heuristics_recursive(engine, curr_date, end_date, failed_days, total_errors, checked_days):
+    if curr_date > end_date:
+        return total_errors, checked_days
+        
+    errors = run_heuristics_for_date(engine, curr_date)
+    checked_days += 1
+    
+    if errors:
+        print(f"[{curr_date.isoformat()}] Found {len(errors)} issues:")
+        for err in errors:
+            print(f"  - {err}")
+        total_errors += len(errors)
+        failed_days.append(curr_date.isoformat())
+        
+    return traverse_heuristics_recursive(
+        engine, 
+        curr_date + timedelta(days=1), 
+        end_date, 
+        failed_days, 
+        total_errors, 
+        checked_days
+    )
+
 def audit_full_year():
     engine = RuthenianEngine(base_dir=str(PROJECT_ROOT))
     start_date = date(2026, 1, 1)
     end_date = date(2026, 12, 31)
     
-    current_date = start_date
-    total_errors = 0
-    checked_days = 0
     failed_days = []
+    print(f"Starting recursive heuristic audit for year 2026 ({start_date.isoformat()} to {end_date.isoformat()})...")
     
-    print(f"Starting heuristic audit for year 2026 ({start_date.isoformat()} to {end_date.isoformat()})...")
+    total_errors, checked_days = traverse_heuristics_recursive(
+        engine, 
+        start_date, 
+        end_date, 
+        failed_days, 
+        0, 
+        0
+    )
     
-    while current_date <= end_date:
-        errors = run_heuristics_for_date(engine, current_date)
-        checked_days += 1
-        if errors:
-            print(f"[{current_date.isoformat()}] Found {len(errors)} issues:")
-            for err in errors:
-                print(f"  - {err}")
-            total_errors += len(errors)
-            failed_days.append(current_date.isoformat())
-            
-        current_date += timedelta(days=1)
-        
     print("\n--- AUDIT SUMMARY ---")
     print(f"Total days checked: {checked_days}")
     print(f"Days with failures: {len(failed_days)}")

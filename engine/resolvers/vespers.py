@@ -456,10 +456,11 @@ class VespersMixin:
         }
 
 
-    def resolve_artoklasia(self, context, rubrics=None):
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L515:§63")
+    def resolve_artoklasia(self, context, rubrics=None, moment=None):
         """
         Gap 1.2 (continued): Blessing of Loaves (Artoklasia).
-        Citation: Dolnytsky Part I — Vigil Order; Ordo Celebrationis §58.
+        Citation: Dolnytsky Part I — Vigil Order; Ordo Celebrationis §58/§63.
         
         Occurs after Litiya at All-Night Vigil. Priest blesses five loaves,
         wheat, wine, and oil. Troparia distribution varies by rank:
@@ -470,6 +471,11 @@ class VespersMixin:
         Returns:
             dict with artoklasia content, troparia distribution, and roles.
         """
+        if moment is not None:
+            return {
+                "action": "Priest censes the five loaves, wheat, wine, and oil in the form of a cross (three times), then reads the prayer of blessing.",
+                "ordo_ref": "§63"
+            }
         rank = self._get_rank_id(context)
         is_vigil = rank in ("rank_vigil", "rank_vigil_lord")
         

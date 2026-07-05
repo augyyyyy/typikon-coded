@@ -1,0 +1,19 @@
+{
+  "month_settings": {
+    "month_id": 7,
+    "days": {
+      "05": {
+        "title_key": "menaion.may_11.cyril_and_methodius",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:5.3.11",
+        "base_template": "CASE_05"
+      },
+      "06": {
+        "title_key": "menaion.jul_05.athanasius_athos",
+        "rank": "rank_polyeleos",
+        "source_ref": "Dolnytsky_Typikon_Master.md:5.3.11",
+        "base_template": "CASE_05"
+      }
+    }
+  }
+}

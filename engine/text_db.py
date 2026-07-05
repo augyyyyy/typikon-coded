@@ -76,11 +76,14 @@ class TextDBMixin:
         print(f"Engine: Loaded {count} {label} Recension assets.")
 
 
-    def _load_versioned_texts(self, specific_path=None):
+    def _load_versioned_texts(self, specific_path=None, target_db=None):
         """
         Load texts from asset-based directory structure OR specific file.
         Recursively scans assets/stamford/ directory if no path provided.
         """
+        if target_db is None:
+            target_db = self.text_db
+
         if specific_path:
              # Direct load mode
              if os.path.isabs(specific_path):
@@ -94,7 +97,7 @@ class TextDBMixin:
                          data = json.load(f)
                          
                      if isinstance(data, dict):
-                         self.text_db.update(data)
+                         target_db.update(data)
                          # print(f"Engine: Loaded {len(data)} items from {specific_path}")
                  except Exception as e:
                      print(f"Engine: Error loading {specific_path}: {e}")
@@ -135,7 +138,7 @@ class TextDBMixin:
                             file_hash = os.path.splitext(file)[0]
                             asset_id = id_map.get(file_hash, file_hash)
                         
-                        self.text_db[asset_id] = asset_data
+                        target_db[asset_id] = asset_data
                         count += 1
                     except Exception as e:
                         print(f"Error loading {asset_path}: {e}")
@@ -212,7 +215,15 @@ class TextDBMixin:
                         "source": "St. Sergius Unabridged (consolidated)"
                     }
         
-        # 1. Primary Lookup (if not already found in recension db)
+        # 1. Primary selected recension lookup
+        if not item and hasattr(self, "primary_db") and self.primary_db is not None:
+            item = self.primary_db.get(text_id)
+
+        # 1.1 Backup recension lookup (if different from primary)
+        if not item and hasattr(self, "backup_db") and self.backup_db:
+            item = self.backup_db.get(text_id)
+
+        # 1.2 Legacy/direct text_db lookup
         if not item:
             item = self.text_db.get(text_id)
 
@@ -346,9 +357,12 @@ class TextDBMixin:
              if not text_key:
                   text_key = logic_entry.get('variables', {}).get('text_key')
                   
-             if text_key and text_key in self.text_db:
-                  root = self.text_db[text_key]
-                  
+             # Look up root in primary_db, backup_db, or text_db
+             root = None
+             if text_key:
+                 root = (self.primary_db.get(text_key) if hasattr(self, "primary_db") and self.primary_db is not None else None) or (self.backup_db.get(text_key) if hasattr(self, "backup_db") and self.backup_db else None) or self.text_db.get(text_key)
+             
+             if root:
                   # Resolver Helper
                   def get_triodion_content(service_prefix, section_prefix):
                       service_key = self._find_fuzzy_key(root, service_prefix)
@@ -436,7 +450,8 @@ class TextDBMixin:
                             filename = parts[2].replace(".json", "")
                             section = "vespers" if filename in ("litiya", "stichera_vespers", "stichera_vespers_great", "aposticha") else "matins"
                             concrete_key = f"menaion.{month}{day}.{section}.{filename}"
-                            if concrete_key in self.text_db:
+                            exists = (hasattr(self, "primary_db") and self.primary_db is not None and concrete_key in self.primary_db) or (hasattr(self, "backup_db") and self.backup_db and concrete_key in self.backup_db) or concrete_key in self.text_db
+                            if exists:
                                 return self.get_text(concrete_key, context=context)
         
         return None
@@ -444,8 +459,34 @@ class TextDBMixin:
 
     def _load_menaion_files(self):
         if not os.path.exists(self.json_db): return
+        
+        # 1. Load common logic files
         files = sorted([f for f in os.listdir(self.json_db) if f.startswith("02b_") and "index" not in f])
         for f in files:
             data = self._load_json(os.path.join(self.json_db, f))
             if "month_settings" in data:
                 self.menaion_logic[data["month_settings"]["month_id"]] = data["month_settings"]
+                
+        # 2. Load version-specific logic overrides (deep merge by month_id)
+        version_id = getattr(self, "version_id", None)
+        if version_id:
+            version_dir = os.path.join(self.json_db, version_id)
+            if os.path.exists(version_dir):
+                version_files = sorted([f for f in os.listdir(version_dir) if f.startswith("02b_") and "index" not in f])
+                for f in version_files:
+                    data = self._load_json(os.path.join(version_dir, f))
+                    if "month_settings" in data:
+                        month_id = data["month_settings"]["month_id"]
+                        if month_id in self.menaion_logic:
+                            # Merge days
+                            if "days" in data["month_settings"]:
+                                if "days" not in self.menaion_logic[month_id]:
+                                    self.menaion_logic[month_id]["days"] = {}
+                                self.menaion_logic[month_id]["days"].update(data["month_settings"]["days"])
+                            # Merge floating rules
+                            if "floating_rules" in data["month_settings"]:
+                                if "floating_rules" not in self.menaion_logic[month_id]:
+                                    self.menaion_logic[month_id]["floating_rules"] = {}
+                                self.menaion_logic[month_id]["floating_rules"].update(data["month_settings"]["floating_rules"])
+                        else:
+                            self.menaion_logic[month_id] = data["month_settings"]

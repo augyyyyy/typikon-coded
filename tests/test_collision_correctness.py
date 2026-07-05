@@ -79,7 +79,7 @@ def test_annunciation_weekday_lent(engine, generator):
         "matins_canon_distribution": {
             "distribution": [{"source": "menaion", "type": "feast", "qty": 6}, {"source": "triodion", "qty": 8}]
         },
-        "liturgy_type": "liturgy_presanctified"
+        "liturgy_type": "vesperal_merge_logic"
     }
     expected_text_patterns = [
         "5 stichera from the Triodion, and 5 Feast stichera from the Menaion"

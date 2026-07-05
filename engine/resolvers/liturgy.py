@@ -422,12 +422,13 @@ class LiturgyMixin:
         
         RULES:
         - "As many as have been baptized" replaces Trisagion on:
-          - Nativity, Theophany, Lazarus Saturday, Palm Sunday
-          - Holy Saturday, Pascha through Bright Week
-          - Pentecost
+          - Nativity (Dec 25), Theophany (Jan 6), Lazarus Saturday (pascha_offset -8)
+          - Holy Saturday (pascha_offset -1), Pascha and Bright Week (pascha_offset 0 to 6)
+          - Pentecost Sunday (pascha_offset 49)
+          - (Palm Sunday does NOT have this replacement)
         - "Before Thy Cross we bow down" replaces on:
           - Exaltation of Cross (Sept 14)
-          - Third Sunday of Lent (Veneration of Cross)
+          - Third Sunday of Lent (Veneration of the Cross, pascha_offset -28)
           - Aug 1 (Procession of Cross)
         """
         title = context.get("title", "").lower()
@@ -440,8 +441,8 @@ class LiturgyMixin:
         today_md = date[5:] if len(date) >= 10 else ""
         
         # BAPTISMAL HYMN: "As many as have been baptized into Christ"
-        # Nativity
-        if today_md == "12-25" or feast_id == "nativity" or "nativity" in title:
+        # Nativity (Dec 25 only)
+        if today_md == "12-25" or feast_id == "nativity" or title == "nativity" or title == "nativity of christ":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -449,8 +450,8 @@ class LiturgyMixin:
                 "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
             }
         
-        # Theophany
-        if today_md == "01-06" or feast_id == "theophany" or "theophany" in title:
+        # Theophany (Jan 6 only)
+        if today_md == "01-06" or feast_id == "theophany" or title == "theophany" or title == "theophany of our lord":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -459,16 +460,7 @@ class LiturgyMixin:
             }
         
         # Lazarus Saturday
-        if pascha_offset == -8 or "lazarus" in title:
-            return {
-                "type": "replacement",
-                "replacement": "as_many_baptized",
-                "ref_key": "liturgikon.as_many_as_baptized",
-                "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
-            }
-        
-        # Palm Sunday
-        if pascha_offset == -7 or paradigm == "p_palm_sunday" or "entry" in title or "palm" in title:
+        if pascha_offset == -8 or title == "lazarus saturday" or title == "saturday of lazarus":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -477,7 +469,7 @@ class LiturgyMixin:
             }
         
         # Holy Saturday
-        if pascha_offset == -1 or "holy saturday" in title:
+        if pascha_offset == -1 or title == "holy saturday" or title == "great saturday":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -486,7 +478,7 @@ class LiturgyMixin:
             }
         
         # Pascha through Bright Week (offset 0-6)
-        if 0 <= pascha_offset <= 6 or paradigm == "p_pascha":
+        if 0 <= pascha_offset <= 6 or paradigm == "p_pascha" or title == "pascha" or title == "bright week":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -494,8 +486,8 @@ class LiturgyMixin:
                 "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
             }
         
-        # Pentecost
-        if pascha_offset == 49 or "pentecost" in title:
+        # Pentecost (Pentecost Sunday only, offset 49)
+        if pascha_offset == 49 or title == "pentecost" or title == "pentecost sunday" or title == "sunday of pentecost":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -504,8 +496,8 @@ class LiturgyMixin:
             }
         
         # CROSS HYMN: "Before Thy Cross we bow down"
-        # Exaltation of Cross (Sept 14)
-        if today_md == "09-14" or feast_id == "exaltation_cross" or "exaltation" in title:
+        # Exaltation of Cross (Sept 14 only)
+        if today_md == "09-14" or feast_id == "exaltation_cross" or title == "exaltation of the cross" or title == "elevation of the cross":
             return {
                 "type": "replacement",
                 "replacement": "before_thy_cross",
@@ -513,18 +505,17 @@ class LiturgyMixin:
                 "text": "Before Thy Cross we bow down in worship, O Master, and Thy holy Resurrection we glorify."
             }
         
-        # Third Sunday of Lent (Veneration of Cross) - offset around -28
-        if -28 <= pascha_offset <= -22 and context.get("day_of_week") == 0:
-            if "cross" in title or "veneration" in title:
-                return {
-                    "type": "replacement",
-                    "replacement": "before_thy_cross",
-                    "ref_key": "liturgikon.before_thy_cross",
-                    "text": "Before Thy Cross we bow down in worship, O Master, and Thy holy Resurrection we glorify."
-                }
+        # Third Sunday of Lent (Veneration of the Cross) - offset exactly -28
+        if pascha_offset == -28:
+            return {
+                "type": "replacement",
+                "replacement": "before_thy_cross",
+                "ref_key": "liturgikon.before_thy_cross",
+                "text": "Before Thy Cross we bow down in worship, O Master, and Thy holy Resurrection we glorify."
+            }
         
         # Aug 1 Procession of Cross
-        if today_md == "08-01" or "procession" in title:
+        if today_md == "08-01" or feast_id == "procession_cross" or title == "procession of the cross":
             return {
                 "type": "replacement",
                 "replacement": "before_thy_cross",
@@ -650,8 +641,18 @@ class LiturgyMixin:
         """
         def resolve_str_hymn(key):
             known_hymns = {
+                "praise_the_lord": "Praise the Lord from the heavens; praise Him in the highest.",
                 "righteous_memory": "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings.",
-                "their_sound_has_gone_forth": "Their sound hath gone forth into all the earth, and their words unto the ends of the world."
+                "cup_of_salvation": "I will take the cup of salvation, and I will call upon the name of the Lord.",
+                "making_angels_spirits": "Who maketh His angels spirits, and His ministers a flame of fire.",
+                "light_of_your_countenance": "The light of Thy countenance, O Lord, is signed upon us.",
+                "their_sound_has_gone_forth": "Their sound hath gone forth into all the earth, and their words unto the ends of the world.",
+                "the_lord_sent_redemption": "The Lord has sent redemption to His people.",
+                "grace_of_god_has_appeared": "The grace of God has appeared, bringing salvation to all men.",
+                "we_will_walk_in_light": "We will walk in the light of Your face, O Lord, and in Your name will we rejoice all the day.",
+                "the_lord_has_chosen_zion": "The Lord has chosen Zion; He has desired it for His habitation.",
+                "rejoice_in_the_lord": "Rejoice in the Lord, O ye righteous; praise is comely for the upright.",
+                "be_exalted_o_god": "Be exalted, O God, above the heavens, and Your glory above all the earth."
             }
             if key in known_hymns:
                 return {
@@ -919,8 +920,23 @@ class LiturgyMixin:
         
         Handles multiple readings for Sunday + Saint, etc.
         """
-        if context.get("_almanac_used") and "readings" in context:
-            return copy.deepcopy(context["readings"])
+        if context.get("_almanac_used"):
+            readings_val = context.get("readings")
+            if isinstance(readings_val, dict):
+                return copy.deepcopy(readings_val)
+            
+            # If readings key was overwritten by a string key in the variables merge,
+            # query the original pre-computed readings dictionary from the almanac.
+            year = context.get("year")
+            month = context.get("month")
+            day = context.get("day")
+            if year and month and day:
+                date_str = f"{year}-{int(month):02d}-{int(day):02d}"
+                almanac = self._get_almanac(year)
+                if almanac and date_str in almanac.get("days", {}):
+                    orig_readings = almanac["days"][date_str].get("readings")
+                    if isinstance(orig_readings, dict):
+                        return copy.deepcopy(orig_readings)
 
         day_of_week = context.get("day_of_week", 0)
         from engine.utils.type_utils import parse_rank_integer
@@ -960,6 +976,19 @@ class LiturgyMixin:
                     s_id = feast_id
                     if not s_id and saints:
                         s_id = saints[0].get("id", "")
+                    if not s_id:
+                        month_val = context.get("month")
+                        day_val = context.get("day")
+                        if month_val and day_val:
+                            try:
+                                month_int = int(month_val)
+                                day_int = int(day_val)
+                                months_map = {1: "jan", 2: "feb", 3: "mar", 4: "apr", 5: "may", 6: "jun",
+                                              7: "jul", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"}
+                                month_str = months_map.get(month_int, "jan")
+                                s_id = f"{month_str}_{day_int:02d}"
+                            except ValueError:
+                                pass
                     
                     epistle_key = l_readings[0]
                     gospel_key = l_readings[1] if len(l_readings) > 1 else ""

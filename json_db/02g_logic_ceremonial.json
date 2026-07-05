@@ -366,6 +366,12 @@
 
     "two_deacons": {
       "§_range": "37–42",
+      "§37": {"moment": "psalm_103", "deacon": "First deacon departs via north door, says Great Synapte. Second deacon remains inside Altar."},
+      "§38": {"moment": "kathisma", "deacon": "Second deacon departs via north door, says Small Synapte. Returns to Altar via south door."},
+      "§39": {"moment": "lord_i_have_cried", "deacon": "Both deacons take thuribles. Coordinated censing per §39: cense Holy Table (both front/back, first deacon right, second deacon left), icons, priest. First deacon censes south iconostasis and right choir, second deacon censes north iconostasis and left choir. Both cense people from soleas."},
+      "§40": {"moment": "entrance", "deacon": "At Entrance, exit order: candlebearers, second deacon, first deacon, priest. First deacon says 'Let us pray to the Lord.' Priest says Entrance Prayer. First deacon asks blessing. Exclaims 'Wisdom! Stand aright!'"},
+      "§41": {"moment": "prokeimenon_readings_litanies", "deacon": "Deacons show reverence to priest, leave Altar: second deacon via north door, first deacon via south door. Litanies: first deacon says ektene, second deacon says aitisis."},
+      "§42": {"moment": "dismissal", "deacon": "Royal doors opened. Deacons leave via own doors, stand before royal doors facing one another. First deacon (near Savior icon) raises orarion: 'Wisdom!' Both keep oraria raised during Dismissal. Enter Altar via own doors. Royal doors closed."},
       "note": "Litanies distributed: 1st deacon = Great Synapte + ektene, 2nd deacon = Small Synapte + aitisis. Censing coordinated per §39. At Entrance, exit order: 2nd deacon, then 1st deacon, then priest. At Dismissal, both keep oraria raised."
     },
 
@@ -395,6 +401,22 @@
       "§54": "Priest opens royal doors. Deacon exits via north door with candle: 'Command!' Returns. Priest censes (full). 'Bless, O Lord.' Enter Altar. 'Glory to the Holy Trinity.' Psalm 103.",
       "§57": "Litiya: Priest with hand cross + deacon with thurible exit to narthex. Stichera, petitions, blessing of loaves.",
       "§60": "Transition to Orthros: Priest closes doors, removes phelonion. Six Psalms begin."
+    },
+    "litya_procession": {
+      "§59": {
+        "two_deacons": "Both deacons exit via northern door carrying thuribles, preceding the concelebrating priests. First deacon censes the tetrapod and the icons.",
+        "one_deacon": "Deacon carrying thurible exits via northern door, preceding the priest, and censes the tetrapod.",
+        "without_deacon": "Priest carrying hand cross and censer exits via Holy Doors, precedes to the narthex."
+      },
+      "§61": {
+        "with_deacon": "First deacon raises orarion with three fingers of right hand and exclaims the Litiya petitions: 'O God, save Your people...'",
+        "without_deacon": "Priest exclaims the Litiya petitions from the soleas or narthex."
+      }
+    },
+    "artoklasia": {
+      "§63": {
+        "rule": "Priest censes the five loaves, wheat, wine, and oil in the form of a cross (three times), then reads the prayer of blessing."
+      }
     }
   },
 
@@ -407,6 +429,18 @@
       "§79": "Gospel: Priest takes Gospel through royal doors, stands on soleas, reads facing people on analogion.",
       "§80": "Anointing (Vigil only): Priest with hand cross exits through royal doors. Deacon takes blessed oil and quill, exits via north door. Priest anoints foreheads at tetrapod.",
       "§82": "Great Doxology: Royal doors opened. Priest in phelonion before altar."
+    },
+    "polyeleos_movement": {
+      "§76": {
+        "concelebration": "Clergy exit the Altar through the Holy Doors. Concelebrating priests precede in reverse order of dignity (younger first), followed by the principal celebrant, and stand around the tetrapod.",
+        "single_priest": "Priest exits the Altar through the Holy Doors and stands before the tetrapod in the center of the nave."
+      }
+    },
+    "matins_gospel_censing": {
+      "§79": {
+        "with_deacon": "Deacon censes the Holy Table on all four sides, the Altar, the iconostasis, the priest, and the people.",
+        "without_deacon": "Priest censes the Holy Table on all four sides, the iconostasis, and the people."
+      }
     }
   },
 
@@ -422,6 +456,25 @@
       "§129": "Great Entrance: Deacon carries diskarion on head, priest carries chalice. Enter through royal doors.",
       "§134": "Institution Narrative: Single blessing over bread. Right hand extended toward diskos: 'Take, eat.' Deep bow with sign of Cross.",
       "§140": "Communion of priest: Body first, then Blood. Wipes lips and chalice edge with lention."
+    },
+    "proskomedia_vessels": {
+      "§115": {
+        "rule": "Priest arranges the Lamb on the diskos, places the asterisk over it, covers diskos and chalice with small veils, covers both with the aer, and places them on the Prothesis table."
+      }
+    },
+    "liturgy_entrances": {
+      "little_entrance": {
+        "§122": {
+          "with_deacon": "Deacon takes the Gospel book, exits via northern door preceding the priest, exclaims 'Wisdom! Stand aright!', and enters Altar.",
+          "without_deacon": "Priest takes the Gospel book, exits via northern door, exclaims 'Wisdom! Stand aright!', and enters Altar."
+        }
+      },
+      "great_entrance": {
+        "§129": {
+          "with_deacon": "Deacon carries the diskarion on his head, preceding the priest who carries the chalice. They exit via northern door and enter via Holy Doors.",
+          "without_deacon": "Priest carries both the diskarion (left hand) and the chalice (right hand), exits via northern door, and enters via Holy Doors."
+        }
+      }
     }
   },
 
@@ -434,6 +487,24 @@
       "§235": "'Let my prayer ascend': Priest censes Holy Table on 4 sides during Psalm 140 verses.",
       "§241": "Great Entrance: Priest takes veiled diskarion and chalice. Complete silence maintained.",
       "§244": "Deacon binds orarion crosswise at Communion."
+    },
+    "presanctified_transfer": {
+      "§226": {
+        "rule": "Priest transfers the Presanctified Lamb from the artophorion on the Holy Table to the diskos on the Prothesis table in complete silence."
+      }
+    },
+    "presanctified_censing": {
+      "let_my_prayer_arise": {
+        "§235": {
+          "rule": "Priest censes the Holy Table on all four sides, the Prothesis table, the icons, and the people during Psalm 140 verses."
+        }
+      },
+      "great_entrance": {
+        "§241": {
+          "with_deacon": "Deacon walks backwards censing the Holy Gifts carried by the priest during complete silence.",
+          "without_deacon": "Priest carries the Holy Gifts in complete silence; no censing is performed."
+        }
+      }
     }
   }
 }

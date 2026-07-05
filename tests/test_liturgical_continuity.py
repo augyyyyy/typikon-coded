@@ -47,10 +47,9 @@ def test_weekly_tone_continuity():
         if tones_in_week:
             first_tone = tones_in_week[0]
             for dt, dow, tone in week:
-                # During Bright Week (after Pascha), the tone is special, but in ordinary/Lent it is constant.
                 offset = (dt - pascha_2026).days
-                if 0 <= offset <= 6:
-                    # Bright week tone shifts daily, skip uniform check
+                if 0 <= offset <= 6 or -8 <= offset <= -1:
+                    # Bright week tone shifts daily, and Lazarus/Palm/Holy Week suspends tone. Skip check.
                     continue
                 assert tone == first_tone, f"Tone mismatch on {dt.isoformat()}: expected {first_tone}, got {tone}"
 

@@ -315,7 +315,13 @@ class GenerationMixin:
                 else:
                     booklet.append(f"\n--- {service_name.upper()} ---")
 
-                struct_data = self._load_json(service["file"])
+                struct_file = service["file"]
+                if service_name == "Liturgy":
+                    if root_id == "liturgy_presanctified":
+                        struct_file = "json_db/01l_struct_presanctified.json"
+                    elif root_id == "vesperal_liturgy":
+                        struct_file = "json_db/01m_struct_vesperal_liturgy.json"
+                struct_data = self._load_json(struct_file)
                 # Use new inheritance helper
                 skeleton = self._get_structure_sequence(struct_data, root_id)
 
@@ -570,7 +576,13 @@ class GenerationMixin:
                  elif "lenten" in var_hours: root_id = "structure_lenten"
                  elif "paschal" in var_hours: root_id = "structure_paschal"
 
-            struct_data = self._load_json(service["file"])
+            struct_file = service["file"]
+            if service_name == "Liturgy":
+                if root_id == "liturgy_presanctified":
+                    struct_file = "json_db/01l_struct_presanctified.json"
+                elif root_id == "vesperal_liturgy":
+                    struct_file = "json_db/01m_struct_vesperal_liturgy.json"
+            struct_data = self._load_json(struct_file)
             skeleton = self._get_structure_sequence(struct_data, root_id)
             if skeleton:
                 process_skeleton(skeleton)
@@ -1606,8 +1618,19 @@ class GenerationMixin:
             method = result.get("generator_method")
             args = result.get("args", {})
             if method == "generate_antiphons":
-                res = self.resolve_liturgy_antiphons(context, rubrics)
-                return self._hydrate_and_format_logic_result(res, "resolve_liturgy_antiphons", context, rubrics)
+                strategy = args.get("strategy")
+                if not strategy:
+                    res = self.resolve_liturgy_antiphons(context, rubrics)
+                    strategy = res.get("args", {}).get("strategy", "weekday_antiphons")
+                text_item = self.get_text(strategy, context=context)
+                if text_item:
+                    title = text_item.get("title") or strategy.replace("_", " ").title()
+                    output.append(f'<div class="title-medium">{title}</div>')
+                    output.extend(self._split_and_wrap("", text_item.get("content", "")))
+                else:
+                    humanized = strategy.replace("_", " ").title()
+                    output.append(f'<p class="rubric">[Missing Antiphons Strategy: {humanized} ({strategy})]</p>')
+                return "\n\n".join(output)
             elif method == "generate_hour_troparia":
                 hour_num = args.get("hour", 1)
                 res = self.resolve_hours_collision(context, hour_num=hour_num)
@@ -1673,6 +1696,15 @@ class GenerationMixin:
             cit_str = f' <sup class="citation-sup" title="Source: {source_name}">{source_name}</sup>' if source_name else ""
             html_prefix = f"<strong>Post-Communion Hymn</strong>{cit_str}: "
             output.extend(self._split_and_wrap(html_prefix, hymn))
+            return "\n\n".join(output)
+
+        # Case 4.15: Result is a replacement block (like Trisagion replacements)
+        elif isinstance(result, dict) and result.get("type") == "replacement":
+            text = result.get("text") or ""
+            ref_key = result.get("ref_key")
+            title = result.get("replacement", "Replacement").replace("_", " ").title()
+            output.append(f'<div class="title-medium">{title}</div>')
+            output.extend(self._split_and_wrap("", text))
             return "\n\n".join(output)
 
         # Case 5: Result has 'vestments' (ceremonial vesting set)

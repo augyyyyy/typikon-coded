@@ -190,7 +190,8 @@
       "title": "Saturday of St. Theodore the Recruit",
       "variables": {
         "liturgy_readings": [
-          "saint_theodore"
+          "saint_theodore_epistle",
+          "saint_theodore_gospel"
         ],
         "season": "lent"
       }
@@ -348,7 +349,8 @@
       "title": "Thursday of the Great Canon",
       "variables": {
         "matins_canon": "great_canon_andrew_crete_full",
-        "text_key": "matins_with_prostrations"
+        "text_key": "matins_with_prostrations",
+        "matins_type": "lenten_matins_weekday"
       }
     },
     "saturday_akathist": {
@@ -368,7 +370,8 @@
       "priority": 90,
       "title": "Saturday of Lazarus",
       "variables": {
-        "liturgy_trisagion_replace": "all_baptized"
+        "liturgy_trisagion_replace": "all_baptized",
+        "matins_type": "great_matins"
       }
     },
     "sunday_palm": {
@@ -417,6 +420,7 @@
       "title": "Great and Holy Thursday",
       "variables": {
         "liturgy_type": "vesperal_merge_logic",
+        "vespers_type": "structure_suppressed",
         "cherubic_hymn_replace": "of_thy_mystical_supper"
       }
     },
@@ -441,6 +445,7 @@
       "title": "Great and Holy Saturday",
       "variables": {
         "liturgy_type": "vesperal_merge_logic",
+        "vespers_type": "structure_suppressed",
         "cherubic_hymn_replace": "let_all_mortal_flesh"
       }
     },
@@ -570,6 +575,8 @@
       "priority": 100,
       "title": "Ascension of Our Lord",
       "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
         "liturgy_antiphons": "festal_ascension",
         "liturgy_readings": [
           "acts_1_1_12",
@@ -621,7 +628,11 @@
         "pascha_offset": 50
       },
       "priority": 95,
-      "title": "Monday of the Holy Spirit"
+      "title": "Monday of the Holy Spirit",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins"
+      }
     },
     "sunday_all_saints": {
       "triggers": {
@@ -640,6 +651,8 @@
       "source_ref": "Dolnytsky_Typikon_Master.md:4.1.1.3",
       "description": "Thursday after Trinity Sunday. Lviv Synod mandate.",
       "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
         "procession": "eucharistic_procession_four_altars",
         "gospel_readings": [
           "Mt 108",
@@ -661,7 +674,9 @@
       "base_template": "CASE_12",
       "variables": {
         "rank_id": "rank_polyeleos",
-        "rank": 2
+        "rank": 2,
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins"
       }
     }
   },

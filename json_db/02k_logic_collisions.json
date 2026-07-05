@@ -45,7 +45,7 @@
                   }
                 ]
               },
-              "liturgy_type": "liturgy_presanctified"
+              "liturgy_type": "vesperal_merge_logic"
             }
           }
         },

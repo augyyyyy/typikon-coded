@@ -289,8 +289,12 @@ class RubricsMixin:
              
         if d_rank == "LORD" or (isinstance(m_rank, str) and m_rank.startswith("rank_vigil_lord")):
              period = "feast"
-             feast_type = "lord"
-             context["feast_level"] = "lord" # Backfill for other logic
+             if "meeting" in full_text or "стрітення" in full_text:
+                  feast_type = "theotokos"
+                  context["feast_level"] = "theotokos"
+             else:
+                  feast_type = "lord"
+                  context["feast_level"] = "lord" # Backfill for other logic
         elif d_rank == "THEOTOKOS" or d_rank == "MOG" or (isinstance(m_rank, str) and m_rank.startswith("rank_vigil_theotokos")):
              period = "feast"
              feast_type = "theotokos"
@@ -324,12 +328,45 @@ class RubricsMixin:
         # We want Triodion keys to come FIRST in iteration order.
         candidate_cases.update(cases)
 
-        # Sort candidates by priority if available (Triodion has priority field)
-        # We need a stable iteration order.
-        # General cases don't have priority, assume 0.
+        # Sort candidates by priority (Triodion has priority field, General cases don't)
+        # To prevent Lenten defaults from shadowing feasts and major saints,
+        # we assign a dynamic priority bump (+50) to cases that trigger on
+        # high rank, Lord/Theotokos types, or feast periods.
+        def get_candidate_priority(item):
+            k, v = item
+            base_prio = v.get("priority", 0)
+            
+            # Exclude base simple cases from getting priority bump
+            if v.get("id") in ["CASE_01", "CASE_02", "CASE_03"] or k.startswith("case_01") or k.startswith("case_02") or k.startswith("case_03"):
+                return base_prio
+                
+            triggers = v.get("triggers", {})
+            
+            # High rank triggers (Vigil, Polyeleos, Great Doxology)
+            rank_trigger = triggers.get("rank_id", [])
+            if not isinstance(rank_trigger, list):
+                rank_trigger = [rank_trigger]
+            is_high_rank = any(r in ["rank_vigil", "rank_polyeleos", "rank_doxology"] for r in rank_trigger)
+            
+            # Feast type triggers (Lord/Theotokos)
+            type_trigger = triggers.get("type", [])
+            if not isinstance(type_trigger, list):
+                type_trigger = [type_trigger]
+            is_feast_type = any(t in ["lord", "theotokos"] for t in type_trigger)
+            
+            # Feast period triggers
+            period_trigger = triggers.get("period", [])
+            if not isinstance(period_trigger, list):
+                period_trigger = [period_trigger]
+            is_feast_period = any(p in ["feast", "forefeast", "afterfeast", "apodosis"] for p in period_trigger)
+            
+            if is_high_rank or is_feast_type or is_feast_period:
+                return base_prio + 50
+            return base_prio
+
         sorted_candidates = sorted(
             [(k, v) for k, v in candidate_cases.items() if not k.startswith("//")],
-            key=lambda x: x[1].get("priority", 0),
+            key=get_candidate_priority,
             reverse=True
         )
         
@@ -504,7 +541,11 @@ class RubricsMixin:
         
         # Check if we should classify as polyeleos
         is_polyeleos = (
-            context.get("dolnytsky_rank") == "POLYELEOS" or
+            (
+                context.get("dolnytsky_rank") == "POLYELEOS"
+                and not str(context.get("menaion_rank") or "").startswith("rank_vigil")
+                and not str(context.get("variables", {}).get("menaion_rank") or "").startswith("rank_vigil")
+            ) or
             (
                 any(s.get("rank") == 2 or s.get("rank_code") in ("POLYELEOS", "POL") for s in context.get("saints", []))
                 and context.get("dolnytsky_rank") != "VIGIL"
@@ -815,9 +856,10 @@ class RubricsMixin:
 
         # [NEW] Lenten Saturday Logic (Alleluia Days -> Daily Matins + Chrysostom)
         elif context.get("season") == "lent" and context.get("day_of_week") == 6:
-            rubrics["overrides"]["matins_type"] = "daily_matins"
-            rubrics["overrides"]["liturgy_type"] = "liturgy_chrysostom"
-            rubrics["_trace"].append("Lenten Logic: Saturday (Alleluia/Daily Matins + Chrysostom).")
+             if context.get("pascha_offset") not in [-1, -8]:
+                 rubrics["overrides"]["matins_type"] = "daily_matins"
+                 rubrics["overrides"]["liturgy_type"] = "liturgy_chrysostom"
+                 rubrics["_trace"].append("Lenten Logic: Saturday (Alleluia/Daily Matins + Chrysostom).")
 
         # Apply Vespers Lookahead (Saturday Evening -> Sunday)
         self._apply_lookahead(context, rubrics)
@@ -957,7 +999,20 @@ class RubricsMixin:
             allowed = condition["triodion_period"]
             current = context.get("triodion_period", "")
             if isinstance(allowed, str): allowed = [allowed]
-            if current not in allowed: return False
+            
+            # Map virtual triodion periods to align with database schemas
+            current_mapped = current
+            if current == "great_lent":
+                dow = context.get("day_of_week", 1)
+                if dow in [1, 2, 3, 4, 5]:
+                    current_mapped = "lent_weekday"
+                elif dow == 6:
+                    current_mapped = "lent_saturday"
+                else:
+                    current_mapped = "lent_sunday"
+                    
+            if current_mapped not in allowed and current not in allowed: 
+                return False
             
         # 3. Exclude Days (Requires 'triodion_key' injection)
         if "exclude_days" in condition:
@@ -1129,7 +1184,7 @@ class RubricsMixin:
                 ]
                 result["kontakion_winner"] = "temple_kontakion"
             elif hour_num == 9:
-                name = saints[1].get("name", saints[0].get("name", "Saint")) if saints else "Saint"
+                name = (saints[1].get("name") if len(saints) >= 2 else (saints[0].get("name") if saints else "Saint"))
                 result["troparia_sequence"] = [
                     {"type": "resurrectional", "tone": tone},
                     {"type": "glory", "target": {"type": "saint", "name": name}},
@@ -1162,7 +1217,7 @@ class RubricsMixin:
             ]
             result["kontakion_winner"] = "temple_kontakion"
         elif hour_num == 9:
-            name = saints[1].get("name", saints[0].get("name", "Saint")) if saints else "Saint"
+            name = (saints[1].get("name") if len(saints) >= 2 else (saints[0].get("name") if saints else "Saint"))
             result["troparia_sequence"] = [
                 {"type": "saint", "name": name},
                 {"type": "glory_both_now", "target": "dismissal_theotokion"}

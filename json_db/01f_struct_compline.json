@@ -1,11 +1,11 @@
 {
   "file_metadata": {
     "filename": "01f_struct_compline.json",
-    "version": "4.0 (Great Canon Patch)",
-    "last_updated": "2025-01-30",
+    "version": "4.1 (roles annotated)",
+    "last_updated": "2026-06-23",
     "authority": "Lviv (Dolnytsky) Typikon (2010) Parts I & IV",
     "scope": "Small Compline & Great Compline (All Variants)",
-    "description": "Defines the structure of Compline. Updated to include specific logic for the Great Canon of St. Andrew (1st Week of Lent) and corrected the Part 1 sequence."
+    "description": "Defines the structure of Compline. Updated to include specific logic and role-based micro-actions for Great Compline (Lenten and Vigil)."
   },
   "structures": {
     "small_compline": {
@@ -144,10 +144,18 @@
     },
     "great_compline_lenten": {
       "title_key": "titles.compline_great_lenten",
-      "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.7",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.3.2",
       "sequence": [
         {
           "id": "opening_blessing",
+          "rubric": {
+            "title": "Opening Blessing",
+            "ordo_ref": "§53",
+            "roles": {
+              "priest": "Vest in epitrachelion, bless and kiss the cross on it. Stand before closed Royal Doors, make a bow, and exclaim: 'Blessed is our God...'",
+              "cantor": "Chant: 'Amen.'"
+            }
+          },
           "content": {
             "type": "fixed_ref",
             "ref_key": "horologion.blessing_common"
@@ -155,6 +163,13 @@
         },
         {
           "id": "trisagion_init",
+          "rubric": {
+            "title": "Introductory Prayers",
+            "roles": {
+              "priest": "Stand before closed Royal Doors.",
+              "cantor": "Read the Trisagion block through Our Father."
+            }
+          },
           "content": {
             "type": "fixed_ref",
             "ref_key": "horologion.trisagion_block"
@@ -162,6 +177,13 @@
         },
         {
           "id": "invitatory",
+          "rubric": {
+            "title": "The Invitatory",
+            "roles": {
+              "priest": "Stand before closed Royal Doors.",
+              "cantor": "Chant 'Come, let us worship...' (3x) with three small bows."
+            }
+          },
           "content": {
             "type": "fixed_ref",
             "ref_key": "horologion.invitatory_3x"
@@ -171,7 +193,12 @@
           "id": "great_canon_insertion",
           "source_ref": "Dolnytsky_Typikon_Master.md:4.1.8.5",
           "rubric": {
-            "key": "rubrics.lenten.great_canon_divided"
+            "key": "rubrics.lenten.great_canon_divided",
+            "title": "Great Canon portion",
+            "roles": {
+              "priest": "Stand before closed Royal Doors.",
+              "cantor": "Kneel and make prostrations at each troparion of the Great Canon portion if Lenten weekday."
+            }
           },
           "content": {
             "type": "conditional_block",
@@ -209,6 +236,12 @@
         },
         {
           "id": "part_1",
+          "rubric": {
+            "title": "First Part of Great Compline",
+            "roles": {
+              "priest": "Stand before closed Royal Doors, read prayers silently."
+            }
+          },
           "sequence": [
             {
               "id": "psalms_part1",
@@ -220,10 +253,24 @@
                 "horologion.psalm_24",
                 "horologion.psalm_30",
                 "horologion.psalm_90"
-              ]
+              ],
+              "rubric": {
+                "title": "Six Psalms of Part 1",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Read the six Psalms (Psalms 4, 6, 12, 24, 30, 90) slowly and devoutly."
+                }
+              }
             },
             {
               "id": "god_is_with_us",
+              "rubric": {
+                "title": "Isaiah's Song (God is with us)",
+                "roles": {
+                  "priest": "Remain at soleas before closed Royal Doors (do not come to the front or recite alternately unless only one choir is present).",
+                  "cantor": "Chant 'God is with us' with appointed verses in Tone 6 Lenten melody."
+                }
+              },
               "content": {
                 "type": "variable_logic",
                 "logic": {
@@ -233,16 +280,37 @@
             },
             {
               "id": "troparia_part1",
+              "rubric": {
+                "title": "Troparia of the Day Passed",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Chant 'The day has passed...' with refrains."
+                }
+              },
               "type": "fixed_ref",
               "ref_key": "horologion.troparia_compline_day_passed"
             },
             {
               "id": "creed",
+              "rubric": {
+                "title": "The Creed",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Recite the Nicene Creed."
+                }
+              },
               "type": "fixed_ref",
               "ref_key": "horologion.creed"
             },
             {
               "id": "supplication_theotokos",
+              "rubric": {
+                "title": "Supplication to the Theotokos",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors (do not come to the front or recite alternately unless only one choir is present).",
+                  "cantor": "Chant the supplicatory verses 'O All-Holy Lady, Theotokos...'"
+                }
+              },
               "content": {
                 "type": "fixed_ref",
                 "ref_key": "horologion.supplication_all_holy_lady"
@@ -250,11 +318,25 @@
             },
             {
               "id": "trisagion_1",
+              "rubric": {
+                "title": "Trisagion",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Read the Trisagion block through Our Father."
+                }
+              },
               "type": "fixed_ref",
               "ref_key": "horologion.trisagion_block"
             },
             {
               "id": "troparia_lenten_1",
+              "rubric": {
+                "title": "Lenten Troparia",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Chant 'Illumine my eyes...' and 'Have mercy on us, O Lord...'"
+                }
+              },
               "type": "fixed_group",
               "ref_keys": [
                 "horologion.troparion_illumine_my_eyes",
@@ -265,9 +347,22 @@
         },
         {
           "id": "part_2",
+          "rubric": {
+            "title": "Second Part of Great Compline",
+            "roles": {
+              "priest": "Stand before closed Royal Doors, read Manasseh's prayer silently/aloud."
+            }
+          },
           "sequence": [
             {
               "id": "psalms_part2",
+              "rubric": {
+                "title": "Psalms and Prayer of Manasseh",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors at the steps. Exclaim/read the prayer 'O Lord Almighty...'",
+                  "cantor": "Read Psalms 50 and 101, and the Prayer of Manasseh."
+                }
+              },
               "type": "fixed_group",
               "ref_keys": [
                 "horologion.psalm_50",
@@ -277,11 +372,25 @@
             },
             {
               "id": "trisagion_2",
+              "rubric": {
+                "title": "Trisagion",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Read the Trisagion block through Our Father."
+                }
+              },
               "type": "fixed_ref",
               "ref_key": "horologion.trisagion_block"
             },
             {
               "id": "kontakion_lenten",
+              "rubric": {
+                "title": "Lenten Kontakion",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Chant the kontakion 'Have mercy on us, O Lord...'"
+                }
+              },
               "content": {
                 "type": "fixed_ref",
                 "ref_key": "horologion.kontakion_have_mercy_on_us"
@@ -291,9 +400,22 @@
         },
         {
           "id": "part_3",
+          "rubric": {
+            "title": "Third Part of Great Compline",
+            "roles": {
+              "priest": "Stand before closed Royal Doors, read final prayers silently/aloud."
+            }
+          },
           "sequence": [
             {
               "id": "psalms_part3",
+              "rubric": {
+                "title": "Psalms and Great Doxology",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Read Psalms 69 and 142, and chant the Great Doxology."
+                }
+              },
               "type": "fixed_group",
               "ref_keys": [
                 "horologion.psalm_69",
@@ -303,18 +425,41 @@
             },
             {
               "id": "canon_lenten",
+              "rubric": {
+                "title": "Compline Canon",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Chant the appointed Canon (usually to the Theotokos from the Octoechos)."
+                }
+              },
               "content": {
-                "type": "fixed_ref",
-                "ref_key": "octoechos.canon_theotokos_current_tone"
+                "type": "variable_logic",
+                "logic": {
+                  "function": "resolve_compline_canon"
+                }
               }
             },
             {
               "id": "trisagion_3",
+              "rubric": {
+                "title": "Trisagion",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Read the Trisagion block through Our Father."
+                }
+              },
               "type": "fixed_ref",
               "ref_key": "horologion.trisagion_block"
             },
             {
               "id": "lord_of_hosts",
+              "rubric": {
+                "title": "Lord of Hosts",
+                "roles": {
+                  "priest": "Stand before closed Royal Doors.",
+                  "cantor": "Chant 'Lord of hosts, be with us...' (Tone 6) with verses and prostrations."
+                }
+              },
               "type": "variable_logic",
               "logic": {
                 "function": "resolve_compline_lord_of_hosts"
@@ -323,7 +468,12 @@
             {
               "id": "prayer_st_ephrem",
               "rubric": {
-                "key": "rubrics.lenten.prayer_ephrem_16"
+                "key": "rubrics.lenten.prayer_ephrem_16",
+                "title": "Prayer of St. Ephrem",
+                "roles": {
+                  "priest": "Recite the Prayer of St. Ephrem, bowing after each portion.",
+                  "cantor": "Make the 16 prostrations (4 great metanies and 12 small metanies) during the prayer."
+                }
               },
               "content": {
                 "type": "fixed_ref",
@@ -332,6 +482,13 @@
             },
             {
               "id": "dismissal",
+              "rubric": {
+                "title": "Compline Dismissal",
+                "roles": {
+                  "priest": "Facing east before closed Royal Doors, read the prayer 'O Master, Plenteous in Mercy' (do not turn to the people). Exclaim final litany of reconciliation.",
+                  "cantor": "Respond to the litany, bow to request forgiveness from the priest."
+                }
+              },
               "type": "fixed_ref",
               "ref_key": "horologion.dismissal_great_compline_standard"
             }
@@ -341,7 +498,7 @@
     },
     "great_compline_vigil": {
       "title_key": "titles.compline_great_vigil",
-      "source_ref": "Dolnytsky_Typikon_Master.md:1.5.1.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:1.3.3",
       "inherits_from": "great_compline_lenten",
       "overrides": [
         {
@@ -351,6 +508,14 @@
             "id": "censing_vigil",
             "state_change": {
               "doors": "open"
+            },
+            "rubric": {
+              "title": "Vesting and Opening Censing",
+              "ordo_ref": "§54",
+              "roles": {
+                "priest": "Vest in epitrachelion, open Royal Doors, perform opening censing of Altar, iconostasis, choirs, and people.",
+                "deacon": "If present, vest in sticharion and lead priest carrying a candle."
+              }
             },
             "content": {
               "type": "fixed_action",
@@ -365,6 +530,12 @@
             "id": "close_doors",
             "state_change": {
               "doors": "closed"
+            },
+            "rubric": {
+              "title": "Closing the Doors",
+              "roles": {
+                "priest": "Close the Royal Doors immediately after the blessing exclamation."
+              }
             }
           }
         },
@@ -373,6 +544,12 @@
           "action": "replace",
           "new_component": {
             "id": "trop_feast",
+            "rubric": {
+              "title": "Troparion of the Feast",
+              "roles": {
+                "cantor": "Chant the Troparion of the Feast."
+              }
+            },
             "content": {
               "type": "variable_logic",
               "logic": {
@@ -386,6 +563,12 @@
           "action": "replace",
           "new_component": {
             "id": "kont_feast",
+            "rubric": {
+              "title": "Kontakion of the Feast",
+              "roles": {
+                "cantor": "Chant the Kontakion of the Feast."
+              }
+            },
             "content": {
               "type": "variable_logic",
               "logic": {
@@ -402,6 +585,15 @@
             "sequence": [
               {
                 "id": "litiya",
+                "rubric": {
+                  "title": "Litiya Procession",
+                  "ordo_ref": "§57",
+                  "roles": {
+                    "priest": "Open Royal Doors, carry hand cross, exit through Holy Doors, process to narthex for Litiya petitions.",
+                    "deacon": "Carry censer, lead procession to narthex, recite petitions.",
+                    "cantor": "Sing Litiya stichera during procession."
+                  }
+                },
                 "content": {
                   "type": "component_ref",
                   "ref_key": "components.litiya_procession"
@@ -409,6 +601,15 @@
               },
               {
                 "id": "artoklasia",
+                "rubric": {
+                  "title": "Blessing of Loaves (Artoklasia)",
+                  "ordo_ref": "§63-66",
+                  "roles": {
+                    "priest": "Stand before tetrapod, cense the loaves, wheat, wine, and oil. Say blessing prayer, elevate and sign the loaves.",
+                    "deacon": "Hold censer, assist at tetrapod.",
+                    "cantor": "Sing 'Blessed be the name of the Lord' (3x) and Psalm 33:1-12."
+                  }
+                },
                 "content": {
                   "type": "component_ref",
                   "ref_key": "components.artoklasia"
@@ -416,6 +617,13 @@
               },
               {
                 "id": "dismissal_vigil",
+                "rubric": {
+                  "title": "Dismissal of the Vigil",
+                  "roles": {
+                    "priest": "Give the solemn Vigil dismissal from the royal doors or tetrapod.",
+                    "cantor": "Chant final responses."
+                  }
+                },
                 "content": {
                   "type": "fixed_ref",
                   "ref_key": "horologion.dismissal_vigil_sequence"

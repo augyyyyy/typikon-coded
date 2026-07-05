@@ -65,6 +65,11 @@ class LentenFormatterMixin:
     def _format_resolve_presanctified_transfer(self, res, context):
         if not res:
             return ""
+        if "transfer" in res:
+            ref = res.get("ordo_ref", "")
+            ref_str = f" [{ref}]" if ref else ""
+            return f"Presanctified Transfer{ref_str}: {res['transfer']}"
+            
         action = res.get("transfer_action", {})
         priest = action.get("priest_action", "")
         deacon = action.get("deacon_action", "")

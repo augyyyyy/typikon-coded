@@ -37,12 +37,12 @@ class TestAnnualAlmanacConsistency(unittest.TestCase):
             format_map = json.load(f)
             
         # 2. Instantiate a clean engine and stub out almanac loading to force live computation
-        live_engine = RuthenianEngine()
+        live_engine = RuthenianEngine(version="lviv")
         # Override _get_almanac to return None, forcing live calculation
         live_engine._get_almanac = lambda *args, **kwargs: None
         
         # 3. Instantiate an engine WITH almanac active to test the almanac fast path
-        almanac_engine = RuthenianEngine()
+        almanac_engine = RuthenianEngine(version="lviv")
         self.assertIsNotNone(almanac_engine._get_almanac(2026), "Almanac engine should successfully load the almanac")
 
         # 4. Compare every day

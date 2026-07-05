@@ -16,9 +16,9 @@ class TestUIClassification:
         assert get_liturgical_category("St. Nicholas the Wonderworker") == "Saint"
         assert get_liturgical_category("Apostle Bartholomew") == "Apostle"
         
-        # John the Baptist / Forerunner mappings (must map to Prophet)
-        assert get_liturgical_category("**Nativity of St. John the Baptist.**") == "Prophet"
-        assert get_liturgical_category("Beheading of St. John the Baptist") == "Prophet"
+        # John the Baptist / Forerunner mappings (Nativity and Beheading must map to Feast, general names to Prophet)
+        assert get_liturgical_category("**Nativity of St. John the Baptist.**") == "Feast"
+        assert get_liturgical_category("Beheading of St. John the Baptist") == "Feast"
         assert get_liturgical_category("John the Forerunner") == "Prophet"
         
         # Plurals
@@ -59,3 +59,30 @@ class TestUIClassification:
         assert ctx.get("triodion_book") == "N/A"
         assert ctx.get("menaion_book") == "Festal"
         assert ctx.get("menaion_class") == "Class I — Great Feast"
+
+    def test_holy_week_suppression_and_ranks_2026(self):
+        # Lazarus Saturday (March 28, 2026)
+        target_date = date(2026, 3, 28)
+        ctx = self.engine.get_liturgical_context(target_date)
+        assert ctx.get("dolnytsky_rank_code") == "[LORD]"
+        assert ctx.get("menaion_class") == "Class I — Great Feast"
+        assert ctx.get("saints") == []
+        assert self.engine.resolve_fasting_rule(ctx).get("type") == "oil_and_wine"
+
+        # Palm Sunday (March 29, 2026)
+        target_date = date(2026, 3, 29)
+        ctx = self.engine.get_liturgical_context(target_date)
+        assert ctx.get("dolnytsky_rank_code") == "[LORD]"
+        assert ctx.get("menaion_class") == "Class I — Great Feast"
+        assert ctx.get("saints") == []
+        assert self.engine.resolve_fasting_rule(ctx).get("type") == "fish_permitted"
+        assert self.engine.resolve_vestment_color(ctx).get("color") == "green"
+
+        # Great and Holy Saturday (April 4, 2026)
+        target_date = date(2026, 4, 4)
+        ctx = self.engine.get_liturgical_context(target_date)
+        assert ctx.get("dolnytsky_rank_code") == "[LORD]"
+        assert ctx.get("menaion_class") == "Class I — Great Feast"
+        assert ctx.get("saints") == []
+        assert self.engine.resolve_fasting_rule(ctx).get("type") == "strict_fast"
+        assert self.engine.resolve_vestment_color(ctx).get("color") == "white"
