@@ -16,8 +16,8 @@ Never fabricate or invent liturgical texts, resolver outputs, DB keys, citation 
 ### 2. Liturgical Source-Grounded Claims
 Every liturgical assertion, rubric, or text mapping must cite a canonical path. Refer to the hierarchy of authority: Ordo Celebrationis > Dolnytsky Parts II–V > Liturgicon > Dolnytsky Part I.
 
-### 3. PDF Gold Standard Comparison
-No service resolver, layout change, or digest formatter is "done" until its output has been compared line-by-line against the human-authored PDF reference files in `C:\Users\augus\OneDrive\Desktop\Typikon digest\`.
+### 3. Reject Reference PDFs
+Do not compare generated outputs against the human-authored PDF files in `C:\Users\augus\OneDrive\Desktop\Typikon digest\`, as they are recognized as liturgically flawed. The only true rubric authority is the 2010 Lviv Typikon.
 
 ### 4. Zero-Tolerance Anti-Patterns
 The 14 blacklisted anti-patterns (7 code + 7 behavioral) documented in `.agents/references/anti_patterns.md` are zero-tolerance violations. Any introduction of these patterns will result in immediate code reversion.

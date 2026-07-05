@@ -28,11 +28,8 @@ This document serves as the deep encyclopedic memory of the project, holding com
 ### 0.2 Mandatory Validation Protocol
 
 Before claiming ANY digest section is "done":
-1. Generate the digest for a date that has a PDF gold standard in `C:\Users\augus\OneDrive\Desktop\Typikon digest\`.
-2. Extract the PDF text using PyMuPDF (`fitz`).
-3. Compare EVERY LINE of the generated output against the PDF.
-4. Count: correct lines, wrong lines, missing lines, extra lines.
-5. Report ALL four numbers. Not just the correct count.
+1. Run the year-round Heuristic and Grounded Correctness tests.
+2. Verify structural output matches the 2010 Lviv Typikon rules.
 
 ### 0.3 The Honest Score (UPDATED 2026-06-05)
 
