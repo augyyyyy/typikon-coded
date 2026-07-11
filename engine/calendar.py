@@ -66,6 +66,8 @@ def get_liturgical_category(name: str) -> str:
 
 
     # Check categories by priority
+    if "equal-to-the-apostle" in n or "equal to the apostle" in n or "equal to apostle" in n:
+        return 'Equal-to-the-Apostles' if is_plural or 'apostles' in n else 'Equal-to-the-Apostle'
     if re.search(r'\bforerunner\b', n) or re.search(r'\bjohn the baptist\b', n):
         return 'Prophet'
     if re.search(r'\bcross\b', n):

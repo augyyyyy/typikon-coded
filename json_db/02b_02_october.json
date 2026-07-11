@@ -116,9 +116,9 @@
       },
       "31": {
         "title_key": "menaion.oct_31.st_josaphat",
-        "rank": "rank_vigil_saint",
+        "rank": "rank_simple",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.2.4",
-        "base_template": "CASE_06",
+        "base_template": "CASE_02",
         "variables": {
           "vespers_readings": [
             "wisdom_5_15_6_3",

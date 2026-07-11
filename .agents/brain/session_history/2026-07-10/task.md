@@ -1,0 +1,5 @@
+- [x] Update `engine/rubrics.py` to write `paradigm_id` to the context during dynamic resolution.
+- [x] Update `cantor_dashboard/server.py` to defer context serialization in `api_resolve()`.
+- [x] Add server and UI tests for `paradigm_id` validation and the absence of "Unknown Case".
+- [x] Run pytest to verify all tests pass.
+- [x] Perform post-flight checklist checks.

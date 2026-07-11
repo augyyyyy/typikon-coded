@@ -133,6 +133,10 @@ def test_badge_readability_and_wrapping(dashboard_server):
                 page.wait_for_selector("#context-spinner", state="hidden", timeout=15000)
                 page.wait_for_selector(".context-row", timeout=15000)
                 
+                # Check for unresolved "Unknown Case" to prevent regressions
+                context_text = page.locator("#context-content").inner_text()
+                assert "Unknown Case" not in context_text, f"Unresolved 'Unknown Case' found in UI context card for date {test_date}!"
+                
                 # Capture visual regression screenshots
                 screenshots_dir = os.path.join(REPO_DIR, "audit_results", "screenshots")
                 os.makedirs(screenshots_dir, exist_ok=True)

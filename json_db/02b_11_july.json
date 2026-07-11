@@ -48,9 +48,9 @@
       },
       "10": {
         "title_key": "menaion.jul_10.anthony_caves",
-        "rank": "rank_vigil_saint",
+        "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
-        "base_template": "CASE_06",
+        "base_template": "CASE_05",
         "variables": {
           "vespers_readings": [
             "wisdom_5_15_6_3",
@@ -74,9 +74,9 @@
       },
       "15": {
         "title_key": "menaion.jul_15.vladimir_great",
-        "rank": "rank_vigil_saint",
+        "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.11",
-        "base_template": "CASE_06",
+        "base_template": "CASE_05",
         "variants": [
           {
             "condition": {

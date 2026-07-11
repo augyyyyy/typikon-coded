@@ -2,7 +2,7 @@
   "file_metadata": {
     "year": 2026,
     "pascha_date": "2026-04-05",
-    "generated_at": "2026-07-07T01:13:55.093269Z",
+    "generated_at": "2026-07-11T03:19:06.241086Z",
     "engine_version": "1.2.0"
   },
   "days": {
@@ -18875,13 +18875,13 @@
           "matthew_5_14_19"
         ],
         "communion_hymn": "their_sound_has_gone_forth",
-        "menaion_rank": "rank_vigil_saint",
-        "rank": "rank_vigil_saint",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
+        "menaion_rank": "rank_polyeleos",
+        "rank": "rank_polyeleos",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -18909,24 +18909,25 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.3",
-          "inherits": "CASE_05"
-        },
-        "vespers_additions": [
-          "litiya_stichera",
-          "blessing_loaves"
-        ],
-        "aposticha_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.2",
-          "inherits": "CASE_05"
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.11.1.1",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "theotokion_after_doxastikon"
         }
       },
       "period": "normal",
-      "paradigm_id": "CASE_07",
-      "lviv_paradigm_number": 7,
+      "paradigm_id": "CASE_05",
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Holy Equals-to-the-Apostles Cyril and Methodius, Teachers of the Slavs",
       "overrides": {
-        "vespers_type": "great_vespers_vigil",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "doxology_type": "great_doxology"
       },
@@ -28640,142 +28641,6 @@
           "luke_6_17_23"
         ],
         "communion_hymn": "righteous_memory",
-        "menaion_rank": "rank_vigil_saint",
-        "rank": "rank_vigil_saint",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "suppress_octoechos": true,
-        "vespers_type": "great_vespers_simple",
-        "matins_type": "great_matins",
-        "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "saint",
-              "qty": 8
-            }
-          ],
-          "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
-        },
-        "matins_canon_distribution": {
-          "distribution": [
-            {
-              "source": "octoechos",
-              "type": "theotokos_special",
-              "qty": 6,
-              "irmos": true
-            },
-            {
-              "source": "menaion",
-              "type": "saint",
-              "qty": 8
-            }
-          ]
-        },
-        "praises_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.3",
-          "inherits": "CASE_05"
-        },
-        "vespers_additions": [
-          "litiya_stichera",
-          "blessing_loaves"
-        ],
-        "aposticha_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.2",
-          "inherits": "CASE_05"
-        }
-      },
-      "period": "normal",
-      "paradigm_id": "CASE_07",
-      "lviv_paradigm_number": 7,
-      "rubrics_title": "Ven. Anthony of the Caves",
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins",
-        "doxology_type": "great_doxology"
-      },
-      "readings": {
-        "type": "liturgy_readings",
-        "readings": [
-          {
-            "prokeimenon": {
-              "source": "menaion",
-              "ref_key": "menaion.jul_10.anthony_caves.prokeimenon"
-            },
-            "epistle": {
-              "source": "menaion",
-              "ref_key": "galatians_5_22_6_2"
-            },
-            "alleluia": {
-              "source": "menaion",
-              "ref_key": "menaion.jul_10.anthony_caves.alleluia"
-            },
-            "gospel": {
-              "source": "menaion",
-              "ref_key": "luke_6_17_23"
-            }
-          }
-        ]
-      }
-    },
-    "2026-07-11": {
-      "date": "2026-07-11",
-      "year": 2026,
-      "month": 7,
-      "day": 11,
-      "day_of_week": 6,
-      "pascha_offset": 97,
-      "triodion_period": "normal",
-      "season_id": "octoechos",
-      "season": "ordinary",
-      "tone": 5,
-      "tone_of_week": 5,
-      "eothinon": null,
-      "eothinon_number": null,
-      "rank": 5,
-      "is_temple_feast": false,
-      "is_after_lucan_jump": true,
-      "menaion_key": "menaion.0711",
-      "triodion_week": 1,
-      "weeks_after_pentecost": 7,
-      "octoechos_theme": "saints_dead",
-      "deacon_count": 1,
-      "concelebrating": false,
-      "saints": [
-        {
-          "id": "jul_11.olga_princess",
-          "name": "Euphemia",
-          "title": "Martyr",
-          "gender": "female",
-          "monastic": false,
-          "rank": 5,
-          "rank_code": "[4 A+G]",
-          "entry_index": 0,
-          "all_parsed_saints": [
-            {
-              "name": "Euphemia",
-              "title": "Martyr",
-              "gender": "female",
-              "monastic": false,
-              "is_saint": true
-            }
-          ]
-        }
-      ],
-      "dolnytsky_rank": "SIMPLE",
-      "dolnytsky_commemoration": "Martyr Euphemia",
-      "dolnytsky_rank_code": "[4 A+G]",
-      "dolnytsky_title": "Martyr Euphemia",
-      "late_service_type": null,
-      "recension": "royal_doors",
-      "triodion_book": "N/A",
-      "menaion_book": "General",
-      "menaion_class": "Class V — Simple",
-      "saint_categories": [
-        "Martyr"
-      ],
-      "variables": {
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
         "suppress_octoechos": true,
@@ -28826,7 +28691,145 @@
       "period": "normal",
       "paradigm_id": "CASE_05",
       "lviv_paradigm_number": 5,
-      "rubrics_title": "Martyr Euphemia",
+      "rubrics_title": "Ven. Anthony of the Caves",
+      "overrides": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "doxology_type": "great_doxology"
+      },
+      "readings": {
+        "type": "liturgy_readings",
+        "readings": [
+          {
+            "prokeimenon": {
+              "source": "menaion",
+              "ref_key": "menaion.jul_10.anthony_caves.prokeimenon"
+            },
+            "epistle": {
+              "source": "menaion",
+              "ref_key": "galatians_5_22_6_2"
+            },
+            "alleluia": {
+              "source": "menaion",
+              "ref_key": "menaion.jul_10.anthony_caves.alleluia"
+            },
+            "gospel": {
+              "source": "menaion",
+              "ref_key": "luke_6_17_23"
+            }
+          }
+        ]
+      }
+    },
+    "2026-07-11": {
+      "date": "2026-07-11",
+      "year": 2026,
+      "month": 7,
+      "day": 11,
+      "day_of_week": 6,
+      "pascha_offset": 97,
+      "triodion_period": "normal",
+      "season_id": "octoechos",
+      "season": "ordinary",
+      "tone": 5,
+      "tone_of_week": 5,
+      "eothinon": null,
+      "eothinon_number": null,
+      "rank": 2,
+      "is_temple_feast": false,
+      "is_after_lucan_jump": true,
+      "menaion_key": "menaion.0711",
+      "triodion_week": 1,
+      "weeks_after_pentecost": 7,
+      "octoechos_theme": "saints_dead",
+      "deacon_count": 1,
+      "concelebrating": false,
+      "saints": [
+        {
+          "id": "jul_11.olga_princess",
+          "name": "Olga",
+          "title": "Equal-to-the-Apostles",
+          "gender": "female",
+          "monastic": false,
+          "rank": 3,
+          "rank_code": "[POL]",
+          "entry_index": 0,
+          "all_parsed_saints": [
+            {
+              "name": "Olga",
+              "title": "Equal-to-the-Apostles",
+              "gender": "female",
+              "monastic": false,
+              "is_saint": true
+            }
+          ]
+        }
+      ],
+      "dolnytsky_rank": "POLYELEOS",
+      "dolnytsky_commemoration": "Equal-to-the-Apostles Olga, Princess of Kyiv, whose baptismal name was Helen",
+      "dolnytsky_rank_code": "[POL]",
+      "dolnytsky_title": "Equal-to-the-Apostles Olga, Princess of Kyiv, whose baptismal name was Helen",
+      "late_service_type": null,
+      "recension": "royal_doors",
+      "triodion_book": "N/A",
+      "menaion_book": "Festal",
+      "menaion_class": "Class III — Polyeleos",
+      "saint_categories": [
+        "Equal-to-the-Apostles"
+      ],
+      "variables": {
+        "menaion_rank": "rank_polyeleos",
+        "rank": "rank_polyeleos",
+        "praises_both_now": "use_resurrectional_theotokion_tone_6",
+        "suppress_octoechos": true,
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "vespers_stichera_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 8
+            }
+          ],
+          "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
+        },
+        "matins_canon_distribution": {
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "theotokos_special",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 8
+            }
+          ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.11.1.1",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "theotokion_after_doxastikon"
+        }
+      },
+      "period": "normal",
+      "paradigm_id": "CASE_05",
+      "lviv_paradigm_number": 5,
+      "rubrics_title": "Equal-to-the-Apostles Olga, Princess of Kyiv, whose baptismal name was Helen",
       "overrides": {
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
@@ -29651,7 +29654,7 @@
       "menaion_book": "Festal",
       "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
-        "Apostle"
+        "Equal-to-the-Apostles"
       ],
       "variables": {
         "vespers_readings": [
@@ -29665,13 +29668,13 @@
           "matthew_13_24_30_36_43"
         ],
         "communion_hymn": "righteous_memory",
-        "menaion_rank": "rank_vigil_saint",
-        "rank": "rank_vigil_saint",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
+        "menaion_rank": "rank_polyeleos",
+        "rank": "rank_polyeleos",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -29699,24 +29702,25 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.3",
-          "inherits": "CASE_05"
-        },
-        "vespers_additions": [
-          "litiya_stichera",
-          "blessing_loaves"
-        ],
-        "aposticha_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.2",
-          "inherits": "CASE_05"
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.11.1.1",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "theotokion_after_doxastikon"
         }
       },
       "period": "normal",
-      "paradigm_id": "CASE_07",
-      "lviv_paradigm_number": 7,
+      "paradigm_id": "CASE_05",
+      "lviv_paradigm_number": 5,
       "rubrics_title": "St. Equal-to-the-Apostles Prince Vladimir",
       "overrides": {
-        "vespers_type": "great_vespers_vigil",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "doxology_type": "great_doxology"
       },
@@ -30978,7 +30982,7 @@
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
-        "Apostles",
+        "Equal-to-the-Apostles",
         "Hieromartyr"
       ],
       "variables": {
@@ -41558,7 +41562,7 @@
       "tone_of_week": 8,
       "eothinon": null,
       "eothinon_number": null,
-      "rank": 3,
+      "rank": 2,
       "is_temple_feast": false,
       "is_after_lucan_jump": true,
       "menaion_key": "menaion.0923",
@@ -41574,8 +41578,8 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
-          "rank": 4,
-          "rank_code": "[GT DOX]",
+          "rank": 3,
+          "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
@@ -41588,15 +41592,15 @@
           ]
         }
       ],
-      "dolnytsky_rank": "GT_DOX",
+      "dolnytsky_rank": "POLYELEOS",
       "dolnytsky_commemoration": "Conception of the Forerunner",
-      "dolnytsky_rank_code": "[GT DOX]",
+      "dolnytsky_rank_code": "[POL]",
       "dolnytsky_title": "Conception of the Forerunner",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
-      "menaion_book": "General",
-      "menaion_class": "Class IV — Great Doxology",
+      "menaion_book": "Festal",
+      "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
         "Prophet"
       ],
@@ -41759,7 +41763,7 @@
       "menaion_book": "General",
       "menaion_class": "Class V — Six-Stichera",
       "saint_categories": [
-        "Martyrs"
+        "Equal-to-the-Apostles"
       ],
       "variables": {
         "rank": "rank_simple_6",
@@ -47522,7 +47526,7 @@
       "tone_of_week": 4,
       "eothinon": null,
       "eothinon_number": null,
-      "rank": 3,
+      "rank": 2,
       "is_temple_feast": false,
       "is_after_lucan_jump": true,
       "menaion_key": "menaion.1023",
@@ -47538,8 +47542,8 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
-          "rank": 4,
-          "rank_code": "[GT DOX]",
+          "rank": 3,
+          "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
@@ -47552,15 +47556,15 @@
           ]
         }
       ],
-      "dolnytsky_rank": "GT_DOX",
+      "dolnytsky_rank": "POLYELEOS",
       "dolnytsky_commemoration": "Apostle James, Brother of the Lord",
-      "dolnytsky_rank_code": "[GT DOX]",
+      "dolnytsky_rank_code": "[POL]",
       "dolnytsky_title": "Apostle James, Brother of the Lord",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
-      "menaion_book": "General",
-      "menaion_class": "Class IV — Great Doxology",
+      "menaion_book": "Festal",
+      "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
         "Apostle"
       ],
@@ -48456,7 +48460,7 @@
       "tone_of_week": 5,
       "eothinon": null,
       "eothinon_number": null,
-      "rank": 5,
+      "rank": 2,
       "is_temple_feast": false,
       "is_after_lucan_jump": true,
       "menaion_key": "menaion.1028",
@@ -48472,8 +48476,8 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
-          "rank": 5,
-          "rank_code": "[4 TR]",
+          "rank": 3,
+          "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
@@ -48519,15 +48523,15 @@
           ]
         }
       ],
-      "dolnytsky_rank": "SIMPLE",
+      "dolnytsky_rank": "POLYELEOS",
       "dolnytsky_commemoration": "Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva",
-      "dolnytsky_rank_code": "[4 TR]",
+      "dolnytsky_rank_code": "[POL]",
       "dolnytsky_title": "Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
-      "menaion_book": "General",
-      "menaion_class": "Class V — Simple",
+      "menaion_book": "Festal",
+      "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
         "Venerable Martyrs",
         "Martyr"
@@ -49103,7 +49107,7 @@
           "gender": "male",
           "monastic": false,
           "rank": 5,
-          "rank_code": "[4 TR]",
+          "rank_code": "[4 A+G]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
@@ -49158,7 +49162,7 @@
       ],
       "dolnytsky_rank": "SIMPLE",
       "dolnytsky_commemoration": "Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus",
-      "dolnytsky_rank_code": "[4 TR]",
+      "dolnytsky_rank_code": "[4 A+G]",
       "dolnytsky_title": "Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus",
       "late_service_type": null,
       "recension": "royal_doors",
@@ -49182,61 +49186,70 @@
           "john_10_9_16"
         ],
         "communion_hymn": "righteous_memory",
-        "menaion_rank": "rank_vigil_saint",
-        "rank": "rank_vigil_saint",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
-        "suppress_octoechos": true,
-        "vespers_type": "great_vespers_simple",
-        "matins_type": "great_matins",
+        "menaion_rank": "rank_simple",
+        "rank": "rank_simple",
+        "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
-          "total_count": 8,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "saint",
-              "qty": 8
+          "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                },
+                {
+                  "source": "octoechos",
+                  "type": "martyria",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
             }
-          ],
-          "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
+          },
+          "both_now": "dogmatikon_current_tone"
         },
         "matins_canon_distribution": {
+          "total_count": 14,
           "distribution": [
             {
-              "source": "octoechos",
-              "type": "theotokos_special",
+              "source": "temple/menaion",
+              "type": "saint_sequential_or_temple",
               "qty": 6,
               "irmos": true
             },
             {
               "source": "menaion",
-              "type": "saint",
-              "qty": 8
+              "type": "saint_current",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
             }
           ]
-        },
-        "praises_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.3",
-          "inherits": "CASE_05"
-        },
-        "vespers_additions": [
-          "litiya_stichera",
-          "blessing_loaves"
-        ],
-        "aposticha_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.2",
-          "inherits": "CASE_05"
         }
       },
       "period": "normal",
-      "paradigm_id": "CASE_07",
-      "lviv_paradigm_number": 7,
+      "paradigm_id": "CASE_03",
+      "lviv_paradigm_number": 3,
       "rubrics_title": "Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus",
-      "overrides": {
-        "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins",
-        "doxology_type": "great_doxology"
-      },
+      "overrides": {},
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -55134,13 +55147,13 @@
           "john_1_35_51"
         ],
         "communion_hymn": "their_sound_has_gone_forth",
-        "menaion_rank": "rank_vigil_saint",
-        "rank": "rank_vigil_saint",
-        "has_polyeleos": true,
-        "doxology_type": "great_doxology",
+        "menaion_rank": "rank_polyeleos",
+        "rank": "rank_polyeleos",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -55168,24 +55181,25 @@
           ]
         },
         "praises_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.3",
-          "inherits": "CASE_05"
-        },
-        "vespers_additions": [
-          "litiya_stichera",
-          "blessing_loaves"
-        ],
-        "aposticha_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.14.2",
-          "inherits": "CASE_05"
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.11.1.1",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "theotokion_after_doxastikon"
         }
       },
       "period": "normal",
-      "paradigm_id": "CASE_07",
-      "lviv_paradigm_number": 7,
+      "paradigm_id": "CASE_05",
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Ap. Andrew the First-Called",
       "overrides": {
-        "vespers_type": "great_vespers_vigil",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "doxology_type": "great_doxology"
       },
@@ -55839,7 +55853,7 @@
       "tone_of_week": 2,
       "eothinon": null,
       "eothinon_number": null,
-      "rank": 4,
+      "rank": 2,
       "is_temple_feast": false,
       "is_after_lucan_jump": true,
       "menaion_key": "menaion.1204",
@@ -55855,8 +55869,8 @@
           "title": "Great Martyr",
           "gender": "female",
           "monastic": false,
-          "rank": 5,
-          "rank_code": "[6 SM]",
+          "rank": 3,
+          "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
@@ -55888,15 +55902,15 @@
           ]
         }
       ],
-      "dolnytsky_rank": "SIX",
+      "dolnytsky_rank": "POLYELEOS",
       "dolnytsky_commemoration": "Great Martyr Barbara; Ven. John of Damascus",
-      "dolnytsky_rank_code": "[6 SM]",
+      "dolnytsky_rank_code": "[POL]",
       "dolnytsky_title": "Great Martyr Barbara; Ven. John of Damascus",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
-      "menaion_book": "General",
-      "menaion_class": "Class V — Six-Stichera",
+      "menaion_book": "Festal",
+      "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
         "Martyr",
         "Venerable"
@@ -57306,7 +57320,7 @@
       "tone_of_week": 3,
       "eothinon": null,
       "eothinon_number": null,
-      "rank": 4,
+      "rank": 2,
       "is_temple_feast": false,
       "is_after_lucan_jump": true,
       "menaion_key": "menaion.1212",
@@ -57322,8 +57336,8 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
-          "rank": 5,
-          "rank_code": "[6 SM]",
+          "rank": 3,
+          "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
@@ -57336,21 +57350,22 @@
           ]
         }
       ],
-      "dolnytsky_rank": "SIX",
+      "dolnytsky_rank": "POLYELEOS",
       "dolnytsky_commemoration": "Ven. Spyridon",
-      "dolnytsky_rank_code": "[6 SM]",
+      "dolnytsky_rank_code": "[POL]",
       "dolnytsky_title": "Ven. Spyridon",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
-      "menaion_book": "General",
-      "menaion_class": "Class V — Six-Stichera",
+      "menaion_book": "Festal",
+      "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
         "Venerable"
       ],
       "variables": {
         "menaion_rank": "rank_polyeleos",
         "rank": "rank_polyeleos",
+        "praises_both_now": "use_resurrectional_theotokion_tone_4",
         "suppress_octoechos": true,
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",

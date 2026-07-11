@@ -657,7 +657,7 @@
     "day": 23,
     "entries": [
       {
-        "rank_code": "[GT DOX]",
+        "rank_code": "[POL]",
         "description": "Conception of the Forerunner.",
         "parsed_saints": [
           {
@@ -670,7 +670,7 @@
         ]
       }
     ],
-    "raw_source": "* **23** **[GT DOX]** Conception of the Forerunner."
+    "raw_source": "* **23** **[POL]** Conception of the Forerunner."
   },
   "10-4": {
     "month": 10,
@@ -1311,7 +1311,7 @@
     "day": 23,
     "entries": [
       {
-        "rank_code": "[GT DOX]",
+        "rank_code": "[POL]",
         "description": "Apostle James, Brother of the Lord.",
         "parsed_saints": [
           {
@@ -1324,7 +1324,7 @@
         ]
       }
     ],
-    "raw_source": "* **23** **[GT DOX]** Apostle James, Brother of the Lord."
+    "raw_source": "* **23** **[POL]** Apostle James, Brother of the Lord."
   },
   "10-30": {
     "month": 10,
@@ -1606,7 +1606,7 @@
     "day": 31,
     "entries": [
       {
-        "rank_code": "[4 TR]",
+        "rank_code": "[4 A+G]",
         "description": "Apostles Stachys, Amplias, Urban and Narcissus",
         "parsed_saints": [
           {
@@ -1653,7 +1653,7 @@
         ]
       }
     ],
-    "raw_source": "* **31** **[4 TR]** Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus."
+    "raw_source": "* **31** **[4 A+G]** Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus."
   },
   "11-8": {
     "month": 11,
@@ -1727,7 +1727,7 @@
     "day": 28,
     "entries": [
       {
-        "rank_code": "[4 TR]",
+        "rank_code": "[POL]",
         "description": "Martyrs Terence and Neonilla, Ven. Stephen",
         "parsed_saints": [
           {
@@ -1767,7 +1767,7 @@
         ]
       }
     ],
-    "raw_source": "* **28** **[4 TR]** Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva."
+    "raw_source": "* **28** **[POL]** Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva."
   },
   "11-6": {
     "month": 11,
@@ -2495,7 +2495,7 @@
     "day": 4,
     "entries": [
       {
-        "rank_code": "[6 SM]",
+        "rank_code": "[POL]",
         "description": "Great Martyr Barbara",
         "parsed_saints": [
           {
@@ -2521,7 +2521,7 @@
         ]
       }
     ],
-    "raw_source": "* **4** **[6 SM]** Great Martyr Barbara; Ven. John of Damascus."
+    "raw_source": "* **4** **[POL]** Great Martyr Barbara; Ven. John of Damascus."
   },
   "12-5": {
     "month": 12,
@@ -2548,7 +2548,7 @@
     "day": 12,
     "entries": [
       {
-        "rank_code": "[6 SM]",
+        "rank_code": "[POL]",
         "description": "Ven. Spyridon.",
         "parsed_saints": [
           {
@@ -2561,7 +2561,7 @@
         ]
       }
     ],
-    "raw_source": "* **12** **[6 SM]** Ven. Spyridon."
+    "raw_source": "* **12** **[POL]** Ven. Spyridon."
   },
   "12-10": {
     "month": 12,
@@ -7690,12 +7690,12 @@
     "day": 11,
     "entries": [
       {
-        "rank_code": "[4 A+G]",
-        "description": "Martyr Euphemia.",
+        "rank_code": "[POL]",
+        "description": "Equal-to-the-Apostles Olga, Princess of Kyiv, whose baptismal name was Helen.",
         "parsed_saints": [
           {
-            "name": "Euphemia",
-            "title": "Martyr",
+            "name": "Olga",
+            "title": "Equal-to-the-Apostles",
             "gender": "female",
             "monastic": false,
             "is_saint": true
@@ -7703,7 +7703,7 @@
         ]
       }
     ],
-    "raw_source": "* **11** **[4 A+G]** Martyr Euphemia."
+    "raw_source": "* **11** **[POL]** Equal-to-the-Apostles Olga, Princess of Kyiv, whose baptismal name was Helen."
   },
   "6-22": {
     "month": 6,

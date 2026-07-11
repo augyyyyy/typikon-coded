@@ -111,3 +111,12 @@ def test_api_resolve_ordinary_day(dashboard_server):
     assert "digest" in data
     assert "fasting" in data
     assert "ceremonial" in data
+
+def test_api_resolve_paradigm_id(dashboard_server):
+    # Test resolving a dynamic day (where almanac is not used) to ensure paradigm_id is resolved and is correct
+    res = requests.get(f"{dashboard_server}/api/resolve?date=2026-07-11&version=stamford_2014")
+    assert res.status_code == 200
+    data = res.json()
+    assert "context" in data
+    assert "paradigm_id" in data["context"]
+    assert data["context"]["paradigm_id"] == "CASE_05"

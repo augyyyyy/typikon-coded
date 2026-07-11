@@ -298,7 +298,17 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             
             # Resolve
             context = engine.get_liturgical_context(target_date)
-            
+
+            rubrics = engine.resolve_rubrics(context)
+            booklet = engine.generate_full_booklet(context, rubrics, include_ceremonial=include_ceremonial)
+            digest = engine.generate_typikon_digest(context, rubrics, mode=digest_mode)
+            fasting = engine.resolve_fasting_rule(context)
+
+            # Resolve daily ceremonial context
+            vestment = engine.resolve_vestment_color(context, rubrics)
+            prostrations_info = engine.resolve_prostrations_rule(context)
+            clergy_variant = engine.resolve_clergy_variant(context, service="liturgy")
+
             # Make context JSON serializable
             serializable_context = {}
             for k, v in context.items():
@@ -320,16 +330,6 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     serializable_context[k] = new_list
                 else:
                     serializable_context[k] = v
-
-            rubrics = engine.resolve_rubrics(context)
-            booklet = engine.generate_full_booklet(context, rubrics, include_ceremonial=include_ceremonial)
-            digest = engine.generate_typikon_digest(context, rubrics, mode=digest_mode)
-            fasting = engine.resolve_fasting_rule(context)
-
-            # Resolve daily ceremonial context
-            vestment = engine.resolve_vestment_color(context, rubrics)
-            prostrations_info = engine.resolve_prostrations_rule(context)
-            clergy_variant = engine.resolve_clergy_variant(context, service="liturgy")
 
             # Add resolved service title to context
             serializable_context["service_title"] = engine.resolve_service_title(context, rubrics)

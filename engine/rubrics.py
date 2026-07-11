@@ -916,6 +916,7 @@ class RubricsMixin:
         context["variables"] = rubrics["variables"]
         general_case = self.resolve_general_case(context)
         if general_case:
+            context["paradigm_id"] = general_case.get("id")
             rubrics["_trace"].append(f"General Case: Matched case '{general_case.get('id')}'.")
             gc_vars = general_case.get("variables", {})
             for k, v in gc_vars.items():
