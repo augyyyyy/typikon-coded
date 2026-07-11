@@ -1,0 +1,6 @@
+- [x] Rename calendar database files in the repository.
+- [x] Delete legacy/redundant calendar database files.
+- [x] Update `engine/core.py` to point to the new calendar files and update warning logs.
+- [x] Write and execute the calendar mirroring script to ensure 100% structural alignment.
+- [x] Regenerate annual almanacs for `lviv` and `royal_doors`.
+- [x] Run pytest to confirm all 377 tests pass.

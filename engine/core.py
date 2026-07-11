@@ -188,21 +188,21 @@ class EngineCore:
         self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/floral_triodion.json", target_db=self.royal_doors_db)
         self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/lenten_triodion.json", target_db=self.stamford_db)
         self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/floral_triodion.json", target_db=self.stamford_db)
-        # Primary Source: Dolnytsky Calendar Data (Fixed & Movable)
-        # 'lviv' uses the 2010 Lviv Typikon calendar; others use the modern/reformed UGCC calendar
-        calendar_file = "json_db/calendar_royal_doors.json" if self.version_id != "lviv" else "json_db/calendar_lviv.json"
+        # Primary Source: Calendar Data (Fixed & Movable)
+        # 'lviv' uses the 2010 Lviv Typikon calendar; others use the official UGCC calendar
+        calendar_file = "json_db/calendar_ugcc_official.json" if self.version_id != "lviv" else "json_db/calendar_typikon.json"
         if not os.path.exists(os.path.join(self.base_dir, calendar_file)):
-            calendar_file = "json_db/calendar_dolnytsky_split.json"
+            calendar_file = "json_db/calendar_typikon.json"
 
         self.dolnytsky_fixed = self._load_json(calendar_file)
-        self.dolnytsky_movable = self._load_json("json_db/calendar_dolnytsky_movable.json")
+        self.dolnytsky_movable = self._load_json("json_db/calendar_movable.json")
         self.katavasia_seasons = self._load_json("json_db/katavasia_seasons.json")
         
         # Validation
         if not self.dolnytsky_fixed:
-             print("WARNING: Failed to load 'calendar_dolnytsky.json'. Fixed calendar overrides disabled.")
+             print(f"WARNING: Failed to load '{calendar_file}'. Fixed calendar overrides disabled.")
         if not self.dolnytsky_movable:
-             print("WARNING: Failed to load 'calendar_dolnytsky_movable.json'. Movable calendar overrides disabled.")
+             print("WARNING: Failed to load 'calendar_movable.json'. Movable calendar overrides disabled.")
         if not self.katavasia_seasons:
              print("WARNING: Failed to load 'katavasia_seasons.json'. Katavasia lookup disabled.")
         
