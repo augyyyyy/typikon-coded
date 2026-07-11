@@ -1,0 +1,125 @@
+{
+  "project": "Kyivan Musicology",
+  "data_type": "regional_chant_rules",
+  "version": "1.0",
+  "date_compiled": "2026-06-09",
+  "solmization_rules": {
+    "hexachord_system": {
+      "model_type": "Guidonian Hexachord (Six Sounds)",
+      "syllables": ["ut", "re", "mi", "fa", "sol", "la"],
+      "semitone_anchor": {
+        "upper_sound": "fa",
+        "lower_sound": "mi",
+        "description": "The central semitone interval is always solmized as mi-fa regardless of absolute pitch."
+      },
+      "step_directions": {
+        "ascending_to_semitone": ["ut", "re", "mi", "fa"],
+        "descending_to_semitone": ["la", "sol", "fa"],
+        "purpose": "Reflecting melodic contour and maintaining a reserve of solmization syllables for continued movement."
+      },
+      "hexachord_types": {
+        "dural": {
+          "name": "Hard (Dural) Hexachord",
+          "scale_steps": ["G", "A", "H", "C", "D", "E"],
+          "central_semitone": ["H", "C"],
+          "decisive_sound": {
+            "pitch": "C",
+            "syllable": "fa",
+            "role": "semitone_indicator"
+          }
+        },
+        "bemoliar": {
+          "name": "Soft (Bemoliar) Hexachord",
+          "scale_steps": ["F", "G", "A", "B", "C", "D"],
+          "central_semitone": ["A", "B"],
+          "decisive_sound": {
+            "pitch": "B",
+            "syllable": "fa",
+            "role": "semitone_indicator"
+          }
+        }
+      },
+      "mutation_logic": {
+        "trigger": "Occurs when melody exceeds the six steps of the active hexachord or when non-normative semitone shifts occur.",
+        "technique": "Rename the pitch at the transition boundary to align with the syllables of the overlapping hexachord (typically renaming a pitch to fa at a relative flat or new clef).",
+        "notation_indicators": {
+          "relative_flat": {
+            "sign": "flat",
+            "function": "Relatively forces the marked sound to be solmized as fa (upper sound of the semitone)."
+          },
+          "relative_clef_C": {
+            "sign": "C-clef",
+            "placement": "lines",
+            "function": "Fixes the upper semitonic sound (fa) strictly on the lines of the staff."
+          },
+          "relative_clef_Cb": {
+            "sign": "C-flat clef / flat on staff",
+            "placement": "spaces",
+            "function": "Fixes the upper semitonic sound (fa) strictly in the spaces of the staff."
+          }
+        }
+      }
+    }
+  },
+  "neume_rules": {
+    "pauk": {
+      "names": ["pauk", "pavuk", "pavuk bolshoy"],
+      "sign_type": "Znamenny neume / Popevka",
+      "function": "Phrase or line concluding cadence formula.",
+      "execution": {
+        "cadence_variation": "Different transcriptions and melodic executions for each of the Eight Tones (Octoechos).",
+        "character": "Melodically complex and highly ornamental, requiring precise vocal articulation to prevent discord during choral unison."
+      },
+      "scholarly_context": "Found in early modern primers and fitniki (e.g., Sol. 690/774, Sof. 461) where names like 'great' (bolshoy) in relation to pauk designate the need to select a specific, complex chant variant."
+    }
+  },
+  "regional_dialects": {
+    "suprasl": {
+      "source_manuscript": "Suprasl Heirmologion (1598-1601, Bohdan Onysymovych)",
+      "character": "Western Belarusian / Kyivan Caves Lavra monastic singing branch.",
+      "liturgical_features": {
+        "obikhod_demesne": "Monastic demesne singing concentrated in the Obikhod section.",
+        "triodion_balkan": "Greek-Balkan kalophonic influences in the Triodion section.",
+        "chant_duration": "Chants are exceptionally prolonged compared to standard 17th-century Kyivan Notation (e.g. Psalm 103 selected verses 15 and 24).",
+        "through_composed": "Psalm 103 ('Introductory Psalm') and 'Blessed is the Man' are through-composed without verse/word repetitions.",
+        "modal_mutation": "High density of relative flat and clef shifts in Tones 2, 5, 6, and 8 to represent local microtonal/modal adjustments."
+      },
+      "notated_variants": {
+        "polyeleos": "Great Polyeleos 'Praise, O servants of the Lord' marked as Multanian chant.",
+        "kondak": "Earliest record of Kyivan Notation for the Kondak 'Vozbrannoy Voyevode' (unnamed)."
+      }
+    },
+    "manyava_skete": {
+      "source_manuscripts": "Manyava Skete Heirmologia (17th-18th cc.)",
+      "character": "Ciscarpathian monastic singing branch, Job Knyahynytsky tradition.",
+      "liturgical_features": {
+        "liturgy_canon": "Eucharistic Canon of St. Basil the Great in the Liturgy section is named 'Skete' or left unnamed (e.g. 'Peace be upon you').",
+        "service_sequence": "Strict daily cycle structure: Resurrectional Vespers and Matins, Liturgy, feast stichera, and the 9th Odes of the canons.",
+        "byzantine_elements": "Late Byzantine elements including papadikai, asmatikai, akolouthiai, and psaltikai techniques."
+      }
+    },
+    "zhirovitsi": {
+      "source_manuscript": "Zhirovitsi Heirmologion (1649)",
+      "character": "Belarusian Uniate/Orthodox monastic singing branch.",
+      "liturgical_features": {
+        "bulgarian_density": "High density of Bulgarian chant variants in the Sunday Octoechos.",
+        "polyeleos_duality": "Polyeleos 'Praise, O servants of the Lord' recorded in dual versions: 'Bulgarian' and 'Pidhirya'."
+      }
+    },
+    "mezhyhirya": {
+      "source_manuscript": "Mezhyhirya Savior-Transfiguration Monastery Heirmologion (mid-17th c.)",
+      "character": "Central Ukrainian monastic singing branch.",
+      "liturgical_features": {
+        "ordinary_variants": "Includes local Mezhyhirya versions of ordinary chants (e.g., sidalni, Gradual Antiphons, and polyeleos) showcasing regional variations of traditional Kiev-Pechersk models."
+      }
+    },
+    "lyubachiv": {
+      "source_manuscript": "Lyubachiv Heirmologion (1674)",
+      "character": "Western Ukrainian regional diocese singing branch.",
+      "liturgical_features": {
+        "triple_ordinary": "Resurrectional Matins 'God is the Lord' of Tone 1 recorded in three distinct regional chants: weekday Rus', Volhynian, and Bulgarian.",
+        "podobni_bulgarian": "Small Bulgarian mnogomylostyvoe is preferred in the model stichera (podobni) section."
+      }
+    }
+  }
+}

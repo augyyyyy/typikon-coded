@@ -160,60 +160,159 @@ class TextDBMixin:
         """
         item = None
         recension = context.get("recension") if context else None
-        
+        language = context.get("language", "en") if context else "en"
+
+        # Parse Year from Date
+        year = None
+        if context and "date" in context:
+            dt = context["date"]
+            if hasattr(dt, "year"):
+                year = dt.year
+            elif isinstance(dt, str) and len(dt) >= 4:
+                try:
+                    year = int(dt[:4])
+                except Exception:
+                    pass
+
+        # Helper: Compile sequential indexed stichera or doxology suffixes
+        def compile_sequential_text(db, base_id, source_name):
+            indexed_items = []
+            idx = 1
+            while True:
+                test_id = f"{base_id}_{idx}"
+                cand = db.get(test_id)
+                if not cand:
+                    break
+                indexed_items.append(copy.deepcopy(cand))
+                idx += 1
+            
+            for suffix in ["_glory", "_both_now", "_glory_both_now"]:
+                cand = db.get(f"{base_id}{suffix}")
+                if cand:
+                    indexed_items.append(copy.deepcopy(cand))
+            
+            if indexed_items:
+                content_parts = []
+                segments = []
+                verses = []
+                for it in indexed_items:
+                    part = it.get("content", "")
+                    if "verse" in it:
+                        v = it['verse']
+                        part = f"Verse: {v}\n{part}"
+                        verses.append(v)
+                    else:
+                        verses.append(None)
+                    content_parts.append(part)
+                    segments.append(it.get("content", ""))
+                
+                return {
+                    "id": base_id,
+                    "content": "\n\n".join(content_parts),
+                    "_segments": segments,
+                    "_verses": verses,
+                    "source": source_name
+                }
+            return None
+
+        # Helper: Look up key in specified recension database
+        def lookup_recension(target_rec):
+            # Enforce language boundaries to prevent language collision bug
+            if language == "en" and target_rec in ["stamford_printed", "stamford_web_2026"]:
+                return None
+            if language == "uk" and target_rec in ["sheptytsky_printed", "royal_doors_web"]:
+                return None
+
+            db_attr = f"{target_rec}_db"
+            if not hasattr(self, db_attr):
+                return None
+            db = getattr(self, db_attr)
+            if not db:
+                return None
+            
+            res = db.get(text_id)
+            if res:
+                return copy.deepcopy(res)
+            
+            # Suffix/Sequential compilation lookup
+            src_name = target_rec.replace("_", " ").title()
+            return compile_sequential_text(db, text_id, src_name)
+
         # 0. Recension Database Lookup
         if recension:
-            # Check for specific db (e.g., self.st_sergius_db or a future self.lviv_db)
-            db_attr = f"{recension}_db"
-            if hasattr(self, db_attr):
-                rec_db = getattr(self, db_attr)
-                if rec_db:
-                    item = rec_db.get(text_id)
-                    if item:
-                        item = copy.deepcopy(item)
-            
-            # Special St. Sergius consolidated indexed resolution
-            if not item and recension == "st_sergius" and hasattr(self, "st_sergius_db") and self.st_sergius_db:
-                # Check for indexed variants (e.g. key_1, key_2...)
-                # and special suffixes (glory, both_now)
-                indexed_items = []
-                idx = 1
-                while True:
-                    test_id = f"{text_id}_{idx}"
-                    cand = self.st_sergius_db.get(test_id)
-                    if not cand: break
-                    indexed_items.append(cand)
-                    idx += 1
+            # 0.1 Daily Office Translation Drift Lookup for royal_doors_web
+            if recension == "royal_doors_web" and language == "en" and year and hasattr(self, "royal_doors_drift_db") and self.royal_doors_drift_db:
+                dt = context.get("date")
+                mm_dd = None
+                if dt:
+                    if hasattr(dt, "month") and hasattr(dt, "day"):
+                        mm_dd = f"{dt.month:02d}_{dt.day:02d}"
+                    elif isinstance(dt, str) and len(dt) >= 10:
+                        parts = dt.split("-")
+                        if len(parts) >= 3:
+                            try:
+                                mm_dd = f"{int(parts[1]):02d}_{int(parts[2]):02d}"
+                            except Exception:
+                                pass
                 
-                # Special suffixes
-                for suffix in ["_glory", "_both_now", "_glory_both_now"]:
-                    cand = self.st_sergius_db.get(f"{text_id}{suffix}")
-                    if cand:
-                        indexed_items.append(cand)
+                if mm_dd:
+                    parts = text_id.split(".")
+                    if len(parts) >= 3:
+                        element_key = ".".join(parts[2:])
+                        pairs = self.royal_doors_drift_db.get((mm_dd, element_key))
+                        if pairs:
+                            for pair in pairs:
+                                if year in pair.get("years1", []):
+                                    item = {
+                                        "id": text_id,
+                                        "content": pair.get("text1", ""),
+                                        "source": f"Royal Doors Web Drift ({year})"
+                                    }
+                                    break
+                                elif year in pair.get("years2", []):
+                                    item = {
+                                        "id": text_id,
+                                        "content": pair.get("text2", ""),
+                                        "source": f"Royal Doors Web Drift ({year})"
+                                    }
+                                    break
 
-                if indexed_items:
-                    # Construct a virtual asset
-                    content_parts = []
-                    segments = []
-                    verses = []
-                    for it in indexed_items:
-                        part = it.get("content", "")
-                        if "verse" in it:
-                            v = it['verse']
-                            part = f"Verse: {v}\n{part}"
-                            verses.append(v)
+            # 0.2 Primary Recension Lookup
+            if not item:
+                item = lookup_recension(recension)
+
+            # 0.3 Language-Safe Fallback Chain resolution
+            if not item:
+                if language == "en":
+                    fallback_chain = {
+                        "stamford_printed": ["sheptytsky_printed", "royal_doors_web"],
+                        "stamford_web_2026": ["sheptytsky_printed", "royal_doors_web"],
+                        "sheptytsky_printed": ["royal_doors_web"],
+                        "royal_doors_web": []
+                    }.get(recension, [])
+                else:
+                    fallback_chain = {
+                        "sheptytsky_printed": ["stamford_printed", "stamford_web_2026"],
+                        "royal_doors_web": ["stamford_printed", "stamford_web_2026"],
+                        "stamford_printed": ["stamford_web_2026"],
+                        "stamford_web_2026": []
+                    }.get(recension, [])
+
+                for fb_rec in fallback_chain:
+                    item = lookup_recension(fb_rec)
+                    if item:
+                        warn_msg = f"WARNING: Key '{text_id}' missing in '{recension}' for language '{language}'. Falling back to '{fb_rec}'."
+                        if hasattr(self, "log"):
+                            self.log(warn_msg)
+                        elif hasattr(self, "trace_log"):
+                            self.trace_log.append(warn_msg)
                         else:
-                            verses.append(None)
-                        content_parts.append(part)
-                        segments.append(it.get("content", ""))
-                    
-                    item = {
-                        "id": text_id,
-                        "content": "\n\n".join(content_parts),
-                        "_segments": segments,
-                        "_verses": verses,
-                        "source": "St. Sergius Unabridged (consolidated)"
-                    }
+                            print(warn_msg)
+                        break
+
+            # 0.4 Special historical St. Sergius lookup (fallback compat)
+            if not item and recension == "st_sergius" and hasattr(self, "st_sergius_db") and self.st_sergius_db:
+                item = compile_sequential_text(self.st_sergius_db, text_id, "St. Sergius Unabridged (consolidated)")
         
         # 1. Primary selected recension lookup
         if not item and hasattr(self, "primary_db") and self.primary_db is not None:

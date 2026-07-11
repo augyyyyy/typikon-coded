@@ -209,6 +209,25 @@ class EngineCore:
         # Load St. Sergius Unabridged Data (Refined)
         self.st_sergius_db = self._load_json("json_db/st_sergius/octoechos_tone_1_refined.json")
         # Extend to other tones if/when they exist
+
+        # Load Multi-Recension Comparisons (English-First Focus)
+        self.pure_typikon_db = self._load_json("json_db/propers_comparisons/festal_propers_pure_typikon_database.json") or {}
+        self.propers_web_db = self._load_json("json_db/propers_comparisons/festal_propers_database.json") or {}
+
+        # Index Daily Office Translation Drift Mapping
+        self.royal_doors_drift_db = {}
+        drift_list = self._load_json("json_db/propers_comparisons/royaldoors_daily_drift_mapping.json") or []
+        for item in drift_list:
+            mm_dd = item.get("mm_dd")
+            element = item.get("element")
+            if mm_dd and element:
+                self.royal_doors_drift_db[(mm_dd, element)] = item.get("pairs", [])
+
+        # Populate dynamic recension attribute databases
+        self.sheptytsky_printed_db = {k[:-3]: v for k, v in self.pure_typikon_db.items() if k.endswith("_en")}
+        self.stamford_printed_db = {k[:-3]: v for k, v in self.pure_typikon_db.items() if k.endswith("_uk")}
+        self.royal_doors_web_db = {k[:-3]: v for k, v in self.propers_web_db.items() if k.endswith("_en")}
+        self.stamford_web_2026_db = {k[:-3]: v for k, v in self.propers_web_db.items() if k.endswith("_uk")}
         
         # Define the Daily Cycle (Standard Sequence)
         self.daily_cycle = [

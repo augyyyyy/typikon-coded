@@ -15,10 +15,10 @@ class RegionalChantMixin:
 
     def load_regional_chant_rules(self):
         """
-        Loads the regional chant rules database from the Data/Inbox directory.
+        Loads the regional chant rules database.
         """
         if not hasattr(self, '_regional_chant_db') or self._regional_chant_db is None:
-            path = os.path.join(self.base_dir, "Data", "Inbox", "regional_chant_rules.json")
+            path = os.path.join(self.base_dir, "json_db", "regional_chant_rules.json")
             if os.path.exists(path):
                 try:
                     self._regional_chant_db = self._load_json(path)
