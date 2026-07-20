@@ -1,0 +1,7 @@
+- [x] Run the Pre-Implementation Compliance Gate.
+- [x] Create a new branch `fix/schema-validation-repair`.
+- [x] Update search paths in `tests/validate_schemas.py` to target active recensions.
+- [x] Run validator and identify schema errors in database files.
+- [x] Fix schema errors in `text_liturgikon.json`.
+- [x] Confirm all 38 files validate with 0 errors.
+- [x] Update documentation in `schemas/README.md` to remove obsolete known issues.

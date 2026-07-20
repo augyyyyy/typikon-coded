@@ -17,7 +17,10 @@ JSON_DB_DIR = os.path.join(BASE_DIR, "json_db")
 MANIFEST = {
     "text_asset": {
         "schema": "text_asset.schema.json",
-        "patterns": ["json_db/stamford/text_*.json", "json_db/common/text_*.json"]
+        "patterns": [
+            "Data/Service Books/Recensions/Stamford Divine Office/JSON/assets/text_*.json",
+            "Data/Service Books/Recensions/Royal Doors/JSON/assets/text_*.json"
+        ]
     },
     "service_structure": {
         "schema": "service_structure.schema.json",

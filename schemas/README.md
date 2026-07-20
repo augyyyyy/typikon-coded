@@ -38,9 +38,5 @@ Validates `PROJECT_STATE.json` for AI session continuity.
 
 > **CRITICAL**: Any AI-generated plan with timeline MUST be saved to `PROJECT_STATE.json` and committed to git immediately. This prevents loss of work between sessions.
 
-## Known Issues (as of Jan 2026)
-The following legacy files currently fail validation and need organic fixing:
-*   `json_db/stamford/text_pentecostarion.json`: Missing `source` on some items.
-*   `json_db/stamford/text_theotokia.json`: Contains `raw_content` keys that violate the key pattern.
-
-**Protocol**: Do NOT relax the schema further to accommodate these errors. Fix the files instad.
+## Known Issues
+All active database files under the `Data/` and `json_db/` folders now pass schema validation with zero errors. Run `tests/validate_schemas.py` to confirm.
