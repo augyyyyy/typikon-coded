@@ -3,58 +3,78 @@
         "filename": "00_master_key_registry.json",
         "version": "1.0",
         "description": "Master registry of all liturgical asset keys for search and validation",
-        "generated": "2026-01-29",
-        "total_keys": 140
+        "generated": "2026-08-24",
+        "total_keys": 734
     },
     "domains": {
         "horologion": {
             "description": "Fixed texts from Book of Hours",
-            "count": 62,
+            "count": 169,
             "keys": {
-                "horologion.blessing_common": {
+                "horologion.common.blessing": {
                     "desc": "Priest's opening blessing",
                     "aliases": [
-                        "blessing_priest"
+                        "blessing_priest",
+                        "horologion.blessing_common"
                     ]
                 },
-                "horologion.blessing_vigil": {
-                    "desc": "Vigil opening blessing"
+                "horologion.matins.blessing_vigil": {
+                    "desc": "Vigil opening blessing",
+                    "aliases": [
+                        "horologion.blessing_vigil"
+                    ]
                 },
-                "horologion.trisagion_block": {
+                "horologion.common.trisagion_block": {
                     "desc": "Trisagion prayers",
                     "aliases": [
-                        "trisagion_prayers"
+                        "trisagion_prayers",
+                        "horologion.trisagion_block"
                     ]
                 },
-                "horologion.invitatory_3x": {
+                "horologion.matins.invitatory_3x": {
                     "desc": "Come let us worship 3x",
                     "aliases": [
-                        "come_let_us_worship_3x"
+                        "come_let_us_worship_3x",
+                        "horologion.invitatory_3x"
                     ]
                 },
-                "horologion.our_father": {
+                "horologion.common.our_father": {
                     "desc": "Lord's Prayer",
                     "aliases": [
-                        "lords_prayer"
+                        "lords_prayer",
+                        "horologion.our_father"
                     ]
                 },
-                "horologion.creed": {
-                    "desc": "Nicene Creed"
+                "horologion.common.creed": {
+                    "desc": "Nicene Creed",
+                    "aliases": [
+                        "horologion.creed"
+                    ]
                 },
-                "horologion.litany_great": {
+                "horologion.vespers.great_litany": {
                     "desc": "Great Litany (Peace)",
                     "aliases": [
-                        "litany_peace"
+                        "litany_peace",
+                        "horologion.litany_great"
                     ]
                 },
-                "horologion.litany_small": {
-                    "desc": "Small Litany"
+                "horologion.common.small_litany": {
+                    "desc": "Small Litany",
+                    "aliases": [
+                        "horologion.litany_small"
+                    ]
                 },
-                "horologion.litany_fervent": {
-                    "desc": "Fervent Litany"
+                "horologion.vespers.fervent_litany": {
+                    "desc": "Fervent Litany",
+                    "aliases": [
+                        "horologion.litany_fervent"
+                    ]
                 },
-                "horologion.litany_supplication": {
-                    "desc": "Supplication Litany"
+                "horologion.vespers.supplication_litany": {
+                    "desc": "Supplication Litany",
+                    "aliases": [
+                        "horologion.litany_supplication"
+                    ]
                 },
                 "horologion.dismissal_small": {
                     "desc": "Small dismissal"
@@ -68,80 +88,140 @@
                 "horologion.dismissal_lenten": {
                     "desc": "Lenten dismissal"
                 },
-                "horologion.psalm_103": {
-                    "desc": "Opening psalm of Vespers"
+                "horologion.vespers.psalm_103": {
+                    "desc": "Opening psalm of Vespers",
+                    "aliases": [
+                        "horologion.psalm_103"
+                    ]
                 },
-                "horologion.o_gladsome_light_read": {
+                "horologion.vespers.phos_hilaron_read": {
                     "desc": "Phos Hilaron",
                     "aliases": [
                         "gladsome_light",
-                        "phos_hilaron"
+                        "phos_hilaron",
+                        "horologion.o_gladsome_light_read"
                     ]
                 },
-                "horologion.nunc_dimittis": {
+                "horologion.vespers.nunc_dimittis": {
                     "desc": "Canticle of Simeon",
                     "aliases": [
-                        "canticle_simeon"
+                        "canticle_simeon",
+                        "horologion.nunc_dimittis"
                     ]
                 },
-                "horologion.vouchsafe_o_lord": {
-                    "desc": "Vouchsafe O Lord prayer"
+                "horologion.vespers.vouchsafe_o_lord": {
+                    "desc": "Vouchsafe O Lord prayer",
+                    "aliases": [
+                        "horologion.vouchsafe_o_lord"
+                    ]
                 },
-                "horologion.hexapsalmos": {
-                    "desc": "Six Psalms of Matins"
+                "horologion.matins.hexapsalmos": {
+                    "desc": "Six Psalms of Matins",
+                    "aliases": [
+                        "horologion.hexapsalmos"
+                    ]
                 },
-                "horologion.six_psalms": {
-                    "desc": "Six Psalms content"
+                "horologion.matins.six_psalms": {
+                    "desc": "Six Psalms content",
+                    "aliases": [
+                        "horologion.six_psalms"
+                    ]
                 },
-                "horologion.doxology_great": {
-                    "desc": "Great Doxology (sung)"
+                "horologion.matins.great_doxology": {
+                    "desc": "Great Doxology (sung)",
+                    "aliases": [
+                        "horologion.doxology_great"
+                    ]
                 },
-                "horologion.doxology_small_read": {
-                    "desc": "Small Doxology (read)"
+                "horologion.matins.small_doxology_read": {
+                    "desc": "Small Doxology (read)",
+                    "aliases": [
+                        "horologion.doxology_small_read"
+                    ]
                 },
-                "horologion.praises_psalms": {
-                    "desc": "Lauds/Praises psalms"
+                "horologion.matins.praises_psalms": {
+                    "desc": "Lauds/Praises psalms",
+                    "aliases": [
+                        "horologion.praises_psalms"
+                    ]
                 },
-                "horologion.prayer_hours_thou_who": {
-                    "desc": "Thou who at all times prayer"
+                "horologion.hours.prayer_thou_who_at_all_times": {
+                    "desc": "Thou who at all times prayer",
+                    "aliases": [
+                        "horologion.prayer_hours_thou_who"
+                    ]
                 },
-                "horologion.prayer_hour_1_christ_true_light": {
-                    "desc": "Hour 1 concluding prayer"
+                "horologion.hours.hour_1.prayer_christ_true_light": {
+                    "desc": "Hour 1 concluding prayer",
+                    "aliases": [
+                        "horologion.prayer_hour_1_christ_true_light"
+                    ]
                 },
-                "horologion.prayer_hour_3_mardari": {
-                    "desc": "Hour 3 concluding prayer"
+                "horologion.hours.hour_3.prayer_mardari": {
+                    "desc": "Hour 3 concluding prayer",
+                    "aliases": [
+                        "horologion.prayer_hour_3_mardari"
+                    ]
                 },
-                "horologion.prayer_hour_6_god_and_lord_of_hosts": {
-                    "desc": "Hour 6 concluding prayer"
+                "horologion.hours.hour_6.prayer_lord_of_hosts": {
+                    "desc": "Hour 6 concluding prayer",
+                    "aliases": [
+                        "horologion.prayer_hour_6_god_and_lord_of_hosts"
+                    ]
                 },
-                "horologion.prayer_hour_9_master_lord": {
-                    "desc": "Hour 9 concluding prayer"
+                "horologion.hours.hour_9.prayer_master_lord": {
+                    "desc": "Hour 9 concluding prayer",
+                    "aliases": [
+                        "horologion.prayer_hour_9_master_lord"
+                    ]
                 },
-                "horologion.verses_hour_1_order_my_steps": {
-                    "desc": "Hour 1 verses"
+                "horologion.hours.hour_1.verses_order_steps": {
+                    "desc": "Hour 1 verses",
+                    "aliases": [
+                        "horologion.verses_hour_1_order_my_steps"
+                    ]
                 },
-                "horologion.verses_hour_3_blessed_is_the_lord": {
-                    "desc": "Hour 3 verses"
+                "horologion.hours.hour_3.verses_blessed_is_lord": {
+                    "desc": "Hour 3 verses",
+                    "aliases": [
+                        "horologion.verses_hour_3_blessed_is_the_lord"
+                    ]
                 },
-                "horologion.verses_hour_6_compassions_quickly": {
-                    "desc": "Hour 6 verses"
+                "horologion.hours.hour_6.verses_compassions_quickly": {
+                    "desc": "Hour 6 verses",
+                    "aliases": [
+                        "horologion.verses_hour_6_compassions_quickly"
+                    ]
                 },
-                "horologion.verses_hour_9_forsake_not": {
-                    "desc": "Hour 9 verses"
+                "horologion.hours.hour_9.verses_forsake_not": {
+                    "desc": "Hour 9 verses",
+                    "aliases": [
+                        "horologion.verses_hour_9_forsake_not"
+                    ]
                 },
-                "horologion.lord_have_mercy_3x": {
-                    "desc": "Lord have mercy 3x"
+                "horologion.common.lord_have_mercy_3x": {
+                    "desc": "Lord have mercy 3x",
+                    "aliases": [
+                        "horologion.lord_have_mercy_3x"
+                    ]
                 },
-                "horologion.lord_have_mercy_12": {
-                    "desc": "Lord have mercy 12x"
+                "horologion.common.lord_have_mercy_12": {
+                    "desc": "Lord have mercy 12x",
+                    "aliases": [
+                        "horologion.lord_have_mercy_12"
+                    ]
                 },
-                "horologion.lord_have_mercy_40": {
-                    "desc": "Lord have mercy 40x"
+                "horologion.common.lord_have_mercy_40": {
+                    "desc": "Lord have mercy 40x",
+                    "aliases": [
+                        "horologion.lord_have_mercy_40"
+                    ]
                 },
-                "horologion.axion_estin": {
+                "horologion.common.axion_estin": {
                     "desc": "It is truly meet",
                     "aliases": [
-                        "it_is_truly_meet"
+                        "it_is_truly_meet",
+                        "horologion.axion_estin"
                     ]
                 },
                 "horologion.only_begotten": {
@@ -150,29 +230,50 @@
                 "horologion.protection_christians": {
                     "desc": "Protection of Christians"
                 },
-                "horologion.troparia_compline_day_passed": {
-                    "desc": "Compline troparia"
+                "horologion.compline.troparia_day_passed": {
+                    "desc": "Compline troparia",
+                    "aliases": [
+                        "horologion.troparia_compline_day_passed"
+                    ]
                 },
                 "horologion.psalm_50": {
                     "desc": "Penitential psalm"
                 },
-                "horologion.psalm_90": {
-                    "desc": "He that dwells"
+                "horologion.compline.psalm_90": {
+                    "desc": "He that dwells",
+                    "aliases": [
+                        "horologion.psalm_90"
+                    ]
                 },
-                "horologion.psalm_142": {
-                    "desc": "O Lord hear my prayer"
+                "horologion.matins.psalm_142": {
+                    "desc": "O Lord hear my prayer",
+                    "aliases": [
+                        "horologion.psalm_142"
+                    ]
                 },
-                "horologion.psalm_140": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.vespers.psalm_140": {
+                    "desc": "Psalm 140",
+                    "aliases": [
+                        "horologion.psalm_140"
+                    ]
                 },
-                "horologion.psalm_141": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.vespers.psalm_141": {
+                    "desc": "Psalm 141",
+                    "aliases": [
+                        "horologion.psalm_141"
+                    ]
                 },
-                "horologion.psalm_129": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.vespers.psalm_129": {
+                    "desc": "Psalm 129",
+                    "aliases": [
+                        "horologion.psalm_129"
+                    ]
                 },
-                "horologion.psalm_116": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.vespers.psalm_116": {
+                    "desc": "Psalm 116",
+                    "aliases": [
+                        "horologion.psalm_116"
+                    ]
                 },
                 "horologion.psalm_76": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -192,8 +293,11 @@
                 "horologion.psalm_68": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.psalm_33": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.vespers.psalm_33": {
+                    "desc": "Psalm 33",
+                    "aliases": [
+                        "horologion.psalm_33"
+                    ]
                 },
                 "horologion.psalm_69": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -204,20 +308,35 @@
                 "horologion.prayer_to_jesus_christ": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.psalm_4": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.psalm_4": {
+                    "desc": "Psalm 4",
+                    "aliases": [
+                        "horologion.psalm_4"
+                    ]
                 },
-                "horologion.psalm_6": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.psalm_6": {
+                    "desc": "Psalm 6",
+                    "aliases": [
+                        "horologion.psalm_6"
+                    ]
                 },
-                "horologion.psalm_12": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.psalm_12": {
+                    "desc": "Psalm 12",
+                    "aliases": [
+                        "horologion.psalm_12"
+                    ]
                 },
-                "horologion.psalm_24": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.psalm_24": {
+                    "desc": "Psalm 24",
+                    "aliases": [
+                        "horologion.psalm_24"
+                    ]
                 },
-                "horologion.psalm_30": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.psalm_30": {
+                    "desc": "Psalm 30",
+                    "aliases": [
+                        "horologion.psalm_30"
+                    ]
                 },
                 "horologion.prayer_st_basil_the_great": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -273,20 +392,29 @@
                 "horologion.psalm_100": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.prayer_the_first_hour": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.hours.hour_1.ordinary_prayer": {
+                    "desc": "Ordinary Prayer",
+                    "aliases": [
+                        "horologion.prayer_the_first_hour"
+                    ]
                 },
                 "horologion.psalm_16": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.prayer_the_third_hour": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.hours.hour_3.ordinary_prayer": {
+                    "desc": "Ordinary Prayer",
+                    "aliases": [
+                        "horologion.prayer_the_third_hour"
+                    ]
                 },
                 "horologion.psalm_53": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.prayer_the_sixth_hour": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.hours.hour_6.ordinary_prayer": {
+                    "desc": "Ordinary Prayer",
+                    "aliases": [
+                        "horologion.prayer_the_sixth_hour"
+                    ]
                 },
                 "horologion.psalm_83": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -297,8 +425,11 @@
                 "horologion.psalm_85": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.prayer_the_ninth_hour": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.hours.hour_9.ordinary_prayer": {
+                    "desc": "Ordinary Prayer",
+                    "aliases": [
+                        "horologion.prayer_the_ninth_hour"
+                    ]
                 },
                 "horologion.psalm_145": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -315,11 +446,17 @@
                 "horologion.prayer_theotokos": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.blessed_be_name_3x": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.common.blessed_be_name_3x": {
+                    "desc": "Blessed Be Name 3X",
+                    "aliases": [
+                        "horologion.blessed_be_name_3x"
+                    ]
                 },
-                "horologion.dismissal_great_compline_standard": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.dismissal_great_standard": {
+                    "desc": "Dismissal Great Standard",
+                    "aliases": [
+                        "horologion.dismissal_great_compline_standard"
+                    ]
                 },
                 "horologion.dismissal_great_friday": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -333,8 +470,11 @@
                 "horologion.dismissal_small_with_litany": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.glory_to_holy": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.matins.glory_to_holy": {
+                    "desc": "Glory To Holy",
+                    "aliases": [
+                        "horologion.glory_to_holy"
+                    ]
                 },
                 "horologion.have_mercy_on_us_lord": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -342,8 +482,11 @@
                 "horologion.heavenly_choir": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.it_is_a_good_thing": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.vespers.it_is_a_good_thing": {
+                    "desc": "It Is A Good Thing",
+                    "aliases": [
+                        "horologion.it_is_a_good_thing"
+                    ]
                 },
                 "horologion.kathisma_9": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -351,20 +494,32 @@
                 "horologion.kontakion_have_mercy_on_us": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.litany_final_compline": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.final_litany": {
+                    "desc": "Final Litany",
+                    "aliases": [
+                        "horologion.litany_final_compline"
+                    ]
                 },
                 "horologion.prayer_absolution_dead": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.prayer_compline_grant_us": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.prayer_grant_us": {
+                    "desc": "Prayer Grant Us",
+                    "aliases": [
+                        "horologion.prayer_compline_grant_us"
+                    ]
                 },
-                "horologion.prayer_compline_spotless": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.prayer_spotless": {
+                    "desc": "Prayer Spotless",
+                    "aliases": [
+                        "horologion.prayer_compline_spotless"
+                    ]
                 },
-                "horologion.prayer_manasses": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.compline.prayer_manasseh": {
+                    "desc": "Prayer Manasseh",
+                    "aliases": [
+                        "horologion.prayer_manasses"
+                    ]
                 },
                 "horologion.prayer_remember_fathers_brethren": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -387,8 +542,11 @@
                 "horologion.remember_us_o_lord": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.remit_pardon": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.common.remit_pardon": {
+                    "desc": "Remit Pardon",
+                    "aliases": [
+                        "horologion.remit_pardon"
+                    ]
                 },
                 "horologion.supplication_all_holy_lady": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -402,14 +560,23 @@
                 "horologion.troparion_illumine_my_eyes": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.vigil_bridge_blessing": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.matins.vigil_bridge_blessing": {
+                    "desc": "Vigil Bridge Blessing",
+                    "aliases": [
+                        "horologion.vigil_bridge_blessing"
+                    ]
                 },
-                "horologion.god_is_the_lord_verses": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.matins.god_is_the_lord_verses": {
+                    "desc": "God Is The Lord Verses",
+                    "aliases": [
+                        "horologion.god_is_the_lord_verses"
+                    ]
                 },
-                "horologion.polyeleos": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.matins.polyeleos": {
+                    "desc": "Polyeleos",
+                    "aliases": [
+                        "horologion.polyeleos"
+                    ]
                 },
                 "horologion.hosts_of_angels": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -420,11 +587,17 @@
                 "horologion.hymn_of_resurrection": {
                     "desc": "Auto-registered from text_horologion.json"
                 },
-                "horologion.glory_to_god_highest": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.matins.glory_to_god_highest": {
+                    "desc": "Glory To God Highest",
+                    "aliases": [
+                        "horologion.glory_to_god_highest"
+                    ]
                 },
-                "horologion.o_lord_open_lips": {
-                    "desc": "Auto-registered from text_horologion.json"
+                "horologion.matins.open_lips": {
+                    "desc": "Open Lips",
+                    "aliases": [
+                        "horologion.o_lord_open_lips"
+                    ]
                 },
                 "horologion.matins.mid_six_psalms_doxology": {
                     "desc": "Auto-registered from text_horologion.json"
@@ -521,12 +694,33 @@
                 },
                 "horologion.full_text": {
                     "desc": "Auto-registered from text_horologion_supplement.json"
+                },
+                "triodion.prayer_st_ephrem": {
+                    "desc": "Prayer of St. Ephrem"
+                },
+                "horologion.prayer_all_holy_trinity": {
+                    "desc": "Prayer: O all-holy Trinity, Consubstantial Might, Undivided Kingship, Source and Origin of all goodness, deal kindly with me, a sinner; strengthen my innermost spirit, cleanse me of all evil, and enlighten my mind that I may ever glorify You with this prayer: One is Holy, One is Lord, Jesus Christ, to the glory of God the Father. Amen."
+                },
+                "horologion.psalms_praises_read": {
+                    "desc": "Psalms of Praise (148-150) - Read"
+                },
+                "horologion.psalms_praises_sung": {
+                    "desc": "Psalms of Praise (148-150) - Sung"
+                },
+                "horologion.praises_psalm_148": {
+                    "desc": "Praises Psalm 148"
+                },
+                "horologion.praises_psalm_149": {
+                    "desc": "Praises Psalm 149"
+                },
+                "horologion.praises_psalm_150": {
+                    "desc": "Praises Psalm 150"
                 }
             }
         },
         "triodion": {
             "description": "Lenten Triodion propers",
-            "count": 19,
+            "count": 25,
             "keys": {
                 "triodion.prayer_st_ephrem": {
                     "desc": "Prayer of St. Ephrem with prostrations"
@@ -607,7 +801,7 @@
         },
         "pentecostarion": {
             "description": "Paschal season propers",
-            "count": 9,
+            "count": 31,
             "keys": {
                 "pentecostarion.christ_is_risen_3x": {
                     "desc": "Christ is Risen troparion 3x"
@@ -727,7 +921,7 @@
         },
         "components": {
             "description": "Composite liturgical rites",
-            "count": 12,
+            "count": 11,
             "keys": {
                 "components.artoklasia": {
                     "desc": "Blessing of Loaves"
@@ -766,7 +960,7 @@
         },
         "octoechos": {
             "description": "Tone-based texts (dynamic lookup)",
-            "count": 32,
+            "count": 41,
             "keys": {
                 "octoechos.canon_theotokos_current_tone": {
                     "desc": "Theotokos canon by current tone"
@@ -922,6 +1116,30 @@
                 },
                 "tone_8.raw_content": {
                     "desc": "Tone 8 Full Propers"
+                },
+                "tone_1.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                },
+                "tone_2.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                },
+                "tone_3.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                },
+                "tone_4.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                },
+                "tone_5.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                },
+                "tone_6.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                },
+                "tone_7.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
+                },
+                "tone_8.troparion.resurrection": {
+                    "desc": "Auto-registered from text_octoechos.json"
                 }
             }
         },
@@ -1204,7 +1422,8 @@
                 "eothinon.stichera": {
                     "desc": "Auto-registered from text_eothinon.json"
                 }
-            }
+            },
+            "count": 92
         },
         "general": {
             "description": "Auto-registered domain general",
@@ -1344,26 +1563,8 @@
                 "general.unmercenaries.kontakion": {
                     "desc": "Auto-registered from text_general_menaion.json"
                 }
-            }
-        },
-        "prayer_o_all-holy_trinity_consubstantial_might_undivided_kingship_source_and_origin_all_goodness_deal_kindly_with_me_a_sinner;_strengthen_my_innermost_spirit_cleanse_me_all_evil_and_enlighten_my_mind_that_i_may_ever_glorify_you_with_this_prayer_one_is_holy_one_is_lord_jesus_christ_to_the_glory_god_the_father": {
-            "description": "Auto-registered domain prayer_o_all-holy_trinity_consubstantial_might_undivided_kingship_source_and_origin_all_goodness_deal_kindly_with_me_a_sinner;_strengthen_my_innermost_spirit_cleanse_me_all_evil_and_enlighten_my_mind_that_i_may_ever_glorify_you_with_this_prayer_one_is_holy_one_is_lord_jesus_christ_to_the_glory_god_the_father",
-            "keys": {
-                "prayer_o_all-holy_trinity_consubstantial_might_undivided_kingship_source_and_origin_all_goodness_deal_kindly_with_me_a_sinner;_strengthen_my_innermost_spirit_cleanse_me_all_evil_and_enlighten_my_mind_that_i_may_ever_glorify_you_with_this_prayer_one_is_holy_one_is_lord_jesus_christ_to_the_glory_god_the_father._amen.": {
-                    "desc": "Auto-registered from text_horologion.json"
-                },
-                "prayer_o_all-holy_trinity_consubstantial_might_undivided_kingship_source_and_origin_all_goodness_deal_kindly_with_me_a_sinner;_strengthen_my_innermost_spirit_cleanse_me_all_evil_and_enlighten_my_mind_that_i_may_ever_glorify_you_with_this_prayer_one_is_holy_one_is_lord_jesus_christ_to_the_glory_god_the_father.": {
-                    "desc": "Auto-registered from text_horologion.json"
-                }
-            }
-        },
-        "file_metadata": {
-            "description": "Auto-registered domain file_metadata",
-            "keys": {
-                "file_metadata": {
-                    "desc": "Auto-registered from text_liturgikon.json"
-                }
-            }
+            },
+            "count": 45
         },
         "menaion": {
             "description": "Auto-registered domain menaion",
@@ -2061,71 +2262,8 @@
                 "menaion.1227.metadata": {
                     "desc": "Auto-registered from text_menaion.json"
                 }
-            }
-        },
-        "tone_1": {
-            "description": "Auto-registered domain tone_1",
-            "keys": {
-                "tone_1.troparion.resurrection": {
-                    "desc": "Auto-registered from text_octoechos.json"
-                }
-            }
-        },
-        "tone_2": {
-            "description": "Auto-registered domain tone_2",
-            "keys": {
-                "tone_2.troparion.resurrection": {
-                    "desc": "Auto-registered from text_octoechos.json"
-                }
-            }
-        },
-        "tone_3": {
-            "description": "Auto-registered domain tone_3",
-            "keys": {
-                "tone_3.troparion.resurrection": {
-                    "desc": "Auto-registered from text_octoechos.json"
-                }
-            }
-        },
-        "tone_4": {
-            "description": "Auto-registered domain tone_4",
-            "keys": {
-                "tone_4.troparion.resurrection": {
-                    "desc": "Auto-registered from text_octoechos.json"
-                }
-            }
-        },
-        "tone_5": {
-            "description": "Auto-registered domain tone_5",
-            "keys": {
-                "tone_5.troparion.resurrection": {
-                    "desc": "Auto-registered from text_octoechos.json"
-                }
-            }
-        },
-        "tone_6": {
-            "description": "Auto-registered domain tone_6",
-            "keys": {
-                "tone_6.troparion.resurrection": {
-                    "desc": "Auto-registered from text_octoechos.json"
-                }
-            }
-        },
-        "tone_7": {
-            "description": "Auto-registered domain tone_7",
-            "keys": {
-                "tone_7.troparion.resurrection": {
-                    "desc": "Auto-registered from text_octoechos.json"
-                }
-            }
-        },
-        "tone_8": {
-            "description": "Auto-registered domain tone_8",
-            "keys": {
-                "tone_8.troparion.resurrection": {
-                    "desc": "Auto-registered from text_octoechos.json"
-                }
-            }
+            },
+            "count": 231
         },
         "theotokion": {
             "description": "Auto-registered domain theotokion",
@@ -2343,7 +2481,8 @@
                 "theotokion.tone_8.sat_matins_end": {
                     "desc": "Auto-registered from text_theotokia.json"
                 }
-            }
+            },
+            "count": 71
         },
         "weekday": {
             "description": "Auto-registered domain weekday",
@@ -2387,7 +2526,8 @@
                 "weekday.friday.kontakion": {
                     "desc": "Auto-registered from text_weekdays.json"
                 }
-            }
+            },
+            "count": 13
         }
     },
     "search_index": {

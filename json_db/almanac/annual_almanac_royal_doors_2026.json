@@ -2,7 +2,7 @@
   "file_metadata": {
     "year": 2026,
     "pascha_date": "2026-04-05",
-    "generated_at": "2026-07-20T00:54:07.357677Z",
+    "generated_at": "2026-08-25T00:49:35.672596Z",
     "engine_version": "1.2.0"
   },
   "days": {
@@ -2033,14 +2033,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -7022,14 +7031,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -7501,7 +7519,7 @@
       "dolnytsky_rank": "GT_DOX",
       "dolnytsky_source": "movable_cycle_override",
       "dolnytsky_rank_code": "[GT DOX]",
-      "fixed_rank_code": "SIMPLE",
+      "fixed_rank_code": "[4 TR]",
       "dolnytsky_commemoration": "Ven. Auxentius",
       "dolnytsky_subtitle": "Ven. Auxentius",
       "dolnytsky_status": "collision",
@@ -8638,7 +8656,7 @@
       "dolnytsky_rank": "GT_DOX",
       "dolnytsky_source": "movable_cycle_override",
       "dolnytsky_rank_code": "[GT DOX]",
-      "fixed_rank_code": "SIMPLE",
+      "fixed_rank_code": "[4 TR]",
       "dolnytsky_commemoration": "Ven. Timothy of Symbola; St. Eustathius",
       "dolnytsky_subtitle": "Ven. Timothy of Symbola; St. Eustathius",
       "dolnytsky_status": "collision",
@@ -9745,7 +9763,7 @@
       "dolnytsky_rank": "ALLELUIA",
       "dolnytsky_source": "movable_cycle_override",
       "dolnytsky_rank_code": "[ALLELUIA]",
-      "fixed_rank_code": "SIMPLE",
+      "fixed_rank_code": "[4 TR]",
       "dolnytsky_commemoration": "Ven. Basil",
       "dolnytsky_subtitle": "Ven. Basil",
       "dolnytsky_status": "collision",
@@ -10866,7 +10884,7 @@
       "dolnytsky_rank": "ALLELUIA",
       "dolnytsky_source": "movable_cycle_override",
       "dolnytsky_rank_code": "[ALLELUIA]",
-      "fixed_rank_code": "NO",
+      "fixed_rank_code": "[4 NO]",
       "dolnytsky_commemoration": "Hieromartyrs who were bishops in Cherson",
       "dolnytsky_subtitle": "Hieromartyrs who were bishops in Cherson",
       "dolnytsky_status": "collision",
@@ -11983,7 +12001,7 @@
       "dolnytsky_rank": "ALLELUIA",
       "dolnytsky_source": "movable_cycle_override",
       "dolnytsky_rank_code": "[ALLELUIA]",
-      "fixed_rank_code": "NO",
+      "fixed_rank_code": "[4 NO]",
       "dolnytsky_commemoration": "Ven. Benedict",
       "dolnytsky_subtitle": "Ven. Benedict",
       "dolnytsky_status": "collision",
@@ -13071,7 +13089,7 @@
       "dolnytsky_rank": "GT_DOX",
       "dolnytsky_source": "movable_cycle_override",
       "dolnytsky_rank_code": "[GT DOX]",
-      "fixed_rank_code": "NO",
+      "fixed_rank_code": "[4 NO]",
       "dolnytsky_commemoration": "Ven. James",
       "dolnytsky_subtitle": "Ven. James",
       "dolnytsky_status": "collision",
@@ -13803,9 +13821,13 @@
         "suppress_menaion_saint": true,
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -16506,9 +16528,9 @@
         }
       ],
       "dolnytsky_rank": "VIGIL",
-      "dolnytsky_commemoration": "Great Martyr George (On Sunday)",
+      "dolnytsky_commemoration": "Great Martyr George",
       "dolnytsky_rank_code": "[VIGIL]",
-      "dolnytsky_title": "Great Martyr George (On Sunday)",
+      "dolnytsky_title": "Great Martyr George",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "Floral",
@@ -16580,7 +16602,7 @@
       "period": "normal",
       "paradigm_id": "CASE_07",
       "lviv_paradigm_number": 7,
-      "rubrics_title": "Great Martyr George (On Sunday)",
+      "rubrics_title": "Great Martyr George",
       "overrides": {
         "vespers_type": "great_vespers_vigil",
         "matins_type": "great_matins",
@@ -18176,7 +18198,7 @@
       "dolnytsky_rank_code": "[GT DOX]",
       "feast_id": "mid_pentecost",
       "is_afterfeast": true,
-      "fixed_rank_code": "SIMPLE",
+      "fixed_rank_code": "[4 A+G]",
       "dolnytsky_commemoration": "Righteous Job the Long-Suffering",
       "dolnytsky_subtitle": "Righteous Job the Long-Suffering",
       "dolnytsky_status": "collision",
@@ -18195,14 +18217,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -19179,7 +19210,7 @@
       "feast_id": "ascension",
       "feast_level": "lord",
       "is_feast": true,
-      "fixed_rank_code": "SIMPLE",
+      "fixed_rank_code": "[4 TR]",
       "dolnytsky_commemoration": "Martyr Isidore",
       "dolnytsky_subtitle": "Martyr Isidore",
       "dolnytsky_status": "collision",
@@ -20232,7 +20263,7 @@
       "feast_id": "ascension",
       "feast_level": "lord",
       "is_afterfeast": true,
-      "fixed_rank_code": "NO",
+      "fixed_rank_code": "[4 NO]",
       "dolnytsky_commemoration": "Martyr Basiliscus",
       "dolnytsky_subtitle": "Martyr Basiliscus",
       "dolnytsky_status": "collision",
@@ -20252,14 +20283,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -20427,7 +20467,7 @@
       "feast_id": "pentecost",
       "feast_level": "lord",
       "is_feast": true,
-      "fixed_rank_code": "SIX",
+      "fixed_rank_code": "[6 SM]",
       "dolnytsky_commemoration": "Ven. Simeon the Stylite (Divnogorets)",
       "dolnytsky_subtitle": "Ven. Simeon the Stylite (Divnogorets)",
       "dolnytsky_status": "collision",
@@ -20523,7 +20563,7 @@
       "feast_id": "pentecost",
       "feast_level": "lord",
       "is_feast": true,
-      "fixed_rank_code": "POLYELEOS",
+      "fixed_rank_code": "[POL]",
       "dolnytsky_commemoration": "Third Finding of the Precious Head of John the Forerunner",
       "dolnytsky_subtitle": "Third Finding of the Precious Head of John the Forerunner",
       "dolnytsky_status": "collision",
@@ -21127,7 +21167,7 @@
       "feast_id": "pentecost",
       "feast_level": "lord",
       "is_afterfeast": true,
-      "fixed_rank_code": "NO",
+      "fixed_rank_code": "[4 NO]",
       "dolnytsky_commemoration": "Ven. Isaac",
       "dolnytsky_subtitle": "Ven. Isaac",
       "dolnytsky_status": "collision",
@@ -21148,14 +21188,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -21303,7 +21352,7 @@
       "day_of_week": 1,
       "pascha_offset": 57,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
+      "season_id": "octoechos",
       "season": "ordinary",
       "tone": 8,
       "tone_of_week": 8,
@@ -21352,7 +21401,7 @@
       "dolnytsky_title": "Martyr Justin the Philosopher and those with him",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -21514,7 +21563,7 @@
       "day_of_week": 2,
       "pascha_offset": 58,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
+      "season_id": "octoechos",
       "season": "ordinary",
       "tone": 8,
       "tone_of_week": 8,
@@ -21556,7 +21605,7 @@
       "dolnytsky_title": "St. Nicephorus, Archbishop of Constantinople",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -21718,7 +21767,7 @@
       "day_of_week": 3,
       "pascha_offset": 59,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
+      "season_id": "octoechos",
       "season": "ordinary",
       "tone": 8,
       "tone_of_week": 8,
@@ -21767,7 +21816,7 @@
       "dolnytsky_title": "Martyr Lucillian and those with him",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -21929,8 +21978,8 @@
       "day_of_week": 4,
       "pascha_offset": 60,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
-      "season": "Eucharist",
+      "season_id": "octoechos",
+      "season": "ordinary",
       "tone": 8,
       "tone_of_week": 8,
       "eothinon": null,
@@ -21952,13 +22001,13 @@
       "feast_id": "eucharist",
       "feast_level": "lord",
       "is_feast": true,
-      "fixed_rank_code": "SIMPLE",
+      "fixed_rank_code": "[4 TR]",
       "dolnytsky_commemoration": "St. Metrophanes, Archbishop of Constantinople",
       "dolnytsky_subtitle": "St. Metrophanes, Archbishop of Constantinople",
       "dolnytsky_status": "collision",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "Festal",
       "menaion_class": "Class I — Great Feast",
       "saint_categories": [
@@ -21974,10 +22023,65 @@
           "Mk 64",
           "Lk 108",
           "Jn 23"
-        ]
+        ],
+        "suppress_octoechos": true,
+        "suppress_menaion_saint": true,
+        "vespers_stichera_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 8
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "feast_theotokion"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.19.1.5",
+          "total_count": 3,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 3
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "feast_theotokion"
+        },
+        "matins_canon_distribution": {
+          "distribution": [
+            {
+              "source": "feast",
+              "type": "feast",
+              "qty": 12,
+              "irmos": true
+            }
+          ]
+        },
+        "praises_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.18.1",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 4
+            }
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "feast_theotokion"
+        },
+        "liturgy_variables": {
+          "antiphons": "festal_antiphons",
+          "entrance_hymn": "festal_entrance",
+          "trisagion": "substitution_possible_if_appointed"
+        }
       },
       "period": "feast",
-      "paradigm_id": "feast_of_eucharist",
+      "paradigm_id": "CASE_10",
       "lviv_paradigm_number": 10,
       "rubrics_title": "Feast of the Most Holy Eucharist (Corpus Christi)",
       "overrides": {
@@ -22016,8 +22120,8 @@
       "day_of_week": 5,
       "pascha_offset": 61,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
-      "season": "Eucharist",
+      "season_id": "octoechos",
+      "season": "ordinary",
       "tone": 8,
       "tone_of_week": 8,
       "eothinon": null,
@@ -22061,7 +22165,7 @@
       "dolnytsky_title": "Hieromartyr Dorotheus",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -22148,8 +22252,8 @@
       "day_of_week": 6,
       "pascha_offset": 62,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
-      "season": "Eucharist",
+      "season_id": "octoechos",
+      "season": "ordinary",
       "tone": 8,
       "tone_of_week": 8,
       "eothinon": null,
@@ -22200,7 +22304,7 @@
       "dolnytsky_title": "Venerables Bessarion and Hilarion",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -22287,8 +22391,8 @@
       "day_of_week": 0,
       "pascha_offset": 63,
       "triodion_period": "normal",
-      "season_id": "pentecostarion",
-      "season": "Eucharist",
+      "season_id": "octoechos",
+      "season": "ordinary",
       "tone": 1,
       "tone_of_week": 1,
       "eothinon": 2,
@@ -22332,7 +22436,7 @@
       "dolnytsky_title": "Hieromartyr Theodotus, Bishop of Ancyra",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -22451,8 +22555,8 @@
       "day_of_week": 1,
       "pascha_offset": 64,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
-      "season": "Eucharist",
+      "season_id": "octoechos",
+      "season": "ordinary",
       "tone": 1,
       "tone_of_week": 1,
       "eothinon": null,
@@ -22496,7 +22600,7 @@
       "dolnytsky_title": "Great Martyr Theodore Stratelates",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Six-Stichera",
       "saint_categories": [
@@ -22583,8 +22687,8 @@
       "day_of_week": 2,
       "pascha_offset": 65,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
-      "season": "Eucharist",
+      "season_id": "octoechos",
+      "season": "ordinary",
       "tone": 1,
       "tone_of_week": 1,
       "eothinon": null,
@@ -22628,7 +22732,7 @@
       "dolnytsky_title": "St. Cyril, Archbishop of Alexandria",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Six-Stichera",
       "saint_categories": [
@@ -22742,8 +22846,8 @@
       "day_of_week": 3,
       "pascha_offset": 66,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
-      "season": "Eucharist",
+      "season_id": "octoechos",
+      "season": "ordinary",
       "tone": 1,
       "tone_of_week": 1,
       "eothinon": null,
@@ -22787,7 +22891,7 @@
       "dolnytsky_title": "Hieromartyr Timothy",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -22874,8 +22978,8 @@
       "day_of_week": 4,
       "pascha_offset": 67,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
-      "season": "Eucharist",
+      "season_id": "octoechos",
+      "season": "ordinary",
       "tone": 1,
       "tone_of_week": 1,
       "eothinon": null,
@@ -22924,14 +23028,14 @@
       "feast_id": "eucharist",
       "feast_level": "lord",
       "is_afterfeast": true,
-      "fixed_rank_code": "POLYELEOS",
+      "fixed_rank_code": "[POL]",
       "dolnytsky_commemoration": "Apostles Bartholomew and Barnabas",
       "dolnytsky_subtitle": "Apostles Bartholomew and Barnabas",
       "dolnytsky_status": "collision",
       "is_fore_or_afterfeast": true,
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "Floral",
+      "triodion_book": "N/A",
       "menaion_book": "Festal",
       "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
@@ -23097,7 +23201,7 @@
       "day_of_week": 5,
       "pascha_offset": 68,
       "triodion_period": "pentecostarion_period",
-      "season_id": "pentecostarion",
+      "season_id": "octoechos",
       "season": "ordinary",
       "tone": 1,
       "tone_of_week": 1,
@@ -23112,7 +23216,34 @@
       "octoechos_theme": "cross_theotokos",
       "deacon_count": 1,
       "concelebrating": false,
-      "saints": [],
+      "saints": [
+        {
+          "id": "jun_12.onuphrius",
+          "name": "Onuphrius",
+          "title": "Venerable",
+          "gender": "male",
+          "monastic": true,
+          "rank": 5,
+          "rank_code": "[4 A+G]",
+          "entry_index": 0,
+          "all_parsed_saints": [
+            {
+              "name": "Onuphrius",
+              "title": "Venerable",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            },
+            {
+              "name": "Peter of Athos",
+              "title": "Venerable",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            }
+          ]
+        }
+      ],
       "dolnytsky_title": "Co-Suffering of the Most Holy Theotokos",
       "dolnytsky_rank": "POLYELEOS",
       "dolnytsky_source": "movable_cycle_override",
@@ -23120,7 +23251,7 @@
       "feast_id": "co_suffering_theotokos",
       "is_feast": true,
       "feast_level": "theotokos",
-      "fixed_rank_code": "SIMPLE",
+      "fixed_rank_code": "[4 A+G]",
       "dolnytsky_commemoration": "Venerables Onuphrius and Peter of Athos",
       "dolnytsky_subtitle": "Venerables Onuphrius and Peter of Athos",
       "dolnytsky_status": "collision",
@@ -23139,70 +23270,56 @@
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "suppress_octoechos": true,
-        "suppress_menaion_saint": true,
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
             {
               "source": "menaion",
-              "type": "feast",
+              "type": "saint",
               "qty": 8
             }
           ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "aposticha_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.19.1.5",
-          "total_count": 3,
-          "distribution": [
-            {
-              "source": "menaion",
-              "type": "feast",
-              "qty": 3
-            }
-          ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
+          "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
         },
         "matins_canon_distribution": {
           "distribution": [
             {
-              "source": "feast",
-              "type": "feast",
-              "qty": 12,
+              "source": "octoechos",
+              "type": "theotokos_special",
+              "qty": 6,
               "irmos": true
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 8
             }
           ]
         },
         "praises_distribution": {
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.18.1",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.11.1.1",
           "total_count": 4,
           "distribution": [
             {
               "source": "menaion",
-              "type": "feast",
+              "type": "saint",
               "qty": 4
             }
           ],
-          "glory": "feast_doxastikon",
-          "both_now": "feast_theotokion"
-        },
-        "liturgy_variables": {
-          "antiphons": "festal_antiphons",
-          "entrance_hymn": "festal_entrance",
-          "trisagion": "substitution_possible_if_appointed"
-        },
-        "liturgy_antiphons": "typical_psalms_beatitudes",
-        "liturgy_trisagion": "standard_trisagion"
+          "glory": "saint_doxastikon",
+          "both_now": "theotokion_after_doxastikon"
+        }
       },
       "period": "normal",
-      "paradigm_id": "co_suffering_theotokos",
-      "lviv_paradigm_number": 12,
+      "paradigm_id": "CASE_05",
+      "lviv_paradigm_number": 5,
       "rubrics_title": "Friday of the Co-suffering of the Most Holy Theotokos",
       "overrides": {
         "vespers_type": "great_vespers_simple",
-        "matins_type": "great_matins"
+        "matins_type": "great_matins",
+        "doxology_type": "great_doxology"
       },
       "readings": {
         "type": "liturgy_readings",
@@ -23229,6 +23346,24 @@
               "source": "evangelion",
               "ref_key": "evangelion.weekday",
               "text": "Matthew 10:32-40; 11:1"
+            }
+          },
+          {
+            "prokeimenon": {
+              "source": "menaion",
+              "ref_key": "menaion.jun_12.onuphrius.prokeimenon"
+            },
+            "epistle": {
+              "source": "menaion",
+              "ref_key": "menaion.jun_12.onuphrius.epistle"
+            },
+            "alleluia": {
+              "source": "menaion",
+              "ref_key": "menaion.jun_12.onuphrius.alleluia"
+            },
+            "gospel": {
+              "source": "menaion",
+              "ref_key": "menaion.jun_12.onuphrius.gospel"
             }
           }
         ]
@@ -30575,9 +30710,9 @@
         }
       ],
       "dolnytsky_rank": "VIGIL",
-      "dolnytsky_commemoration": "Prop. Elijah (On Sunday)",
+      "dolnytsky_commemoration": "Prop. Elijah",
       "dolnytsky_rank_code": "[VIGIL]",
-      "dolnytsky_title": "Prop. Elijah (On Sunday)",
+      "dolnytsky_title": "Prop. Elijah",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
@@ -30648,7 +30783,7 @@
       "period": "normal",
       "paradigm_id": "CASE_07",
       "lviv_paradigm_number": 7,
-      "rubrics_title": "Prop. Elijah (On Sunday)",
+      "rubrics_title": "Prop. Elijah",
       "overrides": {
         "vespers_type": "great_vespers_vigil",
         "matins_type": "great_matins",
@@ -34944,14 +35079,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -37477,7 +37621,7 @@
       "saints": [
         {
           "id": "aug_29.beheading_baptist",
-          "name": "Beheading of the Precious Head of the Forerunner (On Sunday)",
+          "name": "Beheading of the Precious Head of the Forerunner",
           "title": "",
           "gender": "unknown",
           "monastic": false,
@@ -37486,7 +37630,7 @@
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "**Beheading of the Precious Head of the Forerunner (On Sunday).**",
+              "name": "**Beheading of the Precious Head of the Forerunner.**",
               "title": "",
               "gender": "unknown",
               "monastic": false,
@@ -37496,9 +37640,9 @@
         }
       ],
       "dolnytsky_rank": "VIGIL",
-      "dolnytsky_commemoration": "Beheading of the Precious Head of the Forerunner (On Sunday)",
+      "dolnytsky_commemoration": "Beheading of the Precious Head of the Forerunner",
       "dolnytsky_rank_code": "[VIGIL]",
-      "dolnytsky_title": "Beheading of the Precious Head of the Forerunner (On Sunday)",
+      "dolnytsky_title": "Beheading of the Precious Head of the Forerunner",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
@@ -37565,7 +37709,7 @@
       "period": "normal",
       "paradigm_id": "CASE_07",
       "lviv_paradigm_number": 7,
-      "rubrics_title": "Beheading of the Precious Head of the Forerunner (On Sunday)",
+      "rubrics_title": "Beheading of the Precious Head of the Forerunner",
       "overrides": {
         "vespers_type": "great_vespers_vigil",
         "matins_type": "great_matins",
@@ -39991,14 +40135,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -41253,14 +41406,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -42162,9 +42324,9 @@
         }
       ],
       "dolnytsky_rank": "VIGIL",
-      "dolnytsky_commemoration": "Translation of Ap. John the Theologian (On Sunday)",
+      "dolnytsky_commemoration": "Translation of Ap. John the Theologian",
       "dolnytsky_rank_code": "[VIGIL]",
-      "dolnytsky_title": "Translation of Ap. John the Theologian (On Sunday)",
+      "dolnytsky_title": "Translation of Ap. John the Theologian",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
@@ -42224,7 +42386,7 @@
       "period": "normal",
       "paradigm_id": "CASE_07",
       "lviv_paradigm_number": 7,
-      "rubrics_title": "Translation of Ap. John the Theologian (On Sunday)",
+      "rubrics_title": "Translation of Ap. John the Theologian",
       "overrides": {
         "vespers_type": "great_vespers_vigil",
         "matins_type": "great_matins",
@@ -51781,9 +51943,9 @@
         }
       ],
       "dolnytsky_rank": "VIGIL",
-      "dolnytsky_commemoration": "St. Hieromartyr Josaphat (On Sunday); St. John the Merciful; Ven. Nilus",
+      "dolnytsky_commemoration": "St. Hieromartyr Josaphat; St. John the Merciful; Ven. Nilus",
       "dolnytsky_rank_code": "[VIGIL]",
-      "dolnytsky_title": "St. Hieromartyr Josaphat (On Sunday); St. John the Merciful; Ven. Nilus",
+      "dolnytsky_title": "St. Hieromartyr Josaphat; St. John the Merciful; Ven. Nilus",
       "late_service_type": null,
       "recension": "royal_doors",
       "triodion_book": "N/A",
@@ -51856,7 +52018,7 @@
       "period": "normal",
       "paradigm_id": "CASE_07",
       "lviv_paradigm_number": 7,
-      "rubrics_title": "St. Hieromartyr Josaphat (On Sunday); St. John the Merciful; Ven. Nilus",
+      "rubrics_title": "St. Hieromartyr Josaphat; St. John the Merciful; Ven. Nilus",
       "overrides": {
         "vespers_type": "great_vespers_vigil",
         "matins_type": "great_matins",
@@ -54140,14 +54302,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -58125,14 +58296,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {
@@ -60366,14 +60546,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {

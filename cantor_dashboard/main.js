@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const badgeClass = isMajor ? "rank-major" : "rank-minor";
         
         if (desc) {
-            return `<span class="badge-rank ${badgeClass}" title="${desc}">${cleanCode} (${desc})</span>`;
+            return `<span class="badge-rank ${badgeClass}" title="Dolnytsky Typik Part III: ${desc}">${cleanCode}</span>`;
         }
         return `<span class="badge-rank rank-minor">${cleanCode}</span>`;
     }

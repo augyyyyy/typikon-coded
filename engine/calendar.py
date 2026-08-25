@@ -201,7 +201,7 @@ class CalendarMixin:
         season_id = "octoechos"
         if -70 <= delta < 0:
             season_id = "triodion"
-        elif 0 <= delta <= 68:
+        elif 0 <= delta <= 56:
             season_id = "pentecostarion"
         is_temple_feast = bool(
             self.temple_feast_date and self.temple_feast_date == (target_date.month, target_date.day))
@@ -393,7 +393,7 @@ class CalendarMixin:
         pascha_offset = context.get("pascha_offset")
         if season_id == "triodion" or season in ["lent", "pre_lent"]:
             triodion_book = "Lenten"
-        elif (season_id == "pentecostarion" or season == "pascha") and (pascha_offset is not None and pascha_offset <= 67):
+        elif (season_id == "pentecostarion" or season == "pascha") and (pascha_offset is not None and pascha_offset <= 56):
             triodion_book = "Floral"
             
         # 2. Determine Menaion Book and Class
@@ -662,7 +662,7 @@ class CalendarMixin:
                 if "dolnytsky_rank" not in result and normalized_rank:
                     result["dolnytsky_rank"] = normalized_rank
                 elif "dolnytsky_rank" in result and normalized_rank:
-                    result["fixed_rank_code"] = normalized_rank
+                    result["fixed_rank_code"] = rank_code
                 
                 result["dolnytsky_commemoration"] = description
                 if "dolnytsky_rank_code" not in result:

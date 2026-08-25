@@ -684,7 +684,7 @@
     "entries": [
       {
         "rank_code": "[VIGIL]",
-        "description": "**Translation of Ap. John the Theologian (On Sunday).**",
+        "description": "**Translation of Ap. John the Theologian.**",
         "parsed_saints": [
           {
             "name": "John the Theologian",
@@ -696,7 +696,7 @@
         ]
       }
     ],
-    "raw_source": "* **26** **[VIGIL]** **Translation of Ap. John the Theologian (On Sunday).**"
+    "raw_source": "* **26** **[VIGIL]** **Translation of Ap. John the Theologian.**"
   },
   "9-27": {
     "month": 9,
@@ -2030,7 +2030,7 @@
     "entries": [
       {
         "rank_code": "[VIGIL]",
-        "description": "**St. Hieromartyr Josaphat (On Sunday)**",
+        "description": "**St. Hieromartyr Josaphat**",
         "parsed_saints": [
           {
             "name": "Josaphat",
@@ -2068,7 +2068,7 @@
         ]
       }
     ],
-    "raw_source": "* **12** **[VIGIL]** **St. Hieromartyr Josaphat (On Sunday)**; **[4 A+G]** St. John the Merciful; Ven. Nilus."
+    "raw_source": "* **12** **[VIGIL]** **St. Hieromartyr Josaphat**; **[4 A+G]** St. John the Merciful; Ven. Nilus."
   },
   "11-13": {
     "month": 11,
@@ -6032,7 +6032,7 @@
     "entries": [
       {
         "rank_code": "[VIGIL]",
-        "description": "**Great Martyr George (On Sunday).**",
+        "description": "**Great Martyr George.**",
         "parsed_saints": [
           {
             "name": "George",
@@ -6044,7 +6044,7 @@
         ]
       }
     ],
-    "raw_source": "* **23** **[VIGIL]** **Great Martyr George (On Sunday).**"
+    "raw_source": "* **23** **[VIGIL]** **Great Martyr George.**"
   },
   "4-24": {
     "month": 4,
@@ -8098,7 +8098,7 @@
     "entries": [
       {
         "rank_code": "[VIGIL]",
-        "description": "**Prop. Elijah (On Sunday).**",
+        "description": "**Prop. Elijah.**",
         "parsed_saints": [
           {
             "name": "Elijah",
@@ -8110,7 +8110,7 @@
         ]
       }
     ],
-    "raw_source": "* **20** **[VIGIL]** **Prop. Elijah (On Sunday).**"
+    "raw_source": "* **20** **[VIGIL]** **Prop. Elijah.**"
   },
   "7-21": {
     "month": 7,
@@ -9142,7 +9142,7 @@
     "entries": [
       {
         "rank_code": "[VIGIL]",
-        "description": "**Beheading of the Precious Head of the Forerunner (On Sunday).**",
+        "description": "**Beheading of the Precious Head of the Forerunner.**",
         "parsed_saints": [
           {
             "name": "Beheading of the Precious Head of the Forerunner",
@@ -9154,7 +9154,7 @@
         ]
       }
     ],
-    "raw_source": "* **29** **[VIGIL]** **Beheading of the Precious Head of the Forerunner (On Sunday).**"
+    "raw_source": "* **29** **[VIGIL]** **Beheading of the Precious Head of the Forerunner.**"
   },
   "8-30": {
     "month": 8,
