@@ -46,6 +46,17 @@
 
         <!-- Main Workspace Area -->
         <main class="app-workspace">
+            <!-- Mobile Top Bar (Visible on mobile screens < 768px) -->
+            <header class="mobile-top-bar">
+                <div class="mobile-brand">
+                    <span class="cross-icon">✚</span>
+                    <span class="mobile-title">Cantor Dashboard</span>
+                </div>
+                <div class="mobile-top-actions">
+                    <button id="mobile-theme-toggle-btn" class="icon-btn" title="Toggle Theme">🌙</button>
+                    <button id="mobile-stand-btn" class="icon-btn" title="Klieros Stand Mode">🎚️</button>
+                </div>
+            </header>
             
             <!-- TAB 1: CALENDAR RESOLVER -->
             <section class="tab-panel active" id="tab-calendar">
@@ -167,11 +178,29 @@
                                 <div class="main-panel" id="main-document-panel">
                                     <div class="doc-panel active" id="doc-booklet">
                                         <div class="doc-controls">
-                                            <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="booklet-content">📋 Copy Booklet Text</button>
-                                            <button class="btn btn-secondary btn-sm print-btn" id="print-booklet-btn">🖨️ Print View</button>
+                                            <button class="btn btn-secondary btn-sm" id="btn-toggle-context" title="Toggle Liturgical Context Panel">◀ Context</button>
+                                            <label for="booklet-service-select" style="font-family: var(--font-heading); color: var(--gold-accent); margin-left: 6px; margin-right: 4px; font-size: 0.85rem; font-weight: 600;">Office:</label>
+                                            <select id="booklet-service-select" class="select-input" style="width: auto; padding: 4px 12px; font-size: 0.85rem;">
+                                                <option value="all" selected>All Services (4x2 Grid)</option>
+                                                <option value="General Info">General Info</option>
+                                                <option value="Vespers">Vespers</option>
+                                                <option value="Compline">Compline</option>
+                                                <option value="Midnight Office">Midnight Office</option>
+                                                <option value="Matins">Matins</option>
+                                                <option value="Hours">Hours</option>
+                                                <option value="Divine Liturgy">Divine Liturgy</option>
+                                            </select>
+                                            <div class="font-zoom-controls" title="Text Zoom Controls">
+                                                <button class="btn btn-secondary btn-sm font-btn" id="btn-font-dec" title="Decrease Text Size">A−</button>
+                                                <button class="btn btn-secondary btn-sm font-btn font-reset-btn" id="btn-font-reset" title="Reset Text Size">100%</button>
+                                                <button class="btn btn-secondary btn-sm font-btn" id="btn-font-inc" title="Increase Text Size">A+</button>
+                                            </div>
+                                            <button class="btn btn-secondary btn-sm" id="btn-stand-mode" title="Toggle Klieros Stand Mode">🎚️ Stand Mode</button>
+                                            <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="booklet-content">📋 Copy Booklet</button>
+                                            <button class="btn btn-secondary btn-sm print-btn" id="print-booklet-btn">🖨️ Print</button>
                                             <button class="btn btn-primary btn-sm" id="btn-toggle-reference" style="margin-left: auto;">📖 Show Reference Panel</button>
                                         </div>
-                                        <div id="booklet-content" class="document-view book-style scrollable">
+                                        <div id="booklet-content" class="booklet-grid-container scrollable">
                                             <p class="placeholder-text">Propers and service texts will load here...</p>
                                         </div>
                                     </div>
@@ -412,14 +441,58 @@
                              </div>
                          </div>
                      </div>
-                </div>
+                 </div>
             </section>
-            
         </main>
     </div>
 
+    <!-- Mobile Bottom Navigation Bar (Visible on mobile screens < 768px) -->
+    <nav class="mobile-bottom-nav">
+        <button class="mobile-nav-btn active" id="mobile-nav-calendar" data-target="tab-calendar">
+            <span class="mobile-nav-icon">📅</span>
+            <span class="mobile-nav-label">Calendar</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobile-nav-browser" data-target="tab-browser">
+            <span class="mobile-nav-icon">📖</span>
+            <span class="mobile-nav-label">Books</span>
+        </button>
+        <button class="mobile-nav-btn dev-element" id="mobile-nav-linter" data-target="tab-linter">
+            <span class="mobile-nav-icon">🔍</span>
+            <span class="mobile-nav-label">Auditor</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobile-nav-roadmap" data-target="tab-roadmap">
+            <span class="mobile-nav-icon">🗺️</span>
+            <span class="mobile-nav-label">Roadmap</span>
+        </button>
+    </nav>
+
     <!-- Notification Toast -->
     <div id="toast" class="toast hidden">Copied to clipboard!</div>
+
+    <!-- Service Card Focus Modal -->
+    <div id="card-focus-modal" class="card-focus-modal hidden">
+        <div class="card-focus-dialog glass-container">
+            <div class="card-focus-header">
+                <div class="card-focus-title-group">
+                    <span class="cross-icon" style="font-size: 1.1rem;">✚</span>
+                    <h3 class="card-focus-title" id="focus-modal-title">Service Booklet</h3>
+                    <span class="card-focus-badge" id="focus-modal-badge"></span>
+                </div>
+                <div class="card-focus-actions">
+                    <div class="font-zoom-controls">
+                        <button class="btn btn-secondary btn-sm font-btn" id="modal-font-dec" title="Decrease Text Size">A−</button>
+                        <button class="btn btn-secondary btn-sm font-btn font-reset-btn" id="modal-font-reset" title="Reset Text Size">100%</button>
+                        <button class="btn btn-secondary btn-sm font-btn" id="modal-font-inc" title="Increase Text Size">A+</button>
+                    </div>
+                    <button class="btn btn-secondary btn-sm copy-btn" id="modal-copy-btn">Copy Service</button>
+                    <button class="btn btn-secondary btn-sm print-btn" id="modal-print-btn">Print</button>
+                    <button class="btn-close-modal" id="modal-close-btn" title="Close Focus View">✕</button>
+                </div>
+            </div>
+            <div class="card-focus-body document-view book-style scrollable" id="focus-modal-content">
+            </div>
+        </div>
+    </div>
 
     <script src="main.js"></script>
     <!-- Live Reload System -->

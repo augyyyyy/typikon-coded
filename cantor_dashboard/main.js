@@ -53,6 +53,18 @@ document.addEventListener("DOMContentLoaded", () => {
         docTabBtns: document.querySelectorAll(".doc-tab-btn"),
         docPanels: document.querySelectorAll(".doc-panel"),
         bookletContent: document.getElementById("booklet-content"),
+        bookletServiceSelect: document.getElementById("booklet-service-select"),
+        cardFocusModal: document.getElementById("card-focus-modal"),
+        focusModalTitle: document.getElementById("focus-modal-title"),
+        focusModalIcon: document.getElementById("focus-modal-icon"),
+        focusModalBadge: document.getElementById("focus-modal-badge"),
+        focusModalContent: document.getElementById("focus-modal-content"),
+        modalCloseBtn: document.getElementById("modal-close-btn"),
+        modalCopyBtn: document.getElementById("modal-copy-btn"),
+        modalPrintBtn: document.getElementById("modal-print-btn"),
+        modalFontDec: document.getElementById("modal-font-dec"),
+        modalFontReset: document.getElementById("modal-font-reset"),
+        modalFontInc: document.getElementById("modal-font-inc"),
         serviceDigestSelect: document.getElementById("service-digest-select"),
         serviceDigestContent: document.getElementById("service-digest-content"),
         printBookletBtn: document.getElementById("print-booklet-btn"),
@@ -95,39 +107,63 @@ document.addEventListener("DOMContentLoaded", () => {
        ========================================================================== */
     function initTheme() {
         const savedTheme = localStorage.getItem("cantor-dashboard-theme");
+        const mobileThemeBtn = document.getElementById("mobile-theme-toggle-btn");
         if (savedTheme === "dark") {
             document.body.classList.remove("light-theme");
             document.body.classList.add("dark-theme");
-            el.themeToggleBtn.innerHTML = '<span class="toggle-icon">☀️</span> Light Mode';
+            if (el.themeToggleBtn) el.themeToggleBtn.innerHTML = '<span class="toggle-icon">☀️</span> Light Mode';
+            if (mobileThemeBtn) mobileThemeBtn.textContent = '☀️';
         } else {
             document.body.classList.remove("dark-theme");
             document.body.classList.add("light-theme");
-            el.themeToggleBtn.innerHTML = '<span class="toggle-icon">🌙</span> Dark Mode';
+            if (el.themeToggleBtn) el.themeToggleBtn.innerHTML = '<span class="toggle-icon">🌙</span> Dark Mode';
+            if (mobileThemeBtn) mobileThemeBtn.textContent = '🌙';
         }
     }
 
-    el.themeToggleBtn.addEventListener("click", () => {
+    function toggleTheme() {
+        const mobileThemeBtn = document.getElementById("mobile-theme-toggle-btn");
         if (document.body.classList.contains("dark-theme")) {
             document.body.classList.remove("dark-theme");
             document.body.classList.add("light-theme");
-            el.themeToggleBtn.innerHTML = '<span class="toggle-icon">🌙</span> Dark Mode';
+            if (el.themeToggleBtn) el.themeToggleBtn.innerHTML = '<span class="toggle-icon">🌙</span> Dark Mode';
+            if (mobileThemeBtn) mobileThemeBtn.textContent = '🌙';
             localStorage.setItem("cantor-dashboard-theme", "light");
         } else {
             document.body.classList.remove("light-theme");
             document.body.classList.add("dark-theme");
-            el.themeToggleBtn.innerHTML = '<span class="toggle-icon">☀️</span> Light Mode';
+            if (el.themeToggleBtn) el.themeToggleBtn.innerHTML = '<span class="toggle-icon">☀️</span> Light Mode';
+            if (mobileThemeBtn) mobileThemeBtn.textContent = '☀️';
             localStorage.setItem("cantor-dashboard-theme", "dark");
         }
-    });
+    }
+
+    if (el.themeToggleBtn) {
+        el.themeToggleBtn.addEventListener("click", toggleTheme);
+    }
+    const mobileThemeToggle = document.getElementById("mobile-theme-toggle-btn");
+    if (mobileThemeToggle) {
+        mobileThemeToggle.addEventListener("click", toggleTheme);
+    }
 
     /* ==========================================================================
-       TAB NAVIGATION
+       TAB NAVIGATION & MOBILE NAVIGATION
        ========================================================================== */
     function switchTab(tabId) {
         state.activeTab = tabId.replace("tab-", "");
         
-        // Toggle Nav Buttons
+        // Toggle Desktop Nav Buttons
         el.navBtns.forEach(btn => {
+            if (btn.getAttribute("data-target") === tabId) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+
+        // Toggle Mobile Bottom Nav Buttons
+        const mobileNavBtns = document.querySelectorAll(".mobile-nav-btn");
+        mobileNavBtns.forEach(btn => {
             if (btn.getAttribute("data-target") === tabId) {
                 btn.classList.add("active");
             } else {
@@ -155,6 +191,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     el.navBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            switchTab(btn.getAttribute("data-target"));
+        });
+    });
+
+    const mobileNavBtns = document.querySelectorAll(".mobile-nav-btn");
+    mobileNavBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             switchTab(btn.getAttribute("data-target"));
         });
@@ -253,6 +296,52 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    if (el.bookletServiceSelect) {
+        el.bookletServiceSelect.addEventListener("change", () => {
+            const selected = el.bookletServiceSelect.value;
+            const cards = el.bookletContent.querySelectorAll(".service-card");
+            cards.forEach(card => {
+                const key = card.getAttribute("data-service-key");
+                if (selected === "all" || selected === key) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    }
+
+    // Modal close and copy/print bindings
+    if (el.modalCloseBtn) {
+        el.modalCloseBtn.addEventListener("click", closeServiceFocusModal);
+    }
+    if (el.cardFocusModal) {
+        el.cardFocusModal.addEventListener("click", (e) => {
+            if (e.target === el.cardFocusModal) {
+                closeServiceFocusModal();
+            }
+        });
+    }
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && el.cardFocusModal && !el.cardFocusModal.classList.contains("hidden")) {
+            closeServiceFocusModal();
+        }
+    });
+
+    if (el.modalCopyBtn) {
+        el.modalCopyBtn.addEventListener("click", () => {
+            if (state.currentFocusService && state.parsedBookletServices) {
+                const text = state.parsedBookletServices[state.currentFocusService] || "";
+                copyTextToClipboard(text, `${state.currentFocusService} text copied!`);
+            }
+        });
+    }
+    if (el.modalPrintBtn) {
+        el.modalPrintBtn.addEventListener("click", () => {
+            window.print();
+        });
+    }
+
     // Print booklet view
     el.printBookletBtn.addEventListener("click", () => {
         window.print();
@@ -298,10 +387,12 @@ document.addEventListener("DOMContentLoaded", () => {
             renderLiturgicalContext(data.context, data.rubrics, data.fasting, data.ceremonial, data.katavasia);
             renderTraceLogs(data.rubrics.trace);
             
+            state.lastContext = data.context;
+            state.lastRubrics = data.rubrics;
             state.currentBookletText = data.booklet;
             state.currentDigestText = data.digest;
             
-            renderBookletHtml(data.booklet);
+            renderBookletGrid();
             
             state.parsedServices = parseServiceDigest(data.digest);
             renderServiceDigestDropdown();
@@ -740,22 +831,86 @@ document.addEventListener("DOMContentLoaded", () => {
         el.traceContent.scrollTop = 0;
     }
 
-    function renderBookletHtml(text) {
-        if (!text) {
-            el.bookletContent.innerHTML = '<p class="placeholder-text">Empty booklet content.</p>';
-            return;
+    const SERVICE_CARD_DEFS = [
+        { key: "General Info", title: "General Info", defaultBadge: "Propers" },
+        { key: "Vespers", title: "Vespers", defaultBadge: "Evening" },
+        { key: "Compline", title: "Compline", defaultBadge: "Night" },
+        { key: "Midnight Office", title: "Midnight Office", defaultBadge: "Nocturn" },
+        { key: "Matins", title: "Matins", defaultBadge: "Morning" },
+        { key: "Hours", title: "Hours", defaultBadge: "Daytime" },
+        { key: "Divine Liturgy", title: "Divine Liturgy", defaultBadge: "Eucharist" },
+        { key: "All Services", title: "All Services", defaultBadge: "Full Cycle" }
+    ];
+
+    function parseBookletServices(bookletText) {
+        const services = {
+            "General Info": "",
+            "Vespers": "",
+            "Compline": "",
+            "Midnight Office": "",
+            "Matins": "",
+            "Hours": "",
+            "Divine Liturgy": "",
+            "All Services": bookletText || ""
+        };
+        if (!bookletText) return services;
+
+        const lines = bookletText.split(/\r?\n/);
+        let currentService = "General Info";
+        let serviceLines = {
+            "General Info": [],
+            "Vespers": [],
+            "Compline": [],
+            "Midnight Office": [],
+            "Matins": [],
+            "Hours": [],
+            "Divine Liturgy": []
+        };
+
+        for (let line of lines) {
+            const trimmed = line.trim();
+            if (trimmed.startsWith("---") && trimmed.endsWith("---")) {
+                const header = trimmed.replace(/^-+\s*/, "").replace(/\s*-+$/, "").toUpperCase();
+                if (header.includes("VESPERS") || header.includes("VESPERAL")) {
+                    currentService = "Vespers";
+                } else if (header.includes("COMPLINE")) {
+                    currentService = "Compline";
+                } else if (header.includes("MIDNIGHT")) {
+                    currentService = "Midnight Office";
+                } else if (header.includes("MATINS")) {
+                    currentService = "Matins";
+                } else if (header.includes("HOUR") || header.includes("HOURS")) {
+                    currentService = "Hours";
+                } else if (header.includes("LITURGY")) {
+                    currentService = "Divine Liturgy";
+                } else {
+                    currentService = "General Info";
+                }
+            }
+            if (!serviceLines[currentService]) {
+                serviceLines[currentService] = [];
+            }
+            serviceLines[currentService].push(line);
         }
 
-        // Clean double carriage returns and split into blocks/paragraphs
+        for (let k in serviceLines) {
+            services[k] = serviceLines[k].join("\n").trim();
+        }
+        services["All Services"] = bookletText.trim();
+        return services;
+    }
+
+    function formatBookletSectionHtml(text) {
+        if (!text || text.trim() === "") return "";
+
         const paragraphs = text.split(/\r?\n\r?\n/);
         let html = "";
         let isFirstParagraph = true;
 
-        paragraphs.forEach((p, idx) => {
+        paragraphs.forEach((p) => {
             p = p.trim();
             if (!p) return;
 
-            // If the paragraph is already HTML (starts with '<'), render it directly
             if (p.startsWith("<")) {
                 if (p.includes('class="title-large"')) {
                     isFirstParagraph = true;
@@ -764,29 +919,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Check if paragraph is a section header (e.g. --- VESPERS ---)
             if (p.startsWith("---") && p.endsWith("---")) {
                 const headerText = p.replace(/^-+\s*/, "").replace(/\s*-+$/, "");
                 html += `<div class="title-large">${escapeHtml(headerText)}</div>`;
-                isFirstParagraph = true; // Apply drop cap to the next paragraph
+                isFirstParagraph = true;
                 return;
             }
 
-            // Check if paragraph is a minor title (e.g. == Lord I Have Cried ==)
             if (p.startsWith("==") && p.endsWith("==")) {
                 const titleText = p.replace(/^==\s*/, "").replace(/\s*==$/, "");
                 html += `<div class="title-medium">${escapeHtml(titleText)}</div>`;
                 return;
             }
             
-            // Check if paragraph is a rubric instructions block
             if (p.startsWith(">>>") && p.endsWith("<<<")) {
                 const rubricText = p.replace(/^>>>\s*RUBRIC:\s*/i, "").replace(/\s*<<<$/, "");
                 html += `<span class="rubric">${escapeHtml(rubricText)}</span>`;
                 return;
             }
             if (p.includes(">>> RUBRIC:")) {
-                // If it contains rubric inside line
                 let cleaned = escapeHtml(p);
                 cleaned = cleaned.replace(/&gt;&gt;&gt;\s*RUBRIC:(.*?)&lt;&lt;&lt;/gi, '<span class="rubric">$1</span>');
                 html += `<p>${cleaned}</p>`;
@@ -794,14 +945,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             let escapedP = escapeHtml(p);
-
-            // Parse Markdown bold **text** -> <strong>text</strong>
             escapedP = escapedP.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            // Parse Markdown italic *text* -> <em>text</em>
             escapedP = escapedP.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
-            // Handle Actor formatting like [PRIEST]: [DEACON]: etc.
-            // Match [ACTOR]: and wrap in styled tags
             const actorRegex = /^\[([A-Z0-9_ -]+)\]:/i;
             const match = escapedP.match(actorRegex);
             if (match) {
@@ -810,13 +956,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 escapedP = `<span class="actor">${actorName}</span> ${restText}`;
             }
 
-            // Replace line breaks inside paragraphs
             escapedP = escapedP.replace(/\n/g, "<br>");
-
-            // Highlight blessing cross symbols and bowls
             escapedP = escapedP.replace(/✚/g, '<span class="cross-icon" style="font-size:inherit;">✚</span>');
 
-            // Apply drop cap class to first text paragraph of a section
             if (isFirstParagraph && !match && !p.startsWith("DATE:") && !p.startsWith("FEAST:") && !p.startsWith("<") && !p.startsWith("[")) {
                 html += `<p class="drop-cap">${escapedP}</p>`;
                 isFirstParagraph = false;
@@ -825,8 +967,148 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        el.bookletContent.innerHTML = html;
+        return html;
+    }
+
+    function renderBookletGrid() {
+        if (!el.bookletContent) return;
+        if (!state.currentBookletText) {
+            el.bookletContent.innerHTML = '<p class="placeholder-text">Propers and service texts will load here...</p>';
+            return;
+        }
+
+        state.parsedBookletServices = parseBookletServices(state.currentBookletText);
+        const selectedFilter = el.bookletServiceSelect ? el.bookletServiceSelect.value : "all";
+
+        let gridHtml = `<div class="booklet-grid" id="booklet-cards-grid">`;
+
+        SERVICE_CARD_DEFS.forEach(def => {
+            const serviceKey = def.key;
+            const rawText = state.parsedBookletServices[serviceKey] || "";
+            const formattedHtml = formatBookletSectionHtml(rawText);
+            
+            const isSuppressed = !rawText || rawText.trim() === "";
+            const statusBadgeText = isSuppressed ? "Suppressed" : "Appointed";
+            const statusBadgeClass = isSuppressed ? "status-suppressed" : "status-appointed";
+            
+            let subtypeBadge = def.defaultBadge;
+            if (state.lastContext) {
+                if (serviceKey === "General Info" && state.lastContext.tone) {
+                    subtypeBadge = `Tone ${state.lastContext.tone}`;
+                } else if (serviceKey === "Vespers" && state.lastRubrics) {
+                    const vType = state.lastRubrics.overrides?.vespers_type || state.lastRubrics.variables?.vespers_type || "Daily Vespers";
+                    subtypeBadge = formatServiceKey(vType);
+                } else if (serviceKey === "Matins" && state.lastRubrics) {
+                    const mType = state.lastRubrics.overrides?.matins_type || state.lastRubrics.variables?.matins_type || "Daily Matins";
+                    subtypeBadge = formatServiceKey(mType);
+                } else if (serviceKey === "Divine Liturgy" && state.lastRubrics) {
+                    const lType = state.lastRubrics.overrides?.liturgy_type || state.lastRubrics.variables?.liturgy_type || "Chrysostom";
+                    subtypeBadge = formatServiceKey(lType);
+                }
+            }
+
+            let bodyContent = formattedHtml;
+            if (isSuppressed) {
+                bodyContent = `<p class="placeholder-text">${def.title} is not appointed or is suppressed on this day.</p>`;
+            }
+
+            const isVisible = (selectedFilter === "all" || selectedFilter === serviceKey);
+            const cardDisplay = isVisible ? "" : 'style="display: none;"';
+
+            gridHtml += `
+                <div class="service-card glass-container ${isSuppressed ? 'suppressed' : ''}" data-service-key="${serviceKey}" ${cardDisplay}>
+                    <div class="service-card-header">
+                        <div class="service-card-title-group">
+                            <span class="cross-icon" style="font-size: 0.95rem;">✚</span>
+                            <h4 class="service-card-title">${def.title}</h4>
+                        </div>
+                        <div class="service-card-badges">
+                            <span class="service-badge">${subtypeBadge}</span>
+                        </div>
+                        <div class="service-card-actions">
+                            <button class="btn btn-secondary btn-sm btn-card-focus" data-service="${serviceKey}" title="Focus Service View">Focus</button>
+                            <button class="btn btn-secondary btn-sm btn-card-copy" data-service="${serviceKey}" title="Copy Service Text">Copy</button>
+                        </div>
+                    </div>
+                    <div class="service-card-body scrollable">
+                        ${bodyContent}
+                    </div>
+                    <div class="service-card-footer">
+                        <span class="footer-tag">${def.title}</span>
+                        <span class="service-badge ${statusBadgeClass}">${statusBadgeText}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        gridHtml += `</div>`;
+        el.bookletContent.innerHTML = gridHtml;
         el.bookletContent.scrollTop = 0;
+
+        attachCardActionListeners();
+    }
+
+    function attachCardActionListeners() {
+        if (!el.bookletContent) return;
+
+        el.bookletContent.querySelectorAll(".btn-card-focus").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const serviceKey = btn.getAttribute("data-service");
+                openServiceFocusModal(serviceKey);
+            });
+        });
+
+        el.bookletContent.querySelectorAll(".btn-card-copy").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const serviceKey = btn.getAttribute("data-service");
+                if (state.parsedBookletServices && state.parsedBookletServices[serviceKey]) {
+                    copyTextToClipboard(state.parsedBookletServices[serviceKey], `${serviceKey} text copied!`);
+                } else {
+                    showToast(`No text available for ${serviceKey}`);
+                }
+            });
+        });
+
+        el.bookletContent.querySelectorAll(".service-card").forEach(card => {
+            card.addEventListener("dblclick", () => {
+                const serviceKey = card.getAttribute("data-service-key");
+                if (serviceKey) {
+                    openServiceFocusModal(serviceKey);
+                }
+            });
+        });
+    }
+
+    function openServiceFocusModal(serviceKey) {
+        if (!el.cardFocusModal) return;
+        
+        const def = SERVICE_CARD_DEFS.find(d => d.key === serviceKey) || {
+            key: serviceKey,
+            title: serviceKey,
+            defaultBadge: "Service"
+        };
+
+        state.currentFocusService = serviceKey;
+        const rawText = state.parsedBookletServices ? (state.parsedBookletServices[serviceKey] || "") : "";
+        const formattedHtml = formatBookletSectionHtml(rawText);
+
+        if (el.focusModalTitle) el.focusModalTitle.textContent = `${def.title} — Cantor Service Booklet`;
+        if (el.focusModalBadge) el.focusModalBadge.textContent = def.defaultBadge;
+        
+        if (el.focusModalContent) {
+            el.focusModalContent.innerHTML = formattedHtml || `<p class="placeholder-text">${def.title} is not appointed or suppressed on this day.</p>`;
+            el.focusModalContent.scrollTop = 0;
+        }
+
+        el.cardFocusModal.classList.remove("hidden");
+    }
+
+    function closeServiceFocusModal() {
+        if (el.cardFocusModal) {
+            el.cardFocusModal.classList.add("hidden");
+        }
     }
 
     function parseServiceDigest(digestText) {
@@ -2252,6 +2534,150 @@ document.addEventListener("DOMContentLoaded", () => {
         renderProfileDropdown();
     }
 
-    // Initialize themes
+    /* ==========================================================================
+       FONT SCALER & TYPOGRAPHY SYSTEM
+       ========================================================================== */
+    function initFontScaler() {
+        const btnFontDec = document.getElementById("btn-font-dec");
+        const btnFontInc = document.getElementById("btn-font-inc");
+        const btnFontReset = document.getElementById("btn-font-reset");
+        const modalFontDec = document.getElementById("modal-font-dec");
+        const modalFontInc = document.getElementById("modal-font-inc");
+        const modalFontReset = document.getElementById("modal-font-reset");
+
+        let currentScale = parseFloat(localStorage.getItem("cantor-font-scale") || "1.0");
+
+        function applyScale(scale) {
+            currentScale = Math.round(scale * 100) / 100;
+            document.documentElement.style.setProperty("--font-scale-modifier", currentScale);
+            localStorage.setItem("cantor-font-scale", currentScale);
+            const text = `${Math.round(currentScale * 100)}%`;
+            if (btnFontReset) {
+                btnFontReset.textContent = text;
+            }
+            if (modalFontReset) {
+                modalFontReset.textContent = text;
+            }
+        }
+
+        const handleDec = () => {
+            if (currentScale > 0.75) {
+                applyScale(currentScale - 0.1);
+            }
+        };
+        const handleInc = () => {
+            if (currentScale < 1.6) {
+                applyScale(currentScale + 0.1);
+            }
+        };
+        const handleReset = () => {
+            applyScale(1.0);
+        };
+
+        if (btnFontDec) btnFontDec.addEventListener("click", handleDec);
+        if (btnFontInc) btnFontInc.addEventListener("click", handleInc);
+        if (btnFontReset) btnFontReset.addEventListener("click", handleReset);
+        if (modalFontDec) modalFontDec.addEventListener("click", handleDec);
+        if (modalFontInc) modalFontInc.addEventListener("click", handleInc);
+        if (modalFontReset) modalFontReset.addEventListener("click", handleReset);
+
+        applyScale(currentScale);
+    }
+
+    /* ==========================================================================
+       KLIEROS STAND MODE & SCREEN WAKE LOCK SYSTEM
+       ========================================================================== */
+    let wakeLockSentinel = null;
+
+    async function toggleStandMode() {
+        const isStand = document.body.classList.toggle("stand-mode");
+        const standBtn = document.getElementById("btn-stand-mode");
+        const mobileStandBtn = document.getElementById("mobile-stand-btn");
+
+        if (isStand) {
+            if (standBtn) standBtn.innerHTML = "🎚️ Exit Stand";
+            if (mobileStandBtn) mobileStandBtn.textContent = "✕";
+
+            // Request Screen Wake Lock to prevent screen sleep during divine services
+            try {
+                if ("wakeLock" in navigator) {
+                    wakeLockSentinel = await navigator.wakeLock.request("screen");
+                    wakeLockSentinel.addEventListener("release", () => {
+                        wakeLockSentinel = null;
+                    });
+                }
+            } catch (err) {
+                console.warn("[Stand Mode] Wake lock request failed:", err);
+            }
+
+            showToast("Klieros Stand Mode active. Screen sleep disabled.");
+        } else {
+            if (standBtn) standBtn.innerHTML = "🎚️ Stand Mode";
+            if (mobileStandBtn) mobileStandBtn.textContent = "🎚️";
+
+            if (wakeLockSentinel) {
+                try {
+                    await wakeLockSentinel.release();
+                } catch (e) {}
+                wakeLockSentinel = null;
+            }
+
+            showToast("Exited Stand Mode.");
+        }
+    }
+
+    function initStandMode() {
+        const standBtn = document.getElementById("btn-stand-mode");
+        const mobileStandBtn = document.getElementById("mobile-stand-btn");
+
+        if (standBtn) {
+            standBtn.addEventListener("click", toggleStandMode);
+        }
+        if (mobileStandBtn) {
+            mobileStandBtn.addEventListener("click", toggleStandMode);
+        }
+
+        // Exit stand mode with Escape key
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && document.body.classList.contains("stand-mode")) {
+                toggleStandMode();
+            }
+        });
+    }
+
+    /* ==========================================================================
+       LITURGICAL CONTEXT SIDEBAR TOGGLE SYSTEM
+       ========================================================================== */
+    function initContextToggle() {
+        const btnToggleContext = document.getElementById("btn-toggle-context");
+        const contextCol = document.querySelector(".context-col");
+        const resizeHandle = document.getElementById("main-sidebar-resize");
+
+        if (!btnToggleContext || !contextCol) return;
+
+        let isOpen = localStorage.getItem("cantor-context-open") !== "false";
+
+        function updateContextUI() {
+            contextCol.classList.toggle("collapsed", !isOpen);
+            if (resizeHandle) {
+                resizeHandle.classList.toggle("collapsed", !isOpen);
+            }
+            btnToggleContext.innerHTML = isOpen ? "◀ Context" : "▶ Context";
+            btnToggleContext.title = isOpen ? "Hide Liturgical Context Panel" : "Show Liturgical Context Panel";
+            localStorage.setItem("cantor-context-open", isOpen);
+        }
+
+        btnToggleContext.addEventListener("click", () => {
+            isOpen = !isOpen;
+            updateContextUI();
+        });
+
+        updateContextUI();
+    }
+
+    // Initialize systems
     initTheme();
+    initFontScaler();
+    initStandMode();
+    initContextToggle();
 });
