@@ -295,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            renderLiturgicalContext(data.context, data.rubrics, data.fasting, data.ceremonial);
+            renderLiturgicalContext(data.context, data.rubrics, data.fasting, data.ceremonial, data.katavasia);
             renderTraceLogs(data.rubrics.trace);
             
             state.currentBookletText = data.booklet;
@@ -538,7 +538,19 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${vLabel} + ${mLabel} + ${lLabel}`;
     }
 
-    function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial) {
+    function formatKatavasiaBadge(katavasia, ctx) {
+        if (!katavasia) return '<span style="color: var(--text-muted);">None</span>';
+        if (typeof katavasia === "string") {
+            return `<span class="badge-katavasia" style="font-size: 0.85rem; font-weight: 500; color: var(--accent-gold, #c5a059);">${katavasia}</span>`;
+        }
+        const text = katavasia.text || katavasia.content || "";
+        const id = katavasia.id || katavasia.katavasia_id || "";
+        const tone = katavasia.tone ? ` (Tone ${katavasia.tone})` : "";
+        let label = text ? `"${text}"${tone}` : (id ? `${id.replace(/_/g, ' ')}${tone}` : "Appointed Seasonal");
+        return `<span class="badge-katavasia" style="font-size: 0.85rem; font-weight: 500; color: var(--accent-gold, #c5a059);" title="Dolnytsky Part I: Matins Katavasia">${label}</span>`;
+    }
+
+    function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial, katavasia) {
         let html = "";
         
         // General Info
@@ -548,6 +560,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const seasonVal = ctx.season || "ordinary";
         const seasonClean = seasonVal.replace('_', ' ');
         html += `<div class="context-row" title="Dolnytsky Typik Part V: Represents the seasonal periods of the liturgical year (Ordinary, Lenten, Paschal/Floral)."><span class="context-label">Liturgical Season</span><span class="context-val"><span class="badge-season season-${seasonVal}">${seasonClean}</span></span></div>`;
+        
+        // Katavasia Row
+        html += `<div class="context-row" title="Dolnytsky Typik Part I §11 & Parts IV–V: The appointed seasonal or daily Katavasia chant for Matins."><span class="context-label">Katavasia</span><span class="context-val">${formatKatavasiaBadge(katavasia, ctx)}</span></div>`;
         
         const toneVal = (ctx.tone !== undefined && ctx.tone !== null) ? `Tone ${ctx.tone}` : "None";
         const toneHtml = (ctx.tone !== undefined && ctx.tone !== null) ? `<span class="badge-tone">${toneVal}</span>` : `<span style="color: var(--text-muted);">None</span>`;

@@ -310,6 +310,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             vestment = engine.resolve_vestment_color(context, rubrics)
             prostrations_info = engine.resolve_prostrations_rule(context)
             clergy_variant = engine.resolve_clergy_variant(context, service="liturgy")
+            katavasia = engine.resolve_katavasia(context)
 
             # Make context JSON serializable
             serializable_context = {}
@@ -339,6 +340,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             response = {
                 "context": serializable_context,
                 "fasting": fasting,
+                "katavasia": katavasia,
                 "ceremonial": {
                     "vestment": vestment,
                     "prostrations": prostrations_info,
