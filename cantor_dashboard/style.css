@@ -2769,6 +2769,23 @@ body.light-theme .badge-tone {
     border-color: rgba(197, 160, 89, 0.3);
 }
 
+.badge-katavasia {
+    background: rgba(197, 160, 89, 0.15);
+    color: var(--gold-accent, #c5a059);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    white-space: nowrap;
+}
+body.light-theme .badge-katavasia {
+    background: rgba(197, 160, 89, 0.1);
+    color: #856404;
+    border-color: rgba(197, 160, 89, 0.3);
+}
+
 .badge-eothinon {
     background: rgba(59, 130, 246, 0.15);
     color: #60a5fa;

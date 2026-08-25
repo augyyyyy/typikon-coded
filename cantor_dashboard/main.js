@@ -606,7 +606,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const titleTooltip = `Dolnytsky Typikon Part I §11 & Parts IV–V:\nSeason: ${seasonWindow}\nIncipit: ${incipit}`;
         
-        return `<span class="badge-katavasia-festal" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-gold, #c5a059); cursor: help;" title="${titleTooltip}">${incipit}</span>`;
+        return `<span class="badge-katavasia" style="cursor: help;" title="${titleTooltip}">${incipit}</span>`;
     }
 
     function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial, katavasia) {
