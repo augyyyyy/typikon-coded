@@ -604,16 +604,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         
-        const isSunday = ctx.day_of_week === 0;
-        const rankCode = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
-        const tagLabel = isSunday ? "Sunday" : (rankCode === "[LORD]" || rankCode === "[MOG]" ? "Festal" : "Polyeleos");
+        const titleTooltip = `Dolnytsky Typikon Part I §11 & Parts IV–V:\nSeason: ${seasonWindow}\nIncipit: ${incipit}`;
         
-        const primaryBadge = `<span class="badge-katavasia-festal" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-gold, #c5a059);">${incipit}</span>`;
-        const secondaryBadge = `<span class="badge-katavasia-tag" style="background: rgba(197, 160, 89, 0.15); color: var(--accent-gold, #c5a059); padding: 2px 6px; border-radius: 4px; font-size: 0.72rem; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(197, 160, 89, 0.3);">${tagLabel}</span>`;
-        
-        const titleTooltip = `Dolnytsky Typikon Part I §11 & Parts IV–V:\nSeason: ${seasonWindow}\nIncipit: ${incipit}\n• Today (${tagLabel} Service): Sung as appointed Katavasia at the conclusion of each Ode.`;
-        
-        return `<span style="display: inline-flex; align-items: center; justify-content: flex-end; cursor: help;" title="${titleTooltip}">${primaryBadge}${secondaryBadge}</span>`;
+        return `<span class="badge-katavasia-festal" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-gold, #c5a059); cursor: help;" title="${titleTooltip}">${incipit}</span>`;
     }
 
     function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial, katavasia) {
@@ -627,7 +620,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const seasonClean = seasonVal.replace('_', ' ');
         html += `<div class="context-row" title="Dolnytsky Typik Part V: Represents the seasonal periods of the liturgical year (Ordinary, Lenten, Paschal/Floral)."><span class="context-label">Liturgical Season</span><span class="context-val"><span class="badge-season season-${seasonVal}">${seasonClean}</span></span></div>`;
         
-        // Katavasia Row (Conditional Line Item - Approach 1: Only on Sundays and Class III+ / Festal days)
+        // Seasonal Katavasia Row (Conditional Line Item: Only on Sundays and Class III+ / Festal days)
         const isSunday = ctx.day_of_week === 0;
         const rankCode = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
         const isMajorRank = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(rankCode);
@@ -635,7 +628,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const hasAppointedKatavasia = isSunday || isMajorRank || isAfterfeastOrFeast;
         
         if (hasAppointedKatavasia && katavasia) {
-            html += `<div class="context-row" title="Dolnytsky Typik Part I §11 & Parts IV–V: Appointed Katavasia for Sunday / Festal Matins."><span class="context-label">Katavasia</span><span class="context-val">${formatKatavasiaBadge(katavasia, ctx)}</span></div>`;
+            html += `<div class="context-row" title="Dolnytsky Typik Part I §11 & Parts IV–V: Appointed Seasonal Katavasia for Sunday / Festal Matins."><span class="context-label">Seasonal Katavasia</span><span class="context-val">${formatKatavasiaBadge(katavasia, ctx)}</span></div>`;
         }
         
         const toneVal = (ctx.tone !== undefined && ctx.tone !== null) ? `Tone ${ctx.tone}` : "None";
