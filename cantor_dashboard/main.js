@@ -559,7 +559,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let seasonName = "Ordinary";
         let seasonWindow = "Ordinary Sundays / Feasts";
         let incipit = text ? `"${text}"${toneStr}` : "Seasonal Katavasia";
-        let shortSeasonBadge = "Season";
         
         const m = ctx.month;
         const d = ctx.day;
@@ -569,72 +568,50 @@ document.addEventListener("DOMContentLoaded", () => {
             seasonName = "Cross";
             seasonWindow = "Exaltation of the Holy Cross (August 24 – September 21)";
             incipit = '"A cross did Moses trace" (Tone VIII)';
-            shortSeasonBadge = "Cross (Tone VIII)";
         } else if (id.includes("nativity") || (m === 11 && d >= 21) || (m === 12 && d <= 31)) {
             seasonName = "Nativity";
             seasonWindow = "Nativity Fast & Feasts (November 21 – December 31)";
             incipit = '"Christ is born, glorify Him" (Tone I)';
-            shortSeasonBadge = "Nativity (Tone I)";
         } else if (id.includes("theophany") || (m === 1 && d <= 14)) {
             seasonName = "Theophany";
             seasonWindow = "Theophany Season (January 1 – January 14)";
             incipit = '"The Lord mighty in battle" (Tone II)';
-            shortSeasonBadge = "Theophany (Tone II)";
         } else if (id.includes("meeting") || id.includes("encounter") || (m === 1 && d >= 15) || (m === 2 && d <= 9)) {
             seasonName = "Encounter";
             seasonWindow = "Encounter of the Lord (January 15 – February 9)";
             incipit = '"The sun once shone" (Tone III)';
-            shortSeasonBadge = "Encounter (Tone III)";
         } else if (id.includes("dormition") || (m === 8 && d <= 14)) {
             seasonName = "Dormition";
             seasonWindow = "Dormition Fast (August 1 – August 14)";
             incipit = '"The Israel of old" (Tone IV)';
-            shortSeasonBadge = "Dormition (Tone IV)";
         } else if (p !== undefined && p !== null) {
             if (p >= 0 && p <= 38) {
                 seasonName = "Pascha";
                 seasonWindow = "Paschal Season (Pascha to Ascension Eve)";
                 incipit = '"This is the day of Resurrection" (Tone I)';
-                shortSeasonBadge = "Pascha (Tone I)";
             } else if (p >= 39 && p <= 48) {
                 seasonName = "Ascension";
                 seasonWindow = "Ascension Season (Ascension to Pentecost Eve)";
                 incipit = '"He who covered the deep" (Tone IV)';
-                shortSeasonBadge = "Ascension (Tone IV)";
             } else if (p >= 49 && p <= 55) {
                 seasonName = "Pentecost";
                 seasonWindow = "Pentecost Season (Pentecost to All Saints Eve)";
                 incipit = '"Covered with divine cloud" (Tone IV/VII)';
-                shortSeasonBadge = "Pentecost (Tone IV/VII)";
             } else if (p === -28) {
                 seasonName = "Lenten Cross";
                 seasonWindow = "3rd Sunday of Lent (Veneration of the Cross)";
                 incipit = '"The divine and holy cross" (Tone I)';
-                shortSeasonBadge = "Holy Cross (Tone I)";
             }
         }
         
         const isSunday = ctx.day_of_week === 0;
         const rankCode = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
-        const isMajorRank = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(rankCode);
-        const isFestalExecution = isSunday || isMajorRank;
+        const tagLabel = isSunday ? "Sunday" : (rankCode === "[LORD]" || rankCode === "[MOG]" ? "Festal" : "Polyeleos");
         
-        let primaryBadge = "";
-        let secondaryBadge = "";
-        let executionRule = "";
+        const primaryBadge = `<span class="badge-katavasia-festal" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-gold, #c5a059);">${incipit}</span>`;
+        const secondaryBadge = `<span class="badge-katavasia-tag" style="background: rgba(197, 160, 89, 0.15); color: var(--accent-gold, #c5a059); padding: 2px 6px; border-radius: 4px; font-size: 0.72rem; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(197, 160, 89, 0.3);">${tagLabel}</span>`;
         
-        if (isFestalExecution) {
-            const tagLabel = isSunday ? "Sunday" : (rankCode === "[LORD]" || rankCode === "[MOG]" ? "Festal" : "Polyeleos");
-            primaryBadge = `<span class="badge-katavasia-festal" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-gold, #c5a059);">${incipit}</span>`;
-            secondaryBadge = `<span class="badge-katavasia-tag" style="background: rgba(197, 160, 89, 0.15); color: var(--accent-gold, #c5a059); padding: 2px 6px; border-radius: 4px; font-size: 0.72rem; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(197, 160, 89, 0.3);">${tagLabel}</span>`;
-            executionRule = `• Today (${tagLabel} Service): Sung as festal Katavasia at the conclusion of each Ode.`;
-        } else {
-            primaryBadge = `<span class="badge-katavasia-daily" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary, #e6e6e6); background: rgba(255, 255, 255, 0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.15);">Heirmos of Saint</span>`;
-            secondaryBadge = `<span class="badge-katavasia-season" style="color: var(--text-muted, #888); font-size: 0.78rem; margin-left: 8px;">(Season: ${shortSeasonBadge})</span>`;
-            executionRule = `• Today (Simple Weekday): Seasonal Katavasia is suppressed; Heirmos of Saint serves as Katavasia at Odes 3, 6, 8, and 9.`;
-        }
-        
-        const titleTooltip = `Dolnytsky Typikon Part I §11 & Parts IV–V:\nSeason: ${seasonWindow}\nIncipit: ${incipit}\n${executionRule}`;
+        const titleTooltip = `Dolnytsky Typikon Part I §11 & Parts IV–V:\nSeason: ${seasonWindow}\nIncipit: ${incipit}\n• Today (${tagLabel} Service): Sung as appointed Katavasia at the conclusion of each Ode.`;
         
         return `<span style="display: inline-flex; align-items: center; justify-content: flex-end; cursor: help;" title="${titleTooltip}">${primaryBadge}${secondaryBadge}</span>`;
     }
@@ -650,8 +627,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const seasonClean = seasonVal.replace('_', ' ');
         html += `<div class="context-row" title="Dolnytsky Typik Part V: Represents the seasonal periods of the liturgical year (Ordinary, Lenten, Paschal/Floral)."><span class="context-label">Liturgical Season</span><span class="context-val"><span class="badge-season season-${seasonVal}">${seasonClean}</span></span></div>`;
         
-        // Katavasia Row
-        html += `<div class="context-row" title="Dolnytsky Typik Part I §11 & Parts IV–V: The appointed seasonal or daily Katavasia chant for Matins."><span class="context-label">Katavasia</span><span class="context-val">${formatKatavasiaBadge(katavasia, ctx)}</span></div>`;
+        // Katavasia Row (Conditional Line Item - Approach 1: Only on Sundays and Class III+ / Festal days)
+        const isSunday = ctx.day_of_week === 0;
+        const rankCode = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
+        const isMajorRank = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(rankCode);
+        const isAfterfeastOrFeast = ctx.is_afterfeast || ctx.is_fore_or_afterfeast || ctx.period === "afterfeast" || ctx.period === "feast";
+        const hasAppointedKatavasia = isSunday || isMajorRank || isAfterfeastOrFeast;
+        
+        if (hasAppointedKatavasia && katavasia) {
+            html += `<div class="context-row" title="Dolnytsky Typik Part I §11 & Parts IV–V: Appointed Katavasia for Sunday / Festal Matins."><span class="context-label">Katavasia</span><span class="context-val">${formatKatavasiaBadge(katavasia, ctx)}</span></div>`;
+        }
         
         const toneVal = (ctx.tone !== undefined && ctx.tone !== null) ? `Tone ${ctx.tone}` : "None";
         const toneHtml = (ctx.tone !== undefined && ctx.tone !== null) ? `<span class="badge-tone">${toneVal}</span>` : `<span style="color: var(--text-muted);">None</span>`;
