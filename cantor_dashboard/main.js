@@ -540,14 +540,74 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function formatKatavasiaBadge(katavasia, ctx) {
         if (!katavasia) return '<span style="color: var(--text-muted);">None</span>';
+        
+        let label = "Appointed Seasonal";
+        let text = "";
+        let id = "";
+        let toneStr = "";
+        
         if (typeof katavasia === "string") {
-            return `<span class="badge-katavasia" style="font-size: 0.85rem; font-weight: 500; color: var(--accent-gold, #c5a059);">${katavasia}</span>`;
+            label = katavasia;
+            id = katavasia.toLowerCase();
+        } else if (typeof katavasia === "object") {
+            text = katavasia.text || katavasia.content || "";
+            id = (katavasia.id || katavasia.katavasia_id || "").toLowerCase();
+            const tone = katavasia.tone;
+            toneStr = tone ? ` (Tone ${tone})` : "";
+            label = text ? `"${text}"${toneStr}` : (id ? `${id.replace(/_/g, ' ')}${toneStr}` : "Appointed Seasonal");
         }
-        const text = katavasia.text || katavasia.content || "";
-        const id = katavasia.id || katavasia.katavasia_id || "";
-        const tone = katavasia.tone ? ` (Tone ${katavasia.tone})` : "";
-        let label = text ? `"${text}"${tone}` : (id ? `${id.replace(/_/g, ' ')}${tone}` : "Appointed Seasonal");
-        return `<span class="badge-katavasia" style="font-size: 0.85rem; font-weight: 500; color: var(--accent-gold, #c5a059);" title="Dolnytsky Part I: Matins Katavasia">${label}</span>`;
+        
+        // Determine Seasonal Window & Canonical Citation (Dolnytsky Part I §11 & Parts IV–V)
+        let seasonWindow = "Ordinary Sundays / Feasts";
+        let incipit = text ? `"${text}"` : label;
+        
+        const m = ctx.month;
+        const d = ctx.day;
+        const p = ctx.pascha_offset;
+        
+        if (id.includes("cross") || (m === 8 && d >= 24) || (m === 9 && d <= 21)) {
+            seasonWindow = "Exaltation of the Holy Cross (August 24 – September 21)";
+            incipit = '"A cross did Moses trace" (Tone VIII)';
+        } else if (id.includes("nativity") || (m === 11 && d >= 21) || (m === 12 && d <= 31)) {
+            seasonWindow = "Nativity Fast & Feasts (November 21 – December 31)";
+            incipit = '"Christ is born, glorify Him" (Tone I)';
+        } else if (id.includes("theophany") || (m === 1 && d <= 14)) {
+            seasonWindow = "Theophany Season (January 1 – January 14)";
+            incipit = '"The Lord mighty in battle" (Tone II)';
+        } else if (id.includes("meeting") || id.includes("encounter") || (m === 1 && d >= 15) || (m === 2 && d <= 9)) {
+            seasonWindow = "Encounter of the Lord (January 15 – February 9)";
+            incipit = '"The sun once shone" (Tone III)';
+        } else if (id.includes("dormition") || (m === 8 && d <= 14)) {
+            seasonWindow = "Dormition Fast (August 1 – August 14)";
+            incipit = '"The Israel of old" (Tone IV)';
+        } else if (p !== undefined && p !== null) {
+            if (p >= 0 && p <= 38) {
+                seasonWindow = "Paschal Season (Pascha to Ascension Eve)";
+                incipit = '"This is the day of Resurrection" (Tone I)';
+            } else if (p >= 39 && p <= 48) {
+                seasonWindow = "Ascension Season (Ascension to Pentecost Eve)";
+                incipit = '"He who covered the deep" (Tone IV)';
+            } else if (p >= 49 && p <= 55) {
+                seasonWindow = "Pentecost Season (Pentecost to All Saints Eve)";
+                incipit = '"Covered with divine cloud" (Tone IV/VII)';
+            } else if (p === -28) {
+                seasonWindow = "3rd Sunday of Lent (Veneration of the Cross)";
+                incipit = '"The divine and holy cross" (Tone I)';
+            }
+        }
+        
+        const isSunday = ctx.day_of_week === 0;
+        const rankCode = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
+        const isMajorRank = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(rankCode);
+        const isFestalExecution = isSunday || isMajorRank;
+        
+        const executionRule = isFestalExecution
+            ? "• Today (Sunday/Feast): Sung as festal Katavasia at the conclusion of each Ode."
+            : "• Today (Simple Weekday): Seasonal Katavasia is suppressed; Heirmos of Saint serves as Katavasia at Odes 3, 6, 8, and 9.";
+            
+        const titleTooltip = `Dolnytsky Typikon Part I §11 & Parts IV–V:\nSeason: ${seasonWindow}\nIncipit: ${incipit}\n${executionRule}`;
+        
+        return `<span class="badge-katavasia" style="font-size: 0.85rem; font-weight: 500; color: var(--accent-gold, #c5a059); cursor: help;" title="${titleTooltip}">${label}</span>`;
     }
 
     function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial, katavasia) {
