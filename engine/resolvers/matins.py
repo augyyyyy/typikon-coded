@@ -2010,7 +2010,9 @@ class MatinsMixin:
         overridden = context.get("variables", {}).get("matins_canon_distribution")
         if overridden:
             if isinstance(overridden, dict):
-                dist = overridden.get("distribution", [])
+                dist = overridden.get("distribution") or overridden.get("canons") or []
+                if not dist and overridden.get("source"):
+                    dist = [{"source": overridden.get("source"), "type": overridden.get("type", "feast"), "qty": overridden.get("qty", overridden.get("total_count", 14))}]
             else:
                 dist = overridden
             total = sum(d.get("qty", d.get("count", 0)) for d in dist) if isinstance(dist, list) else 14

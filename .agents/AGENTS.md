@@ -45,11 +45,15 @@ Before editing or creating any files, you MUST run this mental check and state t
 1. Read `.agents/AGENTS.md` and `.agents/references/project_facts.md`.
 2. Verify you have read `.agents/references/learnings.md` and `.agents/references/anti_patterns.md`.
 3. Cite at least ONE specific rule from these files relevant to the current task.
+4. Run the session compliance check and paste the output:
+   `$env:PYTHONPATH="." ; .venv\Scripts\pytest tests/test_session_compliance.py --verbose`
 
 ### 12. Post-Flight Checklist & Handoff (After ANY Code Change)
 After making changes and before concluding your session, you MUST:
-1. Run `git diff --stat` and paste the output.
-2. Run pytest: `$env:PYTHONPATH="."; .venv\Scripts\pytest` and paste the pass/fail counts.
+1. Run `$env:PAGER="cat"; git --no-pager diff --stat HEAD` and paste the output.
+2. Run the compliance check and the full test suite and paste the pass/fail counts:
+   `$env:PYTHONPATH="." ; $env:PAGER="cat" ; .venv\Scripts\pytest tests/test_session_compliance.py --verbose`
+   `$env:PYTHONPATH="." ; $env:PAGER="cat" ; .venv\Scripts\pytest --ignore=tests/test_ui_readability.py --verbose`
 3. If digest generator changed, generate the digest and paste the output.
-4. Copy your session planning files (`implementation_plan.md`, `task.md`, `walkthrough.md` from `.gemini/` app data folder) to `.agent/brain/session_history/<date>/`.
+4. Copy your session planning files (`implementation_plan.md`, `task.md`, `walkthrough.md` from `.gemini/` app data folder) to `.agents/brain/session_history/<date>/`.
 5. State: "X tests pass, Y tests fail, Z files changed."

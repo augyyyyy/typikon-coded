@@ -92,12 +92,25 @@ class VespersMixin:
         if context.get("is_small_vespers"):
             return self.resolve_small_vespers_stichera(context)
 
-        # Check for overridden distribution first (e.g. from collisions)
         overridden_dist = context.get("vespers_stichera_distribution")
         if overridden_dist and isinstance(overridden_dist, dict):
             vespers_logic = overridden_dist
             count = vespers_logic.get("total_count", 0)
-            dist = vespers_logic.get("distribution", [])
+            if "logic_switch" in vespers_logic:
+                s_count = len(context.get("saints", []))
+                switch_key = "1_saint"
+                if s_count >= 2:
+                    switch_key = "2_saints"
+                else:
+                    rank_id = self._get_rank_id(context)
+                    if rank_id == "rank_simple_6" or rank_id == "rank_doxology":
+                        switch_key = "saint_on_6_doxology" if "saint_on_6_doxology" in vespers_logic["logic_switch"] else "saint_on_6"
+                sub_rule = vespers_logic["logic_switch"].get(switch_key, vespers_logic["logic_switch"].get("1_saint", {}))
+                dist = sub_rule.get("distribution", [])
+            else:
+                dist = vespers_logic.get("distribution", [])
+                if not dist and vespers_logic.get("source") and count > 0:
+                    dist = [{"source": vespers_logic.get("source"), "type": vespers_logic.get("type", "feast"), "qty": count}]
             glory = vespers_logic.get("glory")
             both_now = vespers_logic.get("both_now")
             
@@ -345,7 +358,10 @@ class VespersMixin:
                 if rank_id == "rank_simple_6" or rank_id == "rank_doxology":
                     switch_key = "saint_on_6_doxology"
         
-            sub_rule = vespers_logic["logic_switch"].get(switch_key, {})
+            sub_rule = vespers_logic["logic_switch"].get(
+                switch_key,
+                vespers_logic["logic_switch"].get("1_saint", next(iter(vespers_logic["logic_switch"].values())) if vespers_logic["logic_switch"] else {})
+            )
             dist = sub_rule.get("distribution", [])
         else:
             dist = vespers_logic.get("distribution", [])

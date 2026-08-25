@@ -975,9 +975,9 @@ class LentenMixin:
         menaion_rank_val = context.get("menaion_rank") or context.get("variables", {}).get("menaion_rank") or ""
         is_polyeleos = ("POL" in rank_code or "POLYELEOS" in rank_code or 
                         (isinstance(menaion_rank_val, str) and menaion_rank_val.startswith("rank_polyeleos")) or
-                        (not rank_code and rank == 4))
+                        (not rank_code and rank == 3))
         
-        is_vigil_or_great = (rank <= 3 and not is_polyeleos)
+        is_vigil_or_great = (rank <= 2 and not is_polyeleos)
         
         if is_vigil_or_great: 
             return False 

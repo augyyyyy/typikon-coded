@@ -9,6 +9,97 @@ import re
 from datetime import date, timedelta
 import copy
 
+LEGACY_KEY_ALIASES = {
+    # Vespers
+    "horologion.litany_great": "horologion.vespers.great_litany",
+    "horologion.litany_fervent": "horologion.vespers.fervent_litany",
+    "horologion.litany_supplication": "horologion.vespers.supplication_litany",
+    "horologion.litany_small": "horologion.common.small_litany",
+    "horologion.psalm_103": "horologion.vespers.psalm_103",
+    "horologion.psalm_140": "horologion.vespers.psalm_140",
+    "horologion.psalm_141": "horologion.vespers.psalm_141",
+    "horologion.psalm_142": "horologion.matins.psalm_142",
+    "horologion.psalm_129": "horologion.vespers.psalm_129",
+    "horologion.psalm_116": "horologion.vespers.psalm_116",
+    "horologion.o_gladsome_light_read": "horologion.vespers.phos_hilaron_read",
+    "horologion.vouchsafe_o_lord": "horologion.vespers.vouchsafe_o_lord",
+    "horologion.nunc_dimittis": "horologion.vespers.nunc_dimittis",
+    "horologion.psalm_33": "horologion.vespers.psalm_33",
+    "horologion.it_is_a_good_thing": "horologion.vespers.it_is_a_good_thing",
+
+    # Matins
+    "horologion.hexapsalmos": "horologion.matins.hexapsalmos",
+    "horologion.six_psalms": "horologion.matins.six_psalms",
+    "horologion.god_is_the_lord_verses": "horologion.matins.god_is_the_lord_verses",
+    "horologion.polyeleos": "horologion.matins.polyeleos",
+    "horologion.praises_psalms": "horologion.matins.praises_psalms",
+    "horologion.doxology_great": "horologion.matins.great_doxology",
+    "horologion.doxology_small_read": "horologion.matins.small_doxology_read",
+    "horologion.invitatory_3x": "horologion.matins.invitatory_3x",
+    "horologion.o_lord_open_lips": "horologion.matins.open_lips",
+    "horologion.glory_to_god_highest": "horologion.matins.glory_to_god_highest",
+    "horologion.glory_to_holy": "horologion.matins.glory_to_holy",
+    "horologion.blessing_vigil": "horologion.matins.blessing_vigil",
+    "horologion.vigil_bridge_blessing": "horologion.matins.vigil_bridge_blessing",
+
+    # Compline
+    "horologion.prayer_compline_spotless": "horologion.compline.prayer_spotless",
+    "horologion.prayer_compline_grant_us": "horologion.compline.prayer_grant_us",
+    "horologion.prayer_manasses": "horologion.compline.prayer_manasseh",
+    "horologion.troparia_compline_day_passed": "horologion.compline.troparia_day_passed",
+    "horologion.dismissal_great_compline_standard": "horologion.compline.dismissal_great_standard",
+    "horologion.litany_final_compline": "horologion.compline.final_litany",
+    "horologion.psalm_4": "horologion.compline.psalm_4",
+    "horologion.psalm_6": "horologion.compline.psalm_6",
+    "horologion.psalm_12": "horologion.compline.psalm_12",
+    "horologion.psalm_24": "horologion.compline.psalm_24",
+    "horologion.psalm_30": "horologion.compline.psalm_30",
+    "horologion.psalm_90": "horologion.compline.psalm_90",
+
+    # Hours
+    "horologion.prayer_hour_1_christ_true_light": "horologion.hours.hour_1.prayer_christ_true_light",
+    "horologion.prayer_the_first_hour": "horologion.hours.hour_1.ordinary_prayer",
+    "horologion.verses_hour_1_order_my_steps": "horologion.hours.hour_1.verses_order_steps",
+    "horologion.prayer_the_third_hour": "horologion.hours.hour_3.ordinary_prayer",
+    "horologion.verses_hour_3_blessed_is_the_lord": "horologion.hours.hour_3.verses_blessed_is_lord",
+    "horologion.prayer_hour_3_mardari": "horologion.hours.hour_3.prayer_mardari",
+    "horologion.prayer_hour_6_god_and_lord_of_hosts": "horologion.hours.hour_6.prayer_lord_of_hosts",
+    "horologion.prayer_the_sixth_hour": "horologion.hours.hour_6.ordinary_prayer",
+    "horologion.verses_hour_6_compassions_quickly": "horologion.hours.hour_6.verses_compassions_quickly",
+    "horologion.prayer_hour_9_master_lord": "horologion.hours.hour_9.prayer_master_lord",
+    "horologion.prayer_the_ninth_hour": "horologion.hours.hour_9.ordinary_prayer",
+    "horologion.verses_hour_9_forsake_not": "horologion.hours.hour_9.verses_forsake_not",
+    "horologion.prayer_hours_thou_who": "horologion.hours.prayer_thou_who_at_all_times",
+
+    # Common Ordinaries
+    "horologion.creed": "horologion.common.creed",
+    "horologion.axion_estin": "horologion.common.axion_estin",
+    "horologion.blessed_be_name_3x": "horologion.common.blessed_be_name_3x",
+    "horologion.lord_have_mercy_3x": "horologion.common.lord_have_mercy_3x",
+    "horologion.lord_have_mercy_12": "horologion.common.lord_have_mercy_12",
+    "horologion.lord_have_mercy_40": "horologion.common.lord_have_mercy_40",
+    "horologion.remit_pardon": "horologion.common.remit_pardon",
+    "horologion.blessing_common": "horologion.common.blessing",
+    "horologion.our_father": "horologion.common.our_father",
+    "horologion.trisagion_block": "horologion.common.trisagion_block",
+}
+
+
+def humanize_key(key):
+    """
+    Format a database key into a human-readable title for cantor / UI displays.
+    """
+    if not key:
+        return ""
+    if isinstance(key, dict):
+        key = key.get("title") or key.get("source") or key.get("ref_key", "")
+    key = str(key).strip()
+
+    # Extract the relevant suffix
+    parts = key.split(".")
+    suffix = parts[-1]
+    return suffix.replace("_", " ").title()
+
 
 class TextDBMixin:
 
@@ -160,6 +251,21 @@ class TextDBMixin:
         """
         item = None
         recension = context.get("recension") if context else None
+
+        def db_get(db, key):
+            if not db:
+                return None
+            val = db.get(key)
+            if not val:
+                for legacy, new_alias in LEGACY_KEY_ALIASES.items():
+                    if new_alias == key:
+                        val = db.get(legacy)
+                        if val:
+                            break
+            if not val and key in LEGACY_KEY_ALIASES:
+                val = db.get(LEGACY_KEY_ALIASES[key])
+            return val
+
         language = context.get("language", "en") if context else "en"
 
         # Parse Year from Date
@@ -180,14 +286,14 @@ class TextDBMixin:
             idx = 1
             while True:
                 test_id = f"{base_id}_{idx}"
-                cand = db.get(test_id)
+                cand = db_get(db, test_id)
                 if not cand:
                     break
                 indexed_items.append(copy.deepcopy(cand))
                 idx += 1
             
             for suffix in ["_glory", "_both_now", "_glory_both_now"]:
-                cand = db.get(f"{base_id}{suffix}")
+                cand = db_get(db, f"{base_id}{suffix}")
                 if cand:
                     indexed_items.append(copy.deepcopy(cand))
             
@@ -230,7 +336,7 @@ class TextDBMixin:
             if not db:
                 return None
             
-            res = db.get(text_id)
+            res = db_get(db, text_id)
             if res:
                 return copy.deepcopy(res)
             
@@ -316,15 +422,15 @@ class TextDBMixin:
         
         # 1. Primary selected recension lookup
         if not item and hasattr(self, "primary_db") and self.primary_db is not None:
-            item = self.primary_db.get(text_id)
+            item = db_get(self.primary_db, text_id)
 
         # 1.1 Backup recension lookup (if different from primary)
         if not item and hasattr(self, "backup_db") and self.backup_db:
-            item = self.backup_db.get(text_id)
+            item = db_get(self.backup_db, text_id)
 
         # 1.2 Legacy/direct text_db lookup
         if not item:
-            item = self.text_db.get(text_id)
+            item = db_get(self.text_db, text_id)
 
         # 1.5 Dynamic Variable Resolution
         if not item and context:
@@ -589,3 +695,13 @@ class TextDBMixin:
                                 self.menaion_logic[month_id]["floating_rules"].update(data["month_settings"]["floating_rules"])
                         else:
                             self.menaion_logic[month_id] = data["month_settings"]
+
+
+class TextDB:
+    """
+    Convenience wrapper providing TextDB access using the Ruthenian Engine.
+    """
+    def __new__(cls, *args, **kwargs):
+        from engine import RuthenianEngine
+        return RuthenianEngine(*args, **kwargs)
+

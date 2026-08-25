@@ -100,3 +100,28 @@ This document registers the 14 blacklisted anti-patterns (7 code and 7 behaviora
 
 ### 14. UI Robot Jargon Neglect
 * **Rule**: Do not permit programmer jargon (e.g. "Max:", "Active: True") to bypass frontend terminology filters. Verify user-facing text uses clean liturgical vocabulary.
+
+---
+
+## 3. Compliance-Specific Anti-Patterns
+
+### 15. Pre-flight Checklist Neglect (Step 1 Failure)
+* **BAD**:
+  Modifying workspace files immediately after user prompt without running and pasting the checklist.
+* **GOOD**:
+  Run and output the checklist statement and the compliance check pytest run before proposing any code changes.
+* **Why**: The checklist ensures context alignment and prevents instruction amnesia. Skipping it leads directly to project regressions.
+
+### 16. Banned Phrase Infestation (Without Evidence)
+* **BAD**:
+  Declaring "I have successfully fixed the bug" or "Everything is working" without accompanying pytest or git status output.
+* **GOOD**:
+  Run verification command and state: "X tests pass, 0 fail. I have successfully resolved the issue."
+* **Why**: Empty progress narratives deceive the user and mask silent failures. Claims must be grounded in terminal facts.
+
+### 17. Interactive Pager Locks
+* **BAD**:
+  Running `git diff` or `git log` in Windows PowerShell, which fires the interactive pager (like `less`) and freezes the agent session.
+* **GOOD**:
+  Always use overrides: `git --no-pager diff --stat` or set `$env:PAGER="cat"`.
+* **Why**: Headless execution environments cannot respond to interactive keyboard prompts, causing permanent session hangs.

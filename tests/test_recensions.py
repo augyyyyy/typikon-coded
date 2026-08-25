@@ -39,5 +39,18 @@ class TestRecensions(unittest.TestCase):
         warnings = [w for w in self.engine.trace_log if "missing in 'stamford_printed' for language 'en'" in w]
         self.assertTrue(len(warnings) > 0, "No warning logged for fallback lookup!")
 
+    def test_hierarchical_key_standardization(self):
+        # Verify that both the legacy flat key and the new hierarchical key resolve to the same text content
+        context = {"recension": "stamford_2014", "language": "en"}
+        
+        legacy_item = self.engine.get_text("horologion.litany_great", context=context)
+        hierarchical_item = self.engine.get_text("horologion.vespers.great_litany", context=context)
+        
+        self.assertIsNotNone(legacy_item)
+        self.assertIsNotNone(hierarchical_item)
+        self.assertEqual(legacy_item["content"], hierarchical_item["content"])
+        self.assertIn("In peace let us pray to the Lord", legacy_item["content"])
+
 if __name__ == '__main__':
     unittest.main()
+

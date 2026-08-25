@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Overrides settings state
         paschalion: localStorage.getItem("cantor-opt-paschalion") || "gregorian",
         version: localStorage.getItem("cantor-opt-version") || "stamford_2014",
+        calendarSource: localStorage.getItem("cantor-opt-calendar-source") || "default",
         templeFeast: localStorage.getItem("cantor-opt-temple-feast") || "",
         digestMode: localStorage.getItem("cantor-opt-digest-mode") || "full",
         devMode: localStorage.getItem("cantor-opt-dev-mode") === "true",
@@ -29,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
         activeProfile: localStorage.getItem("cantor-active-profile") || "default",
         // Collapsible reference panel state
         referenceOpen: localStorage.getItem("cantor-reference-open") !== "false",
-        selectedRefTab: localStorage.getItem("cantor-selected-ref-tab") || "doc-digest",
         parsedServices: null,
         // Roadmap state
         roadmapData: null,
@@ -53,13 +53,12 @@ document.addEventListener("DOMContentLoaded", () => {
         docTabBtns: document.querySelectorAll(".doc-tab-btn"),
         docPanels: document.querySelectorAll(".doc-panel"),
         bookletContent: document.getElementById("booklet-content"),
-        digestContent: document.getElementById("digest-content"),
+        serviceDigestSelect: document.getElementById("service-digest-select"),
+        serviceDigestContent: document.getElementById("service-digest-content"),
         printBookletBtn: document.getElementById("print-booklet-btn"),
         copyBtns: document.querySelectorAll(".copy-btn"),
         btnToggleReference: document.getElementById("btn-toggle-reference"),
         btnCloseReference: document.getElementById("btn-close-reference"),
-        serviceDigestSelect: document.getElementById("service-digest-select"),
-        serviceDigestContent: document.getElementById("service-digest-content"),
         
         // Tab 2: Book Browser
         bookSelect: document.getElementById("book-select"),
@@ -210,9 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const sourceId = btn.getAttribute("data-clipboard-source");
             if (sourceId === "booklet-content") {
                 copyTextToClipboard(state.currentBookletText, "Booklet text copied!");
-            } else if (sourceId === "digest-content") {
-                copyTextToClipboard(state.currentDigestText, "Digest markdown copied!");
-            } else if (sourceId === "service-digest-content") {
+            } else if (sourceId === "service-digest-content" || sourceId === "digest-content") {
                 const serviceSelect = document.getElementById("service-digest-select");
                 const selectedService = serviceSelect ? serviceSelect.value : "all";
                 if (selectedService === "all") {
@@ -273,13 +270,16 @@ document.addEventListener("DOMContentLoaded", () => {
         el.contextContent.innerHTML = "";
         el.traceContent.innerHTML = '<p class="placeholder-text">Loading trace logs...</p>';
         el.bookletContent.innerHTML = '<p class="placeholder-text">Loading Cantor booklet...</p>';
-        el.digestContent.innerHTML = '<p class="placeholder-text">Loading Typikon instructions...</p>';
+        if (el.serviceDigestContent) {
+            el.serviceDigestContent.innerHTML = '<p class="placeholder-text">Loading Service rubrics...</p>';
+        }
         
         try {
             const params = new URLSearchParams({
                 date: dateStr,
                 paschalion: state.paschalion,
                 version: state.version,
+                calendar_source: state.calendarSource,
                 temple_feast: state.templeFeast,
                 digest_mode: state.digestMode,
                 include_ceremonial: state.includeCeremonial
@@ -302,7 +302,6 @@ document.addEventListener("DOMContentLoaded", () => {
             state.currentDigestText = data.digest;
             
             renderBookletHtml(data.booklet);
-            renderDigestHtml(data.digest);
             
             state.parsedServices = parseServiceDigest(data.digest);
             renderServiceDigestDropdown();
@@ -328,7 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `<div class="trace-line warn">${traceback}</div>` : 
             `<div class="trace-line warn">Failed to communicate with local Typikon backend engine. Make sure python server is running on port 8080.</div>`;
         el.bookletContent.innerHTML = '<p class="placeholder-text" style="color: var(--rubric-color);">Propers could not be resolved due to engine error.</p>';
-        el.digestContent.innerHTML = '<p class="placeholder-text" style="color: var(--rubric-color);">Typikon digest generation failed.</p>';
         if (el.serviceDigestContent) {
             el.serviceDigestContent.innerHTML = '<p class="placeholder-text" style="color: var(--rubric-color);">Service digest generation failed.</p>';
         }
@@ -747,15 +745,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         el.bookletContent.innerHTML = html;
         el.bookletContent.scrollTop = 0;
-    }
-
-    function renderDigestHtml(markdown) {
-        if (!markdown) {
-            el.digestContent.innerHTML = '<p class="placeholder-text">Empty typikon instructions.</p>';
-            return;
-        }
-        el.digestContent.innerHTML = formatMarkdownHtml(markdown);
-        el.digestContent.scrollTop = 0;
     }
 
     function parseServiceDigest(digestText) {
@@ -1562,6 +1551,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const optPaschalionGreg = document.getElementById("opt-paschalion-gregorian");
         const optPaschalionJul = document.getElementById("opt-paschalion-julian");
         const optVersion = document.getElementById("opt-version");
+        const optCalendarSource = document.getElementById("opt-calendar-source");
         const optTempleFeast = document.getElementById("opt-temple-feast");
         const optDigestFull = document.getElementById("opt-digest-full");
         const optDigestQuick = document.getElementById("opt-digest-quick");
@@ -1575,6 +1565,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (optVersion) optVersion.value = state.version;
+        if (optCalendarSource) optCalendarSource.value = state.calendarSource;
         if (optTempleFeast) optTempleFeast.value = state.templeFeast;
 
         if (state.digestMode === "quick") {
@@ -1613,6 +1604,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("cantor-opt-version", e.target.value);
                 // Dynamically update recension badge
                 updateRecensionBadge();
+                if (state.selectedDate) {
+                    resolveDate(state.selectedDate);
+                }
+            });
+        }
+
+        if (optCalendarSource) {
+            optCalendarSource.addEventListener("change", (e) => {
+                state.calendarSource = e.target.value;
+                localStorage.setItem("cantor-opt-calendar-source", e.target.value);
                 if (state.selectedDate) {
                     resolveDate(state.selectedDate);
                 }
@@ -1683,6 +1684,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 year: currentYear,
                 paschalion: state.paschalion,
                 version: state.version,
+                calendar_source: state.calendarSource,
                 temple_feast: state.templeFeast
             });
             const response = await fetch(`${API_BASE}/api/roadmap?${params.toString()}`);
@@ -1901,7 +1903,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function initReferencePanel() {
         const btnToggleRef = document.getElementById("btn-toggle-reference");
         const btnCloseRef = document.getElementById("btn-close-reference");
-        const refTabs = document.querySelectorAll(".ref-tab-btn");
 
         if (btnToggleRef) {
             btnToggleRef.addEventListener("click", () => {
@@ -1915,34 +1916,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 state.referenceOpen = false;
                 updateReferenceLayout();
             });
-        }
-
-        // Set up tab switching in the reference panel
-        refTabs.forEach(tab => {
-            tab.addEventListener("click", () => {
-                const targetId = tab.getAttribute("data-ref-target");
-                
-                // Update tabs active state
-                refTabs.forEach(t => t.classList.remove("active"));
-                tab.classList.add("active");
-
-                // Toggle visibility of panels inside the reference panel
-                const docDigest = document.getElementById("doc-digest");
-                const docServiceDigest = document.getElementById("doc-service-digest");
-
-                if (docDigest) docDigest.style.display = targetId === "doc-digest" ? "flex" : "none";
-                if (docServiceDigest) docServiceDigest.style.display = targetId === "doc-service-digest" ? "flex" : "none";
-
-                // Save selection
-                state.selectedRefTab = targetId;
-                localStorage.setItem("cantor-selected-ref-tab", targetId);
-            });
-        });
-
-        // Initialize active tab from state
-        const activeTabBtn = Array.from(refTabs).find(tab => tab.getAttribute("data-ref-target") === state.selectedRefTab);
-        if (activeTabBtn) {
-            activeTabBtn.click();
         }
 
         updateReferenceLayout();
@@ -2086,6 +2059,7 @@ document.addEventListener("DOMContentLoaded", () => {
             state.profiles[cleanName] = {
                 paschalion: state.paschalion,
                 version: state.version,
+                calendarSource: state.calendarSource,
                 templeFeast: state.templeFeast,
                 digestMode: state.digestMode,
                 includeCeremonial: state.includeCeremonial
@@ -2133,6 +2107,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let config = {
                 paschalion: "gregorian",
                 version: "stamford_2014",
+                calendarSource: "default",
                 templeFeast: "",
                 digestMode: "full",
                 includeCeremonial: false
@@ -2145,6 +2120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Sync state
             state.paschalion = config.paschalion;
             state.version = config.version;
+            state.calendarSource = config.calendarSource || "default";
             state.templeFeast = config.templeFeast;
             state.digestMode = config.digestMode;
             state.includeCeremonial = config.includeCeremonial === true;
@@ -2152,6 +2128,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Sync storage
             localStorage.setItem("cantor-opt-paschalion", config.paschalion);
             localStorage.setItem("cantor-opt-version", config.version);
+            localStorage.setItem("cantor-opt-calendar-source", state.calendarSource);
             localStorage.setItem("cantor-opt-temple-feast", config.templeFeast);
             localStorage.setItem("cantor-opt-digest-mode", config.digestMode);
             localStorage.setItem("cantor-opt-include-ceremonial", state.includeCeremonial);
@@ -2160,6 +2137,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const optPaschalionGreg = document.getElementById("opt-paschalion-gregorian");
             const optPaschalionJul = document.getElementById("opt-paschalion-julian");
             const optVersion = document.getElementById("opt-version");
+            const optCalendarSource = document.getElementById("opt-calendar-source");
             const optTempleFeast = document.getElementById("opt-temple-feast");
             const optDigestFull = document.getElementById("opt-digest-full");
             const optDigestQuick = document.getElementById("opt-digest-quick");
@@ -2170,6 +2148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 else optPaschalionGreg.checked = true;
             }
             if (optVersion) optVersion.value = config.version;
+            if (optCalendarSource) optCalendarSource.value = state.calendarSource;
             if (optTempleFeast) optTempleFeast.value = config.templeFeast;
             if (optDigestFull && optDigestQuick) {
                 if (config.digestMode === "quick") optDigestQuick.checked = true;

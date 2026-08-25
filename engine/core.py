@@ -36,7 +36,7 @@ class EngineCore:
     """Mixin providing core methods for RuthenianEngine."""
 
 
-    def __init__(self, base_dir=".", temple_feast_date=None, version="royal_doors", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None):
+    def __init__(self, base_dir=".", temple_feast_date=None, version="royal_doors", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None, calendar_source=None):
         self.base_dir = base_dir
         self.json_db = os.path.join(base_dir, "json_db")
         self.paschalion = paschalion # 'gregorian' or 'julian'
@@ -184,15 +184,23 @@ class EngineCore:
             self._load_external_assets(self.external_assets_dir, "Legacy")
             
         # Load Triodion Parsed Data
-        self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/lenten_triodion.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/floral_triodion.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/lenten_triodion.json", target_db=self.stamford_db)
-        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/floral_triodion.json", target_db=self.stamford_db)
+        self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/assets/text_lenten_triodion.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/assets/text_floral_triodion.json", target_db=self.royal_doors_db)
+        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/assets/text_lenten_triodion.json", target_db=self.stamford_db)
+        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/assets/text_floral_triodion.json", target_db=self.stamford_db)
         # Primary Source: Calendar Data (Fixed & Movable)
-        # 'lviv' uses the 2010 Lviv Typikon calendar; others use the official UGCC calendar
-        calendar_file = "json_db/calendar_ugcc_official.json" if self.version_id != "lviv" else "json_db/calendar_typikon.json"
+        if calendar_source:
+            if calendar_source == "typikon":
+                calendar_file = "json_db/calendar_typikon.json"
+            else:
+                calendar_file = "json_db/calendar_ugcc_official.json"
+        else:
+            calendar_file = "json_db/calendar_ugcc_official.json" if self.version_id != "lviv" else "json_db/calendar_typikon.json"
+            
         if not os.path.exists(os.path.join(self.base_dir, calendar_file)):
             calendar_file = "json_db/calendar_typikon.json"
+
+        self.calendar_source = "typikon" if "calendar_typikon.json" in calendar_file else "ugcc_official"
 
         self.dolnytsky_fixed = self._load_json(calendar_file)
         self.dolnytsky_movable = self._load_json("json_db/calendar_movable.json")
@@ -253,6 +261,11 @@ class EngineCore:
 
 
     def _get_almanac(self, year):
+        # Bypass almanac if calendar_source is overridden from the version's default calendar
+        default_source = "typikon" if self.version_id == "lviv" else "ugcc_official"
+        if getattr(self, "calendar_source", default_source) != default_source:
+            return None
+
         if year not in self._almanacs:
             # Check for version-specific almanac first
             version_almanac = f"annual_almanac_{self.version_id}_{year}.json"

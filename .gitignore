@@ -78,6 +78,8 @@ test_execution_log.json
 .antigravityignore
 config_local.json
 secrets.json
+.active_session_id
+anti_pattern_audit_report.md
 
 # ----------------------------------------------------------
 # Private / Copyrighted / Raw Data Workspaces

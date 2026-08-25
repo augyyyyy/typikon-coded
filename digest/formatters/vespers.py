@@ -29,11 +29,6 @@ class VespersFormatterMixin:
         if not res:
             return ""
         
-        is_weekday = 0 < context.get("day_of_week", 0) <= 5
-        is_simple_6 = context.get("rank") == "rank_simple_6" or context.get("variables", {}).get("rank") == "rank_simple_6"
-        if is_weekday and is_simple_6:
-            return "*At Lord, I Call…* we sing 6 Stichera to the Saint; Glory... Doxastikon of the Saint; Both now... usual Theotokion in the tone of the Doxastikon and of the day of the week."
-            
         dist = []
         for item in res.get("distribution", []):
             c = item.get('count', item.get('qty', '?'))

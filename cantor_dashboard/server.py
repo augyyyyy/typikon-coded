@@ -267,6 +267,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
 
         paschalion = query.get("paschalion", ["gregorian"])[0]
         version = query.get("version", ["stamford_2014"])[0]
+        calendar_source = query.get("calendar_source", [None])[0]
         temple_feast = query.get("temple_feast", [None])[0]
         digest_mode = query.get("digest_mode", ["full"])[0]
         include_ceremonial_val = query.get("include_ceremonial", ["false"])[0]
@@ -293,7 +294,8 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 base_dir=REPO_DIR, 
                 version=version,
                 paschalion=paschalion,
-                temple_feast_date=temple_feast_date
+                temple_feast_date=temple_feast_date,
+                calendar_source=calendar_source
             )
             
             # Resolve
@@ -371,6 +373,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
 
         paschalion = query.get("paschalion", ["gregorian"])[0]
         version = query.get("version", ["stamford_2014"])[0]
+        calendar_source = query.get("calendar_source", [None])[0]
         temple_feast = query.get("temple_feast", [None])[0]
 
         temple_feast_date = None
@@ -393,7 +396,8 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     base_dir=REPO_DIR,
                     version=version,
                     paschalion=paschalion,
-                    temple_feast_date=temple_feast_date
+                    temple_feast_date=temple_feast_date,
+                    calendar_source=calendar_source
                 )
                 context = engine.get_liturgical_context(target_date)
                 rubrics = engine.resolve_rubrics(context)

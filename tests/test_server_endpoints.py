@@ -120,3 +120,19 @@ def test_api_resolve_paradigm_id(dashboard_server):
     assert "context" in data
     assert "paradigm_id" in data["context"]
     assert data["context"]["paradigm_id"] == "CASE_05"
+
+
+def test_api_resolve_calendar_source(dashboard_server):
+    # July 6, 2026: Sisoes the Great
+    # On UGCC official calendar: simple rank
+    res_ugcc = requests.get(f"{dashboard_server}/api/resolve?date=2026-07-06&version=stamford_2014&calendar_source=ugcc_official")
+    assert res_ugcc.status_code == 200
+    data_ugcc = res_ugcc.json()
+    assert data_ugcc["context"]["dolnytsky_rank"] == "SIMPLE"
+
+    # On Lviv Typikon Part 5 calendar: polyeleos rank
+    res_typikon = requests.get(f"{dashboard_server}/api/resolve?date=2026-07-06&version=stamford_2014&calendar_source=typikon")
+    assert res_typikon.status_code == 200
+    data_typikon = res_typikon.json()
+    assert data_typikon["context"]["dolnytsky_rank"] == "POLYELEOS"
+

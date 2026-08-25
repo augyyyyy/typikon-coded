@@ -140,20 +140,22 @@ class TriodionParser:
         return clean.strip().lower().replace(" ", "_").replace("__", "_")
 
     def save_json(self, output_dir: str):
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+        assets_dir = os.path.join(output_dir, "assets")
+        if not os.path.exists(assets_dir):
+            os.makedirs(assets_dir)
             
         # Save Lenten Triodion
-        with open(os.path.join(output_dir, 'lenten_triodion.json'), 'w', encoding='utf-8') as f:
+        with open(os.path.join(assets_dir, 'text_lenten_triodion.json'), 'w', encoding='utf-8') as f:
             json.dump(self.data["lenten_triodion"], f, indent=2, ensure_ascii=False)
             
         # Save Floral Triodion
-        with open(os.path.join(output_dir, 'floral_triodion.json'), 'w', encoding='utf-8') as f:
+        with open(os.path.join(assets_dir, 'text_floral_triodion.json'), 'w', encoding='utf-8') as f:
             json.dump(self.data["floral_triodion"], f, indent=2, ensure_ascii=False)
 
 if __name__ == "__main__":
-    base_path = r"c:\Users\augus\PycharmProjects\MyFirstGui\Data\Service Books\Recensions\Stamford Divine Office\TXT"
-    output_path = r"c:\Users\augus\PycharmProjects\MyFirstGui\Data\Service Books\Recensions\Stamford Divine Office\JSON"
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    base_path = os.path.join(project_root, "Data", "Service Books", "Recensions", "Stamford Divine Office", "TXT")
+    output_path = os.path.join(project_root, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON")
     
     parser = TriodionParser()
     

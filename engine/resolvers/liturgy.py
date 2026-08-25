@@ -437,12 +437,11 @@ class LiturgyMixin:
         pascha_offset = context.get("pascha_offset", -100)
         date = context.get("date", "")
         
-        # Extract month-day for fixed feasts
-        today_md = date[5:] if len(date) >= 10 else ""
+        menaion_key = context.get("menaion_key", "")
         
         # BAPTISMAL HYMN: "As many as have been baptized into Christ"
-        # Nativity (Dec 25 only)
-        if today_md == "12-25" or feast_id == "nativity" or title == "nativity" or title == "nativity of christ":
+        # Nativity of the Lord
+        if feast_id == "nativity" or menaion_key == "menaion.1225" or "nativity" in title:
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -450,8 +449,8 @@ class LiturgyMixin:
                 "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
             }
         
-        # Theophany (Jan 6 only)
-        if today_md == "01-06" or feast_id == "theophany" or title == "theophany" or title == "theophany of our lord":
+        # Theophany of the Lord
+        if feast_id == "theophany" or menaion_key == "menaion.0106" or "theophany" in title:
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -496,8 +495,8 @@ class LiturgyMixin:
             }
         
         # CROSS HYMN: "Before Thy Cross we bow down"
-        # Exaltation of Cross (Sept 14 only)
-        if today_md == "09-14" or feast_id == "exaltation_cross" or title == "exaltation of the cross" or title == "elevation of the cross":
+        # Exaltation of Cross (Sept 14)
+        if feast_id == "exaltation_cross" or menaion_key == "menaion.0914" or "exaltation" in title or "elevation" in title:
             return {
                 "type": "replacement",
                 "replacement": "before_thy_cross",
@@ -514,8 +513,8 @@ class LiturgyMixin:
                 "text": "Before Thy Cross we bow down in worship, O Master, and Thy holy Resurrection we glorify."
             }
         
-        # Aug 1 Procession of Cross
-        if today_md == "08-01" or feast_id == "procession_cross" or title == "procession of the cross":
+        # Procession of Cross (Aug 1)
+        if feast_id == "procession_cross" or menaion_key == "menaion.0801" or "procession of the cross" in title:
             return {
                 "type": "replacement",
                 "replacement": "before_thy_cross",

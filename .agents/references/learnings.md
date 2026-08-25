@@ -97,6 +97,13 @@ The Typikon Coded engine utilizes several decoupled English translation recensio
 2. **The "Dolnytsky Test":** If you find yourself writing a rubric or making a decision *without* actively recalling the Dolnytsky Typikon paragraph, you are suffering from Dilution. STOP. Read the persona rules. Realign your context.
 3. **No Drift:** Never assume you "remember" the constraints. The LLM attention mechanism mathematically guarantees that older tokens (the system prompt and early constraints) lose weight compared to recent tokens (the current debugging task). Combat this by actively injecting the constraints back into your immediate context by reading them again.
 
+### 0.7 July 2026 Compliance Reformation
+In July 2026, an audit of 489 historical conversation transcripts revealed a total of 3,224 compliance violations (2,153 Pre-flight Checklist Failures, 701 Interactive Pager Locks, and 370 Banned Phrases without Evidence).
+To enforce zero-tolerance compliance:
+- **Mechanical Gate**: Built `tests/test_session_compliance.py` to dynamically inspect the active session's transcript and assert pre-flight checklist completion, banned phrase exclusion, and pager-safe commands.
+- **Strict Execution Rules**: Set `$env:PAGER="cat"` and use `git --no-pager` for all git commands to prevent Windows terminal hangs.
+- **Verification Priority**: Declaring success without pasting the actual `pytest` or `git diff` output is prohibited and caught by the mechanical gate.
+
 ---
 
 ## I. Data Structure & Dictionary

@@ -481,12 +481,19 @@ class MatinsFormatterMixin:
                 else:
                     s_name = "St. Cyril"
                     
-                tone_val = 1
-                if troparia:
-                    tone_val = troparia[0].get("tone", 1)
+                tone_val = None
+                if troparia and troparia[0].get("tone"):
+                    tone_val = troparia[0].get("tone")
+                if not tone_val and res.get("both_now"):
+                    import re
+                    m = re.search(r'tone_(\d+)', str(res.get("both_now")))
+                    if m:
+                        tone_val = int(m.group(1))
+                if not tone_val:
+                    tone_val = context.get("troparion_tone") or context.get("tone") or 4
                 tone_rom = self._roman_tone(tone_val) if isinstance(tone_val, int) else str(tone_val)
                 
-                return f"**At the Dismissal Troparia:** Troparion of {s_name}; Glory, both now... Dismissal Theotokion for {day_str} in Tone {tone_rom}."
+                return f"**At the Dismissal Troparia:** Troparion of {s_name}; Glory, Both now: Dismissal Theotokion for {day_str} in Tone {tone_rom}."
 
         parts = []
         for t in troparia:

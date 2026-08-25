@@ -1412,14 +1412,23 @@
         "suppress_menaion_saint": true,
         "vespers_stichera_distribution": {
           "total_count": 6,
-          "source": "menaion",
-          "type": "feast"
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 6
+            }
+          ]
         },
         "matins_canon_distribution": {
           "total_count": 14,
-          "source": "menaion",
-          "type": "feast",
-          "qty": 14,
+          "canons": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 14
+            }
+          ],
           "note": "Exact repetition of the feast day canon."
         },
         "praises_distribution": {

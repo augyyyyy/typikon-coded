@@ -372,10 +372,15 @@ class CommonResolverMixin:
                         rank_id = self._get_rank_id(context)
                         if rank_id == "rank_simple_6" or rank_id == "rank_doxology":
                             switch_key = "saint_on_6_doxology"
-                    sub_rule = overridden_dist["logic_switch"].get(switch_key, {})
-                    dist = sub_rule.get("distribution", [])
+                    sub_rule = overridden_dist["logic_switch"].get(
+                        switch_key,
+                        overridden_dist["logic_switch"].get("1_saint", next(iter(overridden_dist["logic_switch"].values())) if overridden_dist["logic_switch"] else {})
+                    )
+                    dist = sub_rule.get("distribution") or sub_rule.get("canons") or []
                 else:
-                    dist = overridden_dist.get("distribution", [])
+                    dist = overridden_dist.get("distribution") or overridden_dist.get("canons") or []
+                    if not dist and overridden_dist.get("source"):
+                        dist = [{"source": overridden_dist.get("source"), "type": overridden_dist.get("type", "feast"), "qty": overridden_dist.get("qty", overridden_dist.get("total_count", 14)), "irmos": True}]
             elif isinstance(overridden_dist, list):
                 dist = overridden_dist
             else:
