@@ -135,9 +135,6 @@ class CeremonialMixin:
                 elif rank_val == 4 or "POL" in rank_code or "POLUELEOS" in rank_code:
                     return {"type": "oil_and_wine", "note": "Oil and wine permitted for the feast",
                             "citation": "Dolnytsky Appendix — Festal relaxation"}
-                elif (context.get("is_afterfeast") or context.get("is_fore_or_afterfeast")) and context.get("season") != "Eucharist":
-                    return {"type": "oil_and_wine", "note": "Oil and wine permitted (afterfeast relaxation)",
-                            "citation": "Dolnytsky Appendix — Afterfeast relaxation"}
                 else:
                     return {"type": "fast_day", "note": "Apostles' Fast: Abstinence from meat and dairy",
                             "citation": "Lviv Synod — Title XI, part 4"}

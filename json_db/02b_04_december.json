@@ -200,7 +200,7 @@
         "base_template": "CASE_05",
         "variables": {
           "liturgy_readings": [
-            "acts_6_8_7_5_47",
+            "acts_6_8_7_5",
             "matthew_21_33_42"
           ],
           "troparia_sequence": "nativity_stephen_stacking"

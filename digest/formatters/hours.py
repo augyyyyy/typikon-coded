@@ -26,8 +26,28 @@ class HoursFormatterMixin:
                 s_name = "St. Cyril"
             day = context.get("day_of_week", 1)
             if day in (3, 5):
-                return f"Troparia: First Hour – Troparion of the Cross; Third Hour – Troparion of {s_name}; Sixth Hour – Troparion of the Temple; Ninth Hour – Troparion of {s_name}. Kontakia: First Hour – Kontakion of the Cross; Third Hour – Kontakion of {s_name}; Sixth Hour – Kontakion of the Temple; Ninth Hour – Kontakion of {s_name}."
-            return f"Troparia: First Hour – Day; Third & Ninth Hours – {s_name}; Sixth Hour – Temple. Kontakia: First Hour – Day; Third & Ninth Hours – {s_name}; Sixth Hour – Temple."
+                return (
+                    f"**Troparia:**  \n"
+                    f"First Hour – Troparion of the Cross.  \n"
+                    f"Third Hour – Troparion of {s_name}.  \n"
+                    f"Sixth Hour – Troparion of the Temple.  \n"
+                    f"Ninth Hour – Troparion of {s_name}.  \n\n"
+                    f"**Kontakia:**  \n"
+                    f"First Hour – Kontakion of the Cross.  \n"
+                    f"Third Hour – Kontakion of {s_name}.  \n"
+                    f"Sixth Hour – Kontakion of the Temple.  \n"
+                    f"Ninth Hour – Kontakion of {s_name}."
+                )
+            return (
+                f"**Troparia:**  \n"
+                f"First Hour – Troparion of the Day.  \n"
+                f"Third & Ninth Hours – Troparion of {s_name}.  \n"
+                f"Sixth Hour – Troparion of the Temple.  \n\n"
+                f"**Kontakia:**  \n"
+                f"First Hour – Kontakion of the Day.  \n"
+                f"Third & Ninth Hours – Kontakion of {s_name}.  \n"
+                f"Sixth Hour – Kontakion of the Temple."
+            )
 
         troparia_by_hour = {}
         kontakia_by_hour = {}
@@ -70,7 +90,7 @@ class HoursFormatterMixin:
                     first = comps[0]
                     others = comps[1:]
                     if others:
-                        trop_str = f"{first}, Glory... {', '.join(others)}"
+                        trop_str = f"{first}; Glory... {', '.join(others)}"
                     else:
                         trop_str = first
                 troparia_by_hour[h] = trop_str
@@ -132,58 +152,58 @@ class HoursFormatterMixin:
         for h, t in troparia_by_hour.items():
             trop_to_hours.setdefault(t, []).append(h)
             
-        trop_parts = []
+        trop_lines = []
         for t, hours in sorted(trop_to_hours.items(), key=lambda x: min(x[1])):
             h_names = [self._hour_ordinal(h) for h in hours]
             if len(h_names) == 4:
-                h_str = "all the hours"
+                h_str = "All Hours"
             elif len(h_names) == 1:
-                h_str = f"the {h_names[0]} Hour"
+                h_str = f"{h_names[0]} Hour"
             elif len(h_names) == 2:
-                h_str = f"the {h_names[0]} and {h_names[1]} Hours"
+                h_str = f"{h_names[0]} & {h_names[1]} Hours"
             else:
-                h_str = "the " + ", ".join(h_names[:-1]) + f", and {h_names[-1]} Hours"
-            trop_parts.append(f"At {h_str}: {t}")
-        line1 = "; ".join(trop_parts) + "."
+                h_str = ", ".join(h_names[:-1]) + f" & {h_names[-1]} Hours"
+            trop_lines.append(f"{h_str} – {t}.")
         
         # Group Kontakia by hours
         kont_to_hours = {}
         for h, k in kontakia_by_hour.items():
             kont_to_hours.setdefault(k, []).append(h)
             
-        kont_parts = []
+        kont_lines = []
         for k, hours in sorted(kont_to_hours.items(), key=lambda x: min(x[1])):
             h_names = [self._hour_ordinal(h) for h in hours]
             if len(h_names) == 4:
-                h_str = "all the hours"
+                h_str = "All Hours"
             elif len(h_names) == 1:
-                h_str = f"the {h_names[0]} Hour"
+                h_str = f"{h_names[0]} Hour"
             elif len(h_names) == 2:
-                h_str = f"the {h_names[0]} and {h_names[1]} Hours"
+                h_str = f"{h_names[0]} & {h_names[1]} Hours"
             else:
-                h_str = "the " + ", ".join(h_names[:-1]) + f", and {h_names[-1]} Hours"
-            kont_parts.append(f"at {h_str} – {k}")
+                h_str = ", ".join(h_names[:-1]) + f" & {h_names[-1]} Hours"
+            kont_lines.append(f"{h_str} – {k}.")
             
-        line2 = "Kontakia: " + "; ".join(kont_parts) + "."
-        return f"**At the Hours:** {line1}\n{line2}"
+        trop_block = "**Troparia:**  \n" + "  \n".join(trop_lines)
+        kont_block = "**Kontakia:**  \n" + "  \n".join(kont_lines)
+        return f"{trop_block}\n\n{kont_block}"
 
 
     def _format_resolve_hours_collision(self, res, context):
         if not res or not res.get("troparia_sequence"):
             return ""
         seq = res["troparia_sequence"]
-        parts = ["At all the hours: We sing the troparia"]
+        parts = []
         for t in seq:
             if t.get("type") == "resurrectional":
-                parts.append(f"Resurrectional Tone {t.get('tone')}")
+                parts.append(f"Resurrectional (Tone {t.get('tone')})")
             elif t.get("type") == "glory":
                 targ = t.get('target', {})
                 name = targ.get('name', targ) if isinstance(targ, dict) else targ
-                parts.append(f"Glory... {self.humanize_key(name)}")
+                parts.append(f"Glory... Troparion of {self.humanize_key(name)}")
             elif t.get("type") == "both_now":
                 parts.append("Both now... Theotokion")
         kont_winner = self.humanize_key(res.get('kontakion_winner', 'according to the Typikon'))
-        return "; ".join(parts) + f". Kontakion: {kont_winner}."
+        return f"**Troparia (at all the Hours):**  \n" + "  \n".join(parts) + f"\n\n**Kontakion:**  \n{kont_winner}."
 
 
     def _format_resolve_hours_troparia(self, res, context):
@@ -192,7 +212,7 @@ class HoursFormatterMixin:
         mode = res.get("mode")
         if mode == "lenten":
             content = res.get("content", "Lenten Troparion")
-            return f"At all the hours: We sing the Lenten troparion: {content}."
+            return f"**Troparia (at all the Hours):**  \nLenten troparion ({content})."
         elif mode == "standard":
             mapped = []
             saints = context.get("saints", [])
@@ -222,17 +242,7 @@ class HoursFormatterMixin:
                 else:
                     mapped.append(self.humanize_key(c))
             
-            res_str = ""
-            for item in mapped:
-                if item in ("Glory...", "Both now..."):
-                    if res_str and not res_str.endswith(";"):
-                        res_str = res_str.rstrip()
-                        res_str += "; "
-                    res_str += f"{item} "
-                else:
-                    if res_str and not res_str.endswith(" "):
-                        res_str += "; "
-                    res_str += item
-            return f"At all the hours: We sing the troparia: {res_str}."
+            res_str = "  \n".join(mapped)
+            return f"**Troparia (at all the Hours):**  \n{res_str}"
         return ""
 

@@ -636,6 +636,23 @@ class RubricsMixin:
                 return f"{formatted[0]} and {formatted[1]}", 2
             return ", ".join(formatted[:-1]) + " and " + formatted[-1], len(formatted)
 
+        # St. George (April 23) Holy Week / Pascha Transfer (Dolnytsky Part 3)
+        dt_str = str(context.get("date", ""))
+        p_off = context.get("pascha_offset")
+        try:
+            p_off = int(p_off) if p_off is not None else None
+        except (ValueError, TypeError):
+            p_off = None
+            
+        if (dt_str.endswith("-04-23") or context.get("menaion_key") == "menaion.0423") and p_off is not None and -6 <= p_off <= 0:
+            return {
+                "transferred": True,
+                "saint_name": "Holy Great-Martyr George",
+                "saint_count": 1,
+                "target": "Bright Monday",
+                "citation": "Dolnytsky Part 3 — April 23 (St. George) Holy Week transfer"
+            }
+
         # Sundays of Triodion with simple saints
         if day_of_week == 0 and season == "triodion":
             simple_saints = [
@@ -837,26 +854,38 @@ class RubricsMixin:
             rubrics["title"] = f"Service for {context['date']}"
 
         # Lenten Service Structure Logic (Presanctified / Aliturgical)
-        if context.get("season") == "lent" and context.get("day_of_week") in [1,2,3,4,5]:
+        pascha_off = context.get("pascha_offset")
+        try:
+            pascha_off = int(pascha_off) if pascha_off is not None else None
+        except (ValueError, TypeError):
+            pascha_off = None
+            
+        is_lent = (context.get("season") == "lent") or (context.get("season_id") in ("triodion", "great_lent")) or (pascha_off is not None and -48 <= pascha_off <= -1)
+        dow = context.get("day_of_week")
+        try:
+            dow = int(dow)
+        except (ValueError, TypeError):
+            dow = 0
+
+        if is_lent and dow in [1, 2, 3, 4, 5]:
              # Calculate Rank for logic checks
              rank = self.calculate_rank(context) 
              # Update context temporarily for check_presanctified (which uses context.get('rank'))
-             # Note: This doesn't persist outside this scope unless we assign to context, which is mutable ref
              context['rank'] = rank 
              
              if self.check_presanctified_trigger(context):
                  rubrics["overrides"]["liturgy_type"] = "liturgy_presanctified"
                  rubrics["overrides"]["vespers_type"] = "structure_suppressed"
                  rubrics["_trace"].append("Lenten Logic: Presanctified Liturgy selected.")
-             elif rank > 3: 
+             elif rank > 3 and pascha_off not in (-6, -5, -4): 
                  # Not Presanctified, Not Feast -> Aliturgical Day
                  rubrics["overrides"]["liturgy_type"] = "structure_suppressed"
                  rubrics["overrides"]["vespers_type"] = "lenten_vespers"
                  rubrics["_trace"].append("Lenten Logic: Aliturgical Day (Liturgy Suppressed).")
 
-        # [NEW] Lenten Saturday Logic (Alleluia Days -> Daily Matins + Chrysostom)
-        elif context.get("season") == "lent" and context.get("day_of_week") == 6:
-             if context.get("pascha_offset") not in [-1, -8]:
+        # Lenten Saturday Logic (Alleluia Days -> Daily Matins + Chrysostom)
+        elif is_lent and dow == 6:
+             if pascha_off not in [-1, -8]:
                  rubrics["overrides"]["matins_type"] = "daily_matins"
                  rubrics["overrides"]["liturgy_type"] = "liturgy_chrysostom"
                  rubrics["_trace"].append("Lenten Logic: Saturday (Alleluia/Daily Matins + Chrysostom).")
@@ -960,8 +989,23 @@ class RubricsMixin:
                 ]
             }
 
-
-        # Clean and humanize title if it leaks database keys
+        # Co-suffering of the Most Holy Theotokos (Friday after Corpus Christi / Sacred Heart cycle)
+        if context.get("feast_id") == "co_suffering_theotokos" or "co_suffering" in str(context.get("title", "")).lower():
+            rubrics["variables"]["suppress_menaion_saint"] = True
+            rubrics["variables"]["menaion_rank"] = "rank_polyeleos"
+            context.setdefault("variables", {})["menaion_rank"] = "rank_polyeleos"
+            context["saints"] = []
+            rubrics["variables"]["matins_canon_distribution"] = {
+                "total_count": 12,
+                "distribution": [
+                    {
+                        "source": "triodion",
+                        "type": "theotokos_special",
+                        "qty": 12,
+                        "irmos": True
+                    }
+                ]
+            }
         title_val = rubrics.get("title", "")
         if title_val.startswith("menaion.") or title_val.startswith("triodion.") or "." in title_val:
             d_title = context.get("dolnytsky_title") or context.get("dolnytsky_commemoration")
@@ -1114,15 +1158,15 @@ class RubricsMixin:
             name = saints[0].get("name", "") if saints else "Saint"
             if hour_num in [1, 6]:
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory", "target": {"type": "feast", "name": "Feast"}},
-                    {"type": "both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory", "target": {"type": "feast", "name": "Feast"}, "content": "feast_troparion"},
+                    {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
             else:
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory", "target": {"type": "saint", "name": name}},
-                    {"type": "both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory", "target": {"type": "saint", "name": name}, "content": "saint_troparion"},
+                    {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
             
             if hour_num in [1, 9]:
@@ -1138,18 +1182,18 @@ class RubricsMixin:
             name = saints[0].get("name", "") if saints else ""
             if hour_num in [1, 6]:
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory", "target": {"type": "feast", "name": "Feast"}},
-                    {"type": "both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory", "target": {"type": "feast", "name": "Feast"}, "content": "feast_troparion"},
+                    {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
                 result["kontakion_winner"] = "feast_kontakion"
             else:
                 target_type = "saint" if name else "feast"
                 target_name = name if name else "Feast"
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory", "target": {"type": target_type, "name": target_name}},
-                    {"type": "both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory", "target": {"type": target_type, "name": target_name}, "content": f"{target_type}_troparion"},
+                    {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
                 result["kontakion_winner"] = "resurrection_kontakion"
             return result
@@ -1158,38 +1202,38 @@ class RubricsMixin:
         if is_sunday:
             if not saints:
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory_both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory_both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
                 result["kontakion_winner"] = "resurrection_kontakion"
                 return result
             if hour_num == 1:
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory_both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory_both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
                 result["kontakion_winner"] = "resurrection_kontakion"
             elif hour_num == 3:
                 name = saints[0].get("name", "") if saints else "Saint"
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory", "target": {"type": "saint", "name": name}},
-                    {"type": "both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory", "target": {"type": "saint", "name": name}, "content": "saint_troparion"},
+                    {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
                 result["kontakion_winner"] = "saint_kontakion"
             elif hour_num == 6:
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory", "target": {"type": "temple"}},
-                    {"type": "both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory", "target": {"type": "temple"}, "content": "temple_troparion"},
+                    {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
                 result["kontakion_winner"] = "temple_kontakion"
             elif hour_num == 9:
                 name = (saints[1].get("name") if len(saints) >= 2 else (saints[0].get("name") if saints else "Saint"))
                 result["troparia_sequence"] = [
-                    {"type": "resurrectional", "tone": tone},
-                    {"type": "glory", "target": {"type": "saint", "name": name}},
-                    {"type": "both_now", "target": "theotokion"}
+                    {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                    {"type": "glory", "target": {"type": "saint", "name": name}, "content": "saint_troparion"},
+                    {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
                 if len(saints) >= 2:
                     result["kontakion_winner"] = "saint_kontakion_2"

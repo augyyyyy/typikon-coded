@@ -693,6 +693,30 @@ class HoursMixin:
         )
         rank = self.calculate_rank(context)
 
+        pascha_off = context.get("pascha_offset")
+        season = context.get("season_id", "") or context.get("season", "")
+
+        # Holy Week Midnight Office: Behold the Bridegroom (Tone 8) / Kontakion (No Saints / Weekday troparia)
+        if season == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
+            if pascha_off in (-3, -2, -1):
+                # Great Thursday / Friday / Saturday Midnight Office
+                return {
+                    "type": "troparia_stack",
+                    "components": [
+                        {"id": "horologion.troparion_behold_the_bridegroom", "tone": 8},
+                        {"id": "horologion.troparion_behold_the_bridegroom_glory", "tone": 8},
+                        {"id": "horologion.troparion_behold_the_bridegroom_theotokion", "tone": 8}
+                    ]
+                }
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"id": "horologion.troparion_behold_the_bridegroom", "tone": 8},
+                    {"id": "horologion.troparion_behold_the_bridegroom_glory", "tone": 8},
+                    {"id": "horologion.troparion_behold_the_bridegroom_theotokion", "tone": 8}
+                ]
+            }
+
         if not day == 0 and is_afterfeast and rank <= 3:
             return {
                 "type": "troparia_stack",

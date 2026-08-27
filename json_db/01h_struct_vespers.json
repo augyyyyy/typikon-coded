@@ -100,8 +100,10 @@
         {
           "id": "kathisma_vigil",
           "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.psalm_1_selected"
+            "type": "variable_logic",
+            "logic": {
+              "function": "resolve_daily_kathisma"
+            }
           }
         },
         {

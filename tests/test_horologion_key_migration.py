@@ -113,3 +113,50 @@ def test_humanize_keys():
     assert humanize_key("horologion.matins.great_doxology") == "Great Doxology"
     assert humanize_key("horologion.hours.hour_3.ordinary_prayer") == "Ordinary Prayer"
     assert humanize_key("horologion.common.creed") == "Creed"
+
+
+def test_master_key_registry_hierarchical_keys():
+    """Verify that all canonical hierarchical Horologion keys are indexed in 00_master_key_registry.json."""
+    root = Path(__file__).resolve().parent.parent
+    reg_path = root / "json_db" / "00_master_key_registry.json"
+    with open(reg_path, "r", encoding="utf-8") as f:
+        registry = json.load(f)
+
+    h_keys = registry.get("domains", {}).get("horologion", {}).get("keys", {})
+
+    for legacy_key, canon_key in LEGACY_KEY_ALIASES.items():
+        assert canon_key in h_keys, f"Canonical key '{canon_key}' missing from 00_master_key_registry.json"
+        assert legacy_key not in h_keys, f"Legacy flat key '{legacy_key}' should not be a top-level key in master registry"
+        entry = h_keys[canon_key]
+        assert "aliases" in entry and legacy_key in entry["aliases"], (
+            f"Legacy key '{legacy_key}' must be recorded in aliases of '{canon_key}'"
+        )
+
+
+def test_master_key_registry_cleanliness_and_counts():
+    """Verify corrupted domains are eliminated and counts are consistent in 00_master_key_registry.json."""
+    root = Path(__file__).resolve().parent.parent
+    reg_path = root / "json_db" / "00_master_key_registry.json"
+    with open(reg_path, "r", encoding="utf-8") as f:
+        registry = json.load(f)
+
+    domains = registry.get("domains", {})
+
+    # Check for corrupt domains
+    banned_prefixes = ["prayer_o_all-holy_trinity", "file_metadata", "tone_"]
+    for dom in domains:
+        assert not any(dom.startswith(p) for p in banned_prefixes), f"Corrupt domain '{dom}' found in registry"
+
+    # Check counts
+    total_keys = 0
+    for dom_name, dom_info in domains.items():
+        k_dict = dom_info.get("keys", {})
+        assert dom_info.get("count") == len(k_dict), (
+            f"Domain '{dom_name}' count mismatch: {dom_info.get('count')} != {len(k_dict)}"
+        )
+        total_keys += len(k_dict)
+
+    assert registry.get("file_metadata", {}).get("total_keys") == total_keys, (
+        f"file_metadata.total_keys mismatch: {registry.get('file_metadata', {}).get('total_keys')} != {total_keys}"
+    )
+

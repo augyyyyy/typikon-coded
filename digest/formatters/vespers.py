@@ -1,4 +1,54 @@
 class VespersFormatterMixin:
+    def _format_paschal_vespers(self, enriched, rubrics):
+        day_of_week = enriched.get("day_of_week", 0)
+        pascha_off = enriched.get("pascha_offset", 0)
+        
+        tones = {0: "II", 1: "III", 2: "IV", 3: "V", 4: "VI", 5: "VII", 6: "VIII"}
+        tone_str = tones.get(day_of_week, "II")
+
+        prok_map = {
+            0: 'Great Prokeimenon (Tone VII): *"What God is great as our God? Thou art the God Who workest wonders!"*',
+            1: 'Great Prokeimenon (Tone VII): *"Our God is in heaven and on earth; all that He pleased, He hath done."*',
+            2: 'Great Prokeimenon (Tone VII): *"I cried aloud to God, and He heard me."*',
+            3: 'Great Prokeimenon (Tone VII): *"O God, give ear to my prayer, and despise not my supplication."*',
+            4: 'Great Prokeimenon (Tone VII): *"I will love Thee, O Lord, my strength; the Lord is my support and my refuge."*',
+            5: 'Great Prokeimenon (Tone VII): *"Thou hast given an inheritance to those who fear Thy Name, O Lord."*',
+            6: 'Prokeimenon (Tone VI): *"The Lord is King, He is robed in majesty."*'
+        }
+        prok_line = prok_map.get(day_of_week, prok_map[0])
+
+        gospel_block = ""
+        if day_of_week == 0:
+            gospel_block = (
+                "**Holy Gospel (John 20:19–25):** The celebrant, standing before the Holy Doors, reads the Gospel account of Christ appearing to the disciples on the evening of the Resurrection (*\"On the evening of that day, the first day of the week...\"*).\n\n"
+            )
+
+        dt_str = str(enriched.get("date", ""))
+        is_annunciation = dt_str.endswith("-03-25") or enriched.get("feast_id") == "annunciation" or "annunciation" in str(enriched.get("title", "")).lower()
+        
+        if is_annunciation and day_of_week == 0:
+            lines = [
+                "**KYRIOPASCHA (PASCHA WITH ANNUNCIATION) AGAPE VESPERS:**",
+                "**Opening:** The celebrant vests in full bright vestments, takes the censer and the Paschal Cross, and intones: *\"Glory to the Holy, Consubstantial, Life-Creating and Undivided Trinity...\"* followed by the Paschal Troparion *\"Christ is risen from the dead...\"* (thrice by clergy, then with the Paschal Verses by the choir).",
+                "**At Lord, I Call:** 3 Paschal Stichera, and 3 Feast Stichera of the Annunciation; Glory: Feast of the Annunciation; Both now: Paschal Dogmatikon in Tone II.",
+                "**Entrance:** Solemn Entrance with the Holy Gospel Book, censer, and candles; *\"O Joyful Light\"* (*Phos Hilaron*).",
+                f"**{prok_line}**",
+                gospel_block + "**At the Aposticha:** Paschal Stichera (*\"Let God arise... Today a sacred Pascha is revealed to us...\"*); Glory: Feast of the Annunciation; Both now: *\"This is the day of Resurrection! Let us be illumined by the feast...\"*",
+                "**Troparia:** Troparion of Pascha (*\"Christ is risen from the dead...\"*), Troparion of the Annunciation (*\"Today is the fountainhead of our salvation...\"*).",
+                "**Paschal Dismissal:** Dialogical Paschal Dismissal with the Cross (*\"Christ is risen from the dead...\"*)."
+            ]
+            return "\n\n".join(l for l in lines if l.strip())
+
+        lines = [
+            "**Opening:** The celebrant vests in full bright vestments, takes the censer and the Paschal Cross, and intones: *\"Glory to the Holy, Consubstantial, Life-Creating and Undivided Trinity...\"* followed by the Paschal Troparion *\"Christ is risen from the dead...\"* (thrice by clergy, then with the Paschal Verses by the choir).",
+            f"**At Lord, I Call:** 6 Resurrectional Stichera in Tone {tone_str}; Glory, Both now: Dogmatikon in Tone {tone_str}.",
+            "**Entrance:** Solemn Entrance with the Holy Gospel Book, censer, and candles; *\"O Joyful Light\"* (*Phos Hilaron*).",
+            f"**{prok_line}**",
+            gospel_block + "**At the Aposticha:** 1 Resurrectional Sticheron in Tone " + tone_str + ", followed by the **Paschal Stichera** (*\"Let God arise... Today a sacred Pascha is revealed to us...\"*); Glory, Both now: *\"This is the day of Resurrection! Let us be illumined by the feast...\"*",
+            "**Paschal Dismissal:** Dialogical Paschal Dismissal with the Cross (*\"Christ is risen from the dead...\"*)."
+        ]
+        return "\n\n".join(l for l in lines if l.strip())
+
     def _format_resolve_passion_vespers_readings(self, res, context):
         if not res:
             return ""
@@ -36,8 +86,22 @@ class VespersFormatterMixin:
             s = self.humanize_key(item.get('source', ''))
             
             # Map type to a human readable description
+            saints = context.get("saints", [])
             if t == "saint":
-                name = "Stichera of the Saint"
+                if saints:
+                    name = f"Stichera of {self._clean_name(saints[0].get('name', 'the Saint'))}"
+                else:
+                    name = "Stichera of the Saint"
+            elif t == "saint_1":
+                if saints:
+                    name = f"Stichera of {self._clean_name(saints[0].get('name', 'the First Saint'))}"
+                else:
+                    name = "Stichera of the First Saint"
+            elif t == "saint_2":
+                if len(saints) >= 2:
+                    name = f"Stichera of {self._clean_name(saints[1].get('name', 'the Second Saint'))}"
+                else:
+                    name = "Stichera of the Second Saint"
             elif t in ("current_day", "current_day_stichera"):
                 name = "Stichera"
             elif "res" in t.lower():
@@ -56,7 +120,7 @@ class VespersFormatterMixin:
                 joined_dist = f"{dist[0]}, and {dist[1]}"
             else:
                 joined_dist = ", ".join(dist[:-1]) + f", and {dist[-1]}"
-            parts.append(f"*At Lord, I Call…* we sing {joined_dist}")
+            parts.append(f"**At Lord, I Call:** We sing {joined_dist}")
         glory_val = res.get("glory")
         both_now_val = res.get("both_now")
         

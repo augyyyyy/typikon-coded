@@ -81,22 +81,137 @@ class LiturgyFormatterMixin:
             if r_type == "prokeimenon":
                 parts.append(f"Prokeimenon: {self.humanize_key(r.get('ref_key', ''))}")
             elif r_type == "paremia":
-                parts.append(f"Paremia ({r.get('book', 'OT')}): {self.humanize_key(r.get('ref_key', ''))}")
+                p_text = r.get("text") or self.humanize_key(r.get("ref_key", ""))
+                parts.append(f"Paremia ({r.get('book', 'OT')}): {p_text}")
             elif r_type == "exclamation":
                 parts.append(f"Exclamation: {r.get('text', '')} (Posture: {r.get('rubric', {}).get('response', '')})")
                 
         if res.get("has_feast_readings"):
             fr = res.get("feast_readings", {})
-            ep = self.humanize_key(fr.get("epistle", {}).get("ref_key", ""))
-            gosp = self.humanize_key(fr.get("gospel", {}).get("ref_key", ""))
-            parts.append(f"Feast Readings - Epistle: {ep}, Gospel: {gosp}")
+            parts_fr = []
+            if fr.get("epistle"):
+                ep_text = fr["epistle"].get("text") or self.humanize_key(fr["epistle"].get("ref_key", ""))
+                parts_fr.append(f"Epistle: {ep_text}")
+            if fr.get("gospel"):
+                gosp_text = fr["gospel"].get("text") or self.humanize_key(fr["gospel"].get("ref_key", ""))
+                parts_fr.append(f"Gospel: {gosp_text}")
+            if parts_fr:
+                parts.append(f"Feast Readings – {', '.join(parts_fr)}")
             
-        return "At the Paremias: " + "; ".join(parts) + "."
+        return "**At the Paremias:**  \n" + "  \n".join(f"  - {p}" for p in parts)
 
 
     def _format_resolve_vesperal_liturgy_readings(self, res, context):
         if not res:
             return ""
+        data = res.get("data")
+        if not data and isinstance(res, dict):
+            paremias = []
+            ep_prok = None
+            ep = None
+            all_data = None
+            gosp = None
+            for comp in res.get("components", []):
+                c_type = comp.get("type")
+                c_data = comp.get("data")
+                if c_type == "reading" and comp.get("source") == "paremia" and c_data:
+                    paremias.append(c_data)
+                elif c_type == "prokeimenon" and c_data:
+                    ep_prok = c_data
+                elif c_type == "reading" and comp.get("source") == "epistle" and c_data:
+                    ep = c_data
+                elif c_type == "alleluia" and c_data:
+                    all_data = c_data
+                elif c_type == "reading" and comp.get("source") == "gospel" and c_data:
+                    gosp = c_data
+            if paremias or ep or gosp:
+                data = {
+                    "paremias": paremias,
+                    "epistle_prokeimenon": ep_prok,
+                    "epistle": ep,
+                    "alleluia": all_data,
+                    "gospel": gosp
+                }
+        if data and isinstance(data, dict):
+            lines = []
+            title = context.get("title") or "Vesperal Liturgy"
+            lines.append(f"**Vesperal Liturgy Readings & Propers ({title} - St. Basil the Great):**")
+            
+            # Prokeimenon
+            prok = data.get("prokeimenon")
+            if prok:
+                lines.append(f"**Prokeimenon (Tone {self._roman_tone(prok.get('tone'))}):**\n> \"{prok.get('text')}\"  \n> *Verse:* {prok.get('verse')}")
+                
+            # Paremias
+            paremias = data.get("paremias", [])
+            if paremias:
+                p_lines = []
+                for p in paremias:
+                    p_num = p.get("number")
+                    p_book = p.get("book")
+                    p_ch = p.get("chapter")
+                    p_title = p.get("title", "")
+                    p_prok = p.get("prokeimenon")
+                    
+                    p_str = f"{p_num}. **{p_book} {p_ch}** ({p_title})"
+                    if p_prok:
+                        p_str += f"  \n   *Prokeimenon (Tone {self._roman_tone(p_prok.get('tone'))}):* \"{p_prok.get('text')}\""
+                    p_lines.append(p_str)
+                lines.append("**Old Testament Paremias:**\n" + "\n".join(p_lines))
+                
+            # Epistle Prokeimenon
+            ep_prok = data.get("epistle_prokeimenon")
+            if ep_prok:
+                lines.append(f"**Prokeimenon of the Apostol (Tone {self._roman_tone(ep_prok.get('tone'))}):**\n> \"{ep_prok.get('text')}\"  \n> *Verse:* {ep_prok.get('verse')}")
+                
+            # Epistle
+            ep = data.get("epistle")
+            if ep:
+                lines.append(f"**Epistle:**\n> **{ep.get('book')} §{ep.get('pericope')} [{ep.get('chapter')}]**  \n> *Incipit:* \"{ep.get('incipit')}\"")
+                
+            # Alleluia or Alleluia replacement
+            all_rep = data.get("alleluia_replace")
+            if all_rep:
+                verses_str = "\n> ".join(f"*Verse {i+1}:* {v}" for i, v in enumerate(all_rep.get("verses", [])))
+                lines.append(f"**Instead of the Alleluia:**\n> {all_rep.get('text')}\n> {verses_str}\n> *Rubric:* {all_rep.get('rubric', '')}")
+            else:
+                all_data = data.get("alleluia")
+                if all_data:
+                    verses_str = "; ".join(all_data.get("verses", []))
+                    lines.append(f"**Alleluia (Tone {self._roman_tone(all_data.get('tone'))}):**\n> \"{verses_str}\"")
+                    
+            # Gospel
+            gosp = data.get("gospel")
+            if gosp:
+                lines.append(f"**Holy Gospel:**\n> **{gosp.get('book')} §{gosp.get('pericope')} [{gosp.get('chapter')}]**  \n> *Incipit:* \"{gosp.get('incipit')}\"")
+                
+            # Cherubikon replacement
+            cherub = data.get("cherubic_hymn_replace")
+            if cherub:
+                lines.append(f"**Instead of the Cherubic Hymn (also after the transfer of the Holy Gifts):**\n> \"{cherub}\"")
+                
+            # Zadostoinyk
+            zad = data.get("zadostoinyk")
+            if zad:
+                lines.append(f"**Instead of 'It is truly right' (Zadostoinyk - Irmos of Ode IX):**\n> \"{zad}\"")
+                
+            # Koinonikon
+            koin = data.get("koinonikon")
+            if koin:
+                lines.append(f"**Communion Hymn (Koinonikon):**\n> \"{koin}\"")
+                
+            # Post-communion replacement
+            post_c = data.get("post_communion_replace")
+            if post_c:
+                lines.append(f"**Post-Communion Hymn (instead of 'We have seen the true light' and 'Let our mouths be filled'):**\n> \"{post_c}\"")
+                
+            # Reserve Lamb note
+            res_note = data.get("reserve_lamb_note")
+            if res_note:
+                lines.append(f"> [!NOTE]\n> **Reserve Lamb Rubric**: {res_note}")
+                
+            return "\n\n".join(lines)
+
         parts = []
         for comp in res.get("components", []):
             c_type = comp.get("type")
@@ -111,11 +226,21 @@ class LiturgyFormatterMixin:
         
         meta = res.get("source_metadata", {})
         vesperal_id = self.humanize_key(meta.get("vesperal_id", ""))
-        return f"Vesperal Liturgy Readings ({vesperal_id}): " + "; ".join(parts) + "."
+        return f"**Vesperal Liturgy Readings ({vesperal_id}):**  \n" + "  \n".join(f"  - {p}" for p in parts)
 
 
     def _format_resolve_liturgy_antiphons(self, res, context):
-        if res and res.get("type") == "festal_antiphons":
+        pascha_off = context.get("pascha_offset")
+        strategy = res.get("args", {}).get("strategy") or res.get("strategy") if res else None
+        if res and (res.get("type") == "festal_antiphons" or strategy == "festal_antiphons" or (pascha_off is not None and 0 <= pascha_off <= 6)):
+            if pascha_off is not None and 0 <= pascha_off <= 6:
+                return (
+                    "**Festal Antiphons of Pascha:**\n"
+                    "  - **1st Antiphon (Psalm 65):** *\"Shout joyfully to the Lord, all the earth...\"* Refrain: *\"Through the prayers of the Mother of God, O Savior, save us.\"*\n"
+                    "  - **2nd Antiphon (Psalm 66):** *\"May God be merciful to us and bless us...\"* Refrain: *\"Save us, O Son of God, risen from the dead, who sing to Thee: Alleluia.\"*\n"
+                    "  - **3rd Antiphon (Psalm 67):** *\"Let God arise, and let His enemies be scattered...\"* Refrain: *\"Christ is risen from the dead, trampling down death by death, and upon those in the tombs bestowing life.\"*\n"
+                    "**Entrance Hymn (Isodikon):** *\"In the churches bless God, the Lord from the fountains of Israel. Save us, O Son of God, risen from the dead, who sing to Thee: Alleluia.\"*"
+                )
             return "Festal Antiphons."
         
         try:
@@ -135,8 +260,8 @@ class LiturgyFormatterMixin:
         is_weekday = 0 < context.get("day_of_week", 0) <= 5
         is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
         if is_weekday and is_simple:
-            return "Psalms of Typica; Beatitudes on 6: 3 from the Octoechos, 3 from Ode III of the Saint."
-        return "Psalms of Typica; Beatitudes."
+            return "**Typika & Beatitudes:** Psalms of Typica; Beatitudes on 6: 3 from the Octoechos, 3 from Ode III of the Saint."
+        return "**Typika & Beatitudes:** Psalms of Typica; Beatitudes."
 
 
     def _format_resolve_liturgy_alleluia(self, res, context):
@@ -164,6 +289,9 @@ class LiturgyFormatterMixin:
     def _format_resolve_liturgy_megalynarion(self, res, context):
         if not res:
             return ""
+        pascha_off = context.get("pascha_offset")
+        if pascha_off is not None and 0 <= pascha_off <= 38:
+            return "**Instead of 'It is truly proper' (Zadostoinyk):**  \n> *\"The angel cried to the Lady Full of Grace: Rejoice, O Pure Virgin! And again I say: Rejoice! Thy Son is risen from His three days in the tomb, and has raised all the dead: O you people, be glad! Shine, shine, O New Jerusalem, for the glory of the Lord has shone upon thee. Exult now and be glad, O Zion, and thou, O pure Mother of God, rejoice in the resurrection of Thy Son.\"*"
         if res.get("text"):
             text = res.get("text")
             if self._is_missing(text):
@@ -346,7 +474,7 @@ class LiturgyFormatterMixin:
             if ref_key.startswith("menaion."):
                 name = "Saint"
                 if context.get("feast_level") in ("lord", "theotokos") or context.get("is_fore_or_afterfeast"):
-                    name = "the Feast"
+                    name = context.get("title") or "the Feast"
                 else:
                     s_list = context.get("saints", [])
                     for s in s_list:
@@ -355,10 +483,18 @@ class LiturgyFormatterMixin:
                             name = s.get("name", "Saint")
                             break
                 if name == "Saint":
-                    parts = ref_key.split('.')
-                    if len(parts) >= 3:
-                        name = self.humanize_key(parts[2])
+                    s_title = context.get("title") or context.get("dolnytsky_title") or context.get("feast_title")
+                    if s_title:
+                        name = s_title
+                    else:
+                        parts = ref_key.split('.')
+                        if len(parts) >= 3:
+                            name = self.humanize_key(parts[2])
+                        else:
+                            name = "the Saint"
                 name_human = self.humanize_key(name)
+                if name_human.startswith("Menaion.") or name_human.startswith("Menaion "):
+                    name_human = context.get("title") or "the Saint"
                 return f"*of {name_human}*"
             
             ref_str = self.humanize_key(ref_key)
@@ -398,17 +534,17 @@ class LiturgyFormatterMixin:
                 text = e.get("text") or e.get("content")
                 if self._is_missing(text):
                     text = None
+                if not text and e.get("ref_key"):
+                    scripture_val = self._format_scripture_key(e["ref_key"])
+                    if scripture_val and scripture_val != self.humanize_key(e["ref_key"]):
+                        text = scripture_val
                 if text:
-                    if is_weekday and is_simple:
-                        val = f"of the day ({text})"
-                    else:
-                        val = text
+                    val = text
                 else:
                     ref_key = e.get("ref_key", "")
                     val = get_ref_label(ref_key, "Epistle").replace("*", "")
                 
                 label = "Epistles" if len(readings) > 1 and idx == 0 else "Epistle" if len(readings) > 1 else "Epistle"
-                # Wait, if there are multiple readings, let's call it Epistles or Epistle
                 r_parts.append(f'<span class="readings-label">{label}:</span><span class="readings-value">{val}</span>')
                 
             a = reading.get("alleluia", {})
@@ -421,13 +557,13 @@ class LiturgyFormatterMixin:
                     text = None
                 verses = a.get("verses", [])
                 
-                if is_weekday and is_simple:
-                    val = f"{tone_str}: 'Alleluia, Alleluia, Alleluia, glory to Thee, O God.'" if tone_str else "'Alleluia, Alleluia, Alleluia, glory to Thee, O God.'"
-                elif text:
+                if text:
                     val = f'sung in {tone_str} with verses: "{text}"' if tone_str else f'with verses: "{text}"'
                 elif verses:
                     vs_str = "; ".join(verses)
                     val = f'sung in {tone_str} with verses: "{vs_str}"' if tone_str else f'with verses: "{vs_str}"'
+                elif is_weekday and is_simple:
+                    val = f"{tone_str}: 'Alleluia, Alleluia, Alleluia, glory to Thee, O God.'" if tone_str else "'Alleluia, Alleluia, Alleluia, glory to Thee, O God.'"
                 else:
                     ref_key = a.get("ref_key", "")
                     val = get_ref_label(ref_key, "Alleluia").replace("*", "")
@@ -442,11 +578,12 @@ class LiturgyFormatterMixin:
                 text = g.get("text") or g.get("content")
                 if self._is_missing(text):
                     text = None
+                if not text and g.get("ref_key"):
+                    scripture_val = self._format_scripture_key(g["ref_key"])
+                    if scripture_val and scripture_val != self.humanize_key(g["ref_key"]):
+                        text = scripture_val
                 if text:
-                    if is_weekday and is_simple:
-                        val = f"of the day ({text})"
-                    else:
-                        val = text
+                    val = text
                 else:
                     ref_key = g.get("ref_key", "")
                     val = get_ref_label(ref_key, "Gospel").replace("*", "")
@@ -461,16 +598,10 @@ class LiturgyFormatterMixin:
                     text = None
                 if text:
                     cleaned_text = self._clean_hymn_text(text)
-                    if is_weekday and is_simple:
-                        val = f"of the day: {cleaned_text}"
-                    else:
-                        val = cleaned_text
+                    val = cleaned_text
                 else:
                     ref_str = self.humanize_key(c.get("ref_key", ""))
-                    if is_weekday and is_simple:
-                        val = f"of the day: {ref_str}"
-                    else:
-                        val = ref_str
+                    val = ref_str
                 
                 label = "Communion Hymn (Feast)" if len(readings) > 1 and idx == 0 else "Communion Hymn (Saint)" if len(readings) > 1 else "Communion Hymn"
                 r_parts.append(f'<span class="readings-label">{label}:</span><span class="readings-value">{val}</span>')
@@ -532,7 +663,7 @@ class LiturgyFormatterMixin:
         content = res.get('content', 'May Christ our true God...')
         if content and not content.endswith('...') and not content.endswith('.'):
             content += "..."
-        return f"Dismissal: {content}"
+        return f"**Dismissal:** {content}"
 
 
     def _format_resolve_royal_readings(self, res, context):
@@ -546,6 +677,8 @@ class LiturgyFormatterMixin:
 
 
     def _format_resolve_post_communion_hymn(self, res, context):
+        if context.get("variables", {}).get("post_communion_replace") or context.get("post_communion_replace"):
+            return ""
         is_weekday = 0 < context.get("day_of_week", 0) <= 5
         is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
         if self.mode == "quick" and is_weekday and is_simple:
@@ -580,7 +713,10 @@ class LiturgyFormatterMixin:
             return ""
         source = res.get("source", "")
         ref = res.get("ref_key", "")
+        text = res.get("text", "")
         rub = res.get("rubric", "")
         rub_str = f" ({rub})" if rub else ""
-        return f"Megalynarion at St. Basil Liturgy (from {source}): {self.humanize_key(ref)}{rub_str}."
+        if text:
+            return f"**Megalynarion:** *\"{text}\"*{rub_str}"
+        return f"**Megalynarion:** {self.humanize_key(ref)}{rub_str}"
 

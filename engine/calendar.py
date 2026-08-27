@@ -393,7 +393,7 @@ class CalendarMixin:
         pascha_offset = context.get("pascha_offset")
         if season_id == "triodion" or season in ["lent", "pre_lent"]:
             triodion_book = "Lenten"
-        elif (season_id == "pentecostarion" or season == "pascha") and (pascha_offset is not None and pascha_offset <= 56):
+        elif (season_id == "pentecostarion" or season in ["pascha", "pentecostarion"]) or (pascha_offset is not None and 0 <= pascha_offset <= 68):
             triodion_book = "Floral"
             
         # 2. Determine Menaion Book and Class

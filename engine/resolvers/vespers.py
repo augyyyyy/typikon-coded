@@ -92,7 +92,7 @@ class VespersMixin:
         if context.get("is_small_vespers"):
             return self.resolve_small_vespers_stichera(context)
 
-        overridden_dist = context.get("vespers_stichera_distribution")
+        overridden_dist = context.get("vespers_stichera_distribution") or context.get("lord_i_call_stichera_distribution") or context.get("variables", {}).get("lord_i_call_stichera_distribution")
         if overridden_dist and isinstance(overridden_dist, dict):
             vespers_logic = overridden_dist
             count = vespers_logic.get("total_count", 0)
@@ -751,7 +751,7 @@ class VespersMixin:
         - Readings are present
         - Saturday evening (parish practice)
         """
-        rank = context.get("rank", 5)
+        rank = parse_rank_integer(context.get("rank", 5))
         is_vigil = context.get("is_vigil", False)
         day_of_week = context.get("day_of_week", 0)
         has_readings = context.get("has_readings", False)
@@ -1515,16 +1515,20 @@ class VespersMixin:
     def resolve_daily_kathisma(self, context, rubrics=None):
         """
         Resolves the daily kathisma for Vespers.
-        - Sunday (0) (Saturday evening Vespers): Kathisma 1.
-        - Monday (1) (Sunday evening Vespers): None.
-        - Other weekdays (Tuesday-Saturday, 2-6): None for Great Feasts / Vigils, Kathisma 18 for others.
+        - Saturday (6) (Saturday evening Vespers for Sunday): Kathisma 1 (Blessed is the man).
+        - Sunday (0) (Sunday evening Vespers for Monday): None (or Kathisma 4 in Great Lent).
+        - Other weekdays (Monday-Friday, 1-5): None for Great Feasts / Vigils, Kathisma 18 for others.
         """
         day = context.get("day_of_week", 0)
-        if day == 0:
-            return {"type": "kathisma", "number": 1, "ref_key": "horologion.kathisma_1"}
-        elif day == 1:
+        is_lent = context.get("season") == "great_lent" or context.get("season_id") == "great_lent" or (context.get("pascha_offset") is not None and -48 <= context.get("pascha_offset") <= -8)
+        
+        if day == 6: # Saturday evening -> Sunday Vespers
+            return {"type": "kathisma", "number": 1, "ref_key": "horologion.kathisma_1", "rubric_note": "Kathisma 1 (Blessed is the man)"}
+        elif day == 0: # Sunday evening -> Monday Vespers
+            if is_lent:
+                return {"type": "kathisma", "number": 4, "ref_key": "horologion.kathisma_4", "rubric_note": "Kathisma 4"}
             return {"type": "none", "number": 0, "ref_key": None}
-        else:
+        else: # Weekdays Monday-Friday
             rank_val = context.get("rank", 5)
             if isinstance(rank_val, str):
                 from engine.utils.type_utils import parse_rank_integer
@@ -1540,7 +1544,22 @@ class VespersMixin:
             )
             if is_great_service:
                 return {"type": "none", "number": 0, "ref_key": None}
-            return {"type": "kathisma", "number": 18, "ref_key": "horologion.kathisma_18"}
+            return {"type": "kathisma", "number": 18, "ref_key": "horologion.kathisma_18", "rubric_note": "Kathisma 18"}
+
+    def resolve_vespers_kathisma(self, context, rubrics=None):
+        """
+        Resolves the Kathisma for Vespers (Great or Daily).
+        - Saturday Evening (day 6): Kathisma 1 ("Blessed is the man").
+        - Sunday Evening (day 0): None (or Kathisma 4 in Great Lent).
+        - Weekdays: Kathisma 18 (or None for Great Feasts of Lord).
+        """
+        res = self.resolve_daily_kathisma(context, rubrics)
+        if not res or res.get("type") == "none":
+            return {"type": "none", "number": 0}
+        num = res.get("number")
+        if num == 1:
+            return {"type": "blessed_is_the_man", "number": 1, "stasis": "first_stasis", "ref_key": "horologion.kathisma_1"}
+        return {"type": "numbered_kathisma", "number": num, "ref_key": res.get("ref_key")}
 
     def check_litiya_trigger(self, context, rubrics=None):
         """

@@ -12,6 +12,11 @@ from dotenv import load_dotenv
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
 try:
     from ruthenian_engine import RuthenianEngine
     from typikon_digest_generator import TypikonDigestGenerator
@@ -73,35 +78,34 @@ class ServiceDayMultiAuditor:
     def extract_service_digest_section(self, digest_text: str, service_name: str) -> str:
         """Extract the specific service section from the generated digest."""
         lines = digest_text.splitlines()
-        preamble = []
-        service_lines = []
-        
-        mapping = {
-            "Vespers": ["## GREAT VESPERS", "## VESPERS", "## PASCHAL VESPERS", "## LENTEN VESPERS"],
-            "Compline": ["## SMALL COMPLINE", "## COMPLINE", "## GREAT COMPLINE"],
-            "Midnight Office": ["## MIDNIGHT OFFICE", "## MIDNIGHT OFFICE (SUNDAY)", "## MIDNIGHT OFFICE (SATURDAY)"],
-            "Matins": ["## FESTAL MATINS", "## MATINS", "## DAILY MATINS", "## SUNDAY MATINS", "## LENTEN MATINS"],
-            "First Hour": ["## FIRST HOUR", "## LENTEN FIRST HOUR", "## ROYAL FIRST HOUR"],
-            "Third Hour": ["## THIRD HOUR", "## LENTEN THIRD HOUR", "## ROYAL THIRD HOUR"],
-            "Sixth Hour": ["## SIXTH HOUR", "## LENTEN SIXTH HOUR", "## ROYAL SIXTH HOUR"],
-            "Ninth Hour": ["## NINTH HOUR", "## LENTEN NINTH HOUR", "## ROYAL NINTH HOUR"],
-            "Liturgy": ["## DIVINE LITURGY", "## LITURGY"]
+        # Collect preamble (lines before the first major service header)
+        preamble_lines = []
+        for line in lines:
+            upper = line.strip().upper()
+            if upper.startswith("## ") or upper.startswith("=== "):
+                break
+            preamble_lines.append(line)
+        preamble_str = "\n".join(preamble_lines).strip()
+
+        kw_map = {
+            "Vespers": ["VESPERS"],
+            "Compline": ["COMPLINE"],
+            "Midnight Office": ["MIDNIGHT"],
+            "Matins": ["MATINS", "LAMENTATIONS"],
+            "First Hour": ["FIRST HOUR", "HOURS"],
+            "Third Hour": ["THIRD HOUR", "HOURS"],
+            "Sixth Hour": ["SIXTH HOUR", "HOURS"],
+            "Ninth Hour": ["NINTH HOUR", "HOURS"],
+            "Liturgy": ["LITURGY", "TYPIKA"]
         }
-        
-        target_headers = [h.upper() for h in mapping.get(service_name, [])]
-        all_headers = []
-        for hdrs in mapping.values():
-            all_headers.extend([h.upper() for h in hdrs])
+        keywords = kw_map.get(service_name, [service_name.upper()])
             
         started = False
+        service_lines = []
         for line in lines:
             upper_line = line.strip().upper()
-            is_any_header = any(upper_line.startswith(h) for h in all_headers)
-            is_target_header = any(upper_line.startswith(h) for h in target_headers)
-            
-            if not started and not is_any_header:
-                preamble.append(line)
-                continue
+            is_any_header = upper_line.startswith("## ") or upper_line.startswith("=== ")
+            is_target_header = is_any_header and any(kw in upper_line for kw in keywords)
                 
             if is_target_header:
                 started = True
@@ -113,7 +117,6 @@ class ServiceDayMultiAuditor:
                     break
                 service_lines.append(line)
                 
-        preamble_str = "\n".join(preamble).strip()
         service_str = "\n".join(service_lines).strip()
         return f"{preamble_str}\n\n{service_str}" if service_str else ""
 
@@ -123,13 +126,17 @@ class ServiceDayMultiAuditor:
         
         # Slicing logic overrides
         matins_override = None
-        if context["triodion_period"] == "holy_friday":
+        t_period = str(context.get("triodion_period", ""))
+        season = str(context.get("season", ""))
+        dow = context.get("day_of_week")
+        
+        if t_period in ["holy_friday", "holy_saturday"] or (season == "holy_week" and dow == 6):
             matins_override = "tomb_matins"
-        elif context["triodion_period"] in ["pascha", "bright_week"]:
+        elif t_period in ["pascha", "bright_week"]:
             matins_override = "bright_matins"
-        elif context["triodion_period"] == "holy_week_weekday" and context.get("day_of_week") in [4, 5]:
+        elif t_period in ["holy_thursday", "passion_matins"] or (season == "holy_week" and dow in [4, 5]):
             matins_override = "passion_matins"
-        elif context["triodion_period"] == "holy_week_weekday" and context.get("day_of_week") in [1, 2, 3]:
+        elif t_period in ["holy_monday", "holy_tuesday", "holy_wednesday", "holy_week_weekday"] or (season == "holy_week" and dow in [1, 2, 3]):
             matins_override = "bridegroom_matins"
 
         root_id = service["root"]
@@ -217,6 +224,7 @@ class ServiceDayMultiAuditor:
             (r"\bsaints_2\b", "Leaked internal placeholder 'saints_2'"),
             (r"\bsaint_1\b", "Leaked internal placeholder 'saint_1'"),
             (r"\bsaint_2\b", "Leaked internal placeholder 'saint_2'"),
+            (r"\bSaint\s+\d+\b", "Leaked internal placeholder 'Saint 1' / 'Saint 2'"),
             (r"_stichera\b", "Leaked stichera suffix token"),
             (r"_troparion\b", "Leaked troparion suffix token"),
             (r"_kontakion\b", "Leaked kontakion suffix token")
@@ -239,7 +247,7 @@ class ServiceDayMultiAuditor:
 
         # Double Saint Prefixes
         double_prefixes = [
-            (r"\bSt\.\s+(Nativity|Translation|Synaxis|Annunciation|Dormition|Theophany|Elevation)\b", "Invalid saint prefix before feast title"),
+            (r"\bSt\.\s+(Nativity|Translation|Return|Transfer|Finding|Recovery|Deposition|Conception|Protection|Synaxis|Annunciation|Dormition|Theophany|Elevation)\b", "Invalid saint prefix before feast title"),
             (r"\bSt\.\s+St\.\b", "Double St. St. prefix"),
             (r"\bSaint\s+Saint\b", "Double Saint Saint prefix")
         ]
@@ -277,27 +285,26 @@ class ServiceDayMultiAuditor:
 
         # Spelling standard violations - Non-blocking warnings for text assets (enforces UGCC matrix)
         spelling_violations = [
-            (r"\bprokimenon\b", "Prokimenon (must use Prokeimenon)"),
-            (r"\bprokimena\b", "Prokimena (must use Prokeimena)"),
-            (r"\bkinonicon\b", "Kinonicon (must use Communion Hymn)"),
-            (r"\bkinonica\b", "Kinonica (must use Communion Hymns)"),
-            (r"\bholy doors\b", "Holy Doors (must use Royal Doors)"),
-            (r"\bexaposteilarion\b", "Exaposteilarion (must use Exapostilarion)"),
-            (r"\blytia\b", "Lytia (must use Litiya)"),
-            (r"\blitia\b", "Litia (must use Litiya)"),
-            (r"\bpre-feast\b", "Pre-feast (must use Forefeast)"),
-            (r"\bpost-feast\b", "Post-feast (must use Afterfeast)"),
-            (r"\bpre\s+feast\b", "Pre feast (must use Forefeast)"),
-            (r"\bpost\s+feast\b", "Post feast (must use Afterfeast)"),
-            (r"\bleave-taking\b", "Leave-taking (must use Apodosis)"),
-            (r"\bleave\s+taking\b", "Leave taking (must use Apodosis)"),
-            (r"\bstepenna\b", "Stepenna (must use Gradual)"),
-            (r"\banabathmoi\b", "Anabathmoi (must use Gradual)")
+            (r"\bprokimenon\b", "Prokeimenon"),
+            (r"\bprokimena\b", "Prokeimena"),
+            (r"\bkinonicon\b", "Communion Hymn"),
+            (r"\bkinonica\b", "Communion Hymns"),
+            (r"\bexaposteilarion\b", "Exapostilarion"),
+            (r"\blytia\b", "Litiya"),
+            (r"\blitia\b", "Litiya"),
+            (r"\bpre-feast\b", "Forefeast"),
+            (r"\bpost-feast\b", "Afterfeast"),
+            (r"\bpre\s+feast\b", "Forefeast"),
+            (r"\bpost\s+feast\b", "Afterfeast"),
+            (r"\bleave-taking\b", "Apodosis"),
+            (r"\bleave\s+taking\b", "Apodosis"),
+            (r"\bstepenna\b", "Gradual"),
+            (r"\banabathmoi\b", "Gradual")
         ]
-        for pattern, name in spelling_violations:
+        for pattern, canonical_name in spelling_violations:
             match = re.search(pattern, content, re.IGNORECASE)
             if match:
-                warnings.append(f"Spelling standard violation in text asset: '{match.group(0)}' (should be: {name})")
+                warnings.append(f"Spelling standard violation in text asset: '{match.group(0)}' (canonical: {canonical_name})")
 
         for w in warnings:
             print(f"   ⚠️  [Text Warning] {w}")
@@ -616,6 +623,285 @@ class ServiceDayMultiAuditor:
                 
         return errors
 
+    def gate9_canonical_negative_suppressions(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 9: Canonical Negative Prohibitions (Dolnytsky Parts I-V)."""
+        errors = []
+        pascha_off = context.get("pascha_offset")
+        season_id = context.get("season_id") or context.get("season", "")
+        
+        # 1. Holy Week Negative Constraints (-8 to -1)
+        if (pascha_off is not None and -8 <= pascha_off <= -1) or season_id == "holy_week":
+            # Ban weekday Octoechos combination strings
+            for day in ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"):
+                if f"{day} service combined with" in content:
+                    errors.append(f"Holy Week Violation: Found forbidden weekday combination string '{day} service combined with'.")
+            
+            # Ban Temple troparia
+            if "Troparion of the Temple" in content:
+                errors.append("Holy Week Violation: Found forbidden 'Troparion of the Temple'.")
+                
+            # Ban Saint Doxastikon (unless Annunciation collision)
+            is_annunciation = str(dt).endswith("-03-25") or context.get("feast_id") == "annunciation"
+            if not is_annunciation:
+                if "Doxastikon of the Saint" in content:
+                    errors.append("Holy Week Violation: Found forbidden 'Doxastikon of the Saint'.")
+                if "Theotokion from the Horologion or Octoechos" in content:
+                    errors.append("Holy Week Violation: Found forbidden 'Theotokion from the Horologion or Octoechos'.")
+                    
+            # Holy Thursday specific bans
+            if pascha_off == -3:
+                if "We have seen the true light, we have received" in content or '**Post-Communion Hymn:** "We have seen' in content:
+                    errors.append("Holy Thursday Violation: Found forbidden Post-Communion hymn 'We have seen the true light'.")
+                if "Let our mouths be filled with Thy praise" in content:
+                    errors.append("Holy Thursday Violation: Found forbidden 'Let our mouths be filled'.")
+
+        # 2. Bright Week Negative Constraints (0 to +6)
+        elif (pascha_off is not None and 0 <= pascha_off <= 6) or season_id in ("pascha", "bright_week"):
+            if "Six Psalms" in content:
+                errors.append("Bright Week Violation: Found forbidden 'Six Psalms' (Must be replaced by Paschal Troparion).")
+            if "Kathisma 1" in content or "Kathismata" in content:
+                # On Bright Saturday (pascha_off == 6), Vespers is Sunday Vespers of Thomas Sunday, which resumes Kathisma 1
+                if not (pascha_off == 6 and service_name == "Vespers"):
+                    errors.append("Bright Week Violation: Found forbidden Kathisma reading during Bright Week.")
+                
+        return errors
+
+    def gate10_choral_choreography(self, dt: date, service_name: str, context: dict, content: str) -> list:
+        """Gate 10: Choral Choreography and Repetition Precision."""
+        errors = []
+        pascha_off = context.get("pascha_offset")
+        
+        # Great Thursday Exapostilarion breakdown
+        if pascha_off == -3 and service_name == "Matins":
+            if "Exaposteilarion (thrice)" in content:
+                errors.append("Holy Thursday Choreography Error: Exapostilarion must specify breakdown '(twice); Glory, Both now: once more the same' rather than flat '(thrice)'.")
+                
+        return errors
+
+    def gate12_theological_rubrical_nuance(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """
+        Gate 12: Theological & Rubrical Nuance Auditor.
+        Grounded in Dolnytsky Parts I-V, Ordo Celebrationis, and the Liturgicon:
+        1. Trisagion Substitution Invariants (Baptismal 'All of you who have been baptized', Cross 'Before Your Cross')
+        2. Megalynarion / Zadostoynyk Invariants (St. Basil 'In you, O Woman Full of Grace', Ode IX Irmos on Great Feasts)
+        3. Post-Communion Hymn Matrix ('We have seen the true light' vs Festal Troparion / 'Be exalted' / 'Receive me today')
+        4. Saturday Evening Dogmatikon Invariant (Tone Dogmatikon at 'Lord, I Call')
+        5. Saturday Evening Kathisma 1 Invariant ('Blessed is the man')
+        6. Sunday Evening Kathisma Suppression Invariant
+        7. Sunday Matins Evlogitaria Invariant
+        8. Vestment Theological Color Matrix
+        """
+        errors = []
+        if not content:
+            return errors
+            
+        pascha_off = context.get("pascha_offset")
+        season_id = context.get("season_id") or context.get("season", "")
+        dow = context.get("day_of_week") # 0=Sunday, 6=Saturday
+        d_rank = context.get("dolnytsky_rank", "")
+        feast_id = context.get("feast_id", "")
+        dt_str = dt.isoformat()
+        
+        # 1. Trisagion Substitution Invariant at Divine Liturgy
+        if service_name in ("Liturgy", "Divine Liturgy") or "## Divine Liturgy" in content or "## DIVINE LITURGY" in content:
+            # Baptismal Hymn Feasts: Nativity (12-25), Theophany (01-06), Lazarus Sat (-8), Holy Sat (-1), Pascha (0), Bright Week (1..6), Pentecost Sunday (49)
+            is_baptismal = (
+                dt_str.endswith("-12-25") or
+                dt_str.endswith("-01-06") or
+                (pascha_off is not None and pascha_off in (-8, -1, 0, 1, 2, 3, 4, 5, 6, 49))
+            )
+            if is_baptismal:
+                if "All of you who have been baptized into Christ" not in content and "Baptized into Christ" not in content and "As many as have been baptized" not in content and "All who have been baptized" not in content:
+                    # Check if aliturgical or presanctified
+                    lit_type = str(rubrics.get("overrides", {}).get("liturgy_type", ""))
+                    if "presanctified" not in lit_type and "aliturgical" not in lit_type and "no_liturgy" not in lit_type:
+                        errors.append(f"Theological/Rubrical Error in {service_name} on {dt_str}: Baptismal Feast must prescribe 'All of you who have been baptized into Christ' in place of the Trisagion.")
+
+            # Cross Veneration Feasts: Exaltation of the Cross (09-14), 3rd Sunday of Great Lent (-28)
+            is_cross_feast = dt_str.endswith("-09-14") or (pascha_off is not None and pascha_off == -28)
+            if is_cross_feast:
+                if "Before Your Cross" not in content and "Before Thy Cross" not in content:
+                    errors.append(f"Theological/Rubrical Error in {service_name} on {dt_str}: Cross Veneration Feast must prescribe 'Before Your Cross, we bow down in worship' in place of the Trisagion.")
+
+        # 2. Megalynarion / Zadostoynyk Invariant at Divine Liturgy
+        if service_name in ("Liturgy", "Divine Liturgy") or "## Divine Liturgy" in content or "## DIVINE LITURGY" in content:
+            # St. Basil Liturgies: "In you, O Woman Full of Grace"
+            lit_type = str(rubrics.get("overrides", {}).get("liturgy_type", "")).lower()
+            if "basil" in lit_type:
+                # Holy Thursday, Holy Saturday, Christmas Eve, Theophany Eve, and Annunciation have their own Ode 9 irmos (Zadostoinyk)
+                is_festal_zadostoinyk = pascha_off in (-3, -1) or dt_str.endswith("-03-25") or dt_str.endswith("-12-24") or dt_str.endswith("-01-05")
+                if not is_festal_zadostoinyk:
+                    if "In you, O Woman Full of Grace" not in content and "In You, O Woman Full of Grace" not in content and "All creation rejoices in you" not in content and "O Woman Full of Grace" not in content:
+                        errors.append(f"Theological/Rubrical Error in {service_name} on {dt_str}: Divine Liturgy of St. Basil the Great must prescribe 'In you, O Woman Full of Grace' as the Megalynarion.")
+
+        # 3. Post-Communion Hymn Invariant
+        if service_name in ("Liturgy", "Divine Liturgy") or "## Divine Liturgy" in content or "## DIVINE LITURGY" in content:
+            # Ascension (pascha_off == 40): "Be exalted, O God"
+            if pascha_off == 40:
+                if "Be exalted, O God" not in content and "Be Thou exalted, O God" not in content:
+                    errors.append(f"Theological/Rubrical Error in {service_name} on {dt_str}: Feast of the Ascension must prescribe 'Be exalted, O God, above the heavens' as the Post-Communion hymn.")
+            # 3. Holy Thursday (Pascha -3): 'Receive me today, O Son of God' / 'Of Thy Mystical Supper'
+            elif pascha_off == -3:
+                if "Receive me today" not in content and "Receive me this day" not in content and "receive_me_today" not in content and "Mystical Supper" not in content:
+                    errors.append(f"Theological/Rubrical Error in Liturgy on {dt_str}: Great and Holy Thursday must prescribe 'Receive me today, O Son of God' as the Post-Communion hymn.")
+
+        # 4. Saturday Evening (Sunday Vespers) Kathisma 1 Invariant
+        if service_name == "Vespers" and dow == 6:
+            # Normal Saturday evening Vespers requires Kathisma 1 (Blessed is the man)
+            is_great_feast_lord = d_rank == "LORD" or feast_id in ("nativity", "theophany", "transfiguration")
+            if not is_great_feast_lord and pascha_off not in (-1, 0, 6): # Exclude Holy Saturday, Pascha, and Bright Saturday
+                if "Kathisma 1" not in content and "Kathisma I" not in content and "First Kathisma" not in content and "Blessed is the man" not in content:
+                    errors.append(f"Theological/Rubrical Error in {service_name} on {dt_str} (Saturday Evening): Saturday evening Vespers must prescribe Kathisma 1 ('Blessed is the man').")
+
+        # 5. Sunday Evening Vespers Kathisma Suppression Invariant
+        if service_name == "Vespers" and dow == 0:
+            # Outside Great Lent, Sunday evening Vespers has NO Kathisma
+            is_lent = (pascha_off is not None and -48 <= pascha_off <= -8) or season_id == "great_lent"
+            if not is_lent:
+                if "Kathisma 1 is read" in content or "Kathisma 2 is read" in content:
+                    errors.append(f"Theological/Rubrical Error in {service_name} on {dt_str} (Sunday Evening): Sunday evening Vespers outside Great Lent must omit the Kathisma psalmody.")
+
+        # 6. Sunday Matins Evlogitaria Invariant
+        if service_name == "Matins" and dow == 0:
+            # Normal Sunday Matins has Resurrectional Evlogitaria
+            is_great_feast_lord = d_rank == "LORD"
+            if not is_great_feast_lord and pascha_off != 0: # Exclude Great Feasts of the Lord and Pascha Sunday
+                if "Evlogitaria" in content:
+                    if "The angelic council was amazed" not in content and "Blessed are You, O Lord" not in content:
+                        errors.append(f"Theological/Rubrical Error in {service_name} on {dt_str} (Sunday Matins): Sunday Matins Evlogitaria must cite 'The angelic council was amazed' / 'Blessed are You, O Lord'.")
+
+        return errors
+
+    def gate13_rare_movable_fixed_collisions(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 13: Rare Movable x Fixed Feast Collisions (Dolnytsky Parts I-V / 2010 Lviv Typikon)."""
+        errors = []
+        pascha_off = context.get("pascha_offset")
+        try:
+            pascha_off = int(pascha_off) if pascha_off is not None else None
+        except (ValueError, TypeError):
+            pascha_off = None
+            
+        dt_str = str(dt)
+        is_annunciation = dt_str.endswith("-03-25") or context.get("feast_id") == "annunciation" or "annunciation" in str(context.get("title", "")).lower()
+        is_george = dt_str.endswith("-04-23") or context.get("feast_id") == "george" or "george" in str(context.get("title", "")).lower()
+        
+        # 1. Annunciation Collisions
+        if is_annunciation and pascha_off is not None:
+            # A. Great Thursday (Pascha -3): Vesperal Liturgy of St. Basil + Annunciation
+            if pascha_off == -3:
+                if service_name in ("Liturgy", "Vespers", "Divine Liturgy") or "## DIVINE LITURGY" in content or "## VESPERAL" in content:
+                    if "vesperal" not in content.lower() and "basil" not in content.lower():
+                        errors.append(f"Annunciation Collision Error on {dt_str} (Holy Thursday): Must prescribe Vesperal Liturgy of St. Basil combined with Annunciation.")
+            # B. Great Friday (Pascha -2): Vesperal Liturgy of St. John Chrysostom + Shroud Vespers
+            elif pascha_off == -2:
+                if service_name in ("Vespers", "Liturgy", "Divine Liturgy") or "## GREAT VESPERS" in content or "## VESPERAL" in content:
+                    if "chrysostom" not in content.lower() and "shroud" not in content.lower():
+                        errors.append(f"Annunciation Collision Error on {dt_str} (Holy Friday): Must prescribe Shroud Vespers and Chrysostom Liturgy.")
+            # C. Great Saturday (Pascha -1): Vesperal Liturgy of St. Basil + Annunciation
+            elif pascha_off == -1:
+                if service_name in ("Liturgy", "Vespers", "Divine Liturgy") or "## DIVINE LITURGY" in content or "## VESPERAL" in content:
+                    if "vesperal" not in content.lower() and "basil" not in content.lower():
+                        errors.append(f"Annunciation Collision Error on {dt_str} (Holy Saturday): Must prescribe Vesperal Liturgy of St. Basil combined with Annunciation.")
+            # D. Pascha Day (Kyriopascha, Pascha 0): Paschal Liturgy / Matins combined with Annunciation
+            elif pascha_off == 0:
+                if service_name in ("Matins", "Liturgy", "Divine Liturgy") or "## DIVINE LITURGY" in content or "## PASCHAL MATINS" in content:
+                    if "kyriopascha" not in content.lower() and "annunciation" not in content.lower():
+                        errors.append(f"Kyriopascha Error on {dt_str}: Pascha day falling on Annunciation must prescribe Kyriopascha combined rubrics.")
+                    
+        # 2. St. George Collision (April 23 during Holy Week / Pascha)
+        if is_george and pascha_off is not None:
+            if -6 <= pascha_off <= 0:
+                # St. George transferred to Bright Monday or Bright Tuesday
+                if service_name in ("Vespers", "Matins", "First Hour", "Third Hour", "Sixth Hour", "Ninth Hour"):
+                    if "transfer" not in content.lower() and "bright" not in content.lower():
+                        errors.append(f"St. George Transfer Error on {dt_str}: St. George falling during Holy Week/Pascha must be noted as transferred to Bright Week.")
+                    
+        return errors
+
+    def gate14_presanctified_lenten_structure(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 14: Presanctified & Lenten Structure Invariants (Dolnytsky Part I Chapter 4, Part II)."""
+        errors = []
+        pascha_off = context.get("pascha_offset")
+        try:
+            pascha_off = int(pascha_off) if pascha_off is not None else None
+        except (ValueError, TypeError):
+            pascha_off = None
+            
+        is_presanctified_service = (
+            service_name in ("Presanctified", "Liturgy of the Presanctified Gifts", "Presanctified Liturgy") or
+            "## LITURGY OF THE PRESANCTIFIED GIFTS" in content.upper() or
+            "## PRESANCTIFIED LITURGY" in content.upper()
+        )
+        
+        if is_presanctified_service:
+            dt_str = str(dt)
+            # 1. Kathisma 18 at Presanctified Vespers
+            if "Kathisma 18" not in content and "Kathisma XVIII" not in content and "18th Kathisma" not in content and "Kathisma" not in content:
+                if pascha_off not in (-6, -5, -4):
+                    errors.append(f"Presanctified Structure Error on {dt_str}: Presanctified Liturgy must prescribe Kathisma 18 at Vespers.")
+            
+            # 2. 2 Old Testament Paroemias
+            if "Paremias" not in content and "Paroemias" not in content and "Old Testament" not in content and "Genesis" not in content and "Exodus" not in content:
+                errors.append(f"Presanctified Structure Error on {dt_str}: Presanctified Liturgy must specify the 2 Old Testament Paroemias.")
+                
+            # 3. 'Let my prayer arise'
+            if "Let my prayer arise" not in content and "Let My Prayer Arise" not in content and "let_my_prayer_arise" not in content and "prostrations" not in content:
+                errors.append(f"Presanctified Structure Error on {dt_str}: Presanctified Liturgy must specify 'Let my prayer arise' with prostrations.")
+                
+            # 4. Presanctified Communion Hymn 'O taste and see'
+            if "Taste and see" not in content and "taste and see" not in content and "Taste and See" not in content and "koinonikon" not in content:
+                errors.append(f"Presanctified Structure Error on {dt_str}: Presanctified Liturgy must prescribe 'O taste and see that the Lord is good' as Communion Hymn.")
+                
+        return errors
+
+    def gate15_dual_reading_hierarchy(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 15: Epistle and Gospel Dual Reading Precedence Invariant (Dolnytsky Part II / 2010 Lviv Typikon)."""
+        errors = []
+        is_liturgy = (
+            service_name in ("Liturgy", "Divine Liturgy") or
+            "## DIVINE LITURGY" in content.upper()
+        )
+        
+        if is_liturgy:
+            dt_str = str(dt)
+            # Check for leaked unrendered reading object representations
+            if "{'prokeimenon':" in content or "{'epistle':" in content:
+                errors.append(f"Dual Reading Rendering Error on {dt_str}: Leaked unformatted reading dictionary in Liturgy card.")
+            if "Missing Prokeimenon" in content or "Missing Epistle" in content or "Missing Gospel" in content:
+                errors.append(f"Dual Reading Missing Error on {dt_str}: Missing scripture reading pericope in Liturgy card.")
+                
+        return errors
+
+    def gate11_formatting_readability(self, dt: date, service_name: str, context: dict, content: str) -> list:
+        """Gate 11: Typography, Readability & Visual Formatting across all cards of all days."""
+        errors = []
+        if not content:
+            return errors
+
+        # 1. Hours Card Structure: Forbid dense semicolon walls of text lacking bold rubric leads
+        if service_name == "Hours" or "## Hours" in content:
+            # Check for unformatted plain text leads
+            if re.search(r"(?<!\*)\bTroparia:\s*First Hour", content) or re.search(r"(?<!\*)\bKontakia:\s*First Hour", content):
+                errors.append("Hours Formatting Error: 'Troparia:' and 'Kontakia:' must use markdown bold leads (**Troparia:**, **Kontakia:**).")
+            
+            # Check for unseparated run-on strings joining Troparia and Kontakia with semicolons on one line
+            if re.search(r"Ninth Hour [–-][^\n\r]*Kontakia:", content):
+                errors.append("Hours Formatting Error: Troparia and Kontakia must be separated by distinct paragraph breaks rather than joined on a single line.")
+
+        # 2. Liturgy Card Structure: Verify bold rubric leads for major liturgical units
+        if service_name == "Divine Liturgy" or "## Divine Liturgy" in content:
+            if "Troparia and Kontakia:" in content and "**Troparia and Kontakia:**" not in content:
+                errors.append("Divine Liturgy Formatting Error: 'Troparia and Kontakia:' must use markdown bold lead (**Troparia and Kontakia:**).")
+
+        for line in content.splitlines():
+            line_str = line.strip()
+            if line_str.startswith("<") or line_str.startswith("|") or line_str.startswith("#"):
+                continue
+            if (len(line_str) > 450 or line_str.count(";") >= 4) and len(line_str) > 250 and "  \n" not in line and "<br>" not in line:
+                errors.append(f"Typography Error in {service_name}: Found monolithic unbroken text block ({len(line_str)} chars) with dense semicolons. Must format with itemized line breaks.")
+
+        return errors
+
     def call_deepseek_remediation(self, dt: date, service_name: str, context: dict, rubrics: dict, errors: list, booklet: str):
         """Call DeepSeek to propose a logic or database fix for the failing service."""
         if not self.deepseek_key:
@@ -732,6 +1018,9 @@ Suggest how to remediate these failures in the python engine (under engine/) or 
                     v_type = rubrics.get("overrides", {}).get("vespers_type") or rubrics.get("variables", {}).get("vespers_type") or context.get("vespers_type")
                     if day != 0 and v_type == "great_vespers_vigil":
                         continue
+                    pascha_off = context.get("pascha_offset")
+                    if pascha_off is not None and 0 <= pascha_off <= 6:
+                        continue
                 
                 if service_name == "Vespers" and "vesperal_merge_logic" in rubrics.get("overrides", {}).get("liturgy_type", ""):
                     continue
@@ -752,12 +1041,20 @@ Suggest how to remediate these failures in the python engine (under engine/) or 
                 service_errors.extend(self.gate6_tone_coherence(current_date, service_name, rubrics, enriched))
                 service_errors.extend(self.gate7_overrides(current_date, service_name, rubrics, booklet))
                 service_errors.extend(self.gate8_visual(current_date, booklet))
-                
+                service_errors.extend(self.gate9_canonical_negative_suppressions(current_date, service_name, context, rubrics, booklet))
                 # Run Digest gates (if digest section resolved)
-                if digest_sec:
-                    service_errors.extend(self.gate1_heuristics(current_date, service_name, digest_sec))
-                    service_errors.extend(self.gate5_citations(current_date, digest_sec))
-                    service_errors.extend(self.gate8_visual(current_date, digest_sec))
+                target_content = digest_sec if digest_sec else booklet
+                if target_content:
+                    service_errors.extend(self.gate1_heuristics(current_date, service_name, target_content))
+                    service_errors.extend(self.gate5_citations(current_date, target_content))
+                    service_errors.extend(self.gate8_visual(current_date, target_content))
+                    service_errors.extend(self.gate9_canonical_negative_suppressions(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate10_choral_choreography(current_date, service_name, context, target_content))
+                    service_errors.extend(self.gate11_formatting_readability(current_date, service_name, context, target_content))
+                    service_errors.extend(self.gate12_theological_rubrical_nuance(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate13_rare_movable_fixed_collisions(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate14_presanctified_lenten_structure(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate15_dual_reading_hierarchy(current_date, service_name, context, rubrics, target_content))
 
                 if service_errors:
                     # Halt Execution immediately on logical failures

@@ -432,6 +432,28 @@ class TextDBMixin:
         if not item:
             item = db_get(self.text_db, text_id)
 
+        # 1.3 Festal Propers DB Lookup
+        if not item and hasattr(self, "propers_web_db") and self.propers_web_db:
+            item = db_get(self.propers_web_db, text_id)
+            if not item:
+                m = re.match(r'menaion\.([a-z]{3})_(\d{2})\.(?:.*?\.)?([a-z_]+)$', text_id)
+                if m:
+                    months = {'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'}
+                    mo_str, day_str, elem = m.groups()
+                    mo_num = months.get(mo_str)
+                    if mo_num:
+                        for cand_k in [
+                            f'menaion.{mo_num}{day_str}.liturgy.{elem}_{language}',
+                            f'menaion.{mo_num}{day_str}.vespers.{elem}_{language}',
+                            f'menaion.{mo_num}{day_str}.matins.{elem}_{language}',
+                            f'menaion.{mo_num}{day_str}.{elem}_{language}',
+                            f'menaion.{mo_num}{day_str}.liturgy.{elem}_en',
+                            f'menaion.{mo_num}{day_str}.{elem}_en'
+                        ]:
+                            item = db_get(self.propers_web_db, cand_k)
+                            if item:
+                                break
+
         # 1.5 Dynamic Variable Resolution
         if not item and context:
             resolved_val = self._resolve_variable_ref(text_id, context)

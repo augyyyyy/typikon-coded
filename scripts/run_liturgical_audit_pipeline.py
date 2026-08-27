@@ -147,27 +147,26 @@ class LiturgicalAuditPipeline:
 
         # Spelling standard violations
         spelling_violations = [
-            (r"\bprokimenon\b", "Prokimenon (must use Prokeimenon)"),
-            (r"\bprokimena\b", "Prokimena (must use Prokeimena)"),
-            (r"\bkinonicon\b", "Kinonicon (must use Communion Hymn)"),
-            (r"\bkinonica\b", "Kinonica (must use Communion Hymns)"),
-            (r"\bholy doors\b", "Holy Doors (must use Royal Doors)"),
-            (r"\bexaposteilarion\b", "Exaposteilarion (must use Exapostilarion)"),
-            (r"\blytia\b", "Lytia (must use Litiya)"),
-            (r"\blitia\b", "Litia (must use Litiya)"),
-            (r"\bpre-feast\b", "Pre-feast (must use Forefeast)"),
-            (r"\bpost-feast\b", "Post-feast (must use Afterfeast)"),
-            (r"\bpre\s+feast\b", "Pre feast (must use Forefeast)"),
-            (r"\bpost\s+feast\b", "Post feast (must use Afterfeast)"),
-            (r"\bleave-taking\b", "Leave-taking (must use Apodosis)"),
-            (r"\bleave\s+taking\b", "Leave taking (must use Apodosis)"),
-            (r"\bstepenna\b", "Stepenna (must use Gradual)"),
-            (r"\banabathmoi\b", "Anabathmoi (must use Gradual)")
+            (r"\bprokimenon\b", "Prokeimenon"),
+            (r"\bprokimena\b", "Prokeimena"),
+            (r"\bkinonicon\b", "Communion Hymn"),
+            (r"\bkinonica\b", "Communion Hymns"),
+            (r"\bexaposteilarion\b", "Exapostilarion"),
+            (r"\blytia\b", "Litiya"),
+            (r"\blitia\b", "Litiya"),
+            (r"\bpre-feast\b", "Forefeast"),
+            (r"\bpost-feast\b", "Afterfeast"),
+            (r"\bpre\s+feast\b", "Forefeast"),
+            (r"\bpost\s+feast\b", "Afterfeast"),
+            (r"\bleave-taking\b", "Apodosis"),
+            (r"\bleave\s+taking\b", "Apodosis"),
+            (r"\bstepenna\b", "Gradual"),
+            (r"\banabathmoi\b", "Gradual")
         ]
-        for pattern, name in spelling_violations:
+        for pattern, canonical_name in spelling_violations:
             match = re.search(pattern, digest, re.IGNORECASE)
             if match:
-                self.log_discrepancy(dt, "Gate 1 (Heuristics)", "WARNING", f"Spelling standard violation: '{match.group(0)}' (should be: {name})", "Vocabulary Standardization Matrix (2012)", "Correct spelling standard in translation database.")
+                self.log_discrepancy(dt, "Gate 1 (Heuristics)", "WARNING", f"Spelling standard violation: '{match.group(0)}' (canonical: {canonical_name})", "Vocabulary Standardization Matrix (2012)", "Correct spelling standard in translation database.")
 
         # HTML tag-specific serialization leak check (for booklet/HTML)
         p_div_matches = re.finditer(r"<(p|div)(?:\s+[^>]*)?>(.*?)</\1>", digest, re.DOTALL | re.IGNORECASE)

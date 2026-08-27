@@ -370,8 +370,23 @@
       "priority": 90,
       "title": "Saturday of Lazarus",
       "variables": {
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "liturgy_trisagion_replace": "all_baptized",
-        "matins_type": "great_matins"
+        "matins_type": "great_matins",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 10
+            }
+          ],
+          "glory": "Tone VI: 'Today the grace of the Holy Spirit has gathered us together...'",
+          "both_now": "Tone VI: 'Today the grace of the Holy Spirit has gathered us together...'"
+        }
       }
     },
     "sunday_palm": {
@@ -381,8 +396,23 @@
       "priority": 95,
       "title": "Palm Sunday",
       "variables": {
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "matins_post_gospel_action": "blessing_palms",
-        "liturgy_antiphons": "festal_palm"
+        "liturgy_antiphons": "festal_palm",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 6
+            }
+          ],
+          "glory": "Tone VIII: 'Having completed the forty days...'",
+          "both_now": "Tone VIII: 'Having completed the forty days...'"
+        }
       }
     },
     "holy_monday_tuesday_wednesday": {
@@ -395,11 +425,15 @@
       "priority": 95,
       "title": "Holy Monday, Tuesday, Wednesday",
       "variables": {
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
         "liturgy_type": "liturgy_presanctified",
-        "season": "holy_week",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -407,7 +441,9 @@
               "source": "triodion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Doxastikon from the Triodion",
+          "both_now": "Theotokion from the Triodion"
         },
         "aposticha_type": "triodion_only"
       }
@@ -419,9 +455,51 @@
       "priority": 98,
       "title": "Great and Holy Thursday",
       "variables": {
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
+        "compline_type": "small_compline",
+        "midnight_type": "midnight_weekday",
+        "typika_type": "holy_thursday_typika",
+        "matins_type": "holy_thursday_matins",
+        "matins_opening": "alleluia",
+        "matins_tone": 8,
+        "matins_troparia": [
+          {"type": "troparion", "title": "When the glorious disciples were enlightened at the washing of the feet...", "repeat": 2, "tone": 8},
+          {"type": "glory_both_now", "title": "When the glorious disciples were enlightened at the washing of the feet...", "repeat": 1, "tone": 8}
+        ],
+        "matins_gospel": "Luke §108 [22:39–23:1]",
+        "matins_canon": "Canon of St. Cosmas on 6 with refrain 'Glory to Thee, our God, glory to Thee'",
+        "katavasia": "Heirmos of the Canon ('With severed rod the sea was parted')",
+        "katavasia_tone": 6,
+        "magnificat_suppressed": true,
+        "ode_9_zadostoinyk": "Come, O faithful, let us enjoy the Master's hospitality and the table of immortality in the upper room...",
+        "exaposteilarion": "Thy bridal chamber I see adorned, O my Savior, and I have no wedding garment that I may enter there. O Giver of Light, enlighten the vesture of my soul and save me.",
+        "exaposteilarion_breakdown": "twice; Glory, Both now: once more",
+        "praises_count": 4,
+        "dismissal_troparion": "When the glorious disciples were enlightened at the washing of the feet (without Theotokion).",
+        "hours_type": "holy_thursday_hours",
+        "first_hour_prophecy": "Troparion of Prophecy (Tone 3), 1st Prokeimenon (Tone 1: 'Let them know that the Lord is Thy Name'), Paremia (Jeremiah 11:18–12:5, 9–11, 14–15), 2nd Prokeimenon (Tone 8: 'Pray and give praise to the Lord our God')",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed",
-        "cherubic_hymn_replace": "of_thy_mystical_supper"
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 10
+            }
+          ],
+          "glory": "The Lamb, foretold by Isaiah, willingly comes to be slaughtered (Tone 2)",
+          "both_now": "Truly, Judas is the son of those ungrateful (Tone 6)"
+        },
+        "cherubic_hymn_replace": "Of Thy Mystical Supper",
+        "zadostoinyk": "Come, O faithful, let us enjoy the Master's hospitality and the table of immortality in the upper room...",
+        "koinonikon": "Of Thy Mystical Supper",
+        "post_communion_replace": "Of Thy Mystical Supper",
+        "reserve_lamb_note": "According to the Sluzhebnik and Synod of Lviv, the priest prepares and consecrates a second Lamb in the Melchizedek vessel, to be reserved in the tabernacle for the sick throughout the year."
       }
     },
     "holy_friday": {
@@ -431,9 +509,18 @@
       "priority": 100,
       "title": "Great and Holy Friday",
       "variables": {
-        "hours_type": "structure_royal",
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
+        "matins_type": "twelve_passion_gospels",
+        "twelve_gospels_title": "Matins of the Holy and Redeeming Passion of Our Lord (The Twelve Passion Gospels)",
+        "hours_type": "royal_hours",
+        "royal_hours_full": "Royal Hours (1st, 3rd, 6th, 9th) with full Old Testament Paremias, Epistles, and Gospels",
         "vespers_type": "passion_burial_vespers",
-        "matins_type": "tomb_matins",
+        "vespers_shroud_procession": "Great Vespers with the Procession and Exposition of the Holy Shroud (Epitaphios / Plashchanytsia) and Troparia 'The noble Joseph' and 'The angel stood by the tomb'",
+        "is_aliturgical": true,
         "liturgy_type": "structure_suppressed"
       }
     },
@@ -444,9 +531,33 @@
       "priority": 100,
       "title": "Great and Holy Saturday",
       "variables": {
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
+        "matins_type": "jerusalem_lamentations_matins",
+        "lamentations_title": "Jerusalem Matins: The Lamentations (Encomia) at the Tomb of the Lord (Psalm 118 in Three Stases) with Great Doxology and Procession of the Shroud",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed",
-        "cherubic_hymn_replace": "let_all_mortal_flesh"
+        "vespers_stichera_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 8
+            }
+          ],
+          "glory": "Tone VI: 'Today the dread tomb retains Him Who holds creation in His palm...'",
+          "both_now": "Tone I: 'Let us praise the Virgin Mary, the glory of the world...'"
+        },
+        "paremias_count": 15,
+        "trisagion_replace": "All you who have been baptized into Christ have put on Christ. Alleluia.",
+        "alleluia_replace": "Instead of Alleluia, we sing in Tone VII: 'Arise, O God, judge the earth' (during which the clergy change into bright white vestments).",
+        "cherubic_hymn_replace": "Let all mortal flesh keep silent, and stand with fear and trembling...",
+        "zadostoinyk": "Do not weep for Me, O Mother, beholding in the tomb the Son Whom you conceived in your womb without seed...",
+        "koinonikon": "The Lord awoke as from sleep, and has risen to save us. Alleluia.",
+        "post_communion_replace": "Instead of 'We have seen the true light', we proceed directly to the Thanksgiving Litany."
       }
     },
     "pascha": {
@@ -456,6 +567,11 @@
       "priority": 100,
       "title": "The Resurrection of Our Lord (Pascha)",
       "variables": {
+        "season": "pascha",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "vespers_type": "paschal_vespers",
         "matins_type": "bright_matins",
         "hours_type": "structure_paschal",
@@ -465,13 +581,15 @@
           "john_1_1_17"
         ],
         "vespers_stichera_distribution": {
-          "total_count": 10,
+          "total_count": 6,
           "distribution": [
             {
               "source": "pentecostarion",
-              "qty": 10
+              "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         }
       }
     },
@@ -485,6 +603,11 @@
       "priority": 90,
       "title": "Bright Week",
       "variables": {
+        "season": "bright_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "hours_type": "structure_paschal",
         "matins_type": "bright_matins",
         "vespers_stichera_distribution": {
@@ -494,7 +617,9 @@
               "source": "pentecostarion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         }
       }
     },

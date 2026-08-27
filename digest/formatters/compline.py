@@ -9,14 +9,14 @@ class ComplineFormatterMixin:
             label = "Troparia"
             if "kontakion" in comps.lower():
                 label = "Kontakion" if "Glory..." not in comps else "Kontakia"
-            return f"{label}: {comps}."
-        return f"Troparia: {self.humanize_key(res)}."
+            return f"**{label}:** {comps}."
+        return f"**Troparia:** {self.humanize_key(res)}."
 
 
     def _format_resolve_compline_lord_of_hosts(self, res, context):
         if not res: return ""
         ref = res.get("ref_key", "")
         if ref == "lord_of_hosts_tone_6":
-            return "Lord of Hosts: We sing 'Lord of hosts, be with us...' in Tone 6."
-        return f"Lord of Hosts: We read the Kontakion of the Feast."
+            return "**Lord of Hosts:** We sing 'Lord of hosts, be with us...' in Tone 6."
+        return f"**Lord of Hosts:** We read the Kontakion of the Feast."
 

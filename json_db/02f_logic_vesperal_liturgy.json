@@ -1,85 +1,216 @@
 {
   "file_metadata": {
     "filename": "02f_logic_vesperal_liturgy.json",
-    "version": "1.0",
-    "authority": "Lviv (Dolnytsky) Typikon (2010) Part II",
+    "version": "2.0 (Full Canonical Scripture Pericopes & Incipits)",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Parts III & IV",
     "scope": "Vesperal Liturgy Old Testament Readings Map"
   },
   "vesperal_readings": {
-    "nativity_eve": {
-      "count": 8,
-      "paremias": [
-        "vesperal.nativity_eve.paremia_1",
-        "vesperal.nativity_eve.paremia_2",
-        "vesperal.nativity_eve.paremia_3",
-        "vesperal.nativity_eve.paremia_4",
-        "vesperal.nativity_eve.paremia_5",
-        "vesperal.nativity_eve.paremia_6",
-        "vesperal.nativity_eve.paremia_7",
-        "vesperal.nativity_eve.paremia_8"
-      ],
-      "epistle_prokeimenon": "vesperal.nativity_eve.prokeimenon",
-      "epistle": "vesperal.nativity_eve.epistle",
-      "alleluia": "vesperal.nativity_eve.alleluia",
-      "gospel": "vesperal.nativity_eve.gospel"
-    },
-    "theophany_eve": {
-      "count": 13,
-      "paremias": [
-        "vesperal.theophany_eve.paremia_1",
-        "vesperal.theophany_eve.paremia_2",
-        "vesperal.theophany_eve.paremia_3",
-        "vesperal.theophany_eve.paremia_4",
-        "vesperal.theophany_eve.paremia_5",
-        "vesperal.theophany_eve.paremia_6",
-        "vesperal.theophany_eve.paremia_7",
-        "vesperal.theophany_eve.paremia_8",
-        "vesperal.theophany_eve.paremia_9",
-        "vesperal.theophany_eve.paremia_10",
-        "vesperal.theophany_eve.paremia_11",
-        "vesperal.theophany_eve.paremia_12",
-        "vesperal.theophany_eve.paremia_13"
-      ],
-      "epistle_prokeimenon": "vesperal.theophany_eve.prokeimenon",
-      "epistle": "vesperal.theophany_eve.epistle",
-      "alleluia": "vesperal.theophany_eve.alleluia",
-      "gospel": "vesperal.theophany_eve.gospel"
-    },
     "holy_thursday": {
       "count": 3,
+      "title": "Great and Holy Thursday",
       "paremias": [
-        "vesperal.holy_thursday.paremia_1",
-        "vesperal.holy_thursday.paremia_2",
-        "vesperal.holy_thursday.paremia_3"
+        {
+          "number": 1,
+          "book": "Exodus",
+          "chapter": "19:10-19",
+          "title": "Moses sanctifies the people at Mount Sinai",
+          "prokeimenon": {
+            "tone": 1,
+            "text": "Deliver me, O Lord, from the evil man; rescue me from the unjust man.",
+            "verse": "Who have devised injustices in their heart."
+          }
+        },
+        {
+          "number": 2,
+          "book": "Job",
+          "chapter": "38:1-23; 42:1-5",
+          "title": "The Lord answers Job out of the whirlwind",
+          "prokeimenon": {
+            "tone": 7,
+            "text": "Deliver me from my enemies, O my God, and protect me from those who rise up against me.",
+            "verse": "Deliver me from those who work iniquity."
+          }
+        },
+        {
+          "number": 3,
+          "book": "Isaiah",
+          "chapter": "50:4-11",
+          "title": "The Suffering Servant of the Lord"
+        }
       ],
-      "epistle_prokeimenon": "vesperal.holy_thursday.prokeimenon",
-      "epistle": "vesperal.holy_thursday.epistle",
-      "alleluia": "vesperal.holy_thursday.alleluia",
-      "gospel": "vesperal.holy_thursday.gospel"
+      "epistle_prokeimenon": {
+        "tone": 7,
+        "text": "The rulers took counsel together against the Lord and against His Anointed.",
+        "verse": "Why do the heathen rage, and the people imagine a vain thing?"
+      },
+      "epistle": {
+        "book": "1 Corinthians",
+        "chapter": "11:23-32",
+        "pericope": 149,
+        "incipit": "Brethren: I received from the Lord that which I also delivered to you: that the Lord Jesus, on the same night in which He was betrayed, took bread..."
+      },
+      "alleluia": {
+        "tone": 8,
+        "text": "Alleluia, Tone VIII",
+        "verses": [
+          "Blessed is he that considers the poor and needy; the Lord will deliver him in the evil day."
+        ]
+      },
+      "gospel": {
+        "book": "Matthew",
+        "chapter": "26:1-20; John 13:3-17; Matt 26:21-39; Luke 22:43-45; Matt 26:40-27:2",
+        "pericope": 107,
+        "composite": true,
+        "title": "The Mystical Supper and the Betrayal",
+        "incipit": "The Lord said to His disciples: You know that after two days is the Feast of the Passover, and the Son of Man will be delivered up to be crucified..."
+      },
+      "cherubic_hymn_replace": "Of Thy Mystical Supper",
+      "zadostoinyk": "Come, O faithful, let us enjoy the Master's hospitality and the table of immortality in the upper room...",
+      "koinonikon": "Of Thy Mystical Supper",
+      "post_communion_replace": "Of Thy Mystical Supper"
     },
     "holy_saturday": {
       "count": 15,
+      "title": "Great and Holy Saturday",
       "paremias": [
-        "vesperal.holy_saturday.paremia_1",
-        "vesperal.holy_saturday.paremia_2",
-        "vesperal.holy_saturday.paremia_3",
-        "vesperal.holy_saturday.paremia_4",
-        "vesperal.holy_saturday.paremia_5",
-        "vesperal.holy_saturday.paremia_6",
-        "vesperal.holy_saturday.paremia_7",
-        "vesperal.holy_saturday.paremia_8",
-        "vesperal.holy_saturday.paremia_9",
-        "vesperal.holy_saturday.paremia_10",
-        "vesperal.holy_saturday.paremia_11",
-        "vesperal.holy_saturday.paremia_12",
-        "vesperal.holy_saturday.paremia_13",
-        "vesperal.holy_saturday.paremia_14",
-        "vesperal.holy_saturday.paremia_15"
+        {"number": 1, "book": "Genesis", "chapter": "1:1-13", "title": "The Creation of the World"},
+        {"number": 2, "book": "Isaiah", "chapter": "60:1-16", "title": "The Glory of the New Jerusalem"},
+        {"number": 3, "book": "Exodus", "chapter": "12:1-11", "title": "The Institution of the Passover"},
+        {"number": 4, "book": "Jonah", "chapter": "1:1-4:11", "title": "The Sign of the Prophet Jonah"},
+        {"number": 5, "book": "Joshua", "chapter": "5:10-15", "title": "Passover at Gilgal"},
+        {"number": 6, "book": "Exodus", "chapter": "13:20-15:19", "title": "The Crossing of the Red Sea"},
+        {"number": 7, "book": "Zephaniah", "chapter": "3:8-15", "title": "The Restoration of Israel"},
+        {"number": 8, "book": "3 Kings (1 Kings)", "chapter": "17:8-24", "title": "Elijah raises the widow's son"},
+        {"number": 9, "book": "Isaiah", "chapter": "61:10-62:5", "title": "The Garment of Salvation"},
+        {"number": 10, "book": "Genesis", "chapter": "22:1-18", "title": "The Sacrifice of Isaac"},
+        {"number": 11, "book": "Isaiah", "chapter": "61:1-9", "title": "The Spirit of the Lord God is upon Me"},
+        {"number": 12, "book": "4 Kings (2 Kings)", "chapter": "4:8-37", "title": "Elisha raises the Shunammite's son"},
+        {"number": 13, "book": "Isaiah", "chapter": "63:11-64:5", "title": "Prayer for the Lord's Coming"},
+        {"number": 14, "book": "Jeremiah", "chapter": "31:31-34", "title": "The Promise of the New Covenant"},
+        {"number": 15, "book": "Daniel", "chapter": "3:1-88", "title": "The Three Holy Youths in the Fiery Furnace"}
       ],
-      "epistle_prokeimenon": "vesperal.holy_saturday.prokeimenon",
-      "epistle": "vesperal.holy_saturday.epistle",
-      "alleluia": null,
-      "gospel": "vesperal.holy_saturday.gospel"
+      "epistle_prokeimenon": {
+        "tone": 5,
+        "text": "Let all the earth worship You and sing praise to You; let it sing praise to Your name, O Most High.",
+        "verse": "Shout with joy to God, all the earth."
+      },
+      "epistle": {
+        "book": "Romans",
+        "chapter": "6:3-11",
+        "pericope": 91,
+        "incipit": "Brethren: As many of us as were baptized into Christ Jesus were baptized into His death..."
+      },
+      "alleluia_replace": {
+        "text": "Instead of the Alleluia, we sing in Tone VII: 'Arise, O God, judge the earth, for You shall inherit all nations.'",
+        "tone": 7,
+        "verses": [
+          "God stands in the congregation of the mighty; He judges among the gods.",
+          "How long will you judge unjustly, and accept the persons of the wicked?",
+          "Defend the poor and fatherless; do justice to the afflicted and needy.",
+          "Deliver the poor and needy; rid them out of the hand of the wicked.",
+          "They know not, neither will they understand; they walk on in darkness; all the foundations of the earth are shaken.",
+          "I have said, You are gods, and all of you are children of the Most High.",
+          "But you shall die like men, and fall like one of the princes."
+        ],
+        "rubric": "While this hymn is sung, the clergy change from dark lenten vestments into bright white vestments."
+      },
+      "gospel": {
+        "book": "Matthew",
+        "chapter": "28:1-20",
+        "pericope": 115,
+        "incipit": "Now after the Sabbath, as the first day of the week began to dawn, Mary Magdalene and the other Mary came to see the tomb..."
+      },
+      "trisagion_replace": "All you who have been baptized into Christ have put on Christ. Alleluia.",
+      "cherubic_hymn_replace": "Let all mortal flesh keep silent, and stand with fear and trembling, and ponder nothing earthly within itself...",
+      "zadostoinyk": "Do not weep for Me, O Mother, beholding in the tomb the Son Whom you conceived in your womb without seed...",
+      "koinonikon": "The Lord awoke as from sleep, and has risen to save us. Alleluia."
+    },
+    "nativity_eve": {
+      "count": 8,
+      "title": "Eve of the Nativity of Christ",
+      "paremias": [
+        {"number": 1, "book": "Genesis", "chapter": "1:1-13", "title": "The Creation"},
+        {"number": 2, "book": "Numbers", "chapter": "24:2-3, 5-9, 17-18", "title": "Balaam's Prophecy of the Star out of Jacob"},
+        {"number": 3, "book": "Micah", "chapter": "5:2-4", "title": "Prophecy of Bethlehem Ephrathah"},
+        {"number": 4, "book": "Isaiah", "chapter": "11:1-10", "title": "The Rod out of the Stem of Jesse"},
+        {"number": 5, "book": "Baruch", "chapter": "3:35-4:4", "title": "God appeared on Earth and dwelt among men"},
+        {"number": 6, "book": "Daniel", "chapter": "2:31-36, 44-45", "title": "The Stone cut out without hands"},
+        {"number": 7, "book": "Isaiah", "chapter": "9:6-7", "title": "Unto us a Child is born (with Refrain: 'For with us is God')"},
+        {"number": 8, "book": "Isaiah", "chapter": "7:10-16; 8:1-4, 9-10", "title": "Behold, a Virgin shall conceive Immanuel (with Refrain: 'Hear, all you nations')"}
+      ],
+      "epistle_prokeimenon": {
+        "tone": 1,
+        "text": "The Lord said to Me: You are My Son; today I have begotten You.",
+        "verse": "Ask of Me, and I will give You the nations for Your inheritance."
+      },
+      "epistle": {
+        "book": "Hebrews",
+        "chapter": "1:1-12",
+        "pericope": 303,
+        "incipit": "God, Who at sundry times and in divers manners spoke in time past unto the fathers by the prophets, has in these last days spoken unto us by His Son..."
+      },
+      "alleluia": {
+        "tone": 5,
+        "text": "Alleluia, Tone V",
+        "verses": [
+          "The Lord said to my Lord: Sit at My right hand, until I make Your enemies Your footstool.",
+          "The Lord shall send the rod of Your power out of Zion."
+        ]
+      },
+      "gospel": {
+        "book": "Luke",
+        "chapter": "2:1-20",
+        "pericope": 5,
+        "incipit": "And it came to pass in those days, that there went out a decree from Caesar Augustus, that all the world should be enrolled..."
+      },
+      "zadostoinyk": "Magnify, O my soul, her who is more honorable and more glorious than the heavenly hosts. Extolling the virgin birth..."
+    },
+    "theophany_eve": {
+      "count": 13,
+      "title": "Eve of the Theophany of the Lord",
+      "paremias": [
+        {"number": 1, "book": "Genesis", "chapter": "1:1-13", "title": "The Creation and the Spirit of God moving over the waters"},
+        {"number": 2, "book": "Exodus", "chapter": "14:15-18, 21-23, 27-29", "title": "The Dividing of the Red Sea"},
+        {"number": 3, "book": "Exodus", "chapter": "15:22-16:1", "title": "The Sweetening of the Waters of Marah"},
+        {"number": 4, "book": "Joshua", "chapter": "3:7-8, 15-17", "title": "The Dividing of the Jordan River under Joshua"},
+        {"number": 5, "book": "4 Kings (2 Kings)", "chapter": "2:6-14", "title": "Elijah divides Jordan with his mantle"},
+        {"number": 6, "book": "4 Kings (2 Kings)", "chapter": "2:19-22", "title": "Elisha heals the waters of Jericho"},
+        {"number": 7, "book": "Isaiah", "chapter": "35:1-10", "title": "The Desert shall rejoice and blossom like the rose"},
+        {"number": 8, "book": "Isaiah", "chapter": "55:1-13", "title": "Ho, everyone that thirsts, come to the waters"},
+        {"number": 9, "book": "Isaiah", "chapter": "12:3-6", "title": "With joy you shall draw water from the wells of salvation"},
+        {"number": 10, "book": "Isaiah", "chapter": "1:16-20", "title": "Wash yourselves, make yourselves clean"},
+        {"number": 11, "book": "Genesis", "chapter": "32:1-10", "title": "Jacob at Peniel"},
+        {"number": 12, "book": "Exodus", "chapter": "2:5-10", "title": "Pharaoh's daughter draws Moses out of the water"},
+        {"number": 13, "book": "Judges", "chapter": "6:36-40", "title": "Gideon's Fleece and the Dew from Heaven"}
+      ],
+      "epistle_prokeimenon": {
+        "tone": 3,
+        "text": "The Lord is my light and my salvation; whom shall I fear?",
+        "verse": "The Lord is the defense of my life; of whom shall I be afraid?"
+      },
+      "epistle": {
+        "book": "1 Corinthians",
+        "chapter": "9:19-27",
+        "pericope": 143,
+        "incipit": "Brethren: Though I am free from all men, I have made myself a servant to all, that I might win the more..."
+      },
+      "alleluia": {
+        "tone": 6,
+        "text": "Alleluia, Tone VI",
+        "verses": [
+          "My heart overflows with a good theme; I address my verses to the King.",
+          "You are fairer than the children of men; grace is poured upon Your lips."
+        ]
+      },
+      "gospel": {
+        "book": "Luke",
+        "chapter": "3:1-18",
+        "pericope": 9,
+        "incipit": "In the fifteenth year of the reign of Tiberius Caesar... the word of God came to John the son of Zacharias in the wilderness..."
+      },
+      "zadostoinyk": "Magnify, O my soul, her who is more honorable than the heavenly hosts...",
+      "post_service_event": "Great Blessing of Water"
     }
   }
 }

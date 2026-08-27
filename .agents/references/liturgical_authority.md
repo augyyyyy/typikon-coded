@@ -43,8 +43,8 @@ To prevent terminology drift between different translation layers, the engine en
 * **Praises / At the Praises** (Accepted: Stichera of the Praises. Deprecated/Banned: *Lauds*).
 * **Canon** (Deprecated/Banned: *CANON*).
 
-### B. Core Translation Standards (Royal Doors & Stamford Fallbacks)
-* **Royal Doors** is used instead of *Holy Doors* (an Orthodox/Greek-inspired term).
+### B. Core Translation Standards (Vocabulary Standardization Matrix)
+* **Holy Doors** (*Sanctae Ianuae* / *Священні Врата/Двері* per Ordo Celebrationis §§ 25, 46, 122) designates the central iconostasis doors.
 * **Royal Hours** is used instead of *Great Hours*.
 * **Tserkovne Oko** (lit. "Eye of the Church") is retained untranslated for the Slavic title of the Typikon.
 * **Sluzhebnik** and **Sluzhebnyky** (plural) are retained untranslated.

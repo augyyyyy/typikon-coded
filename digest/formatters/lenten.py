@@ -76,14 +76,15 @@ class LentenFormatterMixin:
         covering = action.get("covering", "")
         
         parts = [
-            f"At the Kathisma: {res.get('rubric', {}).get('note', '')}",
-            f"During the Kathisma: {priest}",
-            f"The deacon: {deacon}",
-            f"After placement: {covering}"
+            f"**At the Transfer of the Holy Gifts (during Kathisma):**",
+            f"  - {res.get('rubric', {}).get('note', '')}",
+            f"  - {priest}",
+            f"  - The deacon: {deacon}",
+            f"  - After placement: {covering}"
         ]
         if "special_note" in action:
-            parts.append(action["special_note"])
-        return "; ".join(parts) + "."
+            parts.append(f"  - {action['special_note']}")
+        return "  \n".join(parts)
 
 
     def _format_resolve_presanctified_entrance(self, res, context):
@@ -94,8 +95,11 @@ class LentenFormatterMixin:
         title = rub.get("title", "Entrance")
         
         if ent_type == "gospel":
-            gospel_ref = self.humanize_key(res.get("gospel_ref", ""))
-            return f"Entrance: {title} with the Gospel book (Gospel: {gospel_ref})."
+            g_ref = res.get("gospel_ref", "")
+            g_scripture = self._format_scripture_key(g_ref) if hasattr(self, "_format_scripture_key") else self.humanize_key(g_ref)
+            if g_scripture and g_scripture.lower() not in ("gospel", "feast gospel", "holy monday gospel", "holy tuesday gospel", "holy wednesday gospel"):
+                return f"Entrance: {title} with the Holy Gospel ({g_scripture})."
+            return f"Entrance: {title} with the Holy Gospel Book."
         
         roles = rub.get("roles", {})
         deacon_role = roles.get("deacon", "")

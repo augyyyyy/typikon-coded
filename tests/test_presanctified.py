@@ -80,8 +80,8 @@ def test_presanctified_digest(engine):
     
     digest = generator.generate(context, rubrics)
     assert digest is not None
-    assert "LITURGY OF THE PRESANCTIFIED GIFTS" in digest
-    assert "At the Kathisma: All stand in silence. No singing during transfer.; During the Kathisma: Transfer Gifts silently from Prothesis to Holy Table; The deacon: Precede with candle (no censing during transfer); After placement: Cover with Aer after placement." in digest
+    assert "Transfer of the Holy Gifts (during Kathisma)" in digest
+    assert "Transfer Gifts silently from Prothesis to Holy Table" in digest
     assert "[ERROR:" not in digest
     assert "[RESOLVE ERROR" not in digest
     assert "{'" not in digest

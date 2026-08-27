@@ -128,10 +128,10 @@ class TestResolvers(unittest.TestCase):
         self.assertTrue(self.engine.check_service_type(ctx, "vigil", rubrics))
         
         # 4. Test resolve_daily_kathisma
-        ctx = {"day_of_week": 0}
+        ctx = {"day_of_week": 6}
         res = self.engine.resolve_daily_kathisma(ctx)
         self.assertEqual(res["number"], 1)
-        ctx = {"day_of_week": 1}
+        ctx = {"day_of_week": 0}
         res = self.engine.resolve_daily_kathisma(ctx)
         self.assertEqual(res["number"], 0)
         ctx = {"day_of_week": 3}

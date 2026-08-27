@@ -236,13 +236,13 @@ class CommonFormatterMixin:
                 else:
                     wname = "the day"
                     wtone = "the tone of the week"
-                return f"*At The Lord is God…* we sing the troparion of {wname}, twice; Glory, both now... Dismissal Theotokion in {wtone}."
+                return f"**God is the Lord:** We sing the troparion of {wname}, twice; Glory, both now... Dismissal Theotokion in {wtone}."
             else:
                 sname = "the Saint"
                 saints = context.get("saints", [])
                 if saints:
                     sname = self._clean_name(saints[0].get("name", "the Saint"))
-                return f"*At The Lord is God…* we sing the troparion of {sname}, twice; Glory, both now... Dismissal Theotokion in the tone of the Saint's troparion and of the day of the week."
+                return f"**God is the Lord:** We sing the troparion of {sname}, twice; Glory, both now... Dismissal Theotokion in the tone of the Saint's troparion and of the day of the week."
         
         parts = []
         for t in res["sequence"]:
@@ -267,7 +267,7 @@ class CommonFormatterMixin:
                 idx = 1 if "2" in content else 0
                 if idx < len(saints):
                     name = saints[idx].get("name", "saint")
-                    parts.append(f"troparion of {self.humanize_key(name)},{count_str}")
+                    parts.append(f"troparion of {self._clean_name(name)},{count_str}")
                 else:
                     parts.append(f"troparion of the saint,{count_str}")
             elif "theotokion" in content:
@@ -296,7 +296,7 @@ class CommonFormatterMixin:
         if not result_str.endswith("."):
             result_str += "."
             
-        return "*At The Lord is God…* we sing: " + result_str
+        return "**God is the Lord:** We sing: " + result_str
 
 
     def _format_resolve_sidalen_content(self, res, context):
@@ -607,11 +607,26 @@ class CommonFormatterMixin:
                 continue
                 
             if ref_key == "horologion.troparion_day_of_week":
-                parts.append("Troparion of the weekday")
+                day_names = {
+                    1: "Troparion of the Archangels",
+                    2: "Troparion of the Forerunner",
+                    3: "Troparion of the Cross",
+                    4: "Troparion of the Apostles and St. Nicholas",
+                    5: "Troparion of the Cross",
+                    6: "Troparion of All Saints",
+                    0: "Resurrectional Troparion"
+                }
+                d_num = context.get("day_of_week", 1)
+                parts.append(day_names.get(d_num, "Troparion of the weekday"))
                 continue
                 
             if ref_key == "horologion.troparion_saint_if_any":
-                parts.append("Troparion of the Saint (if any)")
+                saints = context.get("saints", [])
+                if saints:
+                    s_name = self._clean_name(saints[0].get("name", "the Saint"))
+                    parts.append(f"Troparion of {s_name}")
+                else:
+                    parts.append("Troparion of the Saint")
                 continue
                 
             if ref_key == "horologion.theotokion_daily":
@@ -635,18 +650,18 @@ class CommonFormatterMixin:
             if len(components) == 2 and "After the 1st Trisagion" in str(components[0].get("id", "")):
                 t1 = components[0].get("id")
                 t2 = components[1].get("id")
-                return f"{t1}. {t2}."
+                return f"**Troparia:**  \n{t1}.  \n{t2}."
             comps = self._format_troparia_stack_components(components, context)
-            return f"Midnight Troparia: {comps}."
-        return f"Midnight Troparia: {self.humanize_key(res)}."
+            return f"**Troparia:** {comps}."
+        return f"**Troparia:** {self.humanize_key(res)}."
 
 
     def _format_resolve_midnight_prayer(self, res, context):
         if not res: return ""
         ref = res.get('ref_key', '')
         if ref == "horologion.prayer_mardarius":
-            return "Prayer of St. Mardarius."
-        return f"Prayer: {self.humanize_key(ref)}."
+            return "**Prayer:** Prayer of St. Mardarius (*\"O Lord God, Father Almighty...\"*)."
+        return f"**Prayer:** {self.humanize_key(ref)}."
 
 
     def _format_resolve_royal_psalms(self, res, context):

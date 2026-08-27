@@ -15,6 +15,42 @@ class LiturgyMixin:
 
     """Mixin providing liturgy methods for RuthenianEngine."""
 
+    def _format_scripture_key(self, key: str) -> str:
+        if not key:
+            return ""
+        books = [
+            ('1_corinthians', '1 Corinthians'), ('2_corinthians', '2 Corinthians'),
+            ('1_thessalonians', '1 Thessalonians'), ('2_thessalonians', '2 Thessalonians'),
+            ('1_timothy', '1 Timothy'), ('2_timothy', '2 Timothy'),
+            ('1_peter', '1 Peter'), ('2_peter', '2 Peter'),
+            ('1_john', '1 John'), ('2_john', '2 John'), ('3_john', '3 John'),
+            ('matthew', 'Matthew'), ('mark', 'Mark'), ('luke', 'Luke'), ('john', 'John'),
+            ('acts', 'Acts'), ('romans', 'Romans'), ('galatians', 'Galatians'),
+            ('ephesians', 'Ephesians'), ('philippians', 'Philippians'), ('colossians', 'Colossians'),
+            ('titus', 'Titus'), ('philemon', 'Philemon'), ('hebrews', 'Hebrews'),
+            ('james', 'James'), ('jude', 'Jude'), ('revelation', 'Revelation'),
+            ('genesis', 'Genesis'), ('exodus', 'Exodus'), ('leviticus', 'Leviticus'),
+            ('numbers', 'Numbers'), ('deuteronomy', 'Deuteronomy'), ('isaiah', 'Isaiah'),
+            ('jeremiah', 'Jeremiah'), ('ezekiel', 'Ezekiel'), ('daniel', 'Daniel'),
+            ('proverbs', 'Proverbs'), ('job', 'Job'), ('jonah', 'Jonah'),
+            ('zechariah', 'Zechariah'), ('micah', 'Micah'), ('baruch', 'Baruch')
+        ]
+        k_lower = str(key).lower().replace('.', '_')
+        for b_key, b_name in books:
+            if k_lower.startswith(b_key + '_'):
+                rem = k_lower[len(b_key) + 1:]
+                parts = rem.split('_')
+                if len(parts) == 6:
+                    return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}; {parts[3]}:{parts[4]}–{parts[5]}"
+                elif len(parts) == 4:
+                    return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}:{parts[3]}"
+                elif len(parts) == 3:
+                    return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}"
+                elif len(parts) == 2:
+                    return f"{b_name} {parts[0]}:{parts[1]}"
+                elif len(parts) == 1 and parts[0].isdigit():
+                    return f"{b_name} {parts[0]}"
+        return ""
 
     def resolve_antiphon_type(self, context):
         """
@@ -187,6 +223,14 @@ class LiturgyMixin:
         """
         Determines the Antiphon strategy (Typical Psalms vs Festal vs Weekday).
         """
+        pascha_off = context.get("pascha_offset")
+        if pascha_off is not None and 0 <= pascha_off <= 6:
+            return {
+                "type": "generator",
+                "generator_method": "generate_antiphons",
+                "args": { "strategy": "festal_antiphons" }
+            }
+
         rules = self.liturgy_logic.get("antiphon_logic", [])
         rank = self.calculate_rank(context)
         day = context["day_of_week"]
@@ -440,8 +484,8 @@ class LiturgyMixin:
         menaion_key = context.get("menaion_key", "")
         
         # BAPTISMAL HYMN: "As many as have been baptized into Christ"
-        # Nativity of the Lord
-        if feast_id == "nativity" or menaion_key == "menaion.1225" or "nativity" in title:
+        # Nativity of the Lord (Feast Day only: Dec 25)
+        if feast_id == "nativity" or menaion_key == "menaion.1225" or ("nativity" in title and "afterfeast" not in title and "forefeast" not in title and "synaxis" not in title):
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -449,8 +493,8 @@ class LiturgyMixin:
                 "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
             }
         
-        # Theophany of the Lord
-        if feast_id == "theophany" or menaion_key == "menaion.0106" or "theophany" in title:
+        # Theophany of the Lord (Feast Day only: Jan 6)
+        if feast_id == "theophany" or menaion_key == "menaion.0106" or ("theophany" in title and "afterfeast" not in title and "forefeast" not in title and "synaxis" not in title):
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -496,7 +540,7 @@ class LiturgyMixin:
         
         # CROSS HYMN: "Before Thy Cross we bow down"
         # Exaltation of Cross (Sept 14)
-        if feast_id == "exaltation_cross" or menaion_key == "menaion.0914" or "exaltation" in title or "elevation" in title:
+        if feast_id == "exaltation_cross" or menaion_key == "menaion.0914" or (("exaltation" in title or "elevation" in title) and "afterfeast" not in title and "forefeast" not in title):
             return {
                 "type": "replacement",
                 "replacement": "before_thy_cross",
@@ -540,16 +584,32 @@ class LiturgyMixin:
 
 
     def resolve_liturgy_megalynarion(self, context, rubrics):
-        # Scenario C: Basil Liturgy
-        # Scenario B: Festal Zadostoinyk
+        pascha_off = context.get("pascha_offset")
+        if pascha_off is not None and 0 <= pascha_off <= 38:
+            return {
+                "type": "variable",
+                "ref_key": "paschal_zadostoinyk",
+                "text": "The angel cried to the Lady Full of Grace: Rejoice, O Pure Virgin! And again I say: Rejoice! Thy Son is risen from His three days in the tomb, and has raised all the dead: O you people, be glad! Shine, shine, O New Jerusalem, for the glory of the Lord has shone upon thee. Exult now and be glad, O Zion, and thou, O pure Mother of God, rejoice in the resurrection of Thy Son.",
+                "note": "Zadostoinyk (The Angel Cried / Shine, shine, O New Jerusalem)"
+            }
+        lit_type = str(context.get("liturgy_type") or (rubrics.get("overrides", {}).get("liturgy_type") if rubrics else "") or (rubrics.get("variables", {}).get("liturgy_type") if rubrics else "")).lower()
+        if "basil" in lit_type:
+            if pascha_off in (-3, -1):
+                return {"type": "variable", "ref_key": "festal_zadostoinyk", "note": "Use 9th Ode Heirmos"}
+            return {
+                "type": "fixed_ref",
+                "ref_key": "horologion.in_thee_rejoiceth",
+                "text": "In you, O Woman Full of Grace, all creation rejoices...",
+                "note": "In you, O Woman Full of Grace"
+            }
+
+        # Scenario B: Festal Zadostoynyk
         rules = self.liturgy_logic.get("megalynarion_logic", [])
         rank = self.calculate_rank(context)
         
         for rule in rules:
              if "rank == 1" in rule["condition"] and rank == 1:
                  return {"type": "variable", "ref_key": "festal_zadostoinyk", "note": "Use 9th Ode Heirmos"}
-             if "basil" in rule["condition"] and context.get("liturgy_type") == "basil":
-                 return {"type": "fixed_ref", "ref_key": "horologion.in_thee_rejoiceth"}
                  
         return {"type": "fixed_ref", "ref_key": "horologion.axion_estin"}
 
@@ -599,14 +659,14 @@ class LiturgyMixin:
         - Eve of Nativity (weekday), Eve of Theophany (weekday)
         - January 1 (St. Basil's Day)
         """
-        liturgy_type = context.get("liturgy_type", "chrysostom")
+        liturgy_type = str(context.get("liturgy_type", "chrysostom")).lower()
         from engine.utils.type_utils import parse_rank_integer
         rank = parse_rank_integer(context.get("rank", 5))
         paradigm = context.get("paradigm", "")
         feast_id = context.get("feast_id", None)
         
         # Only applies to Basil Liturgy
-        if liturgy_type != "basil":
+        if "basil" not in liturgy_type:
             return None  # Fall through to standard megalynarion
         
         # RULE: Great Feast at Basil Liturgy - use 9th Ode Irmos
@@ -618,12 +678,12 @@ class LiturgyMixin:
                 "rubric": "Instead of 'It is truly meet', we sing the Irmos of the 9th Ode"
             }
         
-        # DEFAULT: "In Thee Rejoiceth"
+        # DEFAULT: "In you, O Woman Full of Grace"
         return {
             "type": "megalynarion",
             "source": "basil",
             "ref_key": "horologion.in_thee_rejoiceth",
-            "text": "In thee rejoiceth, O Full of Grace, all creation..."
+            "text": "In you, O Woman Full of Grace, all creation rejoices..."
         }
 
 
@@ -793,42 +853,70 @@ class LiturgyMixin:
         paradigm = context.get("paradigm", "")
         season = context.get("season", "ordinary")
         feast_id = context.get("feast_id", None)
-        pascha_offset = context.get("pascha_offset", -100)
+        try:
+            pascha_offset = int(context.get("pascha_offset", -100))
+        except (ValueError, TypeError):
+            pascha_offset = -100
         title = context.get("title", "").lower()
         
-        # PASCHA through Ascension Eve: "Christ is risen" (3x)
+        # PASCHA through Ascension Eve (0 to 39): "Christ is risen from the dead" (3x)
         if season == "pascha" or paradigm == "p_pascha" or (0 <= pascha_offset < 39):
             return {
                 "type": "post_communion",
-                "hymn": "Christ is risen from the dead...",
+                "hymn": "Christ is risen from the dead, trampling down death by death, and to those in the tombs giving life.",
                 "repeat": 3,
                 "ref_key": "pentecostarion.post_communion_paschal"
             }
         
-        # ASCENSION: "Having beheld the Resurrection"
-        if pascha_offset == 39 or "ascension" in title:
+        # ASCENSION (Pascha offset 40 through Apodosis offset 48): "Be exalted, O God"
+        if 40 <= pascha_offset <= 48 or "ascension" in title:
             return {
                 "type": "post_communion",
-                "hymn": "Having beheld the Resurrection of Christ...",
+                "hymn": "Be exalted, O God, above the heavens, and let Your glory be over all the earth.",
                 "ref_key": "pentecostarion.post_communion_ascension"
             }
         
-        # NATIVITY through Leavetaking: Kontakion of Nativity
+        # NATIVITY through Leavetaking: Troparion of Nativity
         if "nativity" in title or feast_id == "nativity":
             return {
                 "type": "post_communion",
-                "hymn": "Today the Virgin gives birth to the Transcendent One...",
-                "ref_key": "menaion.nativity.kontakion"
+                "hymn": "Your Nativity, O Christ our God, has shone upon the world the light of knowledge...",
+                "ref_key": "menaion.nativity.troparion"
             }
         
         # THEOPHANY through Leavetaking: Troparion of Theophany
         if "theophany" in title or feast_id == "theophany":
             return {
                 "type": "post_communion",
-                "hymn": "When Thou, O Lord, wast baptized in the Jordan...",
+                "hymn": "When You, O Lord, were baptized in the Jordan, the worship of the Trinity was made manifest...",
                 "ref_key": "menaion.theophany.troparion"
             }
         
+        # HOLY THURSDAY (Pascha offset -3)
+        if pascha_offset == -3 or "holy thursday" in title or feast_id == "holy_thursday":
+            return {
+                "type": "post_communion",
+                "hymn": "Receive me today, O Son of God, as a partaker of Your Mystical Supper...",
+                "ref_key": "triodion.of_thy_mystical_supper"
+            }
+
+        # HOLY SATURDAY (Pascha offset -1)
+        if pascha_offset == -1 or "holy saturday" in title or feast_id == "holy_saturday":
+            return {
+                "type": "post_communion",
+                "hymn": "The post-communion hymn is omitted; we proceed directly to the Thanksgiving Litany ('Let our mouths be filled...').",
+                "ref_key": "triodion.holy_saturday_post_communion"
+            }
+
+        # Check variable override
+        post_rep = context.get("variables", {}).get("post_communion_replace") or (rubrics.get("variables", {}).get("post_communion_replace") if rubrics else None)
+        if post_rep:
+            return {
+                "type": "post_communion",
+                "hymn": post_rep,
+                "ref_key": f"custom.{post_rep}"
+            }
+
         # DEFAULT: "We have seen the true light"
         return {
             "type": "post_communion",
@@ -883,24 +971,26 @@ class LiturgyMixin:
         
         # Add paremias
         for p in readings.get("paremias", []):
-             components.append({"type": "reading", "source": "paremia", "ref_key": p})
+            p_key = f"vesperal.{vesperal_id}.paremia_{p.get('number', 1)}" if isinstance(p, dict) else str(p)
+            components.append({"type": "reading", "source": "paremia", "ref_key": p_key, "data": p})
              
         # Add Epistle Prokeimenon
-        components.append({"type": "prokeimenon", "ref_key": readings.get("epistle_prokeimenon")})
+        components.append({"type": "prokeimenon", "ref_key": f"vesperal.{vesperal_id}.prokeimenon", "data": readings.get("epistle_prokeimenon")})
         
         # Add Epistle
-        components.append({"type": "reading", "source": "epistle", "ref_key": readings.get("epistle")})
+        components.append({"type": "reading", "source": "epistle", "ref_key": f"vesperal.{vesperal_id}.epistle", "data": readings.get("epistle")})
         
         # Add Alleluia
         if readings.get("alleluia"):
-            components.append({"type": "alleluia", "ref_key": readings.get("alleluia")})
+            components.append({"type": "alleluia", "ref_key": f"vesperal.{vesperal_id}.alleluia", "data": readings.get("alleluia")})
             
         # Add Gospel
-        components.append({"type": "reading", "source": "gospel", "ref_key": readings.get("gospel")})
+        components.append({"type": "reading", "source": "gospel", "ref_key": f"vesperal.{vesperal_id}.gospel", "data": readings.get("gospel")})
         
         return {
             "type": "sequence",
             "components": components,
+            "data": readings,
             "source_metadata": {"vesperal_id": vesperal_id, "paremia_count": readings.get("count", 0)}
         }
 
@@ -919,10 +1009,52 @@ class LiturgyMixin:
         
         Handles multiple readings for Sunday + Saint, etc.
         """
+        def _hydrate_all_readings(res_obj):
+            if not isinstance(res_obj, dict) or "readings" not in res_obj:
+                return res_obj
+            for r in res_obj["readings"]:
+                if not isinstance(r, dict):
+                    continue
+                if "epistle" in r and isinstance(r["epistle"], dict):
+                    ep = r["epistle"]
+                    if not ep.get("text") and ep.get("ref_key"):
+                        s_val = self._format_scripture_key(ep["ref_key"])
+                        if s_val and s_val.lower() not in ("epistle", "feast epistle"):
+                            ep["text"] = s_val
+                if "gospel" in r and isinstance(r["gospel"], dict):
+                    g = r["gospel"]
+                    if not g.get("text") and g.get("ref_key"):
+                        s_val = self._format_scripture_key(g["ref_key"])
+                        if s_val and s_val.lower() not in ("gospel", "feast gospel"):
+                            g["text"] = s_val
+                if "prokeimenon" in r and isinstance(r["prokeimenon"], dict):
+                    p = r["prokeimenon"]
+                    if not p.get("text") and p.get("ref_key"):
+                        asset = self.get_text(p["ref_key"], context=context)
+                        if asset and not (isinstance(asset, dict) and asset.get("is_missing")):
+                            p["text"] = asset.get("content")
+                            if asset.get("tone") and not p.get("tone"):
+                                p["tone"] = asset["tone"]
+                if "alleluia" in r and isinstance(r["alleluia"], dict):
+                    a = r["alleluia"]
+                    if not a.get("text") and a.get("ref_key"):
+                        asset = self.get_text(a["ref_key"], context=context)
+                        if asset and not (isinstance(asset, dict) and asset.get("is_missing")):
+                            raw_c = asset.get("content")
+                            if isinstance(raw_c, str):
+                                a["text"] = raw_c
+                            elif isinstance(raw_c, dict):
+                                a["text"] = raw_c.get("text") or raw_c.get("content")
+                                if raw_c.get("verses"):
+                                    a["verses"] = raw_c["verses"]
+                            if asset.get("tone") and not a.get("tone"):
+                                a["tone"] = asset["tone"]
+            return res_obj
+
         if context.get("_almanac_used"):
             readings_val = context.get("readings")
             if isinstance(readings_val, dict):
-                return copy.deepcopy(readings_val)
+                return _hydrate_all_readings(copy.deepcopy(readings_val))
             
             # If readings key was overwritten by a string key in the variables merge,
             # query the original pre-computed readings dictionary from the almanac.
@@ -935,7 +1067,7 @@ class LiturgyMixin:
                 if almanac and date_str in almanac.get("days", {}):
                     orig_readings = almanac["days"][date_str].get("readings")
                     if isinstance(orig_readings, dict):
-                        return copy.deepcopy(orig_readings)
+                        return _hydrate_all_readings(copy.deepcopy(orig_readings))
 
         day_of_week = context.get("day_of_week", 0)
         from engine.utils.type_utils import parse_rank_integer
@@ -1038,11 +1170,54 @@ class LiturgyMixin:
             else:
                 normalized_readings = l_readings
 
+        pascha_off = context.get("pascha_offset")
+        if pascha_off is not None and 1 <= pascha_off <= 6:
+            bright_readings = {
+                1: {
+                    "prokeimenon": {"tone": 8, "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.", "ref_key": "triodion.bright_monday.prokeimenon"},
+                    "epistle": {"text": "Acts 1:12–17, 21–26", "ref_key": "acts_1_12_17_21_26"},
+                    "alleluia": {"tone": 1, "text": "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.", "ref_key": "triodion.bright_monday.alleluia"},
+                    "gospel": {"text": "John 1:18–28", "ref_key": "john_1_18_28"}
+                },
+                2: {
+                    "prokeimenon": {"tone": 3, "text": "My soul magnifies the Lord, and my spirit has rejoiced in God my Savior.", "ref_key": "triodion.bright_tuesday.prokeimenon"},
+                    "epistle": {"text": "Acts 2:14–21", "ref_key": "acts_2_14_21"},
+                    "alleluia": {"tone": 2, "text": "Arise, O Lord, into Your rest, You and the ark of Your holiness.", "ref_key": "triodion.bright_tuesday.alleluia"},
+                    "gospel": {"text": "Luke 24:12–35", "ref_key": "luke_24_12_35"}
+                },
+                3: {
+                    "prokeimenon": {"tone": 6, "text": "I will remember Your name in every generation.", "ref_key": "triodion.bright_wednesday.prokeimenon"},
+                    "epistle": {"text": "Acts 2:22–36", "ref_key": "acts_2_22_36"},
+                    "alleluia": {"tone": 1, "text": "The heavens shall confess Your wonders, O Lord.", "ref_key": "triodion.bright_wednesday.alleluia"},
+                    "gospel": {"text": "John 1:35–51", "ref_key": "john_1_35_51"}
+                },
+                4: {
+                    "prokeimenon": {"tone": 3, "text": "Sing praises to our God, sing praises; sing praises to our King, sing praises.", "ref_key": "triodion.bright_thursday.prokeimenon"},
+                    "epistle": {"text": "Acts 2:38–43", "ref_key": "acts_2_38_43"},
+                    "alleluia": {"tone": 4, "text": "Bend Your bow, and proceed prosperously, and reign.", "ref_key": "triodion.bright_thursday.alleluia"},
+                    "gospel": {"text": "John 3:1–15", "ref_key": "john_3_1_15"}
+                },
+                5: {
+                    "prokeimenon": {"tone": 8, "text": "Their proclamation has gone out into all the earth.", "ref_key": "triodion.bright_friday.prokeimenon"},
+                    "epistle": {"text": "Acts 3:1–8", "ref_key": "acts_3_1_8"},
+                    "alleluia": {"tone": 1, "text": "The heavens shall confess Your wonders, O Lord.", "ref_key": "triodion.bright_friday.alleluia"},
+                    "gospel": {"text": "John 2:12–22", "ref_key": "john_2_12_22"}
+                },
+                6: {
+                    "prokeimenon": {"tone": 3, "text": "The Lord is my light and my salvation; whom shall I fear?", "ref_key": "triodion.bright_saturday.prokeimenon"},
+                    "epistle": {"text": "Acts 3:11–16", "ref_key": "acts_3_11_16"},
+                    "alleluia": {"tone": 4, "text": "The Lord reigns, He is robed in majesty.", "ref_key": "triodion.bright_saturday.alleluia"},
+                    "gospel": {"text": "John 3:22–33", "ref_key": "john_3_22_33"}
+                }
+            }
+            if pascha_off in bright_readings:
+                return _hydrate_all_readings({"type": "liturgy_readings", "readings": [bright_readings[pascha_off]]})
+
         # Dolnytsky §3.10.2: On Sunday with a Vigil/Polyeleos saint (rank 2 or 3), we combine them.
         # On weekdays or other Sundays (e.g. Triodion Sundays), we return the override directly.
         if day_of_week != 0:
             if normalized_readings:
-                return {"type": "liturgy_readings", "readings": normalized_readings}
+                return _hydrate_all_readings({"type": "liturgy_readings", "readings": normalized_readings})
             elif is_special_vigil_weekday:
                 # Suppress daily readings on weekdays, saint readings only
                 result = {
@@ -1069,10 +1244,10 @@ class LiturgyMixin:
                             "ref_key": f"menaion.{saint_id}.gospel"
                         }
                     })
-                return result
+                return _hydrate_all_readings(result)
         else: # Sunday (day_of_week == 0)
             if normalized_readings and rank > 3:
-                return {"type": "liturgy_readings", "readings": normalized_readings}
+                return _hydrate_all_readings({"type": "liturgy_readings", "readings": normalized_readings})
 
         result = {
             "type": "liturgy_readings",
@@ -1082,7 +1257,7 @@ class LiturgyMixin:
         # GREAT FEAST: Feast readings only
         if rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"]:
             if normalized_readings:
-                return {"type": "liturgy_readings", "readings": normalized_readings}
+                return _hydrate_all_readings({"type": "liturgy_readings", "readings": normalized_readings})
             result["readings"].append({
                 "prokeimenon": {
                     "source": "feast",
@@ -1101,7 +1276,7 @@ class LiturgyMixin:
                     "ref_key": f"menaion.{feast_id}.gospel" if feast_id else "feast.gospel"
                 }
             })
-            return result
+            return _hydrate_all_readings(result)
         
         # SUNDAY: Resurrectional readings
         if day_of_week == 0:
@@ -1151,7 +1326,7 @@ class LiturgyMixin:
                     }
                 })
             
-            return result
+            return _hydrate_all_readings(result)
         
         # WEEKDAY
         if day_of_week != 0:
@@ -1306,7 +1481,7 @@ class LiturgyMixin:
                         }
                     })
         
-        return result
+        return _hydrate_all_readings(result)
 
     # PHASE 3: ADVANCED LOGIC EXPANSION
 

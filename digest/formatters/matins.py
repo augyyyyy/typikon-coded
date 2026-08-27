@@ -234,7 +234,17 @@ class MatinsFormatterMixin:
     def _format_resolve_exapostilarion_matins(self, res, context):
         if not res or not res.get("components"):
             return ""
-        comps = [self.humanize_key(c) for c in res["components"]]
+        comps = []
+        for c in res["components"]:
+            if isinstance(c, dict):
+                ref = c.get("ref_key") or c.get("source") or ""
+                chorus = c.get("chorus")
+                if chorus:
+                    comps.append(f'"{ref}" ({chorus})')
+                elif ref:
+                    comps.append(self.humanize_key(ref))
+            else:
+                comps.append(self.humanize_key(c))
         return f"Exapostilarion: {'; '.join(comps)}."
 
 
@@ -357,9 +367,10 @@ class MatinsFormatterMixin:
         is_feast = context.get("is_feast")
         if (is_afterfeast or is_feast) and res.get("subject") == "feast":
             feast_id = context.get("feast_id") or "eucharist"
-            if feast_id in ("eucharist", "ascension", "pentecost") or (60 <= context.get("pascha_offset", -100) <= 67):
-                return ""
-        return f"Canon: {self.humanize_key(res.get('subject', ''))} from the {self.humanize_key(res.get('book', 'Octoechos'))}."
+        subj = self.humanize_key(res.get('subject', ''))
+        if subj.lower() == "theotokos":
+            subj = "To the Theotokos"
+        return f"**Canon:** {subj} from the {self.humanize_key(res.get('book', 'Octoechos'))}."
 
 
     def _format_resolve_triadic_canon(self, res, context):
@@ -372,14 +383,14 @@ class MatinsFormatterMixin:
             return ""
         typ = res.get("type")
         if typ == "paschal_magnificat":
-            return "At Ode IX, we sing the Paschal magnification: 'The Angel cried out...'."
+            return "**At Ode IX:** We sing the Paschal magnification: 'The Angel cried out...'."
         elif typ == "festal_magnificat":
-            return "At Ode IX, we sing the Festal magnification and the Heirmos of Ode IX of the Feast."
+            return "**At Ode IX:** We sing the Festal magnification and the Heirmos of Ode IX of the Feast."
         elif typ == "suppressed_magnificat":
-            return "At Ode IX, we do not sing the Magnification, but immediately the Heirmos of Ode IX of the Canon."
+            return "**At Ode IX:** We do not sing the Magnification, but immediately the Heirmos of Ode IX of the Canon."
         elif typ in ("sunday_magnificat", "festal_with_more_honorable"):
-            return "At Ode IX, we sing the Magnification ('My soul magnifies the Lord...') and the refrains ('More honorable than the Cherubim...')."
-        return "At Ode IX, we sing the Magnification ('My soul magnifies the Lord...') and the refrains ('More honorable than the Cherubim...')."
+            return "**At Ode IX:** We sing the Magnification ('My soul magnifies the Lord...') and the refrains ('More honorable than the Cherubim...')."
+        return "**At Ode IX:** We sing the Magnification ('My soul magnifies the Lord...') and the refrains ('More honorable than the Cherubim...')."
 
 
     def _format_resolve_exapostilarion(self, res, context):
@@ -561,6 +572,8 @@ class MatinsFormatterMixin:
         if not res or res.get("type") == "none":
             return "No kathisma is appointed."
         num = res.get("number")
+        if num == 1:
+            return "At Vespers, Kathisma 1 ('Blessed is the man') is read."
         return f"At Vespers, Kathisma {num} is read."
 
 
@@ -591,6 +604,13 @@ class MatinsFormatterMixin:
         if not res:
             return ""
         ref = res.get("ref_key", "")
+        if "cross" in ref.lower() or "elevation" in ref.lower() or "exaltation" in ref.lower():
+            return (
+                "**Ceremony of the Elevation of the Precious and Life-Giving Cross:**\n"
+                "After the Great Doxology (sung), the celebrant carries the Precious Cross in solemn procession to the center of the temple, chanting *\"Wisdom! Stand aright!\"*\n"
+                "The priest elevates the Cross towards the four cardinal directions (East, West, South, North, and East again), while the choir sings *\"Lord, have mercy\"* 100 times for each station (500 times total).\n"
+                "**Veneration of the Cross:** Celebrant and faithful venerate the Cross while singing the hymn *\"Before Your Cross, we bow down in worship, O Master, and Your holy Resurrection we glorify\"* (thrice)."
+            )
         return f"Post-Doxology Event: {self.humanize_key(ref)}."
 
 
@@ -688,6 +708,107 @@ class MatinsFormatterMixin:
             return f"**After Ode VI:** Resurrection Kontakion and Ikos in Tone {tone_rom}.  "
         else:
             return "**After Ode VI:** Kontakion and Ikos.  "
+
+    def _format_bridegroom_matins(self, enriched, rubrics):
+        pascha_off = enriched.get("pascha_offset")
+        day_names = {-6: "Great and Holy Monday", -5: "Great and Holy Tuesday", -4: "Great and Holy Wednesday"}
+        day_str = day_names.get(pascha_off, "Holy Week")
+        
+        gospel_pericopes = {
+            -6: "**Matthew §84 [21:18–43]** (The Cursing of the Fig Tree and Parable of the Wicked Vinedressers)",
+            -5: "**Matthew §90 [22:15–23:39]** (Tribute to Caesar, Resurrection, and Seven Woes against the Pharisees)",
+            -4: "**John §41 [12:17–50]** (The Greeks seek Jesus and the Son of Man glorified)"
+        }
+        gospel_str = gospel_pericopes.get(pascha_off, "**Holy Gospel of the Day**")
+        
+        lines = [
+            "*At Alleluia:* We sing Alleluia in Tone VIII, with the special melody of the Bridegroom Troparion.",
+            "**Dismissal Troparia at Alleluia:** Troparion *\"Behold, the Bridegroom comes at midnight, and blessed is the servant whom He shall find watchful...\"* (thrice, slowly in Tone VIII).",
+            "**Kathismata:** Kathismata 4, 5, and 6 (Monday); 9, 10, and 11 (Tuesday); 14, 15, and 16 (Wednesday) are read. After each Kathisma, Sessional Hymns from the Holy Week Triodion.",
+            f"**Holy Gospel:** {gospel_str}; then Psalm 50 and immediately the Canon.",
+            f"**At the Canon:** Triode / Diode of {day_str} from the Holy Week Triodion. Heirmoi twice, Troparia on 12. Katavasia: Heirmos of the canon. (Menaion is suppressed).",
+            "**After Ode III:** Sessional Hymn from the Triodion.",
+            "**After Ode VI:** Kontakion and Ikos from the Triodion.",
+            "**At Ode IX:** The Magnification is suppressed; instead we sing immediately the Heirmos of Ode IX. (Priest censes as at Great Matins).",
+            "**Exaposteilarion (The Bridal Chamber):** *\"Thy bridal chamber I see adorned, O my Savior, and I have no wedding garment that I may enter there. O Giver of Light, enlighten the vesture of my soul and save me.\"* (thrice in Tone III).",
+            "**At the Praises:** We sing 4 Stichera from the Holy Week Triodion; Small Doxology (read).",
+            "**At the Aposticha:** We sing the Aposticha from the Holy Week Triodion with specific verses.",
+            "**At the Dismissal Troparia:** After 'It is a good thing' and the Trisagion prayers, Troparion *\"Behold, the Bridegroom comes at midnight...\"* (once). Prayer of St. Ephrem with 4 great prostrations. 1st Hour follows immediately without dismissal."
+        ]
+        return "\n\n".join(lines)
+
+    def _format_holy_thursday_matins(self, enriched, rubrics):
+        lines = [
+            "*At Alleluia:* We sing Alleluia in Tone VIII, with the special melody of the Troparion.",
+            "**Dismissal Troparia at Alleluia:** Troparion *\"When the glorious disciples were enlightened at the washing of the feet...\"* (twice); Glory, Both now: once more the same.",
+            "There are no Kathismata or Sessional Hymns, but immediately the Holy Gospel: **Luke §108 [22:39–23:1]**; then Psalm 50 and immediately the Canon.",
+            "**At the Canon:** Canon of St. Cosmas on 6: Heirmoi twice, Troparia on 6 with the refrain *\"Glory to Thee, our God, glory to Thee\"*. Katavasia after each ode: Heirmos of the same canon once, both choirs together.",
+            "**After Ode III:** Sessional hymn from the Triodion.",
+            "**After Ode VI:** Kontakion and Ikos of Great and Holy Thursday.",
+            "**At Ode IX:** The Magnification is suppressed; instead we sing immediately the Heirmos of Ode IX (*\"Come, O faithful, let us enjoy the Master's hospitality and the table of immortality in the upper room...\"*).",
+            "**Exaposteilarion:** *\"Thy bridal chamber I see adorned, O my Savior, and I have no wedding garment that I may enter there. O Giver of Light, enlighten the vesture of my soul and save me.\"* (twice); Glory, Both now: once more the same.",
+            "**At the Praises:** We sing 4 Stichera from the Triodion; Small Doxology (read).",
+            "**At the Aposticha:** We sing the Aposticha from the Triodion with specific verses.",
+            "**At the Dismissal Troparia:** Troparion *\"When the glorious disciples were enlightened at the washing of the feet\"* (without Theotokion). 1st Hour follows."
+        ]
+        return "\n\n".join(lines)
+
+    def _format_holy_friday_matins(self, enriched, rubrics):
+        lines = [
+            "*At Alleluia:* Troparion *\"When the glorious disciples\"* (thrice, Tone VIII).",
+            "**The Twelve Passion Gospels (The Twelve Holy Gospels of the Passion)** are read throughout the service, interspersed with the 15 Antiphons and Sidalny:",
+            "  1. **John 13:31–18:1** (Christ's farewell discourse to His disciples)",
+            "  2. **John 18:1–28** (The betrayal in Gethsemane and interrogation before Annas)",
+            "  3. **Matthew 26:57–75** (Christ before Caiaphas and Peter's denial)",
+            "  4. **John 18:28–19:16** (Christ before Pontius Pilate)",
+            "  5. **Matthew 27:3–32** (The death of Judas and the Crown of Thorns)",
+            "  6. **Mark 15:16–32** (The Crucifixion at Golgotha)",
+            "  7. **Matthew 27:33–54** (Christ gives up His spirit on the Cross)",
+            "  8. **Luke 23:32–49** (The repentance of the Wise Thief)",
+            "  9. **John 19:25–37** (The Mother of God at the Cross and the Piercing with the Lance)",
+            "  10. **Mark 15:43–47** (Joseph of Arimathea asks for the Body of Jesus)",
+            "  11. **John 19:38–42** (The Burial of Christ by Joseph and Nicodemus)",
+            "  12. **Matthew 27:62–66** (The Guard set at the Sepulchre)",
+            "**The Beatitudes** with 8 Troparia; Canon of Holy Friday (Triode by St. Cosmas); Exaposteilarion: *\"The wise thief in a single moment...\"* (3x); Praises on 4; Aposticha; Dismissal of Holy Friday."
+        ]
+        return "\n\n".join(lines)
+
+    def _format_holy_saturday_matins(self, enriched, rubrics):
+        lines = [
+            "*At God is the Lord in Tone II:* Troparia *\"The noble Joseph\"*, Glory... *\"When Thou didst descend unto death\"*, Both now... *\"The angel stood by the tomb\"*.",
+            "**Station at Psalm 118 with the Three Stases of the Lamentations (Encomia)** sung before the Holy Shroud (Epitaphios / Plashchanytsia):",
+            "  - 1st Stasis: *\"In a grave they laid Thee, O my Life and Christ...\"*",
+            "  - 2nd Stasis: *\"Right it is to praise Thee, Giver of Life...\"*",
+            "  - 3rd Stasis: *\"Every generation, O my Christ, offers praises to Thy burial...\"*",
+            "**Evlogitaria of the Resurrection:** *\"Blessed are You, O Lord, teach me Your statutes... The angelic council was amazed\"*.",
+            "**Canon of Holy Saturday:** *\"Do not weep for Me, O Mother\"* (Tone VI). Katavasia: Heirmos of the same canon.",
+            "**At the Praises:** Stichera on 4 from the Triodion.",
+            "**Great Doxology (sung):** Procession of the Holy Shroud (Plashchanytsia) around the church while singing the Trisagion.",
+            "**Readings after the Procession:**",
+            "  - *Prokeimenon (Tone 4):* \"Arise, O Lord, help us and redeem us for Your name's sake.\"",
+            "  - *Paremia:* **Ezekiel 37:1–14** (The Vision of the Dry Bones)",
+            "  - *Epistle:* **1 Corinthians 5:6–8; Galatians 3:13–14** (Christ our Passover is sacrificed for us)",
+            "  - *Alleluia (Tone 5):* \"Let God arise, and let His enemies be scattered.\"",
+            "  - *Gospel:* **Matthew 27:62–66** (The Setting of the Guard at the Sepulchre)"
+        ]
+        return "\n\n".join(lines)
+
+    def _format_paschal_matins(self, enriched, rubrics):
+        canon_line = "**Paschal Canon of St. John of Damascus (Tone I):** *\"This is the day of Resurrection, let us be illumined, O people...\"* Katavasia: Heirmos of the same ode. At each ode, the priest censes with the Paschal greeting *\"Christ is risen!\"*"
+        if str(enriched.get("date", "")).endswith("-03-25") or enriched.get("scenario_id") == "collision_annunciation_pascha_sunday" or enriched.get("feast_id") == "annunciation" or "annunciation" in str(enriched.get("title", "")).lower():
+            canon_line = "**At the Canon:** Paschal Canon with irmos on 8 and of the Annunciation with irmos on 8. Katavasia: Heirmos of the Paschal Canon."
+
+        lines = [
+            "**Paschal Procession:** The clergy and faithful circle the church with candles, chanting *\"Thy Resurrection, O Christ our Savior, angels hymn in the heavens...\"*",
+            "**Opening of Matins:** At the church doors: *\"Glory to the Holy, Consubstantial, Life-Creating and Undivided Trinity...\"* and the Paschal Troparion *\"Christ is risen from the dead, trampling down death by death, and upon those in the tombs bestowing life\"* (thrice by clergy, then by choir with the Paschal Verses *\"Let God arise...\"*).",
+            canon_line,
+            "**Hypakoe (Tone IV):** *\"When they who were with Mary came, anticipating the dawn, and found the stone rolled away from the tomb...\"*",
+            "**Kontakion & Ikos (Tone VIII):** *\"Though You went down into the tomb, O Immortal One, yet You destroyed the power of Hades...\"*",
+            "**Exaposteilarion (thrice):** *\"Having fallen asleep in the flesh as a mortal, O King and Lord, on the third day You rose again...\"*",
+            "**At the Praises:** 4 Stichera of the Resurrection in Tone I, followed by the **Paschal Stichera** (*\"Let God arise... Today a sacred Pascha is revealed to us...\"*).",
+            "**Paschal Homily of St. John Chrysostom** read by the celebrant (*\"If any man be devout and love God, let him enjoy this fair and radiant triumphal feast...\"*)."
+        ]
+        return "\n\n".join(lines)
 
 
 

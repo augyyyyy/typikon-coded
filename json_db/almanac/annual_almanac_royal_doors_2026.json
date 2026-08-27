@@ -2,7 +2,7 @@
   "file_metadata": {
     "year": 2026,
     "pascha_date": "2026-04-05",
-    "generated_at": "2026-08-25T00:49:35.672596Z",
+    "generated_at": "2026-08-27T03:35:07.535368Z",
     "engine_version": "1.2.0"
   },
   "days": {
@@ -187,15 +187,18 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.jan_01.circumcision_basil.prokeimenon"
+              "ref_key": "menaion.jan_01.circumcision_basil.prokeimenon",
+              "text": "Save Your people, O Lord and bless Your inheritance.\nverse: Unto You I will cry, O Lord my God, lest You turn from me in silence."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "colossians_2_8_12"
+              "ref_key": "colossians_2_8_12",
+              "text": "Colossians 2:8–12"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.jan_01.circumcision_basil.alleluia"
+              "ref_key": "menaion.jan_01.circumcision_basil.alleluia",
+              "text": "verse: Give heed, O Shepherd of Israel, You who lead Joseph like sheep. \n\nverse: The mouth of the righteous shall declaim wisdom, and his tongue shall speak justice."
             },
             "gospel": {
               "source": "menaion",
@@ -972,19 +975,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.jan_06.prokeimenon"
+              "ref_key": "menaion.jan_06.prokeimenon",
+              "text": "Blessed is He who comes in the Name of the Lord; God the Lord has appeared to us.\nverse: Give thanks to the Lord for He is good for His mercy endures forever."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "titus_2_11_14_3_4_7"
+              "ref_key": "titus_2_11_14_3_4_7",
+              "text": "Titus 2:11–14; 3:4–7"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.jan_06.alleluia"
+              "ref_key": "menaion.jan_06.alleluia",
+              "text": "verse: Bring to the Lord, you sons of God; bring to the Lord young rams.\n\nverse: The voice of the Lord is over the waters, the God of glory has thundered, the Lord reigns over vast waters."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_3_13_17"
+              "ref_key": "matthew_3_13_17",
+              "text": "Matthew 3:13–17"
             }
           }
         ]
@@ -1103,7 +1110,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "acts_19_1_8"
+              "ref_key": "acts_19_1_8",
+              "text": "Acts 19:1–8"
             },
             "alleluia": {
               "source": "menaion",
@@ -1111,7 +1119,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_1_29_34"
+              "ref_key": "john_1_29_34",
+              "text": "John 1:29–34"
             }
           }
         ]
@@ -4435,7 +4444,10 @@
       "paradigm_id": "CASE_02",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-26)",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "structure_suppressed",
+        "vespers_type": "lenten_vespers"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -4575,7 +4587,8 @@
       "lviv_paradigm_number": 5,
       "rubrics_title": "Translation of the Relics of St. John Chrysostom",
       "overrides": {
-        "vespers_type": "great_vespers_simple",
+        "liturgy_type": "liturgy_presanctified",
+        "vespers_type": "structure_suppressed",
         "matins_type": "great_matins",
         "doxology_type": "great_doxology"
       },
@@ -4800,7 +4813,10 @@
       "paradigm_id": "CASE_02",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-28)",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "liturgy_presanctified",
+        "vespers_type": "structure_suppressed"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -5004,7 +5020,10 @@
       "paradigm_id": "CASE_02",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (1-29)",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "structure_suppressed",
+        "vespers_type": "lenten_vespers"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -5169,7 +5188,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_13_7_16"
+              "ref_key": "hebrews_13_7_16",
+              "text": "Hebrews 13:7–16"
             },
             "alleluia": {
               "source": "menaion",
@@ -5177,7 +5197,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_5_14_19"
+              "ref_key": "matthew_5_14_19",
+              "text": "Matthew 5:14–19"
             }
           }
         ]
@@ -5310,7 +5331,10 @@
       "paradigm_id": "CASE_03",
       "lviv_paradigm_number": 3,
       "rubrics_title": "Saint of the Day (1-31)",
-      "overrides": {},
+      "overrides": {
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -5888,19 +5912,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.feb_02.prokeimenon"
+              "ref_key": "menaion.feb_02.prokeimenon",
+              "text": "My soul magnifies the Lord, and my spirit has rejoiced in God, My Saviour.\nverse: Because He has regarded the humility of His handmaid; for, behold, from henceforth all generations shall call me blessed."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_7_7_17"
+              "ref_key": "hebrews_7_7_17",
+              "text": "Hebrews 7:7–17"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.feb_02.alleluia"
+              "ref_key": "menaion.feb_02.alleluia",
+              "text": "verse: Now, O Master, You dismiss Your servant in peace according to Your word. \n\nverse: For my eyes have seen Your salvation, a light for revelation to the Gentiles, and for glory to Your people, Israel."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_2_22_40"
+              "ref_key": "luke_2_22_40",
+              "text": "Luke 2:22–40"
             }
           }
         ]
@@ -6011,7 +6039,10 @@
       "paradigm_id": "CASE_14",
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-3)",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "structure_suppressed",
+        "vespers_type": "lenten_vespers"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -6140,7 +6171,10 @@
       "paradigm_id": "CASE_14",
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-4)",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "liturgy_presanctified",
+        "vespers_type": "structure_suppressed"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -6269,7 +6303,10 @@
       "paradigm_id": "CASE_14",
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-5)",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "structure_suppressed",
+        "vespers_type": "lenten_vespers"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -6398,7 +6435,10 @@
       "paradigm_id": "CASE_14",
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-6)",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "liturgy_presanctified",
+        "vespers_type": "structure_suppressed"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -6501,7 +6541,10 @@
       "paradigm_id": "saturday_meatfare",
       "lviv_paradigm_number": 22,
       "rubrics_title": "Saturday of Souls (Meatfare)",
-      "overrides": {},
+      "overrides": {
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -7060,7 +7103,10 @@
       "paradigm_id": "CASE_20",
       "lviv_paradigm_number": 20,
       "rubrics_title": "Triodion Service",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "structure_suppressed",
+        "vespers_type": "lenten_vespers"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -7155,7 +7201,10 @@
       "paradigm_id": "cheesefare_week_general",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "structure_suppressed",
+        "vespers_type": "lenten_vespers"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -7250,7 +7299,10 @@
       "paradigm_id": "cheesefare_week_general",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "liturgy_presanctified",
+        "vespers_type": "structure_suppressed"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -7345,7 +7397,10 @@
       "paradigm_id": "cheesefare_week_general",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "structure_suppressed",
+        "vespers_type": "lenten_vespers"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -7440,7 +7495,10 @@
       "paradigm_id": "cheesefare_week_general",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
-      "overrides": {},
+      "overrides": {
+        "liturgy_type": "liturgy_presanctified",
+        "vespers_type": "structure_suppressed"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -7540,7 +7598,10 @@
       "paradigm_id": "cheesefare_week_general",
       "lviv_paradigm_number": 2,
       "rubrics_title": "Triodion Service",
-      "overrides": {},
+      "overrides": {
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom"
+      },
       "readings": {
         "type": "liturgy_readings",
         "readings": [
@@ -9344,7 +9405,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "2_corinthians_4_6_15"
+              "ref_key": "2_corinthians_4_6_15",
+              "text": "2 Corinthians 4:6–15"
             },
             "alleluia": {
               "source": "menaion",
@@ -9352,7 +9414,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_11_2_15"
+              "ref_key": "matthew_11_2_15",
+              "text": "Matthew 11:2–15"
             }
           }
         ]
@@ -13717,19 +13780,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.mar_25.prokeimenon"
+              "ref_key": "menaion.mar_25.prokeimenon",
+              "text": "Proclaim from day to day the good tidings of our God’s salvation.\n\nverse: Let beggars behold it and be glad; seek after God, and your soul shall live."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_2_11_18"
+              "ref_key": "hebrews_2_11_18",
+              "text": "Hebrews 2:11–18"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.mar_25.alleluia"
+              "ref_key": "menaion.mar_25.alleluia",
+              "text": "verse: He will descend like rain on a fleece, and like drops dripping on the earth. \n\nverse: May His name be blessed forever, and endure like the sun."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_1_24_38"
+              "ref_key": "luke_1_24_38",
+              "text": "Luke 1:24–38"
             }
           }
         ]
@@ -14120,8 +14187,23 @@
       },
       "triodion_key": "saturday_lazarus",
       "variables": {
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "liturgy_trisagion_replace": "all_baptized",
         "matins_type": "great_matins",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 10
+            }
+          ],
+          "glory": "Tone VI: 'Today the grace of the Holy Spirit has gathered us together...'",
+          "both_now": "Tone VI: 'Today the grace of the Holy Spirit has gathered us together...'"
+        },
         "praises_both_now": "use_resurrectional_theotokion_tone_2",
         "title": "SATURDAY OF THE RIGHTEOUS LAZARUS",
         "feast_id": "lazarus_saturday",
@@ -14275,8 +14357,23 @@
       "saint_categories": [],
       "triodion_key": "sunday_palm",
       "variables": {
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "matins_post_gospel_action": "blessing_palms",
         "liturgy_antiphons": "festal_palm",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 6
+            }
+          ],
+          "glory": "Tone VIII: 'Having completed the forty days...'",
+          "both_now": "Tone VIII: 'Having completed the forty days...'"
+        },
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
         "aposticha_type": "sunday_aposticha"
@@ -14352,11 +14449,15 @@
       "saint_categories": [],
       "triodion_key": "holy_monday_tuesday_wednesday",
       "variables": {
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
         "liturgy_type": "liturgy_presanctified",
-        "season": "holy_week",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -14364,7 +14465,9 @@
               "source": "triodion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Doxastikon from the Triodion",
+          "both_now": "Theotokion from the Triodion"
         },
         "aposticha_type": "triodion_only"
       },
@@ -14442,11 +14545,15 @@
       "saint_categories": [],
       "triodion_key": "holy_monday_tuesday_wednesday",
       "variables": {
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
         "liturgy_type": "liturgy_presanctified",
-        "season": "holy_week",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -14454,7 +14561,9 @@
               "source": "triodion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Doxastikon from the Triodion",
+          "both_now": "Theotokion from the Triodion"
         },
         "aposticha_type": "triodion_only"
       },
@@ -14532,11 +14641,15 @@
       "saint_categories": [],
       "triodion_key": "holy_monday_tuesday_wednesday",
       "variables": {
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
         "hours_type": "structure_lenten",
         "liturgy_type": "liturgy_presanctified",
-        "season": "holy_week",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -14544,7 +14657,9 @@
               "source": "triodion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Doxastikon from the Triodion",
+          "both_now": "Theotokion from the Triodion"
         },
         "aposticha_type": "triodion_only",
         "menaion_rank": "rank_polyeleos",
@@ -14630,15 +14745,72 @@
       "saint_categories": [],
       "triodion_key": "holy_thursday",
       "variables": {
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
+        "compline_type": "small_compline",
+        "midnight_type": "midnight_weekday",
+        "typika_type": "holy_thursday_typika",
+        "matins_type": "holy_thursday_matins",
+        "matins_opening": "alleluia",
+        "matins_tone": 8,
+        "matins_troparia": [
+          {
+            "type": "troparion",
+            "title": "When the glorious disciples were enlightened at the washing of the feet...",
+            "repeat": 2,
+            "tone": 8
+          },
+          {
+            "type": "glory_both_now",
+            "title": "When the glorious disciples were enlightened at the washing of the feet...",
+            "repeat": 1,
+            "tone": 8
+          }
+        ],
+        "matins_gospel": "Luke §108 [22:39–23:1]",
+        "matins_canon": "Canon of St. Cosmas on 6 with refrain 'Glory to Thee, our God, glory to Thee'",
+        "katavasia": "Heirmos of the Canon ('With severed rod the sea was parted')",
+        "katavasia_tone": 6,
+        "magnificat_suppressed": true,
+        "ode_9_zadostoinyk": "Come, O faithful, let us enjoy the Master's hospitality and the table of immortality in the upper room...",
+        "exaposteilarion": "Thy bridal chamber I see adorned, O my Savior, and I have no wedding garment that I may enter there. O Giver of Light, enlighten the vesture of my soul and save me.",
+        "exaposteilarion_breakdown": "twice; Glory, Both now: once more",
+        "praises_count": 4,
+        "dismissal_troparion": "When the glorious disciples were enlightened at the washing of the feet (without Theotokion).",
+        "hours_type": "holy_thursday_hours",
+        "first_hour_prophecy": "Troparion of Prophecy (Tone 3), 1st Prokeimenon (Tone 1: 'Let them know that the Lord is Thy Name'), Paremia (Jeremiah 11:18–12:5, 9–11, 14–15), 2nd Prokeimenon (Tone 8: 'Pray and give praise to the Lord our God')",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed",
-        "cherubic_hymn_replace": "of_thy_mystical_supper"
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 10
+            }
+          ],
+          "glory": "The Lamb, foretold by Isaiah, willingly comes to be slaughtered (Tone 2)",
+          "both_now": "Truly, Judas is the son of those ungrateful (Tone 6)"
+        },
+        "cherubic_hymn_replace": "Of Thy Mystical Supper",
+        "zadostoinyk": "Come, O faithful, let us enjoy the Master's hospitality and the table of immortality in the upper room...",
+        "koinonikon": "Of Thy Mystical Supper",
+        "post_communion_replace": "Of Thy Mystical Supper",
+        "reserve_lamb_note": "According to the Sluzhebnik and Synod of Lviv, the priest prepares and consecrates a second Lamb in the Melchizedek vessel, to be reserved in the tabernacle for the sick throughout the year."
       },
       "period": "feast",
       "paradigm_id": "holy_thursday",
       "lviv_paradigm_number": 10,
       "rubrics_title": "Great and Holy Thursday",
       "overrides": {
+        "compline_type": "small_compline",
+        "midnight_type": "midnight_weekday",
+        "typika_type": "holy_thursday_typika",
+        "matins_type": "holy_thursday_matins",
+        "hours_type": "holy_thursday_hours",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed"
       },
@@ -14705,9 +14877,18 @@
       "saint_categories": [],
       "triodion_key": "holy_friday",
       "variables": {
-        "hours_type": "structure_royal",
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
+        "matins_type": "twelve_passion_gospels",
+        "twelve_gospels_title": "Matins of the Holy and Redeeming Passion of Our Lord (The Twelve Passion Gospels)",
+        "hours_type": "royal_hours",
+        "royal_hours_full": "Royal Hours (1st, 3rd, 6th, 9th) with full Old Testament Paremias, Epistles, and Gospels",
         "vespers_type": "passion_burial_vespers",
-        "matins_type": "tomb_matins",
+        "vespers_shroud_procession": "Great Vespers with the Procession and Exposition of the Holy Shroud (Epitaphios / Plashchanytsia) and Troparia 'The noble Joseph' and 'The angel stood by the tomb'",
+        "is_aliturgical": true,
         "liturgy_type": "structure_suppressed"
       },
       "period": "feast",
@@ -14715,9 +14896,9 @@
       "lviv_paradigm_number": 21,
       "rubrics_title": "Great and Holy Friday",
       "overrides": {
-        "hours_type": "structure_royal",
+        "matins_type": "twelve_passion_gospels",
+        "hours_type": "royal_hours",
         "vespers_type": "passion_burial_vespers",
-        "matins_type": "tomb_matins",
         "liturgy_type": "structure_suppressed"
       },
       "readings": {
@@ -14783,9 +14964,33 @@
       "saint_categories": [],
       "triodion_key": "holy_saturday",
       "variables": {
+        "season": "holy_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
+        "matins_type": "jerusalem_lamentations_matins",
+        "lamentations_title": "Jerusalem Matins: The Lamentations (Encomia) at the Tomb of the Lord (Psalm 118 in Three Stases) with Great Doxology and Procession of the Shroud",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed",
-        "cherubic_hymn_replace": "let_all_mortal_flesh",
+        "vespers_stichera_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 8
+            }
+          ],
+          "glory": "Tone VI: 'Today the dread tomb retains Him Who holds creation in His palm...'",
+          "both_now": "Tone I: 'Let us praise the Virgin Mary, the glory of the world...'"
+        },
+        "paremias_count": 15,
+        "trisagion_replace": "All you who have been baptized into Christ have put on Christ. Alleluia.",
+        "alleluia_replace": "Instead of Alleluia, we sing in Tone VII: 'Arise, O God, judge the earth' (during which the clergy change into bright white vestments).",
+        "cherubic_hymn_replace": "Let all mortal flesh keep silent, and stand with fear and trembling...",
+        "zadostoinyk": "Do not weep for Me, O Mother, beholding in the tomb the Son Whom you conceived in your womb without seed...",
+        "koinonikon": "The Lord awoke as from sleep, and has risen to save us. Alleluia.",
+        "post_communion_replace": "Instead of 'We have seen the true light', we proceed directly to the Thanksgiving Litany.",
         "praises_both_now": "use_resurrectional_theotokion_tone_2"
       },
       "period": "feast",
@@ -14793,6 +14998,7 @@
       "lviv_paradigm_number": 22,
       "rubrics_title": "Great and Holy Saturday",
       "overrides": {
+        "matins_type": "jerusalem_lamentations_matins",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed"
       },
@@ -14859,6 +15065,11 @@
       "saint_categories": [],
       "triodion_key": "pascha",
       "variables": {
+        "season": "pascha",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "vespers_type": "paschal_vespers",
         "matins_type": "bright_matins",
         "hours_type": "structure_paschal",
@@ -14868,13 +15079,15 @@
           "john_1_1_17"
         ],
         "vespers_stichera_distribution": {
-          "total_count": 10,
+          "total_count": 6,
           "distribution": [
             {
               "source": "pentecostarion",
-              "qty": 10
+              "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         }
       },
       "period": "feast",
@@ -14892,19 +15105,25 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.pascha.prokeimenon"
+              "ref_key": "menaion.pascha.prokeimenon",
+              "text": "This is the day which the Lord has made; let us rejoice and be glad in it.",
+              "tone": 8
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "acts_1_1_8"
+              "ref_key": "acts_1_1_8",
+              "text": "Acts 1:1–8"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.pascha.alleluia"
+              "ref_key": "menaion.pascha.alleluia",
+              "text": "Rise up, O Lord, have mercy on Zion.",
+              "tone": 4
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_1_1_17"
+              "ref_key": "john_1_1_17",
+              "text": "John 1:1–17"
             }
           }
         ]
@@ -14945,6 +15164,11 @@
       "saint_categories": [],
       "triodion_key": "bright_week",
       "variables": {
+        "season": "bright_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "hours_type": "structure_paschal",
         "matins_type": "bright_matins",
         "vespers_stichera_distribution": {
@@ -14954,7 +15178,9 @@
               "source": "pentecostarion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         }
       },
       "period": "afterfeast",
@@ -14970,20 +15196,22 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.prokeimenon"
+              "tone": 8,
+              "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.",
+              "ref_key": "triodion.bright_monday.prokeimenon"
             },
             "epistle": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.epistle"
+              "text": "Acts 1:12–17, 21–26",
+              "ref_key": "acts_1_12_17_21_26"
             },
             "alleluia": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.alleluia"
+              "tone": 1,
+              "text": "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.",
+              "ref_key": "triodion.bright_monday.alleluia"
             },
             "gospel": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.gospel"
+              "text": "John 1:18–28",
+              "ref_key": "john_1_18_28"
             }
           }
         ]
@@ -15024,6 +15252,11 @@
       "saint_categories": [],
       "triodion_key": "bright_week",
       "variables": {
+        "season": "bright_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "hours_type": "structure_paschal",
         "matins_type": "bright_matins",
         "vespers_stichera_distribution": {
@@ -15033,7 +15266,9 @@
               "source": "pentecostarion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         }
       },
       "period": "afterfeast",
@@ -15049,20 +15284,22 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.prokeimenon"
+              "tone": 3,
+              "text": "My soul magnifies the Lord, and my spirit has rejoiced in God my Savior.",
+              "ref_key": "triodion.bright_tuesday.prokeimenon"
             },
             "epistle": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.epistle"
+              "text": "Acts 2:14–21",
+              "ref_key": "acts_2_14_21"
             },
             "alleluia": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.alleluia"
+              "tone": 2,
+              "text": "Arise, O Lord, into Your rest, You and the ark of Your holiness.",
+              "ref_key": "triodion.bright_tuesday.alleluia"
             },
             "gospel": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.gospel"
+              "text": "Luke 24:12–35",
+              "ref_key": "luke_24_12_35"
             }
           }
         ]
@@ -15103,6 +15340,11 @@
       "saint_categories": [],
       "triodion_key": "bright_week",
       "variables": {
+        "season": "bright_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "hours_type": "structure_paschal",
         "matins_type": "bright_matins",
         "vespers_stichera_distribution": {
@@ -15112,7 +15354,9 @@
               "source": "pentecostarion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         }
       },
       "period": "afterfeast",
@@ -15128,20 +15372,22 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.prokeimenon"
+              "tone": 6,
+              "text": "I will remember Your name in every generation.",
+              "ref_key": "triodion.bright_wednesday.prokeimenon"
             },
             "epistle": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.epistle"
+              "text": "Acts 2:22–36",
+              "ref_key": "acts_2_22_36"
             },
             "alleluia": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.alleluia"
+              "tone": 1,
+              "text": "The heavens shall confess Your wonders, O Lord.",
+              "ref_key": "triodion.bright_wednesday.alleluia"
             },
             "gospel": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.gospel"
+              "text": "John 1:35–51",
+              "ref_key": "john_1_35_51"
             }
           }
         ]
@@ -15182,6 +15428,11 @@
       "saint_categories": [],
       "triodion_key": "bright_week",
       "variables": {
+        "season": "bright_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "hours_type": "structure_paschal",
         "matins_type": "bright_matins",
         "vespers_stichera_distribution": {
@@ -15191,7 +15442,9 @@
               "source": "pentecostarion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         }
       },
       "period": "afterfeast",
@@ -15207,20 +15460,22 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.prokeimenon"
+              "tone": 3,
+              "text": "Sing praises to our God, sing praises; sing praises to our King, sing praises.",
+              "ref_key": "triodion.bright_thursday.prokeimenon"
             },
             "epistle": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.epistle"
+              "text": "Acts 2:38–43",
+              "ref_key": "acts_2_38_43"
             },
             "alleluia": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.alleluia"
+              "tone": 4,
+              "text": "Bend Your bow, and proceed prosperously, and reign.",
+              "ref_key": "triodion.bright_thursday.alleluia"
             },
             "gospel": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.gospel"
+              "text": "John 3:1–15",
+              "ref_key": "john_3_1_15"
             }
           }
         ]
@@ -15261,6 +15516,11 @@
       "saint_categories": [],
       "triodion_key": "bright_week",
       "variables": {
+        "season": "bright_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "hours_type": "structure_paschal",
         "matins_type": "bright_matins",
         "vespers_stichera_distribution": {
@@ -15270,7 +15530,9 @@
               "source": "pentecostarion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         }
       },
       "period": "afterfeast",
@@ -15286,20 +15548,22 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.prokeimenon"
+              "tone": 8,
+              "text": "Their proclamation has gone out into all the earth.",
+              "ref_key": "triodion.bright_friday.prokeimenon"
             },
             "epistle": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.epistle"
+              "text": "Acts 3:1–8",
+              "ref_key": "acts_3_1_8"
             },
             "alleluia": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.alleluia"
+              "tone": 1,
+              "text": "The heavens shall confess Your wonders, O Lord.",
+              "ref_key": "triodion.bright_friday.alleluia"
             },
             "gospel": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.gospel"
+              "text": "John 2:12–22",
+              "ref_key": "john_2_12_22"
             }
           }
         ]
@@ -15340,6 +15604,11 @@
       "saint_categories": [],
       "triodion_key": "bright_week",
       "variables": {
+        "season": "bright_week",
+        "suppress_octoechos": true,
+        "suppress_menaion_saints": true,
+        "suppress_temple_troparia": true,
+        "suppress_penitential_troparia": true,
         "hours_type": "structure_paschal",
         "matins_type": "bright_matins",
         "vespers_stichera_distribution": {
@@ -15349,7 +15618,9 @@
               "source": "pentecostarion",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "Paschal Stichera",
+          "both_now": "Paschal Stichera"
         },
         "praises_both_now": "use_resurrectional_theotokion_tone_1"
       },
@@ -15366,20 +15637,22 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.prokeimenon"
+              "tone": 3,
+              "text": "The Lord is my light and my salvation; whom shall I fear?",
+              "ref_key": "triodion.bright_saturday.prokeimenon"
             },
             "epistle": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.epistle"
+              "text": "Acts 3:11–16",
+              "ref_key": "acts_3_11_16"
             },
             "alleluia": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.alleluia"
+              "tone": 4,
+              "text": "The Lord reigns, He is robed in majesty.",
+              "ref_key": "triodion.bright_saturday.alleluia"
             },
             "gospel": {
-              "source": "feast",
-              "ref_key": "menaion.pascha.gospel"
+              "text": "John 3:22–33",
+              "ref_key": "john_3_22_33"
             }
           }
         ]
@@ -16618,7 +16891,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "acts_12_1_11"
+              "ref_key": "acts_12_1_11",
+              "text": "Acts 12:1–11"
             },
             "alleluia": {
               "source": "menaion",
@@ -16626,7 +16900,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_15_17_16_2"
+              "ref_key": "john_15_17_16_2",
+              "text": "John 15:17–16:2"
             }
           }
         ]
@@ -18528,7 +18803,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "1_john_1_1_7"
+              "ref_key": "1_john_1_1_7",
+              "text": "1 John 1:1–7"
             },
             "alleluia": {
               "source": "menaion",
@@ -18536,7 +18812,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_19_25_27_21_24_25"
+              "ref_key": "john_19_25_27_21_24_25",
+              "text": "John 19:25–27; 21:24–25"
             }
           }
         ]
@@ -18696,19 +18973,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.may_09.nicholas_translation.prokeimenon"
+              "ref_key": "menaion.may_09.nicholas_translation.prokeimenon",
+              "text": "Save Your people, O Lord, and bless Your inheritance.\n\nThe venerable ones will exult in glory and they shall be joyful in their beds. verse: Unto You I will cry, O Lord, my God, lest You turn from me in silence."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_13_17_21"
+              "ref_key": "hebrews_13_17_21",
+              "text": "Hebrews 13:17–21"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.may_09.nicholas_translation.alleluia"
+              "ref_key": "menaion.may_09.nicholas_translation.alleluia",
+              "text": "verse: You have shown favour to Your land, O Lord; You brought back the captives of Jacob.\n\nverse:Mercy and truth have met ; righteousness and peace have embraced. verse:Your priests shall clothe themselves with justice, and Your venerable ones shall rejoice."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_6_17_23"
+              "ref_key": "luke_6_17_23",
+              "text": "Luke 6:17–23"
             }
           }
         ]
@@ -18972,7 +19253,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_7_26_8_2"
+              "ref_key": "hebrews_7_26_8_2",
+              "text": "Hebrews 7:26–8:2"
             },
             "alleluia": {
               "source": "menaion",
@@ -18980,7 +19262,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_5_14_19"
+              "ref_key": "matthew_5_14_19",
+              "text": "Matthew 5:14–19"
             }
           }
         ]
@@ -19246,19 +19529,25 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.ascension.prokeimenon"
+              "ref_key": "menaion.ascension.prokeimenon",
+              "text": "Be exalted, O God, above the heavens, and let Your glory be over all the earth.",
+              "tone": 7
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "acts_1_1_12"
+              "ref_key": "acts_1_1_12",
+              "text": "Acts 1:1–12"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.ascension.alleluia"
+              "ref_key": "menaion.ascension.alleluia",
+              "text": "All you nations, clap your hands; shout to God with cries of joy.",
+              "tone": 2
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_24_36_53"
+              "ref_key": "luke_24_36_53",
+              "text": "Luke 24:36–53"
             }
           }
         ]
@@ -20214,7 +20503,9 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.ascension.prokeimenon"
+              "ref_key": "menaion.ascension.prokeimenon",
+              "text": "Be exalted, O God, above the heavens, and let Your glory be over all the earth.",
+              "tone": 7
             },
             "epistle": {
               "source": "menaion",
@@ -20222,11 +20513,14 @@
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.ascension.alleluia"
+              "ref_key": "menaion.ascension.alleluia",
+              "text": "All you nations, clap your hands; shout to God with cries of joy.",
+              "tone": 2
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_10_1_9"
+              "ref_key": "john_10_1_9",
+              "text": "John 10:1–9"
             }
           }
         ]
@@ -20514,19 +20808,25 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.pentecost.prokeimenon"
+              "ref_key": "menaion.pentecost.prokeimenon",
+              "text": "Their sound has gone forth into all the earth, and their words to the ends of the world.",
+              "tone": 8
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "acts_2_1_11"
+              "ref_key": "acts_2_1_11",
+              "text": "Acts 2:1–11"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.pentecost.alleluia"
+              "ref_key": "menaion.pentecost.alleluia",
+              "text": "By the word of the Lord the heavens were established, and all their power by the spirit of His mouth.",
+              "tone": 1
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_7_37_52"
+              "ref_key": "john_7_37_52",
+              "text": "John 7:37–52"
             }
           }
         ]
@@ -21401,7 +21701,7 @@
       "dolnytsky_title": "Martyr Justin the Philosopher and those with him",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -21605,7 +21905,7 @@
       "dolnytsky_title": "St. Nicephorus, Archbishop of Constantinople",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -21816,7 +22116,7 @@
       "dolnytsky_title": "Martyr Lucillian and those with him",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -22007,7 +22307,7 @@
       "dolnytsky_status": "collision",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "Festal",
       "menaion_class": "Class I — Great Feast",
       "saint_categories": [
@@ -22165,7 +22465,7 @@
       "dolnytsky_title": "Hieromartyr Dorotheus",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -22304,7 +22604,7 @@
       "dolnytsky_title": "Venerables Bessarion and Hilarion",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -22436,7 +22736,7 @@
       "dolnytsky_title": "Hieromartyr Theodotus, Bishop of Ancyra",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -22600,7 +22900,7 @@
       "dolnytsky_title": "Great Martyr Theodore Stratelates",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Six-Stichera",
       "saint_categories": [
@@ -22732,7 +23032,7 @@
       "dolnytsky_title": "St. Cyril, Archbishop of Alexandria",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Six-Stichera",
       "saint_categories": [
@@ -22891,7 +23191,7 @@
       "dolnytsky_title": "Hieromartyr Timothy",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "General",
       "menaion_class": "Class V — Simple",
       "saint_categories": [
@@ -23035,7 +23335,7 @@
       "is_fore_or_afterfeast": true,
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "Festal",
       "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
@@ -23216,34 +23516,7 @@
       "octoechos_theme": "cross_theotokos",
       "deacon_count": 1,
       "concelebrating": false,
-      "saints": [
-        {
-          "id": "jun_12.onuphrius",
-          "name": "Onuphrius",
-          "title": "Venerable",
-          "gender": "male",
-          "monastic": true,
-          "rank": 5,
-          "rank_code": "[4 A+G]",
-          "entry_index": 0,
-          "all_parsed_saints": [
-            {
-              "name": "Onuphrius",
-              "title": "Venerable",
-              "gender": "male",
-              "monastic": true,
-              "is_saint": true
-            },
-            {
-              "name": "Peter of Athos",
-              "title": "Venerable",
-              "gender": "male",
-              "monastic": true,
-              "is_saint": true
-            }
-          ]
-        }
-      ],
+      "saints": [],
       "dolnytsky_title": "Co-Suffering of the Most Holy Theotokos",
       "dolnytsky_rank": "POLYELEOS",
       "dolnytsky_source": "movable_cycle_override",
@@ -23257,7 +23530,7 @@
       "dolnytsky_status": "collision",
       "late_service_type": null,
       "recension": "royal_doors",
-      "triodion_book": "N/A",
+      "triodion_book": "Floral",
       "menaion_book": "Festal",
       "menaion_class": "Class III — Polyeleos",
       "saint_categories": [
@@ -23284,17 +23557,13 @@
           "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
         },
         "matins_canon_distribution": {
+          "total_count": 12,
           "distribution": [
             {
-              "source": "octoechos",
+              "source": "triodion",
               "type": "theotokos_special",
-              "qty": 6,
+              "qty": 12,
               "irmos": true
-            },
-            {
-              "source": "menaion",
-              "type": "saint",
-              "qty": 8
             }
           ]
         },
@@ -23310,7 +23579,9 @@
           ],
           "glory": "saint_doxastikon",
           "both_now": "theotokion_after_doxastikon"
-        }
+        },
+        "suppress_menaion_saint": true,
+        "menaion_rank": "rank_polyeleos"
       },
       "period": "normal",
       "paradigm_id": "CASE_05",
@@ -23346,24 +23617,6 @@
               "source": "evangelion",
               "ref_key": "evangelion.weekday",
               "text": "Matthew 10:32-40; 11:1"
-            }
-          },
-          {
-            "prokeimenon": {
-              "source": "menaion",
-              "ref_key": "menaion.jun_12.onuphrius.prokeimenon"
-            },
-            "epistle": {
-              "source": "menaion",
-              "ref_key": "menaion.jun_12.onuphrius.epistle"
-            },
-            "alleluia": {
-              "source": "menaion",
-              "ref_key": "menaion.jun_12.onuphrius.alleluia"
-            },
-            "gospel": {
-              "source": "menaion",
-              "ref_key": "menaion.jun_12.onuphrius.gospel"
             }
           }
         ]
@@ -25759,19 +26012,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.jun_24.nativity_john_baptist.prokeimenon"
+              "ref_key": "menaion.jun_24.nativity_john_baptist.prokeimenon",
+              "text": "The just man shall be glad in the Lord and shall hope in Him.\n\nverse: Hear, O God, my voice when I make my petition to You."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "romans_13_11_14_4"
+              "ref_key": "romans_13_11_14_4",
+              "text": "Romans 13:11–14:4"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.jun_24.nativity_john_baptist.alleluia"
+              "ref_key": "menaion.jun_24.nativity_john_baptist.alleluia",
+              "text": "b-14:4\n\nverse: Blessed be the Lord God of Israel, for He has visited His people and redeemed them.\n\nverse:And you, O child, will be called the prophet of the Most High"
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_1_1_25_57_68_80"
+              "ref_key": "luke_1_1_25_57_68_80",
+              "text": "Luke 1:1–25; 57:68–80"
             }
           }
         ]
@@ -26730,19 +26987,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.jun_29.peter_and_paul.prokeimenon"
+              "ref_key": "menaion.jun_29.peter_and_paul.prokeimenon",
+              "text": "Their utterance has gone forth into all the earth, and their words unto the ends of the world.\n\nEpistle2\n\nverse:The heavens shall confess Your wonders, O Lord, and Your truth in the church of the saints.\n\nverse:God is glorified in the assembly of the saints. \n\nverse: The heavens tell the glory of God, and the firmament declares the work of His hands."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "2_corinthians_11_21_12_9"
+              "ref_key": "2_corinthians_11_21_12_9",
+              "text": "2 Corinthians 11:21–12:9"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.jun_29.peter_and_paul.alleluia"
+              "ref_key": "menaion.jun_29.peter_and_paul.alleluia",
+              "text": "verse: The heavens shall confess Your wonders, O Lord, and Your truth in the assembly of the saints. \n\nverse: God is glorified in the council of the saints."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_16_13_19"
+              "ref_key": "matthew_16_13_19",
+              "text": "Matthew 16:13–19"
             }
           }
         ]
@@ -28842,7 +29103,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "galatians_5_22_6_2"
+              "ref_key": "galatians_5_22_6_2",
+              "text": "Galatians 5:22–6:2"
             },
             "alleluia": {
               "source": "menaion",
@@ -28850,7 +29112,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_6_17_23"
+              "ref_key": "luke_6_17_23",
+              "text": "Luke 6:17–23"
             }
           }
         ]
@@ -29865,15 +30128,18 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.jul_15.vladimir_great.prokeimenon"
+              "ref_key": "menaion.jul_15.vladimir_great.prokeimenon",
+              "text": "Sing to our God, sing; sing to our King, sing.\nverse: Clap your hands, all you nations; shout unto God with the voice of joy."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "romans_6_18_23"
+              "ref_key": "romans_6_18_23",
+              "text": "Romans 6:18–23"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.jul_15.vladimir_great.alleluia"
+              "ref_key": "menaion.jul_15.vladimir_great.alleluia",
+              "text": "verse: I have exalted one chosen from among My people. \n\nverse: With My holy oil I have anointed him."
             },
             "gospel": {
               "source": "menaion",
@@ -30651,7 +30917,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_13_7_16"
+              "ref_key": "hebrews_13_7_16",
+              "text": "Hebrews 13:7–16"
             },
             "alleluia": {
               "source": "menaion",
@@ -30659,7 +30926,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_17_1_13"
+              "ref_key": "john_17_1_13",
+              "text": "John 17:1–13"
             }
           }
         ]
@@ -30799,7 +31067,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "james_5_10_20"
+              "ref_key": "james_5_10_20",
+              "text": "James 5:10–20"
             },
             "alleluia": {
               "source": "menaion",
@@ -30807,7 +31076,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_4_22_30"
+              "ref_key": "luke_4_22_30",
+              "text": "Luke 4:22–30"
             }
           }
         ]
@@ -33204,7 +33474,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "1_corinthians_1_18_24"
+              "ref_key": "1_corinthians_1_18_24",
+              "text": "1 Corinthians 1:18–24"
             },
             "alleluia": {
               "source": "menaion",
@@ -34185,19 +34456,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.aug_06.prokeimenon"
+              "ref_key": "menaion.aug_06.prokeimenon",
+              "text": "How great are Your works, O Lord, You have made all things in wisdom."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "2_peter_1_10_19"
+              "ref_key": "2_peter_1_10_19",
+              "text": "2 Peter 1:10–19"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.aug_06.alleluia"
+              "ref_key": "menaion.aug_06.alleluia",
+              "text": "verse: Bless the Lord, O my soul ; O Lord, my God, You are exceedingly great. \n\nverse: Yours are the heavens, and Yours the earth.\n\nverse:Blessed are the people who know the festal shout, they will walk in the light of Your countenance, O Lord."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_17_1_9"
+              "ref_key": "matthew_17_1_9",
+              "text": "Matthew 17:1–9"
             }
           }
         ]
@@ -35405,19 +35680,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.aug_15.prokeimenon"
+              "ref_key": "menaion.aug_15.prokeimenon",
+              "text": "My soul magnifies the Lord, and my spirit has rejoiced in God my Saviour.\nverse: Because He has regarded the humility of His handmaid; for behold, from henceforth all generations shall call me blessed."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "philippians_2_5_11"
+              "ref_key": "philippians_2_5_11",
+              "text": "Philippians 2:5–11"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.aug_15.alleluia"
+              "ref_key": "menaion.aug_15.alleluia",
+              "text": "verse: Because he has regarded the humility of His handmaid ; for behold, all generations shall call me blessed. \n\nverse: Rise up, O Lord, to the place of Your rest, You and the ark of Your holiness.\n\nverse:The Lord swore an oath to David, and will not go back on His word."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_10_38_42_11_27_28"
+              "ref_key": "luke_10_38_42_11_27_28",
+              "text": "Luke 10:38–42; 11:27–28"
             }
           }
         ]
@@ -35575,7 +35854,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "colossians_1_12_18"
+              "ref_key": "colossians_1_12_18",
+              "text": "Colossians 1:12–18"
             },
             "alleluia": {
               "source": "menaion",
@@ -35583,7 +35863,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_9_51_56_10_22_24"
+              "ref_key": "luke_9_51_56_10_22_24",
+              "text": "Luke 9:51–56; 10:22–24"
             }
           }
         ]
@@ -37721,19 +38002,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.aug_29.beheading_baptist.prokeimenon"
+              "ref_key": "menaion.aug_29.beheading_baptist.prokeimenon",
+              "text": "The just man shall be glad in the Lord and shall hope in Him.\nverse: Hear, O God, my voice when I make my petition to You."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "acts_13_25_32"
+              "ref_key": "acts_13_25_32",
+              "text": "Acts 13:25–32"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.aug_29.beheading_baptist.alleluia"
+              "ref_key": "menaion.aug_29.beheading_baptist.alleluia",
+              "text": "verse: The just man shall flourish like the palm tree; and he shall grow like the cedar in Lebanon. \n\nverse: Planted in the house of the Lord, they shall flourish in the courts of our God."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "mark_6_14_30"
+              "ref_key": "mark_6_14_30",
+              "text": "Mark 6:14–30"
             }
           }
         ]
@@ -39374,7 +39659,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_2_2_10"
+              "ref_key": "hebrews_2_2_10",
+              "text": "Hebrews 2:2–10"
             },
             "alleluia": {
               "source": "menaion",
@@ -39382,7 +39668,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_10_16_21"
+              "ref_key": "luke_10_16_21",
+              "text": "Luke 10:16–21"
             }
           }
         ]
@@ -40519,15 +40806,18 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.sep_14.prokeimenon"
+              "ref_key": "menaion.sep_14.prokeimenon",
+              "text": "Exalt the Lord our God, and bow in worship at the footstool of his feet, for it is holy.\n\nverse: The Lord reigns, let the people tremble."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "1_corinthians_1_18_24"
+              "ref_key": "1_corinthians_1_18_24",
+              "text": "1 Corinthians 1:18–24"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.sep_14.alleluia"
+              "ref_key": "menaion.sep_14.alleluia",
+              "text": "verse: Remember Your congregation which You acquired from the beginning.\n\nverse: But God is our king before the ages; He has wrought salvation in the midst of the earth."
             },
             "gospel": {
               "source": "menaion",
@@ -45370,7 +45660,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_13_7_16"
+              "ref_key": "hebrews_13_7_16",
+              "text": "Hebrews 13:7–16"
             },
             "alleluia": {
               "source": "menaion",
@@ -45378,7 +45669,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_17_1_13"
+              "ref_key": "john_17_1_13",
+              "text": "John 17:1–13"
             }
           }
         ]
@@ -48390,7 +48682,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "2_timothy_2_1_10"
+              "ref_key": "2_timothy_2_1_10",
+              "text": "2 Timothy 2:1–10"
             },
             "alleluia": {
               "source": "menaion",
@@ -48398,7 +48691,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_8_23_27"
+              "ref_key": "matthew_8_23_27",
+              "text": "Matthew 8:23–27"
             }
           }
         ]
@@ -49422,7 +49716,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_4_14_5_6"
+              "ref_key": "hebrews_4_14_5_6",
+              "text": "Hebrews 4:14–5:6"
             },
             "alleluia": {
               "source": "menaion",
@@ -49430,7 +49725,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_10_9_16"
+              "ref_key": "john_10_9_16",
+              "text": "John 10:9–16"
             }
           }
         ]
@@ -51128,19 +51424,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.nov_08.archangel_michael.prokeimenon"
+              "ref_key": "menaion.nov_08.archangel_michael.prokeimenon",
+              "text": "He makes spirits His angels and flaming fire His ministers.\nverse: Bless the Lord, O my soul; O Lord my God, you are very great."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_2_2_10"
+              "ref_key": "hebrews_2_2_10",
+              "text": "Hebrews 2:2–10"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.nov_08.archangel_michael.alleluia"
+              "ref_key": "menaion.nov_08.archangel_michael.alleluia",
+              "text": "verse: Praise the Lord, all you His angels; praise Him, all you powers. \n\nverse: For He spoke and they were made; He commanded and they were created."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_10_16_21"
+              "ref_key": "luke_10_16_21",
+              "text": "Luke 10:16–21"
             }
           }
         ]
@@ -52030,19 +52330,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.nov_12.josaphat_kuncevyc.prokeimenon"
+              "ref_key": "menaion.nov_12.josaphat_kuncevyc.prokeimenon",
+              "text": "Precious in the sight of the Lord is the death of His venerable ones.\nverse: What shall I render to the Lord for all the things He has rendered to me?"
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_4_14_5_6"
+              "ref_key": "hebrews_4_14_5_6",
+              "text": "Hebrews 4:14–5:6"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.nov_12.josaphat_kuncevyc.alleluia"
+              "ref_key": "menaion.nov_12.josaphat_kuncevyc.alleluia",
+              "text": "verse: Your priests shall clothe themselves with justice, and Your venerable ones shall rejoice. \n\nverse: For the Lord has chosen Sion; he has chosen it for His dwelling."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_10_9_16"
+              "ref_key": "john_10_9_16",
+              "text": "John 10:9–16"
             }
           }
         ]
@@ -55384,7 +55688,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "1_corinthians_4_9_16"
+              "ref_key": "1_corinthians_4_9_16",
+              "text": "1 Corinthians 4:9–16"
             },
             "alleluia": {
               "source": "menaion",
@@ -55392,7 +55697,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_1_35_51"
+              "ref_key": "john_1_35_51",
+              "text": "John 1:35–51"
             }
           }
         ]
@@ -56158,7 +56464,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "galatians_3_23_29"
+              "ref_key": "galatians_3_23_29",
+              "text": "Galatians 3:23–29"
             },
             "alleluia": {
               "source": "menaion",
@@ -56166,7 +56473,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "mark_5_24_34"
+              "ref_key": "mark_5_24_34",
+              "text": "Mark 5:24–34"
             }
           }
         ]
@@ -56496,19 +56804,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.dec_06.nicholas_wonderworker.prokeimenon"
+              "ref_key": "menaion.dec_06.nicholas_wonderworker.prokeimenon",
+              "text": "The just man shall be glad in the Lord, and shall hope in Him.\n\nverse: Hear, O God, my voice, when I make my petition to You."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "hebrews_13_17_21"
+              "ref_key": "hebrews_13_17_21",
+              "text": "Hebrews 13:17–21"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.dec_06.nicholas_wonderworker.alleluia"
+              "ref_key": "menaion.dec_06.nicholas_wonderworker.alleluia",
+              "text": "verse: Your priests shall clothe themselves with justice, and Your venerable ones shall rejoice.\n\nverse: For the Lord has chosen Sion; he has chosen it for His dwelling."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_6_17_23"
+              "ref_key": "luke_6_17_23",
+              "text": "Luke 6:17–23"
             }
           }
         ]
@@ -57808,7 +58120,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "colossians_3_4_11"
+              "ref_key": "colossians_3_4_11",
+              "text": "Colossians 3:4–11"
             },
             "alleluia": {
               "source": "menaion",
@@ -57816,7 +58129,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_14_16_24"
+              "ref_key": "luke_14_16_24",
+              "text": "Luke 14:16–24"
             }
           }
         ]
@@ -59068,7 +59382,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_1_1_25"
+              "ref_key": "matthew_1_1_25",
+              "text": "Matthew 1:1–25"
             }
           }
         ]
@@ -59732,19 +60047,23 @@
           {
             "prokeimenon": {
               "source": "menaion",
-              "ref_key": "menaion.dec_25.prokeimenon"
+              "ref_key": "menaion.dec_25.prokeimenon",
+              "text": "Let all the earth worship You and sing to You; let it sing to Your Name, O Most High.\nverse: Shout joyfully to the Lord, all the earth; sing praise to His name; give to Him glorious praise."
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "galatians_4_4_7"
+              "ref_key": "galatians_4_4_7",
+              "text": "Galatians 4:4–7"
             },
             "alleluia": {
               "source": "menaion",
-              "ref_key": "menaion.dec_25.alleluia"
+              "ref_key": "menaion.dec_25.alleluia",
+              "text": "verse: The heavens tell the glory of God, and the firmament declares the work of His hands.\n\nverse:Day announces its message unto day and night proclaims its knowledge unto night."
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_2_1_12"
+              "ref_key": "matthew_2_1_12",
+              "text": "Matthew 2:1–12"
             }
           }
         ]
@@ -59971,7 +60290,7 @@
       ],
       "variables": {
         "liturgy_readings": [
-          "acts_6_8_7_5_47",
+          "acts_6_8_7_5",
           "matthew_21_33_42"
         ],
         "troparia_sequence": "nativity_stephen_stacking",
@@ -60078,7 +60397,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "acts_6_8_7_5_47"
+              "ref_key": "acts_6_8_7_5",
+              "text": "Acts 6:8–7:5"
             },
             "alleluia": {
               "source": "menaion",
@@ -60086,7 +60406,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_21_33_42"
+              "ref_key": "matthew_21_33_42",
+              "text": "Matthew 21:33–42"
             }
           }
         ]

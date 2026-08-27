@@ -1492,6 +1492,10 @@
               "ref_key": "triodion.troparion_behold_bridegroom_once"
             }
           }
+        },
+        {
+          "target_id": "dismissal_theotokion",
+          "action": "delete"
         }
       ]
     },

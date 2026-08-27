@@ -751,29 +751,62 @@ class LentenMixin:
         
         # RULE: Feast day adds Epistle and Gospel after "Let my prayer arise"
         if rank <= 3:  # Polyeleos or higher
+            saints = context.get("saints", [])
+            s_ids = " ".join(s.get("id", "") for s in saints) + " " + str(feast_id or "")
+            if "baptist" in s_ids or "finding" in s_ids or "feb_24" in s_ids:
+                ep_text = "2 Corinthians 4:6–15"
+                gosp_text = "Matthew 11:2–15"
+            elif "forty_martyrs" in s_ids or "sebaste" in s_ids or "mar_09" in s_ids:
+                ep_text = "Hebrews 12:1–10"
+                gosp_text = "Matthew 20:1–16"
+            elif "annunciation" in s_ids or "theotokos" in s_ids or "mar_25" in s_ids:
+                ep_text = "Hebrews 2:11–18"
+                gosp_text = "Luke 1:24–38"
+            else:
+                ep_text = "Hebrews 12:1–10"
+                gosp_text = "Matthew 20:1–16"
+
             result["has_feast_readings"] = True
             result["feast_readings"] = {
                 "epistle": {
+                    "text": ep_text,
                     "ref_key": f"menaion.{feast_id}.epistle" if feast_id else "feast.epistle"
                 },
                 "gospel": {
+                    "text": gosp_text,
                     "ref_key": f"menaion.{feast_id}.gospel" if feast_id else "feast.gospel"
                 }
             }
         
         # RULE: Holy Week has special readings
-        if triodion_week == 7:
+        pascha_off = context.get("pascha_offset")
+        if triodion_week == 7 or (pascha_off is not None and -6 <= pascha_off <= -4):
             result["holy_week"] = True
-            # Override with Holy Week readings
-            if day_of_week == 1:  # Holy Monday
+            result["has_feast_readings"] = True
+            if day_of_week == 1 or pascha_off == -6:  # Holy Monday
                 result["sequence"][1]["ref_key"] = "triodion.holy_monday.exodus"
+                result["sequence"][1]["text"] = "Exodus 1:1–20"
                 result["sequence"][4]["ref_key"] = "triodion.holy_monday.job"
-            elif day_of_week == 2:  # Holy Tuesday
+                result["sequence"][4]["text"] = "Job 1:1–12"
+                result["feast_readings"] = {
+                    "gospel": {"text": "Matthew 24:3–35", "ref_key": "matthew_24_3_35"}
+                }
+            elif day_of_week == 2 or pascha_off == -5:  # Holy Tuesday
                 result["sequence"][1]["ref_key"] = "triodion.holy_tuesday.exodus"
+                result["sequence"][1]["text"] = "Exodus 2:5–10"
                 result["sequence"][4]["ref_key"] = "triodion.holy_tuesday.job"
-            elif day_of_week == 3:  # Holy Wednesday
+                result["sequence"][4]["text"] = "Job 1:13–22"
+                result["feast_readings"] = {
+                    "gospel": {"text": "Matthew 24:36–26:2", "ref_key": "matthew_24_36_26_2"}
+                }
+            elif day_of_week == 3 or pascha_off == -4:  # Holy Wednesday
                 result["sequence"][1]["ref_key"] = "triodion.holy_wednesday.exodus"
+                result["sequence"][1]["text"] = "Exodus 2:11–22"
                 result["sequence"][4]["ref_key"] = "triodion.holy_wednesday.job"
+                result["sequence"][4]["text"] = "Job 2:1–10"
+                result["feast_readings"] = {
+                    "gospel": {"text": "Matthew 26:6–16", "ref_key": "matthew_26_6_16"}
+                }
         
         return result
 
@@ -955,29 +988,39 @@ class LentenMixin:
         "Entrance with the Censer... on the 40 Martyrs..." (Implies Presanctified)
         """
         season = context.get("season")
-        day = context.get("day_of_week") # Convention: 1=Mon, 7=Sun (based on file usage)
+        try:
+            day = int(context.get("day_of_week", 0))
+        except (ValueError, TypeError):
+            day = 0
         
-        is_lent = (season == "lent")
-        is_holy_week = context.get("is_passion_week", False)
+        pascha_off = context.get("pascha_offset")
+        try:
+            pascha_off = int(pascha_off) if pascha_off is not None else None
+        except (ValueError, TypeError):
+            pascha_off = None
+            
+        is_lent = (season == "lent") or (context.get("season_id") in ("triodion", "great_lent")) or (pascha_off is not None and -48 <= pascha_off <= -1)
+        is_holy_week = (context.get("season_id") == "holy_week") or (pascha_off is not None and -6 <= pascha_off <= -1) or context.get("is_passion_week", False)
         
-        # 0. Feast Exception (Annunciation / Rank 1)
+        # 0. Feast Exception (Annunciation / Great Feasts / Vigils)
         # If a Great Feast falls, we serve Chrysostom/Basil, not Presanctified.
-        # (Implicit Logic: Rank 1 overrides Lenten mode).
-        
-        # Ensure rank is calculated
+        title_low = context.get("title", "").lower()
+        if "annunciation" in title_low or "благовіщення" in title_low:
+            return False
+
         rank = context.get("rank")
         if rank is None: 
             rank = self.calculate_rank(context)
         else:
             rank = parse_rank_integer(rank)
-        
+
         rank_code = context.get("dolnytsky_rank_code") or context.get("fixed_rank_code") or ""
         menaion_rank_val = context.get("menaion_rank") or context.get("variables", {}).get("menaion_rank") or ""
         is_polyeleos = ("POL" in rank_code or "POLYELEOS" in rank_code or 
                         (isinstance(menaion_rank_val, str) and menaion_rank_val.startswith("rank_polyeleos")) or
-                        (not rank_code and rank == 3))
+                        (not rank_code and rank == 4))
         
-        is_vigil_or_great = (rank <= 2 and not is_polyeleos)
+        is_vigil_or_great = (rank <= 3 and not is_polyeleos)
         
         if is_vigil_or_great: 
             return False 

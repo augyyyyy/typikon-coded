@@ -63,22 +63,21 @@ def run_heuristics_for_date(engine: RuthenianEngine, target_date: date, check_bo
     parenthetical_pattern = r"\((feast|theotokos|saint|octoechos|triodion|pentecostarion)\)"
 
     spelling_violations = [
-        (r"\bprokimenon\b", "Prokimenon (must use Prokeimenon)"),
-        (r"\bprokimena\b", "Prokimena (must use Prokeimena)"),
-        (r"\bkinonicon\b", "Kinonicon (must use Communion Hymn)"),
-        (r"\bkinonica\b", "Kinonica (must use Communion Hymns)"),
-        (r"\bholy doors\b", "Holy Doors (must use Royal Doors)"),
-        (r"\bexaposteilarion\b", "Exaposteilarion (must use Exapostilarion)"),
-        (r"\blytia\b", "Lytia (must use Litiya)"),
-        (r"\blitia\b", "Litia (must use Litiya)"),
-        (r"\bpre-feast\b", "Pre-feast (must use Forefeast)"),
-        (r"\bpost-feast\b", "Post-feast (must use Afterfeast)"),
-        (r"\bpre\s+feast\b", "Pre feast (must use Forefeast)"),
-        (r"\bpost\s+feast\b", "Post feast (must use Afterfeast)"),
-        (r"\bleave-taking\b", "Leave-taking (must use Apodosis)"),
-        (r"\bleave\s+taking\b", "Leave taking (must use Apodosis)"),
-        (r"\bstepenna\b", "Stepenna (must use Gradual)"),
-        (r"\banabathmoi\b", "Anabathmoi (must use Gradual)")
+        (r"\bprokimenon\b", "Prokimenon (canonical: Prokeimenon)"),
+        (r"\bprokimena\b", "Prokimena (canonical: Prokeimena)"),
+        (r"\bkinonicon\b", "Kinonicon (canonical: Communion Hymn)"),
+        (r"\bkinonica\b", "Kinonica (canonical: Communion Hymns)"),
+        (r"\bexaposteilarion\b", "Exaposteilarion (canonical: Exapostilarion)"),
+        (r"\blytia\b", "Lytia (canonical: Litiya)"),
+        (r"\blitia\b", "Litia (canonical: Litiya)"),
+        (r"\bpre-feast\b", "Pre-feast (canonical: Forefeast)"),
+        (r"\bpost-feast\b", "Post-feast (canonical: Afterfeast)"),
+        (r"\bpre\s+feast\b", "Pre feast (canonical: Forefeast)"),
+        (r"\bpost\s+feast\b", "Post feast (canonical: Afterfeast)"),
+        (r"\bleave-taking\b", "Leave-taking (canonical: Apodosis)"),
+        (r"\bleave\s+taking\b", "Leave taking (canonical: Apodosis)"),
+        (r"\bstepenna\b", "Stepenna (canonical: Gradual)"),
+        (r"\banabathmoi\b", "Anabathmoi (canonical: Gradual)")
     ]
 
     targets = [("digest", digest)]

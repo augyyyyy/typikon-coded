@@ -51,8 +51,8 @@ def test_auditor_catches_invalid_inputs():
     errors = run_mocked_audit("We chant the Kinonicon: Praise the Lord.")
     assert any("Spelling standard violation" in err and "Kinonicon" in err for err in errors), "Failed to catch Kinonicon spelling"
 
-    errors = run_mocked_audit("The priest enters through the Holy Doors.")
-    assert any("Spelling standard violation" in err and "Holy Doors" in err for err in errors), "Failed to catch Holy Doors spelling"
+    errors = run_mocked_audit("We sing the Exaposteilarion in Tone II.")
+    assert any("Spelling standard violation" in err and "Exaposteilarion" in err for err in errors), "Failed to catch Exaposteilarion spelling"
 
     errors = run_mocked_audit("It is the leave-taking of the feast.")
     assert any("Spelling standard violation" in err and "Leave-taking" in err for err in errors), "Failed to catch Leave-taking spelling"

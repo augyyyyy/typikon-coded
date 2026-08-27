@@ -106,7 +106,7 @@ class TestVesperalLiturgy:
         digest = generator.generate(context, rubrics)
         assert digest is not None
         assert "VESPERAL LITURGY READINGS" in digest.upper()
-        assert "Paremia 3" in digest
+        assert "Isaiah" in digest
         assert "[ERROR:" not in digest
         assert "[RESOLVE ERROR" not in digest
         assert "{'" not in digest

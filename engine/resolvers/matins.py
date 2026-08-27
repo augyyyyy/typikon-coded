@@ -1347,8 +1347,49 @@ class MatinsMixin:
         comps = []
         is_sunday = (context.get("day_of_week") == 0)
         eothinon_idx = context.get("eothinon_number")
-        season = context.get("season")
-        
+        pascha_off = context.get("pascha_offset")
+        season_id = context.get("season_id", "") or context.get("season", "")
+        season = context.get("season", "") or season_id
+
+        # 0. Holy Week Exaposteilaria
+        if season_id == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
+            if pascha_off in (-6, -5, -4, -3):
+                # Holy Mon, Tue, Wed, Thu: "Thy bridal chamber I see adorned..."
+                return {
+                    "type": "exapostilarion_stack",
+                    "components": [
+                        {
+                            "type": "holy_week_exapostilarion",
+                            "ref_key": "Thy bridal chamber I see adorned, O my Savior, and I have no wedding garment that I may enter there. O Giver of Light, enlighten the vesture of my soul and save me",
+                            "chorus": "twice; Glory, Both now: once more the same"
+                        }
+                    ]
+                }
+            elif pascha_off == -2:
+                # Holy Friday: "The wise thief..." (3x)
+                return {
+                    "type": "exapostilarion_stack",
+                    "components": [
+                        {
+                            "type": "holy_week_exapostilarion",
+                            "ref_key": "The wise thief in a single moment didst Thou make worthy of paradise, O Lord...",
+                            "chorus": "thrice"
+                        }
+                    ]
+                }
+            elif pascha_off == -1:
+                # Holy Saturday: "Holy is the Lord our God" (Tone 2)
+                return {
+                    "type": "exapostilarion_stack",
+                    "components": [
+                        {
+                            "type": "holy_week_exapostilarion",
+                            "ref_key": "Holy is the Lord our God (Tone 2)",
+                            "chorus": "thrice"
+                        }
+                    ]
+                }
+
         # 1. Lenten Weekday Photagogikon (Hymn of Light)
         if season == "lent" and not is_sunday and context.get("day_of_week") != 6:
              tone = context.get("tone", 1)

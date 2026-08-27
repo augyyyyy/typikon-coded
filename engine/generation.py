@@ -27,7 +27,13 @@ class GenerationMixin:
         """
         components = []
         day_of_week = context.get("day_of_week", 0)
-        season = context.get("season_id", "")
+        season = context.get("season_id", "") or context.get("season", "")
+        pascha_off = context.get("pascha_offset")
+        
+        # During Holy Week and Bright Week, Octoechos and daily saints are completely suppressed
+        if season in ("holy_week", "pascha", "bright_week") or (pascha_off is not None and -8 <= pascha_off <= 6):
+            return {"header": "", "components": []}
+            
         d_title = context.get("dolnytsky_title", "")
         full_text = f"{d_title}".lower()
         
@@ -50,38 +56,36 @@ class GenerationMixin:
         elif "afterfeast" in full_text:
             components.append("the afterfeast")
         
-        # Saint
+        # Saints
         saints = context.get("saints", [])
-        if saints:
-            s_name = saints[0].get("name", saints[0].get("id", ""))
+        for s in saints:
+            s_name = s.get("name", s.get("id", ""))
             if s_name:
-                s_name_cleaned = s_name.strip()
-                if s_name_cleaned.lower().startswith("st."):
-                    components.append(s_name_cleaned)
-                elif s_name_cleaned.lower().startswith("st "):
-                    components.append("St. " + s_name_cleaned[3:])
+                s_clean = s_name.replace("**", "").strip().rstrip('.')
+                s_lower = s_clean.lower()
+                
+                # Check for feast / relic words
+                feast_words = ["return", "translation", "finding", "recovery", "protection", "conception", "nativity", "synaxis", "dormition", "entry", "annunciation", "relics"]
+                titles = ["hieromartyr", "protomartyr", "great martyr", "greatmartyr", "venerable", "martyr", "apostle", "ap.", "archbishop", "bishop", "hierodeacon", "righteous", "prophet", "confessor", "holy"]
+                
+                if any(w in s_lower for w in feast_words):
+                    components.append(s_clean)
+                elif any(t in s_lower for t in titles) or s_lower.startswith("st.") or s_lower.startswith("st "):
+                    components.append(s_clean)
                 else:
-                    components.append(f"St. {s_name_cleaned}")
+                    components.append(f"St. {s_clean}")
         
         if len(components) <= 1:
             return {"header": components[0] if components else "Service", "components": components}
         
-        # Check if it's just a simple weekday + saint (no Triodion, no fore/afterfeast)
+        # Check if it's just a simple weekday + 1 saint (no Triodion, no fore/afterfeast)
         is_weekday = 0 < day_of_week <= 5
         has_triodion = season in ("triodion", "pentecostarion")
         has_feast_period = "forefeast" in full_text or "afterfeast" in full_text
-        if is_weekday and not has_triodion and not has_feast_period and len(components) == 2 and saints:
-            s_name = saints[0].get("name", saints[0].get("id", ""))
-            s_name_cleaned = s_name.strip().rstrip('.')
-            titles = ["hieromartyr", "protomartyr", "great martyr", "greatmartyr", "venerable", "martyr", "apostle", "archbishop", "bishop", "hierodeacon", "righteous", "prophet"]
-            s_name_lower = s_name_cleaned.lower()
-            if s_name_lower.startswith("st. ") or s_name_lower.startswith("st "):
-                rest = s_name_cleaned[4:].strip() if s_name_lower.startswith("st. ") else s_name_cleaned[3:].strip()
-                if any(t in rest.lower() for t in titles):
-                    s_name_cleaned = rest
-            header = f"Service of {s_name_cleaned}"
+        if is_weekday and not has_triodion and not has_feast_period and len(components) == 2 and len(saints) == 1:
+            header = f"Service of {components[1]}"
         else:
-            header = components[0] + " combined with " + ", and that of ".join(components[1:])
+            header = components[0] + " combined with that of " + ", and that of ".join(components[1:])
             
         return {"header": header, "components": components}
 
@@ -178,13 +182,24 @@ class GenerationMixin:
 
         # 6. Liturgy
         if base_name == "Liturgy":
-             if context.get("is_aliturgical"): return "Typika (Aliturgical)"
-             
+             p_off = context.get("pascha_offset")
+             try:
+                 p_off = int(p_off) if p_off is not None else None
+             except (ValueError, TypeError):
+                 p_off = None
+             dt_s = str(context.get("date", ""))
+             is_annun = dt_s.endswith("-03-25") or context.get("feast_id") == "annunciation" or "annunciation" in str(context.get("title", "")).lower()
+
+             if p_off == 0 and is_annun:
+                 return "Divine Liturgy of St. John Chrysostom (Kyriopascha)"
+
              # Check explicit type first
              even_type = context.get("overrides", {}).get("liturgy_type") or context.get("variables", {}).get("liturgy_type") or context.get("liturgy_type")
              if even_type == "vesperal_merge_logic": return "Vesperal Divine Liturgy of St. Basil the Great"
              if even_type == "liturgy_chrysostom_vesperal": return "Vesperal Divine Liturgy of St. John Chrysostom"
              if even_type == "liturgy_presanctified": return "Liturgy of the Presanctified Gifts"
+
+             if context.get("is_aliturgical"): return "Typika (Aliturgical)"
              
              is_lent = context.get("season") == "lent"
              day = context.get("day_of_week")
@@ -226,7 +241,7 @@ class GenerationMixin:
 
                 if action == "replace":
                     sequence[idx] = override.get("new_component")
-                elif action == "delete":
+                elif action in ("delete", "omit"):
                     del sequence[idx]
                 elif action == "insert_after":
                     sequence.insert(idx + 1, override.get("new_component"))
@@ -1058,15 +1073,16 @@ class GenerationMixin:
                                 # Format output
                                 part_title = part_key.title()
                                 tone_str = f" (Tone {tone})" if tone else ""
+                                clean_val = re.sub(r'\s*\n+\s*', ' ', str(text_val)).strip()
                                 
                                 if part_key == "prokeimenon":
-                                    output_lines.append(f'<p><strong>Prokeimenon</strong>{tone_str}: {text_val}</p>')
+                                    output_lines.append(f'<p><strong>Prokeimenon</strong>{tone_str}: {clean_val}</p>')
                                 elif part_key == "alleluia":
-                                    output_lines.append(f'<p><strong>Alleluia</strong>{tone_str}: {text_val}</p>')
+                                    output_lines.append(f'<p><strong>Alleluia</strong>{tone_str}: {clean_val}</p>')
                                 else:
                                     # Epistle or Gospel
                                     clean_title = ref_key.split(".")[-1].replace("_", " ").title() if ref_key else part_title
-                                    output_lines.append(f'<p><strong>{part_title}</strong> ({clean_title}): {text_val}</p>')
+                                    output_lines.append(f'<p><strong>{part_title}</strong> ({clean_title}): {clean_val}</p>')
                 except Exception as e:
                     output_lines.append(f'<p class="rubric">[Logic Error: resolve_liturgy_readings - {e}]</p>')
                     
@@ -1354,15 +1370,18 @@ class GenerationMixin:
             
             for item in seq_items:
                 content_key = item.get("content") or item.get("target") or item.get("id")
+                if isinstance(content_key, dict):
+                    content_key = content_key.get("content") or content_key.get("target") or content_key.get("id") or content_key.get("name")
                 if content_key:
-                    text_item = self.get_text(content_key, context=context)
+                    content_str = str(content_key)
+                    text_item = self.get_text(content_str, context=context)
                     if text_item:
-                        title = text_item.get('title') or content_key.split(".")[-1].replace("_", " ").title()
+                        title = text_item.get('title') or content_str.split(".")[-1].replace("_", " ").title()
                         html_prefix = f'<strong>{title}</strong>: '
                         output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                     else:
-                        humanized = content_key.split(".")[-1].replace("_", " ").title()
-                        output.append(f'<p class="rubric">[Missing text: {humanized} ({content_key})]</p>')
+                        humanized = content_str.split(".")[-1].replace("_", " ").title()
+                        output.append(f'<p class="rubric">[Missing text: {humanized} ({content_str})]</p>')
                         
             if kontakion_winner:
                 text_item = self.get_text(kontakion_winner, context=context)
@@ -1485,10 +1504,10 @@ class GenerationMixin:
 
         # Case 4.3: Result is a Psalms / Kathisma / Polyeleos block
         elif isinstance(result, dict) and result.get("type") in ("psalms", "kathisma", "polyeleos"):
-            k_id = result.get("id", "")
+            k_id = result.get("ref_key") or result.get("id", "")
             if result.get("type") == "polyeleos":
                 k_id = "horologion.polyeleos"
-            k_num = result.get("kathisma_number", k_id.split("_")[-1] if "_" in k_id else "")
+            k_num = result.get("number") or result.get("kathisma_number") or (k_id.split("_")[-1] if "_" in k_id else "")
             title = f"Kathisma {k_num}" if k_num else "Kathisma"
             
             text_item = self.get_text(k_id, context=context) or self.get_text(f"horologion.{k_id}", context=context)
@@ -1524,6 +1543,24 @@ class GenerationMixin:
             output.append(f'<div class="title-medium">{title}</div>')
             if content_val:
                 for p_text in content_val.split("\n"):
+                    p_text = p_text.strip()
+                    if p_text:
+                        output.append(f'<p>{p_text}</p>')
+            return "\n\n".join(output)
+
+        # Case 4.45: Result is a Megalynarion / Zadostoynyk block
+        elif isinstance(result, dict) and result.get("type") in ("megalynarion", "zadostoinyk", "zadostoynyk"):
+            ref_key = result.get("ref_key", "")
+            title = result.get("title") or "Megalynarion"
+            text_val = result.get("text") or result.get("content") or ""
+            if not text_val and ref_key:
+                item = self.get_text(ref_key, context=context)
+                if item:
+                    text_val = item.get("content", "")
+                    title = item.get("title") or title
+            output.append(f'<div class="title-medium">{title}</div>')
+            if text_val:
+                for p_text in text_val.split("\n"):
                     p_text = p_text.strip()
                     if p_text:
                         output.append(f'<p>{p_text}</p>')
@@ -1722,17 +1759,51 @@ class GenerationMixin:
             output.append(f'<p>{result["content"]}</p>')
             return "\n\n".join(output)
             
-        # Case 7: Standard dictionary with 'note' (like fasting rule or clergy variant)
-        elif isinstance(result, dict) and "note" in result:
-            output.append(f'<p>{result["note"]}</p>')
+        # Case 7.1: Result is a hymn or hymn group
+        elif isinstance(result, dict) and result.get("type") in ("hymn", "hymn_group"):
+            h_id = result.get("id") or result.get("ref_key", "")
+            text_item = self.get_text(h_id, context=context) or self.get_text(f"horologion.{h_id}", context=context)
+            if text_item and not text_item.get("is_missing"):
+                title = text_item.get("title") or self._get_humanized_title(text_item, h_id)
+                output.append(f'<div class="title-medium">{title}</div>')
+                output.extend(self._split_and_wrap("", text_item.get("content", "")))
+            else:
+                humanized = self._get_humanized_title({}, h_id) if h_id else "Hymn"
+                output.append(f'<p class="rubric">[{humanized}]</p>')
             return "\n\n".join(output)
-            
+
+        # Case 7.2: Result is a Lenten aposticha block
+        elif isinstance(result, dict) and (result.get("type") == "lenten_aposticha_triodion" or ("stichera" in result and "rubric_note" in result)):
+            stichera_list = result.get("stichera", [])
+            output.append('<div class="title-medium">Aposticha</div>')
+            for s in stichera_list:
+                ref = s.get("ref") or s.get("ref_key") or s.get("id")
+                if ref:
+                    text_item = self.get_text(ref, context=context)
+                    if text_item and not text_item.get("is_missing"):
+                        output.append(f'<p>{text_item.get("content", "")}</p>')
+                    else:
+                        output.append(f'<p class="rubric">[{self.humanize_key(ref)}]</p>')
+            return "\n\n".join(output)
+
         # Case 8: Simple string or fallback
         else:
+            if isinstance(result, dict):
+                ref_key = result.get("ref_key") or result.get("id") or result.get("title") or result.get("hymn")
+                if ref_key:
+                    title = self.humanize_key(str(ref_key))
+                    return f'<p class="rubric">[{title}]</p>'
+                return ""
             res_str = str(result)
             if not res_str.startswith("<"):
                 return f'<p>{res_str}</p>'
             return res_str
+
+    def humanize_key(self, key):
+        if not key:
+            return ""
+        k = str(key).replace("_", " ").replace(".", " ")
+        return " ".join(w.capitalize() for w in k.split())
 
     def _format_canon_block(self, result, context):
         output = []

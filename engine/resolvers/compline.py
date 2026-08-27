@@ -127,7 +127,47 @@ class ComplineMixin:
             "afterfeast" in str(context.get("title", "")).lower() or
             "apodosis" in str(context.get("title", "")).lower()
         )
-        rank = self.calculate_rank(context)
+        rank = context.get("rank", 5)
+        if isinstance(rank, str):
+            from engine.utils.type_utils import parse_rank_integer
+            rank = parse_rank_integer(rank)
+
+        # Suppress Octoechos, Temple, and general troparia when negative flag set, during Holy Week, or on Great Feasts of the Lord
+        suppress_temple = context.get("suppress_temple_troparia") or (rubrics and rubrics.get("variables", {}).get("suppress_temple_troparia"))
+        season = context.get("season_id", "") or context.get("season", "")
+        pascha_off = context.get("pascha_offset")
+        
+        if pascha_off == -7 or "palm" in str(context.get("title", "")).lower():
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "festal_kontakion", "ref_key": "Kontakion of Palm Sunday"}
+                ]
+            }
+
+        if season == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
+            if pascha_off == -3:
+                k_title = "Kontakion of Great Thursday"
+            elif pascha_off == -2:
+                k_title = "Kontakion of Great Friday"
+            elif pascha_off == -1:
+                k_title = "Kontakion of Great Saturday"
+            else:
+                k_title = "Kontakion of the Day (Triodion)"
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "triodion_kontakion", "ref_key": k_title}
+                ]
+            }
+
+        if suppress_temple:
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "festal_kontakion", "ref_key": "Kontakion of the Day"}
+                ]
+            }
 
         # Polyeleos is rank <= 3
         if not day == 0 and is_afterfeast and rank <= 3:
@@ -203,7 +243,26 @@ class ComplineMixin:
         Determines which canon is read at Small Compline.
         """
         day = context.get("day_of_week", 0)
-        
+        pascha_off = context.get("pascha_offset")
+        season = context.get("season_id", "") or context.get("season", "")
+
+        # 0. Holy Week Small Compline Triodes / Canons
+        if season == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
+            if pascha_off == -3:
+                return {
+                    "type": "triodion_compline_triode",
+                    "subject": "great_thursday_triode",
+                    "book": "triodion",
+                    "note": "Triode of St. Andrew of Crete ('O thou who from the virgin earth...')"
+                }
+            elif pascha_off == -2:
+                return {
+                    "type": "triodion_compline_canon",
+                    "subject": "great_friday_lamentation",
+                    "book": "triodion",
+                    "note": "Canon on the Crucifixion of the Lord and the Lamentation of the Theotokos by Symeon the Logothete"
+                }
+
         # 1. Forefeast / Afterfeast / Feast overrides
         if context.get("is_forefeast"):
              return {"type": "canon", "subject": "canon_forefeast", "book": "menaion", "source": "canon_forefeast"}
