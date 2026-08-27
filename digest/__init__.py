@@ -8,6 +8,7 @@ from .formatters.lenten import LentenFormatterMixin
 from .formatters.paschal import PaschalFormatterMixin
 from .formatters.ceremonial import CeremonialFormatterMixin
 from .formatters.common import CommonFormatterMixin
+from .formatters.footnotes import FootnoteFormatterMixin
 
 class TypikonDigestGenerator(
     DigestGeneratorBase,
@@ -20,5 +21,6 @@ class TypikonDigestGenerator(
     PaschalFormatterMixin,
     CeremonialFormatterMixin,
     CommonFormatterMixin,
+    FootnoteFormatterMixin,
 ):
     pass

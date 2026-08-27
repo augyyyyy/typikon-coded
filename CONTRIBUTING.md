@@ -15,7 +15,7 @@ If you find a logic error (e.g., "The engine prescribed the wrong Tone for Sunda
 The project is always in need of more text assets (especially for the Menaion and Triodion).
 
 1.  Fork the repository.
-2.  Follow the [Data Structure Guide](DATA_STRUCTURE.md) to create valid JSON assets.
+2.  Please read the [Data Structure Guide](docs/DATA_STRUCTURE.md) to understand the structure of the JSON database.
 3.  Place them in the appropriate `assets/` subfolder.
 4.  Submit a Pull Request.
 

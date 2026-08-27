@@ -66,7 +66,7 @@
 | D1 | Sessional 1 | ❌ Missing | `resolve_sessional` | I:204 "to 2nd Sessional inclusive" |
 | D2 | Sessional 2 | ❌ Missing | `resolve_sessional` | I:204 |
 | D3 | Katavasia pattern | ⚠️ All odes | Only 3,6,8,9 | I:204 "only after 3rd, 6th, 8th, 9th" |
-| D4 | Exapostilarion | ❌ Missing | `resolve_exapostilarion` | I:204 "after the Exaposteilarion" |
+| D4 | Exapostilarion | ❌ Missing | `resolve_exapostilarion` | I:204 "after the Exapostilarion" |
 | D5 | Dismissal Theotokion | ❌ Missing | `resolve_dismissal_theotokion` | I:204 "Dismissal Theotokion...of the day" |
 
 ### Lenten Matins (`lenten_matins_weekday`) — 9 STRUCTURAL ELEMENTS

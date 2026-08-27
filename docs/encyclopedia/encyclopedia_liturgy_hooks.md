@@ -112,15 +112,15 @@
 **Hook:** `resolve_liturgy_megalynarion(context, rubrics)` ✅ IMPLEMENTED
 **Hook:** `resolve_basil_megalynarion(context)` ✅ IMPLEMENTED
 
-| Occasion | Irmos/Hymn |
+| Occasion | Heirmos/Hymn |
 |:---------|:-----------|
 | Default (Chrysostom) | "It is truly meet to bless thee..." (Axion Estin) |
 | Basil Liturgy | "In thee rejoiceth..." |
-| Pascha - Ascension | "The Angel cried..." (9th Ode Irmos) |
-| Great Feast | Irmos of Feast 9th Ode |
-| Bright Week | Paschal Irmos |
+| Pascha - Ascension | "The Angel cried..." (9th Ode Heirmos) |
+| Great Feast | Heirmos of Feast 9th Ode |
+| Bright Week | Paschal Heirmos |
 
-> **Dolnytsky Part II**: "Instead of 'It is truly meet', we sing the Irmos of the 9th Ode."
+> **Dolnytsky Part II**: "Instead of 'It is truly meet', we sing the Heirmos of the 9th Ode."
 
 ---
 

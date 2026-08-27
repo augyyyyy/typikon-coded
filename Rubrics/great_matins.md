@@ -61,11 +61,11 @@ After each Kathisma and its Small Litany, the Sessional Hymns are appointed.
 
 ---
 
-## 5. Hypakoe and Anabathmoi (Degrees / Stepenna)
+## 5. Hypakoe and Anabathmoi (Degrees / Gradual (Anabathmoi))
 **JSON node:** `hypakoe_anabathmoi_prokeimenon`
 
 Structurally, this node is occupied by the Hypakoe on Sundays, and by the 3rd Sessional Hymn (Sidalen) on Feasts. They serve identical functions for their respective services.
-*On Sundays*, the 3rd Sessional Hymn is suppressed and the Resurrectional **Hypakoe** of the tone is read FIRST, followed by the Anabathmoi (Stepenna) of the **Tone of the Week**.
+*On Sundays*, the 3rd Sessional Hymn is suppressed and the Resurrectional **Hypakoe** of the tone is read FIRST, followed by the Anabathmoi (Gradual (Anabathmoi)) of the **Tone of the Week**.
 *On Feasts*, the **Polyeleos Sessional Hymn** of the Feast is sung FIRST (no Hypakoe is taken), followed by the 1st Antiphon of Tone 4 *"From my youth..."* as the Anabathmoi.
 *(Exception: On Sundays that coincide with a Polyeleos Saint or Feast, BOTH elements are taken. See Appendix B for the "Double Stack").*
 
@@ -194,33 +194,33 @@ When a *Saint with Polyeleos* falls on a Sunday, the saint's sessional hymns are
 
 ## Appendix C: Canon Distribution Mathematics
 
-The combination of Canons must equal 14 (sometimes 12 on Feasts), inclusive of the Irmos.
-*Note: The Irmos is only sung for the FIRST Canon listed.*
+The combination of Canons must equal 14 (sometimes 12 on Feasts), inclusive of the Heirmos.
+*Note: The Heirmos is only sung for the FIRST Canon listed.*
 
 ### Octoechos & Menaion Distributions
 
 **Sunday + Simple Saint on 4 ("On 14")**
-- `Resurrection` (w/ Irmos): 4
-- `Cross-Resurrection` (w/o Irmos): 3
-- `Theotokos` (w/o Irmos): 3
+- `Resurrection` (w/ Heirmos): 4
+- `Cross-Resurrection` (w/o Heirmos): 3
+- `Theotokos` (w/o Heirmos): 3
 - `Saint`: 4
 *(Total: 14)*
 
 **Sunday + Two Saints ("On 14")**
-- `Resurrection` (w/ Irmos): 4
+- `Resurrection` (w/ Heirmos): 4
 - `Theotokos`: 2
 - `First Saint`: 4
 - `Second Saint`: 4
 *(Total: 14. Cross-Resurrection is suppressed.)*
 
 **Sunday + Polyeleos or Vigil Saint on 8 ("On 14")**
-- `Resurrection` (w/ Irmos): 4
+- `Resurrection` (w/ Heirmos): 4
 - `Theotokos`: 2
 - `Saint`: 8
 *(Total: 14. Cross-Resurrection is suppressed.)*
 
 **Feast of the Lord or Theotokos ("On 12" or "On 14")**
-- `Feast Canon 1 + Canon 2`: 12 (Irmoi sung twice to equal 14 total, or troparia read to 12).
+- `Feast Canon 1 + Canon 2`: 12 (Heirmoi sung twice to equal 14 total, or troparia read to 12).
 - *If Sunday + Feast of Theotokos:* `Resurrection` 4 + `Theotokos (Octoechos)` 2 + `Feast` 8 = 14.
 
 ### Triodion Distributions (Lenten Season)
@@ -228,14 +228,14 @@ The combination of Canons must equal 14 (sometimes 12 on Feasts), inclusive of t
 During the Lenten season, the Menaion is often suppressed to Compline to make room for the Triodion.
 
 **Sundays of Great Lent (e.g. Sunday of Orthodoxy, Cross Veneration) ("On 14")**
-- `Resurrection` (w/ Irmos): 4
+- `Resurrection` (w/ Heirmos): 4
 - `Cross-Resurrection`: 2
 - `Theotokos`: 2
 - `Triodion`: 6
 *(Total: 14. Menaion is suppressed.)*
 
 **Sunday of the Publican & Pharisee / Prodigal Son ("On 14")**
-- `Resurrection` (w/ Irmos): 4
+- `Resurrection` (w/ Heirmos): 4
 - `Cross-Resurrection` (or *Theotokos* if only one is taken): 2
 - `Triodion`: 4
 - `Menaion`: 4

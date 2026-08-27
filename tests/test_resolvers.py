@@ -134,7 +134,10 @@ class TestResolvers(unittest.TestCase):
         ctx = {"day_of_week": 0}
         res = self.engine.resolve_daily_kathisma(ctx)
         self.assertEqual(res["number"], 0)
-        ctx = {"day_of_week": 3}
+        ctx = {"day_of_week": 3} # Ordinary Summer Wednesday -> Kathisma 12
+        res = self.engine.resolve_daily_kathisma(ctx)
+        self.assertEqual(res["number"], 12)
+        ctx = {"day_of_week": 3, "season": "lent"} # Lenten Wednesday -> Kathisma 18
         res = self.engine.resolve_daily_kathisma(ctx)
         self.assertEqual(res["number"], 18)
         

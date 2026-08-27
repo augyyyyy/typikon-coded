@@ -30,7 +30,7 @@
 > "If two saints occur... to the first saint - 3, and to the second - 2 (Total 5)." (Dolnytsky, Part II, Line 37). *Implies filling the count.*
 
 ## 2. Canon Troparia ("On 4", "On 6", "On 8", "On 14")
-**The Rule:** The "Irmos" is strictly distinct from the Troparia count. The count refers *only* to the troparia that follow the Irmos.
+**The Rule:** The "Heirmos" is strictly distinct from the Troparia count. The count refers *only* to the troparia that follow the Heirmos.
 
 *   **Standard Repetition Patterns:**
     *   **Have 3, Need 4:** 1st comes twice. (1, 1, 2, 3).
@@ -39,17 +39,17 @@
     *   **Have 4, Need 6:** First two come twice. (1, 1, 2, 2, 3, 4).
 
 > [!NOTE]
-> **Dolnytsky Specifics:** Dolnytsky often specifies "The Irmos of the first canon is taken, the others are not." The total count (e.g., "14") usually includes the Irmos of the *leading* canon but excludes the others.
-> *   *Formula:* Total = (Irmos x 1) + (Canon A Troparia) + (Canon B Troparia).
+> **Dolnytsky Specifics:** Dolnytsky often specifies "The Heirmos of the first canon is taken, the others are not." The total count (e.g., "14") usually includes the Heirmos of the *leading* canon but excludes the others.
+> *   *Formula:* Total = (Heirmos x 1) + (Canon A Troparia) + (Canon B Troparia).
 > 
 > ### Matins Canon "On X" Table (Sunday)
 > Based on Dolnytsky Part II, Line 179:
 > 
 > | Sunday Rank | Leading Canon | Second Canon | Total Count |
 > | :--- | :--- | :--- | :--- |
-> | Sunday Only | Resurrection (4) | Cross-Res (3) + Theo (3) | **14** (Inc. Irmos) |
-> | Sunday + Saint (S) | Resurrection (4) | Theo (3) + Saint (3) | **14** (Inc. Irmos) |
-| Sunday + Saint (Vig) | Resurrection (4) | Theo (3) + Saint (6) | **16** (Inc. Irmos) |
+> | Sunday Only | Resurrection (4) | Cross-Res (3) + Theo (3) | **14** (Inc. Heirmos) |
+> | Sunday + Saint (S) | Resurrection (4) | Theo (3) + Saint (3) | **14** (Inc. Heirmos) |
+| Sunday + Saint (Vig) | Resurrection (4) | Theo (3) + Saint (6) | **16** (Inc. Heirmos) |
 
 ## 3. Sessional Hymns (Sidalnyi)
 

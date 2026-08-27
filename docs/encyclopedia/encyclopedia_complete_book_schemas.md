@@ -26,9 +26,9 @@ Per Dolnytsky Part II, Lines 36-77, each tone requires:
 | Sessional Hymns (after Kathisma 1) | `tone_N.sun_matins.sessional_1.1-3` | 3 | |
 | Sessional Hymns (after Kathisma 2) | `tone_N.sun_matins.sessional_2.1-3` | 3 | |
 | Hypakoe | `tone_N.sun_matins.hypakoe` | 1 | After Polyeleos |
-| Gradual/Stepenna | `tone_N.sun_matins.gradual.antiphon_1-3` | 3 | Antiphons |
+| Gradual/Gradual (Anabathmoi) | `tone_N.sun_matins.gradual.antiphon_1-3` | 3 | Antiphons |
 | Prokeimenon | `tone_N.sun_matins.prokeimenon` | 1 | Resurrectional |
-| Canon (Resurrection) | `tone_N.sun_matins.canon_resurrection.ode_1-9` | 9 | With Irmos |
+| Canon (Resurrection) | `tone_N.sun_matins.canon_resurrection.ode_1-9` | 9 | With Heirmos |
 | Canon (Cross-Resurrection) | `tone_N.sun_matins.canon_cross_resurrection.ode_1-9` | 9 | |
 | Canon (Theotokos) | `tone_N.sun_matins.canon_theotokos.ode_1-9` | 9 | |
 | Kontakion-Ikos | `tone_N.sun_matins.kontakion`, `tone_N.sun_matins.ikos` | 2 | After Ode 6 |
@@ -83,7 +83,7 @@ All of "on 4" PLUS:
 | Element | ID Pattern | Note |
 |:--------|:-----------|:-----|
 | Full Vespers | All Polyeleos elements + Readings (3) | |
-| Lytia | `menaion.MMDD.vespers.litiya.1-6` | |
+| Litiya | `menaion.MMDD.vespers.litiya.1-6` | |
 | Blessing of Loaves | Troparion 3x | |
 | Full Matins | Polyeleos + Magnificat refrains + Full canon (2) | |
 | Liturgy Antiphons | `menaion.MMDD.liturgy.antiphon_1-3` | Festal |

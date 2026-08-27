@@ -24,6 +24,7 @@ from engine.resolvers.paschal import PaschalMixin
 from engine.resolvers.ceremonial import CeremonialMixin
 from engine.resolvers.common import CommonResolverMixin
 from engine.resolvers.regional_chant import RegionalChantMixin
+from engine.resolvers.footnotes import FootnoteResolverMixin
 
 
 class RuthenianEngine(
@@ -42,6 +43,7 @@ class RuthenianEngine(
     CeremonialMixin,
     CommonResolverMixin,
     RegionalChantMixin,
+    FootnoteResolverMixin,
 ):
     """
     Ruthenian Typikon Engine — Byzantine Rite liturgical constraint-logic engine.

@@ -334,62 +334,75 @@ class MatinsMixin:
 
     def resolve_matins_kathisma(self, context):
         """
-        Implements Logic Gate 3: Matins Kathisma Scheduler.
-        Determines the Kathisma readings based on Day of Week and Season.
-        Ref: Dolnytsky Part II.
-        
-        Standard Weekly Cycle (Normal Period):
-          Sun: 2, 3 (Polyeleos replaces 3rd slot if Rank 3+)
-          Mon: 4, 5
-          Tue: 6, 7
-          Wed: 8, 9
-          Thu: 10, 11
-          Fri: 13, 14
-          Sat: 16, 17
+        Determines the Matins Kathisma readings based on Day of Week and Season
+        according to the 4 canonical Psalter schedules in 02h_logic_psalter.json.
         """
-        day = context.get("day_of_week", 0) # 0=Sun, 1=Mon...
-        period = context.get("period", "normal")
+        day = context.get("day_of_week", 0)
+        pascha_offset = context.get("pascha_offset")
         
-        # Lenten Logic (Triodion)
-        if period == "triodion":
-             # Simplified Lenten Scheme (needs full expansion later)
-             # Sun: 2, 3 (Same as normal)
-             # Weekdays: 3 Kathismas!
-             # Mon: 4, 5, 6
-             # Tue: 7, 8, 9
-             # Wed: 10, 11, 12
-             # Thu: 13, 14, 15
-             # Fri: 18, 19, 20 (Note: Fri is unique)
-             # Sat: 16, 17 (Same)
-             if day == 0: return ["kathisma_2", "kathisma_3"]
-             if day == 1: return ["kathisma_4", "kathisma_5", "kathisma_6"]
-             if day == 2: return ["kathisma_7", "kathisma_8", "kathisma_9"]
-             if day == 3: return ["kathisma_10", "kathisma_11", "kathisma_12"]
-             if day == 4: return ["kathisma_13", "kathisma_14", "kathisma_15"]
-             if day == 5: return ["kathisma_18", "kathisma_19", "kathisma_20"] # Check Dolnytsky_Typikon_Master.md:1.5.1.6, usually 19,20 on Fri?
-             if day == 6: return ["kathisma_16", "kathisma_17"]
+        # 1. Pascha / Bright Week suppression
+        if context.get("season") in ("bright_week", "pascha") or context.get("season_id") == "pascha" or (pascha_offset is not None and 0 <= pascha_offset <= 6):
+            return []
+            
+        # 2. Determine schedule
+        is_lent = (
+            context.get("season") in ("great_lent", "lent") or
+            context.get("season_id") in ("great_lent", "lent") or
+            context.get("period") in ("triodion", "lent", "great_lent") or
+            (pascha_offset is not None and -48 <= pascha_offset <= -8)
+        )
         
-        # Normal Logic
-        mapping = {
+        schedule_key = "summer"
+        if is_lent:
+            schedule_key = "lent"
+        else:
+            date_val = context.get("date")
+            mmdd = ""
+            if hasattr(date_val, "strftime"):
+                mmdd = date_val.strftime("%m%d")
+            elif isinstance(date_val, str) and len(date_val) >= 10:
+                parts = date_val.split("-")
+                if len(parts) == 3:
+                    mmdd = f"{parts[1]}{parts[2]}"
+                    
+            if mmdd:
+                if "0922" <= mmdd <= "1219":
+                    schedule_key = "winter"
+                elif "0115" <= mmdd:
+                    if pascha_offset is not None and pascha_offset <= -8:
+                        schedule_key = "winter"
+
+        # 3. Load from 02h_logic_psalter.json
+        psalter_db = getattr(self, "_psalter_db", None)
+        if psalter_db is None:
+            try:
+                base_dir = getattr(self, "base_dir", ".")
+                psalter_path = os.path.join(base_dir, "json_db", "02h_logic_psalter.json")
+                if not os.path.exists(psalter_path):
+                    parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                    psalter_path = os.path.join(parent_dir, "json_db", "02h_logic_psalter.json")
+                if os.path.exists(psalter_path):
+                    with open(psalter_path, "r", encoding="utf-8") as f:
+                        psalter_db = json.load(f)
+                    self._psalter_db = psalter_db
+            except Exception:
+                pass
+
+        if psalter_db and "schedules" in psalter_db and schedule_key in psalter_db["schedules"]:
+            nums = psalter_db["schedules"][schedule_key].get("matins", {}).get(str(day), [])
+            return [f"kathisma_{n}" for n in nums]
+
+        # Canonical Summer fallback
+        summer_fallback = {
             0: ["kathisma_2", "kathisma_3"],
             1: ["kathisma_4", "kathisma_5"],
-            2: ["kathisma_6", "kathisma_7"],
-            3: ["kathisma_8", "kathisma_9", "kathisma_10"],
-            4: ["kathisma_10", "kathisma_11"],
-            5: ["kathisma_13", "kathisma_14"], # Kathisma 12 is skipped? No, 12 is usually Mon Vespers?
-            # 12 is usually Wed Matins in Lent. 
-            # In Normal week: 1-8 are Vespers. 
-            # Ps 1-8 = Kath 1. Vespers Sat = Kath 1.
-            # Vespers Sun = No Kathisma?
-            # Matins Mon = 4, 5. Vespers Mon = 6.
-            # Matins Tue = 7, 8. Vespers Tue = 9.
-            # ...
-            # Let's stick to Dolnytsky Part I/II specific list.
-            # Standard Parochial Use covers:
+            2: ["kathisma_7", "kathisma_8"],
+            3: ["kathisma_10", "kathisma_11"],
+            4: ["kathisma_13", "kathisma_14"],
+            5: ["kathisma_19", "kathisma_20"],
             6: ["kathisma_16", "kathisma_17"]
         }
-        
-        return mapping.get(day, ["kathisma_unknown"])
+        return summer_fallback.get(day, ["kathisma_2", "kathisma_3"])
 
 
     def resolve_god_is_the_lord_troparia(self, context):

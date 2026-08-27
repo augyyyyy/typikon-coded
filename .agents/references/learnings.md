@@ -1,6 +1,6 @@
 # Typikon Coded: Project Learnings & Encyclopedia
 
-This document serves as the deep encyclopedic memory of the project, holding complex liturgical logic, data structures, and implementation details. It is one of the three core "Brain Print" files (alongside `.cursorrules` and `.agent/brain/project_brainprint.md`).
+This document serves as the deep encyclopedic memory of the project, holding complex liturgical logic, data structures, and implementation details. It is one of the three core "Brain Print" files (alongside `.cursorrules` and `.agents/brain/project_brainprint.md`).
 
 ---
 
@@ -93,7 +93,7 @@ The Typikon Coded engine utilizes several decoupled English translation recensio
 > **CONTEXT WINDOW DILUTION** is a lethal failure mode where the AI forgets its core operational constraints (e.g., "cite Dolnytsky for everything", "never fabricate progress") because the immediate context window is flooded with recent task noise (like fixing a Python syntax error or formatting markdown). The AI's base generative nature takes over, and it starts behaving like a generic assistant rather than the strict Liturgical Architect.
 
 **The Anti-Dilution Protocol:**
-1. **Periodic Snapping:** If a conversation exceeds 10 turns, or immediately after a long coding/debugging session, the AI MUST forcibly "zoom out" and re-read `.cursorrules` and `.agent/brain/encyclopedia/encyclopedia_persona_and_rules.md`.
+1. **Periodic Snapping:** If a conversation exceeds 10 turns, or immediately after a long coding/debugging session, the AI MUST forcibly "zoom out" and re-read `.cursorrules` and `.agents/brain/encyclopedia/encyclopedia_persona_and_rules.md`.
 2. **The "Dolnytsky Test":** If you find yourself writing a rubric or making a decision *without* actively recalling the Dolnytsky Typikon paragraph, you are suffering from Dilution. STOP. Read the persona rules. Realign your context.
 3. **No Drift:** Never assume you "remember" the constraints. The LLM attention mechanism mathematically guarantees that older tokens (the system prompt and early constraints) lose weight compared to recent tokens (the current debugging task). Combat this by actively injecting the constraints back into your immediate context by reading them again.
 
@@ -279,7 +279,7 @@ The digest generator now has a `redirects` dict in `_format_logic_hook()` that m
   - `service_structure.schema.json` was rewritten to match this format.
   - Schema validation now covers **24/24 files** (was silently skipping 11 struct files).
 - **Technical Debt**: Removed duplicate legacy shim (`ruthenian_engine_shim.py`).
-- **Documentation Consolidation**: The `.agent/brain/` directory contains 16 master reference documents and 5 subdirectories of deep architecture/audit/encyclopedia docs. The `archive/docs/` directory preserves the 5 original root-level `.md` files that were consolidated into `.cursorrules` and `.ai/learnings.md`.
+- **Documentation Consolidation**: The `.agents/brain/` directory contains 16 master reference documents and 5 subdirectories of deep architecture/audit/encyclopedia docs. The `archive/docs/` directory preserves the 5 original root-level `.md` files that were consolidated into `.cursorrules` and `.ai/learnings.md`.
 
 ## VII. Digest Generation & Resolver Mapping Learnings (2026-06-05)
 

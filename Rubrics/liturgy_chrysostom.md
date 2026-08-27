@@ -105,7 +105,7 @@ The Anaphora of St. John Chrysostom is celebrated.
 **JSON node:** `megalynarion_block`
 
 *Usually*, the choir sings the Megalynarion (Axion Estin): *"It is truly meet to bless thee, O Theotokos..."*
-*On Great Feasts (and their afterfeasts/leavetakings)*, the Irmos of the 9th Ode of the Feast's Canon is sung instead.
+*On Great Feasts (and their afterfeasts/leavetakings)*, the Heirmos of the 9th Ode of the Feast's Canon is sung instead.
 *During the Paschal season*, *"The Angel Cried..."* is sung.
 
 ---

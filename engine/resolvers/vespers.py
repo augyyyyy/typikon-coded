@@ -1514,37 +1514,105 @@ class VespersMixin:
     @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.1")
     def resolve_daily_kathisma(self, context, rubrics=None):
         """
-        Resolves the daily kathisma for Vespers.
-        - Saturday (6) (Saturday evening Vespers for Sunday): Kathisma 1 (Blessed is the man).
-        - Sunday (0) (Sunday evening Vespers for Monday): None (or Kathisma 4 in Great Lent).
-        - Other weekdays (Monday-Friday, 1-5): None for Great Feasts / Vigils, Kathisma 18 for others.
+        Resolves the daily kathisma for Vespers according to the 4 canonical Psalter schedules:
+        - Summer Schedule (All Saints to Sep 21): Mon Eve K6, Tue Eve K9, Wed Eve K12, Thu Eve K15, Fri Eve K18, Sat Eve K1, Sun Eve None.
+        - Winter Schedule (Sep 22 to Cheesefare): Weekday Eves K18, Sat Eve K1, Sun Eve None.
+        - Lenten Schedule (Great Lent): Sun Eve K4, Weekday Eves K18, Sat Eve K1.
+        - Paschal / Feast of the Lord: None.
         """
         day = context.get("day_of_week", 0)
-        is_lent = context.get("season") == "great_lent" or context.get("season_id") == "great_lent" or (context.get("pascha_offset") is not None and -48 <= context.get("pascha_offset") <= -8)
+        pascha_offset = context.get("pascha_offset")
         
-        if day == 6: # Saturday evening -> Sunday Vespers
-            return {"type": "kathisma", "number": 1, "ref_key": "horologion.kathisma_1", "rubric_note": "Kathisma 1 (Blessed is the man)"}
-        elif day == 0: # Sunday evening -> Monday Vespers
-            if is_lent:
-                return {"type": "kathisma", "number": 4, "ref_key": "horologion.kathisma_4", "rubric_note": "Kathisma 4"}
-            return {"type": "none", "number": 0, "ref_key": None}
-        else: # Weekdays Monday-Friday
-            rank_val = context.get("rank", 5)
-            if isinstance(rank_val, str):
-                from engine.utils.type_utils import parse_rank_integer
-                try:
-                    rank_val = parse_rank_integer(rank_val)
-                except:
-                    rank_val = 5
+        rank_val = context.get("rank", 5)
+        if isinstance(rank_val, str):
+            from engine.utils.type_utils import parse_rank_integer
+            try:
+                rank_val = parse_rank_integer(rank_val)
+            except Exception:
+                rank_val = 5
+                
+        is_great_service = (
+            rank_val in (1, 2) or
+            context.get("feast_level") in ("lord", "theotokos") or
+            context.get("menaion_class") in ("Class I — Great Feast", "Class II — Vigil")
+        )
+        
+        # Saturday evening (for Sunday): Kathisma 1 is always sung unless Holy Saturday night
+        if day == 6:
+            if pascha_offset == -1: # Holy Saturday evening
+                return {"type": "none", "number": 0, "ref_key": None, "rubric_note": "No Kathisma on Holy Saturday evening."}
+            stasis = "all 3 stases" if (is_great_service or pascha_offset == 6) else "1st stasis"
+            return {"type": "kathisma", "number": 1, "ref_key": "horologion.kathisma_1", "rubric_note": f"Kathisma 1 (Blessed is the man, {stasis})"}
             
-            is_great_service = (
-                rank_val in (1, 2) or
-                context.get("feast_level") in ("lord", "theotokos") or
-                context.get("menaion_class") in ("Class I — Great Feast", "Class II — Vigil")
-            )
-            if is_great_service:
-                return {"type": "none", "number": 0, "ref_key": None}
-            return {"type": "kathisma", "number": 18, "ref_key": "horologion.kathisma_18", "rubric_note": "Kathisma 18"}
+        # 1. Paschal & Great Feast of Lord suppression for weekdays
+        if context.get("season") in ("bright_week", "pascha") or context.get("season_id") == "pascha" or (pascha_offset is not None and 0 <= pascha_offset <= 5):
+            return {"type": "none", "number": 0, "ref_key": None, "rubric_note": "No Kathisma during Bright Week."}
+        
+        # Great Feasts suppress weekday Vespers Kathisma
+        if is_great_service:
+            return {"type": "none", "number": 0, "ref_key": None, "rubric_note": "Kathisma suppressed on Great Feasts and Vigils."}
+
+        # 2. Determine Psalter schedule
+        is_lent = (
+            context.get("season") in ("great_lent", "lent") or
+            context.get("season_id") in ("great_lent", "lent") or
+            (pascha_offset is not None and -48 <= pascha_offset <= -8)
+        )
+        
+        schedule_key = "summer"
+        if is_lent:
+            schedule_key = "lent"
+        else:
+            # Check calendar window for winter schedule
+            date_val = context.get("date")
+            mmdd = ""
+            if hasattr(date_val, "strftime"):
+                mmdd = date_val.strftime("%m%d")
+            elif isinstance(date_val, str) and len(date_val) >= 10:
+                parts = date_val.split("-")
+                if len(parts) == 3:
+                    mmdd = f"{parts[1]}{parts[2]}"
+                    
+            if mmdd:
+                # Window 1: Sep 22 to Dec 19
+                # Window 2: Jan 15 to Cheesefare Saturday
+                if "0922" <= mmdd <= "1219":
+                    schedule_key = "winter"
+                elif "0115" <= mmdd:
+                    if pascha_offset is not None and pascha_offset <= -8:
+                        schedule_key = "winter"
+
+        # 3. Load from 02h_logic_psalter.json
+        psalter_db = getattr(self, "_psalter_db", None)
+        if psalter_db is None:
+            try:
+                psalter_path = os.path.join(getattr(self, "base_dir", "."), "json_db", "02h_logic_psalter.json")
+                if os.path.exists(psalter_path):
+                    with open(psalter_path, "r", encoding="utf-8") as f:
+                        psalter_db = json.load(f)
+                    self._psalter_db = psalter_db
+            except Exception:
+                pass
+
+        if psalter_db and "schedules" in psalter_db and schedule_key in psalter_db["schedules"]:
+            entry = psalter_db["schedules"][schedule_key].get("vespers", {}).get(str(day))
+            if entry:
+                return entry
+
+        # Fallback if DB missing
+        if schedule_key == "summer":
+            summer_map = {
+                0: {"type": "none", "number": 0, "ref_key": None},
+                1: {"type": "kathisma", "number": 6, "ref_key": "horologion.kathisma_6", "rubric_note": "Kathisma 6"},
+                2: {"type": "kathisma", "number": 9, "ref_key": "horologion.kathisma_9", "rubric_note": "Kathisma 9"},
+                3: {"type": "kathisma", "number": 12, "ref_key": "horologion.kathisma_12", "rubric_note": "Kathisma 12"},
+                4: {"type": "kathisma", "number": 15, "ref_key": "horologion.kathisma_15", "rubric_note": "Kathisma 15"},
+                5: {"type": "kathisma", "number": 18, "ref_key": "horologion.kathisma_18", "rubric_note": "Kathisma 18"},
+                6: {"type": "kathisma", "number": 1, "ref_key": "horologion.kathisma_1", "rubric_note": "Kathisma 1"}
+            }
+            return summer_map.get(day, {"type": "none", "number": 0, "ref_key": None})
+            
+        return {"type": "kathisma", "number": 18, "ref_key": "horologion.kathisma_18", "rubric_note": "Kathisma 18"}
 
     def resolve_vespers_kathisma(self, context, rubrics=None):
         """

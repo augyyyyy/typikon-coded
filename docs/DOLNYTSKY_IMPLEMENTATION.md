@@ -303,14 +303,14 @@ The engine builds the final Dismissal (*Otpušt*) dynamically based on the resol
 4.  **Liturgy Writer**: Appends St. John Chrysostom, St. Basil the Great, or St. Gregory Dialogos depending on the active Liturgy type.
 
 ### D. Katavasia Seasonal Selector Matrix
-The engine resolves which Katavasia (irmos of the seasonal canon) to sing at Matins using the logic defined in [02e_logic_katavasia.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02e_logic_katavasia.json) and [katavasia_seasons.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/katavasia_seasons.json):
-1.  **Daily Matins Rule**: For daily (non-Great) Matins, Katavasia is restricted to Odes 3, 6, 8, and 9 and is taken from the irmos of the last canon, not the season.
+The engine resolves which Katavasia (heirmos of the seasonal canon) to sing at Matins using the logic defined in [02e_logic_katavasia.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02e_logic_katavasia.json) and [katavasia_seasons.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/katavasia_seasons.json):
+1.  **Daily Matins Rule**: For daily (non-Great) Matins, Katavasia is restricted to Odes 3, 6, 8, and 9 and is taken from the heirmos of the last canon, not the season.
 2.  **Immovable Ranges**: The year is split into 10 seasonal blocks (e.g., Nov 21 - Dec 31: "Christ is born"; Jan 1 - Jan 14: "The depths").
 3.  **Movable Ranges**: Overrides for the Pentecostarion period (Pascha to All Saints) map specific offsets to movable Katavasiae (e.g., Pascha to Thomas Sunday: "The Resurrection Day"; Ascension: "To the Savior").
 
 ### E. Temple/Patronal Override Logic
 Defined in [02d_logic_temple.json](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02d_logic_temple.json), the engine executes complex patronal overrides when the parish's patron feast is celebrated:
-*   **General Rules (G1–G6)**: A Temple Feast forces an All-Night Vigil rank even if the saint is daily. On Sundays, the Temple's Matins Gospel and Prokimenon take precedence over the Resurrection.
+*   **General Rules (G1–G6)**: A Temple Feast forces an All-Night Vigil rank even if the saint is daily. On Sundays, the Temple's Matins Gospel and Prokeimenon take precedence over the Resurrection.
 *   **Specific Cases (1–31)**: Dictates exact stichera, canon, and Liturgy variables for every potential collision throughout the year (e.g., Case 3: Temple on Pre-Lenten Sundays; Case 10: Temple on Lenten Sundays; Case 18: Transfers during Holy Week/Pascha).
 *   **Eucharistic Procession**: Triggers the Ruthenian custom of carrying the Eucharist around the church at the end of Liturgy.
 

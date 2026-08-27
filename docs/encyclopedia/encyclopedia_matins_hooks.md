@@ -87,11 +87,11 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
     *   **Sunday:** The Resurrectional **Hypakoe** is sung. (The 3rd Sidalen is suppressed).
     *   **Weekday Feast:** The **Polyeleos Sessional Hymn** of the Feast is sung. (No Hypakoe).
     *   *Exception (The Double Stack):* On a Sunday overlapping a Polyeleos Saint, BOTH elements are taken (Hypakoe FIRST, then the Saint's Sidalnyi).
-2.  **The Anabathmoi (Stepenna):**
+2.  **The Anabathmoi (Gradual (Anabathmoi)):**
     *   **Sunday:** Sung AFTER the Hypakoe, in the **Tone of the Week**.
     *   **Feast:** "First Antiphon of Tone 4" (*From my youth...*) is the default override.
 > **Primary Source Logic:**
-> "After the Hypakoe or after the third Sessional Hymn... the Gradual (Stepenna)... is sung." (Dolnytsky, Part I, Line 159).
+> "After the Hypakoe or after the third Sessional Hymn... the Gradual (Gradual (Anabathmoi))... is sung." (Dolnytsky, Part I, Line 159).
 
 ---
 
@@ -100,21 +100,21 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 **The Challenge:** Juggle 3-4 books to hit the target count (14 or 16).
 
 **Composition Logic:**
-1.  **Canon of Resurrection** (Octoechos) — with Irmos
-2.  **Canon of Cross-Resurrection** (Octoechos) — without Irmos
-3.  **Canon of Theotokos** (Octoechos) — without Irmos
-4.  **Canon of Saint** (Menaion) — without Irmos
+1.  **Canon of Resurrection** (Octoechos) — with Heirmos
+2.  **Canon of Cross-Resurrection** (Octoechos) — without Heirmos
+3.  **Canon of Theotokos** (Octoechos) — without Heirmos
+4.  **Canon of Saint** (Menaion) — without Heirmos
 
 **Calculation (Sunday + Simple Saint on 4, "On 14"):**
-*   `Resurrection` (w/ Irmos): 4
-*   `Cross-Resurrection` (w/o Irmos): 3
-*   `Theotokos` (w/o Irmos): 3
+*   `Resurrection` (w/ Heirmos): 4
+*   `Cross-Resurrection` (w/o Heirmos): 3
+*   `Theotokos` (w/o Heirmos): 3
 *   `Saint`: 4
 *   *Sum:* 14.
 *   *Citation:* **Dolnytsky Part II, Line 60:** "three of the Octoechos of the current tone on 10 and one of the Menaion to the saint on 4."
 
 **Calculation (Sunday + Two Saints, "On 14"):**
-*   `Resurrection` (w/ Irmos): 4
+*   `Resurrection` (w/ Heirmos): 4
 *   `Theotokos`: 2
 *   `First Saint`: 4
 *   `Second Saint`: 4
@@ -122,14 +122,14 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 *   *Citation:* **Dolnytsky Part II, Line 61.**
 
 **Calculation (Sunday + Polyeleos Saint on 8, "On 14"):**
-*   `Resurrection` (w/ Irmos): 4
+*   `Resurrection` (w/ Heirmos): 4
 *   `Theotokos`: 2
 *   `Saint`: 8
 *   *Sum:* 14. (Cross-Resurrection suppressed.)
 *   *Citation:* **Dolnytsky Part II, Line 179:** "Sunday Canon... on 4 and of the Theotokos on 2, and of the saint on 8."
 
 **Calculation (Feast of Lord/Theotokos, "On 12" or "On 14"):**
-*   `Feast Canon 1 + Canon 2`: 12 (Irmoi twice)
+*   `Feast Canon 1 + Canon 2`: 12 (Heirmoi twice)
 *   If Sunday + Feast of Theotokos: `Resurrection` 4 + `Theotokos (Octoechos)` 2 + `Feast` 8 = 14.
 *   *Citation:* **Dolnytsky Part II, Lines 325, 353.**
 
@@ -145,9 +145,9 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 *   **Christmas:** *Christ is Born...*
 *   **Lent:** *Open my mouth...*
 *   **Pascha:** *It is the Day of Resurrection...*
-*   **Major Feast Override:** If a Great Feast falls on Sunday, use the **Irmos of the Feast** as Katavasia.
+*   **Major Feast Override:** If a Great Feast falls on Sunday, use the **Heirmos of the Feast** as Katavasia.
 > **Primary Source Logic:**
-> "Upon the conclusion of the last troparion of each ode, the current Katavasia is sung, if the irmos of some of the canons of the Feasts of the Lord or of the Theotokos is presented... These irmoi... are used not only at Great Matins on the day of the Feasts themselves, but also at all Great Matins throughout the whole year within the limits defined by the Typikon." (Dolnytsky, Part I, Line 165).
+> "Upon the conclusion of the last troparion of each ode, the current Katavasia is sung, if the heirmos of some of the canons of the Feasts of the Lord or of the Theotokos is presented... These heirmoi... are used not only at Great Matins on the day of the Feasts themselves, but also at all Great Matins throughout the whole year within the limits defined by the Typikon." (Dolnytsky, Part I, Line 165).
 
 ---
 
@@ -157,7 +157,7 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 *   **Suppressed:** Great Feasts of Lord/Theotokos.
 *   **Result:** Sing **Festal Megalynaria** (Zadostoinyk refrains).
 > **Primary Source Logic:**
-> "If there is one service of a Feast of the Lord or of the Theotokos, then at the 9th Ode, instead of the general refrains, we sing refrains proper (given at the 9th Ode of the canon of the Feast) to all its troparia... and also to its irmoi and Katavasia." (Dolnytsky, Part I, Line 173).
+> "If there is one service of a Feast of the Lord or of the Theotokos, then at the 9th Ode, instead of the general refrains, we sing refrains proper (given at the 9th Ode of the canon of the Feast) to all its troparia... and also to its heirmoi and Katavasia." (Dolnytsky, Part I, Line 173).
 > "...with the exception of Feasts of the Lord and of the Theotokos, on which, according to ancient typikons, it is not proper to take [My soul magnifies]." (Dolnytsky, Part I, Line 174).
 
 ---
@@ -172,7 +172,7 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
     3.  Both now: Theotokion.
 
 > **Primary Source Logic:**
-> "And the Exaposteilarion on Feasts of the Lord and of the Theotokos is taken three times, that is twice – simply, and the third time – with the refrain Glory, Both now." (Dolnytsky, Part I, Line 176).
+> "And the Exapostilarion on Feasts of the Lord and of the Theotokos is taken three times, that is twice – simply, and the third time – with the refrain Glory, Both now." (Dolnytsky, Part I, Line 176).
 
 ---
 
@@ -180,7 +180,7 @@ This document serves as the **Logic Kernel** for Great Matins (Orthros). It maps
 **Hook:** `resolve_post_ode9_hymn(context)`
 **The Swap:** This preamble immediately precedes the Exapostilarion. These texts occupy the exact same node and are mutually exclusive based on the day.
 *   **Sunday:** **"Holy is the Lord our God"** is sung 3x ("It is truly meet" is entirely suppressed).
-*   **Weekday Feast:** **"It is truly meet"** or the 9th Ode Festal Irmos is sung. ("Holy is the Lord" is entirely suppressed).
+*   **Weekday Feast:** **"It is truly meet"** or the 9th Ode Festal Heirmos is sung. ("Holy is the Lord" is entirely suppressed).
 > **Primary Source Logic:**
 > "After the Katavasia of the 9th Ode... 'It is truly meet' is taken, if it is not Sunday. If it is Sunday, 'It is truly meet' is not taken... we sing 'Holy is the Lord'." (Dolnytsky, Part I, Line 176).
 

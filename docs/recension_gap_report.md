@@ -59,7 +59,7 @@ This document tracks structural and content discrepancies between the implemente
 
 ## 2. Fixed Text Gaps
 - **Six Psalms Intro**: ✅ **Verified**. "Glory to God in the highest" (3x) and "Lord, open my lips" (2x) verified in structure.
-- **Mid-Six-Psalms Doxology**: ✅ **Verified**. A liturgical Doxology was missing between Psalm 62 and 87. Added `horologion.matins.mid_six_psalms_doxology` to `01i_struct_matins.json` and `text_horologion.json`.
+- **Mid-Six-Psalms Doxology**: ✅ **Verified**. A liturgical Doxology was missing between Psalm 62 and 87. Added `horologion.matins.mid_six_psalms_doxology` to `01i_struct_matins.json` and `00_components.json`.
 
 ## 3. Structural/Order Issues
 - **Morning Prayers**: ✅ **Verified**. Split into 12 atomic prayers (`prayer_1` to `prayer_12`). Listed in structure. Logic for interleaving is deferred but structural integrity is fixed.
@@ -91,7 +91,7 @@ This document tracks structural and content discrepancies between the implemente
 ## Paschal Matins Gap Matrix (Phase 18)
 | Component | Issue Category | Detailed Finding | Remediation Action |
 | :--- | :--- | :--- | :--- |
-| **Paschal Canon** | **Missing Assets** | `pentecostarion.canon_pascha` is missing. | Import full Paschal Canon (Irmos, Troparia, Katavasia). |
+| **Paschal Canon** | **Missing Assets** | `pentecostarion.canon_pascha` is missing. | Import full Paschal Canon (Heirmos, Troparia, Katavasia). |
 | **Opening Rite** | **Missing Assets** | `pentecostarion.opening_let_god_arise` is missing. | Import initial Paschal verses/stichera. |
 | **Dismissal** | **Missing Assets** | `pentecostarion.dismissal_paschal_full` is missing. | Import the specific Dialogical Paschal Dismissal. |
 | **Praises** | **Logic Stub** | `resolve_bright_praises` exists but rendered as a stub variable. | Implement logic to fill Paschal praises (Resurrectional Stichera + Paschal Stichera). |

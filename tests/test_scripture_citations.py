@@ -277,8 +277,8 @@ def test_scripture_citations_bounds():
     
     errors = []
     for filepath in json_files:
-        # Skip output files or almanacs since they are generated from these sources
-        if "almanac" in str(filepath) or "st_sergius" in str(filepath) or "propers_comparisons" in str(filepath):
+        # Skip output files, almanacs, or historical footnotes databases
+        if "almanac" in str(filepath) or "st_sergius" in str(filepath) or "propers_comparisons" in str(filepath) or "synodal_footnotes" in str(filepath):
             continue
             
         try:

@@ -514,6 +514,14 @@ class DigestGeneratorBase:
         res = re.sub(r'\bIrmologion\b', 'Heirmologion', res)
         res = re.sub(r'\birmologion\b', 'heirmologion', res)
         
+        # Standardize Litiya and Gradual spelling (Royal Doors standard)
+        res = re.sub(r'\bLytia\b', 'Litiya', res)
+        res = re.sub(r'\blytia\b', 'litiya', res)
+        res = re.sub(r'\bStepenna\b', 'Gradual', res)
+        res = re.sub(r'\bstepenna\b', 'gradual', res)
+        res = re.sub(r'\bStepenny\b', 'Graduals', res)
+        res = re.sub(r'\bstepenny\b', 'graduals', res)
+        
         # Capitalize and format "Both now"
         res = res.replace("both now", "Both now")
         res = res.replace("Both now... ", "Both now: ")
@@ -922,7 +930,40 @@ class DigestGeneratorBase:
             service_context = context.copy()
             service_context["active_structure_id"] = root_id
             self._process_skeleton(skeleton, service_context, rubrics, digest)
+            
+            # Attach actionable synodal footnote callouts for this service
+            try:
+                srv_footnotes = self.engine.resolve_synodal_footnotes(enriched, rubrics, service_name=service_name)
+                if srv_footnotes:
+                    callouts_str = self._format_service_synodal_callouts(srv_footnotes)
+                    if callouts_str:
+                        digest.append("")
+                        digest.append(callouts_str)
+            except Exception:
+                pass
             digest.append("")
+
+        # Collision notes
+        collision_rule = self.engine.check_collision(context)
+        if collision_rule and "rubric" in collision_rule and "notes" in collision_rule["rubric"]:
+            notes = collision_rule["rubric"]["notes"]
+            if notes:
+                digest.append("## NOTES & FOOTNOTES")
+                if isinstance(notes, list):
+                    for idx, note in enumerate(notes):
+                        digest.append(f"{idx+1}. {note}  ")
+                else:
+                    digest.append(f"{notes}  ")
+
+        try:
+            day_footnotes = self.engine.resolve_synodal_footnotes(enriched, rubrics)
+            if day_footnotes:
+                fn_section = self._format_synodal_footnotes_section(day_footnotes)
+                if fn_section:
+                    digest.append("")
+                    digest.append(fn_section)
+        except Exception:
+            pass
 
         # Flatten all lines and split by \n
         raw_lines = []
@@ -1906,6 +1947,17 @@ class DigestGeneratorBase:
                         digest.append(f"{idx+1}. {note}  ")
                 else:
                     digest.append(f"{notes}  ")
+
+        try:
+            day_footnotes = self.engine.resolve_synodal_footnotes(enriched, rubrics)
+            if day_footnotes:
+                fn_section = self._format_synodal_footnotes_section(day_footnotes)
+                if fn_section:
+                    if digest and digest[-1] != "":
+                        digest.append("")
+                    digest.append(fn_section)
+        except Exception:
+            pass
                     
         formatted_md = []
         for line in digest:

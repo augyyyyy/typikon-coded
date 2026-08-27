@@ -52,7 +52,7 @@ Psalm 50 is read immediately after the final Sessional Hymn. There are no post-G
 ## 5. The Canons
 **JSON node:** `canon_daily`
 
-Three canons are chanted, targeting a total of 14 troparia per ode. The Irmoi are sung only for the first canon of the Octoechos. 
+Three canons are chanted, targeting a total of 14 troparia per ode. The Heirmoi are sung only for the first canon of the Octoechos. 
 *See Appendix B for the exact mathematical distributions governing Daily Matins.*
 
 Following the 3rd Ode: Sessional Hymn of the saint.
@@ -64,7 +64,7 @@ Following the 6th Ode: Kontakion and Ikos of the saint (if available).
 **JSON nodes:** `katavasia_3`, `katavasia_6`, `katavasia_8`, `katavasia_9`
 
 At Daily Matins, Katavasia is only sung following the 3rd, 6th, 8th, and 9th Odes.
-In all cases, the Katavasia is the **Irmos of the last canon** (the canon of the saint), *not* the seasonal irmos.
+In all cases, the Katavasia is the **Heirmos of the last canon** (the canon of the saint), *not* the seasonal heirmos.
 
 ---
 
@@ -136,27 +136,27 @@ Litany of Fervent Supplication (*"Have mercy on us"*), followed by the Small Dis
 
 ## Appendix B: Canon Distribution Mathematics
 
-The combination of Canons must equal 14, inclusive of the Irmos.
-*Note: At Daily Matins, the Irmos is only sung for the FIRST Canon listed.*
+The combination of Canons must equal 14, inclusive of the Heirmos.
+*Note: At Daily Matins, the Heirmos is only sung for the FIRST Canon listed.*
 
 ### Octoechos & Menaion Distributions
 
 **Weekday + Simple Saint on 4 ("On 14")**
-- `Octoechos Canon 1` (w/ Irmos): 6
-- `Octoechos Canon 2` (w/o Irmos): 4
-- `Saint` (w/o Irmos): 4
+- `Octoechos Canon 1` (w/ Heirmos): 6
+- `Octoechos Canon 2` (w/o Heirmos): 4
+- `Saint` (w/o Heirmos): 4
 *(Total: 14)*
 
 **Weekday + Two Saints ("On 14")**
-- `Octoechos Canon 1` (w/ Irmos): 6 (The second Octoechos canon is not taken)
-- `First Saint` (w/o Irmos): 4
-- `Second Saint` (w/o Irmos): 4
+- `Octoechos Canon 1` (w/ Heirmos): 6 (The second Octoechos canon is not taken)
+- `First Saint` (w/o Heirmos): 4
+- `Second Saint` (w/o Heirmos): 4
 *(Total: 14)*
 
 **Weekday + Saint on 6 ("On 14")**
-- `Octoechos Canon 1` (w/ Irmos): 4 (Two martyria are omitted, except on Thursday)
-- `Octoechos Canon 2` (w/o Irmos): 4
-- `Menaion Saint` (w/o Irmos): 6
+- `Octoechos Canon 1` (w/ Heirmos): 4 (Two martyria are omitted, except on Thursday)
+- `Octoechos Canon 2` (w/o Heirmos): 4
+- `Menaion Saint` (w/o Heirmos): 6
 *(Total: 14)*
 
 ### Triodion & Pentecostarion Distributions
@@ -164,9 +164,9 @@ The combination of Canons must equal 14, inclusive of the Irmos.
 During the Pre-Lenten weeks (Publican & Pharisee to Cheesefare) and the Pentecostarion (Pascha to All Saints), Daily Matins is sung with additions from the seasonal book.
 
 **Weekday + Triodion/Pentecostarion + Simple Saint ("On 14")**
-- `Octoechos Canon 1` (w/ Irmos): 6 (The second Octoechos canon is discarded)
-- `Triodion/Pentecostarion` (w/o Irmos): 4
-- `Menaion Saint` (w/o Irmos): 4
+- `Octoechos Canon 1` (w/ Heirmos): 6 (The second Octoechos canon is discarded)
+- `Triodion/Pentecostarion` (w/o Heirmos): 4
+- `Menaion Saint` (w/o Heirmos): 4
 *(Total: 14)*
 
 ---

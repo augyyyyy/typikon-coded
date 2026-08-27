@@ -5,9 +5,9 @@
 
 #### Git Diff Summary:
 ```
-.agent/brain/AGENT_STARTUP_CONTEXT.md    |   6 +-
- .agent/brain/PROJECT_STATE.json          |  11 +-
- .agent/brain/project_brainprint.md       |  14 +-
+.agents/brain/AGENT_STARTUP_CONTEXT.md    |   6 +-
+ .agents/brain/PROJECT_STATE.json          |  11 +-
+ .agents/brain/project_brainprint.md       |  14 +-
  .ai/learnings.md                         | 210 ++++++++
  .cursorrules                             |  16 +
  Digest_2026-02-01.md                     |  12 +-

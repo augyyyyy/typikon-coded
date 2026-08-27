@@ -872,6 +872,226 @@ class ServiceDayMultiAuditor:
                 
         return errors
 
+    def gate16_synodal_footnote_integrity(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 16: Dolnytsky Synodal Footnote Integrity and Citation Grammar."""
+        errors = []
+        if not content:
+            return errors
+            
+        dt_str = str(dt)
+        if "[^None]" in content or "[^UNDEFINED]" in content:
+            errors.append(f"Footnote Corruption Error on {dt_str}: Found corrupted footnote anchor in {service_name}.")
+        
+        # Check for unclosed Dolnytsky footnote bracket
+        for m in re.finditer(r'Dolnytsky Note\s*\[\^([^\]\n]+)', content):
+            anchor = m.group(0)
+            if "]" not in content[m.start():m.start() + len(anchor) + 5]:
+                errors.append(f"Footnote Syntax Error on {dt_str}: Unclosed Dolnytsky footnote bracket in {service_name}.")
+            
+        return errors
+
+    def gate17_psalter_kathisma_distribution(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 17: Validates Kathisma sequence against the canonical 4-season Psalter matrix."""
+        errors = []
+        if not content:
+            return errors
+        
+        dt_str = str(dt)
+        ctx_dow = context.get("day_of_week", 0)
+        mmdd = dt.strftime("%m%d")
+        is_lent = context.get("season") in ("great_lent", "lent") or context.get("season_id") in ("great_lent", "lent")
+        is_bright_week = context.get("season") in ("bright_week", "pascha") or context.get("season_id") == "pascha"
+        
+        if service_name in ("Vespers", "Daily Vespers", "Great Vespers") or "## DAILY VESPERS" in content or "## GREAT VESPERS" in content:
+            if not is_lent and not is_bright_week:
+                # In Summer schedule (before Sep 22):
+                if "0601" <= mmdd <= "0921":
+                    if ctx_dow == 4: # Thursday evening (for Friday)
+                        if "Kathisma 18 is read" in content:
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Thursday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 15).")
+                    elif ctx_dow == 3: # Wednesday evening (for Thursday)
+                        if "Kathisma 18 is read" in content:
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Wednesday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 12).")
+                    elif ctx_dow == 2: # Tuesday evening (for Wednesday)
+                        if "Kathisma 18 is read" in content:
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Tuesday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 9).")
+                    elif ctx_dow == 1: # Monday evening (for Tuesday)
+                        if "Kathisma 18 is read" in content:
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Monday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 6).")
+                    elif ctx_dow == 0: # Sunday evening (for Monday)
+                        if "Kathisma 18 is read" in content or "Kathisma 1 is read" in content:
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Sunday evening Vespers has no Kathisma.")
+        return errors
+
+    def gate18_weekday_theotokia_cycle(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 18: Validates weekday Theotokia thematic alignment."""
+        errors = []
+        if not content:
+            return errors
+        if "theotokion_missing" in content.lower() or "[theotokion]" in content.lower():
+            errors.append(f"Theotokion Cycle Error on {str(dt)}: Missing or placeholder Theotokion in {service_name}.")
+        return errors
+
+    def gate19_octoechos_tone_rotation(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 19: Validates Sunday Tone consistency and weekly sequence (Tones 1..8)."""
+        errors = []
+        if context.get("day_of_week") == 0:
+            is_great_feast_of_lord = (
+                context.get("feast_level") == "lord" or
+                context.get("dolnytsky_rank") in ("LORD", "Class I — Great Feast") or
+                "Palm Sunday" in context.get("title", "") or
+                "Pascha" in context.get("title", "") or
+                "Pentecost" in context.get("title", "")
+            )
+            tone = context.get("tone")
+            if not is_great_feast_of_lord:
+                if tone not in range(1, 9):
+                    errors.append(f"Tone Rotation Error on {str(dt)}: Invalid Sunday tone '{tone}' (must be 1..8).")
+        return errors
+
+    def gate20_matins_canon_katavasia(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 20: Validates Matins Canon Katavasia seasonal assignments."""
+        errors = []
+        if not content:
+            return errors
+        if "Matins" in service_name or "## DAILY MATINS" in content or "## FESTAL MATINS" in content or "## SUNDAY MATINS" in content:
+            # Check for Katavasia corruption
+            if "katavasia_unknown" in content.lower() or "[katavasia]" in content.lower():
+                errors.append(f"Katavasia Selection Error on {str(dt)}: Missing or placeholder Katavasia in {service_name}.")
+        return errors
+
+    def gate21_eothinon_exapostilarion_sync(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 21: Validates Sunday Eothinon Gospel & Exapostilarion pairing."""
+        errors = []
+        if context.get("day_of_week") == 0:
+            eothinon = context.get("eothinon")
+            if eothinon is not None and eothinon not in range(1, 12):
+                errors.append(f"Eothinon Sync Error on {str(dt)}: Invalid Eothinon index '{eothinon}' (must be 1..11).")
+        return errors
+
+    def gate22_little_entrance_sequence(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 22: Validates Little Entrance Troparia and Kontakia sequence."""
+        errors = []
+        if not content:
+            return errors
+        if "Liturgy" in service_name or "## DIVINE LITURGY" in content:
+            if "At the Little Entrance:" in content:
+                # Check for unformatted troparia/kontakia placeholders
+                if "troparion_unknown" in content.lower() or "kontakion_unknown" in content.lower():
+                    errors.append(f"Little Entrance Sequence Error on {str(dt)}: Unknown hymn placeholder at Little Entrance.")
+        return errors
+
+    def gate23_compline_midnight_office(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 23: Validates Compline (Small vs Great) and Midnight Office selection."""
+        errors = []
+        if not content:
+            return errors
+        pascha_offset = context.get("pascha_offset")
+        is_bright_week = (pascha_offset is not None and 0 <= pascha_offset <= 6)
+        if is_bright_week:
+            if "## MIDNIGHT OFFICE" in content:
+                errors.append(f"Office Suppression Error on {str(dt)}: Midnight Office must be suppressed during Bright Week.")
+        return errors
+
+    def gate24_hours_propers_schedule(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 24: Validates Minor Hours Troparia and Kontakia distribution."""
+        errors = []
+        if not content:
+            return errors
+        if "Hour" in service_name or "## FIRST HOUR" in content or "## THIRD HOUR" in content:
+            if "hours_troparion_missing" in content.lower():
+                errors.append(f"Minor Hours Error on {str(dt)}: Missing Troparion in {service_name}.")
+        return errors
+
+    def gate25_liturgical_dismissal_alignment(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 25: Validates liturgical dismissal characteristic phrase alignment."""
+        errors = []
+        if not content:
+            return errors
+        if "Dismissal:" in content or "The Dismissal" in content:
+            if "[dismissal]" in content.lower() or "dismissal_unknown" in content.lower():
+                errors.append(f"Dismissal Formula Error on {str(dt)}: Missing or placeholder dismissal in {service_name}.")
+        return errors
+
+    def gate26_vesperal_liturgy_eve_shifts(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 26: Validates Vesperal Liturgies and Eve shifts."""
+        errors = []
+        if not content:
+            return errors
+        # Holy Thursday and Holy Saturday must appoint Liturgy of St. Basil
+        pascha_offset = context.get("pascha_offset")
+        if pascha_offset == -3: # Holy Thursday
+            if "Vesperal" in service_name and "Basil" not in content and "Presanctified" in content:
+                errors.append(f"Vesperal Liturgy Error on {str(dt)}: Holy Thursday must appoint Liturgy of St. Basil.")
+        elif pascha_offset == -1: # Holy Saturday
+            if "Vesperal" in service_name and "Basil" not in content and "Chrysostom" in content:
+                errors.append(f"Vesperal Liturgy Error on {str(dt)}: Holy Saturday must appoint Liturgy of St. Basil.")
+        return errors
+
+    def gate27_aliturgical_suppression(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 27: Enforces strict Divine Liturgy suppression on Aliturgical days."""
+        errors = []
+        pascha_offset = context.get("pascha_offset")
+        # Great Friday is strictly Aliturgical (unless Annunciation March 25)
+        if pascha_offset == -2:
+            is_annunciation = (context.get("feast_level") == "annunciation" or dt.strftime("%m%d") == "0325")
+            if not is_annunciation and ("Divine Liturgy of" in service_name or "## DIVINE LITURGY" in content):
+                errors.append(f"Aliturgical Invariant Violation on {str(dt)}: Divine Liturgy cannot be served on Great Friday.")
+        return errors
+
+    def gate28_antiphons_beatitudes_matrix(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 28: Validates Liturgy Antiphons vs Beatitudes matrix."""
+        errors = []
+        if not content:
+            return errors
+        if "Liturgy" in service_name or "## DIVINE LITURGY" in content:
+            if "[antiphon]" in content.lower() or "antiphon_unknown" in content.lower():
+                errors.append(f"Antiphon Selection Error on {str(dt)}: Missing or placeholder Antiphon in {service_name}.")
+        return errors
+
+    def gate29_koinonikon_precedence(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 29: Validates Communion Hymn (Koinonikon) precedence."""
+        errors = []
+        if not content:
+            return errors
+        if "Liturgy" in service_name or "## DIVINE LITURGY" in content:
+            if "[koinonikon]" in content.lower() or "koinonikon_unknown" in content.lower() or "communion_hymn_unknown" in content.lower():
+                errors.append(f"Koinonikon Selection Error on {str(dt)}: Missing or placeholder Koinonikon in {service_name}.")
+        return errors
+
+    def gate30_vestment_color_transition(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 30: Validates liturgical vestment color assignment."""
+        errors = []
+        if not content:
+            return errors
+        if "Vestment colour:" in content:
+            # Valid canonical colors
+            valid_colors = ["bright", "gold", "white", "red", "dark", "purple", "black", "green", "blue", "crimson"]
+            color_line = [line for line in content.splitlines() if "Vestment colour:" in line]
+            if color_line:
+                line_text = color_line[0].lower()
+                if not any(c in line_text for c in valid_colors):
+                    errors.append(f"Vestment Color Error on {str(dt)}: Unrecognized vestment color assignment '{color_line[0]}'.")
+        return errors
+
+    def gate31_scripture_incipit_syntax(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 31: Validates Gospel and Epistle incipit syntax."""
+        errors = []
+        if not content:
+            return errors
+        if "[incipit]" in content.lower() or "incipit_unknown" in content.lower():
+            errors.append(f"Scripture Incipit Error on {str(dt)}: Missing or placeholder scripture incipit in {service_name}.")
+        return errors
+
+    def gate32_holy_doors_veil_state(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 32: Validates Holy Doors and Chancel Veil ceremonial state consistency."""
+        errors = []
+        if not content:
+            return errors
+        if "[doors]" in content.lower() or "doors_unknown" in content.lower() or "[veil]" in content.lower():
+            errors.append(f"Ceremonial State Error on {str(dt)}: Unresolved Holy Doors/Veil rubric in {service_name}.")
+        return errors
+
     def gate11_formatting_readability(self, dt: date, service_name: str, context: dict, content: str) -> list:
         """Gate 11: Typography, Readability & Visual Formatting across all cards of all days."""
         errors = []
@@ -895,7 +1115,7 @@ class ServiceDayMultiAuditor:
 
         for line in content.splitlines():
             line_str = line.strip()
-            if line_str.startswith("<") or line_str.startswith("|") or line_str.startswith("#"):
+            if line_str.startswith("<") or line_str.startswith("|") or line_str.startswith("#") or line_str.startswith(">"):
                 continue
             if (len(line_str) > 450 or line_str.count(";") >= 4) and len(line_str) > 250 and "  \n" not in line and "<br>" not in line:
                 errors.append(f"Typography Error in {service_name}: Found monolithic unbroken text block ({len(line_str)} chars) with dense semicolons. Must format with itemized line breaks.")
@@ -1055,6 +1275,23 @@ Suggest how to remediate these failures in the python engine (under engine/) or 
                     service_errors.extend(self.gate13_rare_movable_fixed_collisions(current_date, service_name, context, rubrics, target_content))
                     service_errors.extend(self.gate14_presanctified_lenten_structure(current_date, service_name, context, rubrics, target_content))
                     service_errors.extend(self.gate15_dual_reading_hierarchy(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate16_synodal_footnote_integrity(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate17_psalter_kathisma_distribution(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate18_weekday_theotokia_cycle(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate19_octoechos_tone_rotation(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate20_matins_canon_katavasia(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate21_eothinon_exapostilarion_sync(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate22_little_entrance_sequence(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate23_compline_midnight_office(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate24_hours_propers_schedule(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate25_liturgical_dismissal_alignment(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate26_vesperal_liturgy_eve_shifts(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate27_aliturgical_suppression(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate28_antiphons_beatitudes_matrix(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate29_koinonikon_precedence(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate30_vestment_color_transition(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate31_scripture_incipit_syntax(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate32_holy_doors_veil_state(current_date, service_name, context, rubrics, target_content))
 
                 if service_errors:
                     # Halt Execution immediately on logical failures

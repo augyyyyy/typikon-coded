@@ -58,7 +58,7 @@ view_file(
 3. "immediately the Canon" → CANON
 4. "Katavasia...only after 3rd, 6th, 8th, 9th" → KATAVASIA PATTERN
 5. "After the Canon – 'It is truly meet'" → IT IS TRULY MEET
-6. "after the Exaposteilarion" → EXAPOSTILARION
+6. "after the Exapostilarion" → EXAPOSTILARION
 7. "Psalms of the Praises, simply, without singing" → PRAISES (READ)
 8. "Small Doxology is read" → SMALL DOXOLOGY
 ...etc

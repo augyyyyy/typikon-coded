@@ -49,7 +49,7 @@ Defines how variables change based on dates/ranks.
     *   `variants`: List of conflict resolution objects containing `condition` and `action`.
 
 ### Phase 3: Asset Registry (`03*.json`)
-*   **Format:** A flat map or shallow category map linking logical keys (e.g., `troparion_resurrection_tone_1`) to file paths (`assets/octoechos/tone_1/troparion.json`).
+*   **Format:** A flat map or shallow category map linking logical keys (e.g., `troparion_resurrection_tone_1`) to file paths (`json_db/03_assets_map.json`).
 
 ---
 

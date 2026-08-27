@@ -9,11 +9,11 @@
 > [!CAUTION]
 > Multiple AI agents have destroyed work on this project through confirmation bias — fabricating narratives of progress, claiming work is complete when it isn't, and confidently presenting guesses as facts. This has wasted weeks of human time and hundreds of thousands of tokens.
 >
-> **CONTEXT WINDOW DILUTION:** As your session grows, you mathematically lose attention on early instructions. The overarching rule "cite Dolnytsky for everything" WILL fade into the background. You MUST actively combat this by periodically re-reading `.cursorrules` and `.agent/brain/encyclopedia/encyclopedia_persona_and_rules.md`.
+> **CONTEXT WINDOW DILUTION:** As your session grows, you mathematically lose attention on early instructions. The overarching rule "cite Dolnytsky for everything" WILL fade into the background. You MUST actively combat this by periodically re-reading `.cursorrules` and `.agents/brain/encyclopedia/encyclopedia_persona_and_rules.md`.
 >
 > **Before doing ANY work**, you MUST complete the **Pre-Flight Checklist** in `.cursorrules`.
 > **After doing ANY work**, you MUST complete the **Post-Flight Checklist** in `.cursorrules`.
-> **Read `.agent/brain/AGENT_COMPLIANCE.md`** for the full behavioral protocol and the Hall of Shame with exact quotes from past failures — study them.
+> **Read `.agents/brain/AGENT_COMPLIANCE.md`** for the full behavioral protocol and the Hall of Shame with exact quotes from past failures — study them.
 >
 > If you skip these checklists or suffer from Context Window Dilution, your work will be reverted and you will waste the user's time and money.
 
@@ -49,7 +49,7 @@ The project has **zero external runtime dependencies** beyond the Python standar
 
 ```
 Typikon Coded/                              # Root (23 subdirs, 12 files)
-├── .agent/brain/                           # Agent persistent memory (12 docs + 5 subdirs)
+├── .agents/brain/                           # Agent persistent memory (12 docs + 5 subdirs)
 │   ├── project_brainprint.md               # THIS FILE — authoritative baseline
 │   ├── AGENT_STARTUP_CONTEXT.md            # Hot-load briefing for new agents
 │   ├── master_unimplemented_roadmap.md     # Inventory of historically abandoned/decoupled plans
@@ -151,7 +151,7 @@ Typikon Coded/                              # Root (23 subdirs, 12 files)
 > - `json_db/stamford/text_horologion.json.bak` — stale backup file alongside active file.
 > - `json_db/st_sergius/` has both `octoechos_tone_1.json` and `octoechos_tone_1_refined.json` (potential redundancy).
 > - `.idea/MyFirstGui.iml` — leftover from pre-rename era (project was originally "MyFirstGui").
-> - `.agent/brain/session_history/` has duplicate date dirs: `2026-05-03` and `2026_05_03`.
+> - `.agents/brain/session_history/` has duplicate date dirs: `2026-05-03` and `2026_05_03`.
 > - `cantor_dashboard/server.py` has duplicate `api_resolve` method definition (first is dead code).
 > - `schemas/README.md` documents known validation failures in `text_pentecostarion.json` and `text_theotokia.json` — unfixed.
 
@@ -255,7 +255,7 @@ The 5 Wings within the Hub:
    - The JSON skeletons defining the exact sequence of a service before texts are injected. (Currently 100% complete).
 3. **Wing 3: Data Assets & Recensions (`assets/`, `json_db/stamford/`)**
    - The actual liturgical texts (troparia, kontakia, stichera). The Hub relies on the Spokes to populate this wing.
-4. **Wing 4: Documentation & Encyclopedia (`.agent/brain/`, `.ai/learnings.md`)**
+4. **Wing 4: Documentation & Encyclopedia (`.agents/brain/`, `.ai/learnings.md`)**
    - The institutional memory outlining Typikon rules and engine architecture.
 5. **Wing 5: UI, Output & API (`cantor_dashboard/`, `generated_digests/`)**
    - How the engine's calculations are presented to humans (Cantors) or applications.
@@ -349,7 +349,7 @@ All known mismatches (alleluia, megalynarion, readings) have been successfully m
 ### Active Project Memory (3 files — always read these)
 | File | Purpose | Location |
 |------|---------|----------|
-| `project_brainprint.md` | **THIS FILE** — Authoritative baseline | `.agent/brain/` |
+| `project_brainprint.md` | **THIS FILE** — Authoritative baseline | `.agents/brain/` |
 | `.cursorrules` | Agent operational rules, **ANTI-PATTERN BLACKLIST** | Project root |
 | `.ai/learnings.md` | Deep encyclopedic memory (Paradigms, Gates, Schemas, **ANTI-PATTERNS**) | `.ai/` |
 

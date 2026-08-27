@@ -37,7 +37,7 @@ Every claim of completion MUST include terminal output. Acceptable evidence:
 ### 1.4 Pre-Flight Checklist (Before ANY Code)
 1. Read `.cursorrules`
 2. Read `.ai/learnings.md`
-3. Read `.agent/brain/project_brainprint.md`
+3. Read `.agents/brain/project_brainprint.md`
 4. Cite at least ONE specific rule from each file relevant to the task
 5. If no rule applies, state so explicitly
 

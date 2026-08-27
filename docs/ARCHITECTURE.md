@@ -34,7 +34,7 @@ The Logic Engine resolves components to abstract **Logical IDs** (such as `stich
                               |
                               v
 +-------------------------------------------------------------+
-|       "json_db/stamford/text_octoechos.json"                |
+|       "json_db/03_assets_map.json"                          |
 |  Maps "stichera_resurrection_tone_2" -> "When You arose..." |
 +-------------------------------------------------------------+
 ```
@@ -178,7 +178,7 @@ The expanded sequence is processed slot-by-slot. For slots of `type: "variable_l
 
 #### Step 5: Text Retrieval & Booklet Assembly
 The engine iterates over the final array of components. For every `fixed_ref` slot and logic result, it queries the `TextDBMixin`:
-*   If found, it hydrates the slot with the exact text content from the loaded JSON dictionaries (e.g., `text_octoechos.json` or `text_triodion.json`).
+*   If found, it hydrates the slot with the exact text content from the loaded JSON dictionaries (e.g., `03_assets_map.json` or `02c_logic_triodion.json`).
 *   If missing, it places an explicit warning indicator (`[MISSING_COMPONENT: id]`), allowing debugging without crashing execution.
 *   The hydrated blocks are merged into the final output booklet.
 

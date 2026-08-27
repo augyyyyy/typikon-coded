@@ -63,8 +63,8 @@ $$\text{Prokeimena}(d, \text{ordinary}, \text{simple}) = [\text{Daily\_Weekday\_
 During the Phase 3 Audit, two major gaps were identified in the engine's implementation of Prokeimena rules:
 
 1. **Liturgy Mathematical Boundary Correction Identified (Rule 3):** The previous encyclopedia incorrectly claimed that any saint $R_{\text{saint}} \le 4$ (including Six Stichera rank) received a double Prokeimenon on Sunday.
-- *Authority: Dolnytsky Part II, Lines 54 and 125*: Paradigm 1 ("Saint without Polyeleos on a Sunday") applies to both Rank 5 and Rank 4 (Six Stichera) saints. For this paradigm, "Prokimenon, Alleluia - Sunday, of the current tone." The saint's readings are not taken.
-- *Authority: Dolnytsky Part II, Line 611*: Paradigm 4 ("Saint with Polyeleos on a Sunday", $R \le 3$) states: "Prokimenon, Apostle, Alleluia, Gospel and Communion Hymn - first of the Sunday, and after - to the saint."
+- *Authority: Dolnytsky Part II, Lines 54 and 125*: Paradigm 1 ("Saint without Polyeleos on a Sunday") applies to both Rank 5 and Rank 4 (Six Stichera) saints. For this paradigm, "Prokeimenon, Alleluia - Sunday, of the current tone." The saint's readings are not taken.
+- *Authority: Dolnytsky Part II, Line 611*: Paradigm 4 ("Saint with Polyeleos on a Sunday", $R \le 3$) states: "Prokeimenon, Apostle, Alleluia, Gospel and Communion Hymn - first of the Sunday, and after - to the saint."
 - *Fix Needed:* In `resolve_liturgy_readings` (`engine/resolvers/liturgy.py`), the engine currently evaluates `if saints and rank <= 4:`. This must be corrected to strictly enforce $R_{\text{saint}} \le 3$ for the double prokeimena collision on Sundays.
 
 2. **Great Prokeimenon Precedence Missing (Rule 1):** In `resolve_vespers_readings_logic` (`engine/resolvers/vespers.py`), the engine blindly defaults to the Sunday Prokeimenon ("The Lord is King") or the Daily Prokeimenon. It completely fails to evaluate or assign the Great Prokeimena prescribed for Great Feasts of the Lord, Sundays of Great Lent, and Bright Week.

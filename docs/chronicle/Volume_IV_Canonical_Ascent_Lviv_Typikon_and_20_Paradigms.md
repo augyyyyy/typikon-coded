@@ -16,4 +16,4 @@
 3. **Decoupled Calendar Recensions**:
    - Created `calendar_typikon.json` (traditional 2010 Lviv Typikon rankings) and `calendar_ugcc_official.json` (modern UGCC Synodal Reformed calendar).
 4. **Royal Doors Terminology Standardization**:
-   - Strict enforcement of canonical terms: Exapostilarion, Irmos, Prokeimenon, Sessional Hymn.
+   - Strict enforcement of canonical terms: Exapostilarion, Heirmos, Prokeimenon, Sessional Hymn.

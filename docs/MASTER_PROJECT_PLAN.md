@@ -75,9 +75,9 @@ The engine implements Dolnytsky's core axiom: **The Rank of the Day determines t
 6.  **Hierarchical Entrance**: Correct Troparia placement in Temple services.
 7.  **Great Prokeimenon Suppression**: Suppressing daily Prokeimenon on Sunday evening if a Great Feast is Monday.
 8.  **Lenten Triode Logic**: Generating exactly Odes 1, 8, 9 on Clean Monday.
-9.  **Irmos Retrieval**: Handling obscure Lenten Irmoi from Triodion.
+9.  **Heirmos Retrieval**: Handling obscure Lenten Heirmoi from Triodion.
 10. **Magnificat Toggle**: Hiding Magnificat on Nativity for Megalynaria.
-11. **Eothinon Gospel Connection**: Automatic Exaposteilarion/Theotokion pull based on Matins Gospel.
+11. **Eothinon Gospel Connection**: Automatic Exapostilarion/Theotokion pull based on Matins Gospel.
 12. **Lenten Photogogikon**: Tone-based calculation during Lent.
 13. **Resurrectional Dismissal**: Tone-proper Theotokion at Friday Vespers.
 14. **"On" Count Logic**: Weekday suppression of Resurrection stichera for Rank 4.
@@ -137,7 +137,7 @@ The engine implements Dolnytsky's core axiom: **The Rank of the Day determines t
 *   **Phase 1**: Fix Matins logic contradictions and precision.
 *   **Phase 2**: Gate-by-Gate verification of Graduals, Canon Math, and Katavasia.
 *   **Phase 3**: Integration of master layouts (`MATINS.txt`) and separate hooks for service types.
-*   **[Phase-by-Phase Timeline](../.agent/brain/task.md)**: The active 20-Phase checklist tracking deployment progress.
+*   **[Phase-by-Phase Timeline](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/.agents/references/project_facts.md)**: The active master facts and deployment timeline.
 *   **[Historical Logic Audit](matins_logic_audit.md)**: How we resolved the initially complex Matins structures.
  
 ## 2. Technical Feature Specification (The "What")
@@ -188,7 +188,7 @@ The engine implements Dolnytsky's core axiom: **The Rank of the Day determines t
 
 ### 4. Lenten Matins Gaps
 *   **Missing Assets**: Trinity Hymns, specific Triodion sessionals, and Lenten fixed texts ("To Thee belongs glory").
-*   **Remediation**: Create `text_triodion_fixed.json` to hydrate these structural slots.
+*   **Remediation**: Populate `02c_logic_triodion.json` to hydrate these structural slots.
 
 ---
 

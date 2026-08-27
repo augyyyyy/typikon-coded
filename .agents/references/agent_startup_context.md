@@ -58,8 +58,8 @@ When resolving any rubrical question, follow this strict precedence:
 All heavy architectural documentation, deep audits, and gap reports have been hard-coded into the project repository for human developers. **Do not look for them here in `.agent/brain` except for master lists.**
 
 If you need to research a specific rule or find a past audit, look in the `docs/` folder or control directory:
-- `.agent/brain/master_unimplemented_roadmap.md`: Inventory of historically abandoned/decoupled plans (Pyodide Wasm, MEI, CS Translation, Yasinovsky).
-- `.agent/brain/authoritative_sourcing_assessment.md`: Audit of canonical sources, UGCC terminology, and visual aesthetics standards.
+- `.agents/brain/master_unimplemented_roadmap.md`: Inventory of historically abandoned/decoupled plans (Pyodide Wasm, MEI, CS Translation, Yasinovsky).
+- `.agents/brain/authoritative_sourcing_assessment.md`: Audit of canonical sources, UGCC terminology, and visual aesthetics standards.
 - `docs/audits/`: Deep-dives into service logic (e.g., `matins_logic_audit.md`).
 - `docs/architecture/`: System design rules (e.g., `development_methodology.md`).
 - `docs/tracking/`: Master inventory and historical gaps.
@@ -67,6 +67,6 @@ If you need to research a specific rule or find a past audit, look in the `docs/
 
 ## Session Handoff & Artifact Archiving
 When you complete a major body of work, the planning artifacts you generate (like `implementation_plan.md`, `task.md`, and `walkthrough.md`) are created in your ephemeral `.gemini/` app-data directory. Because these get "resolved" and lost between sessions, **you must copy your final artifacts into the project repository** before concluding your session.
-- Run a command to copy your current conversation's `implementation_plan.md`, `task.md`, and `walkthrough.md` into `.agent/brain/session_history/<date>/`.
+- Run a command to copy your current conversation's `implementation_plan.md`, `task.md`, and `walkthrough.md` into `.agents/brain/session_history/<date>/`.
 
 Use the `MASTER_FEATURE_STATUS.md` in the root directory for the most up-to-date triage of Started, Not Started, and Abandoned features.

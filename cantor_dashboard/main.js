@@ -2240,9 +2240,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isOpen) {
             refPanel.classList.remove("collapsed");
             refResize.style.display = "block";
-            btnToggleRef.innerHTML = "📖 Hide Reference Panel";
-            btnToggleRef.classList.remove("btn-primary");
-            btnToggleRef.classList.add("btn-secondary");
+            btnToggleRef.innerHTML = "Reference ▶";
+            btnToggleRef.title = "Hide Service Rubrics Panel";
+            btnToggleRef.classList.add("active");
 
             // Restore width percentage
             const savedPercent = localStorage.getItem("cantor-reference-percent") || "40";
@@ -2255,9 +2255,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             refPanel.classList.add("collapsed");
             refResize.style.display = "none";
-            btnToggleRef.innerHTML = "📖 Show Reference Panel";
-            btnToggleRef.classList.remove("btn-secondary");
-            btnToggleRef.classList.add("btn-primary");
+            btnToggleRef.innerHTML = "◀ Reference";
+            btnToggleRef.title = "Show Service Rubrics Panel";
+            btnToggleRef.classList.remove("active");
 
             mainPanel.style.width = "100%";
             mainPanel.style.maxWidth = "100%";
@@ -2664,6 +2664,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             btnToggleContext.innerHTML = isOpen ? "◀ Context" : "▶ Context";
             btnToggleContext.title = isOpen ? "Hide Liturgical Context Panel" : "Show Liturgical Context Panel";
+            btnToggleContext.classList.toggle("active", isOpen);
             localStorage.setItem("cantor-context-open", isOpen);
         }
 

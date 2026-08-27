@@ -11,10 +11,10 @@
 1. **GLOBAL SYSTEM STANDARDS** (`GLOBAL_SYSTEM_RULES.md`) — Core operational & compliance guidelines.
 2. **THIS FILE** (`.cursorrules`) — Typikon Engine rules and architecture details.
 3. **`.ai/learnings.md`** — Deep memory: 20 Paradigms, 13 Matins Gates, data schemas, ANTI-PATTERNS.
-4. **`.agent/brain/project_brainprint.md`** — Baseline: directory structure, test counts, architecture, known issues.
-5. **`.agent/brain/AGENT_STARTUP_CONTEXT.md`** — Hierarchy of authority (Ordo > Dolnytsky > Liturgicon).
-6. **`master_unimplemented_roadmap.md`** (`.agent/brain/master_unimplemented_roadmap.md`) — Inventory of historically abandoned/decoupled plans (Pyodide Wasm, MEI, CS Translation, Yasinovsky).
-7. **`authoritative_sourcing_assessment.md`** (`.agent/brain/authoritative_sourcing_assessment.md`) — Audit of canonical sources, UGCC terminology, and visual aesthetics standards.
+4. **`.agents/brain/project_brainprint.md`** — Baseline: directory structure, test counts, architecture, known issues.
+5. **`.agents/brain/AGENT_STARTUP_CONTEXT.md`** — Hierarchy of authority (Ordo > Dolnytsky > Liturgicon).
+6. **`master_unimplemented_roadmap.md`** (`.agents/brain/master_unimplemented_roadmap.md`) — Inventory of historically abandoned/decoupled plans (Pyodide Wasm, MEI, CS Translation, Yasinovsky).
+7. **`authoritative_sourcing_assessment.md`** (`.agents/brain/authoritative_sourcing_assessment.md`) — Audit of canonical sources, UGCC terminology, and visual aesthetics standards.
 
 
 ---
@@ -106,7 +106,7 @@ A FULL liturgical day digest must account for ALL of these services (where appli
 1. **Persistence Protocol (CRITICAL)**:
    - Never leave plans in chat only. Always persist active tasks and plans to disk.
    - Update `.ai/learnings.md` when new liturgical logic or edge cases are resolved.
-   - Update `.agent/brain/project_brainprint.md` when test counts, file structure, or resolver counts change.
+   - Update `.agents/brain/project_brainprint.md` when test counts, file structure, or resolver counts change.
 2. **Dolnytsky Citations**: All liturgical logic changes MUST cite Dolnytsky path-qualified headings (e.g. `1.2.1.1` or `4.1.10.2.3`) or specific rules from the 20 Paradigms. No vague assumptions.
 3. **Master Keys**: Text IDs must follow the flattened schema format (e.g., `tone_1.sat_vespers.stichera_lord_i_call`). Do not use deeply nested dictionaries for text lookup.
 4. **No Abbreviations in Output**: The generated digest must use full, unabbreviated liturgical terms.

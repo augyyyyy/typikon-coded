@@ -195,10 +195,10 @@
                                                 <button class="btn btn-secondary btn-sm font-btn font-reset-btn" id="btn-font-reset" title="Reset Text Size">100%</button>
                                                 <button class="btn btn-secondary btn-sm font-btn" id="btn-font-inc" title="Increase Text Size">A+</button>
                                             </div>
-                                            <button class="btn btn-secondary btn-sm" id="btn-stand-mode" title="Toggle Klieros Stand Mode">🎚️ Stand Mode</button>
-                                            <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="booklet-content">📋 Copy Booklet</button>
-                                            <button class="btn btn-secondary btn-sm print-btn" id="print-booklet-btn">🖨️ Print</button>
-                                            <button class="btn btn-primary btn-sm" id="btn-toggle-reference" style="margin-left: auto;">📖 Show Reference Panel</button>
+                                            <button class="btn btn-secondary btn-sm" id="btn-stand-mode" title="Toggle Klieros Stand Mode">Stand Mode</button>
+                                            <button class="btn btn-secondary btn-sm copy-btn" data-clipboard-source="booklet-content">Copy Booklet</button>
+                                            <button class="btn btn-secondary btn-sm print-btn" id="print-booklet-btn">Print</button>
+                                            <button class="btn btn-secondary btn-sm" id="btn-toggle-reference" style="margin-left: auto;">Reference ▶</button>
                                         </div>
                                         <div id="booklet-content" class="booklet-grid-container scrollable">
                                             <p class="placeholder-text">Propers and service texts will load here...</p>
@@ -212,9 +212,9 @@
                                 <div class="reference-panel" id="reference-panel">
                                     <div class="reference-panel-header">
                                         <div class="reference-panel-title" style="font-family: var(--font-heading); color: var(--gold-accent); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px;">
-                                            <span>📖</span> Service Rubrics Digest
+                                            <span class="cross-icon" style="font-size: 1rem;">✚</span> Service Rubrics Digest
                                         </div>
-                                        <button class="btn-close-reference" id="btn-close-reference" title="Close Panel">❌</button>
+                                        <button class="btn-close-reference" id="btn-close-reference" title="Close Panel">✕</button>
                                     </div>
                                     <div class="reference-panel-content" id="reference-panel-content">
                                         <!-- Unified Service Digest View -->
@@ -231,7 +231,7 @@
                                                     <option value="Hours">Hours</option>
                                                     <option value="Divine Liturgy">Divine Liturgy</option>
                                                 </select>
-                                                <button class="btn btn-secondary btn-sm copy-btn" id="btn-copy-digest" data-clipboard-source="service-digest-content" style="margin-left: auto;">📋 Copy Rubrics</button>
+                                                <button class="btn btn-secondary btn-sm copy-btn" id="btn-copy-digest" data-clipboard-source="service-digest-content" style="margin-left: auto;">Copy Rubrics</button>
                                             </div>
                                             <div id="service-digest-content" class="document-view digest-style scrollable">
                                                 <p class="placeholder-text">Select a date to display its canonical Typikon rubrics...</p>

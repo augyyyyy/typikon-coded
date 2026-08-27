@@ -32,7 +32,7 @@ The Nicene-Constantinopolitan Creed (*"I believe in one God..."*) is read.
 ## 3. The Canon
 **JSON node:** `canon_slot`
 
-The appropriate Canon is chanted. Every Ode is read with the Irmos on 5, without Katavasias and without Litanies.
+The appropriate Canon is chanted. Every Ode is read with the Heirmos on 5, without Katavasias and without Litanies.
 - *On ordinary weekdays (Mon-Thu):* The Canon to the Theotokos from the Octoechos (current tone) is read.
 - *In a Forefeast/Afterfeast:* The Canon to the Forefeast/Feast is read instead.
 *(See Appendix for Lenten exceptions).*
