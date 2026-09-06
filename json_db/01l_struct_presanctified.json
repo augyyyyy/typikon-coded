@@ -1,287 +1,287 @@
 {
-  "file_metadata": {
-    "filename": "01l_struct_presanctified.json",
-    "version": "1.1",
-    "last_updated": "2026-06-23",
-    "authority": "Ordo Celebrationis 1944 §216–§261",
-    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
-    "scope": "Structure of the Liturgy of the Presanctified Gifts (Wing 2)",
-    "description": "Systematic ordinary of the Presanctified Liturgy, detailing vesting, Kathisma 18 Lamb transfer, Light of Christ, Let My Prayer Arise, Now the Powers of Heaven, and Communion sequences."
-  },
-  "structures": {
-    "liturgy_presanctified": {
-      "title_key": "titles.liturgy_presanctified",
-      "source_ref": "Dolnytsky_Typikon_Master.md:1.3.2",
-      "sequence": [
-        {
-          "id": "pre_liturgy_hours",
-          "rubric": {
-            "title": "The Hours and Typika",
-            "ordo_ref": "§220, §257",
-            "roles": {
-              "priest": "Wear epitrachelion over cassock, stand before closed royal doors for Lenten Hours (III, VI, IX) and Typika.",
-              "deacon": "Assist as reader if present; otherwise priest says all diaconal portions.",
-              "cantor": "Chant Lenten Hours, Lenten Troparia with bows, and Beatitudes with prostrations at Typika."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_lenten_hours"
-            }
-          }
-        },
-        {
-          "id": "vesting_rite",
-          "rubric": {
-            "title": "Liturgical Vesting",
-            "ordo_ref": "§220, §261",
-            "roles": {
-              "priest": "Vest in dark/Lenten phelonion and epitrachelion at the end of the Typika, saying only 'Let us pray to the Lord' for each vestment without prayers.",
-              "deacon": "Vest in sticharion and orarion crosswise, saying only 'Let us pray to the Lord' without prayers."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vestment_set",
-              "args": {
-                "service": "presanctified",
-                "clergy_type": "priest"
-              }
-            }
-          }
-        },
-        {
-          "id": "opening_vespers",
-          "rubric": {
-            "title": "The Blessing and Opening",
-            "ordo_ref": "§220",
-            "roles": {
-              "priest": "Open royal doors, stand before Holy Table, make three small bows, kiss the Holy Table, and exclaim: 'Blessed is the kingdom...'",
-              "deacon": "Exclaim before Holy Table: 'Bless, Master.'"
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "triodion.presanctified.opening"
-          }
-        },
-        {
-          "id": "proemial_psalm",
-          "rubric": {
-            "title": "The Proemial Psalm",
-            "ordo_ref": "§220, §76",
-            "roles": {
-              "priest": "Exit sanctuary via north door to read Vespers Prayers 4-8 silently before closed royal doors (first three are read later at Antiphons).",
-              "deacon": "Close the royal doors, stand with lighted candle in front of them.",
-              "cantor": "Chant Psalm 103 ('Bless the Lord, O my soul')."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.psalm_103"
-          }
-        },
-        {
-          "id": "great_synapte",
-          "rubric": {
-            "title": "Great Litany",
-            "ordo_ref": "§220, §31",
-            "roles": {
-              "priest": "Stand inside Altar, exclaim: 'For to You is due all glory...'",
-              "deacon": "Exclaim Great Synapte from before the royal doors, bow to priest, return via south door."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_great"
-          }
-        },
-        {
-          "id": "kathisma_18_stichologia",
-          "rubric": {
-            "title": "Chanting of Kathisma 18",
-            "ordo_ref": "§220",
-            "roles": {
-              "priest": "Read Vespers Prayers 1-3 silently during the three Antiphons of the Kathisma.",
-              "deacon": "Exclaim Small Synapte after each antiphon.",
-              "cantor": "Chant Kathisma 18 (Antiphons 1, 2, 3)."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_daily_kathisma"
-            }
-          }
-        },
-        {
-          "id": "transfer_of_gifts",
-          "rubric": {
-            "title": "Transfer of the Presanctified Lamb",
-            "ordo_ref": "§226",
-            "roles": {
-              "priest": "Kiss Gospel, move it to right. Place diskos on antimension. Open tabernacle, take pyx with Presanctified Host, place Host on diskos. Pour wine/water into chalice at Oblation table. Cover both, process diskos on head to Oblation table in silence.",
-              "deacon": "Carry lighted candle and censer ahead of priest during the transfer procession."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_presanctified_transfer"
-            }
-          }
-        },
-        {
-          "id": "lord_i_have_cried",
-          "rubric": {
-            "title": "At Psalm 140 (Lord, I Call)",
-            "ordo_ref": "§220, §233",
-            "roles": {
-              "deacon": "Perform full censing of Altar and church, censing the Presanctified Gifts on Oblation table thrice (with 3 swings each).",
-              "cantor": "Chant 'Lord, I have cried...' in the tone of the week, with Triodion and Menaion stichera."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vespers_stichera"
-            }
-          }
-        },
-        {
-          "id": "entrance",
-          "rubric": {
-            "title": "The Evening Entrance",
-            "ordo_ref": "§220, §234",
-            "roles": {
-              "priest": "Stand behind deacon, say secret Entrance Prayer. Enter sanctuary through royal doors.",
-              "deacon": "Carry censer (or Gospel if a feast is combined), exit north door, stand before royal doors. Exclaim: 'Wisdom! Stand aright!'",
-              "cantor": "Sing 'Gladsome Light...'"
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_presanctified_entrance"
-            }
-          }
-        },
-        {
-          "id": "readings_and_light",
-          "rubric": {
-            "title": "The Prophecy Readings and The Light of Christ",
-            "ordo_ref": "§234",
-            "roles": {
-              "priest": "Take censer and candle, face east: 'Wisdom, arise.' Turn to people: 'The Light of Christ illumines all.' All make three great prostrations.",
-              "deacon": "Open and close royal doors for readings.",
-              "cantor": "Chant two Paremias (Genesis and Proverbs), kneel during the 'Light of Christ' blessing."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_presanctified_readings"
-            }
-          }
-        },
-        {
-          "id": "let_my_prayer",
-          "rubric": {
-            "title": "Let My Prayer Arise",
-            "ordo_ref": "§235, §236",
-            "roles": {
-              "priest": "Stand before Holy Table, cense the four corners while singing 'Let my prayer arise...' and the Psalm 140 verses.",
-              "deacon": "Exclaim: 'Wisdom!' All make small bows.",
-              "cantor": "Kneel while the priest sings, and sing the responses while the priest kneels and censes."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "triodion.let_my_prayer_arise"
-          }
-        },
-        {
-          "id": "litanies_and_catechumens",
-          "rubric": {
-            "title": "Dismissal of Catechumens",
-            "ordo_ref": "§220, §239",
-            "roles": {
-              "priest": "Say the prayers of the catechumens secretly, exclaim from Holy Table.",
-              "deacon": "Exclaim Litanies for catechumens. (From Mid-Lent, also exclaim Litany for those preparing for Holy Illumination)."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_photizomenoi_litany"
-            }
-          }
-        },
-        {
-          "id": "now_the_powers",
-          "rubric": {
-            "title": "Now the Powers of Heaven",
-            "ordo_ref": "§240, §241",
-            "roles": {
-              "priest": "Recite 'Now the Powers...' x3 with small bows. Place aer on deacon's shoulder. Take covered diskos on head and chalice at chest. Process through north door and royal doors in absolute silence. Place gifts on Holy Table.",
-              "deacon": "Perform opening censing. Process before priest with censer, censing frequently in silence. Close royal doors and veil after the Entrance.",
-              "cantor": "Sing 'Now the Powers of heaven worship with us in invisibly...' All make a great prostration when the Holy Gifts pass."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "triodion.now_the_powers"
-          }
-        },
-        {
-          "id": "litany_before_communion",
-          "rubric": {
-            "title": "Litany before Communion",
-            "ordo_ref": "§220",
-            "roles": {
-              "priest": "Say the prayer of the Litany silently, exclaim: 'And count us worthy...'",
-              "deacon": "Exclaim Litany before Communion from soleas."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_before_communion"
-          }
-        },
-        {
-          "id": "communion_rite",
-          "rubric": {
-            "title": "Clergy and Faithful Communion",
-            "ordo_ref": "§245, §246",
-            "roles": {
-              "priest": "Reach under aer to touch the Host: 'The Presanctified Holy Things to the holy.' Communicate from the Body and Blood. Administer Communion to faithful.",
-              "deacon": "Bind orarion crosswise. Elevate chalice at royal doors: 'Draw near in the fear of God...'",
-              "cantor": "Chant the Communion Hymn: 'Taste and see how good the Lord is. Alleluia.'"
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "triodion.communion_presanctified"
-          }
-        },
-        {
-          "id": "dismissal",
-          "rubric": {
-            "title": "The Dismissal",
-            "ordo_ref": "§247",
-            "roles": {
-              "priest": "Exclaim the Lenten dismissal: 'Christ, our true God, who came to His voluntary Passion...'",
-              "deacon": "Close royal doors. Stand at Savior icon."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "triodion.dismissal_presanctified"
-          }
+    "file_metadata": {
+        "filename": "01l_struct_presanctified.json",
+        "version": "1.1",
+        "last_updated": "2026-06-23",
+        "authority": "Ordo Celebrationis 1944 §216–§261",
+        "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
+        "scope": "Structure of the Liturgy of the Presanctified Gifts (Wing 2)",
+        "description": "Systematic ordinary of the Presanctified Liturgy, detailing vesting, Kathisma 18 Lamb transfer, Light of Christ, Let My Prayer Arise, Now the Powers of Heaven, and Communion sequences."
+    },
+    "structures": {
+        "liturgy_presanctified": {
+            "title_key": "titles.liturgy_presanctified",
+            "source_ref": "Dolnytsky_Typikon_Master.md:1.3.2",
+            "sequence": [
+                {
+                    "id": "pre_liturgy_hours",
+                    "rubric": {
+                        "title": "The Hours and Typika",
+                        "ordo_ref": "§220, §257",
+                        "roles": {
+                            "priest": "Wear epitrachelion over cassock, stand before closed royal doors for Lenten Hours (III, VI, IX) and Typika.",
+                            "deacon": "Assist as reader if present; otherwise priest says all diaconal portions.",
+                            "cantor": "Chant Lenten Hours, Lenten Troparia with bows, and Beatitudes with prostrations at Typika."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_lenten_hours"
+                        }
+                    }
+                },
+                {
+                    "id": "vesting_rite",
+                    "rubric": {
+                        "title": "Liturgical Vesting",
+                        "ordo_ref": "§220, §261",
+                        "roles": {
+                            "priest": "Vest in dark/Lenten phelonion and epitrachelion at the end of the Typika, saying only 'Let us pray to the Lord' for each vestment without prayers.",
+                            "deacon": "Vest in sticharion and orarion crosswise, saying only 'Let us pray to the Lord' without prayers."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vestment_set",
+                            "args": {
+                                "service": "presanctified",
+                                "clergy_type": "priest"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "opening_vespers",
+                    "rubric": {
+                        "title": "The Blessing and Opening",
+                        "ordo_ref": "§220",
+                        "roles": {
+                            "priest": "Open royal doors, stand before Holy Table, make three small bows, kiss the Holy Table, and exclaim: 'Blessed is the kingdom...'",
+                            "deacon": "Exclaim before Holy Table: 'Bless, Master.'"
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "triodion.presanctified.opening"
+                    }
+                },
+                {
+                    "id": "proemial_psalm",
+                    "rubric": {
+                        "title": "The Proemial Psalm",
+                        "ordo_ref": "§220, §76",
+                        "roles": {
+                            "priest": "Exit sanctuary via north door to read Vespers Prayers 4-8 silently before closed royal doors (first three are read later at Antiphons).",
+                            "deacon": "Close the royal doors, stand with lighted candle in front of them.",
+                            "cantor": "Chant Psalm 103 ('Bless the Lord, O my soul')."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.psalm_103"
+                    }
+                },
+                {
+                    "id": "great_synapte",
+                    "rubric": {
+                        "title": "Great Litany",
+                        "ordo_ref": "§220, §31",
+                        "roles": {
+                            "priest": "Stand inside Altar, exclaim: 'For to You is due all glory...'",
+                            "deacon": "Exclaim Great Synapte from before the royal doors, bow to priest, return via south door."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.great_litany"
+                    }
+                },
+                {
+                    "id": "kathisma_18_stichologia",
+                    "rubric": {
+                        "title": "Chanting of Kathisma 18",
+                        "ordo_ref": "§220",
+                        "roles": {
+                            "priest": "Read Vespers Prayers 1-3 silently during the three Antiphons of the Kathisma.",
+                            "deacon": "Exclaim Small Synapte after each antiphon.",
+                            "cantor": "Chant Kathisma 18 (Antiphons 1, 2, 3)."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_daily_kathisma"
+                        }
+                    }
+                },
+                {
+                    "id": "transfer_of_gifts",
+                    "rubric": {
+                        "title": "Transfer of the Presanctified Lamb",
+                        "ordo_ref": "§226",
+                        "roles": {
+                            "priest": "Kiss Gospel, move it to right. Place diskos on antimension. Open tabernacle, take pyx with Presanctified Host, place Host on diskos. Pour wine/water into chalice at Oblation table. Cover both, process diskos on head to Oblation table in silence.",
+                            "deacon": "Carry lighted candle and censer ahead of priest during the transfer procession."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_presanctified_transfer"
+                        }
+                    }
+                },
+                {
+                    "id": "lord_i_have_cried",
+                    "rubric": {
+                        "title": "At Psalm 140 (Lord, I Call)",
+                        "ordo_ref": "§220, §233",
+                        "roles": {
+                            "deacon": "Perform full censing of Altar and church, censing the Presanctified Gifts on Oblation table thrice (with 3 swings each).",
+                            "cantor": "Chant 'Lord, I have cried...' in the tone of the week, with Triodion and Menaion stichera."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vespers_stichera"
+                        }
+                    }
+                },
+                {
+                    "id": "entrance",
+                    "rubric": {
+                        "title": "The Evening Entrance",
+                        "ordo_ref": "§220, §234",
+                        "roles": {
+                            "priest": "Stand behind deacon, say secret Entrance Prayer. Enter sanctuary through royal doors.",
+                            "deacon": "Carry censer (or Gospel if a feast is combined), exit north door, stand before royal doors. Exclaim: 'Wisdom! Stand aright!'",
+                            "cantor": "Sing 'Gladsome Light...'"
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_presanctified_entrance"
+                        }
+                    }
+                },
+                {
+                    "id": "readings_and_light",
+                    "rubric": {
+                        "title": "The Prophecy Readings and The Light of Christ",
+                        "ordo_ref": "§234",
+                        "roles": {
+                            "priest": "Take censer and candle, face east: 'Wisdom, arise.' Turn to people: 'The Light of Christ illumines all.' All make three great prostrations.",
+                            "deacon": "Open and close royal doors for readings.",
+                            "cantor": "Chant two Paremias (Genesis and Proverbs), kneel during the 'Light of Christ' blessing."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_presanctified_readings"
+                        }
+                    }
+                },
+                {
+                    "id": "let_my_prayer",
+                    "rubric": {
+                        "title": "Let My Prayer Arise",
+                        "ordo_ref": "§235, §236",
+                        "roles": {
+                            "priest": "Stand before Holy Table, cense the four corners while singing 'Let my prayer arise...' and the Psalm 140 verses.",
+                            "deacon": "Exclaim: 'Wisdom!' All make small bows.",
+                            "cantor": "Kneel while the priest sings, and sing the responses while the priest kneels and censes."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "triodion.let_my_prayer_arise"
+                    }
+                },
+                {
+                    "id": "litanies_and_catechumens",
+                    "rubric": {
+                        "title": "Dismissal of Catechumens",
+                        "ordo_ref": "§220, §239",
+                        "roles": {
+                            "priest": "Say the prayers of the catechumens secretly, exclaim from Holy Table.",
+                            "deacon": "Exclaim Litanies for catechumens. (From Mid-Lent, also exclaim Litany for those preparing for Holy Illumination)."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_photizomenoi_litany"
+                        }
+                    }
+                },
+                {
+                    "id": "now_the_powers",
+                    "rubric": {
+                        "title": "Now the Powers of Heaven",
+                        "ordo_ref": "§240, §241",
+                        "roles": {
+                            "priest": "Recite 'Now the Powers...' x3 with small bows. Place aer on deacon's shoulder. Take covered diskos on head and chalice at chest. Process through north door and royal doors in absolute silence. Place gifts on Holy Table.",
+                            "deacon": "Perform opening censing. Process before priest with censer, censing frequently in silence. Close royal doors and veil after the Entrance.",
+                            "cantor": "Sing 'Now the Powers of heaven worship with us in invisibly...' All make a great prostration when the Holy Gifts pass."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "triodion.now_the_powers"
+                    }
+                },
+                {
+                    "id": "litany_before_communion",
+                    "rubric": {
+                        "title": "Litany before Communion",
+                        "ordo_ref": "§220",
+                        "roles": {
+                            "priest": "Say the prayer of the Litany silently, exclaim: 'And count us worthy...'",
+                            "deacon": "Exclaim Litany before Communion from soleas."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.litany_before_communion"
+                    }
+                },
+                {
+                    "id": "communion_rite",
+                    "rubric": {
+                        "title": "Clergy and Faithful Communion",
+                        "ordo_ref": "§245, §246",
+                        "roles": {
+                            "priest": "Reach under aer to touch the Host: 'The Presanctified Holy Things to the holy.' Communicate from the Body and Blood. Administer Communion to faithful.",
+                            "deacon": "Bind orarion crosswise. Elevate chalice at royal doors: 'Draw near in the fear of God...'",
+                            "cantor": "Chant the Communion Hymn: 'Taste and see how good the Lord is. Alleluia.'"
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "triodion.communion_presanctified"
+                    }
+                },
+                {
+                    "id": "dismissal",
+                    "rubric": {
+                        "title": "The Dismissal",
+                        "ordo_ref": "§247",
+                        "roles": {
+                            "priest": "Exclaim the Lenten dismissal: 'Christ, our true God, who came to His voluntary Passion...'",
+                            "deacon": "Close royal doors. Stand at Savior icon."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "triodion.dismissal_presanctified"
+                    }
+                }
+            ]
         }
-      ]
     }
-  }
 }

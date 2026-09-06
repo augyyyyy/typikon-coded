@@ -1,362 +1,362 @@
 {
-  "file_metadata": {
-    "filename": "01e_struct_typika.json",
-    "version": "2.0 (Finalized)",
-    "last_updated": "2025-01-30",
-    "authority": "Lviv (Dolnytsky) Typikon (2010) Parts I & IV",
-    "scope": "The Typika (Obidnytsia) - Standard & Lenten",
-    "description": "Defines the structure of the Typika, including Lenten integration with the 9th Hour and Vesperal merges."
-  },
-  "structures": {
-    "structure_standard": {
-      "title_key": "titles.typika_standard",
-      "description_key": "descriptions.typika_standard",
-      "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.1",
-      "sequence": [
-        {
-          "id": "opening_blessing",
-          "section_key": "sections.beginning",
-          "content": {
-            "type": "conditional_block",
-            "logic": {
-              "function": "check_service_continuity",
-              "args": {
-                "check": "is_preceding_service_connected"
-              }
-            },
-            "true_content": null,
-            "false_content": {
-              "type": "fixed_ref",
-              "ref_key": "horologion.blessing_common"
-            }
-          }
-        },
-        {
-          "id": "horologion.psalm_102",
-          "section_key": "sections.psalmody",
-          "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.2",
-          "rubric": {
-            "title": "Psalm 102",
-            "roles": {
-              "reader": "Read plainly."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.psalm_102_bless_the_lord"
-          }
-        },
-        {
-          "id": "horologion.psalm_145",
-          "section_key": "sections.psalmody",
-          "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.2",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.psalm_145_praise_the_lord"
-          }
-        },
-        {
-          "id": "only_begotten",
-          "section_key": "sections.hymns",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.only_begotten"
-          }
-        },
-        {
-          "id": "beatitudes_block",
-          "section_key": "sections.beatitudes",
-          "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.3",
-          "rubric": {
-            "title": "The Beatitudes",
-            "note": "Sing the Beatitudes, inserting appointed stichera from the Octoechos/Menaion if prescribed.",
-            "roles": {
-              "choir": "Sing the Beatitudes."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_beatitudes",
-              "args": {
-                "day_type": "standard"
-              }
-            },
-            "render_hint": "beatitudes_with_stichera"
-          }
-        },
-        {
-          "id": "readings_module",
-          "section_key": "sections.readings",
-          "rubric": {
-            "title": "Scripture Readings",
-            "note": "Readings are done if there is no Divine Liturgy.",
-            "roles": {
-              "reader": "Prokeimenon, Epistle, Alleluia.",
-              "priest": "Gospel."
-            }
-          },
-          "content": {
-            "type": "sequence",
-            "components": [
-              {
-                "id": "prokeimenon",
-                "type": "slot_variable"
-              },
-              {
-                "id": "epistle",
-                "type": "slot_variable"
-              },
-              {
-                "id": "alleluia",
-                "type": "slot_variable"
-              },
-              {
-                "id": "gospel",
-                "type": "slot_variable"
-              }
-            ]
-          }
-        },
-        {
-          "id": "communion_module",
-          "section_key": "sections.communion",
-          "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.3",
-          "sequence": [
-            {
-              "id": "remember_us",
-              "type": "fixed_ref",
-              "ref_key": "horologion.remember_us_o_lord"
-            },
-            {
-              "id": "heavenly_choir",
-              "type": "fixed_ref",
-              "ref_key": "horologion.heavenly_choir"
-            },
-            {
-              "id": "creed",
-              "type": "fixed_ref",
-              "ref_key": "horologion.creed"
-            },
-            {
-              "id": "remit_pardon",
-              "type": "fixed_ref",
-              "ref_key": "horologion.remit_pardon"
-            },
-            {
-              "id": "our_father",
-              "type": "fixed_ref",
-              "ref_key": "horologion.our_father"
-            }
-          ]
-        },
-        {
-          "id": "kontakion_block",
-          "section_key": "sections.kontakion",
-          "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.3",
-          "rubric": {
-            "title": "Kontakia",
-            "note": "Read the Kontakia in the prescribed order (Temple, Day, Saint).",
-            "roles": {
-              "reader": "Read the Kontakia."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_typika_kontakia",
-              "args": {
-                "rank": "standard"
-              }
-            }
-          }
-        },
-        {
-          "id": "theotokion_typika",
-          "section_key": "sections.kontakion",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.protection_christians"
-          }
-        },
-        {
-          "id": "conclusion_standard",
-          "section_key": "sections.conclusion",
-          "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.4",
-          "sequence": [
-            {
-              "id": "lord_have_mercy_3x",
-              "type": "fixed_ref",
-              "ref_key": "horologion.lord_have_mercy_3x"
-            },
-            {
-              "id": "blessed_be_name",
-              "type": "fixed_ref",
-              "ref_key": "horologion.blessed_be_name_3x"
-            },
-            {
-              "id": "horologion.psalm_33",
-              "type": "fixed_ref",
-              "ref_key": "horologion.psalm_33"
-            },
-            {
-              "id": "dismissal",
-              "type": "fixed_ref",
-              "ref_key": "horologion.dismissal_full"
-            }
-          ]
-        }
-      ]
+    "file_metadata": {
+        "filename": "01e_struct_typika.json",
+        "version": "2.0 (Finalized)",
+        "last_updated": "2025-01-30",
+        "authority": "Lviv (Dolnytsky) Typikon (2010) Parts I & IV",
+        "scope": "The Typika (Obidnytsia) - Standard & Lenten",
+        "description": "Defines the structure of the Typika, including Lenten integration with the 9th Hour and Vesperal merges."
     },
-    "structure_lenten": {
-      "title_key": "titles.typika_lenten",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.7.3",
-      "rubric": {
-        "title": "Lenten Typika",
-        "roles": {
-          "priest": "Vested in dark/violet Epitrachelion."
-        }
-      },
-      "sequence": [
-        {
-          "id": "beatitudes_lenten",
-          "section_key": "sections.beginning",
-          "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12.1",
-          "rubric": {
-            "title": "Lenten Beatitudes",
-            "roles": {
-              "all": "Make a metania (small prostration) at each verse."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "triodion.beatitudes_lenten"
-          }
-        },
-        {
-          "id": "remember_us_solemn",
-          "section_key": "sections.hymns",
-          "rubric": {
-            "title": "Remember Us O Lord",
-            "roles": {
-              "all": "Make 3 great prostrations."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "triodion.remember_us_solemn"
-          }
-        },
-        {
-          "id": "creed_lenten",
-          "section_key": "sections.creed",
-          "content": {
-            "type": "sequence",
-            "components": [
-              {
-                "id": "heavenly_choir",
-                "type": "fixed_ref",
-                "ref_key": "horologion.heavenly_choir"
-              },
-              {
-                "id": "creed",
-                "type": "fixed_ref",
-                "ref_key": "horologion.creed"
-              },
-              {
-                "id": "remit_pardon",
-                "type": "fixed_ref",
-                "ref_key": "horologion.remit_pardon"
-              },
-              {
-                "id": "our_father",
-                "type": "fixed_ref",
-                "ref_key": "horologion.our_father"
-              }
+    "structures": {
+        "structure_standard": {
+            "title_key": "titles.typika_standard",
+            "description_key": "descriptions.typika_standard",
+            "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.1",
+            "sequence": [
+                {
+                    "id": "opening_blessing",
+                    "section_key": "sections.beginning",
+                    "content": {
+                        "type": "conditional_block",
+                        "logic": {
+                            "function": "check_service_continuity",
+                            "args": {
+                                "check": "is_preceding_service_connected"
+                            }
+                        },
+                        "true_content": null,
+                        "false_content": {
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.common.blessing"
+                        }
+                    }
+                },
+                {
+                    "id": "horologion.psalm_102",
+                    "section_key": "sections.psalmody",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.2",
+                    "rubric": {
+                        "title": "Psalm 102",
+                        "roles": {
+                            "reader": "Read plainly."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.psalm_102_bless_the_lord"
+                    }
+                },
+                {
+                    "id": "horologion.psalm_145",
+                    "section_key": "sections.psalmody",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.2",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.psalm_145_praise_the_lord"
+                    }
+                },
+                {
+                    "id": "only_begotten",
+                    "section_key": "sections.hymns",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.only_begotten"
+                    }
+                },
+                {
+                    "id": "beatitudes_block",
+                    "section_key": "sections.beatitudes",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.3",
+                    "rubric": {
+                        "title": "The Beatitudes",
+                        "note": "Sing the Beatitudes, inserting appointed stichera from the Octoechos/Menaion if prescribed.",
+                        "roles": {
+                            "choir": "Sing the Beatitudes."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_beatitudes",
+                            "args": {
+                                "day_type": "standard"
+                            }
+                        },
+                        "render_hint": "beatitudes_with_stichera"
+                    }
+                },
+                {
+                    "id": "readings_module",
+                    "section_key": "sections.readings",
+                    "rubric": {
+                        "title": "Scripture Readings",
+                        "note": "Readings are done if there is no Divine Liturgy.",
+                        "roles": {
+                            "reader": "Prokeimenon, Epistle, Alleluia.",
+                            "priest": "Gospel."
+                        }
+                    },
+                    "content": {
+                        "type": "sequence",
+                        "components": [
+                            {
+                                "id": "prokeimenon",
+                                "type": "slot_variable"
+                            },
+                            {
+                                "id": "epistle",
+                                "type": "slot_variable"
+                            },
+                            {
+                                "id": "alleluia",
+                                "type": "slot_variable"
+                            },
+                            {
+                                "id": "gospel",
+                                "type": "slot_variable"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "communion_module",
+                    "section_key": "sections.communion",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.3",
+                    "sequence": [
+                        {
+                            "id": "remember_us",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.remember_us_o_lord"
+                        },
+                        {
+                            "id": "heavenly_choir",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.heavenly_choir"
+                        },
+                        {
+                            "id": "creed",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.common.creed"
+                        },
+                        {
+                            "id": "remit_pardon",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.common.remit_pardon"
+                        },
+                        {
+                            "id": "our_father",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.common.our_father"
+                        }
+                    ]
+                },
+                {
+                    "id": "kontakion_block",
+                    "section_key": "sections.kontakion",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.3",
+                    "rubric": {
+                        "title": "Kontakia",
+                        "note": "Read the Kontakia in the prescribed order (Temple, Day, Saint).",
+                        "roles": {
+                            "reader": "Read the Kontakia."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_typika_kontakia",
+                            "args": {
+                                "rank": "standard"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "theotokion_typika",
+                    "section_key": "sections.kontakion",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.protection_christians"
+                    }
+                },
+                {
+                    "id": "conclusion_standard",
+                    "section_key": "sections.conclusion",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:3.4.7.1.4",
+                    "sequence": [
+                        {
+                            "id": "lord_have_mercy_3x",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.common.lord_have_mercy_3x"
+                        },
+                        {
+                            "id": "blessed_be_name",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.common.blessed_be_name_3x"
+                        },
+                        {
+                            "id": "horologion.vespers.psalm_33",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.vespers.psalm_33"
+                        },
+                        {
+                            "id": "dismissal",
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.dismissal_full"
+                        }
+                    ]
+                }
             ]
-          }
         },
-        {
-          "id": "kontakia_lenten",
-          "section_key": "sections.kontakion",
-          "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13.1.2",
-          "rubric": {
-            "title": "Lenten Kontakia",
-            "roles": {
-              "reader": "Read the appointed Lenten Kontakia plainly."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_typika_kontakia",
-              "args": {
-                "rank": "lenten"
-              }
-            }
-          }
-        },
-        {
-          "id": "lord_have_mercy_40",
-          "section_key": "sections.conclusion",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.lord_have_mercy_40"
-          }
-        },
-        {
-          "id": "prayer_st_ephrem",
-          "section_key": "sections.conclusion",
-          "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13.1.3",
-          "rubric": {
-            "title": "Prayer of St. Ephrem",
-            "roles": {
-              "all": "Make 16 prostrations: 3 great, 12 small, 1 great."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "triodion.prayer_st_ephrem"
-          }
-        },
-        {
-          "id": "final_prayer_block",
-          "section_key": "sections.conclusion",
-          "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13.1.4",
-          "rubric": {
-            "title": "Prayer of the 9th Hour",
-            "note": "Transferred to the end of Typika during Lent."
-          },
-          "content": {
-            "type": "sequence",
-            "components": [
-              {
-                "id": "trisagion_lenten",
-                "type": "fixed_ref",
-                "ref_key": "horologion.trisagion_block"
-              },
-              {
-                "id": "lord_have_mercy_12",
-                "type": "fixed_ref",
-                "ref_key": "horologion.lord_have_mercy_12"
-              },
-              {
-                "id": "prayer_9th_hour",
-                "type": "fixed_ref",
-                "ref_key": "horologion.prayer_hour_9_master_lord"
-              }
+        "structure_lenten": {
+            "title_key": "titles.typika_lenten",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.7.3",
+            "rubric": {
+                "title": "Lenten Typika",
+                "roles": {
+                    "priest": "Vested in dark/violet Epitrachelion."
+                }
+            },
+            "sequence": [
+                {
+                    "id": "beatitudes_lenten",
+                    "section_key": "sections.beginning",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12.1",
+                    "rubric": {
+                        "title": "Lenten Beatitudes",
+                        "roles": {
+                            "all": "Make a metania (small prostration) at each verse."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "triodion.beatitudes_lenten"
+                    }
+                },
+                {
+                    "id": "remember_us_solemn",
+                    "section_key": "sections.hymns",
+                    "rubric": {
+                        "title": "Remember Us O Lord",
+                        "roles": {
+                            "all": "Make 3 great prostrations."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "triodion.remember_us_solemn"
+                    }
+                },
+                {
+                    "id": "creed_lenten",
+                    "section_key": "sections.creed",
+                    "content": {
+                        "type": "sequence",
+                        "components": [
+                            {
+                                "id": "heavenly_choir",
+                                "type": "fixed_ref",
+                                "ref_key": "horologion.heavenly_choir"
+                            },
+                            {
+                                "id": "creed",
+                                "type": "fixed_ref",
+                                "ref_key": "horologion.common.creed"
+                            },
+                            {
+                                "id": "remit_pardon",
+                                "type": "fixed_ref",
+                                "ref_key": "horologion.common.remit_pardon"
+                            },
+                            {
+                                "id": "our_father",
+                                "type": "fixed_ref",
+                                "ref_key": "horologion.common.our_father"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "kontakia_lenten",
+                    "section_key": "sections.kontakion",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13.1.2",
+                    "rubric": {
+                        "title": "Lenten Kontakia",
+                        "roles": {
+                            "reader": "Read the appointed Lenten Kontakia plainly."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_typika_kontakia",
+                            "args": {
+                                "rank": "lenten"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "lord_have_mercy_40",
+                    "section_key": "sections.conclusion",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.lord_have_mercy_40"
+                    }
+                },
+                {
+                    "id": "prayer_st_ephrem",
+                    "section_key": "sections.conclusion",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13.1.3",
+                    "rubric": {
+                        "title": "Prayer of St. Ephrem",
+                        "roles": {
+                            "all": "Make 16 prostrations: 3 great, 12 small, 1 great."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "triodion.prayer_st_ephrem"
+                    }
+                },
+                {
+                    "id": "final_prayer_block",
+                    "section_key": "sections.conclusion",
+                    "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13.1.4",
+                    "rubric": {
+                        "title": "Prayer of the 9th Hour",
+                        "note": "Transferred to the end of Typika during Lent."
+                    },
+                    "content": {
+                        "type": "sequence",
+                        "components": [
+                            {
+                                "id": "trisagion_lenten",
+                                "type": "fixed_ref",
+                                "ref_key": "horologion.common.trisagion_block"
+                            },
+                            {
+                                "id": "lord_have_mercy_12",
+                                "type": "fixed_ref",
+                                "ref_key": "horologion.common.lord_have_mercy_12"
+                            },
+                            {
+                                "id": "prayer_9th_hour",
+                                "type": "fixed_ref",
+                                "ref_key": "horologion.hours.hour_9.prayer_master_lord"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "dismissal_lenten",
+                    "section_key": "sections.dismissal",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.dismissal_lenten"
+                    }
+                }
             ]
-          }
-        },
-        {
-          "id": "dismissal_lenten",
-          "section_key": "sections.dismissal",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.dismissal_lenten"
-          }
         }
-      ]
     }
-  }
 }

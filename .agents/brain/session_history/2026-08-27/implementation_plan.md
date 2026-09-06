@@ -1,132 +1,84 @@
-# Comprehensive Implementation Plan: Full Liturgical Cyclic Systems & Gates 17–27
+# Master Implementation Plan: Brute-Force Canonical Content Audit
 
-Resolve all fundamental cyclic, hymnographic, and structural gaps in the engine by implementing the **canonical 4-season Psalter matrix**, **7-day Horologion theotokia cycles**, **canon ode ratios & katavasia seasons**, **6-case Little Entrance sequencer**, and expanding the multi-auditor from 16 to **27 automated validation gates** across the 100-year sweep.
-
----
-
-## User Review & Guidance
-
-> [!IMPORTANT]
-> **Should you hold off on the Documentation Audit in the other chat?**
-> **YES, HOLD OFF.** 
-> Auditing documentation now while we are actively refactoring resolvers and adding Gates 17–27 would cause the documentation to immediately desynchronize again. Once this plan is executed and all 27 Gates pass across 100 years, the documentation audit can be executed against the final, immutable codebase.
-
-> [!NOTE]
-> **Is DeepSeek Needed?**
-> The primary canonical source is already present in the workspace (`Data/Service Books/Typikon/readable_parts/Final_Dolnytsky_part1_structure.txt` through `part5_temple.txt` and `Ordo_Celebrationis_1996_CLEAN.md`). We do not need DeepSeek to invent rules, but we can utilize DeepSeek as a secondary check for complex canon distribution edge cases if needed.
+A comprehensive, file-by-file, zero-sampling content audit of all documentation files in the Typikon Coded Hub. Every single file will be cross-examined against the 2010 Lviv Typikon translation, the 1944 *Ordo Celebrationis*, the 786 Synodal Footnotes, and the 32-gate live engine resolvers.
 
 ---
 
-## The 11 Core Systems & Missing Gate Map
+## 1. Audit Verification Criteria per File
 
-```mermaid
-flowchart TD
-    subgraph S1["Phase 1: Foundational Cyclic State Machines"]
-        P1["1. Master 4-Season Psalter Matrix"] --> G17["Gate 17: Psalter & Kathisma Rotation"]
-        P2["2. Horologion 7-Day Theotokia Cycle"] --> G18["Gate 18: Daily Theotokia & Dedications"]
-        P3["3. Octoechos 8-Tone Rotation Continuity"] --> G19["Gate 19: Octoechos Rotation & Feast Resumption"]
-    end
+For every single file in the sequence, the following 4-point verification matrix must be applied:
 
-    subgraph S2["Phase 2: Hymnographic Structure & Sequences"]
-        P4["4. Canon Ode Ratios & Katavasia Seasons"] --> G20["Gate 20: Matins Canon Ratios & Katavasia"]
-        P5["5. 11-Eothinon Gospel / Exapostilarion Sync"] --> G21["Gate 21: Eothinon Exapostilarion & Doxastikon"]
-        P6["6. Little Entrance 6-Case Sequencer"] --> G22["Gate 22: Little Entrance Troparia/Kontakia"]
-    end
-
-    subgraph S3["Phase 3: Minor Offices, Dismissals & Constraints"]
-        P7["7. Compline & Midnight Office Mode Select"] --> G23["Gate 23: Compline & Midnight Office"]
-        P8["8. Minor Hours (1,3,6,9) Troparia Schedule"] --> G24["Gate 24: Minor Hours Propers Schedule"]
-        P9["9. Festal Dismissal Lead Phrase Builder"] --> G25["Gate 25: Liturgical Dismissal Alignment"]
-        P10["10. Vesperal Liturgy & Fasting Eve Shifts"] --> G26["Gate 26: Vesperal Liturgy & Eve Shifts"]
-        P11["11. Aliturgical Suppression Invariant"] --> G27["Gate 27: Aliturgical Suppression"]
-    end
-```
+1. **Canonical Fidelity (Source Truth)**:
+   * Cross-reference every rubrical assertion against the Ukrainian 2010 translation of Dolnytsky ([`Data/Service Books/Typikon/readable_parts/`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Data/Service%20Books/Typikon/readable_parts/)) and the 1944 *Ordo* ([`Ordo_Celebrationis_1996_CLEAN.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Data/Service%20Books/Typikon/Ordo/Ordo_Celebrationis_1996_CLEAN.md)).
+   * Ensure specific paragraph numbers and chapter citations are mathematically accurate.
+2. **Engine Parity (Code Truth)**:
+   * Verify that every described algorithm, data structure, and precedence rule matches what [`engine/resolvers/`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/), [`digest/`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/digest/), and the 32 verification gates in [`scripts/service_day_multi_auditor.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/scripts/service_day_multi_auditor.py) actually execute.
+3. **Recension Purity (Anti-Syncretism)**:
+   * Eliminate all non-Ruthenian syncretism (Russian Synodal counts, Greek omissions, or unauthorized post-Vatican II modernizations).
+4. **Editorial Currency**:
+   * Eliminate phrases treating live features as "hypothetical proposals" and synchronize all task states to reality.
 
 ---
 
-## Proposed Changes
+## 2. The Brute-Force Sequential Audit Pipeline (62 Core Files)
 
-### Phase 1: Foundational Cyclic State Machines (Gates 17, 18, 19)
-
-#### [NEW] `json_db/02h_logic_psalter.json`
-- Master database encoding the 4 canonical Psalter schedules from Dolnytsky Part I §2 / Typikon Chapter 17:
-  1. **Summer Schedule** (All Saints Sunday to Sept 21):
-     * Sunday Matins: K2, K3 (+ Polyeleos / K17).
-     * Mon Matins: K4, K5 | Mon Eve Vespers: K6.
-     * Tue Matins: K7, K8 | Tue Eve Vespers: K9.
-     * Wed Matins: K10, K11 | Wed Eve Vespers: K12.
-     * Thu Matins: K13, K14 | Thu Eve Vespers: K15.
-     * Fri Matins: K19, K20 | Fri Eve Vespers: K18.
-     * Sat Matins: K16, K17 | Sat Eve Vespers: K1 (or None).
-     * Sun Eve Vespers: None.
-  2. **Winter Schedule** (Sept 22 to Dec 19; Jan 15 to Cheesefare):
-     * 3 Matins Kathismata + Kathisma 18 at Vespers Monday–Friday.
-  3. **Lenten Schedule** (Great Lent Weeks 1–6):
-     * 3 Matins Kathismata + 1 Kathisma at 1st, 3rd, 6th, 9th Hours + Kathisma 18 at Vespers.
-  4. **Paschal / Great Feast Suppression**:
-     * Zero Kathisma throughout Bright Week and Great Feasts of the Lord.
-
-#### [MODIFY] [`engine/resolvers/vespers.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/vespers.py)
-- Refactor `resolve_daily_kathisma` to query `json_db/02h_logic_psalter.json` based on the exact date and season, removing hardcoded `Kathisma 18`.
-
-#### [MODIFY] [`engine/resolvers/matins.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/matins.py)
-- Refactor `resolve_matins_kathisma` and `resolve_polyeleos_or_kathisma_17` to read directly from `json_db/02h_logic_psalter.json`.
-
-#### [MODIFY] [`engine/resolvers/hours.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/hours.py)
-- Refactor `resolve_kathisma` for 1st, 3rd, 6th, and 9th Hours to assign Lenten Kathismata according to the canonical Lenten distribution table.
+### Stage 1: The Canonical Service Rubrics (Files 1–13)
+* [ ] **File 1**: [`Rubrics/great_vespers.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/great_vespers.md) (Kathisma 1 stases, Entrance, Prokeimena, Litiya, Aposticha, Blessing of Loaves)
+* [ ] **File 2**: [`Rubrics/daily_vespers.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/daily_vespers.md) (4-Season Kathisma schedule, 6 Stichera count, Daily Prokeimena)
+* [ ] **File 3**: [`Rubrics/small_vespers.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/small_vespers.md) (4 Stichera count, omission of Kathisma stichology)
+* [ ] **File 4**: [`Rubrics/great_matins.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/great_matins.md) (Six Psalms, Polyeleos, Graduals, Gospel, Canon 14-ode matrix, Praises, Great Doxology)
+* [ ] **File 5**: [`Rubrics/daily_matins.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/daily_matins.md) (Daily Kathismata, Sessional hymns, Read Doxology, Aposticha)
+* [ ] **File 6**: [`Rubrics/lenten_matins.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/lenten_matins.md) (Alleluia mode, Trinity Hymns, Triodion 3-Odes, Prayer of St. Ephrem)
+* [ ] **File 7**: [`Rubrics/liturgy_chrysostom.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/liturgy_chrysostom.md) (Antiphons/Beatitudes, Little Entrance troparia order, Epistles/Gospels, Koinonika)
+* [ ] **File 8**: [`Rubrics/liturgy_basil.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/liturgy_basil.md) (The 10 prescribed days, Megalynarion "In you, O Full of Grace", Anaphora rubrics)
+* [ ] **File 9**: [`Rubrics/liturgy_presanctified.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/liturgy_presanctified.md) (Kathisma 18, Transfer of Presanctified Gifts, "Light of Christ", "Let my prayer rise")
+* [ ] **File 10**: [`Rubrics/hours.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/hours.md) (1st, 3rd, 6th, 9th Hours: Troparia alternation, Single-Kontakion rule, Lenten Ephrem prostrations)
+* [ ] **File 11**: [`Rubrics/typika.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/typika.md) (Aliturgical and non-Eucharistic structure, Beatitudes with Ode 3+6 troparia)
+* [ ] **File 12**: [`Rubrics/compline.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/compline.md) (Small vs Great Compline, "God is with us", Friday canon shifts)
+* [ ] **File 13**: [`Rubrics/midnight_office.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/Rubrics/midnight_office.md) (Daily Psalm 118, Saturday Kathisma 9, Sunday Triadic Canons, Bright Week suppression)
 
 ---
 
-### Phase 2: Hymnographic Structure & Sequences (Gates 20, 21, 22)
-
-#### [MODIFY] [`engine/resolvers/liturgy.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/liturgy.py)
-- Implement `resolve_little_entrance_troparia_kontakia(context, rubrics)` covering all 6 canonical cases:
-  * **Case 1 (Sunday with Feast of the Lord)**: Troparion of Feast, Kontakion of Feast.
-  * **Case 2 (Sunday with Feast of the Theotokos)**: Troparion of Resurrection, Troparion of Feast; Glory: Kontakion of Sunday, Both now: Kontakion of Feast.
-  * **Case 3 (Sunday with Polyeleos/Vigil Saint)**: Troparion of Resurrection, Troparion of Saint; Glory: Kontakion of Saint, Both now: Steadfast Protectress / Sunday Theotokion.
-  * **Case 4 (Sunday with Simple Saint)**: Troparion of Resurrection; Glory: Kontakion of Saint, Both now: Steadfast Protectress.
-  * **Case 5 (Weekday with Afterfeast)**: Troparion of Feast, Troparion of Saint; Glory: Kontakion of Saint, Both now: Kontakion of Feast.
-  * **Case 6 (Saturday of the Dead)**: Troparion of All Saints, Troparion of the Departed; Glory: *With the saints give rest*, Both now: *To You, O Lord, the author of creation*.
-
-#### [MODIFY] [`engine/resolvers/matins.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/matins.py)
-- Implement `resolve_canon_katavasia(context, rubrics)` mapping the seasonal Katavasia periods (*Cross*, *Nativity*, *Theophany*, *Meeting*, *Triodion*, *Pascha*).
-- Implement `resolve_eothinon_hymnography(context)` strictly coupling the 11 Eothinon Gospels to their Exapostilaria and Gospel Stichera.
+### Stage 2: The Canonical Logic Core & 20 Paradigms (Files 14–15)
+* [ ] **File 14**: [`docs/DOLNYTSKY_IMPLEMENTATION.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/docs/DOLNYTSKY_IMPLEMENTATION.md) (The 20 Master Paradigms: Case 01 to Case 20 exact citation check against Dolnytsky Part II)
+* [ ] **File 15**: [`docs/recension_gap_report.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/docs/recension_gap_report.md) (Stamford vs Dolnytsky resolution audit)
 
 ---
 
-### Phase 3: Minor Offices, Dismissals & Multi-Auditor Gates (Gates 23–27)
-
-#### [MODIFY] [`engine/resolvers/compline.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/compline.py) & [`engine/resolvers/common.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/common.py)
-- Formalize Compline/Midnight Office selection logic and dismissal opening formulas.
-
-#### [MODIFY] [`scripts/service_day_multi_auditor.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/scripts/service_day_multi_auditor.py)
-- Add **Gates 17 through 27**:
-  * `gate17_psalter_kathisma_distribution`
-  * `gate18_weekday_theotokia_cycle`
-  * `gate19_octoechos_tone_rotation`
-  * `gate20_matins_canon_katavasia`
-  * `gate21_eothinon_exapostilarion_sync`
-  * `gate22_little_entrance_sequence`
-  * `gate23_compline_midnight_office`
-  * `gate24_hours_propers_schedule`
-  * `gate25_liturgical_dismissal_alignment`
-  * `gate26_vesperal_liturgy_eve_shifts`
-  * `gate27_aliturgical_suppression`
+### Stage 3: The 33 Topical Encyclopedia Articles (Files 16–48)
+* [ ] **Files 16–21 (Office Hooks)**: `encyclopedia_vespers_hooks.md`, `matins_hooks.md`, `liturgy_hooks.md`, `hours_hooks.md`, `compline_hooks.md`, `midnight_hooks.md`
+* [ ] **Files 22–28 (Cyclic & Precedence Logic)**: `prokeimena_precedence.md`, `octoechos_rotation.md`, `gospel_selection.md`, `transfer_logic.md`, `repetition_logic.md`, `hours_collision.md`, `sidalen_logic.md`
+* [ ] **Files 29–33 (Lenten & Presanctified Systems)**: `lenten_canons.md`, `lenten_hours.md`, `presanctified_triggers.md`, `fasting_levels.md`, `inter_hours.md`
+* [ ] **Files 34–41 (Ceremonial & Ritual Rules)**: `censing_rules.md`, `dismissal_construction.md`, `litya_artoklasia.md`, `royal_hours.md`, `typika_beatitudes.md`, `compline_canons.md`, `midnight_office.md`, `hierarchical_commemorations.md`
+* [ ] **Files 42–48 (Methodology & Schemas)**: `master_citation_matrix.md`, `complete_book_schemas.md`, `matins_gap_matrix.md`, `persona_and_rules.md`, `service_audit_template.md`, `typikon_search_methodology.md`, `proposed_topics.md`
 
 ---
 
-## Verification Plan
+### Stage 4: Engine Architecture & Schemas (Files 49–52)
+* [ ] **File 49**: [`docs/ARCHITECTURE.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/docs/ARCHITECTURE.md)
+* [ ] **File 50**: [`docs/DATA_STRUCTURE.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/docs/DATA_STRUCTURE.md)
+* [ ] **File 51**: [`docs/deepseek_expansion_strategy.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/docs/deepseek_expansion_strategy.md)
+* [ ] **File 52**: [`schemas/README.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/schemas/README.md)
 
-### Automated Tests
-1. **Unit Test Suite**:
-   ```powershell
-   $env:PYTHONPATH="." ; .venv\Scripts\python -m pytest tests/test_psalter_matrix.py tests/test_little_entrance_sequence.py -v
-   ```
-2. **27-Gate Full 100-Year Multi-Audit (1950–2050)**:
-   ```powershell
-   $env:PYTHONPATH="." ; .venv\Scripts\python scripts/service_day_multi_auditor.py --start-date 1950-01-01 --end-date 2050-12-31
-   ```
-3. **Full Pytest Suite**:
-   ```powershell
-   $env:PYTHONPATH="." ; .venv\Scripts\python -m pytest --ignore=tests/test_ui_readability.py -v
-   ```
+---
+
+### Stage 5: Master Project Plan & Operational Roadmaps (Files 53–55)
+* [ ] **File 53**: [`docs/MASTER_PROJECT_PLAN.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/docs/MASTER_PROJECT_PLAN.md)
+* [ ] **File 54**: [`gui_features_roadmap.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/gui_features_roadmap.md)
+* [ ] **File 55**: [`README.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/README.md)
+
+---
+
+### Stage 6: Development Chronicles & Research Monograph (Files 56–62)
+* [ ] **File 56**: [`docs/chronicle/Master_Development_Chronicle.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/docs/chronicle/Master_Development_Chronicle.md)
+* [ ] **Files 57–61**: `Volume_I_Genesis_and_AI_Studio_Incubation.md` through `Volume_V_Compliance_Reformation_and_Mechanical_Gates.md`
+* [ ] **File 62**: [`docs/monograph/Computational_Liturgics_Research_Monograph.md`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/docs/monograph/Computational_Liturgics_Research_Monograph.md)
+
+---
+
+## 3. Execution Workflow per File
+For each file in order (1 through 62):
+1. **View & Inspect**: Read the full file contents.
+2. **Cross-Check**: Verify every rubric/claim against `readable_parts/`, `Ordo_Celebrationis_1996_CLEAN.md`, and `engine/resolvers/`.
+3. **Remediate**: Apply contiguous line replacements for any rubrical or technical inaccuracy.
+4. **Log & Progress**: Mark the file verified in the tracker artifact and report the specific audited items and corrections made.

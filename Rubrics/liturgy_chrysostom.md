@@ -16,7 +16,7 @@ These are placed directly in the Word document at the corresponding structural p
 ## 1. The Prothesis
 **JSON node:** `prothesis`
 
-The priest and deacon prepare the Holy Gifts at the proskomedia table. *On Sundays and Feasts*, the priest cuts the Lamb for the communicants. *On Holy Thursday*, two Lambs are prepared (one is reserved for the Presanctified Liturgies of the coming year). The deacon pours the wine and water and covers the Gifts.
+The priest and deacon prepare the Holy Gifts at the proskomedia table. *On Sundays and Feasts*, the priest cuts the Lamb for the communicants. *On Holy Thursday*, two Lambs are prepared (the second Lamb is consecrated and reserved for the Viaticum and communion of the sick throughout the entire liturgical year per *Ordo Celebrationis §142*). The deacon pours the wine and water and covers the Gifts.
 
 ---
 
@@ -127,7 +127,7 @@ The deacon exclaims *"With the fear of God and with faith, draw near!"* and the 
 **JSON nodes:** `post_communion`, `dismissal`
 
 The choir sings *"We have seen the true light..."*
-*(From Pascha to Leavetaking: replaced by "Christ is risen (3x)". From Ascension to Leavetaking: replaced by the Troparion of Ascension. From Theophany to Leavetaking: replaced by the Troparion of Theophany. From Nativity to Leavetaking: replaced by the Kontakion of Nativity).*
+*(From Pascha to Ascension Eve: replaced by "Christ is risen from the dead" (1x). From Ascension to its Leavetaking: replaced by the Troparion of Ascension. From Theophany to its Leavetaking: replaced by the Troparion of Theophany. From Nativity to its Leavetaking: replaced by the Troparion of the Nativity per Ordo Celebrationis §98).*
 
 The priest reads the Ambo Prayer.
 The priest gives the Dismissal, blessing the people with the hand cross (on Sundays/Feasts) or his hand (on weekdays). The preamble of the dismissal varies by season (e.g., *"May Christ our true God, risen from the dead..."* for Sundays).
@@ -139,16 +139,19 @@ The priest gives the Dismissal, blessing the people with the hand cross (on Sund
 
 ---
 
-## Appendix A: Precedence of Troparia and Kontakia at the Entrance
+## Appendix A: Precedence of Troparia and Kontakia at the Little Entrance
+*(Dolnytsky Part V §1 & Ordo Celebrationis §§62–67)*
 
-When multiple commemorations occur on the same day, the troparia and kontakia at the Little Entrance are stacked in exactly this following order of precedence:
+When multiple commemorations occur on the same day, the troparia and kontakia at the Little Entrance are chanted in the following canonical order based on the Temple dedication:
 
-1. **Sunday/Resurrectional** Troparion
-2. **Temple** Troparion (if the temple is dedicated to the Lord or the Theotokos)
-3. **Great Feast** Troparion
-4. **Saint of the Day** (Menaion) Troparion
-5. **Temple** Kontakion
-6. ☨ **Glory:** Kontakion of the Saint
-7. **Now:** Theotokion (or Kontakion of the Feast, or Dismissal Theotokion)
+### 1. In a Temple Dedicated to the Lord:
+- *On Sunday:* Sunday Troparion, then Troparion of the Saint of the day (Temple Troparion is omitted). ☨ Glory: Kontakion of the Saint, Both now: Sunday Kontakion (or "Steadfast Protectress").
 
-*(Note: specific matrices for intersecting feasts (e.g., Temple of a Saint vs. Sunday vs. Polyeleos Saint) are determined dynamically by the engine's collison rules, but this general hierarchy governs the flow).*
+### 2. In a Temple Dedicated to the Theotokos:
+- *On Sunday:* Sunday Troparion, then Temple Troparion of the Theotokos, then Troparion of the Saint. ☨ Glory: Kontakion of the Saint, Both now: Temple Kontakion of the Theotokos.
+
+### 3. In a Temple Dedicated to a Saint:
+- *On Sunday:* Sunday Troparion, then Troparion of the Saint of the day (Temple Troparion of the Patron is omitted). ☨ Glory: Kontakion of the Saint of the day, Both now: "Steadfast Protectress of Christians" (or Sunday Kontakion).
+
+### 4. On a Great Feast of the Lord:
+- Festal Troparion (1x). ☨ Glory.. now.. Festal Kontakion (1x). All other troparia and kontakia are suppressed.

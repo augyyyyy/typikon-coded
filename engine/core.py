@@ -36,7 +36,7 @@ class EngineCore:
     """Mixin providing core methods for RuthenianEngine."""
 
 
-    def __init__(self, base_dir=".", temple_feast_date=None, version="royal_doors", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None, calendar_source=None):
+    def __init__(self, base_dir=".", temple_feast_date=None, temple_patron=None, temple_type="saint", parish_profile=None, hierarchy=None, version="royal_doors", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None, calendar_source=None):
         self.base_dir = base_dir
         self.json_db = os.path.join(base_dir, "json_db")
         self.paschalion = paschalion # 'gregorian' or 'julian'
@@ -76,6 +76,10 @@ class EngineCore:
         print(f"Engine Init: Logic=[{self.version_id}] | Internal Content=[json_db/{self.content_folder}]")
 
         self.temple_feast_date = temple_feast_date
+        self.temple_patron = temple_patron
+        self.temple_type = temple_type
+        self.parish_profile = parish_profile or {}
+        self.hierarchy = hierarchy or {}
         self.trace_log = []
         self._almanacs = {}
         

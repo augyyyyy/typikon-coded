@@ -1,123 +1,123 @@
 {
-  "file_metadata": {
-    "filename": "01k_struct_vigil.json",
-    "version": "1.1 (Ordo Cross-Ref)",
-    "last_updated": "2026-05-03",
-    "authority": "Lviv (Dolnytsky) Typikon (2010) Part I & Ordo Celebrationis 1944 §53–§73",
-    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
-    "scope": "The All-Night Vigil (Composite Structure)"
-  },
-  "structures": {
-    "all_night_vigil": {
-      "title_key": "titles.all_night_vigil",
-      "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.1",
-      "sequence": [
-        {
-          "id": "opening_vigil",
-          "rubric": {
-            "title": "The Opening",
-            "ordo_ref": "§54",
-            "roles": {
-              "priest": "Cense Altar with Open Doors. Exclaim 'Glory to the Holy, Consubstantial...'"
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vigil_opening"
-            }
-          }
-        },
-        {
-          "id": "vespers_module",
-          "type": "link",
-          "target_file": "01h_struct_vespers.json",
-          "target_id": "great_vespers_vigil",
-          "overrides": [
-            {
-              "target_id": "opening_vigil",
-              "action": "delete"
-            },
-            {
-              "target_id": "dismissal_vigil",
-              "action": "delete"
-            }
-          ]
-        },
-        {
-          "id": "litya_module",
-          "rubric": {
-            "title": "The Litya",
-            "ordo_ref": "§57–§58",
-            "note": "Procession to Narthex."
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_litya_content"
-            }
-          }
-        },
-        {
-          "id": "artoklasia_module",
-          "rubric": {
-            "title": "Blessing of Loaves",
-            "ordo_ref": "§58"
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_artoklasia"
-            }
-          }
-        },
-        {
-          "id": "vigil_transition_bridge",
-          "rubric": {
-            "title": "The Transition (Seam)",
-            "ordo_ref": "§60",
-            "roles": {
-              "priest": "The blessing of the Lord be upon you...",
-              "all": "Amen."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.vigil_bridge_blessing"
-          }
-        },
-        {
-          "id": "matins_module",
-          "type": "link",
-          "target_file": "01i_struct_matins.json",
-          "target_id": "great_matins",
-          "overrides": [
-            {
-              "target_id": "dismissal",
-              "action": "delete"
-            }
-          ]
-        },
-        {
-          "id": "hour_1_module",
-          "type": "link",
-          "target_file": "01a_struct_hour_1.json",
-          "target_id": "structure_standard",
-          "overrides": [
-            {
-              "target_id": "opening_prayers",
-              "action": "delete"
-            },
-            {
-              "target_id": "dismissal_slot",
-              "action": "modify",
-              "rubric": {
-                "title": "Final Dismissal of Vigil"
-              }
-            }
-          ]
+    "file_metadata": {
+        "filename": "01k_struct_vigil.json",
+        "version": "1.1 (Ordo Cross-Ref)",
+        "last_updated": "2026-05-03",
+        "authority": "Lviv (Dolnytsky) Typikon (2010) Part I & Ordo Celebrationis 1944 §53–§73",
+        "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
+        "scope": "The All-Night Vigil (Composite Structure)"
+    },
+    "structures": {
+        "all_night_vigil": {
+            "title_key": "titles.all_night_vigil",
+            "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.1",
+            "sequence": [
+                {
+                    "id": "opening_vigil",
+                    "rubric": {
+                        "title": "The Opening",
+                        "ordo_ref": "§54",
+                        "roles": {
+                            "priest": "Cense Altar with Open Doors. Exclaim 'Glory to the Holy, Consubstantial...'"
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vigil_opening"
+                        }
+                    }
+                },
+                {
+                    "id": "vespers_module",
+                    "type": "link",
+                    "target_file": "01h_struct_vespers.json",
+                    "target_id": "great_vespers_vigil",
+                    "overrides": [
+                        {
+                            "target_id": "opening_vigil",
+                            "action": "delete"
+                        },
+                        {
+                            "target_id": "dismissal_vigil",
+                            "action": "delete"
+                        }
+                    ]
+                },
+                {
+                    "id": "litya_module",
+                    "rubric": {
+                        "title": "The Litya",
+                        "ordo_ref": "§57–§58",
+                        "note": "Procession to Narthex."
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_litya_content"
+                        }
+                    }
+                },
+                {
+                    "id": "artoklasia_module",
+                    "rubric": {
+                        "title": "Blessing of Loaves",
+                        "ordo_ref": "§58"
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_artoklasia"
+                        }
+                    }
+                },
+                {
+                    "id": "vigil_transition_bridge",
+                    "rubric": {
+                        "title": "The Transition (Seam)",
+                        "ordo_ref": "§60",
+                        "roles": {
+                            "priest": "The blessing of the Lord be upon you...",
+                            "all": "Amen."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.matins.vigil_bridge_blessing"
+                    }
+                },
+                {
+                    "id": "matins_module",
+                    "type": "link",
+                    "target_file": "01i_struct_matins.json",
+                    "target_id": "great_matins",
+                    "overrides": [
+                        {
+                            "target_id": "dismissal",
+                            "action": "delete"
+                        }
+                    ]
+                },
+                {
+                    "id": "hour_1_module",
+                    "type": "link",
+                    "target_file": "01a_struct_hour_1.json",
+                    "target_id": "structure_standard",
+                    "overrides": [
+                        {
+                            "target_id": "opening_prayers",
+                            "action": "delete"
+                        },
+                        {
+                            "target_id": "dismissal_slot",
+                            "action": "modify",
+                            "rubric": {
+                                "title": "Final Dismissal of Vigil"
+                            }
+                        }
+                    ]
+                }
+            ]
         }
-      ]
     }
-  }
 }

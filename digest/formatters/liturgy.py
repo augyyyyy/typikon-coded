@@ -413,7 +413,14 @@ class LiturgyFormatterMixin:
             if source == "resurrection_tone":
                 parts.append(f"{prefix}{typ} of the Resurrection{tone_str}.")
             elif source == "temple":
-                parts.append(f"{prefix}{typ} of the Temple.")
+                temple_name = context.get("temple_patron") or context.get("parish_profile", {}).get("temple", {}).get("name")
+                temple_type = context.get("temple_type") or context.get("parish_profile", {}).get("temple", {}).get("type")
+                if temple_name and temple_name not in ("St. Nicholas", "the Temple", "the Saint", "Saint"):
+                    parts.append(f"{prefix}{typ} of the Temple ({temple_name}).")
+                elif temple_type == "theotokos":
+                    parts.append(f"{prefix}{typ} of the Temple (Theotokos).")
+                else:
+                    parts.append(f"{prefix}{typ} of the Temple.")
             elif source == "menaion_saint":
                 saints = context.get("saints", [])
                 if saints:

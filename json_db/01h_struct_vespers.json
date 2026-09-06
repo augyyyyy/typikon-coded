@@ -1,933 +1,933 @@
 {
-  "file_metadata": {
-    "filename": "01h_struct_vespers.json",
-    "version": "4.2 (Ordo Cross-Ref)",
-    "last_updated": "2026-05-03",
-    "authority": "Lviv (Dolnytsky) Typikon (2010) Part I (Vespers) & Ordo Celebrationis 1944 §29–§73",
-    "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
-    "scope": "Complete Vespers Matrix (Vigil, Polyeleos, Daily, Small)",
-    "description": "Defines the 4 distinct orders of Vespers prescribed by the Lviv Synod, plus special Lenten/Passion variants. Choreographic rubrics cross-referenced to Ordo Celebrationis §-numbers."
-  },
-  "structures": {
-    "great_vespers_vigil": {
-      "title_key": "titles.vespers_great_vigil",
-      "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.1",
-      "sequence": [
-        {
-          "id": "vesting_rite",
-          "rubric": {
-            "title": "Vesting and Censing",
+    "file_metadata": {
+        "filename": "01h_struct_vespers.json",
+        "version": "4.2 (Ordo Cross-Ref)",
+        "last_updated": "2026-05-03",
+        "authority": "Lviv (Dolnytsky) Typikon (2010) Part I (Vespers) & Ordo Celebrationis 1944 §29–§73",
+        "authority_file": "Data/Service Books/Ordo/Ordo_Celebrationis_1996_CLEAN.md",
+        "scope": "Complete Vespers Matrix (Vigil, Polyeleos, Daily, Small)",
+        "description": "Defines the 4 distinct orders of Vespers prescribed by the Lviv Synod, plus special Lenten/Passion variants. Choreographic rubrics cross-referenced to Ordo Celebrationis §-numbers."
+    },
+    "structures": {
+        "great_vespers_vigil": {
+            "title_key": "titles.vespers_great_vigil",
             "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.1",
-            "ordo_ref": "§29–§30",
-            "roles": {
-              "priest": "Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.",
-              "deacon": "Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing.",
-              "subdeacon": "Light the candles on the Holy Table."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vestment_set",
-              "args": {
-                "service": "vigil_vespers",
-                "clergy_type": "priest"
-              }
-            }
-          }
-        },
-        {
-          "id": "fasting_rule",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_fasting_rule"
-            }
-          }
-        },
-        {
-          "id": "opening_vigil",
-          "rubric": {
-            "title": "The Opening",
-            "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.3",
-            "ordo_ref": "§54",
-            "roles": {
-              "deacon": "Stand before the Holy Doors. Exclaim 'Bless, Master!'",
-              "priest": "Make the sign of the Cross with the censer before the Holy Table. Sing 'Glory to the Holy, Consubstantial...'"
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.blessing_vigil"
-          }
-        },
-        {
-          "id": "censing_psalm_103",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_censing_annotation",
-              "args": {
-                "service_point": "psalm_103"
-              }
-            }
-          }
-        },
-        {
-          "id": "horologion.psalm_103_vigil",
-          "rubric": {
-            "title": "The Proemial Psalm",
-            "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.3",
-            "ordo_ref": "§31",
-            "roles": {
-              "priest": "Exit Sanctuary via North Door. Read the Prayers of Light silently.",
-              "deacon": "Close Holy Doors. Stand before them with a candle.",
-              "cantor": "Sing 'Come let us worship' and Psalm 103."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.psalm_103"
-          }
-        },
-        {
-          "id": "great_litany",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_great"
-          }
-        },
-        {
-          "id": "kathisma_vigil",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_daily_kathisma"
-            }
-          }
-        },
-        {
-          "id": "small_litany",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_small"
-          }
-        },
-        {
-          "id": "censing_lord_i_have_cried",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_censing_annotation",
-              "args": {
-                "service_point": "lord_i_have_cried"
-              }
-            }
-          }
-        },
-        {
-          "id": "lord_i_have_cried_10",
-          "content": {
-            "type": "generator",
-            "generator_method": "generate_stichera_sequence",
-            "args": {
-              "slot_id": "vespers_stichera_distribution"
-            }
-          }
-        },
-        {
-          "id": "censing_entrance",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_censing_annotation",
-              "args": {
-                "service_point": "entrance"
-              }
-            }
-          }
-        },
-        {
-          "id": "doors_entrance",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_door_state",
-              "args": {
-                "service": "vespers_with_vigil",
-                "moment": "all_entrances"
-              }
-            }
-          }
-        },
-        {
-          "id": "entrance_great",
-          "rubric": {
-            "ordo_ref": "§34"
-          },
-          "content": {
-            "type": "component_ref",
-            "ref_key": "components.entrance_great"
-          }
-        },
-        {
-          "id": "prokeimenon_readings",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vespers_readings_logic"
-            }
-          }
-        },
-        {
-          "id": "litanies_fervent_supplication",
-          "content": {
-            "type": "fixed_group",
-            "ref_keys": [
-              "horologion.litany_fervent",
-              "horologion.vouchsafe_o_lord",
-              "horologion.litany_supplication"
+            "sequence": [
+                {
+                    "id": "vesting_rite",
+                    "rubric": {
+                        "title": "Vesting and Censing",
+                        "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.1",
+                        "ordo_ref": "§29–§30",
+                        "roles": {
+                            "priest": "Bless and vest in Epitrachelion. If Deacons serve, bless their Sticharia. Stand before the Holy Table.",
+                            "deacon": "Vest in Sticharion. Open the Holy Doors. Exclaim 'Bless, Master, the censer.' Perform the Great Censing.",
+                            "subdeacon": "Light the candles on the Holy Table."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vestment_set",
+                            "args": {
+                                "service": "vigil_vespers",
+                                "clergy_type": "priest"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "fasting_rule",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_fasting_rule"
+                        }
+                    }
+                },
+                {
+                    "id": "opening_vigil",
+                    "rubric": {
+                        "title": "The Opening",
+                        "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.3",
+                        "ordo_ref": "§54",
+                        "roles": {
+                            "deacon": "Stand before the Holy Doors. Exclaim 'Bless, Master!'",
+                            "priest": "Make the sign of the Cross with the censer before the Holy Table. Sing 'Glory to the Holy, Consubstantial...'"
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.matins.blessing_vigil"
+                    }
+                },
+                {
+                    "id": "censing_psalm_103",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_censing_annotation",
+                            "args": {
+                                "service_point": "psalm_103"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "horologion.psalm_103_vigil",
+                    "rubric": {
+                        "title": "The Proemial Psalm",
+                        "source_ref": "Dolnytsky_Typikon_Master.md:1.2.1.3",
+                        "ordo_ref": "§31",
+                        "roles": {
+                            "priest": "Exit Sanctuary via North Door. Read the Prayers of Light silently.",
+                            "deacon": "Close Holy Doors. Stand before them with a candle.",
+                            "cantor": "Sing 'Come let us worship' and Psalm 103."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.psalm_103"
+                    }
+                },
+                {
+                    "id": "great_litany",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.great_litany"
+                    }
+                },
+                {
+                    "id": "kathisma_vigil",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_daily_kathisma"
+                        }
+                    }
+                },
+                {
+                    "id": "small_litany",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.small_litany"
+                    }
+                },
+                {
+                    "id": "censing_lord_i_have_cried",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_censing_annotation",
+                            "args": {
+                                "service_point": "lord_i_have_cried"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "lord_i_have_cried_10",
+                    "content": {
+                        "type": "generator",
+                        "generator_method": "generate_stichera_sequence",
+                        "args": {
+                            "slot_id": "vespers_stichera_distribution"
+                        }
+                    }
+                },
+                {
+                    "id": "censing_entrance",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_censing_annotation",
+                            "args": {
+                                "service_point": "entrance"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "doors_entrance",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_door_state",
+                            "args": {
+                                "service": "vespers_with_vigil",
+                                "moment": "all_entrances"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "entrance_great",
+                    "rubric": {
+                        "ordo_ref": "§34"
+                    },
+                    "content": {
+                        "type": "component_ref",
+                        "ref_key": "components.entrance_great"
+                    }
+                },
+                {
+                    "id": "prokeimenon_readings",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vespers_readings_logic"
+                        }
+                    }
+                },
+                {
+                    "id": "litanies_fervent_supplication",
+                    "content": {
+                        "type": "fixed_group",
+                        "ref_keys": [
+                            "horologion.vespers.fervent_litany",
+                            "horologion.vespers.vouchsafe_o_lord",
+                            "horologion.vespers.supplication_litany"
+                        ]
+                    }
+                },
+                {
+                    "id": "litiya_rite",
+                    "content": {
+                        "type": "conditional_block",
+                        "logic": {
+                            "function": "check_litiya_trigger"
+                        },
+                        "true_content": {
+                            "type": "structure_ref",
+                            "file": "json_db/01j_struct_litiya.json",
+                            "root_id": "litiya"
+                        },
+                        "false_content": null
+                    }
+                },
+                {
+                    "id": "aposticha",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_aposticha"
+                        }
+                    }
+                },
+                {
+                    "id": "nunc_dimittis_trisagion",
+                    "content": {
+                        "type": "fixed_group",
+                        "ref_keys": [
+                            "horologion.vespers.nunc_dimittis",
+                            "horologion.common.trisagion_block"
+                        ]
+                    }
+                },
+                {
+                    "id": "troparia_resurrectional",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vespers_troparia_simple"
+                        }
+                    }
+                },
+                {
+                    "id": "artoklasia_rite",
+                    "content": {
+                        "type": "conditional_block",
+                        "logic": {
+                            "function": "check_litiya_trigger"
+                        },
+                        "true_content": {
+                            "type": "variable_logic",
+                            "logic": {
+                                "function": "resolve_artoklasia"
+                            }
+                        },
+                        "false_content": null
+                    }
+                },
+                {
+                    "id": "dismissal_vigil",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.dismissal_vigil_sequence"
+                    }
+                }
             ]
-          }
         },
-        {
-          "id": "litiya_rite",
-          "content": {
-            "type": "conditional_block",
-            "logic": {
-              "function": "check_litiya_trigger"
-            },
-            "true_content": {
-              "type": "structure_ref",
-              "file": "json_db/01j_struct_litiya.json",
-              "root_id": "litiya"
-            },
-            "false_content": null
-          }
-        },
-        {
-          "id": "aposticha",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_aposticha"
-            }
-          }
-        },
-        {
-          "id": "nunc_dimittis_trisagion",
-          "content": {
-            "type": "fixed_group",
-            "ref_keys": [
-              "horologion.nunc_dimittis",
-              "horologion.trisagion_block"
+        "great_vespers_simple": {
+            "title_key": "titles.vespers_great_simple",
+            "inherits_from": "great_vespers_vigil",
+            "overrides": [
+                {
+                    "target_id": "litiya_rite",
+                    "action": "delete"
+                },
+                {
+                    "target_id": "artoklasia_rite",
+                    "action": "delete"
+                },
+                {
+                    "target_id": "dismissal_vigil",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "dismissal_great",
+                        "content": {
+                            "type": "fixed_ref",
+                            "ref_key": "horologion.dismissal_great"
+                        }
+                    }
+                }
             ]
-          }
         },
-        {
-          "id": "troparia_resurrectional",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vespers_troparia_simple"
-            }
-          }
+        "great_vespers_polyeleos": {
+            "title_key": "titles.vespers_great_polyeleos",
+            "sequence": [
+                {
+                    "id": "beginning_polyeleos",
+                    "rubric": {
+                        "roles": {
+                            "priest": "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."
+                        }
+                    }
+                },
+                {
+                    "id": "lord_i_have_cried_8",
+                    "content": {
+                        "type": "generator",
+                        "generator_method": "generate_stichera_sequence",
+                        "args": {
+                            "slot_id": "vespers_stichera_polyeleos"
+                        }
+                    }
+                },
+                {
+                    "id": "entrance_great",
+                    "content": {
+                        "type": "component_ref",
+                        "ref_key": "components.entrance_great"
+                    }
+                },
+                {
+                    "id": "prokeimenon_readings",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vespers_readings_logic"
+                        }
+                    }
+                },
+                {
+                    "id": "dismissal_great",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.dismissal_great"
+                    }
+                }
+            ]
         },
-        {
-          "id": "artoklasia_rite",
-          "content": {
-            "type": "conditional_block",
-            "logic": {
-              "function": "check_litiya_trigger"
-            },
-            "true_content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_artoklasia"
-              }
-            },
-            "false_content": null
-          }
+        "daily_vespers": {
+            "title_key": "titles.vespers_daily",
+            "sequence": [
+                {
+                    "id": "beginning_daily",
+                    "rubric": {
+                        "roles": {
+                            "priest": "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."
+                        }
+                    }
+                },
+                {
+                    "id": "psalm_103_simple",
+                    "rubric": {
+                        "title": "Psalm 103 (Simple)",
+                        "roles": {
+                            "cantor": "Read Psalm 103 without singing."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.psalm_103"
+                    }
+                },
+                {
+                    "id": "great_litany",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.great_litany"
+                    }
+                },
+                {
+                    "id": "kathisma_daily",
+                    "rubric": {
+                        "title": "The Kathisma",
+                        "note": "Current Kathisma for the day of the week."
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_daily_kathisma"
+                        }
+                    }
+                },
+                {
+                    "id": "small_litany",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.small_litany"
+                    }
+                },
+                {
+                    "id": "lord_i_have_cried_6",
+                    "content": {
+                        "type": "generator",
+                        "generator_method": "generate_stichera_sequence",
+                        "args": {
+                            "slot_id": "vespers_stichera_daily"
+                        }
+                    }
+                },
+                {
+                    "id": "prokeimenon_daily",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_prokeimenon"
+                        }
+                    }
+                },
+                {
+                    "id": "vouchsafe_read",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.vouchsafe_o_lord"
+                    }
+                },
+                {
+                    "id": "aposticha",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_aposticha"
+                        }
+                    }
+                },
+                {
+                    "id": "nunc_dimittis_read",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.nunc_dimittis"
+                    }
+                },
+                {
+                    "id": "trisagion",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.trisagion_block"
+                    }
+                },
+                {
+                    "id": "troparia_daily",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vespers_troparia_simple"
+                        }
+                    }
+                },
+                {
+                    "id": "dismissal_daily",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.dismissal_small"
+                    }
+                }
+            ]
         },
-        {
-          "id": "dismissal_vigil",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.dismissal_vigil_sequence"
-          }
+        "small_vespers": {
+            "title_key": "titles.vespers_small",
+            "sequence": [
+                {
+                    "id": "beginning_small",
+                    "rubric": {
+                        "note": "Abbreviated opening."
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.blessing"
+                    }
+                },
+                {
+                    "id": "lord_i_have_cried_4",
+                    "content": {
+                        "type": "generator",
+                        "generator_method": "generate_stichera_sequence",
+                        "args": {
+                            "slot_id": "vespers_stichera_small"
+                        }
+                    }
+                },
+                {
+                    "id": "entrance_suppression",
+                    "rubric": {
+                        "note": "NO ENTRANCE is made."
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.phos_hilaron_read"
+                    }
+                },
+                {
+                    "id": "prokeimenon_small",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_small_vespers_prokeimenon"
+                        }
+                    }
+                },
+                {
+                    "id": "vouchsafe_read",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.vouchsafe_o_lord"
+                    }
+                },
+                {
+                    "id": "aposticha",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_aposticha"
+                        }
+                    }
+                },
+                {
+                    "id": "nunc_dimittis_read",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.nunc_dimittis"
+                    }
+                },
+                {
+                    "id": "trisagion",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.trisagion_block"
+                    }
+                },
+                {
+                    "id": "troparia_small",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vespers_troparia_simple"
+                        }
+                    }
+                },
+                {
+                    "id": "dismissal_small",
+                    "rubric": {
+                        "title": "Small Dismissal"
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.dismissal_small"
+                    }
+                }
+            ]
+        },
+        "lenten_vespers": {
+            "title_key": "titles.vespers_lenten",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.14",
+            "sequence": [
+                {
+                    "id": "opening_lenten",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.blessing"
+                    }
+                },
+                {
+                    "id": "horologion.vespers.psalm_103",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.psalm_103"
+                    }
+                },
+                {
+                    "id": "great_litany",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.great_litany"
+                    }
+                },
+                {
+                    "id": "kathisma_lenten",
+                    "rubric": {
+                        "key": "rubrics.lenten.kathisma_18_or_none"
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_lenten_kathisma"
+                        }
+                    }
+                },
+                {
+                    "id": "lord_i_have_cried_lenten",
+                    "content": {
+                        "type": "generator",
+                        "generator_method": "generate_stichera_sequence",
+                        "args": {
+                            "slot_id": "vespers_stichera_lenten"
+                        }
+                    }
+                },
+                {
+                    "id": "entrance_conditional",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vespers_entrance"
+                        }
+                    }
+                },
+                {
+                    "id": "prokeimenon_readings",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_lenten_prokeimenon"
+                        }
+                    }
+                },
+                {
+                    "id": "vouchsafe",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.vouchsafe_o_lord"
+                    }
+                },
+                {
+                    "id": "aposticha",
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_aposticha"
+                        }
+                    }
+                },
+                {
+                    "id": "lenten_ending",
+                    "rubric": {
+                        "title": "Lenten Conclusion (Rejoice O Virgin + Ephrem)"
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_lenten_ending"
+                        }
+                    }
+                },
+                {
+                    "id": "dismissal_lenten",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.dismissal_lenten"
+                    }
+                }
+            ]
+        },
+        "presanctified_vespers": {
+            "title_key": "titles.vespers_presanctified",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.14.3.3",
+            "inherits_from": "lenten_vespers",
+            "overrides": [
+                {
+                    "target_id": "opening_lenten",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "opening_presanctified",
+                        "content": {
+                            "type": "fixed_ref",
+                            "ref_key": "liturgikon.blessing_kingdom"
+                        }
+                    }
+                },
+                {
+                    "target_id": "kathisma_lenten",
+                    "action": "modify",
+                    "rubric": {
+                        "title": "Kathisma 18",
+                        "note": "During the Kathisma, the Gifts are transferred."
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_presanctified_transfer"
+                        }
+                    }
+                },
+                {
+                    "target_id": "entrance_conditional",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "entrance_presanctified",
+                        "rubric": {
+                            "title": "Entrance with Censer (or Gospel)",
+                            "note": "Gospel if Feast or Holy Week."
+                        },
+                        "content": {
+                            "type": "variable_logic",
+                            "logic": {
+                                "function": "resolve_presanctified_entrance"
+                            }
+                        }
+                    }
+                },
+                {
+                    "target_id": "prokeimenon_readings",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "readings_light",
+                        "rubric": {
+                            "title": "Readings & Light",
+                            "roles": {
+                                "priest": "Intone 'The Light of Christ illumines all'."
+                            }
+                        },
+                        "content": {
+                            "type": "variable_logic",
+                            "logic": {
+                                "function": "resolve_presanctified_readings"
+                            }
+                        }
+                    }
+                },
+                {
+                    "target_id": "vouchsafe",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "let_my_prayer_arise",
+                        "rubric": {
+                            "title": "Let My Prayer Arise",
+                            "roles": {
+                                "all": "Kneel/Prostrate during verses."
+                            }
+                        },
+                        "content": {
+                            "type": "fixed_ref",
+                            "ref_key": "triodion.let_my_prayer_arise"
+                        }
+                    }
+                },
+                {
+                    "target_id": "aposticha",
+                    "action": "delete"
+                },
+                {
+                    "target_id": "lenten_ending",
+                    "action": "delete"
+                },
+                {
+                    "target_id": "dismissal_lenten",
+                    "action": "delete"
+                }
+            ]
+        },
+        "passion_burial_vespers": {
+            "title_key": "titles.vespers_passion_burial",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.1.3",
+            "sequence": [
+                {
+                    "id": "opening",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.blessing"
+                    }
+                },
+                {
+                    "id": "psalm_103",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.psalm_103"
+                    }
+                },
+                {
+                    "id": "great_litany",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.great_litany"
+                    }
+                },
+                {
+                    "id": "lord_i_have_cried_10",
+                    "content": {
+                        "type": "generator",
+                        "generator_method": "generate_stichera_sequence",
+                        "args": {
+                            "slot_id": "vespers_stichera_passion",
+                            "count": 10
+                        }
+                    }
+                },
+                {
+                    "id": "entrance_gospel",
+                    "rubric": {
+                        "title": "Entrance with Gospel",
+                        "roles": {
+                            "priest": "Enter with the Gospel Book primarily, not the Censer."
+                        }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.entrance_prayer"
+                    }
+                },
+                {
+                    "id": "light_gladdening",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.gladsome_light"
+                    }
+                },
+                {
+                    "id": "readings_passion_block",
+                    "rubric": {
+                        "title": "The Readings",
+                        "note": "Prokeimenon, OT (Exodus, Job, Isaiah), Epistle, Gospel."
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_passion_vespers_readings"
+                        }
+                    }
+                },
+                {
+                    "id": "litany_fervent",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.fervent_litany"
+                    }
+                },
+                {
+                    "id": "vouchsafe",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.vouchsafe_o_lord"
+                    }
+                },
+                {
+                    "id": "litany_supplication",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.supplication_litany"
+                    }
+                },
+                {
+                    "id": "aposticha_passion",
+                    "rubric": {
+                        "title": "Aposticha",
+                        "note": "During the singing, the Priest incenses the Shroud."
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_aposticha"
+                        }
+                    }
+                },
+                {
+                    "id": "nunc_dimittis",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.nunc_dimittis"
+                    }
+                },
+                {
+                    "id": "trisagion",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.trisagion_block"
+                    }
+                },
+                {
+                    "id": "troparia_shroud",
+                    "rubric": {
+                        "title": "Troparia (The Noble Joseph)",
+                        "roles": {
+                            "priest": "Procession with Shroud to the Tomb during these troparia."
+                        }
+                    },
+                    "content": {
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_vespers_troparia_simple"
+                        }
+                    }
+                },
+                {
+                    "id": "shroud_procession_rite",
+                    "content": {
+                        "type": "component_ref",
+                        "ref_key": "components.shroud_procession_and_burial"
+                    }
+                },
+                {
+                    "id": "dismissal_passion",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.dismissal_great"
+                    }
+                }
+            ]
+        },
+        "paschal_vespers": {
+            "title_key": "titles.vespers_paschal",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.2.18.4",
+            "sequence": [
+                {
+                    "id": "paschal_vespers_content",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "pentecostarion.bright_week_vespers.general"
+                    }
+                }
+            ]
+        },
+        "kneeling_vespers": {
+            "title_key": "titles.vespers_kneeling",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.2.23.1",
+            "inherits_from": "great_vespers_vigil",
+            "overrides": [
+                {
+                    "target_id": "prokeimenon_readings",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "kneeling_prayers_block",
+                        "content": {
+                            "type": "component_ref",
+                            "ref_key": "components.kneeling_prayers"
+                        }
+                    }
+                },
+                {
+                    "target_id": "entrance_great",
+                    "action": "modify",
+                    "rubric": {
+                        "title": "Great Entrance with Censer"
+                    }
+                }
+            ]
+        },
+        "structure_suppressed": {
+            "title_key": "titles.suppressed",
+            "sequence": []
         }
-      ]
-    },
-    "great_vespers_simple": {
-      "title_key": "titles.vespers_great_simple",
-      "inherits_from": "great_vespers_vigil",
-      "overrides": [
-        {
-          "target_id": "litiya_rite",
-          "action": "delete"
-        },
-        {
-          "target_id": "artoklasia_rite",
-          "action": "delete"
-        },
-        {
-          "target_id": "dismissal_vigil",
-          "action": "replace",
-          "new_component": {
-            "id": "dismissal_great",
-            "content": {
-              "type": "fixed_ref",
-              "ref_key": "horologion.dismissal_great"
-            }
-          }
-        }
-      ]
-    },
-    "great_vespers_polyeleos": {
-      "title_key": "titles.vespers_great_polyeleos",
-      "sequence": [
-        {
-          "id": "beginning_polyeleos",
-          "rubric": {
-            "roles": {
-              "priest": "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."
-            }
-          }
-        },
-        {
-          "id": "lord_i_have_cried_8",
-          "content": {
-            "type": "generator",
-            "generator_method": "generate_stichera_sequence",
-            "args": {
-              "slot_id": "vespers_stichera_polyeleos"
-            }
-          }
-        },
-        {
-          "id": "entrance_great",
-          "content": {
-            "type": "component_ref",
-            "ref_key": "components.entrance_great"
-          }
-        },
-        {
-          "id": "prokeimenon_readings",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vespers_readings_logic"
-            }
-          }
-        },
-        {
-          "id": "dismissal_great",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.dismissal_great"
-          }
-        }
-      ]
-    },
-    "daily_vespers": {
-      "title_key": "titles.vespers_daily",
-      "sequence": [
-        {
-          "id": "beginning_daily",
-          "rubric": {
-            "roles": {
-              "priest": "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."
-            }
-          }
-        },
-        {
-          "id": "psalm_103_simple",
-          "rubric": {
-            "title": "Psalm 103 (Simple)",
-            "roles": {
-              "cantor": "Read Psalm 103 without singing."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.psalm_103"
-          }
-        },
-        {
-          "id": "great_litany",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_great"
-          }
-        },
-        {
-          "id": "kathisma_daily",
-          "rubric": {
-            "title": "The Kathisma",
-            "note": "Current Kathisma for the day of the week."
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_daily_kathisma"
-            }
-          }
-        },
-        {
-          "id": "small_litany",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_small"
-          }
-        },
-        {
-          "id": "lord_i_have_cried_6",
-          "content": {
-            "type": "generator",
-            "generator_method": "generate_stichera_sequence",
-            "args": {
-              "slot_id": "vespers_stichera_daily"
-            }
-          }
-        },
-        {
-          "id": "prokeimenon_daily",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_prokeimenon"
-            }
-          }
-        },
-        {
-          "id": "vouchsafe_read",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.vouchsafe_o_lord"
-          }
-        },
-        {
-          "id": "aposticha",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_aposticha"
-            }
-          }
-        },
-        {
-          "id": "nunc_dimittis_read",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.nunc_dimittis"
-          }
-        },
-        {
-          "id": "trisagion",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.trisagion_block"
-          }
-        },
-        {
-          "id": "troparia_daily",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vespers_troparia_simple"
-            }
-          }
-        },
-        {
-          "id": "dismissal_daily",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.dismissal_small"
-          }
-        }
-      ]
-    },
-    "small_vespers": {
-      "title_key": "titles.vespers_small",
-      "sequence": [
-        {
-          "id": "beginning_small",
-          "rubric": {
-            "note": "Abbreviated opening."
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.blessing_common"
-          }
-        },
-        {
-          "id": "lord_i_have_cried_4",
-          "content": {
-            "type": "generator",
-            "generator_method": "generate_stichera_sequence",
-            "args": {
-              "slot_id": "vespers_stichera_small"
-            }
-          }
-        },
-        {
-          "id": "entrance_suppression",
-          "rubric": {
-            "note": "NO ENTRANCE is made."
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.o_gladsome_light_read"
-          }
-        },
-        {
-          "id": "prokeimenon_small",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_small_vespers_prokeimenon"
-            }
-          }
-        },
-        {
-          "id": "vouchsafe_read",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.vouchsafe_o_lord"
-          }
-        },
-        {
-          "id": "aposticha",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_aposticha"
-            }
-          }
-        },
-        {
-          "id": "nunc_dimittis_read",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.nunc_dimittis"
-          }
-        },
-        {
-          "id": "trisagion",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.trisagion_block"
-          }
-        },
-        {
-          "id": "troparia_small",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vespers_troparia_simple"
-            }
-          }
-        },
-        {
-          "id": "dismissal_small",
-          "rubric": {
-            "title": "Small Dismissal"
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.dismissal_small"
-          }
-        }
-      ]
-    },
-    "lenten_vespers": {
-      "title_key": "titles.vespers_lenten",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.14",
-      "sequence": [
-        {
-          "id": "opening_lenten",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.blessing_common"
-          }
-        },
-        {
-          "id": "horologion.psalm_103",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.psalm_103"
-          }
-        },
-        {
-          "id": "great_litany",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_great"
-          }
-        },
-        {
-          "id": "kathisma_lenten",
-          "rubric": {
-            "key": "rubrics.lenten.kathisma_18_or_none"
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_lenten_kathisma"
-            }
-          }
-        },
-        {
-          "id": "lord_i_have_cried_lenten",
-          "content": {
-            "type": "generator",
-            "generator_method": "generate_stichera_sequence",
-            "args": {
-              "slot_id": "vespers_stichera_lenten"
-            }
-          }
-        },
-        {
-          "id": "entrance_conditional",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vespers_entrance"
-            }
-          }
-        },
-        {
-          "id": "prokeimenon_readings",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_lenten_prokeimenon"
-            }
-          }
-        },
-        {
-          "id": "vouchsafe",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.vouchsafe_o_lord"
-          }
-        },
-        {
-          "id": "aposticha",
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_aposticha"
-            }
-          }
-        },
-        {
-          "id": "lenten_ending",
-          "rubric": {
-            "title": "Lenten Conclusion (Rejoice O Virgin + Ephrem)"
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_lenten_ending"
-            }
-          }
-        },
-        {
-          "id": "dismissal_lenten",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.dismissal_lenten"
-          }
-        }
-      ]
-    },
-    "presanctified_vespers": {
-      "title_key": "titles.vespers_presanctified",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.14.3.3",
-      "inherits_from": "lenten_vespers",
-      "overrides": [
-        {
-          "target_id": "opening_lenten",
-          "action": "replace",
-          "new_component": {
-            "id": "opening_presanctified",
-            "content": {
-              "type": "fixed_ref",
-              "ref_key": "liturgikon.blessing_kingdom"
-            }
-          }
-        },
-        {
-          "target_id": "kathisma_lenten",
-          "action": "modify",
-          "rubric": {
-            "title": "Kathisma 18",
-            "note": "During the Kathisma, the Gifts are transferred."
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_presanctified_transfer"
-            }
-          }
-        },
-        {
-          "target_id": "entrance_conditional",
-          "action": "replace",
-          "new_component": {
-            "id": "entrance_presanctified",
-            "rubric": {
-              "title": "Entrance with Censer (or Gospel)",
-              "note": "Gospel if Feast or Holy Week."
-            },
-            "content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_presanctified_entrance"
-              }
-            }
-          }
-        },
-        {
-          "target_id": "prokeimenon_readings",
-          "action": "replace",
-          "new_component": {
-            "id": "readings_light",
-            "rubric": {
-              "title": "Readings & Light",
-              "roles": {
-                "priest": "Intone 'The Light of Christ illumines all'."
-              }
-            },
-            "content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_presanctified_readings"
-              }
-            }
-          }
-        },
-        {
-          "target_id": "vouchsafe",
-          "action": "replace",
-          "new_component": {
-            "id": "let_my_prayer_arise",
-            "rubric": {
-              "title": "Let My Prayer Arise",
-              "roles": {
-                "all": "Kneel/Prostrate during verses."
-              }
-            },
-            "content": {
-              "type": "fixed_ref",
-              "ref_key": "triodion.let_my_prayer_arise"
-            }
-          }
-        },
-        {
-          "target_id": "aposticha",
-          "action": "delete"
-        },
-        {
-          "target_id": "lenten_ending",
-          "action": "delete"
-        },
-        {
-          "target_id": "dismissal_lenten",
-          "action": "delete"
-        }
-      ]
-    },
-    "passion_burial_vespers": {
-      "title_key": "titles.vespers_passion_burial",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.1.3",
-      "sequence": [
-        {
-          "id": "opening",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.blessing_common"
-          }
-        },
-        {
-          "id": "psalm_103",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.psalm_103"
-          }
-        },
-        {
-          "id": "great_litany",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_great"
-          }
-        },
-        {
-          "id": "lord_i_have_cried_10",
-          "content": {
-            "type": "generator",
-            "generator_method": "generate_stichera_sequence",
-            "args": {
-              "slot_id": "vespers_stichera_passion",
-              "count": 10
-            }
-          }
-        },
-        {
-          "id": "entrance_gospel",
-          "rubric": {
-            "title": "Entrance with Gospel",
-            "roles": {
-              "priest": "Enter with the Gospel Book primarily, not the Censer."
-            }
-          },
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.entrance_prayer"
-          }
-        },
-        {
-          "id": "light_gladdening",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.gladsome_light"
-          }
-        },
-        {
-          "id": "readings_passion_block",
-          "rubric": {
-            "title": "The Readings",
-            "note": "Prokeimenon, OT (Exodus, Job, Isaiah), Epistle, Gospel."
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_passion_vespers_readings"
-            }
-          }
-        },
-        {
-          "id": "litany_fervent",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_fervent"
-          }
-        },
-        {
-          "id": "vouchsafe",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.vouchsafe_o_lord"
-          }
-        },
-        {
-          "id": "litany_supplication",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.litany_supplication"
-          }
-        },
-        {
-          "id": "aposticha_passion",
-          "rubric": {
-            "title": "Aposticha",
-            "note": "During the singing, the Priest incenses the Shroud."
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_aposticha"
-            }
-          }
-        },
-        {
-          "id": "nunc_dimittis",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.nunc_dimittis"
-          }
-        },
-        {
-          "id": "trisagion",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.trisagion_block"
-          }
-        },
-        {
-          "id": "troparia_shroud",
-          "rubric": {
-            "title": "Troparia (The Noble Joseph)",
-            "roles": {
-              "priest": "Procession with Shroud to the Tomb during these troparia."
-            }
-          },
-          "content": {
-            "type": "variable_logic",
-            "logic": {
-              "function": "resolve_vespers_troparia_simple"
-            }
-          }
-        },
-        {
-          "id": "shroud_procession_rite",
-          "content": {
-            "type": "component_ref",
-            "ref_key": "components.shroud_procession_and_burial"
-          }
-        },
-        {
-          "id": "dismissal_passion",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.dismissal_great"
-          }
-        }
-      ]
-    },
-    "paschal_vespers": {
-      "title_key": "titles.vespers_paschal",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.18.4",
-      "sequence": [
-        {
-          "id": "paschal_vespers_content",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "pentecostarion.bright_week_vespers.general"
-          }
-        }
-      ]
-    },
-    "kneeling_vespers": {
-      "title_key": "titles.vespers_kneeling",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.23.1",
-      "inherits_from": "great_vespers_vigil",
-      "overrides": [
-        {
-          "target_id": "prokeimenon_readings",
-          "action": "replace",
-          "new_component": {
-            "id": "kneeling_prayers_block",
-            "content": {
-              "type": "component_ref",
-              "ref_key": "components.kneeling_prayers"
-            }
-          }
-        },
-        {
-          "target_id": "entrance_great",
-          "action": "modify",
-          "rubric": {
-            "title": "Great Entrance with Censer"
-          }
-        }
-      ]
-    },
-    "structure_suppressed": {
-      "title_key": "titles.suppressed",
-      "sequence": []
     }
-  }
 }

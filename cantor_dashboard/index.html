@@ -108,10 +108,66 @@
                                 <option value="typikon">Lviv Typikon Part 5 Calendar</option>
                             </select>
                         </div>
+                        <div class="settings-divider" style="margin: 12px 0; border-top: 1px dashed rgba(197, 160, 89, 0.3);"></div>
+                        <h4 style="color: var(--gold-accent); font-family: var(--font-heading); font-size: 0.88rem; margin: 4px 0 8px 0; letter-spacing: 0.04em;">⛪ PARISH & TEMPLE CUSTOMIZER</h4>
+                        
                         <div class="settings-group">
-                            <label for="opt-temple-feast" class="settings-label">Temple Patronal Feast Override:</label>
-                            <input type="text" id="opt-temple-feast" class="text-input" placeholder="MM-DD (e.g. 06-09)" maxlength="5">
+                            <label for="opt-eparchy-preset" class="settings-label">Eparchy / Hierarchy Preset:</label>
+                            <select id="opt-eparchy-preset" class="select-input">
+                                <option value="stamford" selected>Eparchy of Stamford (Bishop Paul)</option>
+                                <option value="philadelphia">Archeparchy of Philadelphia (Metropolitan Borys)</option>
+                                <option value="chicago">Eparchy of St. Nicholas - Chicago (Bishop Benedict)</option>
+                                <option value="parma">Eparchy of St. Josaphat - Parma (Bishop Bohdan)</option>
+                                <option value="toronto">Eparchy of Toronto & Eastern Canada (Bishop Bryan)</option>
+                                <option value="edmonton">Eparchy of Edmonton (Bishop David)</option>
+                                <option value="custom">Custom Hierarchy...</option>
+                            </select>
                         </div>
+
+                        <div class="settings-group">
+                            <label for="opt-temple-type" class="settings-label">Temple Dedication Category:</label>
+                            <select id="opt-temple-type" class="select-input">
+                                <option value="saint" selected>Patron Saint / Angels Temple</option>
+                                <option value="theotokos">Temple of the Theotokos (Marian)</option>
+                                <option value="lord">Temple of the Lord (Dominical)</option>
+                            </select>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="opt-temple-name" class="settings-label">Temple Dedication Name:</label>
+                            <input type="text" id="opt-temple-name" class="text-input" placeholder="e.g. St. Nicholas / Holy Protection / Holy Trinity" value="St. Nicholas">
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="opt-temple-feast" class="settings-label">Temple Patronal Feast Date:</label>
+                            <input type="text" id="opt-temple-feast" class="text-input" placeholder="MM-DD (e.g. 12-06)" maxlength="5">
+                        </div>
+
+                        <!-- Collapsible Hierarchical Commemorations Details -->
+                        <details class="hierarchy-sub-drawer" style="margin: 8px 0; background: rgba(0,0,0,0.15); border-radius: 6px; padding: 8px 10px; border: 1px solid rgba(197, 160, 89, 0.2);">
+                            <summary style="cursor: pointer; color: var(--gold-accent); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;">👑 Hierarchical Commemorations & Sede Vacante</summary>
+                            <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="text" id="inp-pope-name" class="text-input" placeholder="Pope Name (Francis)" value="Francis" style="flex: 1; font-size: 0.8rem;">
+                                    <label style="font-size: 0.72rem; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;"><input type="checkbox" id="chk-sede-pope"> Sede Vacante</label>
+                                </div>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="text" id="inp-patriarch-name" class="text-input" placeholder="Patriarch/Major Archbp (Sviatoslav)" value="Sviatoslav" style="flex: 1; font-size: 0.8rem;">
+                                    <label style="font-size: 0.72rem; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;"><input type="checkbox" id="chk-sede-patriarch"> Sede Vacante</label>
+                                </div>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="text" id="inp-metro-name" class="text-input" placeholder="Metropolitan Name (Borys)" value="Borys" style="flex: 1; font-size: 0.8rem;">
+                                    <label style="font-size: 0.72rem; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;"><input type="checkbox" id="chk-sede-metro"> Sede Vacante</label>
+                                </div>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="text" id="inp-bishop-name" class="text-input" placeholder="Eparchial Bishop Name (Paul)" value="Paul" style="flex: 1; font-size: 0.8rem;">
+                                    <label style="font-size: 0.72rem; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;"><input type="checkbox" id="chk-sede-bishop"> Sede Vacante</label>
+                                </div>
+                            </div>
+                        </details>
+
+                        <div class="settings-divider" style="margin: 12px 0; border-top: 1px dashed rgba(197, 160, 89, 0.3);"></div>
+
                         <div class="settings-group">
                             <span class="settings-label">Ceremonial Rubrics:</span>
                             <div class="radio-group">
@@ -138,7 +194,7 @@
                         <div class="settings-group profile-settings-group">
                             <label for="opt-profile" class="settings-label">Active Parish Profile:</label>
                             <select id="opt-profile" class="select-input" style="margin-bottom: 8px;">
-                                <option value="default">Default Profile</option>
+                                <option value="default">Default Profile (Stamford / St. Nicholas)</option>
                             </select>
                             <div class="profile-action-buttons" style="display: flex; gap: 8px;">
                                 <button class="btn btn-secondary btn-sm" id="btn-save-profile" style="flex: 1; padding: 6px 12px; font-size: 0.8rem;">Save Current</button>

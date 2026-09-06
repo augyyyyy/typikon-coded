@@ -25,6 +25,18 @@ document.addEventListener("DOMContentLoaded", () => {
         digestMode: localStorage.getItem("cantor-opt-digest-mode") || "full",
         devMode: localStorage.getItem("cantor-opt-dev-mode") === "true",
         includeCeremonial: localStorage.getItem("cantor-opt-include-ceremonial") === "true",
+        // Parish Customizer State
+        templeName: localStorage.getItem("cantor-opt-temple-name") || "St. Nicholas",
+        templeType: localStorage.getItem("cantor-opt-temple-type") || "saint",
+        eparchyPreset: localStorage.getItem("cantor-opt-eparchy-preset") || "stamford",
+        popeName: localStorage.getItem("cantor-inp-pope-name") || "Francis",
+        popeSedeVacante: localStorage.getItem("cantor-chk-sede-pope") === "true",
+        patriarchName: localStorage.getItem("cantor-inp-patriarch-name") || "Sviatoslav",
+        patriarchSedeVacante: localStorage.getItem("cantor-chk-sede-patriarch") === "true",
+        metropolitanName: localStorage.getItem("cantor-inp-metro-name") || "Borys",
+        metropolitanSedeVacante: localStorage.getItem("cantor-chk-sede-metro") === "true",
+        bishopName: localStorage.getItem("cantor-inp-bishop-name") || "Paul",
+        bishopSedeVacante: localStorage.getItem("cantor-chk-sede-bishop") === "true",
         // Profiles state
         profiles: JSON.parse(localStorage.getItem("cantor-profiles") || "{}"),
         activeProfile: localStorage.getItem("cantor-active-profile") || "default",
@@ -364,14 +376,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         try {
+            const profilePayload = {
+                profile_id: state.activeProfile,
+                name: state.activeProfile,
+                temple: {
+                    name: state.templeName || "St. Nicholas",
+                    type: state.templeType || "saint",
+                    feast_month: (state.templeFeast && state.templeFeast.length === 5) ? parseInt(state.templeFeast.split("-")[0], 10) : null,
+                    feast_day: (state.templeFeast && state.templeFeast.length === 5) ? parseInt(state.templeFeast.split("-")[1], 10) : null
+                },
+                hierarchy: {
+                    pope_name: state.popeName || "Francis",
+                    pope_sede_vacante: state.popeSedeVacante === true,
+                    patriarch_title: "Major Archbishop",
+                    patriarch_name: state.patriarchName || "Sviatoslav",
+                    patriarch_sede_vacante: state.patriarchSedeVacante === true,
+                    metropolitan_name: state.metropolitanName || "",
+                    metropolitan_sede_vacante: state.metropolitanSedeVacante === true,
+                    bishop_name: state.bishopName || "",
+                    bishop_sede_vacante: state.bishopSedeVacante === true
+                }
+            };
+
             const params = new URLSearchParams({
                 date: dateStr,
                 paschalion: state.paschalion,
                 version: state.version,
                 calendar_source: state.calendarSource,
                 temple_feast: state.templeFeast,
+                temple_patron: state.templeName || "St. Nicholas",
+                temple_type: state.templeType || "saint",
                 digest_mode: state.digestMode,
-                include_ceremonial: state.includeCeremonial
+                include_ceremonial: state.includeCeremonial,
+                parish_profile: JSON.stringify(profilePayload)
             });
             const response = await fetch(`${API_BASE}/api/resolve?${params.toString()}`);
             if (!response.ok) {
@@ -1362,6 +1399,20 @@ document.addEventListener("DOMContentLoaded", () => {
         // Parse GitHub-style alert blocks before other markdown replacements
         html = html.replace(/&gt;\s*\[!NOTE\]\r?\n&gt;\s*\*\*Rubric\*\*:\s*(.*?)(?=\r?\n|$)/g, '<div class="markdown-alert"><div class="markdown-alert-title">✦ Note</div><p><strong>Rubric</strong>: $1</p></div>');
         
+        // Parse Dolnytsky Synodal Footnote Callouts into dedicated, elegant callout cards
+        html = html.replace(/&gt;\s*💡\s*\*\*Dolnytsky Note\s*\[\^?(\d+)\]\s*\((.*?)\):\*\*\s*([\s\S]*?)(?=(?:\r?\n&gt;|\r?\n\r?\n|$))/gi, function(match, num, cat, text) {
+            const cleanCat = cat.trim();
+            const badgeClass = cleanCat.toLowerCase().includes("parish") ? "badge-parish-custom" : "badge-synodal-alt";
+            return `<div class="synodal-callout"><div class="synodal-callout-header"><span class="synodal-callout-icon">💡</span><span class="synodal-callout-title">Dolnytsky Note <sup class="citation-sup">[^${num}]</sup></span><span class="badge-footnote-category ${badgeClass}">${cleanCat}</span></div><div class="synodal-callout-body">${text.trim()}</div></div>`;
+        });
+
+        // Parse End-of-Digest Footnotes list items into structured cards
+        html = html.replace(/\*\*\[\^?(\d+)\]\s*\((.*?)\s*-\s*(.*?)\):\*\*\s*([^\n\r]+)/gi, function(match, num, cat, part, text) {
+            const cleanCat = cat.trim();
+            const badgeClass = cleanCat.toLowerCase().includes("parish") ? "badge-parish-custom" : "badge-synodal-alt";
+            return `<div class="synodal-footnote-item"><div class="footnote-item-header"><span class="footnote-item-num">[^${num}]</span><span class="badge-footnote-category ${badgeClass}">${cleanCat}</span><span class="footnote-item-part">${part.trim()}</span></div><div class="footnote-item-text">${text.trim()}</div></div>`;
+        });
+        
         // Headings
         html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
         html = html.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
@@ -2023,6 +2074,122 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
+
+        // Parish & Temple Customizer Controls
+        const optEparchyPreset = document.getElementById("opt-eparchy-preset");
+        const optTempleType = document.getElementById("opt-temple-type");
+        const optTempleName = document.getElementById("opt-temple-name");
+        const inpPopeName = document.getElementById("inp-pope-name");
+        const chkSedePope = document.getElementById("chk-sede-pope");
+        const inpPatriarchName = document.getElementById("inp-patriarch-name");
+        const chkSedePatriarch = document.getElementById("chk-sede-patriarch");
+        const inpMetroName = document.getElementById("inp-metro-name");
+        const chkSedeMetro = document.getElementById("chk-sede-metro");
+        const inpBishopName = document.getElementById("inp-bishop-name");
+        const chkSedeBishop = document.getElementById("chk-sede-bishop");
+
+        if (optEparchyPreset) optEparchyPreset.value = state.eparchyPreset;
+        if (optTempleType) optTempleType.value = state.templeType;
+        if (optTempleName) optTempleName.value = state.templeName;
+        if (inpPopeName) inpPopeName.value = state.popeName;
+        if (chkSedePope) chkSedePope.checked = state.popeSedeVacante;
+        if (inpPatriarchName) inpPatriarchName.value = state.patriarchName;
+        if (chkSedePatriarch) chkSedePatriarch.checked = state.patriarchSedeVacante;
+        if (inpMetroName) inpMetroName.value = state.metropolitanName;
+        if (chkSedeMetro) chkSedeMetro.checked = state.metropolitanSedeVacante;
+        if (inpBishopName) inpBishopName.value = state.bishopName;
+        if (chkSedeBishop) chkSedeBishop.checked = state.bishopSedeVacante;
+
+        const EPARCHY_PRESETS = {
+            stamford: { pope: "Francis", patriarch: "Sviatoslav", metro: "Borys", bishop: "Paul" },
+            philadelphia: { pope: "Francis", patriarch: "Sviatoslav", metro: "Borys", bishop: "Borys" },
+            chicago: { pope: "Francis", patriarch: "Sviatoslav", metro: "Borys", bishop: "Benedict" },
+            parma: { pope: "Francis", patriarch: "Sviatoslav", metro: "Borys", bishop: "Bohdan" },
+            toronto: { pope: "Francis", patriarch: "Sviatoslav", metro: "Lawrence", bishop: "Bryan" },
+            edmonton: { pope: "Francis", patriarch: "Sviatoslav", metro: "Lawrence", bishop: "David" }
+        };
+
+        if (optEparchyPreset) {
+            optEparchyPreset.addEventListener("change", (e) => {
+                const val = e.target.value;
+                state.eparchyPreset = val;
+                localStorage.setItem("cantor-opt-eparchy-preset", val);
+                if (val !== "custom" && EPARCHY_PRESETS[val]) {
+                    const p = EPARCHY_PRESETS[val];
+                    state.popeName = p.pope;
+                    state.popeSedeVacante = false;
+                    state.patriarchName = p.patriarch;
+                    state.patriarchSedeVacante = false;
+                    state.metropolitanName = p.metro;
+                    state.metropolitanSedeVacante = false;
+                    state.bishopName = p.bishop;
+                    state.bishopSedeVacante = false;
+
+                    if (inpPopeName) inpPopeName.value = p.pope;
+                    if (chkSedePope) chkSedePope.checked = false;
+                    if (inpPatriarchName) inpPatriarchName.value = p.patriarch;
+                    if (chkSedePatriarch) chkSedePatriarch.checked = false;
+                    if (inpMetroName) inpMetroName.value = p.metro;
+                    if (chkSedeMetro) chkSedeMetro.checked = false;
+                    if (inpBishopName) inpBishopName.value = p.bishop;
+                    if (chkSedeBishop) chkSedeBishop.checked = false;
+
+                    localStorage.setItem("cantor-inp-pope-name", p.pope);
+                    localStorage.setItem("cantor-chk-sede-pope", "false");
+                    localStorage.setItem("cantor-inp-patriarch-name", p.patriarch);
+                    localStorage.setItem("cantor-chk-sede-patriarch", "false");
+                    localStorage.setItem("cantor-inp-metro-name", p.metro);
+                    localStorage.setItem("cantor-chk-sede-metro", "false");
+                    localStorage.setItem("cantor-inp-bishop-name", p.bishop);
+                    localStorage.setItem("cantor-chk-sede-bishop", "false");
+                }
+                if (state.selectedDate) resolveDate(state.selectedDate);
+            });
+        }
+
+        if (optTempleType) {
+            optTempleType.addEventListener("change", (e) => {
+                state.templeType = e.target.value;
+                localStorage.setItem("cantor-opt-temple-type", e.target.value);
+                if (state.selectedDate) resolveDate(state.selectedDate);
+            });
+        }
+
+        if (optTempleName) {
+            optTempleName.addEventListener("input", (e) => {
+                state.templeName = e.target.value;
+                localStorage.setItem("cantor-opt-temple-name", e.target.value);
+            });
+            optTempleName.addEventListener("change", (e) => {
+                state.templeName = e.target.value;
+                localStorage.setItem("cantor-opt-temple-name", e.target.value);
+                if (state.selectedDate) resolveDate(state.selectedDate);
+            });
+        }
+
+        const bindHierarchInput = (element, stateKey, storageKey) => {
+            if (!element) return;
+            element.addEventListener("change", (e) => {
+                const val = element.type === "checkbox" ? e.target.checked : e.target.value;
+                state[stateKey] = val;
+                localStorage.setItem(storageKey, String(val));
+                if (optEparchyPreset && optEparchyPreset.value !== "custom") {
+                    optEparchyPreset.value = "custom";
+                    state.eparchyPreset = "custom";
+                    localStorage.setItem("cantor-opt-eparchy-preset", "custom");
+                }
+                if (state.selectedDate) resolveDate(state.selectedDate);
+            });
+        };
+
+        bindHierarchInput(inpPopeName, "popeName", "cantor-inp-pope-name");
+        bindHierarchInput(chkSedePope, "popeSedeVacante", "cantor-chk-sede-pope");
+        bindHierarchInput(inpPatriarchName, "patriarchName", "cantor-inp-patriarch-name");
+        bindHierarchInput(chkSedePatriarch, "patriarchSedeVacante", "cantor-chk-sede-patriarch");
+        bindHierarchInput(inpMetroName, "metropolitanName", "cantor-inp-metro-name");
+        bindHierarchInput(chkSedeMetro, "metropolitanSedeVacante", "cantor-chk-sede-metro");
+        bindHierarchInput(inpBishopName, "bishopName", "cantor-inp-bishop-name");
+        bindHierarchInput(chkSedeBishop, "bishopSedeVacante", "cantor-chk-sede-bishop");
     }
 
     /* ==========================================================================
@@ -2425,6 +2592,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 version: state.version,
                 calendarSource: state.calendarSource,
                 templeFeast: state.templeFeast,
+                templeName: state.templeName,
+                templeType: state.templeType,
+                eparchyPreset: state.eparchyPreset,
+                popeName: state.popeName,
+                popeSedeVacante: state.popeSedeVacante,
+                patriarchName: state.patriarchName,
+                patriarchSedeVacante: state.patriarchSedeVacante,
+                metropolitanName: state.metropolitanName,
+                metropolitanSedeVacante: state.metropolitanSedeVacante,
+                bishopName: state.bishopName,
+                bishopSedeVacante: state.bishopSedeVacante,
                 digestMode: state.digestMode,
                 includeCeremonial: state.includeCeremonial
             };
@@ -2473,28 +2651,61 @@ document.addEventListener("DOMContentLoaded", () => {
                 version: "stamford_2014",
                 calendarSource: "default",
                 templeFeast: "",
+                templeName: "St. Nicholas",
+                templeType: "saint",
+                eparchyPreset: "stamford",
+                popeName: "Francis",
+                popeSedeVacante: false,
+                patriarchName: "Sviatoslav",
+                patriarchSedeVacante: false,
+                metropolitanName: "Borys",
+                metropolitanSedeVacante: false,
+                bishopName: "Paul",
+                bishopSedeVacante: false,
                 digestMode: "full",
                 includeCeremonial: false
             };
 
             if (pName !== "default" && state.profiles[pName]) {
-                config = state.profiles[pName];
+                config = Object.assign({}, config, state.profiles[pName]);
             }
 
             // Sync state
             state.paschalion = config.paschalion;
             state.version = config.version;
             state.calendarSource = config.calendarSource || "default";
-            state.templeFeast = config.templeFeast;
-            state.digestMode = config.digestMode;
+            state.templeFeast = config.templeFeast || "";
+            state.templeName = config.templeName || "St. Nicholas";
+            state.templeType = config.templeType || "saint";
+            state.eparchyPreset = config.eparchyPreset || "stamford";
+            state.popeName = config.popeName || "Francis";
+            state.popeSedeVacante = config.popeSedeVacante === true;
+            state.patriarchName = config.patriarchName || "Sviatoslav";
+            state.patriarchSedeVacante = config.patriarchSedeVacante === true;
+            state.metropolitanName = config.metropolitanName || "Borys";
+            state.metropolitanSedeVacante = config.metropolitanSedeVacante === true;
+            state.bishopName = config.bishopName || "Paul";
+            state.bishopSedeVacante = config.bishopSedeVacante === true;
+            state.digestMode = config.digestMode || "full";
             state.includeCeremonial = config.includeCeremonial === true;
 
             // Sync storage
             localStorage.setItem("cantor-opt-paschalion", config.paschalion);
             localStorage.setItem("cantor-opt-version", config.version);
             localStorage.setItem("cantor-opt-calendar-source", state.calendarSource);
-            localStorage.setItem("cantor-opt-temple-feast", config.templeFeast);
-            localStorage.setItem("cantor-opt-digest-mode", config.digestMode);
+            localStorage.setItem("cantor-opt-temple-feast", state.templeFeast);
+            localStorage.setItem("cantor-opt-temple-name", state.templeName);
+            localStorage.setItem("cantor-opt-temple-type", state.templeType);
+            localStorage.setItem("cantor-opt-eparchy-preset", state.eparchyPreset);
+            localStorage.setItem("cantor-inp-pope-name", state.popeName);
+            localStorage.setItem("cantor-chk-sede-pope", String(state.popeSedeVacante));
+            localStorage.setItem("cantor-inp-patriarch-name", state.patriarchName);
+            localStorage.setItem("cantor-chk-sede-patriarch", String(state.patriarchSedeVacante));
+            localStorage.setItem("cantor-inp-metro-name", state.metropolitanName);
+            localStorage.setItem("cantor-chk-sede-metro", String(state.metropolitanSedeVacante));
+            localStorage.setItem("cantor-inp-bishop-name", state.bishopName);
+            localStorage.setItem("cantor-chk-sede-bishop", String(state.bishopSedeVacante));
+            localStorage.setItem("cantor-opt-digest-mode", state.digestMode);
             localStorage.setItem("cantor-opt-include-ceremonial", state.includeCeremonial);
 
             // Sync UI inputs
@@ -2503,6 +2714,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const optVersion = document.getElementById("opt-version");
             const optCalendarSource = document.getElementById("opt-calendar-source");
             const optTempleFeast = document.getElementById("opt-temple-feast");
+            const optTempleType = document.getElementById("opt-temple-type");
+            const optTempleName = document.getElementById("opt-temple-name");
+            const optEparchyPreset = document.getElementById("opt-eparchy-preset");
+            const inpPopeName = document.getElementById("inp-pope-name");
+            const chkSedePope = document.getElementById("chk-sede-pope");
+            const inpPatriarchName = document.getElementById("inp-patriarch-name");
+            const chkSedePatriarch = document.getElementById("chk-sede-patriarch");
+            const inpMetroName = document.getElementById("inp-metro-name");
+            const chkSedeMetro = document.getElementById("chk-sede-metro");
+            const inpBishopName = document.getElementById("inp-bishop-name");
+            const chkSedeBishop = document.getElementById("chk-sede-bishop");
             const optDigestFull = document.getElementById("opt-digest-full");
             const optDigestQuick = document.getElementById("opt-digest-quick");
             const optIncludeCeremonial = document.getElementById("opt-include-ceremonial");
@@ -2513,7 +2735,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (optVersion) optVersion.value = config.version;
             if (optCalendarSource) optCalendarSource.value = state.calendarSource;
-            if (optTempleFeast) optTempleFeast.value = config.templeFeast;
+            if (optTempleFeast) optTempleFeast.value = state.templeFeast;
+            if (optTempleType) optTempleType.value = state.templeType;
+            if (optTempleName) optTempleName.value = state.templeName;
+            if (optEparchyPreset) optEparchyPreset.value = state.eparchyPreset;
+            if (inpPopeName) inpPopeName.value = state.popeName;
+            if (chkSedePope) chkSedePope.checked = state.popeSedeVacante;
+            if (inpPatriarchName) inpPatriarchName.value = state.patriarchName;
+            if (chkSedePatriarch) chkSedePatriarch.checked = state.patriarchSedeVacante;
+            if (inpMetroName) inpMetroName.value = state.metropolitanName;
+            if (chkSedeMetro) chkSedeMetro.checked = state.metropolitanSedeVacante;
+            if (inpBishopName) inpBishopName.value = state.bishopName;
+            if (chkSedeBishop) chkSedeBishop.checked = state.bishopSedeVacante;
             if (optDigestFull && optDigestQuick) {
                 if (config.digestMode === "quick") optDigestQuick.checked = true;
                 else optDigestFull.checked = true;

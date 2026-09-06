@@ -74,12 +74,13 @@ After the *"Our Father"*, the kontakia are read instead of troparia.
 
 ---
 
-## 6. Conclusion
-**JSON node:** `conclusion_standard`
-
-*"Lord, have mercy" (12 times)* (Wait: According to typical usage, 40 times is for Lent, usually 12 times or 40 times).
-*"Blessed be the name of the Lord" (3x)*.
-Psalm 33 is read.
+*"Lord, have mercy"* (40 times).
+☨ Glory... Now.
+*"More honorable than the Cherubim..."*
+*"In the name of the Lord, Father, bless."*
+Priest: *"God be bountiful to us and bless us..."*
+*"Blessed be the name of the Lord"* (3 times).
+Psalm 33 (*"I will bless the Lord at all times..."*) is read.
 The priest gives the Dismissal.
 
 ---
@@ -115,11 +116,13 @@ The *"Our Father."*
 ## 3. Lenten Kontakia and St. Ephrem
 **JSON nodes:** `kontakia_lenten`, `prayer_st_ephrem`
 
-Specific Lenten kontakia are read:
-1. Kontakion of the Transfiguration.
-2. Kontakion of the Day.
-3. Kontakion of the Temple (Saint).
-4. ☨ Theotokion of the tone.
+Specific Lenten kontakia are chanted in order:
+1. **Transfiguration:** *"On the mountain You were transfigured..."*
+2. **Day of the Week:** (e.g. Mon: Angels; Tue: Forerunner; Wed/Fri: Cross; Thu: Apostles/St. Nicholas).
+3. **Temple Patron.**
+4. **Saint of the Day** (from Menaion).
+5. ☨ Glory: *"With the saints give rest, O Christ, to the souls of Your servants..."* (for the departed).
+6. Both now: *"O Protection of Christians unashamed..."* (or Temple Theotokion).
 
 *"Lord, have mercy" (40 times)*.
 The **Prayer of St. Ephrem the Syrian** (*"O Lord and Master of my life..."*) is recited by the priest standing in the middle of the church before the closed holy doors. He makes **3 great prostrations**, followed by **12 small bows** (saying *"O God, cleanse me a sinner"*), concluding with the entire prayer again and **1 final great prostration**.

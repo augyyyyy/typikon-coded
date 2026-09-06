@@ -2180,6 +2180,156 @@ body.dark-theme .markdown-alert {
 }
 
 /* ==========================================================================
+   DOLNYTSKY SYNODAL FOOTNOTES & CALLOUTS COMPONENT
+   ========================================================================== */
+.synodal-callout {
+    margin: 18px 0 8px 0;
+    padding: 12px 16px;
+    background: rgba(197, 160, 89, 0.06);
+    border: 1px solid rgba(197, 160, 89, 0.22);
+    border-left: 4px solid var(--gold-accent, #c5a059);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
+}
+
+body.dark-theme .synodal-callout {
+    background: rgba(255, 255, 255, 0.025);
+    border-color: rgba(197, 160, 89, 0.2);
+    border-left-color: var(--gold-accent, #c5a059);
+}
+
+body.light-theme .synodal-callout {
+    background: rgba(197, 160, 89, 0.08);
+    border-color: rgba(197, 160, 89, 0.28);
+    border-left-color: var(--gold-accent, #b38938);
+}
+
+.synodal-callout-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.synodal-callout-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.synodal-callout-title {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold-accent, #c5a059);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+body.light-theme .synodal-callout-title {
+    color: #936e22;
+}
+
+.badge-footnote-category {
+    font-family: var(--font-body, system-ui);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.badge-synodal-alt {
+    background: rgba(217, 83, 79, 0.15);
+    color: #e57373;
+    border: 1px solid rgba(217, 83, 79, 0.3);
+}
+
+body.light-theme .badge-synodal-alt {
+    background: rgba(192, 57, 43, 0.12);
+    color: #c0392b;
+    border-color: rgba(192, 57, 43, 0.25);
+}
+
+.badge-parish-custom {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+body.light-theme .badge-parish-custom {
+    background: rgba(39, 174, 96, 0.12);
+    color: #27ae60;
+    border-color: rgba(39, 174, 96, 0.25);
+}
+
+.synodal-callout-body {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--text-secondary, #b0b0b0);
+    font-style: normal;
+}
+
+body.light-theme .synodal-callout-body {
+    color: #4a4a4a;
+}
+
+.synodal-callout-body em {
+    color: var(--text-primary, #ffffff);
+    font-style: italic;
+}
+
+body.light-theme .synodal-callout-body em {
+    color: #1a1a1a;
+}
+
+/* End-of-Digest Synodal Footnotes Appendix */
+.synodal-footnote-item {
+    margin: 10px 0;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+body.dark-theme .synodal-footnote-item {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.footnote-item-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+.footnote-item-num {
+    font-weight: 700;
+    color: var(--gold-accent, #c5a059);
+    font-size: 0.85rem;
+}
+
+.footnote-item-part {
+    font-size: 0.75rem;
+    color: var(--text-muted, #777777);
+    text-transform: uppercase;
+    margin-left: auto;
+    letter-spacing: 0.04em;
+}
+
+.footnote-item-text {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-secondary, #b0b0b0);
+}
+
+/* ==========================================================================
    PHASE 1: PARAMETER OVERRIDES SETTINGS DRAWER
    ========================================================================== */
 .settings-drawer {

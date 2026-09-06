@@ -92,7 +92,16 @@ class CommonResolverMixin:
         if saints:
             names = []
             for s in saints:
-                name = s.get("title", {}).get("en") or s.get("name") or "Saint"
+                if isinstance(s, dict):
+                    t = s.get("title")
+                    if isinstance(t, dict):
+                        name = t.get("en") or s.get("name") or "Saint"
+                    elif isinstance(t, str):
+                        name = t or s.get("name") or "Saint"
+                    else:
+                        name = s.get("name") or "Saint"
+                else:
+                    name = str(s)
                 names.append(name)
             saint_names = ", ".join(names)
             saint_of_day = f"of the holy {saint_names};"
@@ -175,22 +184,23 @@ class CommonResolverMixin:
             
             # 1. Names Substitution (Common for Litany of Peace/Fervent)
             hierarchy_stack = self.resolve_litany_hierarchy(context)
+            h_data = context.get("hierarchy") or context.get("parish_profile", {}).get("hierarchy", {})
             
-            pope_val = context.get("pope_name", "N.")
+            pope_val = context.get("pope_name") or h_data.get("pope_name", "N.")
             if "pope" not in hierarchy_stack:
                 pope_val = "vacant Apostolic See"
                 
-            patriarch_val = context.get("patriarch_name", "N.")
+            patriarch_val = context.get("patriarch_name") or h_data.get("patriarch_name", "N.")
             if "patriarch" not in hierarchy_stack:
-                patriarch_val = context.get("patriarch_admin_name", "Patriarchal Administrator")
+                patriarch_val = context.get("patriarch_admin_name") or h_data.get("patriarch_admin_name", "Patriarchal Administrator")
                 
-            metro_val = context.get("metropolitan_name", "N.")
+            metro_val = context.get("metropolitan_name") or h_data.get("metropolitan_name", "N.")
             if "metropolitan" not in hierarchy_stack:
-                metro_val = context.get("metropolitan_admin_name", "Metropolitan Administrator")
+                metro_val = context.get("metropolitan_admin_name") or h_data.get("metropolitan_admin_name", "Metropolitan Administrator")
                 
-            bishop_val = context.get("bishop_name", "N.")
+            bishop_val = context.get("bishop_name") or h_data.get("bishop_name", "N.")
             if "bishop" not in hierarchy_stack:
-                bishop_val = context.get("administrator_name", context.get("bishop_name", "N."))
+                bishop_val = context.get("administrator_name") or h_data.get("administrator_name") or bishop_val
             
             hierarchy = {
                 "Pontiff, N.": pope_val,
@@ -217,7 +227,19 @@ class CommonResolverMixin:
             
             # 2. Saints of the Day
             saints = context.get("saints", [])
-            saints_str = ", ".join([s.get("title", {}).get("en", "Saint") for s in saints]) if saints else "all the saints"
+            names = []
+            for s in saints:
+                if isinstance(s, dict):
+                    t = s.get("title")
+                    if isinstance(t, dict):
+                        names.append(t.get("en") or s.get("name") or "Saint")
+                    elif isinstance(t, str):
+                        names.append(t or s.get("name") or "Saint")
+                    else:
+                        names.append(s.get("name") or "Saint")
+                else:
+                    names.append(str(s))
+            saints_str = ", ".join(names) if names else "all the saints"
             
             if "{saints}" in text:
                 text = text.replace("{saints}", saints_str)
@@ -1100,23 +1122,30 @@ class CommonResolverMixin:
         Implements Logic Gate A10: Hierarchical Commemorations.
         Returns the list of hierarchs to commemorate in the Great Litany.
         """
+        h_data = context.get("hierarchy") or context.get("parish_profile", {}).get("hierarchy", {})
+        
+        sede_pope = context.get("sede_vacante_pope", False) or h_data.get("pope_sede_vacante", False)
+        sede_patriarch = context.get("sede_vacante_patriarch", False) or h_data.get("patriarch_sede_vacante", False)
+        sede_metro = context.get("sede_vacante_metropolitan", False) or h_data.get("metropolitan_sede_vacante", False)
+        sede_bishop = context.get("sede_vacante_bishop", False) or h_data.get("bishop_sede_vacante", False)
+
         stack = []
-        if context.get("sede_vacante_pope", False):
+        if sede_pope:
             stack.append("administrator_of_apostolic_see")
         else:
             stack.append("pope")
             
-        if context.get("sede_vacante_patriarch", False):
+        if sede_patriarch:
             stack.append("administrator_of_patriarchate")
         else:
             stack.append("patriarch")
             
-        if context.get("sede_vacante_metropolitan", False):
+        if sede_metro:
             stack.append("administrator_of_metropolis")
         else:
             stack.append("metropolitan")
             
-        if context.get("sede_vacante_bishop", False):
+        if sede_bishop:
             stack.append("administrator_of_diocese")
         else:
             stack.append("bishop")

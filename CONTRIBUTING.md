@@ -23,7 +23,7 @@ The project is always in need of more text assets (especially for the Menaion an
 For developers wishing to improve the engine:
 
 *   **Logic Modules**: Most rubric changes should happen in `json_db/02*.json`, not the Python code.
-*   **Engine Core**: Changes to `ruthenian_engine.py` require passing the full Verification Suite.
+*   **Engine Core**: Changes to `engine/` mixins require passing the full Verification Suite.
 
 ## Style Guide
 

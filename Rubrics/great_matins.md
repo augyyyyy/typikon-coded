@@ -54,10 +54,10 @@ After each Kathisma and its Small Litany, the Sessional Hymns are appointed.
 ## 4. The Third Kathisma (Kathisma 17 or Polyeleos) & Evlogitaria
 **JSON node:** `polyeleos_block` (and `evlogitaria_block`)
 
-*On Sundays*, a third Kathisma is required. This is either **Kathisma 17 ("The Blameless")** or **Kathisma 19 (The Polyeleos)** depending on the season.
-*The Polyeleos (Psalms 134/135) is sung on all Sundays from September 22 to December 19 (inclusive), and from January 15 to Cheesefare Sunday (inclusive). It is also sung for any Major Feast or Saint of Polyeleos rank or higher.* Outside of these periods, Kathisma 17 is sung on Sundays.
+*On Sundays*, a third stichology slot is appointed. This is either **Kathisma 17 ("The Blameless", Psalm 118)** or the **Polyeleos (Psalms 134–135)** depending on the season and rank.
+*The Polyeleos (Psalms 134–135)* is sung on all Sundays during the winter period from September 22 to December 19 (inclusive), and from January 15 to Cheesefare Sunday (inclusive). It is also sung for any Feast or Saint of Polyeleos rank or higher. Outside of these periods, Kathisma 17 is chanted on ordinary Sundays.
 
-*On all Sundays*, the Evlogitaria of the Resurrection *"Blessed art Thou, O Lord"* (also called "The Angelic Council") are sung immediately following this third Kathisma slot, whether it was Kathisma 17 or the Polyeleos.
+*On all Sundays*, the Evlogitaria of the Resurrection *"Blessed art Thou, O Lord"* ("The Angelic Council") are sung immediately following this third slot (whether Kathisma 17 or Polyeleos was sung), except on Great Feasts of the Lord.
 
 ---
 

@@ -72,12 +72,14 @@
 
 | Occasion | Replacement |
 |:---------|:------------|
-| Nativity | "As many as have been baptized into Christ..." |
-| Theophany | "As many as have been baptized..." |
-| Palm Sunday | "As many as have been baptized..." |
-| Paschal | "As many as have been baptized..." |
-| Exaltation of Cross | "Before Thy Cross we bow down..." |
-| Default | Standard Trisagion |
+| Nativity (Dec 25) | "As many as have been baptized into Christ..." |
+| Theophany (Jan 6) | "As many as have been baptized into Christ..." |
+| Lazarus Saturday | "As many as have been baptized into Christ..." |
+| Holy Saturday | "As many as have been baptized into Christ..." |
+| Pascha & Bright Week | "As many as have been baptized into Christ..." |
+| Pentecost (Trinity Sunday) | "As many as have been baptized into Christ..." |
+| Cross-Veneration & Exaltation (Sep 14) | "Before Thy Cross we bow down..." |
+| Default | Standard Trisagion ("Holy God...") |
 
 ---
 
@@ -142,10 +144,10 @@
 | Occasion | Hymn |
 |:---------|:-----|
 | Default | "We have seen the true light..." |
-| Pascha | "Christ is risen..." (3x) |
+| Pascha to Ascension Eve | "Christ is risen from the dead" (1x) |
 | Ascension to Leavetaking | Troparion of Ascension |
 | Theophany to Leavetaking | Troparion of Theophany |
-| Nativity to Leavetaking | Kontakion of Nativity |
+| Nativity to Leavetaking | Troparion of Nativity (*"Thy Nativity, O Christ..."*) |
 
 ---
 

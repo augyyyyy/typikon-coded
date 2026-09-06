@@ -430,10 +430,21 @@ class LiturgyMixin:
         ):
             template_key = "festal_only"
         elif day == 0:
-            if temple_type == "theotokos":
+            if temple_type == "lord":
+                template_key = "sunday_lord_temple"
+            elif temple_type == "theotokos":
                 template_key = "sunday_theotokos_temple"
             else:
                 template_key = "sunday_saint_temple"
+        else:
+            if temple_type == "lord":
+                template_key = "weekday_lord_temple"
+            elif temple_type == "theotokos":
+                template_key = "weekday_theotokos_temple"
+            elif temple_type == "saint":
+                template_key = "weekday_saint_temple"
+            else:
+                template_key = "weekday_standard"
             
         template = self.liturgy_logic.get("hymn_ordering_templates", {}).get(template_key, {})
         raw_order = template.get("order", [])

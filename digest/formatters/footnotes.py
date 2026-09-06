@@ -29,7 +29,7 @@ class FootnoteFormatterMixin:
             if callout:
                 lines.append(callout)
                 
-        return "\n>\n".join(lines)
+        return "\n\n".join(lines)
 
     def _format_synodal_footnotes_section(self, footnotes: List[Dict[str, Any]]) -> str:
         """Format the complete Synodal Footnotes and Alternatives appendix for the day digest."""

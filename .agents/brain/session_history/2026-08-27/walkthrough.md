@@ -1,44 +1,34 @@
-# Walkthrough: Documentation Multi-Auditor & Pre-Final Canonical Synchronization
+# Walkthrough: Footnote & Synodal Callout Graceful Formatting Overhaul
 
-Completed the full **Documentation Integrity Multi-Auditor** sweep, discrepancy tracing, and systematic synchronization across the entire Typikon Coded Hub documentation repository.
-
----
-
-## 1. Automated Documentation Multi-Auditor (`scripts/audit_documentation_integrity.py`)
-
-Implemented 6 automated documentation verification gates:
-* **Gate 1: Broken File Links & Path Validation** (with URL-decoding and workspace path resolution).
-* **Gate 2: Code Snippet & Method Signature Sync (AST)** (verifying live `RuthenianEngine` and `TypikonDigestGenerator` invocations).
-* **Gate 3: JSON DB Key & Schema Verification** (verifying all referenced `.json` database files exist in active `json_db/` or `schemas/`).
-* **Gate 4: UGCC Terminology Drift & Banned Jargon** (standardizing terms to canonical Royal Doors standards per Master Rule 8).
-* **Gate 5: Canonical Source Attribution** (preventing conflation of 2010 translation text with 1899 Slavonic / 1891 synodal footnotes).
-* **Gate 6: Roadmap Checklist Synchronization** (aligning `- [ ]` tasks with completed live features).
+## Problem Identified
+In the Cantor Dashboard and Service Rubrics Digest, Dolnytsky Synodal Footnote callouts (e.g. `💡 Dolnytsky Note [^7] (Synodal Rubric Alternative): ...`) were rendered as unstyled generic blockquotes:
+1. **Lack of Spacing & Container**: The note lacked vertical separation from the preceding rubric line and had no container box.
+2. **Text Collision**: The entire header was styled in bright rubric red due to generic `<strong>` tag styling inside service bodies.
+3. **Unformatted Badges**: The category badge (`Synodal Rubric Alternative` vs `Parish Custom`) was rendered as raw parenthetical text rather than a distinct pill badge.
 
 ---
 
-## 2. Discrepancy Tracing & Remediation Summary
+## Solutions Implemented
 
-Initial audit identified **849 discrepancies** across 120 files:
-1. **Broken Links (Gate 1)**: Normalized legacy `E:/Google Antigravity/...` drive links to relative project paths.
-2. **Obsolete Code Signatures (Gate 2)**: Replaced monolithic legacy method signatures with modular `engine/resolvers/` and `generator.generate()` calls.
-3. **JSON Database Names (Gate 3)**: Updated obsolete references (`text_horologion.json`, `text_octoechos.json`) to active modular schemas (`03_assets_map.json`, `02b_01_september.json`, `02c_logic_triodion.json`).
-4. **UGCC Terminology (Gate 4)**: Standardized 492 occurrences of outdated/Slavonic spellings (*Prokimenon* → *Prokeimenon*, *Stepenna* → *Gradual*, *Exaposteilarion* → *Exapostilarion*, *Lytia* → *Litiya*, *Irmos* → *Heirmos*).
-5. **Master Roadmap & Task Checklists (Gate 6)**: Flipped completed features (Psalter matrix, Synodal Footnotes, Presanctified Liturgy, 32 Gates) to `- [x]`.
+### 1. Dedicated Callout Card Component (`.synodal-callout`)
+Transformed inline Synodal Footnotes into structured card containers with:
+- **Vertical Spacing**: Generous `margin: 18px 0 8px 0; padding: 12px 16px; border-radius: 8px;` ensuring clear demarcation.
+- **Accented Container**: Subtle gold tint background with a 4px solid gold accent left border (`border-left: 4px solid var(--gold-accent)`).
+- **Graceful Header**: Dedicated header flex row with:
+  - 💡 Icon
+  - **Dolnytsky Note <sup>[^N]</sup>** in gold heading typography
+  - Distinct category pill badge (`.badge-synodal-alt` vs `.badge-parish-custom`)
+- **Proper Body Styling**: Clean secondary text color in `font-style: normal; line-height: 1.55;` with italic highlights for liturgical terms.
+
+### 2. End-of-Digest Footnotes List Cards (`.synodal-footnote-item`)
+Transformed the end-of-digest appendix notes (`## SYNODAL FOOTNOTES & ALTERNATIVE PRACTICES`) into structured list cards with badge chips and part markers.
+
+### 3. Backend Separator Refinement (`digest/formatters/footnotes.py`)
+Updated `_format_service_synodal_callouts` to separate multiple consecutive callouts with `\n\n` for clean block boundaries.
 
 ---
 
-## 3. Final Verification Status
-
-* **Documentation Multi-Auditor Result**:
-  ```
-  🎉 Audit finished: 0 discrepancies found across 0 files (out of 135 scanned).
-  ```
-* **Session Compliance Check**:
-  ```
-  tests/test_session_compliance.py::test_session_compliance PASSED [100%] (1 passed in 0.38s)
-  ```
-* **Full Pytest Suite**:
-  ```
-  ======================= 397 passed in 114.59s (0:01:54) =======================
-  ```
-* **Status**: **397 tests pass, 0 tests fail, 41 files changed.**
+## Verification Evidence
+- **Pre-flight & Session Compliance**: Passed (100%).
+- **Synodal Footnote Tests**: 4 passed in 0.56s (`tests/test_synodal_footnotes.py`).
+- **Full Test Suite**: **397 passed in 106.58s** (0 failures).

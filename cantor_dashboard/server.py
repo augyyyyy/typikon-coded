@@ -269,6 +269,16 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         version = query.get("version", ["stamford_2014"])[0]
         calendar_source = query.get("calendar_source", [None])[0]
         temple_feast = query.get("temple_feast", [None])[0]
+        temple_patron = query.get("temple_patron", [None])[0]
+        temple_type = query.get("temple_type", ["saint"])[0]
+        parish_profile_json = query.get("parish_profile", [None])[0]
+        parish_profile = None
+        if parish_profile_json:
+            try:
+                parish_profile = json.loads(parish_profile_json)
+            except Exception:
+                parish_profile = None
+
         digest_mode = query.get("digest_mode", ["full"])[0]
         include_ceremonial_val = query.get("include_ceremonial", ["false"])[0]
         include_ceremonial = include_ceremonial_val.lower() == "true"
@@ -287,6 +297,18 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     temple_feast_date = (int(parts[0]), int(parts[1]))
             except ValueError:
                 pass
+                
+        if parish_profile and isinstance(parish_profile, dict):
+            t_info = parish_profile.get("temple", {})
+            if t_info.get("name"):
+                temple_patron = t_info["name"]
+            if t_info.get("type"):
+                temple_type = t_info["type"]
+            if t_info.get("feast_month") and t_info.get("feast_day"):
+                try:
+                    temple_feast_date = (int(t_info["feast_month"]), int(t_info["feast_day"]))
+                except (ValueError, TypeError):
+                    pass
 
         try:
             # Instantiate engine
@@ -295,6 +317,9 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 version=version,
                 paschalion=paschalion,
                 temple_feast_date=temple_feast_date,
+                temple_patron=temple_patron,
+                temple_type=temple_type,
+                parish_profile=parish_profile,
                 calendar_source=calendar_source
             )
             

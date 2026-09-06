@@ -698,6 +698,18 @@ class DigestGeneratorBase:
                 digest.append(f"Vestment colour: {tone_type} ({color}{alt}).")
         except Exception as e:
             digest.append(f"[ERROR: resolve_vestment_color failed - {e}]")
+            
+        # 6b. Parish Customizer Metadata
+        parish_prof = enriched.get("parish_profile", {})
+        temple_name = parish_prof.get("temple", {}).get("name") or enriched.get("temple_patron")
+        temple_type = parish_prof.get("temple", {}).get("type") or enriched.get("temple_type")
+        if temple_name and (temple_name != "St. Nicholas" or temple_type != "saint" or parish_prof.get("name")):
+            temple_type_display = {
+                "lord": "Lord's Temple",
+                "theotokos": "Theotokos Temple",
+                "saint": "Patron Saint Temple"
+            }.get(temple_type, f"{str(temple_type).capitalize()} Temple")
+            digest.append(f"Parish Temple: {temple_name} ({temple_type_display}).")
              
         digest.append("")
 

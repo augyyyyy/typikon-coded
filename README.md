@@ -60,7 +60,7 @@ python generate_typikon_service.py --date 2026-01-06 --external "C:/MyPrivateAss
 To generate a specific service programmatically:
 
 ```python
-from ruthenian_engine import RuthenianEngine
+from engine import RuthenianEngine
 from datetime import date
 
 # Initialize Engine
@@ -81,7 +81,7 @@ print(booklet)
 
 ## Project Structure
 
-- `ruthenian_engine.py`: The core logic engine.
+- `engine/`: The modularized core logic engine mixins.
 - `json_db/`: The database of logic and text assets.
     - `01_struct_*`: Service structures (e.g., "After Psalm 103, say Great Litany").
     - `02_logic_*`: Decision trees and rubrical rules (e.g., "If Sunday, use Tone X").

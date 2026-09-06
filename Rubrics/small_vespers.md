@@ -71,7 +71,7 @@ Following the Trisagion and *"Our Father"*, the Troparia are sung.
 - *On Saturday evening:* Resurrection Troparion. ☨ Glory... Now: Theotokion.
 - *On the eve of a Feast:* Festal Troparion. ☨ Glory... Now: Festal Theotokion.
 
-The Small Litany (*"Have mercy on us, O God..."*) is intoned.
+The Shortened Fervent Litany (*"Have mercy on us, O God..."*) is intoned.
 The Small Dismissal is given.
 
 ---

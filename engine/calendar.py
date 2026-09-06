@@ -159,6 +159,7 @@ class CalendarMixin:
                 day_context = copy.deepcopy(almanac["days"][date_str])
                 day_context["_almanac_used"] = True
                 self._enrich_classification_fields(day_context)
+                self._attach_parish_customizer(day_context)
                 day_context["recension"] = self.version_id
                 return day_context
 
@@ -383,7 +384,39 @@ class CalendarMixin:
         context["recension"] = self.version_id
 
         self._enrich_classification_fields(context)
+        self._attach_parish_customizer(context)
         return context
+
+    def _attach_parish_customizer(self, context):
+        """Attaches parish profile, temple patron, and hierarchical metadata to context."""
+        parish_profile = getattr(self, "parish_profile", {}) or {}
+        temple_info = parish_profile.get("temple", {})
+        hierarchy_info = getattr(self, "hierarchy", {}) or parish_profile.get("hierarchy", {})
+
+        context["temple_patron"] = getattr(self, "temple_patron", None) or temple_info.get("name", "St. Nicholas")
+        context["temple_type"] = getattr(self, "temple_type", None) or temple_info.get("type", "saint")
+        context["temple_patron_title"] = temple_info.get("dismissal_title", None)
+        context["hierarchy"] = hierarchy_info
+        context["parish_profile"] = parish_profile
+
+        # Flatten hierarchy keys for litany lookups if present
+        if hierarchy_info:
+            if "pope_name" in hierarchy_info:
+                context["pope_name"] = hierarchy_info["pope_name"]
+            if "pope_sede_vacante" in hierarchy_info:
+                context["sede_vacante_pope"] = hierarchy_info["pope_sede_vacante"]
+            if "patriarch_name" in hierarchy_info:
+                context["patriarch_name"] = hierarchy_info["patriarch_name"]
+            if "patriarch_sede_vacante" in hierarchy_info:
+                context["sede_vacante_patriarch"] = hierarchy_info["patriarch_sede_vacante"]
+            if "metropolitan_name" in hierarchy_info:
+                context["metropolitan_name"] = hierarchy_info["metropolitan_name"]
+            if "metropolitan_sede_vacante" in hierarchy_info:
+                context["sede_vacante_metropolitan"] = hierarchy_info["metropolitan_sede_vacante"]
+            if "bishop_name" in hierarchy_info:
+                context["bishop_name"] = hierarchy_info["bishop_name"]
+            if "bishop_sede_vacante" in hierarchy_info:
+                context["sede_vacante_bishop"] = hierarchy_info["bishop_sede_vacante"]
 
     def _enrich_classification_fields(self, context):
         # 1. Determine Triodion Book

@@ -25,7 +25,11 @@ Following the choir's "Amen" and introductory prayers, Psalm 103 is read simply 
 ## 3. The Kathisma
 **JSON node:** `kathisma_daily`
 
-The current Kathisma for the day of the week is read.
+The stichology of the Psalter at Daily Vespers follows the canonical 4-season matrix (*Dolnytsky Part I §2 / Typikon Chapter 17*):
+- **Summer Season (All Saints to Sep 21)**: Mon Eve Kathisma 6; Tue Eve Kathisma 9; Wed Eve Kathisma 12; Thu Eve Kathisma 15; Fri Eve Kathisma 18; Sat Eve Kathisma 1; Sun Eve None.
+- **Winter Season (Sep 22 to Dec 19 / Jan 15 to Cheesefare)**: Weekday Evenings (Mon–Fri) Kathisma 18.
+- **Lenten Season (Great Lent)**: Sunday Eve Kathisma 4; Weekday Evenings (Mon–Fri) Kathisma 18.
+- **Bright Week & Great Feasts of the Lord**: Psalter stichology is completely suppressed.
 
 ---
 

@@ -1,316 +1,316 @@
 {
-  "file_metadata": {
-    "filename": "01d_struct_hour_9.json",
-    "version": "12.0 (Final Patch)",
-    "last_updated": "2026-01-27",
-    "authority": "Lviv (Dolnytsky) Typikon (2010) Part I & IV",
-    "scope": "The Ninth Hour (All Variants)",
-    "description": "Final structure with Dolnytsky-compliant Lenten and Paschal variants."
-  },
-  "structures": {
-    "structure_standard": {
-      "title_key": "titles.hour_9_standard",
-      "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.5",
-      "sequence": [
-        {
-          "id": "opening_prayers",
-          "content": {
-            "type": "fixed_group",
-            "rubric": {
-              "title": "Opening Prayers",
-              "note": "If preceded by another service without interruption, the initial blessing and Trisagion prayers are omitted.",
-              "roles": {
-                "priest": "If beginning the service, stand before the closed Holy Doors in Epitrachelion and exclaim 'Blessed is our God...'."
-              }
-            },
-            "ref_keys": [
-              "horologion.blessing_common",
-              "horologion.trisagion_block",
-              "horologion.invitatory_3x"
-            ]
-          }
-        },
-        {
-          "id": "psalms_fixed",
-          "content": {
-            "type": "fixed_group",
-            "ref_keys": [
-              "horologion.psalm_83",
-              "horologion.psalm_84",
-              "horologion.psalm_85"
-            ]
-          }
-        },
-        {
-          "id": "troparia_block",
-          "content": {
-            "type": "generator",
-            "generator_method": "generate_hour_troparia",
-            "rubric": {
-              "title": "Troparia",
-              "note": "Sing the Troparia of the Day/Saint according to the Typikon.",
-              "roles": {
-                "reader": "Read the appointed Troparia."
-              }
-            },
-            "args": {
-              "hour": 9
-            }
-          }
-        },
-        {
-          "id": "verses_fixed",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.verses_hour_9_forsake_not"
-          }
-        },
-        {
-          "id": "trisagion_prayers",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.trisagion_block"
-          }
-        },
-        {
-          "id": "kontakion_block",
-          "content": {
-            "type": "slot_variable",
-            "slot_id": "hour_9_kontakion",
-            "rubric": {
-              "title": "Kontakion",
-              "note": "Read the appointed Kontakion. If multiple, follow the rotation rule."
-            }
-          }
-        },
-        {
-          "id": "conclusion",
-          "content": {
-            "type": "fixed_group",
-            "ref_keys": [
-              "horologion.lord_have_mercy_40",
-              "horologion.prayer_hours_thou_who",
-              "horologion.prayer_hour_9_master_lord"
-            ]
-          }
-        },
-        {
-          "id": "dismissal_slot",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "horologion.dismissal_small"
-          }
-        }
-      ]
+    "file_metadata": {
+        "filename": "01d_struct_hour_9.json",
+        "version": "12.0 (Final Patch)",
+        "last_updated": "2026-01-27",
+        "authority": "Lviv (Dolnytsky) Typikon (2010) Part I & IV",
+        "scope": "The Ninth Hour (All Variants)",
+        "description": "Final structure with Dolnytsky-compliant Lenten and Paschal variants."
     },
-    "structure_lenten": {
-      "title_key": "titles.hour_9_lenten",
-      "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.5",
-      "inherits_from": "structure_standard",
-      "overrides": [
-        {
-          "target_id": "opening_prayers",
-          "action": "modify",
-          "rubric": {
-            "title": "Opening Prayers",
-            "roles": {
-              "all": "Make 3 small prostrations at 'O come, let us worship'."
-            }
-          }
-        },
-        {
-          "target_id": "psalms_fixed",
-          "action": "insert_after",
-          "new_component": {
-            "id": "kathisma_slot",
-            "rubric": {
-              "title": "The Kathisma",
-              "roles": {
-                "reader": "Read the appointed Kathisma."
-              }
-            },
-            "content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_kathisma"
-              }
-            }
-          }
-        },
-        {
-          "target_id": "troparia_block",
-          "action": "replace",
-          "new_component": {
-            "id": "lenten_troparia_9",
-            "rubric": {
-              "title": "Lenten Troparia",
-              "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12",
-              "roles": {
-                "all": "At each singing of the troparion, bend the knees to the ground."
-              }
-            },
-            "content": {
-              "type": "fixed_ref",
-              "ref_key": "triodion.hour_9_lenten_troparia_verses"
-            }
-          }
-        },
-        {
-          "target_id": "kontakion_block",
-          "action": "replace",
-          "new_component": {
-            "id": "lenten_kontakia_set",
-            "content": {
-              "type": "fixed_ref",
-              "ref_key": "triodion.lenten_kontakia_hours"
-            }
-          }
-        },
-        {
-          "target_id": "dismissal_slot",
-          "action": "replace",
-          "new_component": {
-            "id": "typika_transition",
-            "rubric": {
-              "title": "Transition to Typika",
-              "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12",
-              "roles": {
-                "all": "Proceed immediately to the Typika service."
-              }
-            },
-            "content": {
-              "type": "link",
-              "target_file": "01e_struct_typika.json",
-              "target_id": "structure_lenten"
-            }
-          }
-        },
-        {
-          "target_id": "verses_fixed",
-          "action": "delete"
-        }
-      ]
-    },
-    "structure_royal": {
-      "title_key": "titles.hour_9_royal",
-      "source_ref": "Dolnytsky_Typikon_Master.md:3.4.6.2, Dolnytsky_Typikon_Master.md:4.2.18.4",
-      "inherits_from": "structure_standard",
-      "overrides": [
-        {
-          "target_id": "psalms_fixed",
-          "action": "replace",
-          "new_component": {
-            "id": "psalms_royal",
-            "content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_royal_psalms",
-                "args": {
-                  "hour": 9
+    "structures": {
+        "structure_standard": {
+            "title_key": "titles.hour_9_standard",
+            "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.5",
+            "sequence": [
+                {
+                    "id": "opening_prayers",
+                    "content": {
+                        "type": "fixed_group",
+                        "rubric": {
+                            "title": "Opening Prayers",
+                            "note": "If preceded by another service without interruption, the initial blessing and Trisagion prayers are omitted.",
+                            "roles": {
+                                "priest": "If beginning the service, stand before the closed Holy Doors in Epitrachelion and exclaim 'Blessed is our God...'."
+                            }
+                        },
+                        "ref_keys": [
+                            "horologion.common.blessing",
+                            "horologion.common.trisagion_block",
+                            "horologion.matins.invitatory_3x"
+                        ]
+                    }
+                },
+                {
+                    "id": "psalms_fixed",
+                    "content": {
+                        "type": "fixed_group",
+                        "ref_keys": [
+                            "horologion.psalm_83",
+                            "horologion.psalm_84",
+                            "horologion.psalm_85"
+                        ]
+                    }
+                },
+                {
+                    "id": "troparia_block",
+                    "content": {
+                        "type": "generator",
+                        "generator_method": "generate_hour_troparia",
+                        "rubric": {
+                            "title": "Troparia",
+                            "note": "Sing the Troparia of the Day/Saint according to the Typikon.",
+                            "roles": {
+                                "reader": "Read the appointed Troparia."
+                            }
+                        },
+                        "args": {
+                            "hour": 9
+                        }
+                    }
+                },
+                {
+                    "id": "verses_fixed",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.hours.hour_9.verses_forsake_not"
+                    }
+                },
+                {
+                    "id": "trisagion_prayers",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.trisagion_block"
+                    }
+                },
+                {
+                    "id": "kontakion_block",
+                    "content": {
+                        "type": "slot_variable",
+                        "slot_id": "hour_9_kontakion",
+                        "rubric": {
+                            "title": "Kontakion",
+                            "note": "Read the appointed Kontakion. If multiple, follow the rotation rule."
+                        }
+                    }
+                },
+                {
+                    "id": "conclusion",
+                    "content": {
+                        "type": "fixed_group",
+                        "ref_keys": [
+                            "horologion.common.lord_have_mercy_40",
+                            "horologion.hours.prayer_thou_who_at_all_times",
+                            "horologion.hours.hour_9.prayer_master_lord"
+                        ]
+                    }
+                },
+                {
+                    "id": "dismissal_slot",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.dismissal_small"
+                    }
                 }
-              }
-            }
-          }
-        },
-        {
-          "target_id": "troparia_block",
-          "action": "replace",
-          "new_component": {
-            "id": "stichera_royal",
-            "rubric": {
-              "title": "Royal Stichera",
-              "note": "Three Idiomela with repeats."
-            },
-            "content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_royal_stichera",
-                "args": {
-                  "hour": 9
-                }
-              }
-            }
-          }
-        },
-        {
-          "target_id": "verses_fixed",
-          "action": "replace",
-          "new_component": {
-            "id": "readings_royal",
-            "rubric": {
-              "title": "Scripture Readings",
-              "roles": {
-                "reader": "Prokeimenon, Paremia, Epistle.",
-                "deacon": "Gospel."
-              }
-            },
-            "content": {
-              "type": "variable_logic",
-              "logic": {
-                "function": "resolve_royal_readings",
-                "args": {
-                  "hour": 9
-                }
-              }
-            }
-          }
-        },
-        {
-          "target_id": "dismissal_slot",
-          "action": "delete"
-        }
-      ]
-    },
-    "structure_paschal": {
-      "title_key": "titles.hour_9_paschal",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.20.2",
-      "sequence": [
-        {
-          "id": "christ_is_risen_3x",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "pentecostarion.christ_is_risen_3x"
-          }
-        },
-        {
-          "id": "having_beheld_resurrection_3x",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "pentecostarion.having_beheld_resurrection_3x"
-          }
-        },
-        {
-          "id": "hypakoe_pascha",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "pentecostarion.hypakoe_pascha"
-          }
-        },
-        {
-          "id": "kontakion_pascha",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "pentecostarion.kontakion_pascha"
-          }
-        },
-        {
-          "id": "paschal_troparia",
-          "content": {
-            "type": "fixed_ref",
-            "ref_key": "pentecostarion.troparia_paschal_hours"
-          }
-        },
-        {
-          "id": "conclusion",
-          "content": {
-            "type": "fixed_group",
-            "ref_keys": [
-              "horologion.lord_have_mercy_40",
-              "pentecostarion.dismissal_paschal_hours"
             ]
-          }
+        },
+        "structure_lenten": {
+            "title_key": "titles.hour_9_lenten",
+            "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.5",
+            "inherits_from": "structure_standard",
+            "overrides": [
+                {
+                    "target_id": "opening_prayers",
+                    "action": "modify",
+                    "rubric": {
+                        "title": "Opening Prayers",
+                        "roles": {
+                            "all": "Make 3 small prostrations at 'O come, let us worship'."
+                        }
+                    }
+                },
+                {
+                    "target_id": "psalms_fixed",
+                    "action": "insert_after",
+                    "new_component": {
+                        "id": "kathisma_slot",
+                        "rubric": {
+                            "title": "The Kathisma",
+                            "roles": {
+                                "reader": "Read the appointed Kathisma."
+                            }
+                        },
+                        "content": {
+                            "type": "variable_logic",
+                            "logic": {
+                                "function": "resolve_kathisma"
+                            }
+                        }
+                    }
+                },
+                {
+                    "target_id": "troparia_block",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "lenten_troparia_9",
+                        "rubric": {
+                            "title": "Lenten Troparia",
+                            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12",
+                            "roles": {
+                                "all": "At each singing of the troparion, bend the knees to the ground."
+                            }
+                        },
+                        "content": {
+                            "type": "fixed_ref",
+                            "ref_key": "triodion.hour_9_lenten_troparia_verses"
+                        }
+                    }
+                },
+                {
+                    "target_id": "kontakion_block",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "lenten_kontakia_set",
+                        "content": {
+                            "type": "fixed_ref",
+                            "ref_key": "triodion.lenten_kontakia_hours"
+                        }
+                    }
+                },
+                {
+                    "target_id": "dismissal_slot",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "typika_transition",
+                        "rubric": {
+                            "title": "Transition to Typika",
+                            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12",
+                            "roles": {
+                                "all": "Proceed immediately to the Typika service."
+                            }
+                        },
+                        "content": {
+                            "type": "link",
+                            "target_file": "01e_struct_typika.json",
+                            "target_id": "structure_lenten"
+                        }
+                    }
+                },
+                {
+                    "target_id": "verses_fixed",
+                    "action": "delete"
+                }
+            ]
+        },
+        "structure_royal": {
+            "title_key": "titles.hour_9_royal",
+            "source_ref": "Dolnytsky_Typikon_Master.md:3.4.6.2, Dolnytsky_Typikon_Master.md:4.2.18.4",
+            "inherits_from": "structure_standard",
+            "overrides": [
+                {
+                    "target_id": "psalms_fixed",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "psalms_royal",
+                        "content": {
+                            "type": "variable_logic",
+                            "logic": {
+                                "function": "resolve_royal_psalms",
+                                "args": {
+                                    "hour": 9
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "target_id": "troparia_block",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "stichera_royal",
+                        "rubric": {
+                            "title": "Royal Stichera",
+                            "note": "Three Idiomela with repeats."
+                        },
+                        "content": {
+                            "type": "variable_logic",
+                            "logic": {
+                                "function": "resolve_royal_stichera",
+                                "args": {
+                                    "hour": 9
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "target_id": "verses_fixed",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "readings_royal",
+                        "rubric": {
+                            "title": "Scripture Readings",
+                            "roles": {
+                                "reader": "Prokeimenon, Paremia, Epistle.",
+                                "deacon": "Gospel."
+                            }
+                        },
+                        "content": {
+                            "type": "variable_logic",
+                            "logic": {
+                                "function": "resolve_royal_readings",
+                                "args": {
+                                    "hour": 9
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "target_id": "dismissal_slot",
+                    "action": "delete"
+                }
+            ]
+        },
+        "structure_paschal": {
+            "title_key": "titles.hour_9_paschal",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.2.20.2",
+            "sequence": [
+                {
+                    "id": "christ_is_risen_3x",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "pentecostarion.christ_is_risen_3x"
+                    }
+                },
+                {
+                    "id": "having_beheld_resurrection_3x",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "pentecostarion.having_beheld_resurrection_3x"
+                    }
+                },
+                {
+                    "id": "hypakoe_pascha",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "pentecostarion.hypakoe_pascha"
+                    }
+                },
+                {
+                    "id": "kontakion_pascha",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "pentecostarion.kontakion_pascha"
+                    }
+                },
+                {
+                    "id": "paschal_troparia",
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "pentecostarion.troparia_paschal_hours"
+                    }
+                },
+                {
+                    "id": "conclusion",
+                    "content": {
+                        "type": "fixed_group",
+                        "ref_keys": [
+                            "horologion.common.lord_have_mercy_40",
+                            "pentecostarion.dismissal_paschal_hours"
+                        ]
+                    }
+                }
+            ]
         }
-      ]
     }
-  }
 }

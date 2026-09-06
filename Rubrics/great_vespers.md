@@ -197,7 +197,7 @@ All stichera of the feast.
 - *Weekday + Vigil Saint*: Saint Troparion (2x), **Rejoice, O Virgin Theotokos** (1x).
 - *Saint with Polyeleos*: Saint Troparion (2x), **Rejoice, O Virgin Theotokos** (1x).
 
-### At Standalone Great Vespers (Without Vigil)
-- *Sundays*: Resurrection (1x), ☨ Glory: Saint (1x), Now: Sunday Theotokion (1x).
-- *Sunday + 2 Saints*: Resurrection (1x), Saint A (1x), ☨ Glory: Saint B (1x), Now: Theotokion (1x).
-- *Feast of the Lord/Theotokos*: Festal Troparion (2x), ☨ Glory.. now.. Festal Troparion (1x).
+### At Standalone Great Vespers (Without Vigil / Artoklasia)
+- *Sundays (Simple)*: Resurrection Troparion (1x), ☨ Glory: Saint (1x, if appointed), Both now: Dismissal Theotokion of the tone of the preceding Troparion (or Resurrection Theotokion if no Saint troparion).
+- *Sunday + 2 Saints*: Resurrection (1x), Saint A (1x), ☨ Glory: Saint B (1x), Both now: Dismissal Theotokion in tone of Saint B.
+- *Feast of the Lord or Theotokos*: Festal Troparion (1x sung alone; 3x is appointed exclusively at the Blessing of Loaves).

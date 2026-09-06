@@ -35,16 +35,12 @@
     }
   },
   "hymn_ordering_templates": {
-    "sunday_saint_temple": {
-      "description": "Sunday + Saint Temple (Rank 3-)",
+    "sunday_lord_temple": {
+      "description": "Case 1: Sunday in a Temple Dedicated to the Lord (Temple Troparion is omitted)",
       "order": [
         {
           "type": "troparion",
           "source": "resurrection_tone"
-        },
-        {
-          "type": "troparion",
-          "source": "temple"
         },
         {
           "type": "troparion",
@@ -53,10 +49,6 @@
         {
           "type": "kontakion",
           "source": "resurrection_tone"
-        },
-        {
-          "type": "kontakion",
-          "source": "temple"
         },
         {
           "type": "kontakion",
@@ -72,7 +64,7 @@
       ]
     },
     "sunday_theotokos_temple": {
-      "description": "Sunday + Theotokos Temple",
+      "description": "Case 2: Sunday in a Temple Dedicated to the Theotokos",
       "order": [
         {
           "type": "troparion",
@@ -103,8 +95,8 @@
         }
       ]
     },
-    "sunday_standard": {
-      "description": "Sunday + Saint (Rank 3-)",
+    "sunday_saint_temple": {
+      "description": "Case 3: Sunday in a Temple Dedicated to a Saint",
       "order": [
         {
           "type": "troparion",
@@ -124,13 +116,110 @@
         },
         {
           "type": "kontakion",
-          "source": "temple",
+          "source": "temple"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
           "glory": true
         },
         {
           "type": "kontakion",
-          "source": "fixed_theotokion",
-          "key": "steadfast_protectress",
+          "source": "steadfast_protectress",
+          "both_now": true,
+          "condition": "not is_afterfeast"
+        }
+      ]
+    },
+    "weekday_lord_temple": {
+      "description": "Weekday in a Temple Dedicated to the Lord",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "day_theme"
+        },
+        {
+          "type": "troparion",
+          "source": "temple"
+        },
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "day_theme"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "temple",
+          "both_now": true
+        }
+      ]
+    },
+    "weekday_theotokos_temple": {
+      "description": "Weekday in a Temple Dedicated to the Theotokos",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "day_theme"
+        },
+        {
+          "type": "troparion",
+          "source": "temple"
+        },
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "day_theme"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "temple",
+          "both_now": true
+        }
+      ]
+    },
+    "weekday_saint_temple": {
+      "description": "Weekday in a Temple Dedicated to a Saint",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "day_theme"
+        },
+        {
+          "type": "troparion",
+          "source": "temple"
+        },
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "day_theme"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "steadfast_protectress",
           "both_now": true
         }
       ]
@@ -140,26 +229,30 @@
       "order": [
         {
           "type": "troparion",
-          "source": "menaion_saint"
+          "source": "day_theme"
         },
         {
           "type": "troparion",
-          "source": "temple"
+          "source": "menaion_saint"
         },
         {
           "type": "kontakion",
-          "source": "temple",
-          "glory": true
+          "source": "day_theme"
         },
         {
           "type": "kontakion",
           "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "steadfast_protectress",
           "both_now": true
         }
       ]
     },
     "festal_only": {
-      "description": "Great Feast of the Lord",
+      "description": "Case 4: Great Feast of the Lord (Total Suppression of lesser hymns)",
       "order": [
         {
           "type": "troparion",
