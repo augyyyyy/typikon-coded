@@ -263,6 +263,34 @@
             "inherits_from": "great_vespers_vigil",
             "overrides": [
                 {
+                    "target_id": "opening_vigil",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "opening_simple",
+                        "rubric": {
+                            "title": "The Opening",
+                            "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.1",
+                            "ordo_ref": "§29–§30",
+                            "roles": {
+                                "priest": "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God...'",
+                                "cantor": "Chant 'Amen' and Introductory Prayers (Trisagion block, Come let us worship 3x)."
+                            }
+                        },
+                        "content": {
+                            "type": "fixed_group",
+                            "ref_keys": [
+                                "horologion.common.blessing",
+                                "horologion.common.trisagion_block",
+                                "horologion.matins.invitatory_3x"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "target_id": "censing_psalm_103",
+                    "action": "delete"
+                },
+                {
                     "target_id": "litiya_rite",
                     "action": "delete"
                 },
@@ -285,46 +313,21 @@
         },
         "great_vespers_polyeleos": {
             "title_key": "titles.vespers_great_polyeleos",
-            "sequence": [
+            "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.2",
+            "inherits_from": "great_vespers_simple",
+            "overrides": [
                 {
-                    "id": "beginning_polyeleos",
-                    "rubric": {
-                        "roles": {
-                            "priest": "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."
+                    "target_id": "lord_i_have_cried_10",
+                    "action": "replace",
+                    "new_component": {
+                        "id": "lord_i_have_cried_8",
+                        "content": {
+                            "type": "generator",
+                            "generator_method": "generate_stichera_sequence",
+                            "args": {
+                                "slot_id": "vespers_stichera_polyeleos"
+                            }
                         }
-                    }
-                },
-                {
-                    "id": "lord_i_have_cried_8",
-                    "content": {
-                        "type": "generator",
-                        "generator_method": "generate_stichera_sequence",
-                        "args": {
-                            "slot_id": "vespers_stichera_polyeleos"
-                        }
-                    }
-                },
-                {
-                    "id": "entrance_great",
-                    "content": {
-                        "type": "component_ref",
-                        "ref_key": "components.entrance_great"
-                    }
-                },
-                {
-                    "id": "prokeimenon_readings",
-                    "content": {
-                        "type": "variable_logic",
-                        "logic": {
-                            "function": "resolve_vespers_readings_logic"
-                        }
-                    }
-                },
-                {
-                    "id": "dismissal_great",
-                    "content": {
-                        "type": "fixed_ref",
-                        "ref_key": "horologion.dismissal_great"
                     }
                 }
             ]
@@ -338,6 +341,10 @@
                         "roles": {
                             "priest": "Vest in Epitrachelion. Stand before closed Holy Doors. Exclaim 'Blessed is our God'."
                         }
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.common.blessing"
                     }
                 },
                 {
@@ -391,6 +398,16 @@
                     }
                 },
                 {
+                    "id": "entrance_suppression",
+                    "rubric": {
+                        "note": "NO ENTRANCE is made. Gladsome Light is read."
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.phos_hilaron_read"
+                    }
+                },
+                {
                     "id": "prokeimenon_daily",
                     "content": {
                         "type": "variable_logic",
@@ -436,6 +453,16 @@
                         "logic": {
                             "function": "resolve_vespers_troparia_simple"
                         }
+                    }
+                },
+                {
+                    "id": "litany_have_mercy",
+                    "rubric": {
+                        "note": "Fervent Litany (Have mercy on us, O God) sung after troparia at Daily Vespers."
+                    },
+                    "content": {
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.vespers.fervent_litany"
                     }
                 },
                 {

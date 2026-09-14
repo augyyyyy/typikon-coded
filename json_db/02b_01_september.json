@@ -17,10 +17,21 @@
         "variables": {
           "vespers_type": "great_vespers",
           "vespers_stichera_distribution": {
-            "indiction": 3,
-            "saint_simeon": 3,
-            "glory": "saint_simeon",
-            "both_now": "indiction"
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 3
+              }
+            ],
+            "glory": "saint_doxastikon",
+            "both_now": "feast_theotokion"
           },
           "vespers_readings": [
             "indiction_isaiah",
@@ -47,7 +58,24 @@
             "indiction_colossians",
             "indiction_luke",
             "saint_colossians_end"
-          ]
+          ],
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "great_doxology",
+          "rank": "rank_doxology",
+          "communion_hymn": "praise_the_lord",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "indiction",
+                "qty": 4
+              }
+            ],
+            "glory": "saint_doxastikon",
+            "both_now": "indiction_doxastikon"
+          }
         }
       },
       "06": {
@@ -60,7 +88,42 @@
           "liturgy_readings": [
             "hebrews_2_2_10",
             "luke_10_16_21"
-          ]
+          ],
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_polyeleos",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 8
+              }
+            ],
+            "glory": "archangel_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "saint_archangel_8"
+          ],
+          "matins_katavasia": "cross_canon_september",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 4
+              }
+            ],
+            "glory": "archangel_praises_doxastikon",
+            "both_now": "theotokion"
+          },
+          "communion_hymn": "he_makes_his_angels_winds"
         }
       },
       "07": {
@@ -69,14 +132,7 @@
         "period": "forefeast",
         "linked_feast_id": "09-08",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.2.2",
-        "base_template": "CASE_08"
-      },
-      "08": {
-        "title_key": "menaion.sept_08.nativity_theotokos",
-        "rank": "rank_vigil_theotokos",
-        "period": "feast",
-        "source_ref": "Dolnytsky_Typikon_Master.md:3.1.2.2.2",
-        "base_template": "CASE_14",
+        "base_template": "CASE_09",
         "variants": [
           {
             "condition": {
@@ -84,7 +140,50 @@
                 0
               ]
             },
-            "base_template": "CASE_13"
+            "base_template": "CASE_08"
+          }
+        ],
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "forefeast",
+                "qty": 6
+              }
+            ],
+            "glory_both_now": "forefeast_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "forefeast_canon_8"
+          ],
+          "matins_katavasia": "irmos_last_canon",
+          "liturgy_readings": [
+            "day_current"
+          ]
+        }
+      },
+      "08": {
+        "title_key": "menaion.sept_08.nativity_theotokos",
+        "rank": "rank_vigil_theotokos",
+        "period": "feast",
+        "source_ref": "Dolnytsky_Typikon_Master.md:3.1.2.2.2",
+        "base_template": "CASE_12",
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_11"
           }
         ],
         "variables": {
@@ -97,7 +196,45 @@
           "matins_gospel": "luke_1_39_49_56",
           "liturgy_antiphons": "typical_psalms_refrain_theotokos",
           "liturgy_entrance": "come_let_us_worship_sunday",
-          "megalynarion": "magnify_o_my_soul_virginity"
+          "megalynarion": "magnify_o_my_soul_virginity",
+          "vespers_type": "great_vespers_vigil",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_vigil_theotokos",
+          "vespers_stichera_distribution": {
+            "total_count": 10,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 10
+              }
+            ],
+            "glory_both_now": "nativity_theotokos_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "nativity_theotokos_canon_1_8",
+            "nativity_theotokos_canon_2_6"
+          ],
+          "matins_katavasia": "cross_canon_september",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 4
+              }
+            ],
+            "glory_both_now": "nativity_theotokos_praises_doxastikon"
+          },
+          "communion_hymn": "cup_of_salvation",
+          "liturgy_readings": [
+            "philippians_2_5_11",
+            "luke_10_38_42_11_27_28"
+          ]
         }
       },
       "09": {
@@ -106,25 +243,133 @@
         "period": "afterfeast",
         "linked_feast_id": "09-08",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.2.2.2",
-        "base_template": "CASE_09"
+        "base_template": "CASE_14",
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 3
+              }
+            ],
+            "glory": "saint_doxastikon",
+            "both_now": "feast_theotokion"
+          },
+          "matins_canon_stacking": [
+            "feast_canon_8",
+            "saint_canon_4"
+          ],
+          "matins_katavasia": "cross_canon_september",
+          "liturgy_readings": [
+            "galatians_4_22_31",
+            "luke_8_16_21"
+          ]
+        }
       },
       "12": {
         "title_key": "menaion.sept_12.apodosis_nativity",
         "rank": "rank_doxology",
         "period": "apodosis",
+        "linked_feast_id": "09-08",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.2.2.2",
-        "base_template": "CASE_20"
+        "base_template": "CASE_20",
+        "variables": {
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "great_doxology",
+          "rank": "rank_doxology",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "renovation",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 3
+              }
+            ],
+            "glory": "renovation_doxastikon",
+            "both_now": "forefeast_theotokion"
+          },
+          "matins_canon_stacking": [
+            "renovation_canon_8",
+            "feast_canon_4"
+          ],
+          "matins_katavasia": "cross_canon_september",
+          "liturgy_readings": [
+            "hebrews_9_1_7",
+            "luke_10_38_42_11_27_28"
+          ]
+        }
       },
       "13": {
         "title_key": "menaion.sept_13.forefeast_cross",
         "rank": "rank_simple_6",
         "period": "forefeast",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.3",
+        "base_template": "CASE_09",
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_08"
+          }
+        ],
         "variables": {
           "liturgy_readings": [
             "saturday_before_exaltation",
             "day_current"
-          ]
+          ],
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "forefeast",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 3
+              }
+            ],
+            "glory": "saint_doxastikon",
+            "both_now": "forefeast_theotokion"
+          },
+          "matins_canon_stacking": [
+            "forefeast_canon_8",
+            "saint_canon_4"
+          ],
+          "matins_katavasia": "cross_canon_september"
         }
       },
       "14": {
@@ -132,6 +377,7 @@
         "rank": "rank_vigil_lord",
         "period": "feast",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.4",
+        "base_template": "CASE_10",
         "system_flags": {
           "fast_level": "strict",
           "kneeling_prohibited": true
@@ -146,11 +392,11 @@
             "variables": {
               "suppress_resurrection_hymns": true
             },
-            "base_template": "CASE_12"
+            "base_template": "CASE_10"
           }
         ],
         "variables": {
-          "vespers_type": "great_vespers",
+          "vespers_type": "great_vespers_vigil",
           "vespers_readings": [
             "exodus_15",
             "proverbs_3",
@@ -172,7 +418,38 @@
             "john_19_6_11_13_20_25_28_30_35"
           ],
           "megalynarion": "magnify_o_my_soul_cross",
-          "communion_hymn": "light_of_your_countenance"
+          "communion_hymn": "light_of_your_countenance",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_vigil_lord",
+          "vespers_stichera_distribution": {
+            "total_count": 10,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 10
+              }
+            ],
+            "glory_both_now": "cross_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "cross_canon_1_8",
+            "cross_canon_2_6"
+          ],
+          "matins_katavasia": "cross_canon_september",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 4
+              }
+            ],
+            "glory_both_now": "cross_praises_doxastikon"
+          }
         }
       },
       "21": {
@@ -180,19 +457,140 @@
         "rank": "rank_doxology",
         "period": "apodosis",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.4",
-        "base_template": "CASE_20"
+        "base_template": "CASE_20",
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "great_doxology",
+          "rank": "rank_doxology",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 6
+              }
+            ],
+            "glory_both_now": "cross_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "cross_canon_14"
+          ],
+          "matins_katavasia": "cross_canon_september",
+          "liturgy_readings": [
+            "galatians_2_16_20",
+            "mark_8_34_9_1"
+          ],
+          "communion_hymn": "light_of_your_countenance"
+        }
       },
       "23": {
         "title_key": "menaion.sept_23.conception_baptist",
-        "rank": "rank_polyeleos",
+        "rank": "rank_doxology",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.8",
-        "base_template": "CASE_05"
+        "base_template": "CASE_02",
+        "variables": {
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "great_doxology",
+          "rank": "rank_doxology",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 6
+              }
+            ],
+            "glory": "baptist_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "baptist_canon_8"
+          ],
+          "matins_katavasia": "cross_canon_september",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 4
+              }
+            ],
+            "glory": "baptist_praises_doxastikon",
+            "both_now": "theotokion"
+          },
+          "liturgy_readings": [
+            "galatians_4_22_31",
+            "luke_1_5_25"
+          ],
+          "communion_hymn": "the_righteous_shall_be_in_everlasting_remembrance"
+        }
       },
       "26": {
         "title_key": "menaion.sept_26.falling_asleep_john_theologian",
         "rank": "rank_vigil_saint",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.9",
-        "base_template": "CASE_05"
+        "base_template": "CASE_07",
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_06"
+          }
+        ],
+        "variables": {
+          "vespers_type": "great_vespers_vigil",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_vigil_saint",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 8
+              }
+            ],
+            "glory": "theologian_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "theologian_canon_8"
+          ],
+          "matins_katavasia": "theotokos_canon_october",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 4
+              }
+            ],
+            "glory": "theologian_praises_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_gospel": "john_21_15_25",
+          "liturgy_readings": [
+            "1_john_4_12_19",
+            "john_19_25_27_21_24_25"
+          ],
+          "communion_hymn": "their_sound_has_gone_forth"
+        }
       }
     }
   }

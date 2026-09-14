@@ -263,15 +263,43 @@ class ComplineMixin:
                     "note": "Canon on the Crucifixion of the Lord and the Lamentation of the Theotokos by Symeon the Logothete"
                 }
 
-        # 1. Forefeast / Afterfeast / Feast overrides
-        if context.get("is_forefeast"):
-             return {"type": "canon", "subject": "canon_forefeast", "book": "menaion", "source": "canon_forefeast"}
-        elif context.get("is_afterfeast") or context.get("is_feast"):
-             feast_id = context.get("feast_id")
-             if feast_id in ("eucharist", "ascension", "pentecost") or (60 <= context.get("pascha_offset", -100) <= 67):
-                  return {"type": "canon", "subject": "theotokos", "book": "octoechos"}
-             book = "triodion" if (60 <= context.get("pascha_offset", -100) <= 67) or context.get("pascha_offset") is not None else "menaion"
-             return {"type": "canon", "subject": "feast", "book": book, "source": "canon_feast"}
+        # 1. Forefeasts of Nativity & Theophany (Dolnytsky Part III, line 496)
+        title_lower = str(context.get("title", "")).lower()
+        is_nativity_theophany_forefeast = (
+            context.get("is_forefeast") and (
+                "nativity" in title_lower or
+                "theophany" in title_lower or
+                context.get("feast_id") in ("nativity", "theophany") or
+                (context.get("month") == 12 and context.get("day", 0) >= 20) or
+                (context.get("month") == 1 and 2 <= context.get("day", 0) <= 5)
+            )
+        )
+        if is_nativity_theophany_forefeast:
+            return {
+                "type": "canon",
+                "subject": "canon_forefeast",
+                "book": "menaion",
+                "source": "canon_forefeast",
+                "note": "Canon of the Forefeast from the Menaion"
+            }
+
+        # 2. General Forefeasts and Afterfeasts (Dolnytsky Part II, Case 9 line 279, Case 14 line 410)
+        # During Forefeasts and Afterfeasts, Compline takes the Octoechos Theotokos canon
+        if context.get("is_afterfeast") or context.get("is_forefeast") or context.get("period") in ("afterfeast", "forefeast"):
+            return {
+                "type": "canon",
+                "subject": "theotokos",
+                "book": "octoechos",
+                "source": "canon_theotokos",
+                "note": "Canon of the Most Holy Theotokos from the Octoechos in the tone of the week"
+            }
+        elif context.get("is_feast"):
+            feast_id = context.get("feast_id")
+            if feast_id in ("eucharist", "ascension", "pentecost") or (pascha_off is not None and 60 <= pascha_off <= 67):
+                return {"type": "canon", "subject": "theotokos", "book": "octoechos", "source": "canon_theotokos"}
+            is_movable = season in ("triodion", "pentecostarion", "great_lent", "holy_week") or (pascha_off is not None and -70 <= pascha_off <= 67)
+            book = "triodion" if is_movable else "menaion"
+            return {"type": "canon", "subject": "feast", "book": book, "source": "canon_feast"}
              
         # 2. Friday Night: Canon to the Departed (Preceded by the Theotokos Canon)
         if day == 5:

@@ -623,7 +623,7 @@
     "day": 23,
     "entries": [
       {
-        "rank_code": "[POL]",
+        "rank_code": "[GT DOX]",
         "description": "Conception of the Forerunner.",
         "parsed_saints": [
           {
@@ -636,7 +636,7 @@
         ]
       }
     ],
-    "raw_source": "* **23** **[POL]** Conception of the Forerunner."
+    "raw_source": "* **23** **[GT DOX]** Conception of the Forerunner."
   },
   "9-24": {
     "month": 9,
@@ -696,7 +696,7 @@
         ]
       }
     ],
-    "raw_source": "* **26** **[VIGIL]** **Translation of Ap. John the Theologian.**"
+    "raw_source": "* **26** **[VIGIL]** **Translation of Ap. John the Theologian (On Sunday).**"
   },
   "9-27": {
     "month": 9,
@@ -1378,7 +1378,7 @@
     "day": 23,
     "entries": [
       {
-        "rank_code": "[POL]",
+        "rank_code": "[GT DOX]",
         "description": "Apostle James, Brother of the Lord.",
         "parsed_saints": [
           {
@@ -1391,7 +1391,7 @@
         ]
       }
     ],
-    "raw_source": "* **23** **[POL]** Apostle James, Brother of the Lord."
+    "raw_source": "* **23** **[GT DOX]** Apostle James, Brother of the Lord."
   },
   "10-24": {
     "month": 10,
@@ -1485,7 +1485,7 @@
     "day": 28,
     "entries": [
       {
-        "rank_code": "[POL]",
+        "rank_code": "[4 TR]",
         "description": "Martyrs Terence and Neonilla, Ven. Stephen",
         "parsed_saints": [
           {
@@ -1525,7 +1525,7 @@
         ]
       }
     ],
-    "raw_source": "* **28** **[POL]** Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva."
+    "raw_source": "* **28** **[4 TR]** Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva."
   },
   "10-29": {
     "month": 10,
@@ -1592,7 +1592,7 @@
     "day": 31,
     "entries": [
       {
-        "rank_code": "[4 A+G]",
+        "rank_code": "[4 TR]",
         "description": "Apostles Stachys, Amplias, Urban and Narcissus",
         "parsed_saints": [
           {
@@ -1639,7 +1639,7 @@
         ]
       }
     ],
-    "raw_source": "* **31** **[4 A+G]** Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus."
+    "raw_source": "* **31** **[4 TR]** Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus."
   },
   "11-1": {
     "month": 11,
@@ -1722,7 +1722,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Martyrs Acepsimas, Joseph and Aithalas.",
+        "description": "Martyrs Acepsimas, Joseph and Aithalas",
         "parsed_saints": [
           {
             "name": "Acepsimas",
@@ -1746,9 +1746,22 @@
             "is_saint": true
           }
         ]
+      },
+      {
+        "rank_code": "[4 A+G]",
+        "description": "Dedication of the Temple of Great Martyr George",
+        "parsed_saints": [
+          {
+            "name": "Dedication of the Temple of Great Martyr George",
+            "title": "",
+            "gender": "unknown",
+            "monastic": false,
+            "is_saint": false
+          }
+        ]
       }
     ],
-    "raw_source": "* **3** **[4 A+G]** Martyrs Acepsimas, Joseph and Aithalas."
+    "raw_source": "* **3** **[4 A+G]** Martyrs Acepsimas, Joseph and Aithalas; Dedication of the Temple of Great Martyr George."
   },
   "11-4": {
     "month": 11,
@@ -2068,7 +2081,7 @@
         ]
       }
     ],
-    "raw_source": "* **12** **[VIGIL]** **St. Hieromartyr Josaphat**; **[4 A+G]** St. John the Merciful; Ven. Nilus."
+    "raw_source": "* **12** **[VIGIL]** **St. Hieromartyr Josaphat (On Sunday)**; **[4 A+G]** St. John the Merciful; Ven. Nilus."
   },
   "11-13": {
     "month": 11,
@@ -2635,7 +2648,7 @@
     "day": 4,
     "entries": [
       {
-        "rank_code": "[POL]",
+        "rank_code": "[6 SM]",
         "description": "Great Martyr Barbara",
         "parsed_saints": [
           {
@@ -2661,7 +2674,7 @@
         ]
       }
     ],
-    "raw_source": "* **4** **[POL]** Great Martyr Barbara; Ven. John of Damascus."
+    "raw_source": "* **4** **[6 SM]** Great Martyr Barbara; Ven. John of Damascus."
   },
   "12-5": {
     "month": 12,
@@ -2822,7 +2835,7 @@
     "day": 12,
     "entries": [
       {
-        "rank_code": "[POL]",
+        "rank_code": "[6 SM]",
         "description": "Ven. Spyridon.",
         "parsed_saints": [
           {
@@ -2835,7 +2848,7 @@
         ]
       }
     ],
-    "raw_source": "* **12** **[POL]** Ven. Spyridon."
+    "raw_source": "* **12** **[6 SM]** Ven. Spyridon."
   },
   "12-13": {
     "month": 12,
@@ -6044,7 +6057,7 @@
         ]
       }
     ],
-    "raw_source": "* **23** **[VIGIL]** **Great Martyr George.**"
+    "raw_source": "* **23** **[VIGIL]** **Great Martyr George (On Sunday).**"
   },
   "4-24": {
     "month": 4,
@@ -7870,12 +7883,12 @@
     "day": 11,
     "entries": [
       {
-        "rank_code": "[POL]",
-        "description": "Equal-to-the-Apostles Olga, Princess of Kyiv, whose baptismal name was Helen.",
+        "rank_code": "[4 A+G]",
+        "description": "Martyr Euphemia.",
         "parsed_saints": [
           {
-            "name": "Olga",
-            "title": "Equal-to-the-Apostles",
+            "name": "Euphemia",
+            "title": "Martyr",
             "gender": "female",
             "monastic": false,
             "is_saint": true
@@ -7883,7 +7896,7 @@
         ]
       }
     ],
-    "raw_source": "* **11** **[POL]** Equal-to-the-Apostles Olga, Princess of Kyiv, whose baptismal name was Helen."
+    "raw_source": "* **11** **[4 A+G]** Martyr Euphemia."
   },
   "7-12": {
     "month": 7,
@@ -8110,7 +8123,7 @@
         ]
       }
     ],
-    "raw_source": "* **20** **[VIGIL]** **Prop. Elijah.**"
+    "raw_source": "* **20** **[VIGIL]** **Prop. Elijah (On Sunday).**"
   },
   "7-21": {
     "month": 7,
@@ -9154,7 +9167,7 @@
         ]
       }
     ],
-    "raw_source": "* **29** **[VIGIL]** **Beheading of the Precious Head of the Forerunner.**"
+    "raw_source": "* **29** **[VIGIL]** **Beheading of the Precious Head of the Forerunner (On Sunday).**"
   },
   "8-30": {
     "month": 8,

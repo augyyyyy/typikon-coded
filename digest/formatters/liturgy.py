@@ -455,6 +455,8 @@ class LiturgyFormatterMixin:
         
         # Check hydration of each reading block
         readings = res["readings"]
+        if isinstance(readings, dict):
+            readings = [readings]
         
         def is_hydrated(reading):
             for k in ["prokeimenon", "epistle", "alleluia", "gospel", "communion_hymn"]:
@@ -473,7 +475,8 @@ class LiturgyFormatterMixin:
             return False
         # Keep all reading slots (even if unhydrated) to ensure placeholders are displayed
         # for saints' readings on double-reading days.
-        readings = res["readings"]
+        if isinstance(readings, dict):
+            readings = [readings]
         
         def get_ref_label(ref_key, fallback_default):
             if not ref_key:

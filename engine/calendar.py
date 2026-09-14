@@ -148,22 +148,9 @@ class CalendarMixin:
     # =========================================================================
 
 
-    def get_liturgical_context(self, target_date):
-        year = target_date.year
-        
-        # Almanac fast-path check
-        almanac = self._get_almanac(year)
-        if almanac:
-            date_str = target_date.isoformat()
-            if date_str in almanac.get("days", {}):
-                day_context = copy.deepcopy(almanac["days"][date_str])
-                day_context["_almanac_used"] = True
-                self._enrich_classification_fields(day_context)
-                self._attach_parish_customizer(day_context)
-                day_context["recension"] = self.version_id
-                return day_context
-
-        if self.paschalion == "julian":
+    def calculate_pascha(self, year: int) -> date:
+        """Calculates Pascha date for given year based on self.paschalion (julian or gregorian)."""
+        if getattr(self, "paschalion", "gregorian") == "julian":
             # Orthodox/Julian Pascha Calculation (Julian Algorithm)
             # Based on Meeus/Jones/Butcher
             a = year % 4
@@ -177,8 +164,7 @@ class CalendarMixin:
             # Result is Julian Date. Convert to Gregorian (+13 days for 20th/21st Century)
             pascha_julian = date(year, month, day)
             pascha_gregorian = pascha_julian + timedelta(days=13)
-            pascha = pascha_gregorian
-            
+            return pascha_gregorian
         else:
             # Gregorian Pascha Calculation (Meeus/Jones/Butcher Algorithm)
             a = year % 19
@@ -195,7 +181,30 @@ class CalendarMixin:
             m = (a + 11 * h + 22 * l) // 451
             month = (h + l - 7 * m + 114) // 31
             day = ((h + l - 7 * m + 114) % 31) + 1
-            pascha = date(year, month, day)
+            return date(year, month, day)
+
+    def get_liturgical_context(self, target_date):
+        year = target_date.year
+        
+        # Almanac fast-path check
+        almanac = self._get_almanac(year)
+        if almanac:
+            date_str = target_date.isoformat()
+            if date_str in almanac.get("days", {}):
+                day_context = copy.deepcopy(almanac["days"][date_str])
+                day_context["_almanac_used"] = True
+                if self.temple_feast_date and self.temple_feast_date == (target_date.month, target_date.day):
+                    day_context["is_temple_feast"] = True
+                    day_context["temple_type"] = getattr(self, "temple_type", "saint")
+                    if getattr(self, "temple_patron", None):
+                        day_context["temple_patron"] = self.temple_patron
+                self._enrich_classification_fields(day_context)
+                self._attach_parish_customizer(day_context)
+                day_context["recension"] = self.version_id
+                day_context["specific_menaion_sunday"] = self.get_specific_menaion_sunday(target_date)
+                return day_context
+
+        pascha = self.calculate_pascha(year)
         
         delta = (target_date - pascha).days;
         weekday = (target_date.weekday() + 1) % 7;
@@ -349,7 +358,10 @@ class CalendarMixin:
             "eothinon_number": eothinon, # Alias: resolve_matins_gospel & exapostilarion use this
             "rank": rank,
             "is_temple_feast": is_temple_feast,
+            "temple_type": getattr(self, "temple_type", "saint"),
+            "temple_patron": getattr(self, "temple_patron", None),
             "is_after_lucan_jump": self.is_after_lucan_jump(target_date),
+            "specific_menaion_sunday": self.get_specific_menaion_sunday(target_date),
             "menaion_key": menaion_key,
             "triodion_week": (delta + 48) // 7 + 1 if -70 <= delta <= -1 else 1,
             "weeks_after_pentecost": (delta - 49) // 7 + 1 if delta >= 49 else None,
@@ -663,7 +675,14 @@ class CalendarMixin:
             entry = self.dolnytsky_fixed[key]
             entries = entry.get("entries", [])
             if entries:
-                rank_code = entries[0].get("rank_code", "")
+                rank_priority = {
+                    "[LORD]": 1, "[MOG]": 1,
+                    "[VIGIL]": 2, "[POL]": 3,
+                    "[GT DOX]": 4, "[6 SM]": 5,
+                    "[4 A+G]": 6, "[4 TR]": 7, "[4 NO]": 8,
+                }
+                best_entry = min(entries, key=lambda e: rank_priority.get(e.get("rank_code", ""), 99))
+                rank_code = best_entry.get("rank_code", "")
                 
                 # Concatenate all entry descriptions for commemorations
                 descriptions_cleaned = []
@@ -1068,11 +1087,16 @@ class CalendarMixin:
                 rubrics.setdefault("overrides", {})
                 rubrics.setdefault("variables", {})
                 rubrics.setdefault("_trace", [])
-                rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
-                rubrics["overrides"]["matins_type"] = "great_matins"
-                rubrics["variables"]["has_polyeleos"] = True
-                rubrics["variables"]["doxology_type"] = "great_doxology"
-                rubrics["variables"]["aposticha_type"] = "sunday_aposticha"
+                if "vespers_type" not in rubrics["overrides"]:
+                    rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
+                if "matins_type" not in rubrics["overrides"]:
+                    rubrics["overrides"]["matins_type"] = "great_matins"
+                if "has_polyeleos" not in rubrics["variables"]:
+                    rubrics["variables"]["has_polyeleos"] = True
+                if "doxology_type" not in rubrics["variables"]:
+                    rubrics["variables"]["doxology_type"] = "great_doxology"
+                if "aposticha_type" not in rubrics["variables"]:
+                    rubrics["variables"]["aposticha_type"] = "sunday_aposticha"
                 rubrics["_trace"].append("Sunday: Services set to Great Vespers/Matins with Vigil structure.")
 
         # 3. Great Feast LOOKAHEAD (Menaion Rank-Based Vigil)
@@ -1146,43 +1170,164 @@ class CalendarMixin:
     def calculate_eothinon_gospel(self, context):
         """
         Calculates the Eothinon cycle (1-11) (M-CL1).
+        Citation: Dolnytsky Typikon Part V lines 1085-1121 & Part III lines 460-506.
         """
-        # Logic: First Sunday after Pentecost is All Saints -> Eothinon 1.
-        # So we count weeks from Pentecost.
-        # Context needs 'pascha_offset'.
-        offset = context.get("pascha_offset", 0)
-        
-        # Pentecost is +49.
-        # All Saints is +56.
-        if offset < 56:
-            # Before All Saints?
-            # Eothinon Cycle usually starts after All Saints? Or starts at Thomas Sunday?
-            # Standard:
-            # Thomas Sunday: 1
-            # Myrrh Bearers: 3
-            # Paralytic: 4...
-            # This is complex.
-            # Octoechos text defines Eothinon for each Sunday.
-            # Simplified Formula for Pentecost season:
-            # Weeks after Pentecost.
-            # (WeekNum - 1) % 11 + 1 ?
-            pass
-            
-        # Implementation for Post-Pentecost (User Case: 3rd Sunday after Pentecost)
-        # 3rd Sun Aft Pent offset = 49 + (3 * 7) = 70.
-        # Eothinon sequence starts at All Saints (offset 56) with Eothinon 1.
+        day_of_week = context.get("day_of_week", 0)
+        if day_of_week != 0:
+            return None  # Sundays only
+
+        offset = context.get("pascha_offset")
+        if offset is None:
+            return 1
+
+        # Bright Week / Pascha Sunday: no standard Eothinon
+        if 0 <= offset <= 6:
+            return None
+
+        # Pentecost Sunday (offset 49): Lord's Feast, festal gospel replaces Eothinon
+        if offset == 49:
+            return None
+
+        # Post-Pentecost: Eothinon sequence starts at All Saints (offset 56) with Eothinon 1.
         if offset >= 56:
             weeks_after_all_saints = (offset - 56) // 7
-            eothinon = (weeks_after_all_saints % 11) + 1
-        elif 7 <= offset <= 49:
+            return (weeks_after_all_saints % 11) + 1
+
+        # Pentecostarion: Fixed historical assignments
+        if 7 <= offset <= 48:
             paschal_eothina = {
-                7: 1, 14: 3, 21: 4, 28: 7, 35: 8, 42: 10, 49: None
+                7: 1, 14: 3, 21: 4, 28: 7, 35: 8, 42: 10
             }
-            eothinon = paschal_eothina.get(offset)
-        else:
-            eothinon = 1 # fallback
-        
-        return eothinon
+            return paschal_eothina.get(offset)
+
+        # Pre-Pascha (offset < 0)
+        date_val = context.get("date")
+        if date_val:
+            try:
+                if isinstance(date_val, str):
+                    target_date = date.fromisoformat(date_val)
+                else:
+                    target_date = date_val
+                year = context.get("year", target_date.year)
+                prev_pascha = self.calculate_pascha(year - 1)
+                prev_all_saints = prev_pascha + timedelta(days=56)
+                days_since_prev = (target_date - prev_all_saints).days
+                if days_since_prev >= 0:
+                    weeks = days_since_prev // 7
+                    return (weeks % 11) + 1
+            except Exception:
+                pass
+
+        return 1  # fallback
+
+    def get_specific_menaion_sunday(self, target_date):
+        """
+        Identifies if target_date is one of the 10 Specific Menaion Sundays (a through I)
+        per Dolnytsky Typikon Part V lines 1098–1109:
+        a) Sunday of the Holy Fathers of the first six councils, July 16 (July 13–19)
+        b) Sunday before the Exaltation (September 7–13)
+        c) Sunday after the Exaltation (September 15–21)
+        d) Sunday of the Holy Fathers of the Council of Nicaea II, October 11 (October 11–17)
+        e) Ordinary Sunday, which coincides with the Sunday of the Forefathers (December 11–17)
+        f) Sunday of the Holy Forefathers (December 11–17)
+        g) Sunday of the Holy Fathers (before Nativity, December 18–24)
+        h) Sunday after the Nativity (December 26–31)
+        i) Sunday before Theophany (January 1–5)
+        I) Sunday after Theophany (January 7–13)
+        """
+        if isinstance(target_date, str):
+            target_date = date.fromisoformat(target_date)
+        if target_date.weekday() != 6:  # Python Sunday is 6
+            return None
+
+        m = target_date.month
+        d = target_date.day
+
+        # a) Sunday of the Holy Fathers of the first six councils (July 13–19)
+        if m == 7 and 13 <= d <= 19:
+            return {
+                "letter": "a",
+                "code": "a",
+                "id": "sunday_fathers_six_councils",
+                "name": "Sunday of the Holy Fathers of the First Six Councils",
+                "citation": "Dolnytsky Typikon Part V line 1100"
+            }
+        # b) Sunday before the Exaltation (September 7–13)
+        if m == 9 and 7 <= d <= 13:
+            return {
+                "letter": "b",
+                "code": "b",
+                "id": "sunday_before_exaltation",
+                "name": "Sunday before the Exaltation",
+                "citation": "Dolnytsky Typikon Part V line 1101"
+            }
+        # c) Sunday after the Exaltation (September 15–21)
+        if m == 9 and 15 <= d <= 21:
+            return {
+                "letter": "c",
+                "code": "c",
+                "id": "sunday_after_exaltation",
+                "name": "Sunday after the Exaltation",
+                "citation": "Dolnytsky Typikon Part V line 1102"
+            }
+        # d) Sunday of the Holy Fathers of the Council of Nicaea II (October 11–17)
+        if m == 10 and 11 <= d <= 17:
+            return {
+                "letter": "d",
+                "code": "d",
+                "id": "sunday_fathers_seventh_council",
+                "name": "Sunday of the Holy Fathers of the Seventh Ecumenical Council (Nicaea II)",
+                "citation": "Dolnytsky Typikon Part V line 1103"
+            }
+        # e & f) Sunday of the Holy Forefathers (December 11–17)
+        if m == 12 and 11 <= d <= 17:
+            return {
+                "letter": "f",
+                "code": "f",
+                "letter_ordinary_coinciding": "e",
+                "code_ordinary_coinciding": "e",
+                "id": "sunday_forefathers",
+                "name": "Sunday of the Holy Forefathers",
+                "citation": "Dolnytsky Typikon Part V lines 1104-1105"
+            }
+        # g) Sunday of the Holy Fathers (before Nativity, December 18–24)
+        if m == 12 and 18 <= d <= 24:
+            return {
+                "letter": "g",
+                "code": "g",
+                "id": "sunday_before_nativity",
+                "name": "Sunday of the Holy Fathers before the Nativity",
+                "citation": "Dolnytsky Typikon Part V line 1106"
+            }
+        # h) Sunday after the Nativity (December 26–31)
+        if m == 12 and 26 <= d <= 31:
+            return {
+                "letter": "h",
+                "code": "h",
+                "id": "sunday_after_nativity",
+                "name": "Sunday after the Nativity",
+                "citation": "Dolnytsky Typikon Part V line 1107"
+            }
+        # i) Sunday before Theophany (January 1–5)
+        if m == 1 and 1 <= d <= 5:
+            return {
+                "letter": "i",
+                "code": "i",
+                "id": "sunday_before_theophany",
+                "name": "Sunday before Theophany",
+                "citation": "Dolnytsky Typikon Part V line 1108"
+            }
+        # I) Sunday after Theophany (January 7–13)
+        if m == 1 and 7 <= d <= 13:
+            return {
+                "letter": "I",
+                "code": "I",
+                "id": "sunday_after_theophany",
+                "name": "Sunday after Theophany",
+                "citation": "Dolnytsky Typikon Part V line 1109"
+            }
+
+        return None
 
 
     def resolve_fixed_feast(self, context):

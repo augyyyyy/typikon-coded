@@ -149,14 +149,25 @@
       "royal_doors": {
         "§": "19b–f",
         "states_by_service": {
+          "vespers_without_vigil": {
+            "§": "19b, 34, 36",
+            "transitions": [
+              {"moment": "entrance", "state": "open", "note": "Opened for Entrance at 'Glory' of Stichera"},
+              {"moment": "after_prokeimenon_readings", "state": "closed", "note": "Closed after Prokeimenon or Old Testament readings"},
+              {"moment": "dismissal", "state": "open", "note": "Opened for Dismissal after Troparia"},
+              {"moment": "after_dismissal", "state": "closed", "note": "Closed after Dismissal when clergy return to Altar"}
+            ]
+          },
           "vespers_with_vigil": {
             "§": "19b",
             "transitions": [
               {"moment": "psalm_103_censing", "state": "open", "note": "Opened when priest censes at beginning"},
               {"moment": "psalm_103_begin", "state": "closed", "note": "Closed when Psalm 103 begins"},
               {"moment": "all_entrances", "state": "open"},
+              {"moment": "after_prokeimenon_readings", "state": "closed"},
               {"moment": "gospel_carried_out", "state": "open"},
-              {"moment": "dismissal", "state": "open"}
+              {"moment": "dismissal", "state": "open"},
+              {"moment": "after_dismissal", "state": "closed"}
             ]
           },
           "orthros": {
@@ -180,6 +191,22 @@
             ],
             "note": "In some places, custom to open/close more often."
           },
+          "presanctified": {
+            "§": "19b, 220, 230, 234, 236, 240, 242, 245, 247",
+            "transitions": [
+              {"moment": "typika_dismissal", "state": "open", "note": "Opened for Typika dismissal before Presanctified"},
+              {"moment": "after_typika_dismissal", "state": "closed", "note": "Closed after Typika dismissal"},
+              {"moment": "entrance", "state": "open", "note": "Opened for Entrance at 'Glory, Both now' of Lord I Call"},
+              {"moment": "light_of_christ", "state": "open", "note": "Remains open during 'The Light of Christ illumines all'"},
+              {"moment": "second_paremia", "state": "closed", "note": "Closed for reading of second Paremia"},
+              {"moment": "prokeimenon_apostle_gospel", "state": "open", "note": "Opened if feast day has Epistle and Gospel"},
+              {"moment": "after_gospel", "state": "closed", "note": "Closed after Holy Gospel on feast day"},
+              {"moment": "great_entrance", "state": "open", "note": "Opened for Great Entrance during 'Now the Powers of Heaven'"},
+              {"moment": "after_great_entrance", "state": "closed", "note": "Closed immediately following Great Entrance"},
+              {"moment": "before_communion_of_faithful", "state": "open", "note": "Opened after clergy communion for faithful communion"},
+              {"moment": "end_of_liturgy", "state": "closed", "note": "Closed after final dismissal"}
+            ]
+          },
           "bright_week": {
             "§": "19e",
             "rule": "Royal doors AND side doors remain open during entire Bright Week, even during Communion of celebrant."
@@ -202,6 +229,15 @@
             {"moment": "holy_things_to_the_holy", "state": "closed"},
             {"moment": "before_communion_of_faithful", "state": "open"},
             {"moment": "end_of_liturgy", "state": "remains_open"}
+          ]
+        },
+        "presanctified": {
+          "§": "19g, 242, 245",
+          "transitions": [
+            {"moment": "beginning_through_great_entrance", "state": "open", "note": "Remains open from beginning of Presanctified through the Great Entrance"},
+            {"moment": "after_great_entrance", "state": "closed", "note": "Drawn shut immediately after Great Entrance"},
+            {"moment": "before_communion_of_faithful", "state": "open", "note": "Drawn open before the communion of the faithful"},
+            {"moment": "end_of_liturgy", "state": "remains_open", "note": "Remains open through the dismissal and conclusion"}
           ]
         },
         "regional_variation": {
@@ -282,7 +318,8 @@
         {"id": "one_deacon", "label": "With the Ministry of One Deacon", "is_normative": true},
         {"id": "two_deacons", "label": "With the Ministry of Two Deacons"},
         {"id": "without_deacon", "label": "Without the Ministry of a Deacon"},
-        {"id": "concelebration", "label": "With Concelebrating Priests"}
+        {"id": "concelebration", "label": "With Concelebrating Priests"},
+        {"id": "hierarchical", "label": "Hierarchical Service (Bishop Presiding)"}
       ]
     }
   },
@@ -295,20 +332,22 @@
         {"target": "holy_table", "sides": 4, "note": "Front, right, back, left"},
         {"target": "apsidal_icon", "note": "High place icon"},
         {"target": "altar_icons", "note": "Other icons within sanctuary"},
+        {"target": "oblation_table", "note": "Table of preparation"},
         {"target": "priest", "note": "Or celebrant if deacon censes"},
         {"target": "iconostasis_south", "note": "Beginning with Savior icon, via north door"},
         {"target": "iconostasis_north", "note": "Beginning with Theotokos icon"},
         {"target": "right_choir"},
         {"target": "left_choir"},
-        {"target": "people", "note": "From soleas or by processing down aisle"},
-        {"target": "return_to_altar", "note": "Via south door"}
+        {"target": "people", "note": "From soleas or by processing down nave"},
+        {"target": "return_to_altar", "note": "Via south door, censes Holy Table front and celebrant"}
       ],
       "used_at": [
         "vespers_lord_i_have_cried",
         "orthros_opening",
         "orthros_let_everything_that_breathes",
         "orthros_ode_8",
-        "liturgy_after_proskomede"
+        "liturgy_after_proskomede",
+        "liturgy_cherubic_hymn"
       ]
     },
     "holy_table_only": {
@@ -346,6 +385,46 @@
         {"target": "left_choir", "deacon": "second"},
         {"target": "people_from_soleas", "note": "One from right, other from left"}
       ]
+    },
+    "let_my_prayer_arise": {
+      "§": "235",
+      "description": "Priest censes the four sides of the Holy Table with three swings at each verse, preceded by deacon with lighted candle",
+      "sequence": [
+        {"target": "holy_table_front", "swings": 3, "verse": "Let my prayer be set forth"},
+        {"target": "holy_table_south", "swings": 3, "verse": "Lord, I have cried"},
+        {"target": "holy_table_east", "swings": 3, "verse": "Set, O Lord, a watch"},
+        {"target": "holy_table_north", "swings": 3, "verse": "Incline not my heart"},
+        {"target": "holy_table_front", "swings": 3, "verse": "Let my prayer be set forth (conclusion)"}
+      ],
+      "used_at": ["presanctified_let_my_prayer"]
+    },
+    "paschal_matins_opening": {
+      "§": "Dolnytsky lines 216–218",
+      "description": "Solemn Paschal censing by celebrant with cross and censer, preceded by deacon with lighted candle",
+      "sequence": [
+        {"target": "holy_table", "sides": 4},
+        {"target": "sanctuary_servers"},
+        {"target": "procession_to_narthex"},
+        {"target": "narthex_icons"},
+        {"target": "kliroses_and_people"},
+        {"target": "deacon_censes_priest_then_priest_censes_closed_doors_thrice"}
+      ],
+      "used_at": ["paschal_matins_opening"]
+    },
+    "polyeleos_magnification": {
+      "§": "95",
+      "description": "Solemn censing during the Polyeleos Magnification before the tetrapod",
+      "sequence": [
+        {"target": "tetrapod_icon", "sides": 4},
+        {"target": "holy_table", "sides": 4},
+        {"target": "sanctuary"},
+        {"target": "iconostasis"},
+        {"target": "concelebrants"},
+        {"target": "both_choirs"},
+        {"target": "people"},
+        {"target": "tetrapod_icon_front"}
+      ],
+      "used_at": ["orthros_magnification"]
     }
   },
 
@@ -421,8 +500,8 @@
   },
 
   "orthros_choreography": {
-    "_source": "Ordo §74–§96 (Section IV: Orthros)",
-    "note": "See section_index.md for complete §-by-§ breakdown.",
+    "_source": "Ordo §74–§96 (Section IV: Orthros) and Dolnytsky §74–§96",
+    "note": "Complete ministerial distributions across one deacon, two deacons, without deacon, and concelebration.",
     "key_moments": {
       "§76": "Six Psalms: Priest reads Orthros prayers at Holy Table. After first 3 psalms, exits via north door to read before royal doors.",
       "§78": "Prokeimenon: Royal doors opened. Priest vests in phelonion. Deacon censes Holy Table (4 sides) and rest per §33.",
@@ -441,12 +520,49 @@
         "with_deacon": "Deacon censes the Holy Table on all four sides, the Altar, the iconostasis, the priest, and the people.",
         "without_deacon": "Priest censes the Holy Table on all four sides, the iconostasis, and the people."
       }
+    },
+    "one_deacon": {
+      "§_range": "74–84",
+      "§75": {"moment": "opening", "instruction": "Priest in epitrachelion exits north door, exclaims 'Blessed is our God', Trisagion, enters Altar, censes Holy Table (4 sides) and entire church; deacon assists."},
+      "§76": {"moment": "six_psalms", "deacon": "At end of Six Psalms, deacon exits north door, small bow to priest, exclaims Great Synapte. Recites verses during 'God is the Lord', returns to Altar via south door."},
+      "§77": {"moment": "kathisma", "deacon": "Deacon exclaims Small Synapte before royal doors after each regular Kathisma, returns via south door."},
+      "§78": {"moment": "prokeimenon_and_gospel", "deacon": "Royal doors opened. Deacon: 'Let us be attentive!' Priest blesses. Deacon: 'Wisdom! Let us be attentive!' Choir sings Prokeimenon. Deacon: 'Let us pray to the Lord.' Priest: 'For Holy are You...' Deacon censes 4 sides of altar and sanctuary. Deacon recites verses at 'Let everything that has breath'. Deacon: 'And that we may be vouchsafed...' Priest reads Matins Gospel on analogion on soleas."},
+      "§79": {"moment": "tetrapod_procession", "deacon": "Priest carries Gospel to tetrapod, returns through royal doors. Deacon chants 'Having beheld the Resurrection' (or Reader Ps 50) and 'O God, save Your people'."},
+      "§80": {"moment": "anointing", "deacon": "If Vigil, priest with cross exits holy doors, deacon with holy oil exits north door. Priest anoints foreheads at tetrapod; return through royal/south doors."},
+      "§81": {"moment": "canon_litanies_and_ode_8", "deacon": "Deacon sings Small Litany after Odes 3 and 6. After Ode 8 Katavasia, deacon stands before Theotokos icon: 'The Theotokos and Mother of Light let us magnify in songs!', censes altar and entire church. Chants Small Litany after Ode 9."},
+      "§82": {"moment": "doxology", "deacon": "At Glory of Praises, deacon opens royal doors. Priest exclaims 'Glory to You Who have shown us the Light.' Following Great Doxology, priest preceded by deacon carries Gospel back to Holy Table."},
+      "§83": {"moment": "dismissal", "deacon": "Deacon chants litanies 'Have mercy on us' and 'Let us complete'. Priest gives Dismissal; deacon starts 'Wisdom!'"}
+    },
+    "two_deacons": {
+      "§_range": "85–88",
+      "§85": {"moment": "six_psalms", "deacon": "1st deacon exits via north door, exclaims Great Synapte and 'God is the Lord' verses; returns via south door."},
+      "§85_kathisma": {"moment": "kathisma", "deacon": "2nd deacon sings Small Litany after 1st Kathisma; 1st deacon sings after 2nd Kathisma; 2nd deacon sings after Angelic Council/Magnification."},
+      "§85_gospel": {"moment": "prokeimenon_and_gospel", "deacon": "1st deacon: 'Let us be attentive!' Priest blesses. 2nd deacon: 'Wisdom, let us be attentive!' 1st deacon: 'Let us pray to the Lord.' Both deacons cense altar and church simultaneously. 1st deacon recites 1st verse, 2nd deacon recites 2nd verse at 'Let everything that has breath'."},
+      "§86": {"moment": "anointing", "deacon": "1st deacon accompanies priest for anointing; 2nd deacon sings Small Litanies after Odes 3 and 6."},
+      "§86_ode_8": {"moment": "ode_8", "deacon": "1st deacon exits north door with thurible, exclaims before Theotokos icon: 'The Theotokos and Mother of Light!', returns to altar, and both deacons cense simultaneously."},
+      "§87": {"moment": "ode_9", "deacon": "1st deacon chants Small Litany after Ode 9."},
+      "§88": {"moment": "doxology_and_dismissal", "deacon": "Royal doors opened; 1st deacon stands at priest's right, 2nd at left. After Doxology, both precede priest carrying Gospel back. 1st deacon sings ektene, 2nd deacon sings aitisis, 1st deacon begins Dismissal: 'Wisdom!'"}
+    },
+    "without_deacon": {
+      "§_range": "89–93",
+      "§90": {"moment": "six_psalms", "priest": "Priest finishes prayers before iconostasis or in Altar; stands before royal doors for Great Synapte and 'God is the Lord' verses."},
+      "§90_gospel": {"moment": "prokeimenon_and_gospel", "priest": "Priest himself exclaims 'Let us pray to the Lord', recites verses, reads Gospel on analogion, carries to tetrapod, chants 'Having beheld the Resurrection'."},
+      "§91": {"moment": "ode_8", "priest": "Priest in epitrachelion exits north door, exclaims before Theotokos icon: 'The Theotokos and Mother of Light!', censes as deacon, returns via south door, says Small Litany."},
+      "§92": {"moment": "doxology", "priest": "At Glory of Praises, puts on phelonion, opens royal doors, exclaims 'Glory to You Who have shown us the Light.'"},
+      "§93": {"moment": "dismissal", "priest": "Says litanies before Holy Table; says Dismissal standing in royal doors; closes royal doors."}
+    },
+    "concelebration": {
+      "§_range": "94–96",
+      "§94": {"moment": "vesting", "rule": "Concelebrants in even number vest in epitrachelia and phelonia during Kathismata, stand at sides of Holy Table in alternating seniority."},
+      "§94_polyeleos": {"moment": "polyeleos", "rule": "Younger concelebrants precede through royal doors carrying festal icon to tetrapod; form two rows facing each other; principal stands in center before tetrapod."},
+      "§95": {"moment": "magnification", "rule": "All sing Magnification; principal censes tetrapod 4 sides, altar, concelebrants, choirs, people, preceded by deacon with lighted candle."},
+      "§96": {"moment": "return", "rule": "All concelebrants return through royal doors into Altar before the Holy Table."}
     }
   },
 
   "liturgy_choreography": {
-    "_source": "Ordo §97–§215 (Section V: Divine Liturgy)",
-    "note": "See section_index.md for complete §-by-§ breakdown.",
+    "_source": "Ordo §97–§215 (Section V: Divine Liturgy) and Dolnytsky §97–§220",
+    "note": "Complete ministerial distributions across one deacon, two deacons, without deacon, and concelebration.",
     "key_moments": {
       "§100": "Preparatory prayers: Priest and deacon make 3 small bows before royal doors, facing east.",
       "§101": "Enter Altar: Priest via south door, deacon via north door, saying 'I will come into Your house.'",
@@ -475,12 +591,73 @@
           "without_deacon": "Priest carries both the diskarion (left hand) and the chalice (right hand), exits via northern door, and enters via Holy Doors."
         }
       }
+    },
+    "one_deacon": {
+      "§_range": "97–146",
+      "§100": {"moment": "preparatory_prayers", "deacon": "Priest and deacon make 3 small bows before royal doors, venerate Savior and Theotokos icons, prayer 'Lord, stretch forth Your hand', bow to choirs, enter Altar (priest south, deacon north)."},
+      "§103": {"moment": "vesting", "deacon": "Deacon asks blessing: 'Master, bless the sticharion...', vests in sticharion, orarion, cuffs. Prepares Prothesis table. Priest blesses and vests in full priestly vestments."},
+      "§108": {"moment": "proskomedia", "deacon": "Deacon assists at Prothesis: 'Master, bless', 'Take up, Master', 'Sacrifice, Master', 'Pierce, Master', 'Bless the holy union', wine and water. Veils and censing."},
+      "§117": {"moment": "censing_after_proskomedia", "deacon": "Deacon censes Prothesis 3 times, Holy Table (4 sides) reciting 'In the tomb with the body', sanctuary, iconostasis, choirs, people, returns south door, censes altar front and priest."},
+      "§118": {"moment": "beginning", "deacon": "Dialogue: 'It is time for the Lord to act...' Deacon exits north door, stands before royal doors: 'Master, bless!' Priest exclaims: 'Blessed is the kingdom...' Deacon sings Great Synapte."},
+      "§120": {"moment": "antiphons", "deacon": "1st Antiphon: deacon stands before Christ icon; 1st Small Litany; 2nd Antiphon: deacon stands before Theotokos icon; 2nd Small Litany; 3rd Antiphon: deacon enters Altar south door. Royal doors opened."},
+      "§122": {"moment": "little_entrance", "deacon": "Priest gives Gospel to deacon. Exit north door preceded by candlebearers. Deacon: 'Let us pray to the Lord.' Priest says Entrance Prayer. Deacon: 'Master, bless the holy entrance.' Priest blesses. Deacon raises Gospel: 'Wisdom! Stand aright!' Enter Altar, place Gospel on Holy Table."},
+      "§123": {"moment": "trisagion", "deacon": "Deacon: 'Master, bless the time of the Thrice-Holy.' Priest exclaims. Deacon at royal doors: 'and unto ages of ages.' Dialogue for High Place, priest sits at south side."},
+      "§126": {"moment": "epistle_and_gospel", "deacon": "Deacon censes during Alleluia. Asks blessing: 'Master, bless the proclaimer...' Priest blesses. Deacon exits royal doors with Gospel to ambo/analogion, reads facing people. Hands Gospel to priest; royal doors closed."},
+      "§127": {"moment": "litanies", "deacon": "Deacon chants ektene 'Let us all say' and Litany of Catechumens. Priest unfolds antimension. Royal doors opened. Deacon chants Faithful litanies."},
+      "§128": {"moment": "cherubic_hymn", "deacon": "Deacon full censing of altar, iconostasis, people during Cherubic Hymn. Priest and deacon recite Cherubic Hymn 3 times with hands elevated and small bows."},
+      "§129": {"moment": "great_entrance", "deacon": "Priest places aer on deacon's left shoulder, diskos on deacon's head. Priest carries chalice. Exit north door preceded by candlebearers. Deacon exclaims: 'All of you, Orthodox Christians...' Priest exclaims: 'Our most holy Pontiff... and all of you...' Enter royal doors, place gifts on altar, cover with aer, cense. Royal doors closed."},
+      "§132": {"moment": "anaphora", "deacon": "Deacon aitisis 'Let us complete', kiss of peace, 'The doors, the doors!', Creed (aer waved over gifts), 'Let us stand well', deacon fans gifts. Strikes diskos with asterisk at 'Singing the triumphant hymn'. Deacons point with orarion at Words of Institution and Epiclesis."},
+      "§140": {"moment": "communion", "deacon": "Deacon aitisis, 'Holy things to the holy', fraction (IC-XC-NI-KA), zeon poured. Priest communicates of Body and gives to deacon; communicates of Blood and gives chalice to deacon. Curtain and royal doors opened; deacon shows chalice: 'With fear of God and with faith draw near!'"},
+      "§143": {"moment": "post_communion", "deacon": "Deacon carries diskos on head to Prothesis table. Priest transfers chalice. Deacon thanksgiving litany 'Arise! Having partaken...'. Priest reads Prayer behind Ambo between choirs. Dismissal, unvesting, deacon consumes remaining gifts."}
+    },
+    "two_deacons": {
+      "§_range": "147–169",
+      "§148": {"moment": "beginning", "deacon": "Both deacons participate in preparatory prayers and vesting. Coordinated censing after Proskomedia (§149). 1st deacon exits south, 2nd exits north. 1st deacon calls 'Master, bless!' and sings Great Synapte. 1st Antiphon: 1st deacon at Christ icon. 1st Small Litany: 2nd deacon at Theotokos icon. 2nd Small Litany: 1st deacon."},
+      "§152": {"moment": "little_entrance", "deacon": "2nd deacon leads censing, 1st deacon carries Gospel, priest follows. Preceded by candlebearers, exit north door. 1st deacon exclaims 'Wisdom! Stand aright!'"},
+      "§154": {"moment": "epistle_and_gospel", "deacon": "1st deacon 'Wisdom', 2nd deacon 'Let us be attentive'. Both deacons cense simultaneously during Alleluia. 1st deacon reads Gospel; 2nd deacon calls 'Wisdom, arise!'"},
+      "§156": {"moment": "litanies", "deacon": "1st deacon says ektene; 2nd deacon says catechumens; 1st deacon catechumens departure; 2nd deacon 1st faithful; 1st deacon 2nd faithful."},
+      "§157": {"moment": "cherubic_and_great_entrance", "deacon": "Both deacons cense simultaneously. 2nd deacon carries aer on left shoulder with thurible, 1st deacon carries diskos on head, priest carries chalice. 2nd deacon exclaims 'All of you...', 1st deacon exclaims 'All of you...', priest exclaims 'Our most holy...'"},
+      "§158": {"moment": "kiss_of_peace", "deacon": "2nd deacon: 'Let us love one another'. Deacons kiss each other on left shoulder. 1st deacon: 'The doors, the doors!'"},
+      "§159": {"moment": "anaphora_and_elevation", "deacon": "1st deacon takes diskos with right hand, 2nd deacon takes chalice with right hand (1st deacon's right hand rests on 2nd deacon's right hand), trace sign of cross for 'Thine own of Thine own'. Both point with oraria at Epiclesis."},
+      "§160": {"moment": "post_anaphora_communion", "deacon": "2nd deacon chants litany after Anaphora. 1st deacon consumes particle after priests, wipes diskos into chalice, shows chalice at royal doors."}
+    },
+    "without_deacon": {
+      "§_range": "170–180",
+      "§171": {"moment": "omissions", "rule": "Priest omits 'Master, bless', 'Let us pray to the Lord', 'Take up, Master', etc., EXCEPT 'Let us pray to the Lord' before Prayer behind Ambo."},
+      "§172": {"moment": "censing", "rule": "Priest censes as deacon from soleas after Proskomedia, before Gospel, and at Cherubic Hymn."},
+      "§173": {"moment": "litanies", "rule": "Priest recites silent prayers of Great and Small Litanies before their exclamations, not after."},
+      "§174": {"moment": "little_entrance", "rule": "Priest takes Gospel around altar from right, exits north door, says Entrance Prayer before royal doors, blesses, kisses Gospel, exclaims 'Wisdom! Stand aright!', enters through royal doors."},
+      "§175": {"moment": "epistle_and_gospel", "rule": "Blesses reader, censes altar and nave during Alleluia, reads Gospel on analogion outside royal doors, kisses book and places on altar."},
+      "§176": {"moment": "cherubic_and_great_entrance", "rule": "Censes, places aer on own left shoulder, carries diskos in left hand and chalice in right hand, exits north door: 'May the Lord God remember...', enters royal doors, places on altar, covers with aer, censes."},
+      "§177": {"moment": "anaphora_elevation", "rule": "Strikes diskos with asterisk; crosses hands (diskos right, chalice left) over antimension for 'Thine own of Thine own'; censes altar only from front; pours zeon himself."},
+      "§178": {"moment": "communion_and_ablutions", "rule": "Communicates faithful with chalice, transfers gifts to oblation table, folds antimension, says Prayer behind Ambo between choirs, consumes gifts at oblation table."}
+    },
+    "non_solemn_ordinary": {
+      "§_range": "181–191",
+      "§181": {"rule": "All rites and ceremonies preserved in ordinary/private Liturgy. What is exclaimed must be clearly heard by those present."},
+      "§182": {"rule": "Reader wears sticharion outside sanctuary. Priest opens/closes royal doors and curtain himself."},
+      "§183": {"rule": "Censer praiseworthy though not strictly obligatory in simple private Liturgy."},
+      "§185": {"rule": "Proskomedia on side table near altar; one prosphora permitted; fresh cutting mandatory."},
+      "§189": {"rule": "No fanning over Holy Gifts unless danger of foreign matter; zeon poured if convenient."},
+      "§191": {"rule": "Dismissal said standing in royal doors; priest consumes gifts at oblation table."}
+    },
+    "concelebration": {
+      "§_range": "192–220",
+      "§197": {"moment": "altar_positions", "rule": "Principal celebrant stands in front of Holy Table; concelebrants stand at sides in alternating seniority (1st right, 2nd left, 3rd right, etc.), never in front."},
+      "§198": {"moment": "proskomedia", "rule": "Proskomedia is celebrated by one concelebrant alone, who says Prayer of Offering. Other concelebrants add their own particles."},
+      "§199": {"moment": "exclamations", "rule": "11 exclamations strictly reserved to principal celebrant: Great Litany, Trisagion, Ektene, Faithful 2, Offering, Triumphant Hymn, Especially for Most Holy, One Mouth, Mercies, Our Father, Sanctification. Concelebrants take other exclamations in turn by nod from principal."},
+      "§200": {"moment": "little_entrance", "rule": "Concelebrants lower hands under phelonia, exit north door in reverse order of dignity (younger first), stand in double file at royal doors, principal in center behind. Principal alone says Entrance Prayer."},
+      "§204": {"moment": "great_entrance", "rule": "Concelebrants carry sacred vessels/instruments (spear, spoon) on chest; younger exit north door first, each exclaiming 'All of you, Orthodox Christians...'; principal stands before royal doors exclaiming 'Our most holy Pontiff...'; enters, concelebrants follow."},
+      "§206": {"moment": "kiss_of_peace", "rule": "Principal kisses gifts, turns right; concelebrants kiss gifts, then principal's left and right shoulders ('Christ is in our midst' / 'He is and shall be'), then kiss each other. 1st and 2nd concelebrants wave aer over gifts during Creed."},
+      "§207": {"moment": "anaphora_epiclesis", "rule": "All concelebrants point with hand to diskos and chalice, recite words of consecration and 'Thine own of Thine own' together; BUT ONLY the principal celebrant blesses the Gifts and invokes the Epiclesis."},
+      "§209": {"moment": "communion", "rule": "Principal communicates first; concelebrants approach sequentially from oblation side (north) to receive Body, wash fingers, approach from south side to receive Blood; deacon receives from principal."},
+      "§211": {"moment": "prayer_behind_ambo", "rule": "Said between the two choirs by the principal celebrant alone."}
     }
   },
 
   "presanctified_choreography": {
-    "_source": "Ordo §216–§261 (Section VI: Presanctified Liturgy)",
-    "note": "See section_index.md for complete §-by-§ breakdown.",
+    "_source": "Ordo §216–§261 (Section VI: Presanctified Liturgy) and Dolnytsky §221–§228",
+    "note": "Complete ministerial distributions across one deacon, two deacons, without deacon, and concelebration.",
     "key_moments": {
       "§226": "Transfer of Presanctified Lamb: From artophorion on Holy Table to Prothesis table. Carried on diskarion with veil.",
       "§234": "'Command!' Light and thurible. 'The Light of Christ illumines all.' Three great prostrations.",
@@ -505,6 +682,45 @@
           "without_deacon": "Priest carries the Holy Gifts in complete silence; no censing is performed."
         }
       }
+    },
+    "one_deacon": {
+      "§_range": "216–247",
+      "§226": {"moment": "typika_and_vesting", "rule": "Priest in epitrachelion opens royal doors for Typika dismissal, closes doors. Vests in full vestments saying only 'Let us pray to the Lord' for each vestment."},
+      "§226_transfer": {"moment": "transfer_of_lamb", "rule": "During Kathisma antiphons, priest places Presanctified Lamb on diskos, censes, carries on head to oblation table preceded by deacon with lighted candle and censer in silence."},
+      "§227": {"moment": "entrance", "rule": "At 'Glory, Both now' of Lord I Call, royal doors opened; entrance with censer (or Gospel if feast day); deacon: 'Wisdom! Stand aright!'"},
+      "§224": {"moment": "light_of_christ", "rule": "After 2nd Prokimenon, priest takes candle and censer, makes sign of cross to east: 'Wisdom, arise!', turns to people: 'The Light of Christ illumines all!' All make three great prostrations. Royal doors closed for 2nd Paremia."},
+      "§225": {"moment": "let_my_prayer", "rule": "Priest censes 4 sides of Holy Table with 3 swings at each verse, preceded by deacon with candle; all pray on their knees."},
+      "§226_entrance": {"moment": "great_entrance", "rule": "Royal doors opened; deacon censes altar, oblation, priest; aer placed on deacon's left shoulder; priest carries diskos on head and chalice at chest; deacon walks in front censing gifts frequently in complete silence; gifts placed on altar; all make three great prostrations; royal doors closed and curtain drawn shut."},
+      "§225_communion": {"moment": "elevation_and_communion", "rule": "Priest touches Lamb under aer: 'The Presanctified Holy Things to the holy!'; fraction; zeon poured; clergy communion; curtain and royal doors opened for faithful communion ('Draw near')."},
+      "§227_dismissal": {"moment": "dismissal", "rule": "Dismissal without naming author; on Holy Monday–Wednesday, dismissal of Palm Sunday at Vespers."}
+    },
+    "two_deacons": {
+      "§_range": "248–256",
+      "§224": {"moment": "litanies_and_transfer", "deacon": "1st deacon assists at transfer of Lamb; 2nd deacon sings 1st Small Litany; 1st deacon sings 2nd Small Litany; 2nd deacon sings 3rd Small Litany."},
+      "§225": {"moment": "entrance", "deacon": "1st deacon 'Let us be attentive', 2nd deacon 'Wisdom, let us be attentive'."},
+      "§226": {"moment": "let_my_prayer", "deacon": "Both deacons precede priest with candles while he censes 4 sides of Holy Table."},
+      "§228": {"moment": "great_entrance", "deacon": "Both deacons walk in front frequently censing the Holy Gifts during complete silence."}
+    },
+    "without_deacon": {
+      "§_range": "257–260",
+      "§227": {"moment": "solo_adaptations", "priest": "Server with lighted candle precedes priest during transfer of Lamb, during 'Let my prayer', and during Great Entrance. Small litanies said before Holy Table. No censing during Great Entrance."}
+    },
+    "concelebration": {
+      "§_range": "261",
+      "§225": {"moment": "concelebration_rules", "rule": "Vest at end of Typika saying only 'Let us pray to the Lord'. Exclamations reserved to principal celebrant: 'For to You belongs', 'For a merciful', 'According to the gift of Your Christ', 'For You are our sanctification'. Concelebrants remain at sides during 'Let my prayer', kneel and rise together with principal."}
     }
+  },
+
+  "hierarchical_choreography": {
+    "_source": "Ordo §19f, §32 note, §37 note, §50 note, Ruthenian Archieratikon / Pontifical",
+    "note": "Ceremonial actions when a Bishop presides.",
+    "reception_and_entry": "Senior priest presents hand cross for kissing and holy water at church portal; bishop enters wearing mandyas and holding pastoral staff.",
+    "nave_vesting": "Bishop vests on the episcopal platform (kathedra / ambo) in the center of the nave; deacons and subdeacons vest bishop while choir sings 'Thy soul shall rejoice...'; dikirion and trikirion presented.",
+    "holy_doors": "Royal doors remain open throughout the entire hierarchical divine service (Ordo §19f).",
+    "subdeacons": "Subdeacons assist with dikirion and trikirion, episcopal staff (crosier), omophorion, and lavabo (washing of hands before Cherubic Hymn and Communion).",
+    "trisagion_blessing": "Bishop blesses facing west, south, and north with dikirion and trikirion: 'Lord, Lord, look down from heaven and see, and visit this vineyard which Your right hand has planted...'",
+    "entrances": "Clergy process before the bishop; at Great Entrance, bishop stands at open royal doors to receive the Holy Gifts from concelebrating clergy.",
+    "communion": "Bishop communicates in the sanctuary and distributes the Holy Mysteries to concelebrating priests and deacons.",
+    "dismissal": "Final blessing with dikirion and trikirion and archiepiscopal commemorations."
   }
 }

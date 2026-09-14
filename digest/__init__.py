@@ -9,6 +9,7 @@ from .formatters.paschal import PaschalFormatterMixin
 from .formatters.ceremonial import CeremonialFormatterMixin
 from .formatters.common import CommonFormatterMixin
 from .formatters.footnotes import FootnoteFormatterMixin
+from .formatters.service_card import ServiceCardFormatterMixin
 
 class TypikonDigestGenerator(
     DigestGeneratorBase,
@@ -22,5 +23,6 @@ class TypikonDigestGenerator(
     CeremonialFormatterMixin,
     CommonFormatterMixin,
     FootnoteFormatterMixin,
+    ServiceCardFormatterMixin,
 ):
     pass

@@ -1,157 +1,291 @@
 {
   "file_metadata": {
     "filename": "02e_logic_katavasia.json",
-    "version": "1.0",
-    "description": "Katavasia (Irmos) seasonal selection per Dolnytsky Part 1 Line 165",
-    "authority": "Lviv (Dolnytsky) Typikon (2010) Part I & III"
+    "version": "2.0",
+    "description": "Katavasia (Irmos) seasonal selection per Dolnytsky Part V lines 244-273",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part V pp. 244-273"
   },
   "katavasia_seasons": {
     "description": "Seasonal Katavasiae sung after each Ode at Great Matins",
-    "source_ref": "Dolnytsky_Typikon_Master.md:1.5.2.1",
+    "source_ref": "Final_Dolnytsky_part5_temple.txt:244-273",
     "seasons": [
       {
-        "id": "nativity_forefeast",
-        "name": "Christ is Born (Forefeast of Nativity)",
+        "id": "exaltation_sep",
+        "name": "Having Traced the Cross (Exaltation)",
         "date_range": {
-          "start": "12-21",
-          "end": "12-31"
-        },
-        "irmos_key": "katavasia.nativity",
-        "text_incipit": "Христос рождається"
-      },
-      {
-        "id": "theophany_forefeast",
-        "name": "The Lord is Baptized (Forefeast of Theophany)",
-        "date_range": {
-          "start": "01-02",
-          "end": "01-05"
-        },
-        "irmos_key": "katavasia.theophany_forefeast",
-        "text_incipit": "Глибини відкрив дно"
-      },
-      {
-        "id": "theophany_afterfeast",
-        "name": "When Israel Walked (Afterfeast of Theophany)",
-        "date_range": {
-          "start": "01-07",
-          "end": "01-14"
-        },
-        "irmos_key": "katavasia.theophany_afterfeast",
-        "text_incipit": "Шествуваше Ізраїль"
-      },
-      {
-        "id": "presentation_afterfeast",
-        "name": "By the Law (Afterfeast of Presentation)",
-        "date_range": {
-          "start": "02-03",
-          "end": "02-09"
-        },
-        "irmos_key": "katavasia.presentation",
-        "text_incipit": "Законом сінновним"
-      },
-      {
-        "id": "annunciation_afterfeast",
-        "name": "I Shall Open My Mouth (Afterfeast of Annunciation)",
-        "date_range": {
-          "start": "03-26",
-          "end": "04-07"
-        },
-        "irmos_key": "katavasia.annunciation",
-        "text_incipit": "Отверзу уста моя"
-      },
-      {
-        "id": "cross_exaltation",
-        "name": "The Cross is Traced (Exaltation)",
-        "date_range": {
-          "start": "09-14",
+          "start": "09-01",
           "end": "09-21"
         },
         "irmos_key": "katavasia.cross",
-        "text_incipit": "Крест начертав"
+        "text_incipit": "Крест начертав",
+        "tone": 8,
+        "feast": "Exaltation"
       },
       {
-        "id": "cross_aug",
-        "name": "The Cross is Traced (Aug 1 - Sept 13)",
+        "id": "theotokos_autumn",
+        "name": "I Shall Open My Mouth (General of Theotokos)",
+        "date_range": {
+          "start": "09-22",
+          "end": "11-20"
+        },
+        "irmos_key": "katavasia.open_mouth",
+        "text_incipit": "Отверзу уста моя",
+        "tone": 4,
+        "feast": "General of Theotokos"
+      },
+      {
+        "id": "nativity",
+        "name": "Christ is Born (Nativity of Christ)",
+        "date_range": {
+          "start": "11-21",
+          "end": "12-31"
+        },
+        "irmos_key": "katavasia.nativity",
+        "text_incipit": "Христос рождається",
+        "tone": 1,
+        "feast": "Nativity of Christ"
+      },
+      {
+        "id": "theophany",
+        "name": "The Depths (Theophany)",
+        "date_range": {
+          "start": "01-01",
+          "end": "01-14"
+        },
+        "irmos_key": "katavasia.theophany",
+        "text_incipit": "Глибини відкрив дно",
+        "tone": 2,
+        "feast": "Theophany"
+      },
+      {
+        "id": "presentation",
+        "name": "The Dry Land (Meeting of the Lord)",
+        "date_range": {
+          "start": "01-15",
+          "end": "02-09"
+        },
+        "irmos_key": "katavasia.presentation",
+        "text_incipit": "Сушу глубородительную землю",
+        "tone": 3,
+        "feast": "Meeting"
+      },
+      {
+        "id": "theotokos_spring_summer",
+        "name": "I Shall Open My Mouth (General of Theotokos)",
+        "date_range": {
+          "start": "02-10",
+          "end": "07-31"
+        },
+        "irmos_key": "katavasia.open_mouth",
+        "text_incipit": "Отверзу уста моя",
+        "tone": 4,
+        "feast": "General of Theotokos"
+      },
+      {
+        "id": "cross_aug_early",
+        "name": "Having Traced the Cross (Exaltation)",
         "date_range": {
           "start": "08-01",
-          "end": "09-13"
+          "end": "08-06"
         },
         "irmos_key": "katavasia.cross",
-        "text_incipit": "Крест начертав"
+        "text_incipit": "Крест начертав",
+        "tone": 8,
+        "feast": "Exaltation"
       },
       {
-        "id": "transfiguration_afterfeast",
-        "name": "The Cross is Traced (Transfiguration Afterfeast)",
+        "id": "transfiguration",
+        "name": "The People of Israel (Transfiguration)",
         "date_range": {
           "start": "08-07",
           "end": "08-13"
         },
-        "irmos_key": "katavasia.cross",
-        "text_incipit": "Крест начертав"
+        "irmos_key": "katavasia.transfiguration",
+        "text_incipit": "Лици ізраїльтестії",
+        "tone": 4,
+        "feast": "Transfiguration"
       },
       {
-        "id": "dormition_afterfeast",
-        "name": "Adorned with Divine Glory (Dormition Afterfeast)",
+        "id": "dormition",
+        "name": "Adorned with Divine Glory (Dormition)",
         "date_range": {
-          "start": "08-16",
+          "start": "08-14",
           "end": "08-23"
         },
         "irmos_key": "katavasia.dormition",
-        "text_incipit": "Преукрашенная"
+        "text_incipit": "Преукрашенная",
+        "tone": 1,
+        "feast": "Dormition"
       },
       {
-        "id": "nativity_theotokos_afterfeast",
-        "name": "I Shall Open My Mouth (Nativity of Theotokos)",
+        "id": "cross_aug_late",
+        "name": "Having Traced the Cross (Exaltation)",
         "date_range": {
-          "start": "09-09",
-          "end": "09-12"
+          "start": "08-24",
+          "end": "08-31"
         },
+        "irmos_key": "katavasia.cross",
+        "text_incipit": "Крест начертав",
+        "tone": 8,
+        "feast": "Exaltation"
+      }
+    ],
+    "meeting_overlap_exception": {
+      "date_range": {
+        "start": "01-15",
+        "end": "02-09"
+      },
+      "irmos_key": "katavasia.presentation",
+      "text_incipit": "Сушу глубородительную землю",
+      "tone": 3,
+      "feast": "Meeting",
+      "rule": "During the period of the Meeting (Jan 15–Feb 9), the Katavasia of the Meeting is sung, with the exception of Meatfare Sunday, which takes the Katavasia of the Triodion per Slavonic rubrics.",
+      "citation": "Final_Dolnytsky_part5_temple.txt:262"
+    },
+    "triodion_seasons": [
+      {
+        "id": "publican_pharisee",
+        "offset": -70,
         "irmos_key": "katavasia.open_mouth",
-        "text_incipit": "Отверзу уста моя"
+        "text_incipit": "Отверзу уста моя",
+        "tone": 4,
+        "note": "General Katavasia of Theotokos unless Meeting overlap"
       },
       {
-        "id": "default",
-        "name": "I Shall Open My Mouth (Default)",
-        "date_range": "all_other_dates",
-        "irmos_key": "katavasia.open_mouth",
-        "text_incipit": "Отверзу уста моя"
+        "id": "prodigal_son",
+        "offset": -63,
+        "irmos_key": "katavasia.prodigal_son",
+        "text_incipit": "Помощник і покровитель",
+        "tone": 2,
+        "note": "Triodion Katavasia unless Meeting overlap"
+      },
+      {
+        "id": "meatfare_sunday",
+        "offset": -56,
+        "irmos_key": "katavasia.meatfare",
+        "text_incipit": "Помощник і покровитель",
+        "tone": 6,
+        "note": "Triodion Katavasia (retained during Meeting overlap)"
+      },
+      {
+        "id": "cheesefare_sunday",
+        "offset": -49,
+        "irmos_key": "katavasia.cheesefare",
+        "text_incipit": "Яко по суху",
+        "tone": 6,
+        "note": "Triodion Katavasia"
+      },
+      {
+        "id": "sunday_orthodoxy",
+        "offset": -42,
+        "irmos_key": "katavasia.orthodoxy",
+        "text_incipit": "Моря чермную пучину",
+        "tone": 4,
+        "note": "1st Sunday of Lent"
+      },
+      {
+        "id": "veneration_cross",
+        "offset": -28,
+        "irmos_key": "katavasia.cross_triodion",
+        "text_incipit": "Божественніший прообрази древле Мойсей",
+        "tone": 1,
+        "note": "3rd Sunday of Lent"
+      },
+      {
+        "id": "lazarus_saturday",
+        "offset": -8,
+        "irmos_key": "katavasia.lazarus",
+        "text_incipit": "Воду прошед яко сушу",
+        "tone": 8,
+        "note": "Lazarus Saturday"
+      },
+      {
+        "id": "palm_sunday",
+        "offset": -7,
+        "irmos_key": "katavasia.palm_sunday",
+        "text_incipit": "Явишася источницы бездны",
+        "tone": 4,
+        "note": "Palm Sunday"
       }
     ],
     "pascha_seasons": [
       {
-        "id": "bright_week",
+        "id": "bright_week_and_pentecostarion",
         "name": "Paschal Katavasia",
-        "period": "Pascha to Thomas Sunday",
+        "period": "Pascha to Mid-Pentecost eve (offsets 0-23, 32-34, 36-37)",
         "irmos_key": "katavasia.pascha",
-        "text_incipit": "Воскресенія день"
-      },
-      {
-        "id": "pentecostarion_early",
-        "name": "Paschal Katavasia (Pentecostarion)",
-        "period": "Thomas Sunday to Mid-Pentecost",
-        "irmos_key": "katavasia.pascha",
-        "text_incipit": "Воскресенія день"
+        "text_incipit": "Воскресенія день",
+        "tone": 1
       },
       {
         "id": "mid_pentecost",
-        "name": "With the Divine Cloud (Mid-Pentecost)",
-        "period": "Mid-Pentecost to Ascension",
+        "name": "The Sea (Mid-Pentecost)",
+        "period": "Mid-Pentecost to Apodosis (offsets 24-31)",
         "irmos_key": "katavasia.mid_pentecost",
-        "text_incipit": "Божественним покровен"
+        "text_incipit": "Море огустил єси",
+        "tone": 8
+      },
+      {
+        "id": "blind_man_and_pascha_apodosis",
+        "name": "To the Savior (Blind Man & Pascha Apodosis)",
+        "period": "6th Sunday after Pascha (offset 35) & Apodosis of Pascha (offset 38)",
+        "irmos_key": "katavasia.ascension",
+        "text_incipit": "Спасителю Богу",
+        "tone": 5
+      },
+      {
+        "id": "ascension_thursday",
+        "name": "Divine (Ascension Thursday)",
+        "period": "Ascension Thursday (offset 39)",
+        "irmos_key": "katavasia.pentecost",
+        "text_incipit": "Божественним покровен",
+        "tone": 4,
+        "note": "Dolnytsky line 268"
       },
       {
         "id": "ascension_afterfeast",
-        "name": "Divine Ascension (Ascension Afterfeast)",
-        "period": "Ascension to Leave-taking",
+        "name": "To the Savior (Ascension Afterfeast)",
+        "period": "Friday after Ascension to Apodosis, excl 7th Sunday (offsets 40-41, 43-47)",
         "irmos_key": "katavasia.ascension",
-        "text_incipit": "Божественного спаса"
+        "text_incipit": "Спасителю Богу",
+        "tone": 5,
+        "note": "Dolnytsky line 269"
+      },
+      {
+        "id": "seventh_sunday",
+        "name": "Divine (7th Sunday after Pascha)",
+        "period": "7th Sunday after Pascha, Fathers of 1st Council (offset 42)",
+        "irmos_key": "katavasia.pentecost",
+        "text_incipit": "Божественним покровен",
+        "tone": 4,
+        "note": "Dolnytsky line 270"
+      },
+      {
+        "id": "pentecost_saturday",
+        "name": "Let Us Send Up a Song (Pentecost Saturday)",
+        "period": "Pentecost Saturday / Saturday of Souls (offset 48)",
+        "irmos_key": "katavasia.pentecost_saturday",
+        "text_incipit": "Піснь возслем людїє",
+        "tone": 8,
+        "note": "Dolnytsky line 271"
       },
       {
         "id": "pentecost_afterfeast",
-        "name": "The Divine Spirit (Pentecost Afterfeast)",
-        "period": "Pentecost to Leave-taking",
+        "name": "Divine (Pentecost to Apodosis)",
+        "period": "Pentecost to Apodosis (offsets 49-55)",
         "irmos_key": "katavasia.pentecost",
-        "text_incipit": "Божественним покровен"
+        "text_incipit": "Божественним покровен",
+        "tone": 4,
+        "note": "Dolnytsky line 272"
+      },
+      {
+        "id": "all_saints",
+        "name": "I Shall Open My Mouth (Sunday of All Saints)",
+        "period": "Sunday of All Saints (offset 56)",
+        "irmos_key": "katavasia.open_mouth",
+        "text_incipit": "Отверзу уста моя",
+        "tone": 4,
+        "note": "Dolnytsky line 273"
       }
     ]
   },
@@ -169,19 +303,23 @@
   },
   "selection_logic": {
     "resolve_katavasia": {
-      "description": "Select Katavasia based on date and service type",
+      "description": "Select Katavasia based on date, season, and service type per Dolnytsky Part V lines 244-273",
       "steps": [
-        "1. If Daily Matins → use irmos of last canon (Odes 3,6,8,9 only)",
-        "2. If Pascha period → check pascha_seasons by offset from Pascha",
-        "3. Else → match date against seasons array",
-        "4. Return irmos_key for the matching season"
+        "1. If Daily Matins (rank 5 weekday) -> use irmos of last canon (Odes 3, 6, 8, 9 only)",
+        "2. If Meeting overlap (Jan 15-Feb 9) and not Meatfare Sunday -> use Meeting Katavasia",
+        "3. If Triodion movable Sunday -> use Triodion Katavasia",
+        "4. If Pascha/Pentecostarion period -> check pascha_seasons by offset",
+        "5. Else -> match date against immovable seasons array",
+        "6. Return katavasia_id, text, tone, frequency, and after_odes"
       ],
       "inputs": [
         "date",
-        "service_type",
-        "pascha_date"
+        "rank",
+        "season",
+        "day_of_week",
+        "pascha_offset"
       ],
-      "output": "irmos_key"
+      "output": "katavasia_structure"
     }
   }
 }

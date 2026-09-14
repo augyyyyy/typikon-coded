@@ -256,6 +256,20 @@ class ServiceDayMultiAuditor:
             if match:
                 errors.append(f"{desc}: '{match.group(0)}'")
 
+        # Ungrammatical raw key humanization leaks in liturgical texts
+        grammar_leak_patterns = [
+            (r"\b\d+\s+Aposticha\s+(Feast|Saint|Theotokos|Resurrection)\b", "Ungrammatical key-humanization leak: Aposticha + Subject"),
+            (r"\b\d+\s+Stichera\s+(Feast|Saint|Theotokos)\b", "Ungrammatical key-humanization leak: Stichera + Subject"),
+            (r"\b(Aposticha|Stichera)\s+Feast\b", "Ungrammatical key-humanization leak: 'Aposticha Feast' or 'Stichera Feast'"),
+            (r"\b(Aposticha|Stichera)\s+Saint\b", "Ungrammatical key-humanization leak: 'Aposticha Saint' or 'Stichera Saint'"),
+            (r"\b(Doxastikon|Theotokion|Troparion|Kontakion)\s+(Feast|Saint)\b", "Ungrammatical key-humanization leak: Hymn + Subject"),
+            (r"\bGlory,?\s*[Bb]oth\s*now:?\s*Theotokion\b(?!\s+(?:in\s+Tone|for|of))", "Ungrounded bare Theotokion without tone or source"),
+        ]
+        for pattern, desc in grammar_leak_patterns:
+            match = re.search(pattern, content, re.IGNORECASE)
+            if match:
+                errors.append(f"{desc}: '{match.group(0)}'")
+
         # Banned Jargon in structural/system output
         jargon_words = ["array", "list", "dict", "variable", "suffix", "ref_key", "override", "fallback_default", "programmer"]
         for word in jargon_words:
@@ -390,7 +404,7 @@ class ServiceDayMultiAuditor:
         return errors
 
     def gate4_canonical(self, dt: date, service_name: str, context: dict, rubrics: dict, enriched: dict) -> list:
-        """Gate 4: Canonical Liturgical Constraints (Octoechos suppressions, reading overrides)."""
+        """Gate 4: Canonical Liturgical Constraints (Octoechos suppressions, reading overrides, kathisma)."""
         errors = []
         rank_id = self.engine._get_rank_id(context)
         d_rank = context.get("dolnytsky_rank", 5)
@@ -398,33 +412,86 @@ class ServiceDayMultiAuditor:
             d_rank_val = int(d_rank)
         except (ValueError, TypeError):
             d_rank_val = 5
-            
+
+        dow = context.get("day_of_week")
+        is_weekday = (dow != 0) # Mon=1..Sat=6
+
+        suppress_octoechos = (
+            context.get("variables", {}).get("suppress_octoechos") is True or
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis") or
+            (context.get("feast_level") in ("lord", "theotokos") and d_rank_val <= 2) or
+            rank_id in ("rank_vigil_lord", "rank_vigil_theotokos")
+        )
+
         is_great_feast = (
             context.get("feast_level") in ("lord", "theotokos") and 
             d_rank_val <= 2
         ) or rank_id in ("rank_vigil_lord", "rank_vigil_theotokos")
 
-        # Weekday Great Feast: 0% Octoechos in Vespers stichera & Matins canons
-        if is_great_feast and context.get("day_of_week") != 0:
-            if service_name == "Vespers":
+        # 1. Vespers Invariants
+        if service_name == "Vespers" and is_weekday:
+            if suppress_octoechos:
                 stichera = self.engine.resolve_vespers_stichera(enriched)
                 if stichera and isinstance(stichera, dict):
                     for item in stichera.get("items", []):
                         if item.startswith("octoechos."):
-                            errors.append(f"Octoechos stichera '{item}' leaked on weekday Great Feast.")
+                            errors.append(f"Octoechos stichera '{item}' leaked on weekday when Octoechos is suppressed ({dt.isoformat()}).")
                     for dist_item in stichera.get("distribution", []):
                         if dist_item.get("source") == "octoechos":
-                            errors.append("Octoechos stichera included in Vespers distribution on weekday Great Feast.")
-            
-            if service_name == "Matins":
-                canon_stack = self.engine.resolve_canon_stack(enriched)
-                if canon_stack and isinstance(canon_stack, dict):
-                    for dist_item in canon_stack.get("distribution", []):
-                        if dist_item.get("type") in ("resurrection", "cross_res"):
-                            errors.append(f"Resurrectional Octoechos canon '{dist_item.get('type')}' leaked on weekday Great Feast Matins.")
+                            errors.append(f"Octoechos stichera included in Vespers distribution on weekday when Octoechos is suppressed ({dt.isoformat()}).")
 
-        # Readings override check
-        if is_great_feast and context.get("day_of_week") != 0 and service_name == "Liturgy":
+                aposticha = self.engine.resolve_aposticha(enriched)
+                if aposticha and isinstance(aposticha, dict):
+                    for item in aposticha.get("items", []):
+                        if item.startswith("octoechos."):
+                            errors.append(f"Octoechos aposticha '{item}' leaked on weekday when Octoechos is suppressed ({dt.isoformat()}).")
+                    for dist_item in aposticha.get("distribution", []):
+                        if dist_item.get("source") == "octoechos":
+                            errors.append(f"Octoechos aposticha included in distribution on weekday when Octoechos is suppressed ({dt.isoformat()}).")
+
+            # Vespers Kathisma Psalmody Check
+            # Outside Great Lent, Great Feasts of the Lord, and Vigils, weekdays (Mon-Fri) must appoint a Kathisma
+            is_vigil = is_great_feast or rank_id in ("rank_vigil", "rank_polyeleos") or context.get("is_sunday_vigil")
+            is_lent = context.get("season") in ("great_lent", "lent") or context.get("season_id") in ("great_lent", "lent")
+            pascha_off = context.get("pascha_offset")
+            is_bright_week = pascha_off is not None and 0 <= pascha_off <= 6
+            
+            if not is_vigil and not is_lent and not is_bright_week and 1 <= dow <= 5:
+                # Friday evening (dow==5) has no kathisma at Vespers outside Lent, but Mon-Thu (dow 1..4) must have a Kathisma
+                if 1 <= dow <= 4:
+                    kath_res = self.engine.resolve_daily_kathisma(enriched)
+                    kath_num = kath_res.get("number", 0) if isinstance(kath_res, dict) else 0
+                    if not kath_res or kath_num == 0 or kath_res.get("type") == "none":
+                        errors.append(f"Vespers Kathisma psalmody wrongfully omitted on {dt.isoformat()} (dow={dow}).")
+
+        # 2. Matins Invariants
+        if service_name == "Matins" and is_weekday and suppress_octoechos:
+            canon_stack = self.engine.resolve_canon_stack(enriched)
+            if canon_stack and isinstance(canon_stack, dict):
+                for dist_item in canon_stack.get("distribution", []):
+                    if dist_item.get("source") == "octoechos" or dist_item.get("type") in ("resurrection", "cross_res", "theotokos_octoechos", "weekday_octoechos"):
+                        errors.append(f"Octoechos canon '{dist_item.get('type')}' leaked on weekday Matins when Octoechos is suppressed ({dt.isoformat()}).")
+
+            aposticha_matins = self.engine.resolve_aposticha_matins(enriched)
+            if aposticha_matins and isinstance(aposticha_matins, dict):
+                for item in aposticha_matins.get("items", []):
+                    if item.startswith("octoechos."):
+                        errors.append(f"Octoechos aposticha '{item}' leaked on weekday Matins ({dt.isoformat()}).")
+
+        # 3. Compline Canon Season & Book Invariant
+        if service_name == "Compline":
+            compline_canon = self.engine.resolve_compline_canon(enriched)
+            if compline_canon and isinstance(compline_canon, dict):
+                season_id = context.get("season_id") or context.get("season", "")
+                pascha_off = context.get("pascha_offset")
+                is_movable_season = season_id in ("triodion", "pentecostarion", "great_lent", "holy_week") or (pascha_off is not None and -70 <= pascha_off <= 67)
+                if compline_canon.get("book") == "triodion" and not is_movable_season:
+                    errors.append(f"Compline canon appointed from Triodion out of season on {dt.isoformat()}.")
+
+        # 4. Liturgy Readings override check
+        if is_great_feast and is_weekday and service_name == "Liturgy":
             readings = self.engine.resolve_liturgy_readings(enriched, rubrics)
             if readings and isinstance(readings, dict):
                 overrides = rubrics.get("overrides", {})
@@ -435,6 +502,26 @@ class ServiceDayMultiAuditor:
                         errors.append(f"Epistle override mismatch: expected {expected_epistle}, got {readings.get('epistle')}")
                     if expected_gospel and readings.get("gospel") != expected_gospel:
                         errors.append(f"Gospel override mismatch: expected {expected_gospel}, got {readings.get('gospel')}")
+
+        # 5. Liturgy Propers for Weekday Afterfeasts & Apodoses
+        if service_name == "Liturgy" and is_weekday and (context.get("is_afterfeast") or context.get("is_apodosis")):
+            readings = self.engine.resolve_liturgy_readings(enriched, rubrics)
+            if readings and isinstance(readings, dict):
+                first_r = readings.get("readings", [{}])[0]
+                prok = first_r.get("prokeimenon", {})
+                if prok.get("source") == "horologion":
+                    errors.append(f"Liturgy Prokeimenon on Afterfeast {dt.isoformat()} resolved to generic weekday Horologion instead of Feast.")
+                alleluia = first_r.get("alleluia", {})
+                if alleluia.get("source") == "horologion":
+                    errors.append(f"Liturgy Alleluia on Afterfeast {dt.isoformat()} resolved to generic weekday Horologion instead of Feast.")
+
+            meg = self.engine.resolve_liturgy_megalynarion(enriched, rubrics)
+            if isinstance(meg, dict) and meg.get("ref_key") != "festal_zadostoinyk":
+                errors.append(f"Liturgy Megalynarion on Afterfeast {dt.isoformat()} resolved to '{meg.get('ref_key')}' instead of festal_zadostoinyk.")
+
+            comm = self.engine.resolve_communion_hymn(enriched, rubrics)
+            if isinstance(comm, dict) and comm.get("source") != "feast":
+                errors.append(f"Liturgy Communion Hymn on Afterfeast {dt.isoformat()} resolved to '{comm.get('ref_key')}' instead of Feast communion hymn.")
         return errors
 
     def gate5_citations(self, dt: date, content: str) -> list:
@@ -663,6 +750,38 @@ class ServiceDayMultiAuditor:
                 # On Bright Saturday (pascha_off == 6), Vespers is Sunday Vespers of Thomas Sunday, which resumes Kathisma 1
                 if not (pascha_off == 6 and service_name == "Vespers"):
                     errors.append("Bright Week Violation: Found forbidden Kathisma reading during Bright Week.")
+
+        # 3. Forefeast, Afterfeast, and Apodosis Negative Suppressions
+        is_after_or_fore = (
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis") or
+            context.get("variables", {}).get("suppress_octoechos")
+        )
+        dow = context.get("day_of_week")
+        if is_after_or_fore and dow != 0:
+            rubric_lines = [l for l in content.splitlines() if not l.strip().startswith(">")]
+            rubric_content = "\n".join(rubric_lines)
+            
+            # A. Ban Octoechos sessional hymns string
+            if "Sessional Hymns from the Octoechos" in rubric_content:
+                errors.append(f"Negative Suppression Violation: Found forbidden 'Sessional Hymns from the Octoechos' on Afterfeast/Forefeast (date={dt.isoformat()}).")
+
+            # B. Ban generic weekday combination headers (e.g., 'Thursday service combined with')
+            for day in ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"):
+                if f"{day} service combined with" in rubric_content:
+                    errors.append(f"Negative Suppression Violation: Found forbidden weekday combination string '{day} service combined with' on Afterfeast/Forefeast (date={dt.isoformat()}).")
+
+            # C. Ban 'Theotokion from the Horologion or Octoechos'
+            if "Theotokion from the Horologion or Octoechos" in rubric_content or "Theotokion from the Octoechos" in rubric_content:
+                errors.append(f"Negative Suppression Violation: Found forbidden Octoechos/Horologion theotokion string on Afterfeast/Forefeast (date={dt.isoformat()}).")
+
+            # D. Ban generic 'Theotokion' at dismissal troparia on Forefeasts/Afterfeasts (must be Feast Troparion)
+            if "Dismissal Troparia" in rubric_content:
+                for line in rubric_content.splitlines():
+                    if "Dismissal Troparia" in line:
+                        if "Both now: Theotokion" in line or "both now... Theotokion" in line or "Both now... Theotokion" in line:
+                            errors.append(f"Negative Suppression Violation: Dismissal Troparia on Forefeast/Afterfeast ends with generic 'Theotokion' instead of Troparion of the Feast (date={dt.isoformat()}).")
                 
         return errors
 
@@ -1122,6 +1241,60 @@ class ServiceDayMultiAuditor:
 
         return errors
 
+    def gate33_paradigm_invariants(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 33: Dolnytsky Part II Paradigm Invariants (The 20 Cases: Forefeasts, Afterfeasts, Apodoses)."""
+        errors = []
+        if not content:
+            return errors
+            
+        dow = context.get("day_of_week")
+        is_weekday = (dow != 0)
+        is_afterfeast = context.get("is_afterfeast")
+        is_forefeast = context.get("is_forefeast")
+        is_apodosis = context.get("is_apodosis")
+
+        rubric_lines = [l for l in content.splitlines() if not l.strip().startswith(">")]
+        rubric_content = "\n".join(rubric_lines)
+        
+        # Case 14: Weekday Afterfeast with simple saint
+        if is_afterfeast and is_weekday and service_name == "Vespers":
+            if "At the Aposticha:" in rubric_content or "**Aposticha:**" in rubric_content:
+                if "Aposticha from the Octoechos" in rubric_content or "from the Octoechos" in rubric_content:
+                    errors.append(f"Paradigm Case 14 Violation on {dt.isoformat()}: Vespers Aposticha cannot be taken from the Octoechos during an Afterfeast.")
+
+        if is_afterfeast and is_weekday and service_name == "Matins":
+            if "Sessional Hymns from the Octoechos" in rubric_content:
+                errors.append(f"Paradigm Case 14 Violation on {dt.isoformat()}: Matins Kathismata Sessional Hymns cannot be taken from the Octoechos during an Afterfeast.")
+
+        return errors
+
+    def gate34_katavasia_seasonal_matrix(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 34: Validates Matins Katavasia seasonal assignments (Typikon Chapter III / Irmologion)."""
+        errors = []
+        if not content:
+            return errors
+        if service_name != "Matins" and "## Matins" not in content and "## MATINS" not in content:
+            return errors
+
+        if "Katavasia:" in content or "Katavasia" in content:
+            mmdd = dt.strftime("%m%d")
+            kat_lines = [line for line in content.splitlines() if "katavasia" in line.lower()]
+            kat_text = " ".join(kat_lines).lower()
+
+            # 1. September 1 - September 21: Exaltation of the Holy Cross
+            if "0901" <= mmdd <= "0921":
+                if "i will open my mouth" in kat_text or "open my mouth" in kat_text:
+                    errors.append(f"Katavasia Seasonal Error on {dt.isoformat()}: Appointed Theotokos Katavasia ('I will open my mouth') during Exaltation period (Sep 1-21). Must be Irmoi of the Cross.")
+            # 2. November 21 - December 31: Nativity of Christ
+            elif "1121" <= mmdd <= "1231":
+                if "i will open my mouth" in kat_text:
+                    errors.append(f"Katavasia Seasonal Error on {dt.isoformat()}: Appointed Theotokos Katavasia ('I will open my mouth') during Nativity period (Nov 21-Dec 31). Must be 'Christ is born'.")
+            # 3. January 1 - January 14: Theophany
+            elif "0101" <= mmdd <= "0114":
+                if "i will open my mouth" in kat_text:
+                    errors.append(f"Katavasia Seasonal Error on {dt.isoformat()}: Appointed Theotokos Katavasia during Theophany period (Jan 1-14). Must be Theophany Irmoi.")
+        return errors
+
     def call_deepseek_remediation(self, dt: date, service_name: str, context: dict, rubrics: dict, errors: list, booklet: str):
         """Call DeepSeek to propose a logic or database fix for the failing service."""
         if not self.deepseek_key:
@@ -1292,6 +1465,8 @@ Suggest how to remediate these failures in the python engine (under engine/) or 
                     service_errors.extend(self.gate30_vestment_color_transition(current_date, service_name, context, rubrics, target_content))
                     service_errors.extend(self.gate31_scripture_incipit_syntax(current_date, service_name, context, rubrics, target_content))
                     service_errors.extend(self.gate32_holy_doors_veil_state(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate33_paradigm_invariants(current_date, service_name, context, rubrics, target_content))
+                    service_errors.extend(self.gate34_katavasia_seasonal_matrix(current_date, service_name, context, rubrics, target_content))
 
                 if service_errors:
                     # Halt Execution immediately on logical failures

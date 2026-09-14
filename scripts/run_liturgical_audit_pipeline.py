@@ -139,6 +139,20 @@ class LiturgicalAuditPipeline:
             if match:
                 self.log_discrepancy(dt, "Gate 1 (Heuristics)", "WARNING", f"Leaked developer jargon: '{match.group(0)}'", "Implementation Plan Banned Jargon list", "Replace with user-friendly liturgical terminology.")
 
+        # Ungrammatical raw key humanization leaks in liturgical texts
+        grammar_leak_patterns = [
+            (r"\b\d+\s+Aposticha\s+(Feast|Saint|Theotokos|Resurrection)\b", "Ungrammatical key-humanization leak: Aposticha + Subject"),
+            (r"\b\d+\s+Stichera\s+(Feast|Saint|Theotokos)\b", "Ungrammatical key-humanization leak: Stichera + Subject"),
+            (r"\b(Aposticha|Stichera)\s+Feast\b", "Ungrammatical key-humanization leak: 'Aposticha Feast' or 'Stichera Feast'"),
+            (r"\b(Aposticha|Stichera)\s+Saint\b", "Ungrammatical key-humanization leak: 'Aposticha Saint' or 'Stichera Saint'"),
+            (r"\b(Doxastikon|Theotokion|Troparion|Kontakion)\s+(Feast|Saint)\b", "Ungrammatical key-humanization leak: Hymn + Subject"),
+            (r"\bGlory,?\s*[Bb]oth\s*now:?\s*Theotokion\b(?!\s+(?:in\s+Tone|for|of))", "Ungrounded bare Theotokion without tone or source"),
+        ]
+        for pattern, desc in grammar_leak_patterns:
+            match = re.search(pattern, digest, re.IGNORECASE)
+            if match:
+                self.log_discrepancy(dt, "Gate 1 (Heuristics)", "ERROR", f"{desc}: '{match.group(0)}'", "Grammatical & Liturgical Phrasing Standard", "Format liturgical text with grammatical noun phrases.")
+
         # Parenthetical Category Leaks
         parenthetical_pattern = r"\((feast|theotokos|saint|octoechos|triodion|pentecostarion)\)"
         match = re.search(parenthetical_pattern, digest)
@@ -258,31 +272,71 @@ class LiturgicalAuditPipeline:
             d_rank_val = int(d_rank)
         except (ValueError, TypeError):
             d_rank_val = 5
-            
+
+        dow = context.get("day_of_week")
+        is_weekday = (dow != 0)
+
+        suppress_octoechos = (
+            context.get("variables", {}).get("suppress_octoechos") is True or
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis") or
+            (context.get("feast_level") in ("lord", "theotokos") and d_rank_val <= 2) or
+            rank_id in ("rank_vigil_lord", "rank_vigil_theotokos")
+        )
+
         is_great_feast = (
             context.get("feast_level") in ("lord", "theotokos") and 
             d_rank_val <= 2
         ) or rank_id in ("rank_vigil_lord", "rank_vigil_theotokos")
 
-        # 1. Weekday Great Feast: 0% Octoechos in stichera and canon stack
-        if is_great_feast and context.get("day_of_week") != 0:
+        # 1. Weekday Octoechos Suppression
+        if suppress_octoechos and is_weekday:
+            # Vespers Stichera
             stichera = self.engine.resolve_vespers_stichera(enriched)
             if stichera and isinstance(stichera, dict):
                 for item in stichera.get("items", []):
                     if item.startswith("octoechos."):
-                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Octoechos stichera '{item}' leaked on weekday Great Feast.", "Dolnytsky Typikon Chapter III §1", "Weekday Great Feasts of the Lord or Theotokos suppress the Octoechos entirely.")
+                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Octoechos stichera '{item}' leaked on weekday when Octoechos is suppressed.", "Dolnytsky Typikon Part II", "Weekday Forefeasts/Afterfeasts and Great Feasts suppress the Octoechos entirely.")
                 for dist_item in stichera.get("distribution", []):
                     if dist_item.get("source") == "octoechos":
-                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", "Octoechos stichera included in Vespers distribution on weekday Great Feast.", "Dolnytsky Typikon Chapter III §2", "Weekday Great Feasts of the Lord or Theotokos suppress the Octoechos entirely.")
-            
+                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", "Octoechos stichera included in Vespers distribution on weekday when Octoechos is suppressed.", "Dolnytsky Typikon Part II", "Weekday Forefeasts/Afterfeasts and Great Feasts suppress the Octoechos entirely.")
+
+            # Vespers Aposticha
+            aposticha = self.engine.resolve_aposticha(enriched)
+            if aposticha and isinstance(aposticha, dict):
+                for item in aposticha.get("items", []):
+                    if item.startswith("octoechos."):
+                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Octoechos aposticha '{item}' leaked on weekday when Octoechos is suppressed.", "Dolnytsky Typikon Part II", "Weekday Forefeasts/Afterfeasts suppress Octoechos aposticha.")
+                for dist_item in aposticha.get("distribution", []):
+                    if dist_item.get("source") == "octoechos":
+                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", "Octoechos aposticha included in distribution on weekday when Octoechos is suppressed.", "Dolnytsky Typikon Part II", "Weekday Forefeasts/Afterfeasts suppress Octoechos aposticha.")
+
+            # Matins Canons
             canon_stack = self.engine.resolve_canon_stack(enriched)
             if canon_stack and isinstance(canon_stack, dict):
                 for dist_item in canon_stack.get("distribution", []):
-                    if dist_item.get("type") in ("resurrection", "cross_res"):
-                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Resurrectional Octoechos canon '{dist_item.get('type')}' leaked on weekday Great Feast.", "Dolnytsky Typikon Chapter III §4", "Weekday Great Feasts of the Lord or Theotokos suppress the Octoechos entirely.")
+                    if dist_item.get("source") == "octoechos" or dist_item.get("type") in ("resurrection", "cross_res", "theotokos_octoechos", "weekday_octoechos"):
+                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Octoechos canon '{dist_item.get('type')}' leaked on weekday Matins when Octoechos is suppressed.", "Dolnytsky Typikon Part II", "Octoechos canons are suppressed on weekday Forefeasts/Afterfeasts.")
 
-        # 2. Weekday Great Feast readings must match overrides
-        if is_great_feast and context.get("day_of_week") != 0:
+            # Matins Aposticha
+            aposticha_matins = self.engine.resolve_aposticha_matins(enriched)
+            if aposticha_matins and isinstance(aposticha_matins, dict):
+                for item in aposticha_matins.get("items", []):
+                    if item.startswith("octoechos."):
+                        self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Octoechos aposticha '{item}' leaked on weekday Matins.", "Dolnytsky Typikon Part II", "Octoechos aposticha are suppressed on weekday Forefeasts/Afterfeasts.")
+
+        # 2. Compline Canon Season & Book Invariant
+        compline_canon = self.engine.resolve_compline_canon(enriched)
+        if compline_canon and isinstance(compline_canon, dict):
+            season_id = context.get("season_id") or context.get("season", "")
+            pascha_off = context.get("pascha_offset")
+            is_movable_season = season_id in ("triodion", "pentecostarion", "great_lent", "holy_week") or (pascha_off is not None and -70 <= pascha_off <= 67)
+            if compline_canon.get("book") == "triodion" and not is_movable_season:
+                self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Compline canon appointed from Triodion out of season on {dt.isoformat()}.", "Dolnytsky Typikon Part I §3", "Triodion compline canon is only permitted during Triodion/Pentecostarion.")
+
+        # 3. Weekday Great Feast readings must match overrides
+        if is_great_feast and is_weekday:
             readings = self.engine.resolve_liturgy_readings(enriched, rubrics)
             if readings and isinstance(readings, dict):
                 overrides = rubrics.get("overrides", {})
@@ -293,6 +347,133 @@ class LiturgicalAuditPipeline:
                         self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Epistle override mismatch: expected {expected_epistle}, got {readings.get('epistle')}", "Ordo Celebrationis §14", "Feast propers take precedence over the weekday cycles.")
                     if expected_gospel and readings.get("gospel") != expected_gospel:
                         self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Gospel override mismatch: expected {expected_gospel}, got {readings.get('gospel')}", "Ordo Celebrationis §15", "Feast propers take precedence over the weekday cycles.")
+
+        # 4. Vespers Kathisma Psalmody Check
+        is_vigil = is_great_feast or rank_id in ("rank_vigil", "rank_polyeleos") or context.get("is_sunday_vigil")
+        is_lent = context.get("season") in ("great_lent", "lent") or context.get("season_id") in ("great_lent", "lent")
+        pascha_off = context.get("pascha_offset")
+        is_bright_week = pascha_off is not None and 0 <= pascha_off <= 6
+        if not is_vigil and not is_lent and not is_bright_week and 1 <= dow <= 4:
+            kath_res = self.engine.resolve_daily_kathisma(enriched)
+            kath_num = kath_res.get("number", 0) if isinstance(kath_res, dict) else 0
+            if not kath_res or kath_num == 0 or kath_res.get("type") == "none":
+                self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Vespers Kathisma psalmody wrongfully omitted on {dt.isoformat()} (dow={dow}).", "Dolnytsky Typikon Part I", "Weekdays outside Lent/Vigil appoint a daily Kathisma at Vespers.")
+
+        # 5. Liturgy Propers for Weekday Afterfeasts & Apodoses
+        if is_weekday and (context.get("is_afterfeast") or context.get("is_apodosis")):
+            readings = self.engine.resolve_liturgy_readings(enriched, rubrics)
+            if readings and isinstance(readings, dict):
+                first_r = readings.get("readings", [{}])[0]
+                prok = first_r.get("prokeimenon", {})
+                if prok.get("source") == "horologion":
+                    self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Liturgy Prokeimenon on Afterfeast {dt.isoformat()} resolved to generic weekday Horologion instead of Feast.", "Dolnytsky Typikon Part II Case 14", "Feast prokeimenon takes precedence on afterfeasts.")
+                alleluia = first_r.get("alleluia", {})
+                if alleluia.get("source") == "horologion":
+                    self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Liturgy Alleluia on Afterfeast {dt.isoformat()} resolved to generic weekday Horologion instead of Feast.", "Dolnytsky Typikon Part II Case 14", "Feast alleluia takes precedence on afterfeasts.")
+
+            meg = self.engine.resolve_liturgy_megalynarion(enriched, rubrics)
+            if isinstance(meg, dict) and meg.get("ref_key") != "festal_zadostoinyk":
+                self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Liturgy Megalynarion on Afterfeast {dt.isoformat()} resolved to '{meg.get('ref_key')}' instead of festal_zadostoinyk.", "Dolnytsky Typikon Part II Case 14", "Irmos of Ode IX of the Feast is sung throughout the afterfeast.")
+
+            comm = self.engine.resolve_communion_hymn(enriched, rubrics)
+            if isinstance(comm, dict) and comm.get("source") != "feast":
+                self.log_discrepancy(dt, "Gate 4 (Canonical Constraints)", "ERROR", f"Liturgy Communion Hymn on Afterfeast {dt.isoformat()} resolved to '{comm.get('ref_key')}' instead of Feast communion hymn.", "Dolnytsky Typikon Part II Case 14", "Communion hymn of the Feast is sung throughout the afterfeast.")
+
+    def run_gate9_canonical_negative_suppressions(self, dt: date, context: dict, rubrics: dict, content: str):
+        """Gate 9: Canonical Negative Prohibitions (Dolnytsky Parts I-V)."""
+        pascha_off = context.get("pascha_offset")
+        season_id = context.get("season_id") or context.get("season", "")
+        
+        # 1. Holy Week Negative Constraints (-8 to -1)
+        if (pascha_off is not None and -8 <= pascha_off <= -1) or season_id == "holy_week":
+            for day in ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"):
+                if f"{day} service combined with" in content:
+                    self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", f"Holy Week Violation: Found forbidden weekday combination string '{day} service combined with'.", "Dolnytsky Typikon Part I Chapter 4", "Holy Week services are never combined with weekday Octoechos.")
+            if "Troparion of the Temple" in content:
+                self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", "Holy Week Violation: Found forbidden 'Troparion of the Temple'.", "Dolnytsky Typikon Part I Chapter 4", "Temple troparia are suppressed during Holy Week.")
+            is_annunciation = str(dt).endswith("-03-25") or context.get("feast_id") == "annunciation"
+            if not is_annunciation:
+                if "Doxastikon of the Saint" in content:
+                    self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", "Holy Week Violation: Found forbidden 'Doxastikon of the Saint'.", "Dolnytsky Typikon Part I Chapter 4", "Saint doxastika are suppressed during Holy Week.")
+                if "Theotokion from the Horologion or Octoechos" in content:
+                    self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", "Holy Week Violation: Found forbidden 'Theotokion from the Horologion or Octoechos'.", "Dolnytsky Typikon Part I Chapter 4", "Weekday dismissal theotokia are suppressed during Holy Week.")
+
+        # 2. Bright Week Negative Constraints (0 to +6)
+        elif (pascha_off is not None and 0 <= pascha_off <= 6) or season_id in ("pascha", "bright_week"):
+            if "Six Psalms" in content:
+                self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", "Bright Week Violation: Found forbidden 'Six Psalms' (Must be replaced by Paschal Troparion).", "Dolnytsky Typikon Part I Chapter 5", "Six Psalms are replaced by Paschal troparion during Bright Week.")
+
+        # 3. Forefeast, Afterfeast, and Apodosis Negative Suppressions
+        is_after_or_fore = (
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis") or
+            context.get("variables", {}).get("suppress_octoechos")
+        )
+        dow = context.get("day_of_week")
+        if is_after_or_fore and dow != 0:
+            rubric_lines = [
+                l for l in content.splitlines() 
+                if not l.strip().startswith(">") and not l.strip().startswith("**[^") and "Parish Custom" not in l
+            ]
+            rubric_content = "\n".join(rubric_lines)
+            
+            if "Sessional Hymns from the Octoechos" in rubric_content:
+                self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", f"Negative Suppression Violation: Found forbidden 'Sessional Hymns from the Octoechos' on Afterfeast/Forefeast (date={dt.isoformat()}).", "Dolnytsky Typikon Part II", "Octoechos sessional hymns are suppressed on weekday Forefeasts/Afterfeasts.")
+
+            for day in ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"):
+                if f"{day} service combined with" in rubric_content:
+                    self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", f"Negative Suppression Violation: Found forbidden weekday combination string '{day} service combined with' on Afterfeast/Forefeast (date={dt.isoformat()}).", "Dolnytsky Typikon Part II", "Weekday combination headers are suppressed on Forefeasts/Afterfeasts.")
+
+            if "Theotokion from the Horologion or Octoechos" in rubric_content or "Theotokion from the Octoechos" in rubric_content:
+                self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", f"Negative Suppression Violation: Found forbidden Octoechos/Horologion theotokion string on Afterfeast/Forefeast (date={dt.isoformat()}).", "Dolnytsky Typikon Part II", "Weekday dismissal theotokia are suppressed on Forefeasts/Afterfeasts.")
+
+            # Ban generic 'Theotokion' at dismissal troparia on Forefeasts/Afterfeasts (must be Feast Troparion)
+            if "Dismissal Troparia" in rubric_content:
+                for line in rubric_content.splitlines():
+                    if "Dismissal Troparia" in line:
+                        if "Both now: Theotokion" in line or "both now... Theotokion" in line or "Both now... Theotokion" in line:
+                            self.log_discrepancy(dt, "Gate 9 (Negative Suppressions)", "ERROR", f"Negative Suppression Violation: Dismissal Troparia on Forefeast/Afterfeast ends with generic 'Theotokion' instead of Troparion of the Feast (date={dt.isoformat()}).", "Dolnytsky Typikon Part II Case 14", "Troparion of the Feast is appointed at Both now.")
+
+    def run_gate33_paradigm_invariants(self, dt: date, context: dict, rubrics: dict, content: str):
+        """Gate 33: Dolnytsky Part II Paradigm Invariants (Forefeasts, Afterfeasts, Apodoses)."""
+        if not content:
+            return
+        dow = context.get("day_of_week")
+        is_weekday = (dow != 0)
+        is_afterfeast = context.get("is_afterfeast")
+        
+        rubric_lines = [l for l in content.splitlines() if not l.strip().startswith(">")]
+        rubric_content = "\n".join(rubric_lines)
+        
+        if is_afterfeast and is_weekday:
+            if "At the Aposticha:" in rubric_content or "**Aposticha:**" in rubric_content:
+                if "Aposticha from the Octoechos" in rubric_content:
+                    self.log_discrepancy(dt, "Gate 33 (Paradigm Invariants)", "ERROR", f"Paradigm Case 14 Violation on {dt.isoformat()}: Vespers Aposticha cannot be taken from the Octoechos during an Afterfeast.", "Dolnytsky Typikon Part II Section 7", "Feast aposticha replace Octoechos aposticha.")
+            if "Sessional Hymns from the Octoechos" in rubric_content:
+                self.log_discrepancy(dt, "Gate 33 (Paradigm Invariants)", "ERROR", f"Paradigm Case 14 Violation on {dt.isoformat()}: Matins Kathismata Sessional Hymns cannot be taken from the Octoechos during an Afterfeast.", "Dolnytsky Typikon Part II Section 7", "Feast sessional hymns replace Octoechos sessional hymns.")
+
+    def run_gate34_katavasia_seasonal_matrix(self, dt: date, context: dict, rubrics: dict, content: str):
+        """Gate 34: Validates Matins Katavasia seasonal assignments (Typikon Chapter III / Irmologion)."""
+        if not content:
+            return
+        if "Katavasia:" in content or "Katavasia" in content:
+            mmdd = dt.strftime("%m%d")
+            kat_lines = [line for line in content.splitlines() if "katavasia" in line.lower()]
+            kat_text = " ".join(kat_lines).lower()
+
+            # 1. September 1 - September 21: Exaltation of the Holy Cross
+            if "0901" <= mmdd <= "0921":
+                if "i will open my mouth" in kat_text or "open my mouth" in kat_text:
+                    self.log_discrepancy(dt, "Gate 34 (Katavasia Seasonal Matrix)", "ERROR", f"Katavasia Seasonal Error on {dt.isoformat()}: Appointed Theotokos Katavasia ('I will open my mouth') during Exaltation period (Sep 1-21). Must be Irmoi of the Cross.", "Typikon Chapter III", "From September 1 to September 21, the Katavasia is the Cross ('Cross, the wood of life').")
+            # 2. November 21 - December 31: Nativity of Christ
+            elif "1121" <= mmdd <= "1231":
+                if "i will open my mouth" in kat_text:
+                    self.log_discrepancy(dt, "Gate 34 (Katavasia Seasonal Matrix)", "ERROR", f"Katavasia Seasonal Error on {dt.isoformat()}: Appointed Theotokos Katavasia ('I will open my mouth') during Nativity period (Nov 21-Dec 31). Must be 'Christ is born'.", "Typikon Chapter III", "From November 21 to December 31, the Katavasia is 'Christ is born'.")
+            # 3. January 1 - January 14: Theophany
+            elif "0101" <= mmdd <= "0114":
+                if "i will open my mouth" in kat_text:
+                    self.log_discrepancy(dt, "Gate 34 (Katavasia Seasonal Matrix)", "ERROR", f"Katavasia Seasonal Error on {dt.isoformat()}: Appointed Theotokos Katavasia during Theophany period (Jan 1-14). Must be Theophany Irmoi.", "Typikon Chapter III", "From January 1 to January 14, the Katavasia is Theophany Irmoi.")
 
     def run_gate5_liturgical_continuity(self, dt: date, context: dict):
         """Gate 5: Liturgical Continuity"""
@@ -739,6 +920,12 @@ Check that all spellings conform (e.g. 'Prokeimenon' instead of 'Prokimenon'), t
             self.run_gate9_musical_coherence(current_date, rubrics, enriched)
             self.run_override_compliance_gate(current_date, context, rubrics, booklet)
             self.run_visual_ergonomics_gate(current_date, booklet)
+            self.run_gate9_canonical_negative_suppressions(current_date, context, rubrics, digest)
+            self.run_gate9_canonical_negative_suppressions(current_date, context, rubrics, booklet)
+            self.run_gate33_paradigm_invariants(current_date, context, rubrics, digest)
+            self.run_gate33_paradigm_invariants(current_date, context, rubrics, booklet)
+            self.run_gate34_katavasia_seasonal_matrix(current_date, context, rubrics, digest)
+            self.run_gate34_katavasia_seasonal_matrix(current_date, context, rubrics, booklet)
             
             # Settings Matrix Fuzzing on a subset of dates (every 10 days)
             if total_days % 10 == 0:
@@ -831,10 +1018,10 @@ Check that all spellings conform (e.g. 'Prokeimenon' instead of 'Prokimenon'), t
             ("trace-content", "Engine Logic Trace area"),
             ("doc-booklet", "Service Booklet Document area"),
             ("booklet-content", "Service Booklet Content area"),
-            ("btn-ref-tab-digest", "Typikon Digest Reference Tab Button"),
-            ("btn-ref-tab-service-digest", "Service Digest Reference Tab Button"),
-            ("digest-content", "Typikon Digest Content area"),
+            ("reference-panel", "Service Rubrics Digest Reference Panel"),
+            ("service-digest-select", "Service Digest Office Select dropdown"),
             ("service-digest-content", "Service Digest Content area"),
+            ("btn-copy-digest", "Copy Rubrics Digest button"),
             ("tab-browser", "Liturgical Book Browser Tab panel"),
             ("book-select", "Liturgical Book selection dropdown"),
             ("key-search-input", "Key Search input field"),
@@ -863,8 +1050,8 @@ Check that all spellings conform (e.g. 'Prokeimenon' instead of 'Prokimenon'), t
             ("resolve-date-btn", "Resolve Date button event binding"),
             ("book-select", "Book Select dropdown event binding"),
             ("key-search-input", "Key Search input event binding"),
-            ("btn-ref-tab-digest", "Reference tabs event binding"),
-            ("btn-ref-tab-service-digest", "Reference tabs event binding"),
+            ("service-digest-select", "Service Digest Office select event binding"),
+            ("btn-copy-digest", "Copy Rubrics Digest button binding"),
             ("chk-dev-mode", "Developer mode checkbox binding"),
             ("theme-toggle-btn", "Theme Toggle button binding")
         ]

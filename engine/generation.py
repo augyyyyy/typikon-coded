@@ -37,24 +37,62 @@ class GenerationMixin:
         d_title = context.get("dolnytsky_title", "")
         full_text = f"{d_title}".lower()
         
+        # Forefeast/Afterfeast detection
+        is_after_or_fore = bool(
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_fore_or_afterfeast") or
+            context.get("period") in ("afterfeast", "forefeast") or
+            "afterfeast" in full_text or
+            "forefeast" in full_text
+        )
+        
+        feast_period_name = ""
+        season_str = context.get("season", "")
+        if season_str and season_str.lower() != "octoechos":
+            season_words = season_str.replace("_", " ").title()
+            if "Theotokos" in season_words:
+                season_words = season_words.replace("Theotokos", "of the Theotokos")
+        else:
+            season_words = ""
+
+        if is_after_or_fore:
+            p_type = "Forefeast" if (context.get("is_forefeast") or "forefeast" in full_text) else "Afterfeast"
+            if season_words:
+                feast_period_name = f"the {p_type} of the {season_words}"
+            else:
+                feast_period_name = f"the {p_type}"
+
+        # Check if Great Feast, Vigil, or seasonal rubric suppresses weekday Octoechos base service
+        suppress_weekday_octoechos = (
+            context.get("feast_level") in ("lord", "theotokos") or
+            context.get("variables", {}).get("suppress_octoechos") is True or
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis")
+        )
+
         # Base service
         if day_of_week == 0:
             components.append("Sunday service from the Octoechos")
+            if feast_period_name:
+                components.append(feast_period_name)
         elif day_of_week == 6:
-            components.append("Saturday service")
+            if feast_period_name:
+                components.append(f"Service of {feast_period_name}")
+            elif not suppress_weekday_octoechos:
+                components.append("Saturday service")
         else:
-            day_names = {1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursday", 5: "Friday"}
-            components.append(f"{day_names.get(day_of_week, 'Weekday')} service")
+            if feast_period_name:
+                # Per Dolnytsky Part II: Weekday Octoechos is suppressed; Feast takes first place
+                components.append(f"Service of {feast_period_name}")
+            elif not suppress_weekday_octoechos:
+                day_names = {1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursday", 5: "Friday"}
+                components.append(f"{day_names.get(day_of_week, 'Weekday')} service")
         
         # Triodion overlay
         if season in ("triodion", "pentecostarion"):
             components.append("the Triodion")
-        
-        # Forefeast/Afterfeast
-        if "forefeast" in full_text:
-            components.append("the forefeast")
-        elif "afterfeast" in full_text:
-            components.append("the afterfeast")
         
         # Saints
         saints = context.get("saints", [])
@@ -76,16 +114,22 @@ class GenerationMixin:
                     components.append(f"St. {s_clean}")
         
         if len(components) <= 1:
-            return {"header": components[0] if components else "Service", "components": components}
+            h_text = components[0] if components else "Service"
+            if not h_text.lower().startswith("service") and not h_text.lower().startswith("sunday") and not h_text.lower().startswith("saturday"):
+                h_text = f"Service of {h_text}"
+            return {"header": h_text, "components": components}
         
         # Check if it's just a simple weekday + 1 saint (no Triodion, no fore/afterfeast)
         is_weekday = 0 < day_of_week <= 5
         has_triodion = season in ("triodion", "pentecostarion")
         has_feast_period = "forefeast" in full_text or "afterfeast" in full_text
-        if is_weekday and not has_triodion and not has_feast_period and len(components) == 2 and len(saints) == 1:
+        if is_weekday and not has_triodion and not has_feast_period and len(components) == 2 and len(saints) == 1 and not suppress_weekday_octoechos:
             header = f"Service of {components[1]}"
         else:
-            header = components[0] + " combined with that of " + ", and that of ".join(components[1:])
+            first_comp = components[0]
+            if not first_comp.lower().startswith("service") and not first_comp.lower().startswith("sunday") and not first_comp.lower().startswith("saturday") and not any(first_comp.lower().startswith(d) for d in ("monday", "tuesday", "wednesday", "thursday", "friday")):
+                first_comp = f"Service of {first_comp}"
+            header = first_comp + " combined with that of " + ", and that of ".join(components[1:])
             
         return {"header": header, "components": components}
 
@@ -420,6 +464,17 @@ class GenerationMixin:
         raw_output = TypikonDigestGenerator(self).generate(context, rubrics, mode=mode)
         return self._sanitize_digest_output(raw_output)
 
+    def resolve_service_card(self, service_def_or_name, context, rubrics):
+        return TypikonDigestGenerator(self).resolve_service_card(service_def_or_name, context, rubrics)
+
+    def generate_service_card(self, service_def_or_name, context, rubrics):
+        card = self.resolve_service_card(service_def_or_name, context, rubrics)
+        raw = TypikonDigestGenerator(self).format_service_card(card)
+        return self._sanitize_digest_output(raw)
+
+    def generate_maximalist_digest(self, context, rubrics):
+        return self.generate_typikon_digest(context, rubrics, mode="maximalist")
+
     def _sanitize_digest_output(self, text):
         if not text:
             return ""
@@ -458,6 +513,14 @@ class GenerationMixin:
                     return " ".join(p.capitalize() for p in parts)
                 return key
             sanitized_line = re.sub(r'\b[a-zA-Z]+_[a-zA-Z0-9_]+\b', key_replace, sanitized_line)
+            
+            # Sanitize raw dot-separated database keys (e.g. menaion.oct_01.aposticha_1)
+            def db_key_replace(match):
+                key = match.group(0)
+                from engine.text_db import TextDBMixin
+                return TextDBMixin.canonical_humanize_key(key)
+            sanitized_line = re.sub(r'\b(?:menaion|triodion|pentecostarion|octoechos|horologion|general)\.[a-zA-Z0-9_.]+\b', db_key_replace, sanitized_line)
+            
             sanitized_line = re.sub(r'(?<!\.)\.\.(?!\.)', '.', sanitized_line)
             
             clean_lines.append(sanitized_line)
@@ -824,8 +887,11 @@ class GenerationMixin:
         if item and isinstance(item, dict):
             title = item.get("title")
         if not title or title == ref_key or "." in str(title) or "_" in str(title):
-            last_part = ref_key.split(".")[-1]
-            title = last_part.replace("_", " ").strip().title()
+            if hasattr(self, "canonical_humanize_key"):
+                title = self.canonical_humanize_key(ref_key)
+            else:
+                last_part = ref_key.split(".")[-1]
+                title = last_part.replace("_", " ").strip().title()
         return title
 
     def _resolve_slot(self, slot, rubrics, context=None):
@@ -1216,50 +1282,76 @@ class GenerationMixin:
             
         # Case 2: Result is a dictionary representing a structured chant group (like stichera or aposticha)
         elif isinstance(result, dict) and ("items" in result or "components" in result):
-            items = result.get("items") or result.get("components") or []
+            raw_items = result.get("items") or result.get("components") or []
             
             title = result.get("type", "Stichera").title()
             tone = result.get("tone") or (context.get("tone") if context else None)
             tone_str = f" (Tone {tone})" if tone else ""
             output.append(f'<div class="title-medium">{title}{tone_str}</div>')
             
-            for idx, item_key in enumerate(items):
-                ref_key = item_key
-                if isinstance(item_key, dict):
-                    ref_key = item_key.get("id")
-                    if not ref_key and "type" in item_key:
-                        ref_key = self._resolve_logical_chant_key(item_key, context, rubrics)
+            # Separate regular hymns vs glory vs both_now entries
+            hymn_items = []
+            glory_entry = result.get("glory")
+            both_now_entry = result.get("both_now")
+            glory_both_now_entry = None
+            
+            for item in raw_items:
+                if isinstance(item, dict):
+                    t = item.get("type")
+                    if t == "glory":
+                        glory_entry = item.get("id") or item.get("ref_key")
+                        continue
+                    elif t == "both_now":
+                        both_now_entry = item.get("id") or item.get("ref_key")
+                        continue
+                    elif t == "glory_both_now":
+                        glory_both_now_entry = item.get("id") or item.get("ref_key")
+                        continue
+                hymn_items.append(item)
+                
+            flat_items = []
+            for item in hymn_items:
+                if isinstance(item, dict):
+                    c = item.get("count", 1)
+                    ref = item.get("id") or item.get("ref_key")
+                    if not ref and "type" in item:
+                        ref = self._resolve_logical_chant_key(item, context, rubrics)
+                    for _ in range(c):
+                        flat_items.append(ref)
+                else:
+                    flat_items.append(item)
                     
+            for idx, ref_key in enumerate(flat_items):
                 if not ref_key:
                     continue
                     
-                # Fetch text
                 text_item = self.get_text(ref_key, context=context)
-                if text_item:
+                if text_item and not text_item.get("is_missing"):
                     content = text_item.get("content", "")
-                    h_title = text_item.get("title") or ref_key.split(".")[-1].replace("_", " ").title()
-                    item_label = f"{h_title} {idx+1}" if len(items) > 1 else h_title
+                    h_title = text_item.get("title") or self._get_humanized_title(text_item, ref_key)
+                    item_label = f"{h_title} {idx+1}" if len(flat_items) > 1 else h_title
                     html_prefix = f"<strong>{item_label}</strong>: "
                     output.extend(self._split_and_wrap(html_prefix, content))
                 else:
-                    humanized = ref_key.split(".")[-1].replace("_", " ").title()
-                    output.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
+                    h_title = self._get_humanized_title(text_item, ref_key)
+                    item_label = f"{h_title} {idx+1}" if len(flat_items) > 1 else h_title
+                    content = text_item.get("content", "") if text_item else f"[{h_title} (Missing text)]"
+                    output.append(f'<p><strong>{item_label}</strong>: {content}</p>')
                     
-            # Handle Glory
-            glory_key = result.get("glory")
-            if glory_key and glory_key != "(No Saint Doxastikon)":
-                text_item = self.get_text(glory_key, context=context)
-                if text_item:
-                    html_prefix = "<strong>Glory</strong>: "
-                    output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
-                    
-            # Handle Both Now
-            both_now_key = result.get("both_now")
-            if both_now_key and both_now_key != "None":
-                text_item = self.get_text(both_now_key, context=context)
-                if text_item:
-                    html_prefix = "<strong>Both now</strong>: "
-                    output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
+            # Handle Glory / Both Now
+            if glory_both_now_entry and str(glory_both_now_entry).lower() not in ("none", "", "null"):
+                text_item = self.get_text(glory_both_now_entry, context=context)
+                content = text_item.get("content", "") if text_item else ""
+                output.append(f'<p><strong>Glory, Both now</strong>: {content}</p>')
+            else:
+                if glory_entry and str(glory_entry).lower() not in ("none", "", "null", "(no saint doxastikon)", "(no_saint_doxastikon)"):
+                    text_item = self.get_text(glory_entry, context=context)
+                    content = text_item.get("content", "") if text_item else ""
+                    output.append(f'<p><strong>Glory</strong>: {content}</p>')
+                if both_now_entry and str(both_now_entry).lower() not in ("none", "", "null"):
+                    text_item = self.get_text(both_now_entry, context=context)
+                    content = text_item.get("content", "") if text_item else ""
+                    output.append(f'<p><strong>Both now</strong>: {content}</p>')
                     
             return "\n\n".join(output)
             

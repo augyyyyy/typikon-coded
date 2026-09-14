@@ -1236,6 +1236,29 @@ class CommonResolverMixin:
         is_afterfeast = context.get("is_afterfeast", False)
         is_feast = context.get("is_feast", False)
         
+        # Parse date if month/day missing
+        m = context.get("month")
+        d = context.get("day")
+        if (m is None or d is None) and "date" in context:
+            try:
+                date_str = str(context["date"])
+                if "-" in date_str:
+                    parts = date_str.split("-")
+                    m = int(parts[1])
+                    d = int(parts[2])
+            except Exception:
+                pass
+
+        # Check Meeting season overlap window (Jan 15 to Feb 9)
+        # Dolnytsky Part V line 262 & note 693:
+        # "Only during the period of the Katavasia of the Meeting, that is from January 15 to February 9,
+        # there will be the Katavasia of the feast, with the exception of Meatfare Sunday,
+        # for which the Slavonic rubrics provide the Katavasia of the Triodion"
+        is_meeting_window = False
+        if m is not None and d is not None:
+            if (m == 1 and d >= 15) or (m == 2 and d <= 9):
+                is_meeting_window = True
+
         if rank == 1 or season == 'meeting_season' or is_afterfeast or is_feast:
             if season in ['pascha', 'bright_week']:
                 kat_type = 'paschal_katavasia'
@@ -1247,8 +1270,20 @@ class CommonResolverMixin:
             kat_type = 'paschal_katavasia'
             frequency = 'after_each_ode'
             after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        elif feast_id == 'meatfare_sunday':
+        elif feast_id == 'meatfare_sunday' or pascha_offset == -56:
             kat_type = 'triodion_katavasia'
+            frequency = 'after_each_ode'
+            after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        elif pascha_offset is not None and pascha_offset in [-63, -49, -42, -28, -8, -7]:
+            kat_type = 'festal_katavasia' if pascha_offset == -7 else 'triodion_katavasia'
+            frequency = 'after_each_ode'
+            after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        elif pascha_offset is not None and -6 <= pascha_offset <= -1:
+            kat_type = 'triodion_katavasia'
+            frequency = 'after_each_ode'
+            after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        elif pascha_offset is not None and 0 <= pascha_offset <= 56 and day_of_week == 0:
+            kat_type = 'paschal_katavasia' if pascha_offset <= 38 else 'festal_katavasia'
             frequency = 'after_each_ode'
             after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         elif rank <= 3 or rank_id == "rank_simple_6":
@@ -1268,48 +1303,126 @@ class CommonResolverMixin:
         kat_id = "i_will_open_my_mouth"
         text = "I will open my mouth"
         tone = 4
-        
-        # Parse date if month/day missing
-        m = context.get("month")
-        d = context.get("day")
-        if (m is None or d is None) and "date" in context:
-            try:
-                date_str = str(context["date"])
-                if "-" in date_str:
-                    parts = date_str.split("-")
-                    m = int(parts[1])
-                    d = int(parts[2])
-            except:
-                pass
-        
-        if self.katavasia_seasons:
-            found = False
-            # Check movables first
-            if pascha_offset is not None:
-                for rule in self.katavasia_seasons.get("movable", []):
-                    if rule["offset_start"] <= pascha_offset <= rule["offset_end"]:
-                        kat_id = f"katavasia_{rule['feast'].lower().replace(' ', '_')}"
-                        if rule['feast'] == "General of Theotokos" or rule['feast'] == "General":
-                            kat_id = "i_will_open_my_mouth"
-                        text = rule["katavasia"]
-                        tone = rule["tone"]
-                        found = True
-                        break
-            # Check immovables
-            if not found and m is not None and d is not None:
-                for rule in self.katavasia_seasons.get("immovable", []):
-                    sm, sd = rule["start_month"], rule["start_day"]
-                    em, ed = rule["end_month"], rule["end_day"]
-                    if (m > sm or (m == sm and d >= sd)) and \
-                       (m < em or (m == em and d <= ed)):
-                        kat_id = f"katavasia_{rule['feast'].lower().replace(' ', '_')}"
-                        if rule['feast'] == "General of Theotokos" or rule['feast'] == "General":
-                            kat_id = "i_will_open_my_mouth"
-                        text = rule["katavasia"]
-                        tone = rule["tone"]
-                        break
+        found = False
 
-        # Override for specific types
+        # Check Meeting overlap exception first:
+        if is_meeting_window:
+            if feast_id == 'meatfare_sunday' or pascha_offset == -56:
+                kat_id = "katavasia_meatfare"
+                text = "He is my helper and protector"
+                tone = 6
+                kat_type = "triodion_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+            elif season == 'meeting_season' or day_of_week == 0 or rank <= 3 or is_afterfeast or is_feast:
+                kat_id = "katavasia_meeting"
+                text = "The dry land"
+                tone = 3
+                kat_type = "festal_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+
+        # Check Triodion Movable Katavasiae (if not handled by Meeting exception)
+        if not found and pascha_offset is not None and pascha_offset < 0:
+            if pascha_offset == -56 or feast_id == 'meatfare_sunday':
+                kat_id = "katavasia_meatfare"
+                text = "He is my helper and protector"
+                tone = 6
+                kat_type = "triodion_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+            elif pascha_offset == -63:
+                kat_id = "katavasia_prodigal_son"
+                text = "He is my helper and protector"
+                tone = 2
+                kat_type = "triodion_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+            elif pascha_offset == -49:
+                kat_id = "katavasia_cheesefare"
+                text = "When Israel passed on foot"
+                tone = 6
+                kat_type = "triodion_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+            elif pascha_offset == -42:
+                kat_id = "katavasia_orthodoxy"
+                text = "Israel of old crossed the depth"
+                tone = 4
+                kat_type = "triodion_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+            elif pascha_offset == -28:
+                kat_id = "katavasia_cross"
+                text = "Moses the servant of God"
+                tone = 1
+                kat_type = "triodion_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+            elif pascha_offset == -8:
+                kat_id = "katavasia_lazarus"
+                text = "Having crossed the water"
+                tone = 8
+                kat_type = "triodion_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+            elif pascha_offset == -7:
+                kat_id = "katavasia_palm_sunday"
+                text = "The springs of the deep were revealed"
+                tone = 4
+                kat_type = "festal_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+            elif -6 <= pascha_offset <= -1:
+                kat_id = "katavasia_passion_week"
+                text = "Triodion Canon Heirmos"
+                tone = 0
+                kat_type = "triodion_katavasia"
+                frequency = "after_each_ode"
+                after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                found = True
+
+        # Check Pentecostarion and Movables from JSON
+        if not found and self.katavasia_seasons and pascha_offset is not None and pascha_offset >= 0:
+            for rule in self.katavasia_seasons.get("movable", []):
+                if rule["offset_start"] <= pascha_offset <= rule["offset_end"]:
+                    kat_id = rule.get("katavasia_id") or f"katavasia_{rule['feast'].lower().replace(' ', '_').replace('-', '_').replace('.', '')}"
+                    if rule['feast'] in ["General of Theotokos", "General"]:
+                        kat_id = "i_will_open_my_mouth"
+                    text = rule["katavasia"]
+                    tone = rule["tone"]
+                    found = True
+                    break
+
+        # Check Immovable Seasons from JSON
+        if not found and self.katavasia_seasons and m is not None and d is not None:
+            for rule in self.katavasia_seasons.get("immovable", []):
+                sm, sd = rule["start_month"], rule["start_day"]
+                em, ed = rule["end_month"], rule["end_day"]
+                if (m > sm or (m == sm and d >= sd)) and \
+                   (m < em or (m == em and d <= ed)):
+                    kat_id = rule.get("katavasia_id") or f"katavasia_{rule['feast'].lower().replace(' ', '_')}"
+                    if rule['feast'] in ["General of Theotokos", "General"]:
+                        kat_id = "i_will_open_my_mouth"
+                    text = rule["katavasia"]
+                    tone = rule["tone"]
+                    found = True
+                    break
+
+        seasonal_kat_id = kat_id
+        seasonal_text = text
+        seasonal_tone = tone
+
+        # Override for specific structural types (Polyeleos / Lenten weekday)
         if kat_type == 'polyeleos_katavasia' or kat_type == 'lenten_katavasia':
              kat_id = "irmos_last_canon"
              text = "Irmos of the last canon"
@@ -1317,7 +1430,7 @@ class CommonResolverMixin:
              kat_id = "katavasia_pascha"
              text = "The Resurrection Day"
              tone = 1
-        elif season == 'meeting_season':
+        elif season == 'meeting_season' and not found:
              kat_id = "katavasia_meeting"
              text = "The dry land"
              tone = 3
@@ -1326,6 +1439,9 @@ class CommonResolverMixin:
             "type": kat_type,
             "katavasia_id": kat_id,
             "id": kat_id,
+            "seasonal_katavasia_id": seasonal_kat_id,
+            "seasonal_text": seasonal_text,
+            "seasonal_tone": seasonal_tone,
             "text": text,
             "tone": tone,
             "frequency": frequency,
@@ -1460,9 +1576,15 @@ class CommonResolverMixin:
         is_sunday = context["day_of_week"] == 0 or context.get("is_sunday_vigil")
         rank = self.calculate_rank(context)
         saints = context.get("saints", [])
-        is_afterfeast = context.get("is_afterfeast") or context.get("period") in ("afterfeast", "apodosis")
-        if is_afterfeast and rank <= 3 and saints and not is_sunday:
-            # Sessional hymns after regular Kathismata are of the Feast
+        is_fore_or_after = (
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis") or
+            context.get("period") in ("afterfeast", "forefeast", "apodosis") or
+            context.get("variables", {}).get("suppress_octoechos")
+        )
+        if is_fore_or_after and not is_sunday:
+            # Sessional hymns after regular Kathismata are of the Feast (Dolnytsky Part II Cases 9, 14, 16, 20)
             if context.get("season_id") in ("triodion", "pentecostarion") or context.get("season") in ("triodion", "pentecostarion"):
                 return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
             else:

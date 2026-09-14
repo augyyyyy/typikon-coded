@@ -82,6 +82,7 @@ class EngineCore:
         self.hierarchy = hierarchy or {}
         self.trace_log = []
         self._almanacs = {}
+        self.calendar_source = calendar_source
         
         # Instantiate resolver registry for logic safety
         from engine.resolver_registry import ResolverRegistry
@@ -270,23 +271,26 @@ class EngineCore:
         if getattr(self, "calendar_source", default_source) != default_source:
             return None
 
-        if year not in self._almanacs:
+        paschalion = getattr(self, "paschalion", "gregorian")
+        cache_key = (year, paschalion)
+        if cache_key not in self._almanacs:
+            pasch_suffix = f"_{paschalion}" if paschalion != "gregorian" else ""
             # Check for version-specific almanac first
-            version_almanac = f"annual_almanac_{self.version_id}_{year}.json"
+            version_almanac = f"annual_almanac_{self.version_id}_{year}{pasch_suffix}.json"
             almanac_path = os.path.join(self.json_db, "almanac", version_almanac)
             
             # Fallback for lviv to the default pre-computed almanac
             if not os.path.exists(almanac_path) and self.version_id == "lviv":
-                almanac_path = os.path.join(self.json_db, "almanac", f"annual_almanac_{year}.json")
+                almanac_path = os.path.join(self.json_db, "almanac", f"annual_almanac_{year}{pasch_suffix}.json")
                 
             if os.path.exists(almanac_path):
                 try:
                     with open(almanac_path, "r", encoding="utf-8") as f:
-                        self._almanacs[year] = json.load(f)
+                        self._almanacs[cache_key] = json.load(f)
                     print(f"Engine: Loaded pre-computed almanac for year {year} ({os.path.basename(almanac_path)})")
                 except Exception as e:
                     print(f"WARNING: Failed to load almanac {almanac_path}: {e}")
-                    self._almanacs[year] = None
+                    self._almanacs[cache_key] = None
             else:
-                self._almanacs[year] = None
-        return self._almanacs[year]
+                self._almanacs[cache_key] = None
+        return self._almanacs[cache_key]

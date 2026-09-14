@@ -1,8 +1,8 @@
 {
   "file_metadata": {
     "filename": "02d_logic_temple.json",
-    "version": "3.0 (Full Part V Detail)",
-    "last_updated": "2026-03-22",
+    "version": "3.1 (Canonical Service Types Fortified)",
+    "last_updated": "2026-09-07",
     "authority": "Lviv (Dolnytsky) Typikon (2010) Part V, Chapter II",
     "scope": "Patronal Feast Logic",
     "description": "Complete temple feast conflict-resolution logic: 6 general rules + 31 specific scenarios with full stichera/canon/troparion detail."
@@ -188,7 +188,21 @@
           "both_now": "Theotokion of beginning of year"
         }
       },
-      "hours_and_liturgy": "as_without_temple"
+      "hours_and_liturgy": "as_without_temple",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:31-49"
     },
     "case_1b": {
       "title": "Temple of Ven. Symeon Stylites – Sep 1 – Sunday",
@@ -316,14 +330,42 @@
         "after_doxology": "Sunday Troparion (one of two usual)",
         "after_dismissal": "Glory, Both now: Gospel Sticheron"
       },
-      "hours_and_liturgy": "as_without_temple"
+      "hours_and_liturgy": "as_without_temple",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:50-70"
     },
     "case_2": {
       "title": "Temple of St. Basil – Jan 1 on Sunday before Theophany",
       "period": "outside_triodion",
       "fixed_date": "1-1",
       "day_type": "sunday",
-      "rule": "As case_1b but substitute Indiction with Circumcision"
+      "rule": "As case_1b but substitute Indiction with Circumcision",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_basil",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_basil",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:71-74"
     },
     "case_3": {
       "title": "Temple on Sundays of Publican, Prodigal, Meatfare, Cheesefare + Mon of 1st Week",
@@ -410,7 +452,21 @@
           },
           "praises_meatfare_cheesefare": "After 4 temple: Idiomelon of Triodion with 'Arise, O Lord'; Glory: same; Both now: Most Blessed"
         }
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:77-84"
     },
     "case_4": {
       "title": "Temple on Meatfare Saturday",
@@ -418,7 +474,22 @@
       "applies_to": [
         "saturday_meatfare"
       ],
-      "action": "celebrate_temple_saturday; transfer deceased service to previous Thursday"
+      "action": "celebrate_temple_saturday; transfer deceased service to previous Thursday",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "memorial_transferred_to": "thursday_before_meatfare",
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:85-86"
     },
     "case_5": {
       "title": "Temple in Cheesefare Mon-Fri",
@@ -434,7 +505,21 @@
           "6th_hour": "Troparion of Prophecy + Reading (Paremia)",
           "liturgy": "Chrysostom"
         }
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:87-91"
     },
     "case_6": {
       "title": "Temple on Cheesefare Saturday",
@@ -458,7 +543,21 @@
           "Fathers",
           "Virgin Theotokos"
         ]
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:92-96"
     },
     "case_7": {
       "title": "Temple on Monday of 1st Week of Lent",
@@ -466,7 +565,30 @@
       "applies_to": [
         "monday_1st_week_lent"
       ],
-      "action": "transfer_to_cheesefare_sunday (p. 220)"
+      "action": "transfer_to_cheesefare_sunday",
+      "vespers_type": "lenten_vespers",
+      "matins_type": "lenten_matins_weekday",
+      "liturgy_type": "structure_suppressed",
+      "has_polyeleos": false,
+      "doxology_type": "daily_read",
+      "variables": {
+        "vespers_type": "lenten_vespers",
+        "matins_type": "lenten_matins_weekday",
+        "liturgy_type": "structure_suppressed",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
+        "rank": "rank_simple_6"
+      },
+      "transfer_target": "sunday_cheesefare",
+      "transferred_service_types": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:97-100"
     },
     "case_8": {
       "title": "Temple on Tue-Sat of 1st Week of Lent",
@@ -474,7 +596,30 @@
       "applies_to": [
         "tue_through_sat_1st_week_lent"
       ],
-      "action": "transfer_to_saturday_1st_lent (see case_9)"
+      "action": "transfer_to_first_saturday_lent",
+      "vespers_type": "lenten_vespers",
+      "matins_type": "lenten_matins_weekday",
+      "liturgy_type": "structure_suppressed",
+      "has_polyeleos": false,
+      "doxology_type": "daily_read",
+      "variables": {
+        "vespers_type": "lenten_vespers",
+        "matins_type": "lenten_matins_weekday",
+        "liturgy_type": "structure_suppressed",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
+        "rank": "rank_simple_6"
+      },
+      "transfer_target": "saturday_1st_lent",
+      "transferred_service_types": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:101-104"
     },
     "case_9": {
       "title": "Temple on 1st Saturday of Lent",
@@ -518,7 +663,21 @@
         "praises": {
           "glory": "temple"
         }
-      }
+      },
+      "vespers_type": "lenten_vespers_presanctified",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "lenten_vespers_presanctified",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:105-113"
     },
     "case_10": {
       "title": "Temple on 1st and 3rd Sundays of Lent",
@@ -628,7 +787,21 @@
           "glory": "same_idiomelon",
           "both_now": "Most Blessed"
         }
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_basil",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_basil",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:114-126"
     },
     "case_11": {
       "title": "Temple on Lenten Weekdays (2nd week through Lazarus Saturday)",
@@ -705,7 +878,21 @@
           "litiya_and_aposticha": "stichera of temple"
         }
       },
-      "liturgy_note": "Presanctified on eve and day per rubric; in practice Chrysostom except Wed/Fri; temple usually transferred to Sunday"
+      "liturgy_note": "Presanctified on eve and day per rubric; in practice Chrysostom except Wed/Fri; temple usually transferred to Sunday",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_presanctified",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_presanctified",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:127-148"
     },
     "case_12": {
       "title": "Temple on 2nd, 3rd, 4th Saturdays of Lent",
@@ -716,7 +903,21 @@
         "saturday_4th_lent"
       ],
       "vespers_and_compline": "As case_11 Mon-Thu; Lord I have cried: 1st Theotokion of tone being given away",
-      "matins_hours_liturgy": "Entire service of temple only, per general rubric saint with Vigil"
+      "matins_hours_liturgy": "Entire service of temple only, per general rubric saint with Vigil",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:149-152"
     },
     "case_13": {
       "title": "Temple on 2nd, 4th, 5th Sundays of Lent",
@@ -779,7 +980,21 @@
         ],
         "glory": "Kontakion of temple",
         "both_now": "Triodion"
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_basil",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_basil",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:153-155"
     },
     "case_14": {
       "title": "Temple on Sunday of the Cross (3rd Sunday of Lent)",
@@ -788,7 +1003,21 @@
         "sunday_3rd_lent_cross"
       ],
       "base": "General Lenten rubric with temple (case_11)",
-      "override": "At Lord I have cried, Aposticha, Praises: Both now = Sticheron of Cross (not Theotokion). Praises: one remaining from Lord I have cried"
+      "override": "At Lord I have cried, Aposticha, Praises: Both now = Sticheron of Cross (not Theotokion). Praises: one remaining from Lord I have cried",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_basil",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_basil",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:156-157"
     },
     "case_15": {
       "title": "Temple on Wednesday of 5th Week (Great Canon displaced)",
@@ -800,7 +1029,21 @@
       "transfers": {
         "great_canon_stichera": "Monday at Vespers",
         "great_canon": "Tuesday at Matins with Three-Odes of Tuesday"
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_presanctified",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_presanctified",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:158-159"
     },
     "case_16": {
       "title": "Temple on Thursday of 5th Week",
@@ -811,7 +1054,21 @@
       "transfers": {
         "great_canon": "Tuesday of same week"
       },
-      "service": "Temple on Thursday per case_11"
+      "service": "Temple on Thursday per case_11",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_presanctified",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_presanctified",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:160-161"
     },
     "case_17": {
       "title": "Temple on Akathist Saturday (5th Saturday of Lent)",
@@ -925,7 +1182,21 @@
           "3rd_9th": "temple"
         }
       },
-      "liturgy": "All of Akathist, then of temple"
+      "liturgy": "All of Akathist, then of temple",
+      "vespers_type": "lenten_vespers_presanctified",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "lenten_vespers_presanctified",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:162-182"
     },
     "case_18": {
       "title": "Temple on Lazarus Saturday",
@@ -1046,7 +1317,21 @@
           "glory_both_now": "Lazarus"
         }
       },
-      "hours_and_liturgy": "Everything first for Lazarus, then temple"
+      "hours_and_liturgy": "Everything first for Lazarus, then temple",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:183-200"
     },
     "case_19": {
       "title": "Temple on Palm Sunday",
@@ -1094,7 +1379,21 @@
           "glory": "temple",
           "both_now": "Palm Sunday"
         }
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:201-205"
     },
     "case_20": {
       "title": "Temple on Passion Week / Resurrection Sunday",
@@ -1111,7 +1410,31 @@
       "transfer_rules": {
         "monday_through_thursday": "transfer_to_palm_sunday",
         "friday_saturday_pascha": "transfer_to_bright_monday_or_tuesday"
-      }
+      },
+      "vespers_type": "structure_suppressed",
+      "matins_type": "structure_suppressed",
+      "liturgy_type": "structure_suppressed",
+      "has_polyeleos": false,
+      "doxology_type": "none",
+      "variables": {
+        "vespers_type": "structure_suppressed",
+        "matins_type": "structure_suppressed",
+        "liturgy_type": "structure_suppressed",
+        "has_polyeleos": false,
+        "doxology_type": "none",
+        "rank": "rank_simple_6"
+      },
+      "action": "transfer_to_palm_sunday_or_bright_week",
+      "transfer_target": "palm_sunday_or_bright_monday",
+      "transferred_service_types": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:206-208"
     },
     "case_21": {
       "title": "Temple from Bright Monday to 4th Sunday after Pascha",
@@ -1119,7 +1442,21 @@
       "applies_to": [
         "bright_monday_to_4th_sunday_pascha"
       ],
-      "rule": "Sing as service of St. George"
+      "rule": "Sing as service of St. George",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:209-211"
     },
     "case_22": {
       "title": "Temple from 4th Sunday after Pascha to Saturday of Pentecost",
@@ -1127,7 +1464,21 @@
       "applies_to": [
         "4th_sunday_to_pentecost_saturday"
       ],
-      "base": "Rubric of Theologian (p. 293)"
+      "base": "Rubric of Theologian (p. 293)",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:212-215"
     },
     "case_23": {
       "title": "Temple on Wednesday of Apodosis of Pascha",
@@ -1152,7 +1503,21 @@
             "on": 6
           }
         ]
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:216-218"
     },
     "case_24": {
       "title": "Temple on Ascension Thursday",
@@ -1160,7 +1525,21 @@
       "applies_to": [
         "ascension_thursday"
       ],
-      "base": "Rubric of Theologian on May 8"
+      "base": "Rubric of Theologian on May 8",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:219-220"
     },
     "case_25": {
       "title": "Temple on 7th Sunday after Pascha",
@@ -1171,7 +1550,21 @@
       "base": "Rubric of Theologian on May 8",
       "matins": {
         "prokimenon_gospel_sticheron": "of_the_temple"
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:221-223"
     },
     "case_26": {
       "title": "Temple with Apodosis of Ascension",
@@ -1180,7 +1573,21 @@
         "apodosis_ascension"
       ],
       "base": "General rubric of saint with Vigil in midst of feast (p. 104)",
-      "note": "No temple Apodosis at Vespers"
+      "note": "No temple Apodosis at Vespers",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:224-225"
     },
     "case_27": {
       "title": "Temple on Soul Saturday (before Pentecost)",
@@ -1188,7 +1595,22 @@
       "applies_to": [
         "soul_saturday_pentecost"
       ],
-      "rule": "Entire service of temple per general rubric saint with Vigil (p. 79) with Apodosis (p. 458). Deceased service transferred to previous Saturday or Thursday."
+      "rule": "Entire service of temple per general rubric saint with Vigil (p. 79) with Apodosis (p. 458). Deceased service transferred to previous Saturday or Thursday.",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "memorial_transferred_to": "previous_saturday_or_thursday",
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:226-227"
     },
     "case_28": {
       "title": "Temple on Pentecost Sunday",
@@ -1197,7 +1619,21 @@
         "pentecost_sunday"
       ],
       "base": "Rubric of Theologian with Ascension (p. 295)",
-      "no_resurrection_hymn": true
+      "no_resurrection_hymn": true,
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:228-229"
     },
     "case_29": {
       "title": "Temple on Monday of the Holy Spirit",
@@ -1221,7 +1657,21 @@
         },
         "aposticha": "of feast with its stichera"
       },
-      "rest": "As Theologian on Mid-Pentecost"
+      "rest": "As Theologian on Mid-Pentecost",
+      "vespers_type": "kneeling_vespers",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "kneeling_vespers",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:230-231"
     },
     "case_30": {
       "title": "Temple in midst of Pentecost Feast (except Monday)",
@@ -1229,7 +1679,21 @@
       "applies_to": [
         "pentecost_midweek"
       ],
-      "base": "General rubric of saint with Vigil in Afterfeast (p. 104)"
+      "base": "General rubric of saint with Vigil in Afterfeast (p. 104)",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:232-234"
     },
     "case_31": {
       "title": "Temple on Sunday of All Saints",
@@ -1238,7 +1702,21 @@
         "sunday_all_saints"
       ],
       "base": "Rubric of Fathers of 7th Sunday after Pascha (p. 441)",
-      "override": "Doxastikon of temple: Both now = 1st Theotokion of tone of Doxastikon — not only at Lord I have cried but also at Troparion, instead of Ascension"
+      "override": "Doxastikon of temple: Both now = 1st Theotokion of tone of Doxastikon — not only at Lord I have cried but also at Troparion, instead of Ascension",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:235-236"
     },
     "case_32": {
       "title": "Temple on Sunday of Feast of Eucharist",
@@ -1246,7 +1724,21 @@
       "applies_to": [
         "sunday_corpus_christi"
       ],
-      "base": "Rubric of Theologian with Ascension (p. 295)"
+      "base": "Rubric of Theologian with Ascension (p. 295)",
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:238-239"
     },
     "case_33": {
       "title": "Temple on Compassion of Most Holy Theotokos",
@@ -1272,7 +1764,21 @@
         },
         "katavasia": "I will open",
         "at_9th_ode": "Sing More Honorable"
-      }
+      },
+      "vespers_type": "great_vespers_vigil",
+      "matins_type": "great_matins",
+      "liturgy_type": "liturgy_chrysostom",
+      "has_polyeleos": true,
+      "doxology_type": "great_doxology",
+      "variables": {
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "rank": "rank_vigil_patronal"
+      },
+      "source_ref": "Final_Dolnytsky_part5_temple.txt:240-243"
     }
   }
 }

@@ -1,9 +1,9 @@
 {
   "file_metadata": {
     "filename": "katavasia_seasons.json",
-    "version": "1.0",
-    "authority": "Lviv (Dolnytsky) Typikon (2010) Part V pp. 246-273",
-    "description": "Year-round Katavasia lookup: 11 immovable date ranges + 10 movable overrides"
+    "version": "2.0",
+    "authority": "Lviv (Dolnytsky) Typikon (2010) Part V pp. 244-273",
+    "description": "Year-round Katavasia lookup: 10 immovable date ranges + movable Triodion and Pentecostarion cycles with Meeting season overlap exception"
   },
   "immovable": [
     {
@@ -13,7 +13,9 @@
       "end_day": 21,
       "katavasia": "Having traced the Cross",
       "tone": 8,
-      "feast": "Exaltation"
+      "feast": "Exaltation",
+      "katavasia_id": "katavasia_exaltation",
+      "incipit_uk": "Крест начертав"
     },
     {
       "start_month": 9,
@@ -22,7 +24,9 @@
       "end_day": 20,
       "katavasia": "I will open",
       "tone": 4,
-      "feast": "General of Theotokos"
+      "feast": "General of Theotokos",
+      "katavasia_id": "i_will_open_my_mouth",
+      "incipit_uk": "Отверзу уста моя"
     },
     {
       "start_month": 11,
@@ -31,7 +35,9 @@
       "end_day": 31,
       "katavasia": "Christ is born",
       "tone": 1,
-      "feast": "Nativity of Christ"
+      "feast": "Nativity of Christ",
+      "katavasia_id": "katavasia_nativity",
+      "incipit_uk": "Христос рождається"
     },
     {
       "start_month": 1,
@@ -40,7 +46,9 @@
       "end_day": 14,
       "katavasia": "The depths",
       "tone": 2,
-      "feast": "Theophany"
+      "feast": "Theophany",
+      "katavasia_id": "katavasia_theophany",
+      "incipit_uk": "Глибини відкрив дно"
     },
     {
       "start_month": 1,
@@ -49,7 +57,9 @@
       "end_day": 9,
       "katavasia": "The dry land",
       "tone": 3,
-      "feast": "Meeting"
+      "feast": "Meeting",
+      "katavasia_id": "katavasia_meeting",
+      "incipit_uk": "Сушу глубородительную землю"
     },
     {
       "start_month": 2,
@@ -58,7 +68,9 @@
       "end_day": 31,
       "katavasia": "I will open",
       "tone": 4,
-      "feast": "General of Theotokos"
+      "feast": "General of Theotokos",
+      "katavasia_id": "i_will_open_my_mouth",
+      "incipit_uk": "Отверзу уста моя"
     },
     {
       "start_month": 8,
@@ -67,7 +79,9 @@
       "end_day": 6,
       "katavasia": "Having traced the Cross",
       "tone": 8,
-      "feast": "Exaltation"
+      "feast": "Exaltation",
+      "katavasia_id": "katavasia_exaltation",
+      "incipit_uk": "Крест начертав"
     },
     {
       "start_month": 8,
@@ -76,7 +90,9 @@
       "end_day": 13,
       "katavasia": "The people of Israel",
       "tone": 4,
-      "feast": "Transfiguration"
+      "feast": "Transfiguration",
+      "katavasia_id": "katavasia_transfiguration",
+      "incipit_uk": "Лици ізраїльтестії"
     },
     {
       "start_month": 8,
@@ -85,7 +101,9 @@
       "end_day": 23,
       "katavasia": "Adorned",
       "tone": 1,
-      "feast": "Dormition"
+      "feast": "Dormition",
+      "katavasia_id": "katavasia_dormition",
+      "incipit_uk": "Преукрашенная"
     },
     {
       "start_month": 8,
@@ -94,25 +112,150 @@
       "end_day": 31,
       "katavasia": "Having traced the Cross",
       "tone": 8,
-      "feast": "Exaltation"
+      "feast": "Exaltation",
+      "katavasia_id": "katavasia_exaltation",
+      "incipit_uk": "Крест начертав"
+    }
+  ],
+  "meeting_overlap_exception": {
+    "start_month": 1,
+    "start_day": 15,
+    "end_month": 2,
+    "end_day": 9,
+    "katavasia": "The dry land",
+    "tone": 3,
+    "feast": "Meeting",
+    "incipit_uk": "Сушу глубородительную землю",
+    "rule": "During the period of the Meeting (Jan 15–Feb 9), the Katavasia of the Meeting is sung, with the exception of Meatfare Sunday, which takes the Katavasia of the Triodion per Slavonic rubrics.",
+    "citation": "Dolnytsky Typikon Part V line 262 & note 693"
+  },
+  "triodion_movable": [
+    {
+      "offset_start": -70,
+      "offset_end": -70,
+      "day_of_week": 0,
+      "katavasia": "I will open",
+      "tone": 4,
+      "feast": "Publican and Pharisee",
+      "katavasia_id": "i_will_open_my_mouth",
+      "note": "General Katavasia of Theotokos unless Meeting overlap"
+    },
+    {
+      "offset_start": -63,
+      "offset_end": -63,
+      "day_of_week": 0,
+      "katavasia": "He is my helper and protector",
+      "tone": 2,
+      "feast": "Prodigal Son",
+      "katavasia_id": "katavasia_prodigal_son",
+      "note": "Triodion Katavasia unless Meeting overlap"
+    },
+    {
+      "offset_start": -56,
+      "offset_end": -56,
+      "day_of_week": 0,
+      "katavasia": "He is my helper and protector",
+      "tone": 6,
+      "feast": "Meatfare Sunday",
+      "katavasia_id": "katavasia_meatfare",
+      "note": "Triodion Katavasia (always retained even during Meeting overlap period)"
+    },
+    {
+      "offset_start": -49,
+      "offset_end": -49,
+      "day_of_week": 0,
+      "katavasia": "When Israel passed on foot",
+      "tone": 6,
+      "feast": "Cheesefare Sunday",
+      "katavasia_id": "katavasia_cheesefare",
+      "note": "Triodion Katavasia"
+    },
+    {
+      "offset_start": -42,
+      "offset_end": -42,
+      "day_of_week": 0,
+      "katavasia": "Israel of old crossed the depth",
+      "tone": 4,
+      "feast": "Sunday of Orthodoxy",
+      "katavasia_id": "katavasia_orthodoxy",
+      "note": "1st Sunday of Lent, Triodion Katavasia"
+    },
+    {
+      "offset_start": -28,
+      "offset_end": -28,
+      "day_of_week": 0,
+      "katavasia": "Moses the servant of God",
+      "tone": 1,
+      "feast": "Veneration of the Cross",
+      "katavasia_id": "katavasia_cross",
+      "note": "3rd Sunday of Lent, Triodion Katavasia"
+    },
+    {
+      "offset_start": -8,
+      "offset_end": -8,
+      "day_of_week": 6,
+      "katavasia": "Having crossed the water",
+      "tone": 8,
+      "feast": "Lazarus Saturday",
+      "katavasia_id": "katavasia_lazarus",
+      "note": "Triodion Katavasia"
+    },
+    {
+      "offset_start": -7,
+      "offset_end": -7,
+      "day_of_week": 0,
+      "katavasia": "The springs of the deep were revealed",
+      "tone": 4,
+      "feast": "Palm Sunday",
+      "katavasia_id": "katavasia_palm_sunday",
+      "note": "Palm Sunday festal Katavasia"
+    },
+    {
+      "offset_start": -6,
+      "offset_end": -1,
+      "katavasia": "Triodion Canon Heirmos",
+      "tone": 0,
+      "feast": "Passion Week",
+      "katavasia_id": "katavasia_passion_week",
+      "note": "Daily Katavasia of the Triodion canon of the day"
     }
   ],
   "movable": [
     {
-      "offset_start": 1,
+      "offset_start": 0,
       "offset_end": 23,
       "katavasia": "The Resurrection Day",
       "tone": 1,
       "feast": "Pascha",
+      "katavasia_id": "katavasia_pascha",
       "note": "Pascha to Mid-Pentecost eve"
     },
     {
       "offset_start": 24,
+      "offset_end": 27,
+      "katavasia": "The Sea",
+      "tone": 8,
+      "feast": "Mid-Pentecost",
+      "katavasia_id": "katavasia_mid_pentecost",
+      "note": "Mid-Pentecost Wednesday through Saturday"
+    },
+    {
+      "offset_start": 28,
+      "offset_end": 28,
+      "katavasia": "The Resurrection Day",
+      "tone": 1,
+      "feast": "Pascha",
+      "katavasia_id": "katavasia_pascha",
+      "note": "Sunday of the Samaritan Woman (5th Sunday after Pascha)"
+    },
+    {
+      "offset_start": 29,
       "offset_end": 31,
       "katavasia": "The Sea",
       "tone": 8,
       "feast": "Mid-Pentecost",
-      "note": "Mid-Pentecost to Apodosis"
+      "katavasia_id": "katavasia_mid_pentecost",
+      "note": "Mon to Wed (Apodosis) of Mid-Pentecost"
     },
     {
       "offset_start": 32,
@@ -128,7 +271,7 @@
       "katavasia": "To the Savior",
       "tone": 5,
       "feast": "Ascension",
-      "note": "Blind Man Sunday"
+      "note": "Blind Man Sunday (6th Sunday after Pascha)"
     },
     {
       "offset_start": 36,
@@ -148,11 +291,35 @@
     },
     {
       "offset_start": 39,
+      "offset_end": 39,
+      "katavasia": "Divine",
+      "tone": 4,
+      "feast": "Pentecost",
+      "note": "Ascension Thursday (Dolnytsky line 268)"
+    },
+    {
+      "offset_start": 40,
+      "offset_end": 41,
+      "katavasia": "To the Savior",
+      "tone": 5,
+      "feast": "Ascension",
+      "note": "Friday and Saturday after Ascension (Dolnytsky line 269)"
+    },
+    {
+      "offset_start": 42,
+      "offset_end": 42,
+      "katavasia": "Divine",
+      "tone": 4,
+      "feast": "Pentecost",
+      "note": "7th Sunday after Pascha, Fathers of 1st Council (Dolnytsky line 270)"
+    },
+    {
+      "offset_start": 43,
       "offset_end": 47,
       "katavasia": "To the Savior",
       "tone": 5,
       "feast": "Ascension",
-      "note": "Ascension to Apodosis"
+      "note": "Mon to Fri through Apodosis of Ascension (Dolnytsky line 269)"
     },
     {
       "offset_start": 48,
@@ -160,7 +327,8 @@
       "katavasia": "Let us send up a song",
       "tone": 8,
       "feast": "Sat. of Pentecost",
-      "note": "Saturday of Souls before Pentecost"
+      "katavasia_id": "katavasia_sat_of_pentecost",
+      "note": "Pentecost Saturday / Saturday of Souls (Dolnytsky line 271)"
     },
     {
       "offset_start": 49,
@@ -168,7 +336,7 @@
       "katavasia": "Divine",
       "tone": 4,
       "feast": "Pentecost",
-      "note": "Pentecost to Apodosis"
+      "note": "Pentecost Sunday to its Apodosis (Dolnytsky line 272)"
     },
     {
       "offset_start": 56,
@@ -176,7 +344,7 @@
       "katavasia": "I will open",
       "tone": 4,
       "feast": "General of Theotokos",
-      "note": "All Saints Sunday to Eucharist eve"
+      "note": "All Saints Sunday to Eucharist eve (Dolnytsky line 273)"
     }
   ]
 }

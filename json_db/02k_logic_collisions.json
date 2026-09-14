@@ -498,6 +498,204 @@
               "liturgy_type": "liturgy_chrysostom"
             }
           }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Wednesday_Cross",
+          "rubric": {
+            "vespers_param": "Presanctified or Great Vespers. 10 Stichera: 5 Triodion (Cross), 5 Feast.",
+            "matins_canon": "Feast 6, Cross 4 (plus Triodion 3-ode on 8). Katavasia: Feast/Triodion.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III §4: Ruthenian daily services abolished in Mid-Lent; follows Lenten weekday rule if celebrated.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "cross",
+                    "qty": 5
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 5
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "cross",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_cross"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_4_5",
+          "rubric": {
+            "vespers_param": "Great Vespers with Vigil. 10 Stichera: 3 Res, 3 Triodion, 4 Feast. 5 readings of Feast.",
+            "matins_canon": "Canons on 14: Res 4, Triodion 4, Feast 6. Katavasia: Feast.",
+            "liturgy_type": "Basil",
+            "notes": "Dolnytsky Part III §5: Annunciation on 4th and 5th Sundays of Lent. Praises: 4 Res, 4 Feast, 1 Triodion idiomelon.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "dogmatikon_current_tone"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_annunciation"
+              },
+              "praises_distribution": {
+                "total_count": 9,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 1
+                  }
+                ],
+                "glory": "triodion.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "liturgy_type": "liturgy_basil"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Friday_5",
+          "rubric": {
+            "action": "TRANSFER_MOVABLE",
+            "target_day": "Monday_Tuesday_Wednesday_5",
+            "notes": "Dolnytsky Part III §7: Akathist transferred to Monday, Tuesday, or Wednesday of 5th week at Compline; Annunciation celebrated.",
+            "variables": {
+              "liturgy_type": "vesperal_merge_logic"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Sunday_Thomas",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Thomas, 4 Feast. Glory: Feast, Both now: Thomas.",
+            "matins_canon": "Canons on 14: Thomas on 8, Feast on 6. Katavasia: Pascha.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III §16: Annunciation on St. Thomas Sunday. Combined festal service.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "thomas",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  }
+                ],
+                "glory": "menaion.feast.doxasticon",
+                "both_now": "triodion.thomas.doxasticon"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "thomas",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_pascha"
+              },
+              "praises_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "thomas",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "feast",
+                    "qty": 4
+                  }
+                ],
+                "glory": "triodion.thomas.doxasticon",
+                "both_now": "most_blessed_art_thou"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
         }
       ]
     },
@@ -572,6 +770,226 @@
                     "qty": 6
                   }
                 ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Sunday_Thomas",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Thomas, 4 Saint. Glory: Saint, Both now: Thomas.",
+            "matins_canon": "Canons on 14: Thomas on 8, Saint on 6. Katavasia: Pascha.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (April 23, Case 3): St. George on Sunday of the Apostle Thomas.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "thomas",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 4
+                  }
+                ],
+                "glory": "saint_doxastikon",
+                "both_now": "thomas_doxastikon"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "thomas",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_pascha"
+              },
+              "praises_distribution": {
+                "total_count": 7,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "thomas",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 4
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Paschal_Sundays",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Triodion, 4 Saint. Glory: Triodion, Both now: Dogmatikon.",
+            "matins_canon": "Canons on 14: Res 6, Triodion 4, Saint 4. Katavasia: Pascha.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (April 23, Case 4): Sundays of Myrrh-bearers, Paralytic, Samaritan Woman.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_pascha"
+              },
+              "praises_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 4
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Mid_Pentecost",
+          "rubric": {
+            "vespers_param": "8 Stichera: 4 Feast, 4 Saint. Glory: Saint, Both now: Feast.",
+            "matins_canon": "Canons on 14: Feast on 8, Saint on 6. Katavasia: Pascha.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (April 23, Case 5): Wednesday of Mid-Pentecost.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 4
+                  }
+                ],
+                "glory": "saint_doxastikon",
+                "both_now": "feast_doxastikon"
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_pascha"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Pentecostarion_Weekday",
+          "rubric": {
+            "vespers_param": "6 Stichera: 3 Paschal Octoechos/Triodion, 3 Saint (or 6 Saint).",
+            "matins_canon": "Canons on 14: Triodion on 8, Saint on 6. Katavasia: Pascha.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (April 23, Case 6): Weekdays from Sunday of Thomas to Ascension.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 6,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_pascha"
               },
               "liturgy_type": "liturgy_chrysostom"
             }
@@ -1839,6 +2257,1753 @@
           }
         }
       ]
+    },
+    "06-11": {
+      "feast_name": "Apostles Bartholomew and Barnabas",
+      "rules": [
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Apodosis_Eucharist",
+          "rubric": {
+            "source_ref": "Dolnytsky_Typikon_Master.md:3.10.1.10",
+            "vespers_param": "Great Vespers. 10 Stichera: 6 Feast, 4 Saint. Glory: Saint, Both now: Feast.",
+            "matins_canon": "Canons on 14: Feast with irmos on 6, Saint on 8.",
+            "notes": "Dolnytsky 3.10.1.10 cites 3.9.25.2.1: Vespers on 10 (6 Feast + 4 Saint), Matins Canon on 14 (Feast 6 + Saint 8).",
+            "variables": {
+              "suppress_menaion_saint": false,
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 4
+                  }
+                ],
+                "glory": "saint_doxastikon",
+                "both_now": "feast_theotokion"
+              },
+              "aposticha_distribution": {
+                "total_count": 3,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 3
+                  }
+                ],
+                "glory": "saint_doxastikon",
+                "both_now": "feast_theotokion"
+              },
+              "matins_canon_distribution": {
+                "total_count": 14,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "saint",
+                    "qty": 8
+                  }
+                ]
+              },
+              "compline_canon_subject": "theotokos",
+              "compline_canon_book": "octoechos"
+            }
+          }
+        }
+      ]
+    },
+    "03-09": {
+      "feast_name": "Forty Martyrs of Sebaste",
+      "rules": [
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Cheesefare_Weekday",
+          "rubric": {
+            "vespers_param": "6 Stichera: all to Martyrs. Glory: Martyrs, Both now: Dogmatikon of tone.",
+            "matins_canon": "Polyeleos Matins. Canons: Martyrs 8, Triodion 6. Katavasia of Cheesefare.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (March 9, Case 1 / Feb 24 Case 3): Mon/Tue/Thu of Cheesefare celebrated with Polyeleos.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 6,
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 6
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_cheesefare"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Cheesefare_Wed_Fri",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Cheesefare_Tuesday_Thursday",
+            "notes": "Dolnytsky Part III (March 9, Case 1 / Feb 24 Case 4): Transferred back to Cheesefare Tuesday or Thursday.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Sunday_Cheesefare",
+          "rubric": {
+            "vespers_param": "10 Stichera: 4 Res, 3 Triodion, 3 Martyrs. Readings: 3 to Martyrs.",
+            "matins_canon": "Canons on 14: Res 4, Theotokos 2, Triodion 4, Martyrs 4. Katavasia: Cheesefare.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (March 9, Case 1 / Feb 24 Case 2): Combined with Cheesefare Sunday.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "theotokos",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_cheesefare"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Clean_Week_Weekday",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Saturday_1_Theodore",
+            "notes": "Dolnytsky Part III (March 9, Case 1 / Feb 24 Case 6): Fast days of Clean Week transferred to Cheesefare Sunday or Saturday of 1st week.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Saturday_1_Theodore",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Triodion, 3 Martyrs, 4 Theodore.",
+            "matins_canon": "Canons: Martyrs on 6, Theodore on 8. Katavasia: Triodion.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (March 9, Case 2 / Feb 24 Case 7): Service combined with St. Theodore on 1st Saturday of Lent.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "theodore",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "theodore",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_Orthodoxy",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Triodion, 3 Martyrs.",
+            "matins_canon": "Canons on 14: Res 4, Triodion 6, Martyrs 4. Katavasia: Orthodoxy.",
+            "liturgy_type": "Basil",
+            "notes": "Dolnytsky Part III (March 9, Case 3 / Feb 24 Case 8): 1st Sunday of Great Lent.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_orthodoxy"
+              },
+              "liturgy_type": "liturgy_basil"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Weekday",
+          "rubric": {
+            "vespers_param": "Mon/Tue/Thu: Polyeleos Matins. Wed/Fri: Presanctified. 10 Stichera: 4 Triodion, 6 Martyrs.",
+            "matins_canon": "Canons on 14: Martyrs on 6, Triodion 3-ode on 8.",
+            "liturgy_type": "Presanctified (Wed/Fri) or none",
+            "notes": "Dolnytsky Part III (March 9, Case 4 / Feb 24 Case 9): Weekdays of Weeks 2 through 6.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 6
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Saturday_2_3",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Triodion, 4 Martyrs, 3 Memorial/Temple.",
+            "matins_canon": "Canons on 14: Martyrs on 6, Triodion on 8.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (March 9, Case 4 / Feb 24 Case 10): Saturdays of Weeks 2 and 3 of Lent.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "temple",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_Gregory_Palamas",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Triodion, 3 Martyrs.",
+            "matins_canon": "Canons on 14: Res 4, Triodion 6, Martyrs 4.",
+            "liturgy_type": "Basil",
+            "notes": "Dolnytsky Part III (March 9, Case 5 / Feb 24 Case 11): 2nd Sunday of Lent.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 4
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_basil"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_Cross",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Cross, 3 Martyrs. Readings: 3 to Martyrs.",
+            "matins_canon": "Canons on 14: Res 4, Cross 6, Martyrs 4. Katavasia: Cross.",
+            "liturgy_type": "Basil",
+            "notes": "Dolnytsky Part III (March 9, Case 6 / Feb 24 Case 12): 3rd Sunday of Lent (Veneration of the Cross).",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "cross",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "cross",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_cross"
+              },
+              "liturgy_type": "liturgy_basil",
+              "trisagion_override": "before_thy_cross"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_4_5",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Triodion, 3 Martyrs.",
+            "matins_canon": "Canons on 14: Res 4, Triodion 6, Martyrs 4.",
+            "liturgy_type": "Basil",
+            "notes": "Dolnytsky Part III (March 9, Case 7): 4th and 5th Sundays of Lent.",
+            "variables": {
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "martyrs",
+                    "qty": 4
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_basil"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Wednesday_Cross",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Tuesday_4",
+            "notes": "Dolnytsky Part III (March 9, Case 8): Transferred to previous Tuesday.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Thursday_Great_Canon",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Tuesday_5",
+            "notes": "Dolnytsky Part III (March 9, Case 9): Transferred to Tuesday of 5th week.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Saturday_Akathist",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Sunday_Mary_of_Egypt",
+            "notes": "Dolnytsky Part III (March 9, Case 10): Transferred to 5th Sunday of Lent.",
+            "variables": {}
+          }
+        }
+      ]
+    },
+    "05-08": {
+      "feast_name": "Holy Apostle and Evangelist John the Theologian",
+      "rules": [
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Pentecostarion_Weekday",
+          "rubric": {
+            "vespers_param": "Follows St. George weekday rule. 6 Stichera: 3 Triodion, 3 Apostle.",
+            "matins_canon": "Triodion 8, Apostle 6. Katavasia of Pascha.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (May 8, Case 1): Weekdays of Pentecost.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 6,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_pascha"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Paschal_Sundays",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Triodion, 4 Apostle.",
+            "matins_canon": "Canons on 14: Res 6, Triodion 4, Apostle 4. Katavasia of Pascha.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (May 8, Case 2): Sundays of Myrrh-bearers, Paralytic, Samaritan, Blind Man.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_pascha"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Mid_Pentecost",
+          "rubric": {
+            "vespers_param": "8 Stichera: 4 Mid-Pentecost, 4 Apostle. Glory: Apostle, Both now: Feast.",
+            "matins_canon": "Feast 8, Apostle 6. Katavasia of Pascha.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (May 8, Case 3): Wednesday of Mid-Pentecost.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 8,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 8,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 6
+                  }
+                ],
+                "katavasia": "katavasia_pascha"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Wednesday_Apodosis_Pascha",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Feast, 4 Apostle. Glory: Apostle, Both now: Feast.",
+            "matins_canon": "Canons on 14: Res 6, Apostle 4, Blind Man 4.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (May 8, Case 4): Wednesday before Ascension (Apodosis of Pascha).",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "blind_man",
+                    "qty": 4
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Thursday_Ascension",
+          "rubric": {
+            "vespers_param": "10 Stichera: 6 Ascension, 4 Apostle. Readings: 3 Feast + 3 Apostle.",
+            "matins_canon": "Canons on 14: Ascension 10, Apostle 4. Katavasia of Ascension.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (May 8, Case 5): Thursday of the Ascension.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "type": "feast",
+                    "qty": 10,
+                    "irmos": true
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_ascension"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pentecostarion",
+          "movable_day": "Sunday_Fathers_First_Council",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 3 Fathers, 4 Apostle.",
+            "matins_canon": "Canons on 12: Res 4, Fathers 4, Apostle 4.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (May 8, Case 6): Sunday of the Holy Fathers after Ascension.",
+            "variables": {
+              "rank": "rank_vigil_saint",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "fathers",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "fathers",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "apostle",
+                    "qty": 4
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        }
+      ]
+    },
+    "02-24": {
+      "feast_name": "Finding of the Precious Head of the Forerunner",
+      "rules": [
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Saturday_Meatfare",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Friday_Meatfare",
+            "notes": "Dolnytsky Part III (Feb 24, Case 1): Transferred to previous Friday.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Sunday_Meatfare",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Triodion, 3 Forerunner. Readings: 3 to Forerunner.",
+            "matins_canon": "Canons on 14: Res 4, Triodion 6, Forerunner 4. Katavasia: Triodion.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (Feb 24, Case 2): Sunday of Meatfare.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 4
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Cheesefare_Weekday",
+          "rubric": {
+            "vespers_param": "6 Stichera: all to Forerunner. Readings: 3 to Forerunner.",
+            "matins_canon": "Polyeleos to Forerunner. Canons on 14: Forerunner 6, Triodion 8.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (Feb 24, Case 3): Mon, Tue, Thu of Cheesefare.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 6,
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 6
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Cheesefare_Wed_Fri",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Tuesday_Thursday_Cheesefare",
+            "notes": "Dolnytsky Part III (Feb 24, Case 4): Transferred to Tuesday or Thursday.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Saturday_Cheesefare",
+          "rubric": {
+            "vespers_param": "6 Stichera: 3 Forerunner, 3 Ascetic Fathers.",
+            "matins_canon": "Canons on 14: Forerunner 6, Fathers 8. Katavasia: Triodion.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (Feb 24, Case 5): Cheesefare Saturday.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 6,
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "fathers",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "fathers",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Pre_Lent",
+          "movable_day": "Sunday_Cheesefare",
+          "rubric": {
+            "vespers_param": "10 Stichera: 4 Res, 3 Triodion, 3 Forerunner.",
+            "matins_canon": "Canons on 14: Res 4, Theotokos 2, Triodion 4, Forerunner 4.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (Feb 24, Case 2): Cheesefare Sunday.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "octoechos",
+                    "type": "theotokos",
+                    "qty": 2
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_cheesefare"
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Clean_Week_Weekday",
+          "rubric": {
+            "action": "TRANSFER_FIXED",
+            "target_day": "Saturday_1_Theodore",
+            "notes": "Dolnytsky Part III (Feb 24, Case 6): Clean Week fast days transferred to Cheesefare Sunday or Saturday of 1st week.",
+            "variables": {}
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Saturday_1_Theodore",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Triodion, 3 Forerunner, 4 Theodore.",
+            "matins_canon": "Canons: Forerunner on 6, Theodore on 8.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (Feb 24, Case 7): Saturday of 1st week of Lent.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "theodore",
+                    "qty": 4
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "theodore",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_Orthodoxy",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Triodion, 3 Forerunner.",
+            "matins_canon": "Canons on 14: Res 4, Triodion 6, Forerunner 4. Katavasia: Orthodoxy.",
+            "liturgy_type": "Basil",
+            "notes": "Dolnytsky Part III (Feb 24, Case 8): 1st Sunday of Great Lent.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_orthodoxy"
+              },
+              "liturgy_type": "liturgy_basil"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Weekday",
+          "rubric": {
+            "vespers_param": "Mon/Tue/Thu: Polyeleos Matins. Wed/Fri: Presanctified. 10 Stichera: 4 Triodion, 6 Forerunner.",
+            "matins_canon": "Canons on 14: Forerunner on 6, Triodion 3-ode on 8.",
+            "liturgy_type": "Presanctified (Wed/Fri) or none",
+            "notes": "Dolnytsky Part III (Feb 24, Case 9): Weekdays of Weeks 2 and 3 of Lent.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 6
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Saturday_2_3",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Triodion, 4 Forerunner, 3 Memorial/Temple.",
+            "matins_canon": "Canons on 14: Forerunner on 6, Triodion on 8.",
+            "liturgy_type": "Chrysostom",
+            "notes": "Dolnytsky Part III (Feb 24, Case 10): Saturdays of Weeks 2 and 3 of Lent.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "triodion",
+                    "qty": 3
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 4
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "temple",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 6,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 8
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_chrysostom"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_Gregory_Palamas",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Triodion, 3 Forerunner.",
+            "matins_canon": "Canons on 14: Res 4, Triodion 6, Forerunner 4.",
+            "liturgy_type": "Basil",
+            "notes": "Dolnytsky Part III (Feb 24, Case 11): 2nd Sunday of Lent.",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 4
+                  }
+                ]
+              },
+              "liturgy_type": "liturgy_basil"
+            }
+          }
+        },
+        {
+          "movable_cycle": "Lent",
+          "movable_day": "Sunday_Cross",
+          "rubric": {
+            "vespers_param": "10 Stichera: 3 Res, 4 Cross, 3 Forerunner.",
+            "matins_canon": "Canons on 14: Res 4, Cross 6, Forerunner 4. Katavasia: Cross.",
+            "liturgy_type": "Basil",
+            "notes": "Dolnytsky Part III (Feb 24, Case 12): 3rd Sunday of Lent (Cross Veneration).",
+            "variables": {
+              "rank": "rank_polyeleos",
+              "vespers_stichera_distribution": {
+                "total_count": 10,
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 3
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "cross",
+                    "qty": 4
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 3
+                  }
+                ]
+              },
+              "matins_canon_distribution": {
+                "distribution": [
+                  {
+                    "source": "octoechos",
+                    "type": "resurrection",
+                    "qty": 4,
+                    "irmos": true
+                  },
+                  {
+                    "source": "triodion",
+                    "type": "cross",
+                    "qty": 6
+                  },
+                  {
+                    "source": "menaion",
+                    "type": "forerunner",
+                    "qty": 4
+                  }
+                ],
+                "katavasia": "katavasia_cross"
+              },
+              "liturgy_type": "liturgy_basil",
+              "trisagion_override": "before_thy_cross"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "floating_collisions": {
+    "saturday_before_exaltation": {
+      "scenario_id": "collision_saturday_before_exaltation",
+      "rubric": {
+        "title": "Saturday before the Exaltation",
+        "source_ref": "Dolnytsky Part III (Menaion): Saturday before the Exaltation",
+        "notes": "Dolnytsky Part III: Combined with date service. Liturgy readings of Saturday before Exaltation.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 3,
+              "ref_key": "Sing praises to our God"
+            },
+            "epistle": {
+              "ref_key": "1 Cor 2:6-9"
+            },
+            "alleluia": {
+              "tone": 2,
+              "ref_key": "Alleluia"
+            },
+            "gospel": {
+              "ref_key": "Mt 10:37-11:1"
+            }
+          }
+        }
+      }
+    },
+    "sunday_before_exaltation": {
+      "scenario_id": "collision_sunday_before_exaltation",
+      "rubric": {
+        "title": "Sunday before the Exaltation",
+        "source_ref": "Dolnytsky Part III (Menaion): Sunday before the Exaltation",
+        "notes": "Dolnytsky Part III: Combined with date service (Nativity of Theotokos or Forefeast/Afterfeast).",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 6,
+              "ref_key": "Save Your people, O Lord"
+            },
+            "epistle": {
+              "ref_key": "Gal 6:11-18"
+            },
+            "alleluia": {
+              "tone": 1,
+              "ref_key": "Alleluia"
+            },
+            "gospel": {
+              "ref_key": "Jn 3:13-17"
+            }
+          }
+        }
+      }
+    },
+    "saturday_after_exaltation": {
+      "scenario_id": "collision_saturday_after_exaltation",
+      "rubric": {
+        "title": "Saturday after the Exaltation",
+        "source_ref": "Dolnytsky Part III (Menaion): Saturday after the Exaltation",
+        "notes": "Dolnytsky Part III: Combined with Afterfeast of the Exaltation.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 7,
+              "ref_key": "Exalt the Lord our God"
+            },
+            "epistle": {
+              "ref_key": "1 Cor 1:26-29"
+            },
+            "alleluia": {
+              "tone": 2,
+              "ref_key": "Alleluia"
+            },
+            "gospel": {
+              "ref_key": "Lk 10:19-21"
+            }
+          }
+        }
+      }
+    },
+    "sunday_after_exaltation": {
+      "scenario_id": "collision_sunday_after_exaltation",
+      "rubric": {
+        "title": "Sunday after the Exaltation",
+        "source_ref": "Dolnytsky Part III (Menaion): Sunday after the Exaltation",
+        "notes": "Dolnytsky Part III: Combined with Afterfeast of the Exaltation.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 7,
+              "ref_key": "Exalt the Lord our God"
+            },
+            "epistle": {
+              "ref_key": "Gal 2:16-20"
+            },
+            "alleluia": {
+              "tone": 1,
+              "ref_key": "Alleluia"
+            },
+            "gospel": {
+              "ref_key": "Mk 8:34-9:1"
+            }
+          }
+        }
+      }
+    },
+    "sunday_forefathers": {
+      "scenario_id": "collision_sunday_forefathers",
+      "rubric": {
+        "title": "Sunday of the Holy Forefathers",
+        "source_ref": "Dolnytsky Part III (Menaion): Sunday of the Forefathers (Dec 11-17)",
+        "notes": "Dolnytsky Part III: Second Sunday before the Nativity of Christ.",
+        "variables": {
+          "rank": "rank_polyeleos",
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 8,
+              "ref_key": "Blessed are You, O Lord God of our Fathers"
+            },
+            "epistle": {
+              "ref_key": "Col 3:4-11"
+            },
+            "alleluia": {
+              "tone": 8,
+              "ref_key": "Moses and Aaron among His priests"
+            },
+            "gospel": {
+              "ref_key": "Lk 14:16-24"
+            }
+          }
+        }
+      }
+    },
+    "saturday_before_nativity": {
+      "scenario_id": "collision_saturday_before_nativity",
+      "rubric": {
+        "title": "Saturday before the Nativity",
+        "source_ref": "Dolnytsky Part III (Menaion): Saturday before the Nativity of Christ (Dec 18-24)",
+        "notes": "Dolnytsky Part III: Saturday before the Nativity.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 3,
+              "ref_key": "Sing praises to our God"
+            },
+            "epistle": {
+              "ref_key": "Gal 3:8-12"
+            },
+            "alleluia": {
+              "tone": 2,
+              "ref_key": "Alleluia"
+            },
+            "gospel": {
+              "ref_key": "Lk 13:18-29"
+            }
+          }
+        }
+      }
+    },
+    "sunday_before_nativity": {
+      "scenario_id": "collision_sunday_before_nativity",
+      "rubric": {
+        "title": "Sunday of the Holy Fathers before the Nativity",
+        "source_ref": "Dolnytsky Part III (Menaion): Sunday of the Holy Fathers (Dec 18-24)",
+        "notes": "Dolnytsky Part III: Sunday immediately before the Nativity of Christ.",
+        "variables": {
+          "rank": "rank_polyeleos",
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 8,
+              "ref_key": "Blessed are You, O Lord God of our Fathers"
+            },
+            "epistle": {
+              "ref_key": "Heb 11:9-10, 17-23, 32-40"
+            },
+            "alleluia": {
+              "tone": 4,
+              "ref_key": "O God, we have heard with our ears"
+            },
+            "gospel": {
+              "ref_key": "Mt 1:1-25"
+            }
+          }
+        }
+      }
+    },
+    "saturday_after_nativity": {
+      "scenario_id": "collision_saturday_after_nativity",
+      "rubric": {
+        "title": "Saturday after the Nativity",
+        "source_ref": "Dolnytsky Part III (Menaion): Saturday after the Nativity of Christ (Dec 26-31)",
+        "notes": "Dolnytsky Part III: Saturday after the Nativity.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 4,
+              "ref_key": "The Lord is my strength"
+            },
+            "epistle": {
+              "ref_key": "1 Tim 6:11-16"
+            },
+            "alleluia": {
+              "tone": 2,
+              "ref_key": "Alleluia"
+            },
+            "gospel": {
+              "ref_key": "Mt 12:15-21"
+            }
+          }
+        }
+      }
+    },
+    "sunday_after_nativity": {
+      "scenario_id": "collision_sunday_after_nativity",
+      "rubric": {
+        "title": "Sunday after the Nativity: Holy Kinsmen David, Joseph, and James",
+        "source_ref": "Dolnytsky Part III (Menaion): Sunday after the Nativity (Dec 26-31)",
+        "notes": "Dolnytsky Part III: Commemoration of King David, Joseph the Betrothed, and James the Brother of the Lord.",
+        "variables": {
+          "rank": "rank_polyeleos",
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 4,
+              "ref_key": "God is wonderful in His saints"
+            },
+            "epistle": {
+              "ref_key": "Gal 1:11-19"
+            },
+            "alleluia": {
+              "tone": 4,
+              "ref_key": "Remember, O Lord, David and all his meekness"
+            },
+            "gospel": {
+              "ref_key": "Mt 2:13-23"
+            }
+          }
+        }
+      }
+    },
+    "sunday_after_nativity_transferred": {
+      "scenario_id": "collision_sunday_after_nativity_transferred",
+      "rubric": {
+        "title": "Synaxis of the Theotokos & Holy Kinsmen (Transferred)",
+        "source_ref": "Dolnytsky Part III (Menaion): Synaxis on Monday Dec 26 with Holy Kinsmen",
+        "notes": "Dolnytsky Part III: When Dec 26 is Monday, Kinsmen service transferred to Monday.",
+        "variables": {
+          "rank": "rank_polyeleos",
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 4,
+              "ref_key": "God is wonderful in His saints"
+            },
+            "epistle": {
+              "ref_key": "Gal 1:11-19"
+            },
+            "alleluia": {
+              "tone": 4,
+              "ref_key": "Remember, O Lord, David and all his meekness"
+            },
+            "gospel": {
+              "ref_key": "Mt 2:13-23"
+            }
+          }
+        }
+      }
+    },
+    "saturday_before_theophany": {
+      "scenario_id": "collision_saturday_before_theophany",
+      "rubric": {
+        "title": "Saturday before Theophany",
+        "source_ref": "Dolnytsky Part III (Menaion): Saturday before Theophany (Jan 1-5)",
+        "notes": "Dolnytsky Part III: Saturday before the Theophany of our Lord.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 3,
+              "ref_key": "Sing praises to our God"
+            },
+            "epistle": {
+              "ref_key": "1 Tim 3:14-4:5"
+            },
+            "alleluia": {
+              "tone": 2,
+              "ref_key": "Alleluia"
+            },
+            "gospel": {
+              "ref_key": "Mt 3:1-11"
+            }
+          }
+        }
+      }
+    },
+    "sunday_before_theophany": {
+      "scenario_id": "collision_sunday_before_theophany",
+      "rubric": {
+        "title": "Sunday before Theophany",
+        "source_ref": "Dolnytsky Part III (Menaion): Sunday before Theophany (Jan 1-5)",
+        "notes": "Dolnytsky Part III: Sunday before the Theophany of our Lord.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 6,
+              "ref_key": "Save Your people, O Lord"
+            },
+            "epistle": {
+              "ref_key": "2 Tim 4:5-8"
+            },
+            "alleluia": {
+              "tone": 8,
+              "ref_key": "O God, be merciful to us and bless us"
+            },
+            "gospel": {
+              "ref_key": "Mk 1:1-8"
+            }
+          }
+        }
+      }
+    },
+    "saturday_after_theophany": {
+      "scenario_id": "collision_saturday_after_theophany",
+      "rubric": {
+        "title": "Saturday after Theophany",
+        "source_ref": "Dolnytsky Part III (Menaion): Saturday after Theophany (Jan 7-13)",
+        "notes": "Dolnytsky Part III: Saturday after the Theophany of our Lord.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 3,
+              "ref_key": "The Lord is my light and my savior"
+            },
+            "epistle": {
+              "ref_key": "Eph 6:10-17"
+            },
+            "alleluia": {
+              "tone": 1,
+              "ref_key": "Alleluia"
+            },
+            "gospel": {
+              "ref_key": "Mt 4:1-11"
+            }
+          }
+        }
+      }
+    },
+    "sunday_after_theophany": {
+      "scenario_id": "collision_sunday_after_theophany",
+      "rubric": {
+        "title": "Sunday after Theophany",
+        "source_ref": "Dolnytsky Part III (Menaion): Sunday after Theophany (Jan 7-13)",
+        "notes": "Dolnytsky Part III: Sunday after the Theophany of our Lord.",
+        "variables": {
+          "liturgy_readings": {
+            "prokeimenon": {
+              "tone": 1,
+              "ref_key": "Let Your mercy, O Lord, be upon us"
+            },
+            "epistle": {
+              "ref_key": "Eph 4:7-13"
+            },
+            "alleluia": {
+              "tone": 5,
+              "ref_key": "I will sing of Your mercies, O Lord, forever"
+            },
+            "gospel": {
+              "ref_key": "Mt 4:12-17"
+            }
+          }
+        }
+      }
     }
   }
 }

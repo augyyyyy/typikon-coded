@@ -60,7 +60,7 @@ class LiturgyMixin:
         
         if paradigm == "p_feast_lord":
             return "antiphons_festal"
-        elif paradigm == "p1_sunday_resurrection":
+        elif paradigm in ("p_feast_theotokos", "p1_sunday_resurrection"):
             return "antiphons_typical" 
         else:
             return "antiphons_daily"
@@ -81,8 +81,8 @@ class LiturgyMixin:
                 "refrain": "O Son of God, baptized in the Jordan, save us who sing to You: Alleluia." # Example for Theophany
             }
 
-        # P1 Sunday -> "Risen from the dead"
-        if paradigm == "p1_sunday_resurrection":
+        # P1 Sunday or Sunday Feast of Theotokos -> "Risen from the dead"
+        if paradigm == "p1_sunday_resurrection" or (paradigm == "p_feast_theotokos" and context.get("day_of_week", 0) == 0):
             return {
                 "verse": "Come, let us worship and bow down before Christ.",
                 "refrain": "O Son of God, risen from the dead, save us who sing to You: Alleluia."
@@ -401,6 +401,9 @@ class LiturgyMixin:
 
         is_fore_after = bool(
             context.get("is_fore_or_afterfeast") or
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("period") in ["forefeast", "afterfeast", "apodosis"] or
             context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
             context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"]
         )
@@ -617,7 +620,13 @@ class LiturgyMixin:
         # Scenario B: Festal Zadostoynyk
         rules = self.liturgy_logic.get("megalynarion_logic", [])
         rank = self.calculate_rank(context)
+        is_afterfeast = context.get("is_afterfeast")
+        is_apodosis = context.get("is_apodosis")
+        is_great_feast = context.get("feast_level") in ("lord", "theotokos")
         
+        if is_afterfeast or is_apodosis or (is_great_feast and rank <= 2):
+            return {"type": "variable", "ref_key": "festal_zadostoinyk", "note": "Use 9th Ode Heirmos"}
+
         for rule in rules:
              if "rank == 1" in rule["condition"] and rank == 1:
                  return {"type": "variable", "ref_key": "festal_zadostoinyk", "note": "Use 9th Ode Heirmos"}
@@ -681,7 +690,10 @@ class LiturgyMixin:
             return None  # Fall through to standard megalynarion
         
         # RULE: Great Feast at Basil Liturgy - use 9th Ode Irmos
-        if rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"]:
+        # Exception: January 1 is St. Basil's own feast day, which takes "In you, O Woman Full of Grace"
+        # Citation: Dolnytsky Typikon Master Part III 1 January (p. 177)
+        is_jan_1 = context.get("month") == 1 and context.get("day") == 1
+        if (rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"]) and not is_jan_1:
             return {
                 "type": "megalynarion",
                 "source": "feast_irmos",
@@ -746,8 +758,21 @@ class LiturgyMixin:
                 "ref_key": ""
             }
 
-        if rubrics:
-            overrides = rubrics.get("variables", {}) or rubrics.get("overrides", {})
+        day_of_week = context.get("day_of_week", 0)
+        from engine.utils.type_utils import parse_rank_integer
+        rank = parse_rank_integer(context.get("rank", 5))
+        paradigm = context.get("paradigm", "")
+        feast_id = context.get("feast_id", None)
+        tone = context.get("tone", 1)
+        season = context.get("season", "ordinary")
+        liturgy_type = context.get("liturgy_type", "chrysostom")
+
+        pascha_offset = context.get("pascha_offset")
+        is_eucharist_period = (pascha_offset is not None and 60 <= pascha_offset <= 67)
+        is_after_or_apodosis = context.get("is_afterfeast") or context.get("is_apodosis")
+
+        if rubrics and not (is_eucharist_period or (is_after_or_apodosis and day_of_week != 0)):
+            overrides = rubrics.get("overrides", {}) or rubrics.get("variables", {})
             
             # 1. Check if nested inside liturgy_readings override
             l_readings = overrides.get("liturgy_readings")
@@ -776,15 +801,6 @@ class LiturgyMixin:
                 elif isinstance(c_h, str):
                     return resolve_str_hymn(c_h)
 
-        day_of_week = context.get("day_of_week", 0)
-        from engine.utils.type_utils import parse_rank_integer
-        rank = parse_rank_integer(context.get("rank", 5))
-        paradigm = context.get("paradigm", "")
-        feast_id = context.get("feast_id", None)
-        tone = context.get("tone", 1)
-        season = context.get("season", "ordinary")
-        liturgy_type = context.get("liturgy_type", "chrysostom")
-
         # EUCHARIST PERIOD AFTERFEAST (pascha_offset between 60 and 67)
         pascha_offset = context.get("pascha_offset")
         if pascha_offset is not None and 60 <= pascha_offset <= 67:
@@ -793,12 +809,14 @@ class LiturgyMixin:
                 return {
                     "type": "communion_hymn",
                     "text": "Receive the Body of Christ; taste the fountain of immortality. And of the Saint: Their sound hath gone forth into all the earth, and their words unto the ends of the world.",
+                    "source": "feast",
                     "ref_key": "pentecostarion.eucharist.communion_combined"
                 }
             else:
                 return {
                     "type": "communion_hymn",
                     "text": "Receive the Body of Christ; taste the fountain of immortality.",
+                    "source": "feast",
                     "ref_key": "pentecostarion.eucharist.communion"
                 }
 
@@ -818,8 +836,33 @@ class LiturgyMixin:
                 "ref_key": "pentecostarion.communion_paschal"
             }
         
+        # AFTERFEAST / APODOSIS: Festal communion hymn
+        is_after_or_apodosis = context.get("is_afterfeast") or context.get("is_apodosis")
+        feast_level = context.get("feast_level")
+        if is_after_or_apodosis and day_of_week != 0:
+            if feast_level == "theotokos":
+                return {
+                    "type": "communion_hymn",
+                    "text": "I will take the cup of salvation, and I will call upon the name of the Lord.",
+                    "source": "feast",
+                    "ref_key": f"menaion.{feast_id}.communion_hymn" if feast_id else "theotokos.communion_hymn"
+                }
+            else:
+                return {
+                    "type": "communion_hymn",
+                    "source": "feast",
+                    "ref_key": f"menaion.{feast_id}.communion_hymn" if feast_id else "feast.communion_hymn"
+                }
+
         # GREAT FEAST: Proper communion hymn
         if rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"]:
+            if feast_level == "theotokos":
+                return {
+                    "type": "communion_hymn",
+                    "text": "I will take the cup of salvation, and I will call upon the name of the Lord.",
+                    "source": "feast",
+                    "ref_key": f"menaion.{feast_id}.communion_hymn" if feast_id else "theotokos.communion_hymn"
+                }
             return {
                 "type": "communion_hymn",
                 "source": "feast",
@@ -1176,8 +1219,11 @@ class LiturgyMixin:
                         "ref_key": ""
                     }
                 }]
-            elif isinstance(l_readings, dict) and "readings" in l_readings:
-                normalized_readings = l_readings["readings"]
+            elif isinstance(l_readings, dict):
+                if "readings" in l_readings:
+                    normalized_readings = l_readings["readings"]
+                else:
+                    normalized_readings = [l_readings]
             else:
                 normalized_readings = l_readings
 
@@ -1407,6 +1453,30 @@ class LiturgyMixin:
                     "He who eats My flesh and drinks My blood abides in Me, and I in him",
                     "The bread that I will give is My flesh for the life of the world"
                 ]
+            elif context.get("is_afterfeast") or context.get("is_apodosis"):
+                feast_level = context.get("feast_level")
+                feast_id = context.get("feast_id")
+                if feast_level == "theotokos":
+                    p_source = "feast"
+                    p_ref = f"menaion.{feast_id}.prokeimenon" if feast_id else "theotokos.prokeimenon"
+                    p_tone_val = 3
+                    p_text = "My soul magnifies the Lord, and my spirit rejoices in God my Savior."
+                    a_source = "feast"
+                    a_ref = f"menaion.{feast_id}.alleluia" if feast_id else "theotokos.alleluia"
+                    a_tone_val = 8
+                    a_verses = [
+                        "Hear, O daughter, and see, and incline your ear",
+                        "The rich among the people shall entreat your favor"
+                    ]
+                else:
+                    p_source = "feast"
+                    p_ref = f"menaion.{feast_id}.prokeimenon" if feast_id else "feast.prokeimenon"
+                    p_tone_val = p_tone
+                    p_text = None
+                    a_source = "feast"
+                    a_ref = f"menaion.{feast_id}.alleluia" if feast_id else "feast.alleluia"
+                    a_tone_val = p_tone
+                    a_verses = None
             else:
                 p_source = "horologion"
                 p_ref = f"horologion.prokeimenon.day_{day_of_week}"

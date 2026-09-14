@@ -21,6 +21,7 @@ def parse_args():
     parser.add_argument("--year", type=int, default=2026, help="Year to generate (e.g. 2026)")
     parser.add_argument("--output-dir", type=str, default="json_db/almanac", help="Output directory")
     parser.add_argument("--version", type=str, default="lviv", help="Engine version to generate")
+    parser.add_argument("--paschalion", type=str, default="gregorian", choices=["gregorian", "julian"], help="Paschalion (gregorian or julian)")
     return parser.parse_args()
 
 def main():
@@ -28,16 +29,18 @@ def main():
     year = args.year
     output_dir = args.output_dir
     version = args.version
+    paschalion = args.paschalion
 
     # Initialize the engine to determine the output path dynamically
-    print(f"Almanac Gen: Initializing engine for year {year} (version: {version})...")
-    engine = RuthenianEngine(version=version)
+    print(f"Almanac Gen: Initializing engine for year {year} (version: {version}, paschalion: {paschalion})...")
+    engine = RuthenianEngine(version=version, paschalion=paschalion)
 
     version_id = engine.version_id
+    pasch_suffix = f"_{paschalion}" if paschalion != "gregorian" else ""
     if version_id == "lviv":
-        output_file = os.path.join(output_dir, f"annual_almanac_{year}.json")
+        output_file = os.path.join(output_dir, f"annual_almanac_{year}{pasch_suffix}.json")
     else:
-        output_file = os.path.join(output_dir, f"annual_almanac_{version_id}_{year}.json")
+        output_file = os.path.join(output_dir, f"annual_almanac_{version_id}_{year}{pasch_suffix}.json")
 
     # Clean existing file to force clean generation from live engine logic
     if os.path.exists(output_file):
@@ -89,6 +92,8 @@ def main():
 
         # Calculate Lviv Typikon Paradigm Number
         lviv_paradigm_number = base_mappings.get(paradigm_id) if paradigm_id else None
+        if lviv_paradigm_number is None or not (1 <= lviv_paradigm_number <= 26):
+            lviv_paradigm_number = engine.resolve_canonical_format_number(context)
 
         # Build day record by copying the base mutated context (preserving integer types for rank)
         day_record = copy.deepcopy(context)

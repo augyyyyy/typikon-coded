@@ -1,0 +1,25 @@
+# Phase 10 Tasks: Recension Fallback Cascade & 6-Tier Maximalist Digest Compliance
+
+- [x] Pre-Flight Compliance Check (`test_session_compliance.py`)
+- [x] Baseline Test Suite Run (1,362 passed)
+- [x] Create and obtain approval for Implementation Plan
+- [x] Recension Fallback Cascade & Key Sanitization
+  - [x] Add custom overlay priority in `engine/text_db.py`
+  - [x] Clean missing placeholder stubs (Royal Doors recension aware)
+  - [x] Add raw machine key regex sanitization in `engine/generation.py`
+- [x] 26 General Canonical Formats Enforcement
+  - [x] Re-align `json_db/lviv_format_map.json` into canonical 1–26 formats
+  - [x] Implement `resolve_canonical_format_number` in `engine/rubrics.py`
+  - [x] Update `scripts/generate_annual_almanac.py` with `--paschalion` support
+  - [x] Regenerate Gregorian and Julian almanacs for Lviv and Royal Doors
+  - [x] Pass `tests/test_annual_almanac_consistency.py`
+- [x] Universal 6-Tier Service Card Schema
+  - [x] Create `digest/formatters/service_card.py` (`ServiceCardFormatterMixin`)
+  - [x] Wire mixin in `digest/__init__.py`
+  - [x] Add `mode="maximalist"` in `digest/base.py`
+  - [x] Expose `resolve_service_card`, `generate_service_card`, and `generate_maximalist_digest` in `engine/generation.py`
+- [x] Verification Suites
+  - [x] Create `tests/test_canonical_audit_truth.py` (4 tests passing)
+  - [x] Extend `tests/test_full_year_digest_lint.py` for Gregorian & Julian (2 passed across 730 days)
+  - [x] Run full test suite regression
+- [ ] Post-Flight Checklist & Handoff

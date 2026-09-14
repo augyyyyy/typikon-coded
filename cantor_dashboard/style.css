@@ -866,6 +866,8 @@ body.dark-theme .doc-tab-btn.active {
     justify-content: flex-start;
     overflow-x: auto;
     scrollbar-width: none;
+    flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 .doc-controls::-webkit-scrollbar {
@@ -3076,6 +3078,11 @@ body.dark-theme .ref-tab-btn {
 
 .reference-panel-content .doc-panel:not([style*="display: none"]) {
     display: flex !important;
+}
+
+.reference-panel-content .doc-controls {
+    flex-shrink: 0 !important;
+    box-sizing: border-box;
 }
 
 .reference-panel-content .document-view {

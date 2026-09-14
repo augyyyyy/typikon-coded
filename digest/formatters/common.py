@@ -162,10 +162,27 @@ class CommonFormatterMixin:
                 counts[key] = counts.get(key, 0) + item.get("count", 1)
                 
         for (source, base_id), c in counts.items():
-            if "resurrection" in base_id.lower() and "octoechos" in source.lower():
-                stichera_parts.append(f"the resurrectional aposticha in the tone of the week, from the Octoechos")
+            b_lower = base_id.lower()
+            s_lower = source.lower()
+            if "resurrection" in b_lower and "octoechos" in s_lower:
+                stichera_parts.append("the resurrectional aposticha in the tone of the week, from the Octoechos")
+            elif b_lower in ("aposticha_feast", "feast"):
+                stichera_parts.append(f"{c} Stichera of the Feast from the {source}" if c > 1 else f"Stichera of the Feast from the {source}")
+            elif b_lower in ("aposticha_saint", "saint"):
+                stichera_parts.append(f"{c} Stichera of the Saint from the {source}" if c > 1 else f"Stichera of the Saint from the {source}")
+            elif b_lower in ("aposticha_theotokos", "theotokos"):
+                stichera_parts.append(f"{c} Stichera of the Theotokos from the {source}" if c > 1 else f"Stichera of the Theotokos from the {source}")
+            elif b_lower.startswith("aposticha_"):
+                sub_name = self.humanize_key(base_id.replace("aposticha_", ""))
+                stichera_parts.append(f"{c} Stichera of the {sub_name} from the {source}" if c > 1 else f"Stichera of the {sub_name} from the {source}")
             else:
                 name = self.humanize_key(base_id)
+                if name.lower().endswith(" feast"):
+                    sub = name[:-6].strip()
+                    name = f"Stichera of the Feast" if not sub else f"{sub} Stichera of the Feast"
+                elif name.lower().endswith(" saint"):
+                    sub = name[:-6].strip()
+                    name = f"Stichera of the Saint" if not sub else f"{sub} Stichera of the Saint"
                 if c > 1:
                     stichera_parts.append(f"{c} {name} from the {source}")
                 else:
@@ -495,6 +512,16 @@ class CommonFormatterMixin:
         if not res: return ""
         val = res.get('id', 'Sessional')
         val_lower = val.lower()
+
+        is_after_or_fore = (
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis") or
+            context.get("period") in ("afterfeast", "forefeast", "apodosis")
+        )
+        if is_after_or_fore and context.get("day_of_week") != 0:
+            return "We sing the sessional hymns of the Feast from the Menaion."
+
         if "octoechos" in val_lower or "sidalen_res" in val_lower or "res" in val_lower:
             if "sunday" in val_lower or "res" in val_lower or "resurrection" in val_lower:
                 return "We sing the resurrectional sessional hymns in the tone of the week, from the Octoechos."

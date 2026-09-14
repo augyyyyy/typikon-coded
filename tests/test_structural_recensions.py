@@ -27,7 +27,9 @@ def test_structural_recension_invariance():
     total_days_checked = 0
     
     while current_date <= end_date:
-        if current_date in (date(2026, 5, 11), date(2026, 7, 5), date(2026, 7, 6)):
+        # Exclude dates with deliberate calendar feast divergence between Modern UGCC (Stamford) and 2010 Lviv Typikon
+        # May 11 (Cyril & Methodius vs Mocius), July 5 (Athanasius vs Cyril & Methodius), July 6 (Sisoes vs Athanasius), July 11 (Olga vs Euphemia)
+        if current_date in (date(2026, 5, 11), date(2026, 7, 5), date(2026, 7, 6), date(2026, 7, 11)):
             current_date += timedelta(days=1)
             continue
             
@@ -98,4 +100,4 @@ def test_structural_recension_invariance():
     assert not mismatches, f"Structural recension invariance violations detected:\n" + "\n".join(
         f"  - {dt}:\n" + "\n".join(f"    * {err}" for err in errs) for dt, errs in mismatches.items()
     )
-    assert total_days_checked == 362
+    assert total_days_checked == 361

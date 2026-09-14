@@ -28,10 +28,21 @@
       },
       "priority": 60,
       "title": "Sunday of the Publican and the Pharisee",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1",
+      "system_flags": {
+        "fast_level": "no_fast"
+      },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "matins_praises_stichera_triodion": 4,
         "liturgy_kontakion": "triodion",
         "text_key": "sunday_of_the_publican_and_pharisee",
+        "open_doors_repentance": true,
+        "katavasia": "i_shall_open_my_mouth",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -53,9 +64,30 @@
       },
       "priority": 60,
       "title": "Sunday of the Prodigal Son",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.2",
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "matins_polyeleos_add": "psalm_136_waters_of_babylon",
-        "text_key": "sunday_of_the_prodigal_son"
+        "open_doors_repentance": true,
+        "katavasia": "i_shall_open_my_mouth",
+        "text_key": "sunday_of_the_prodigal_son",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "qty": 6
+            },
+            {
+              "source": "triodion",
+              "qty": 4
+            }
+          ]
+        }
       }
     },
     "saturday_meatfare": {
@@ -64,8 +96,19 @@
       },
       "priority": 50,
       "title": "Saturday of Souls (Meatfare)",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.3",
       "base_template": "soul_saturday_template",
-      "text_key": "saturday_of_the_departed"
+      "system_flags": {
+        "service_for_the_dead": true
+      },
+      "variables": {
+        "vespers_type": "daily_vespers_memorial",
+        "matins_type": "matins_memorial",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
+        "text_key": "saturday_of_the_departed"
+      }
     },
     "sunday_meatfare": {
       "triggers": {
@@ -73,7 +116,34 @@
       },
       "priority": 65,
       "title": "Sunday of Meatfare (Last Judgment)",
-      "text_key": "meatfare_sunday"
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.4",
+      "system_flags": {
+        "farewell_to_meat": true
+      },
+      "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
+        "matins_polyeleos_add": "psalm_136_waters_of_babylon",
+        "open_doors_repentance": true,
+        "katavasia": "he_is_my_helper_and_protector",
+        "text_key": "meatfare_sunday",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "qty": 6
+            },
+            {
+              "source": "triodion",
+              "qty": 4
+            }
+          ]
+        }
+      }
     },
     "cheesefare_week_general": {
       "triggers": {
@@ -83,11 +153,18 @@
         ]
       },
       "priority": 30,
+      "title": "Cheesefare Week",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.5",
       "system_flags": {
         "fast_level": "cheesefare"
       },
       "variables": {
-        "triodion_period": "cheesefare"
+        "triodion_period": "cheesefare",
+        "vespers_type": "daily_vespers",
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read"
       }
     },
     "sunday_cheesefare": {
@@ -96,8 +173,20 @@
       },
       "priority": 70,
       "title": "Sunday of Cheesefare (Forgiveness)",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.6",
+      "system_flags": {
+        "fast_level": "cheesefare"
+      },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_evening_type": "forgiveness_vespers",
+        "matins_polyeleos_add": "psalm_136_waters_of_babylon",
+        "open_doors_repentance": true,
+        "katavasia": "as_on_dry_land",
         "text_key": "cheesefare_sunday",
         "triodion_period": "cheesefare",
         "vespers_stichera_distribution": {
@@ -124,11 +213,22 @@
       },
       "priority": 50,
       "title": "Clean Week",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.7",
+      "system_flags": {
+        "fast_level": "strict",
+        "vestment_color": "violet",
+        "prostrations": true
+      },
       "variables": {
         "compline_type": "great_compline_lenten",
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
-        "hours_type": "structure_lenten",
+        "hours_type": "lenten_hours",
+        "typika_type": "lenten_typika",
+        "vespers_type": "lenten_vespers",
+        "liturgy_type": "structure_suppressed",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "season": "lent",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -161,11 +261,22 @@
       },
       "priority": 40,
       "title": "Lenten Weekday",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.7",
+      "system_flags": {
+        "fast_level": "strict",
+        "vestment_color": "violet",
+        "prostrations": true
+      },
       "variables": {
+        "compline_type": "great_compline_lenten",
         "midnight_type": "midnight_weekday",
         "matins_type": "lenten_matins_weekday",
-        "hours_type": "structure_lenten",
-        "liturgy_type": "liturgy_presanctified",
+        "hours_type": "lenten_hours",
+        "typika_type": "lenten_typika",
+        "vespers_type": "lenten_vespers",
+        "liturgy_type": "structure_suppressed",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "season": "lent",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -182,13 +293,64 @@
         }
       }
     },
+    "lent_wednesday_friday_presanctified": {
+      "triggers": {
+        "pascha_offset_range": [
+          -48,
+          -8
+        ],
+        "day_of_week": [
+          3,
+          5
+        ]
+      },
+      "priority": 45,
+      "title": "Lenten Presanctified Day",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.7.3",
+      "system_flags": {
+        "fast_level": "strict",
+        "vestment_color": "violet",
+        "prostrations": true
+      },
+      "variables": {
+        "compline_type": "great_compline_lenten",
+        "midnight_type": "midnight_weekday",
+        "matins_type": "lenten_matins_weekday",
+        "hours_type": "lenten_hours",
+        "typika_type": "lenten_typika",
+        "vespers_type": "lenten_vespers_presanctified",
+        "liturgy_type": "liturgy_presanctified",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
+        "season": "lent",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 6
+            },
+            {
+              "source": "menaion",
+              "qty": 4
+            }
+          ]
+        }
+      }
+    },
     "saturday_lent_1": {
       "triggers": {
         "pascha_offset": -43
       },
       "priority": 60,
       "title": "Saturday of St. Theodore the Recruit",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.8",
       "variables": {
+        "vespers_type": "lenten_vespers_presanctified",
+        "matins_type": "great_matins_simple",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "liturgy_readings": [
           "saint_theodore_epistle",
           "saint_theodore_gospel"
@@ -202,7 +364,14 @@
       },
       "priority": 80,
       "title": "Sunday of Orthodoxy",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.8.2",
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_basil",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "vespers_evening_type": "lenten_vespers_sunday",
         "liturgy_prokeimenon": "song_of_fathers",
         "text_key": "first_sunday_of_the_great_fast",
         "season": "lent",
@@ -233,16 +402,34 @@
       },
       "priority": 50,
       "title": "Memorial Saturday of Lent",
-      "base_template": "soul_saturday_template"
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.9.2",
+      "base_template": "soul_saturday_template",
+      "system_flags": {
+        "service_for_the_dead": true
+      },
+      "variables": {
+        "vespers_type": "daily_vespers_memorial",
+        "matins_type": "matins_memorial",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
+        "season": "lent"
+      }
     },
     "sunday_lent_2": {
       "triggers": {
         "pascha_offset": -35
       },
       "priority": 80,
-      "title": "2nd Sunday of Great Lent",
+      "title": "2nd Sunday of Great Lent (St. Gregory Palamas)",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.9.3",
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
         "liturgy_type": "liturgy_basil",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "vespers_evening_type": "lenten_vespers_sunday",
         "text_key": "second_sunday_of_the_great_fast",
         "vespers_stichera_distribution": {
           "total_count": 10,
@@ -267,9 +454,15 @@
       },
       "priority": 85,
       "title": "Sunday of the Veneration of the Cross",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.10",
       "variables": {
-        "matins_great_doxology_end": "procession_cross_veneration",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
         "liturgy_type": "liturgy_basil",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "vespers_evening_type": "lenten_vespers_sunday",
+        "matins_great_doxology_end": "procession_cross_veneration",
         "liturgy_trisagion_replace": "before_thy_cross",
         "text_key": "third_sunday_of_the_great_fast",
         "vespers_stichera_distribution": {
@@ -295,35 +488,15 @@
       },
       "priority": 80,
       "title": "4th Sunday of Great Lent (St. John Climacus)",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.11.2",
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
         "liturgy_type": "liturgy_basil",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "vespers_evening_type": "lenten_vespers_sunday",
         "text_key": "fourth_sunday_of_the_great_fast",
-        "vespers_stichera_distribution": {
-          "total_count": 10,
-          "distribution": [
-            {
-              "source": "octoechos",
-              "type": "resurrection",
-              "qty": 6
-            },
-            {
-              "source": "triodion",
-              "type": "saint",
-              "qty": 4
-            }
-          ]
-        }
-      }
-    },
-    "sunday_lent_5": {
-      "triggers": {
-        "pascha_offset": -14
-      },
-      "priority": 80,
-      "title": "5th Sunday of Great Lent (St. Mary of Egypt)",
-      "variables": {
-        "liturgy_type": "liturgy_basil",
-        "text_key": "fifth_sunday_of_the_great_fast",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -347,10 +520,17 @@
       },
       "priority": 60,
       "title": "Thursday of the Great Canon",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12",
       "variables": {
+        "vespers_type": "lenten_vespers_presanctified",
+        "matins_type": "great_canon_matins",
+        "hours_type": "lenten_hours",
+        "typika_type": "lenten_typika",
+        "liturgy_type": "liturgy_presanctified",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "matins_canon": "great_canon_andrew_crete_full",
-        "text_key": "matins_with_prostrations",
-        "matins_type": "lenten_matins_weekday"
+        "text_key": "matins_with_prostrations"
       }
     },
     "saturday_akathist": {
@@ -359,8 +539,46 @@
       },
       "priority": 60,
       "title": "Saturday of the Akathist",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12.3",
       "variables": {
+        "vespers_type": "lenten_vespers_presanctified",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "matins_insert_akathist_sections": true
+      }
+    },
+    "sunday_lent_5": {
+      "triggers": {
+        "pascha_offset": -14
+      },
+      "priority": 80,
+      "title": "5th Sunday of Great Lent (St. Mary of Egypt)",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13",
+      "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_basil",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "vespers_evening_type": "lenten_vespers_sunday",
+        "text_key": "fifth_sunday_of_the_great_fast",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6
+            },
+            {
+              "source": "triodion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
+        }
       }
     },
     "saturday_lazarus": {
@@ -369,13 +587,18 @@
       },
       "priority": 90,
       "title": "Saturday of Lazarus",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.14",
       "variables": {
         "suppress_octoechos": true,
         "suppress_menaion_saints": true,
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
-        "liturgy_trisagion_replace": "all_baptized",
+        "vespers_type": "lenten_vespers_presanctified",
         "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "liturgy_trisagion_replace": "all_baptized",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -395,11 +618,17 @@
       },
       "priority": 95,
       "title": "Palm Sunday",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.15",
       "variables": {
         "suppress_octoechos": true,
         "suppress_menaion_saints": true,
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "matins_post_gospel_action": "blessing_palms",
         "liturgy_antiphons": "festal_palm",
         "vespers_stichera_distribution": {
@@ -424,6 +653,7 @@
       },
       "priority": 95,
       "title": "Holy Monday, Tuesday, Wednesday",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.16",
       "variables": {
         "season": "holy_week",
         "suppress_octoechos": true,
@@ -431,9 +661,13 @@
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
         "midnight_type": "midnight_weekday",
-        "matins_type": "lenten_matins_weekday",
-        "hours_type": "structure_lenten",
+        "matins_type": "bridegroom_matins",
+        "hours_type": "lenten_hours",
+        "typika_type": "lenten_typika",
+        "vespers_type": "lenten_vespers_presanctified",
         "liturgy_type": "liturgy_presanctified",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -484,6 +718,8 @@
         "first_hour_prophecy": "Troparion of Prophecy (Tone 3), 1st Prokeimenon (Tone 1: 'Let them know that the Lord is Thy Name'), Paremia (Jeremiah 11:18–12:5, 9–11, 14–15), 2nd Prokeimenon (Tone 8: 'Pray and give praise to the Lord our God')",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -514,14 +750,16 @@
         "suppress_menaion_saints": true,
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
-        "matins_type": "twelve_passion_gospels",
+        "matins_type": "passion_matins",
         "twelve_gospels_title": "Matins of the Holy and Redeeming Passion of Our Lord (The Twelve Passion Gospels)",
         "hours_type": "royal_hours",
         "royal_hours_full": "Royal Hours (1st, 3rd, 6th, 9th) with full Old Testament Paremias, Epistles, and Gospels",
         "vespers_type": "passion_burial_vespers",
         "vespers_shroud_procession": "Great Vespers with the Procession and Exposition of the Holy Shroud (Epitaphios / Plashchanytsia) and Troparia 'The noble Joseph' and 'The angel stood by the tomb'",
         "is_aliturgical": true,
-        "liturgy_type": "structure_suppressed"
+        "liturgy_type": "structure_suppressed",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read"
       }
     },
     "holy_saturday": {
@@ -536,10 +774,12 @@
         "suppress_menaion_saints": true,
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
-        "matins_type": "jerusalem_lamentations_matins",
+        "matins_type": "tomb_matins",
         "lamentations_title": "Jerusalem Matins: The Lamentations (Encomia) at the Tomb of the Lord (Psalm 118 in Three Stases) with Great Doxology and Procession of the Shroud",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -572,9 +812,13 @@
         "suppress_menaion_saints": true,
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
+        "midnight_type": "midnight_paschal_nocturns",
         "vespers_type": "paschal_vespers",
         "matins_type": "bright_matins",
         "hours_type": "structure_paschal",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "paschal_sung",
         "liturgy_trisagion_replace": "all_baptized",
         "liturgy_readings": [
           "acts_1_1_8",
@@ -609,7 +853,11 @@
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
         "hours_type": "structure_paschal",
+        "vespers_type": "paschal_vespers",
         "matins_type": "bright_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "paschal_sung",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -629,7 +877,14 @@
       },
       "priority": 80,
       "title": "Sunday of St. Thomas",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.8",
       "variables": {
+        "season": "pentecostarion",
+        "vespers_type": "great_vespers_vigil",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "matins_magnification": "thomas_magnification"
       }
     },
@@ -641,6 +896,12 @@
       "title": "Sunday of the Myrrh-bearing Women",
       "source_ref": "Dolnytsky_Typikon_Master.md:4.2.10.2",
       "variables": {
+        "season": "pentecostarion",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "matins_troparia_sequence": [
           "noble_joseph",
           "when_thou_didst_descend",
@@ -655,7 +916,15 @@
       },
       "priority": 70,
       "title": "Sunday of the Paralytic",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.12.4"
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.12.4",
+      "variables": {
+        "season": "pentecostarion",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology"
+      }
     },
     "sunday_samaritan": {
       "triggers": {
@@ -663,7 +932,15 @@
       },
       "priority": 70,
       "title": "Sunday of the Samaritan Woman",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.14.1"
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.14.1",
+      "variables": {
+        "season": "pentecostarion",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology"
+      }
     },
     "sunday_blind_man": {
       "triggers": {
@@ -671,7 +948,15 @@
       },
       "priority": 70,
       "title": "Sunday of the Blind Man",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.16.1"
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.16.1",
+      "variables": {
+        "season": "pentecostarion",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology"
+      }
     },
     "pentecostarion_general_weekday": {
       "triggers": {
@@ -681,7 +966,16 @@
         ]
       },
       "priority": 30,
-      "title": "Pentecostarion Weekday"
+      "title": "Pentecostarion Weekday",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.9",
+      "variables": {
+        "season": "pentecostarion",
+        "vespers_type": "daily_vespers",
+        "matins_type": "daily_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read"
+      }
     },
     "mid_pentecost": {
       "triggers": {
@@ -689,8 +983,33 @@
       },
       "priority": 85,
       "title": "Mid-Pentecost",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.13",
       "variables": {
-        "liturgy_antiphons": "festal_mid_pentecost"
+        "season": "pentecostarion",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "liturgy_antiphons": "festal_mid_pentecost",
+        "post_liturgy_action": "blessing_water_small"
+      }
+    },
+    "apodosis_pascha": {
+      "triggers": {
+        "pascha_offset": 38
+      },
+      "priority": 85,
+      "title": "Apodosis of Pascha (Resurrection)",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.16.2",
+      "variables": {
+        "season": "pentecostarion",
+        "vespers_type": "daily_vespers",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "paschal_ending": true
       }
     },
     "ascension": {
@@ -699,9 +1018,14 @@
       },
       "priority": 100,
       "title": "Ascension of Our Lord",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.17",
       "variables": {
+        "season": "ascension",
         "vespers_type": "great_vespers_vigil",
         "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "liturgy_antiphons": "festal_ascension",
         "liturgy_readings": [
           "acts_1_1_12",
@@ -714,7 +1038,16 @@
         "pascha_offset": 42
       },
       "priority": 80,
-      "title": "Sunday of the Holy Fathers of the 1st Council"
+      "title": "Sunday of the Holy Fathers of the 1st Council",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.18",
+      "variables": {
+        "season": "ascension_afterfeast",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology"
+      }
     },
     "saturday_soul_pentecost": {
       "triggers": {
@@ -722,16 +1055,31 @@
       },
       "priority": 70,
       "title": "Saturday of Souls (Pentecost)",
-      "base_template": "soul_saturday_template"
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.22",
+      "base_template": "soul_saturday_template",
+      "variables": {
+        "season": "pentecost_season",
+        "vespers_type": "daily_vespers_memorial",
+        "matins_type": "matins_memorial",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read"
+      }
     },
     "pentecost": {
       "triggers": {
         "pascha_offset": 49
       },
       "priority": 100,
-      "title": "Pentecost",
+      "title": "Pentecost (Sunday of the Holy Trinity)",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.23",
       "variables": {
-        "vespers_type": "pentecost_kneeling_vespers",
+        "season": "pentecost",
+        "vespers_type": "kneeling_vespers",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "liturgy_trisagion_replace": "all_baptized",
         "liturgy_readings": [
           "acts_2_1_11",
@@ -754,9 +1102,14 @@
       },
       "priority": 95,
       "title": "Monday of the Holy Spirit",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.24",
       "variables": {
+        "season": "pentecost_week",
         "vespers_type": "great_vespers_vigil",
-        "matins_type": "great_matins"
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology"
       }
     },
     "sunday_all_saints": {
@@ -764,7 +1117,16 @@
         "pascha_offset": 56
       },
       "priority": 80,
-      "title": "Sunday of All Saints"
+      "title": "Sunday of All Saints",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.26",
+      "variables": {
+        "season": "all_saints",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology"
+      }
     },
     "feast_of_eucharist": {
       "triggers": {
@@ -776,8 +1138,12 @@
       "source_ref": "Dolnytsky_Typikon_Master.md:4.1.1.3",
       "description": "Thursday after Trinity Sunday. Lviv Synod mandate.",
       "variables": {
+        "season": "post_pentecost",
         "vespers_type": "great_vespers_vigil",
         "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "procession": "eucharistic_procession_four_altars",
         "gospel_readings": [
           "Mt 108",
@@ -798,10 +1164,14 @@
       "description": "Friday after leavetaking of Feast of Eucharist",
       "base_template": "CASE_12",
       "variables": {
+        "season": "post_pentecost",
         "rank_id": "rank_polyeleos",
         "rank": 2,
         "vespers_type": "great_vespers_simple",
-        "matins_type": "great_matins"
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology"
       }
     }
   },

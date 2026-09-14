@@ -590,7 +590,7 @@ class CeremonialMixin:
         to determine whether royal doors should be open or closed.
         
         Args:
-            service: "vespers_with_vigil", "orthros", "divine_liturgy", "bright_week", "hierarchical_service"
+            service: "vespers_with_vigil", "vespers_without_vigil", "orthros", "divine_liturgy", "presanctified", "bright_week", "hierarchical_service"
             moment: e.g. "psalm_103_censing", "before_prokeimenon", "before_little_entrance", etc.
         
         Returns:
@@ -627,7 +627,21 @@ class CeremonialMixin:
         if not service:
             return {"state": "unknown", "note": "No service specified"}
         
-        service_data = doors_data.get("states_by_service", {}).get(service, {})
+        # Normalization of service aliases
+        norm_service = service
+        if service in ("vespers", "daily_vespers", "great_vespers"):
+            norm_service = "vespers_with_vigil" if (context.get("is_vigil") or context.get("is_sunday_vigil")) else "vespers_without_vigil"
+        elif service in ("vigil", "great_vespers_vigil"):
+            norm_service = "vespers_with_vigil"
+        elif service in ("matins", "orthros"):
+            norm_service = "orthros"
+        elif service in ("liturgy", "divine_liturgy"):
+            norm_service = "divine_liturgy"
+        elif service in ("presanctified", "presanctified_liturgy"):
+            norm_service = "presanctified"
+
+        states_by_svc = doors_data.get("states_by_service", {})
+        service_data = states_by_svc.get(norm_service, states_by_svc.get(service, {}))
         if not service_data:
             return {"state": "unknown", "note": f"No door data for service '{service}'"}
         
@@ -644,7 +658,7 @@ class CeremonialMixin:
         
         # Return full transition list if no specific moment requested
         return {
-            "service": service,
+            "service": norm_service,
             "ordo_ref": f"§{service_data.get('§', '19')}",
             "transitions": transitions
         }
@@ -652,12 +666,12 @@ class CeremonialMixin:
 
     def resolve_curtain_state(self, context, service=None, moment=None, rubrics=None):
         """
-        Ordo §19g: Curtain/Veil state at a given service moment.
+        Ordo §19g, §242, §245: Curtain/Veil state at a given service moment.
         
         Queries ceremonial_logic.general_rules.doors_and_curtain.curtain_veil.
         
         Args:
-            service: "vespers_and_orthros" or "divine_liturgy"
+            service: "vespers", "orthros", "divine_liturgy", "presanctified"
             moment: e.g. "after_prothesis", "after_great_entrance", "the_doors_the_doors", etc.
         
         Returns:
@@ -671,11 +685,11 @@ class CeremonialMixin:
         if not curtain_data:
             return {"state": "unknown", "note": "Ceremonial logic not loaded"}
         
-        if service in ("vespers", "orthros", "vespers_and_orthros", "matins"):
+        if service in ("vespers", "orthros", "vespers_and_orthros", "matins", "daily_vespers", "great_vespers"):
             return {
                 "state": "open",
                 "ordo_ref": "§19g",
-                "note": curtain_data.get("vespers_and_orthros", "Open throughout.")
+                "note": curtain_data.get("vespers_and_orthros", "Open throughout all of Vespers and Orthros.")
             }
         
         if service in ("divine_liturgy", "liturgy"):
@@ -689,9 +703,29 @@ class CeremonialMixin:
                             "ordo_ref": "§19g",
                             "note": ""
                         }
+                return {"state": "unknown", "note": f"No transition found for moment '{moment}' in '{service}'"}
             return {
                 "service": "divine_liturgy",
                 "ordo_ref": "§19g",
+                "transitions": transitions
+            }
+
+        if service in ("presanctified", "presanctified_liturgy"):
+            ps_data = curtain_data.get("presanctified", {})
+            transitions = ps_data.get("transitions", [])
+            ordo_ref = f"§{ps_data.get('§', '19g, 242, 245')}"
+            if moment:
+                for t in transitions:
+                    if t.get("moment") == moment:
+                        return {
+                            "state": t.get("state", "unknown"),
+                            "ordo_ref": ordo_ref,
+                            "note": t.get("note", "")
+                        }
+                return {"state": "unknown", "note": f"No transition found for moment '{moment}' in 'presanctified'"}
+            return {
+                "service": "presanctified",
+                "ordo_ref": ordo_ref,
                 "transitions": transitions
             }
         
@@ -795,11 +829,12 @@ class CeremonialMixin:
         """
         Ordo §28: Determine the applicable clergy variant.
         
-        The Ordo defines 4 variants for each service:
+        The Ordo defines variants for each service:
           1. With the Ministry of One Deacon (normative)
           2. With the Ministry of Two Deacons
           3. Without the Ministry of a Deacon
           4. With Concelebrating Priests
+          5. Hierarchical Service (Bishop Presiding)
         
         Returns the variant ID and the Ordo §-range for that variant's rubrics.
         
@@ -817,10 +852,13 @@ class CeremonialMixin:
             return {"variant_id": "one_deacon", "note": "Ceremonial logic not loaded, defaulting to normative"}
         
         # Determine variant from context
+        is_hierarchical = context.get("is_hierarchical", False)
         deacon_count = context.get("deacon_count", 1)
         concelebrating = context.get("concelebrating", False)
         
-        if concelebrating:
+        if is_hierarchical:
+            variant_id = "hierarchical"
+        elif concelebrating:
             variant_id = "concelebration"
         elif deacon_count == 0:
             variant_id = "without_deacon"
@@ -849,40 +887,54 @@ class CeremonialMixin:
 
     def _get_variant_ordo_range(self, service, variant_id):
         """Helper: Returns the Ordo §-range for a specific variant in a specific service."""
-        # These ranges come from the Ordo's own section structure
+        s_norm = service
+        if service in ("daily_vespers", "great_vespers"):
+            s_norm = "vespers"
+        elif service in ("matins",):
+            s_norm = "orthros"
+        elif service in ("divine_liturgy",):
+            s_norm = "liturgy"
+        elif service in ("presanctified_liturgy",):
+            s_norm = "presanctified"
+
         ranges = {
             "vespers": {
                 "one_deacon": "§29–§36",
                 "two_deacons": "§37–§42",
                 "without_deacon": "§43–§49",
-                "concelebration": "§50–§52"
+                "concelebration": "§50–§52",
+                "hierarchical": "§19f, §28"
             },
             "vigil": {
                 "one_deacon": "§53–§73",
                 "two_deacons": "§53–§73 (see vespers §37–§42)",
                 "without_deacon": "§53–§73 (see vespers §43–§49)",
-                "concelebration": "§53–§73 (see vespers §50–§52)"
+                "concelebration": "§53–§73 (see vespers §50–§52)",
+                "hierarchical": "§19f, §28, §53–§73"
             },
             "orthros": {
                 "one_deacon": "§74–§82",
                 "two_deacons": "§83–§86",
                 "without_deacon": "§87–§91",
-                "concelebration": "§92–§96"
+                "concelebration": "§92–§96",
+                "hierarchical": "§19f, §28, §74–§96"
             },
             "liturgy": {
                 "one_deacon": "§97–§145",
                 "two_deacons": "§146–§159",
                 "without_deacon": "§160–§174",
-                "concelebration": "§175–§215"
+                "concelebration": "§175–§215",
+                "hierarchical": "§19f, §28, Hierarchical Ordo"
             },
             "presanctified": {
                 "one_deacon": "§216–§247",
                 "two_deacons": "§248–§256",
                 "without_deacon": "§257–§260",
-                "concelebration": "§261"
+                "concelebration": "§261",
+                "hierarchical": "§19f, §28, §216–§261"
             }
         }
-        return ranges.get(service, {}).get(variant_id, "")
+        return ranges.get(s_norm, {}).get(variant_id, "")
 
 
     def resolve_bow_type(self, context, trigger=None, rubrics=None):
@@ -890,10 +942,12 @@ class CeremonialMixin:
         Ordo §11–§12: Determine the bow type for a given liturgical trigger.
         
         Args:
-            trigger: e.g. "trisagion", "come_let_us_worship", "enter_altar", "gospel_begin_end", etc.
+            trigger: e.g. "trisagion", "come_let_us_worship", "enter_altar", "gospel_begin_end",
+                          "prayer_of_st_ephrem", "presanctified_light_of_christ",
+                          "presanctified_let_my_prayer", "presanctified_great_entrance", etc.
         
         Returns:
-            dict with bow_type ("small_bow", "great_bow", "sign_of_cross_only", or "none"),
+            dict with bow_type ("small_bow", "great_bow", "kneeling_prostration", "sign_of_cross_only", or "none"),
             count, and ordo_ref.
         """
         bows_data = (self.ceremonial_logic
@@ -952,8 +1006,16 @@ class CeremonialMixin:
                 "ordo_ref": f"§{small_bow.get('§', 11)}"
             }
         
-        # Great bow (prostration) — only if not forbidden
-        if trigger == "great_bow" or trigger == "prostration":
+        # Specific Lenten & Presanctified Great Prostration Triggers
+        prostration_triggers = (
+            "prayer_of_st_ephrem",
+            "presanctified_light_of_christ",
+            "presanctified_let_my_prayer",
+            "presanctified_great_entrance",
+            "great_bow",
+            "prostration"
+        )
+        if trigger in prostration_triggers:
             if not is_lent_or_presanctified:
                 return {
                     "bow_type": "none",
@@ -968,11 +1030,41 @@ class CeremonialMixin:
                     "reason": "No prostrations on Sundays or Pascha–Pentecost",
                     "ordo_ref": "§12"
                 }
-            return {
-                "bow_type": "great_bow",
-                "count": 1,
-                "ordo_ref": "§12"
-            }
+            
+            if trigger == "prayer_of_st_ephrem":
+                return {
+                    "bow_type": "great_bow",
+                    "count": 4,
+                    "note": "4 great prostrations with 12 small bows (metanias)",
+                    "ordo_ref": "§12"
+                }
+            elif trigger == "presanctified_light_of_christ":
+                return {
+                    "bow_type": "great_bow",
+                    "count": 3,
+                    "note": "Three great prostrations at 'The Light of Christ illumines all'",
+                    "ordo_ref": "§12, §234"
+                }
+            elif trigger == "presanctified_let_my_prayer":
+                return {
+                    "bow_type": "kneeling_prostration",
+                    "count": 6,
+                    "note": "Kneeling and prostrations during each verse of 'Let my prayer be set forth'",
+                    "ordo_ref": "§12, §235"
+                }
+            elif trigger == "presanctified_great_entrance":
+                return {
+                    "bow_type": "great_bow",
+                    "count": 3,
+                    "note": "Three great prostrations in silence following the transfer of the Presanctified Gifts",
+                    "ordo_ref": "§12, §242"
+                }
+            else:
+                return {
+                    "bow_type": "great_bow",
+                    "count": 1,
+                    "ordo_ref": "§12"
+                }
         
         return {"bow_type": "none", "note": f"No bow prescribed for trigger '{trigger}'"}
 
@@ -1114,90 +1206,240 @@ class CeremonialMixin:
     # ref: Dolnytsky_Typikon_Master.md:V
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L315-419")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L315-419,L83-96,L146-215,L248-261")
     def resolve_deacon_role(self, context, service="vespers", moment=None, rubrics=None):
         """
-        Ordo §29–§49: Returns diaconal prompts (orarion elevation, entry/exit gates) based on deacon counts.
-        Cites: Ordo §29, Ordo §30, Ordo §31, Ordo §32, Ordo §33, Ordo §34, Ordo §35, Ordo §36, Ordo §37, Ordo §38, Ordo §39, Ordo §40, Ordo §41, Ordo §42, Ordo §43, Ordo §44, Ordo §45, Ordo §46, Ordo §47, Ordo §48, Ordo §49
+        Ordo §29–§49, §74–§91, §97–§174, §216–§260: Returns diaconal prompts based on deacon counts.
+        Supports Vespers, Orthros, Divine Liturgy, and Presanctified Liturgy.
         """
         deacon_count = context.get("deacon_count", 1)
-        if service not in ("vespers", "daily_vespers", "great_vespers"):
-            return {"role": "default", "note": "Service choreography not modeled"}
-            
-        v_choreo = self.ceremonial_logic.get("vespers_choreography", {})
-        
-        if deacon_count == 0:
-            # Without deacon (§43–49)
-            wd_data = v_choreo.get("without_deacon", {})
-            moment_map = {
-                "vesting": ("§43", wd_data.get("§43", {}).get("rule", "Priest performs all diaconal parts.")),
-                "opening": ("§43", "Priest blesses epitrachelion, puts it on. Exits north door, stands before royal doors. Small bow."),
-                "psalm_103": ("§44", wd_data.get("§44", {}).get("priest", "Priest says Great Synapte before royal doors. Returns to Altar via south door.")),
-                "kathisma": ("§45", "After Kathisma, priest says Small Synapte from Altar."),
-                "lord_i_have_cried": ("§45", wd_data.get("§45", {}).get("priest", "Priest censes as in §33. Enters Altar via south door.")),
-                "entrance": ("§46", wd_data.get("§46", {}).get("priest", "Priest takes thurible/Gospel. Goes around Holy Table, exits north. Says Entrance Prayer before royal doors. Elevates thurible/Gospel: 'Wisdom! Stand aright!' Enters through royal doors.")),
-                "prokeimenon_readings_litanies": ("§47-48", "Priest comes to royal doors: 'Let us be attentive!' Blesses: 'Peace be with all.' For readings, exclaims from behind Holy Table. Returns and says ektene and aitisis there."),
-                "dismissal": ("§49", wd_data.get("§49", {}).get("priest", "Priest faces people, says 'Wisdom!' and Dismissal from royal doors."))
+        norm_service = service
+        if service in ("daily_vespers", "great_vespers", "vigil"):
+            norm_service = "vespers"
+        elif service in ("matins",):
+            norm_service = "orthros"
+        elif service in ("divine_liturgy",):
+            norm_service = "liturgy"
+        elif service in ("presanctified_liturgy",):
+            norm_service = "presanctified"
+
+        if norm_service not in ("vespers", "orthros", "liturgy", "presanctified"):
+            return {"role": "default", "note": f"Service choreography not modeled for '{service}'"}
+
+        choreo_key = f"{norm_service}_choreography"
+        choreo = self.ceremonial_logic.get(choreo_key, {})
+
+        if norm_service == "vespers":
+            v_choreo = choreo
+            if deacon_count == 0:
+                wd_data = v_choreo.get("without_deacon", {})
+                moment_map = {
+                    "vesting": ("§43", wd_data.get("§43", {}).get("rule", "Priest performs all diaconal parts.")),
+                    "opening": ("§43", "Priest blesses epitrachelion, puts it on. Exits north door, stands before royal doors. Small bow."),
+                    "psalm_103": ("§44", wd_data.get("§44", {}).get("priest", "Priest says Great Synapte before royal doors. Returns to Altar via south door.")),
+                    "kathisma": ("§45", "After Kathisma, priest says Small Synapte from Altar."),
+                    "lord_i_have_cried": ("§45", wd_data.get("§45", {}).get("priest", "Priest censes as in §33. Enters Altar via south door.")),
+                    "entrance": ("§46", wd_data.get("§46", {}).get("priest", "Priest takes thurible/Gospel. Goes around Holy Table, exits north. Says Entrance Prayer before royal doors. Elevates thurible/Gospel: 'Wisdom! Stand aright!' Enters through royal doors.")),
+                    "prokeimenon_readings_litanies": ("§47-48", "Priest comes to royal doors: 'Let us be attentive!' Blesses: 'Peace be with all.' For readings, exclaims from behind Holy Table. Returns and says ektene and aitisis there."),
+                    "dismissal": ("§49", wd_data.get("§49", {}).get("priest", "Priest faces people, says 'Wisdom!' and Dismissal from royal doors."))
+                }
+                para, rule_text = moment_map.get(moment, ("§43", wd_data.get("§43", {}).get("rule", "Priest performs all diaconal parts.")))
+                return {"deacon_count": 0, "role": "none", "ordo_ref": para, "instruction": rule_text}
+            elif deacon_count == 1:
+                od_data = v_choreo.get("one_deacon", {})
+                moment_map = {
+                    "vesting": ("§29", od_data.get("§29", {}).get("deacon", "Holds sticharion and orarion, approaches priest, head bowed: 'Master, bless.'")),
+                    "opening": ("§30", od_data.get("§30", {}).get("priest", "Priest blesses epitrachelion, puts it on. Exits north door, stands before closed royal doors.")),
+                    "psalm_103": ("§31", od_data.get("§31", {}).get("deacon", "Deacon exits via north door, says Great Synapte. Returns to Altar.")),
+                    "kathisma": ("§32", od_data.get("§32", {}).get("deacon", "Deacon exits via north door, says Small Synapte. Returns to Altar via south door.")),
+                    "lord_i_have_cried": ("§33", od_data.get("§33", {}).get("deacon", "Deacon takes thurible, presents to priest. Full censing. Returns via south door.")),
+                    "entrance": ("§34", od_data.get("§34", {}).get("deacon", "Deacon and priest go around Holy Table, exit north door. Deacon: 'Let us pray to the Lord.' Priest says Entrance Prayer. Deacon: 'Master, bless the holy entrance.' Priest blesses. Deacon: 'Wisdom! Stand aright!' Enter Altar.")),
+                    "prokeimenon_readings_litanies": ("§35", od_data.get("§35", {}).get("deacon", "Deacon comes to royal doors: 'Let us be attentive!' Exclaims litanies from before royal doors. Returns via south door.")),
+                    "dismissal": ("§36", od_data.get("§36", {}).get("deacon", "Royal doors opened. Deacon exits via south door, stands near Savior icon, raises orarion: 'Wisdom!' Returns via south door. Royal doors closed."))
+                }
+                para, rule_text = moment_map.get(moment, ("§29", od_data.get("§29", {}).get("deacon", "")))
+                return {"deacon_count": 1, "role": "deacon", "ordo_ref": para, "instruction": rule_text}
+            else:
+                td_data = v_choreo.get("two_deacons", {})
+                moment_map = {
+                    "vesting": ("§29", "Both deacons vest according to §29: hold sticharion and orarion, ask blessing, don sticharion, kiss orarion, place on left shoulder."),
+                    "opening": ("§30", "Priest vests and exits to stand before closed royal doors. Both deacons remain inside Altar."),
+                    "psalm_103": ("§37", td_data.get("§37", {}).get("deacon", "First deacon departs via north door, says Great Synapte. Second deacon remains inside Altar.")),
+                    "kathisma": ("§38", td_data.get("§38", {}).get("deacon", "Second deacon departs via north door, says Small Synapte. Returns via south door.")),
+                    "lord_i_have_cried": ("§39", td_data.get("§39", {}).get("deacon", "Both deacons take thuribles. Coordinated censing per §39: cense Holy Table (both front/back, first deacon right, second deacon left), icons, priest. First deacon censes south iconostasis, second deacon censes north.")),
+                    "entrance": ("§40", td_data.get("§40", {}).get("deacon", "Exit order: second deacon, first deacon, priest. First deacon says 'Let us pray to the Lord.' Priest says Entrance Prayer. First deacon asks blessing, exclaims 'Wisdom! Stand aright!'")),
+                    "prokeimenon_readings_litanies": ("§41", td_data.get("§41", {}).get("deacon", "Deacons show reverence to priest, leave Altar: second deacon via north door, first deacon via south door. Litanies: first deacon says ektene, second deacon says aitisis.")),
+                    "dismissal": ("§42", td_data.get("§42", {}).get("deacon", "Deacons leave via own doors, stand before royal doors facing one another. First deacon (near Savior icon) raises orarion: 'Wisdom!' Both keep oraria raised during Dismissal. Enter via own doors."))
+                }
+                para, rule_text = moment_map.get(moment, ("§37", td_data.get("§37", {}).get("deacon", "")))
+                return {"deacon_count": deacon_count, "role": "deacon", "ordo_ref": para, "instruction": rule_text}
+
+        # Orthros, Liturgy, Presanctified
+        service_maps = {
+            "orthros": {
+                0: {
+                    "six_psalms": ("§90", "Priest finishes prayers before iconostasis or in Altar; stands before royal doors for Great Synapte and 'God is the Lord' verses."),
+                    "prokeimenon_and_gospel": ("§90", "Priest himself exclaims 'Let us pray to the Lord', recites verses, reads Gospel on analogion, carries to tetrapod, chants 'Having beheld the Resurrection'."),
+                    "ode_8": ("§91", "Priest in epitrachelion exits north door, exclaims before Theotokos icon: 'The Theotokos and Mother of Light!', censes as deacon, returns via south door, says Small Litany."),
+                    "doxology": ("§92", "At Glory of Praises, puts on phelonion, opens royal doors, exclaims 'Glory to You Who have shown us the Light.'"),
+                    "dismissal": ("§93", "Says litanies before Holy Table; says Dismissal standing in royal doors; closes royal doors.")
+                },
+                1: {
+                    "vesting": ("§74", "Deacon asks blessing: 'Master, bless the sticharion...', vests in sticharion and orarion. Censes as prescribed."),
+                    "six_psalms": ("§75", "During Six Psalms, priest reads 12 Morning Prayers before royal doors (or in Altar). Deacon in Altar."),
+                    "god_is_the_lord": ("§76", "Deacon exits north door, stands before royal doors: 'Master, bless!' Priest exclaims: 'Blessed is the kingdom...' Deacon sings 'God is the Lord' (or Alleluia in Lent) with 4 verses. Returns south door."),
+                    "kathisma": ("§77", "Deacon sings Small Litany after each Kathisma. Priest says exclamation."),
+                    "polyeleos": ("§78", "Royal doors opened. Deacon with candle precedes priest to tetrapod with festal icon. Magnification; priest censes tetrapod, altar, people."),
+                    "prokeimenon_and_gospel": ("§79", "Deacon: 'Let us be attentive!', 'Wisdom, let us be attentive!', 'Let us pray to the Lord.' Priest blesses. Deacon censes during 'Let everything that has breath'. Deacon reads Gospel facing people (or priest if Sunday/Resurrection)."),
+                    "tetrapod_procession": ("§79", "Priest carries Gospel to tetrapod, returns through royal doors. Deacon chants 'Having beheld the Resurrection' (or Reader Ps 50) and 'O God, save Your people'."),
+                    "anointing": ("§80", "If Vigil, priest with cross exits holy doors, deacon with holy oil exits north door. Priest anoints foreheads at tetrapod; return through royal/south doors."),
+                    "canon_litanies_and_ode_8": ("§81", "Deacon sings Small Litany after Odes 3 and 6. After Ode 8 Katavasia, deacon stands before Theotokos icon: 'The Theotokos and Mother of Light let us magnify in songs!', censes altar and entire church. Chants Small Litany after Ode 9."),
+                    "doxology": ("§82", "At Glory of Praises, deacon opens royal doors. Priest exclaims 'Glory to You Who have shown us the Light.' Following Great Doxology, priest preceded by deacon carries Gospel back to Holy Table."),
+                    "dismissal": ("§83", "Deacon chants litanies 'Have mercy on us' and 'Let us complete'. Priest gives Dismissal; deacon starts 'Wisdom!'")
+                },
+                2: {
+                    "six_psalms": ("§85", "1st deacon exits via north door, exclaims Great Synapte and 'God is the Lord' verses; returns via south door."),
+                    "kathisma": ("§85", "2nd deacon sings Small Litany after 1st Kathisma; 1st deacon sings after 2nd Kathisma; 2nd deacon sings after Angelic Council/Magnification."),
+                    "prokeimenon_and_gospel": ("§85", "1st deacon: 'Let us be attentive!' Priest blesses. 2nd deacon: 'Wisdom, let us be attentive!' 1st deacon: 'Let us pray to the Lord.' Both deacons cense altar and church simultaneously. 1st deacon recites 1st verse, 2nd deacon recites 2nd verse at 'Let everything that has breath'."),
+                    "anointing": ("§86", "1st deacon accompanies priest for anointing; 2nd deacon sings Small Litanies after Odes 3 and 6."),
+                    "ode_8": ("§86", "1st deacon exits north door with thurible, exclaims before Theotokos icon: 'The Theotokos and Mother of Light!', returns to altar, and both deacons cense simultaneously."),
+                    "ode_9": ("§87", "1st deacon chants Small Litany after Ode 9."),
+                    "doxology_and_dismissal": ("§88", "Royal doors opened; 1st deacon stands at priest's right, 2nd at left. After Doxology, both precede priest carrying Gospel back. 1st deacon sings ektene, 2nd deacon sings aitisis, 1st deacon begins Dismissal: 'Wisdom!'")
+                }
+            },
+            "liturgy": {
+                0: {
+                    "omissions": ("§171", "Priest omits 'Master, bless', 'Let us pray to the Lord', 'Take up, Master', etc., EXCEPT 'Let us pray to the Lord' before Prayer behind Ambo."),
+                    "censing": ("§172", "Priest censes as deacon from soleas after Proskomedia, before Gospel, and at Cherubic Hymn."),
+                    "litanies": ("§173", "Priest recites silent prayers of Great and Small Litanies before their exclamations, not after."),
+                    "little_entrance": ("§174", "Priest takes Gospel around altar from right, exits north door, says Entrance Prayer before royal doors, blesses, kisses Gospel, exclaims 'Wisdom! Stand aright!', enters through royal doors."),
+                    "epistle_and_gospel": ("§175", "Blesses reader, censes altar and nave during Alleluia, reads Gospel on analogion outside royal doors, kisses book and places on altar."),
+                    "cherubic_and_great_entrance": ("§176", "Censes, places aer on own left shoulder, carries diskos in left hand and chalice in right hand, exits north door: 'May the Lord God remember...', enters royal doors, places on altar, covers with aer, censes."),
+                    "anaphora_elevation": ("§177", "Strikes diskos with asterisk; crosses hands (diskos right, chalice left) over antimension for 'Thine own of Thine own'; censes altar only from front; pours zeon himself."),
+                    "communion_and_ablutions": ("§178", "Communicates faithful with chalice, transfers gifts to oblation table, folds antimension, says Prayer behind Ambo between choirs, consumes gifts at oblation table.")
+                },
+                1: {
+                    "preparatory_prayers": ("§100", "Priest and deacon make 3 small bows before royal doors, venerate Savior and Theotokos icons, prayer 'Lord, stretch forth Your hand', bow to choirs, enter Altar (priest south, deacon north)."),
+                    "vesting": ("§103", "Deacon asks blessing: 'Master, bless the sticharion...', vests in sticharion, orarion, cuffs. Prepares Prothesis table. Priest blesses and vests in full priestly vestments."),
+                    "proskomedia": ("§108", "Deacon assists at Prothesis: 'Master, bless', 'Take up, Master', 'Sacrifice, Master', 'Pierce, Master', 'Bless the holy union', wine and water. Veils and censing."),
+                    "censing_after_proskomedia": ("§117", "Deacon censes Prothesis 3 times, Holy Table (4 sides) reciting 'In the tomb with the body', sanctuary, iconostasis, choirs, people, returns south door, censes altar front and priest."),
+                    "beginning": ("§118", "Dialogue: 'It is time for the Lord to act...' Deacon exits north door, stands before royal doors: 'Master, bless!' Priest exclaims: 'Blessed is the kingdom...' Deacon sings Great Synapte."),
+                    "antiphons": ("§120", "1st Antiphon: deacon stands before Christ icon; 1st Small Litany; 2nd Antiphon: deacon stands before Theotokos icon; 2nd Small Litany; 3rd Antiphon: deacon enters Altar south door. Royal doors opened."),
+                    "little_entrance": ("§122", "Priest gives Gospel to deacon. Exit north door preceded by candlebearers. Deacon: 'Let us pray to the Lord.' Priest says Entrance Prayer. Deacon: 'Master, bless the holy entrance.' Priest blesses. Deacon raises Gospel: 'Wisdom! Stand aright!' Enter Altar, place Gospel on Holy Table."),
+                    "trisagion": ("§123", "Deacon: 'Master, bless the time of the Thrice-Holy.' Priest exclaims. Deacon at royal doors: 'and unto ages of ages.' Dialogue for High Place, priest sits at south side."),
+                    "epistle_and_gospel": ("§126", "Deacon censes during Alleluia. Asks blessing: 'Master, bless the proclaimer...' Priest blesses. Deacon exits royal doors with Gospel to ambo/analogion, reads facing people. Hands Gospel to priest; royal doors closed."),
+                    "litanies": ("§127", "Deacon chants ektene 'Let us all say' and Litany of Catechumens. Priest unfolds antimension. Royal doors opened. Deacon chants Faithful litanies."),
+                    "cherubic_hymn": ("§128", "Deacon full censing of altar, iconostasis, people during Cherubic Hymn. Priest and deacon recite Cherubic Hymn 3 times with hands elevated and small bows."),
+                    "great_entrance": ("§129", "Priest places aer on deacon's left shoulder, diskos on deacon's head. Priest carries chalice. Exit north door preceded by candlebearers. Deacon exclaims: 'All of you, Orthodox Christians...' Priest exclaims: 'Our most holy Pontiff... and all of you...' Enter royal doors, place gifts on altar, cover with aer, cense. Royal doors closed."),
+                    "anaphora": ("§132", "Deacon aitisis 'Let us complete', kiss of peace, 'The doors, the doors!', Creed (aer waved over gifts), 'Let us stand well', deacon fans gifts. Strikes diskos with asterisk at 'Singing the triumphant hymn'. Deacons point with orarion at Words of Institution and Epiclesis."),
+                    "communion": ("§140", "Deacon aitisis, 'Holy things to the holy', fraction (IC-XC-NI-KA), zeon poured. Priest communicates of Body and gives to deacon; communicates of Blood and gives chalice to deacon. Curtain and royal doors opened; deacon shows chalice: 'With fear of God and with faith draw near!'"),
+                    "post_communion": ("§143", "Deacon carries diskos on head to Prothesis table. Priest transfers chalice. Deacon thanksgiving litany 'Arise! Having partaken...'. Priest reads Prayer behind Ambo between choirs. Dismissal, unvesting, deacon consumes remaining gifts.")
+                },
+                2: {
+                    "beginning": ("§148", "Both deacons participate in preparatory prayers and vesting. Coordinated censing after Proskomedia (§149). 1st deacon exits south, 2nd exits north. 1st deacon calls 'Master, bless!' and sings Great Synapte. 1st Antiphon: 1st deacon at Christ icon. 1st Small Litany: 2nd deacon at Theotokos icon. 2nd Small Litany: 1st deacon."),
+                    "little_entrance": ("§152", "2nd deacon leads censing, 1st deacon carries Gospel, priest follows. Preceded by candlebearers, exit north door. 1st deacon exclaims 'Wisdom! Stand aright!'"),
+                    "epistle_and_gospel": ("§154", "1st deacon 'Wisdom', 2nd deacon 'Let us be attentive'. Both deacons cense simultaneously during Alleluia. 1st deacon reads Gospel; 2nd deacon calls 'Wisdom, arise!'"),
+                    "litanies": ("§156", "1st deacon says ektene; 2nd deacon says catechumens; 1st deacon catechumens departure; 2nd deacon 1st faithful; 1st deacon 2nd faithful."),
+                    "cherubic_and_great_entrance": ("§157", "Both deacons cense simultaneously. 2nd deacon carries aer on left shoulder with thurible, 1st deacon carries diskos on head, priest carries chalice. 2nd deacon exclaims 'All of you...', 1st deacon exclaims 'All of you...', priest exclaims 'Our most holy...'"),
+                    "kiss_of_peace": ("§158", "2nd deacon: 'Let us love one another'. Deacons kiss each other on left shoulder. 1st deacon: 'The doors, the doors!'"),
+                    "anaphora_and_elevation": ("§159", "1st deacon takes diskos with right hand, 2nd deacon takes chalice with right hand (1st deacon's right hand rests on 2nd deacon's right hand), trace sign of cross for 'Thine own of Thine own'. Both point with oraria at Epiclesis."),
+                    "post_anaphora_communion": ("§160", "2nd deacon chants litany after Anaphora. 1st deacon consumes particle after priests, wipes diskos into chalice, shows chalice at royal doors.")
+                }
+            },
+            "presanctified": {
+                0: {
+                    "solo_adaptations": ("§227", "Server with lighted candle precedes priest during transfer of Lamb, during 'Let my prayer', and during Great Entrance. Small litanies said before Holy Table. No censing during Great Entrance.")
+                },
+                1: {
+                    "typika_and_vesting": ("§226", "Priest in epitrachelion opens royal doors for Typika dismissal, closes doors. Vests in full vestments saying only 'Let us pray to the Lord' for each vestment."),
+                    "transfer_of_lamb": ("§226", "During Kathisma antiphons, priest places Presanctified Lamb on diskos, censes, carries on head to oblation table preceded by deacon with lighted candle and censer in silence."),
+                    "entrance": ("§227", "At 'Glory, Both now' of Lord I Call, royal doors opened; entrance with censer (or Gospel if feast day); deacon: 'Wisdom! Stand aright!'"),
+                    "light_of_christ": ("§224", "After 2nd Prokimenon, priest takes candle and censer, makes sign of cross to east: 'Wisdom, arise!', turns to people: 'The Light of Christ illumines all!' All make three great prostrations. Royal doors closed for 2nd Paremia."),
+                    "let_my_prayer": ("§225", "Priest censes 4 sides of Holy Table with 3 swings at each verse, preceded by deacon with candle; all pray on their knees."),
+                    "great_entrance": ("§226", "Royal doors opened; deacon censes altar, oblation, priest; aer placed on deacon's left shoulder; priest carries diskos on head and chalice at chest; deacon walks in front censing gifts frequently in complete silence; gifts placed on altar; all make three great prostrations; royal doors closed and curtain drawn shut."),
+                    "elevation_and_communion": ("§225", "Priest touches Lamb under aer: 'The Presanctified Holy Things to the holy!'; fraction; zeon poured; clergy communion; curtain and royal doors opened for faithful communion ('Draw near')."),
+                    "dismissal": ("§227", "Dismissal without naming author; on Holy Monday–Wednesday, dismissal of Palm Sunday at Vespers.")
+                },
+                2: {
+                    "litanies_and_transfer": ("§224", "1st deacon assists at transfer of Lamb; 2nd deacon sings 1st Small Litany; 1st deacon sings 2nd Small Litany; 2nd deacon sings 3rd Small Litany."),
+                    "entrance": ("§225", "1st deacon 'Let us be attentive', 2nd deacon 'Wisdom, let us be attentive'."),
+                    "let_my_prayer": ("§226", "Both deacons precede priest with candles while he censes 4 sides of Holy Table."),
+                    "great_entrance": ("§228", "Both deacons walk in front frequently censing the Holy Gifts during complete silence.")
+                }
             }
-            para, rule_text = moment_map.get(moment, ("§43", wd_data.get("§43", {}).get("rule", "Priest performs all diaconal parts.")))
-            return {
-                "deacon_count": 0,
-                "role": "none",
-                "ordo_ref": para,
-                "instruction": rule_text
-            }
-            
-        elif deacon_count == 1:
-            # One deacon (§29–36)
-            od_data = v_choreo.get("one_deacon", {})
-            moment_map = {
-                "vesting": ("§29", od_data.get("§29", {}).get("deacon", "Holds sticharion and orarion, approaches priest, head bowed: 'Master, bless.'")),
-                "opening": ("§30", od_data.get("§30", {}).get("priest", "Priest blesses epitrachelion, puts it on. Exits north door, stands before closed royal doors.")),
-                "psalm_103": ("§31", od_data.get("§31", {}).get("deacon", "Deacon exits via north door, says Great Synapte. Returns to Altar.")),
-                "kathisma": ("§32", od_data.get("§32", {}).get("deacon", "Deacon exits via north door, says Small Synapte. Returns to Altar via south door.")),
-                "lord_i_have_cried": ("§33", od_data.get("§33", {}).get("deacon", "Deacon takes thurible, presents to priest. Full censing. Returns via south door.")),
-                "entrance": ("§34", od_data.get("§34", {}).get("deacon", "Deacon and priest go around Holy Table, exit north door. Deacon: 'Let us pray to the Lord.' Priest says Entrance Prayer. Deacon: 'Master, bless the holy entrance.' Priest blesses. Deacon: 'Wisdom! Stand aright!' Enter Altar.")),
-                "prokeimenon_readings_litanies": ("§35", od_data.get("§35", {}).get("deacon", "Deacon comes to royal doors: 'Let us be attentive!' Exclaims litanies from before royal doors. Returns via south door.")),
-                "dismissal": ("§36", od_data.get("§36", {}).get("deacon", "Royal doors opened. Deacon exits via south door, stands near Savior icon, raises orarion: 'Wisdom!' Returns via south door. Royal doors closed."))
-            }
-            para, rule_text = moment_map.get(moment, ("§29", od_data.get("§29", {}).get("deacon", "")))
-            return {
-                "deacon_count": 1,
-                "role": "deacon",
-                "ordo_ref": para,
-                "instruction": rule_text
-            }
-            
-        else:
-            # Two deacons (§37–42)
-            td_data = v_choreo.get("two_deacons", {})
-            moment_map = {
-                "vesting": ("§29", "Both deacons vest according to §29: hold sticharion and orarion, ask blessing, don sticharion, kiss orarion, place on left shoulder."),
-                "opening": ("§30", "Priest vests and exits to stand before closed royal doors. Both deacons remain inside Altar."),
-                "psalm_103": ("§37", td_data.get("§37", {}).get("deacon", "First deacon departs via north door, says Great Synapte. Second deacon remains inside Altar.")),
-                "kathisma": ("§38", td_data.get("§38", {}).get("deacon", "Second deacon departs via north door, says Small Synapte. Returns via south door.")),
-                "lord_i_have_cried": ("§39", td_data.get("§39", {}).get("deacon", "Both deacons take thuribles. Coordinated censing per §39: cense Holy Table (both front/back, first deacon right, second deacon left), icons, priest. First deacon censes south iconostasis, second deacon censes north.")),
-                "entrance": ("§40", td_data.get("§40", {}).get("deacon", "Exit order: second deacon, first deacon, priest. First deacon says 'Let us pray to the Lord.' Priest says Entrance Prayer. First deacon asks blessing, exclaims 'Wisdom! Stand aright!'")),
-                "prokeimenon_readings_litanies": ("§41", td_data.get("§41", {}).get("deacon", "Deacons show reverence to priest, leave Altar: second deacon via north door, first deacon via south door. Litanies: first deacon says ektene, second deacon says aitisis.")),
-                "dismissal": ("§42", td_data.get("§42", {}).get("deacon", "Deacons leave via own doors, stand before royal doors facing one another. First deacon (near Savior icon) raises orarion: 'Wisdom!' Both keep oraria raised during Dismissal. Enter via own doors."))
-            }
-            para, rule_text = moment_map.get(moment, ("§37", td_data.get("§37", {}).get("deacon", "")))
+        }
+
+        count_key = 0 if deacon_count == 0 else (1 if deacon_count == 1 else 2)
+        m_dict = service_maps.get(norm_service, {}).get(count_key, {})
+
+        if moment and moment in m_dict:
+            para, rule_text = m_dict[moment]
             return {
                 "deacon_count": deacon_count,
-                "role": "deacon",
+                "role": "none" if deacon_count == 0 else "deacon",
                 "ordo_ref": para,
                 "instruction": rule_text
             }
 
+        # Check in underlying logic JSON directly if moment specified
+        variant_key = "without_deacon" if deacon_count == 0 else ("one_deacon" if deacon_count == 1 else "two_deacons")
+        v_data = choreo.get(variant_key, {})
+        ordo_range = v_data.get("§_range", "")
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L420-431")
+        matched_para = f"§{ordo_range}" if ordo_range else "Ordo"
+        matched_text = ""
+
+        if moment:
+            for k, val in v_data.items():
+                if k == "§_range":
+                    continue
+                if isinstance(val, dict) and (val.get("moment") == moment or k == moment):
+                    matched_para = k
+                    matched_text = val.get("deacon") or val.get("priest") or val.get("rule", "")
+                    break
+
+        if not matched_text and m_dict:
+            # Fallback to first entry in m_dict
+            first_moment = next(iter(m_dict))
+            matched_para, matched_text = m_dict[first_moment]
+        elif not matched_text:
+            for k, val in v_data.items():
+                if k == "§_range":
+                    continue
+                matched_para = k
+                if isinstance(val, dict):
+                    matched_text = val.get("deacon") or val.get("priest") or val.get("rule", "")
+                elif isinstance(val, str):
+                    matched_text = val
+                break
+
+        return {
+            "deacon_count": deacon_count,
+            "role": "none" if deacon_count == 0 else "deacon",
+            "ordo_ref": matched_para,
+            "instruction": matched_text
+        }
+
+
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L420-431,L92-96,L175-215,L261")
     def resolve_concelebration_roles(self, context, service="vespers", moment=None, rubrics=None):
         """
-        Ordo §50–§52: Returns priestly order of precedence and exclamation assignments in concelebration.
-        Cites: Ordo §50, Ordo §51, Ordo §52
+        Ordo §50–§52, §92–§96, §175–§215, §261:
+        Returns priestly order of precedence and exclamation assignments in concelebration.
+        Supports Vespers, Orthros, Divine Liturgy, and Presanctified Liturgy.
         """
         concelebrating = context.get("concelebrating", False)
-        if service not in ("vespers", "daily_vespers", "great_vespers") or not concelebrating:
+        norm_service = service
+        if service in ("daily_vespers", "great_vespers", "vigil"):
+            norm_service = "vespers"
+        elif service in ("matins",):
+            norm_service = "orthros"
+        elif service in ("divine_liturgy",):
+            norm_service = "liturgy"
+        elif service in ("presanctified_liturgy",):
+            norm_service = "presanctified"
+
+        if norm_service not in ("vespers", "orthros", "liturgy", "presanctified") or not concelebrating:
             return {
                 "concelebrating": False,
                 "roles": {
@@ -1205,56 +1447,175 @@ class CeremonialMixin:
                     "concelebrants": []
                 }
             }
-            
-        c_choreo = self.ceremonial_logic.get("vespers_choreography", {}).get("concelebration", {})
-        
-        moment_map = {
-            "vesting": {
-                "ordo_ref": "§50",
-                "roles": {
-                    "principal": "Vests in epitrachelion (and phelonion if Vigil).",
-                    "concelebrants": ["Vest in epitrachelion and phelonion over rason just before the Entrance."]
+
+        service_concel_maps = {
+            "vespers": {
+                "vesting": {
+                    "ordo_ref": "§50",
+                    "roles": {
+                        "principal": "Vests in epitrachelion (and phelonion if Vigil).",
+                        "concelebrants": ["Vest in epitrachelion and phelonion over rason just before the Entrance."]
+                    }
+                },
+                "altar_positions": {
+                    "ordo_ref": "§50",
+                    "roles": {
+                        "principal": "Stands in front of the Holy Table.",
+                        "concelebrants": ["Stand at the sides of the Holy Table, not in front.", "First concelebrating priest stands at right side, second at left, third at right, and so on, according to order of dignity or ordination."]
+                    }
+                },
+                "entrance": {
+                    "ordo_ref": "§51",
+                    "roles": {
+                        "principal": "Stands in center behind the others at the royal doors, and alone recites the Entrance Prayer.",
+                        "concelebrants": ["Make a small bow, phelonia hanging freely, hands lowered.", "Younger priests precede, exit via northern door.", "Stand in double file, one to each side of the royal doors."]
+                    }
+                },
+                "exclamations": {
+                    "ordo_ref": "§52",
+                    "roles": {
+                        "principal": "Says exclamation 'For You are a merciful and gracious God...' and 'May the might of Your kingdom...'",
+                        "concelebrants": ["First concelebrating priest may say the exclamation 'For You, O God, are gracious...'"]
+                    }
+                },
+                "dismissal": {
+                    "ordo_ref": "§52",
+                    "roles": {
+                        "principal": "Exclaims 'Wisdom!' and says the Dismissal from the center of the royal doors.",
+                        "concelebrants": ["Stand at their places.", "Following the Dismissal, all make a small bow before the Holy Table, depart, and unvest."]
+                    }
                 }
             },
-            "altar_positions": {
-                "ordo_ref": "§50",
-                "roles": {
-                    "principal": "Stands in front of the Holy Table.",
-                    "concelebrants": ["Stand at the sides of the Holy Table, not in front.", "First concelebrating priest stands at right side, second at left, third at right, and so on, according to order of dignity or ordination."]
+            "orthros": {
+                "vesting": {
+                    "ordo_ref": "§94",
+                    "roles": {
+                        "principal": "Presides in Altar.",
+                        "concelebrants": ["Concelebrants in even number vest in epitrachelia and phelonia during Kathismata, stand at sides of Holy Table in alternating seniority."]
+                    }
+                },
+                "polyeleos": {
+                    "ordo_ref": "§94",
+                    "roles": {
+                        "principal": "Principal stands in center before tetrapod.",
+                        "concelebrants": ["Younger concelebrants precede through royal doors carrying festal icon to tetrapod, forming two rows facing each other."]
+                    }
+                },
+                "magnification": {
+                    "ordo_ref": "§95",
+                    "roles": {
+                        "principal": "Principal censes tetrapod 4 sides, altar, concelebrants, choirs, and people, preceded by deacon with lighted candle.",
+                        "concelebrants": ["All sing Magnification together with clergy."]
+                    }
+                },
+                "return": {
+                    "ordo_ref": "§96",
+                    "roles": {
+                        "principal": "Returns through royal doors before Holy Table.",
+                        "concelebrants": ["All concelebrants return through royal doors into Altar before the Holy Table."]
+                    }
                 }
             },
-            "entrance": {
-                "ordo_ref": "§51",
-                "roles": {
-                    "principal": "Stands in center behind the others at the royal doors, and alone recites the Entrance Prayer.",
-                    "concelebrants": ["Make a small bow, phelonia hanging freely, hands lowered.", "Younger priests precede, exit via northern door.", "Stand in double file, one to each side of the royal doors."]
+            "liturgy": {
+                "altar_positions": {
+                    "ordo_ref": "§197",
+                    "roles": {
+                        "principal": "Principal celebrant stands in front of Holy Table.",
+                        "concelebrants": ["Concelebrants stand at sides of Holy Table in alternating seniority (1st right, 2nd left, 3rd right, etc.), never in front."]
+                    }
+                },
+                "proskomedia": {
+                    "ordo_ref": "§198",
+                    "roles": {
+                        "principal": "Adds particles if participating.",
+                        "concelebrants": ["Proskomedia is celebrated by one concelebrant alone, who says Prayer of Offering. Other concelebrants add their own particles."]
+                    }
+                },
+                "exclamations": {
+                    "ordo_ref": "§199",
+                    "roles": {
+                        "principal": "11 exclamations strictly reserved to principal celebrant: Great Litany, Trisagion, Ektene, Faithful 2, Offering, Triumphant Hymn, Especially for Most Holy, One Mouth, Mercies, Our Father, Sanctification.",
+                        "concelebrants": ["Concelebrants take other exclamations in turn by nod from principal."]
+                    }
+                },
+                "little_entrance": {
+                    "ordo_ref": "§200",
+                    "roles": {
+                        "principal": "Stands in center behind concelebrants at royal doors, and alone says Entrance Prayer.",
+                        "concelebrants": ["Lower hands under phelonia, exit north door in reverse order of dignity (younger first), stand in double file at royal doors."]
+                    }
+                },
+                "great_entrance": {
+                    "ordo_ref": "§204",
+                    "roles": {
+                        "principal": "Stands before royal doors exclaiming 'Our most holy Pontiff...'; enters, places gifts on altar.",
+                        "concelebrants": ["Concelebrants carry sacred vessels/instruments (spear, spoon) on chest; younger exit north door first, each exclaiming 'All of you, Orthodox Christians...'"]
+                    }
+                },
+                "kiss_of_peace": {
+                    "ordo_ref": "§206",
+                    "roles": {
+                        "principal": "Kisses gifts, turns right saying 'Christ is in our midst' / 'He is and shall be'.",
+                        "concelebrants": ["Kiss gifts, then principal's left and right shoulders, then kiss each other. 1st and 2nd concelebrants wave aer over gifts during Creed."]
+                    }
+                },
+                "anaphora_epiclesis": {
+                    "ordo_ref": "§207",
+                    "roles": {
+                        "principal": "Recites words of institution and Epiclesis; alone blesses the Holy Gifts and invokes the Epiclesis.",
+                        "concelebrants": ["Point with right hand to diskos and chalice, recite words of consecration and 'Thine own of Thine own' together with principal, but do NOT bless."]
+                    }
+                },
+                "communion": {
+                    "ordo_ref": "§209",
+                    "roles": {
+                        "principal": "Communicates first of Body and Blood; distributes to concelebrants and deacon.",
+                        "concelebrants": ["Approach sequentially from oblation side (north) to receive Body, wash fingers, approach from south side to receive Blood."]
+                    }
+                },
+                "prayer_behind_ambo": {
+                    "ordo_ref": "§211",
+                    "roles": {
+                        "principal": "Said between the two choirs by the principal celebrant alone.",
+                        "concelebrants": ["Remain in sanctuary."]
+                    }
                 }
             },
-            "exclamations": {
-                "ordo_ref": "§52",
-                "roles": {
-                    "principal": "Says exclamation 'For You are a merciful and gracious God...' and 'May the might of Your kingdom...'",
-                    "concelebrants": ["First concelebrating priest may say the exclamation 'For You, O God, are gracious...'"]
-                }
-            },
-            "dismissal": {
-                "ordo_ref": "§52",
-                "roles": {
-                    "principal": "Exclaims 'Wisdom!' and says the Dismissal from the center of the royal doors.",
-                    "concelebrants": ["Stand at their places.", "Following the Dismissal, all make a small bow before the Holy Table, depart, and unvest."]
+            "presanctified": {
+                "vesting": {
+                    "ordo_ref": "§225",
+                    "roles": {
+                        "principal": "Vests in full vestments saying only 'Let us pray to the Lord'.",
+                        "concelebrants": ["Vest at end of Typika saying only 'Let us pray to the Lord'."]
+                    }
+                },
+                "exclamations": {
+                    "ordo_ref": "§225",
+                    "roles": {
+                        "principal": "Exclamations strictly reserved to principal celebrant: 'For to You belongs', 'For a merciful', 'According to the gift of Your Christ', 'For You are our sanctification'.",
+                        "concelebrants": ["Concelebrants take other exclamations in turn by nod from principal."]
+                    }
+                },
+                "let_my_prayer": {
+                    "ordo_ref": "§225",
+                    "roles": {
+                        "principal": "Censes 4 sides of Holy Table; kneels and rises at each verse.",
+                        "concelebrants": ["Remain at sides during 'Let my prayer', kneel and rise together with principal."]
+                    }
                 }
             }
         }
-        
+
+        moment_map = service_concel_maps.get(norm_service, {})
         default_res = {
             "concelebrating": True,
-            "ordo_ref": "§50–§52",
+            "ordo_ref": "§50–§52" if norm_service == "vespers" else "Ordo Concelebration",
             "roles": {
                 "principal": "Stands in front of Holy Table, principal celebrant assignment.",
                 "concelebrants": ["Stand at sides of Holy Table according to ordination precedence."]
             }
         }
-        
+
         res = moment_map.get(moment, default_res)
         if res is not default_res:
             res = res.copy()
@@ -1463,4 +1824,59 @@ class CeremonialMixin:
             "censing": "Censing not prescribed for this moment.",
             "ordo_ref": "§235"
         }
+
+
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L284,L715-725")
+    def resolve_hierarchical_ceremonial(self, context, moment=None, rubrics=None):
+        """
+        Ordo §19f, §28 note, Ruthenian Archieratikon / Pontifical:
+        Resolves ceremonial actions when a Bishop presides.
+        """
+        hier_data = self.ceremonial_logic.get("hierarchical_choreography", {})
+        if not hier_data:
+            return {"is_hierarchical": False, "note": "Hierarchical choreography not loaded"}
+            
+        is_hier = context.get("is_hierarchical", False)
+        if moment and moment in hier_data:
+            return {
+                "is_hierarchical": is_hier,
+                "moment": moment,
+                "ordo_ref": "§19f, §28, Archieratikon",
+                "instruction": hier_data[moment]
+            }
+        
+        return {
+            "is_hierarchical": is_hier,
+            "ordo_ref": "§19f, §28, Archieratikon",
+            "choreography": {k: v for k, v in hier_data.items() if not k.startswith("_")}
+        }
+
+
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L330,L378,L402,L1685")
+    def resolve_censing_sequence(self, context, pattern="full_censing", rubrics=None):
+        """
+        Ordo §33, §39, §45, §74, §117, §128, §235:
+        Resolves censing paths and sequences from ceremonial_logic.censing_patterns.
+        
+        Args:
+            pattern: "full_censing", "holy_table_only", "gifts_censing", 
+                     "two_deacon_coordinated", "let_my_prayer_arise", 
+                     "paschal_matins_opening", "polyeleos_magnification"
+        """
+        patterns = self.ceremonial_logic.get("censing_patterns", {})
+        pat_data = patterns.get(pattern, {})
+        if not pat_data:
+            return {"pattern": pattern, "sequence": [], "note": f"Pattern '{pattern}' not found"}
+            
+        sec_ref = str(pat_data.get('§', '33'))
+        ordo_ref = sec_ref if (sec_ref.startswith('§') or 'Dolnytsky' in sec_ref) else f"§{sec_ref}"
+
+        return {
+            "pattern": pattern,
+            "description": pat_data.get("description", ""),
+            "ordo_ref": ordo_ref,
+            "sequence": pat_data.get("sequence", []),
+            "used_at": pat_data.get("used_at", [])
+        }
+
 

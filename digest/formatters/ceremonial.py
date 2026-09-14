@@ -190,4 +190,40 @@ class CeremonialFormatterMixin:
         return f"Presanctified Censing{ref_str}: {censing}"
 
 
+    def _format_resolve_hierarchical_ceremonial(self, res, context):
+        if not res:
+            return ""
+        moment = res.get("moment", "")
+        inst = res.get("instruction", "")
+        ref = res.get("ordo_ref", "")
+        ref_str = f" [{ref}]" if ref else ""
+        if inst:
+            mom_str = f" ({moment.replace('_', ' ').title()})" if moment else ""
+            return f"Hierarchical Ordo{mom_str}{ref_str}: {inst}"
+        choreo = res.get("choreography", {})
+        if choreo:
+            parts = [f"{k.replace('_', ' ').title()}: {v}" for k, v in choreo.items() if isinstance(v, str)]
+            return f"Hierarchical Ordo{ref_str}: " + " | ".join(parts)
+        return ""
+
+
+    def _format_resolve_censing_sequence(self, res, context):
+        if not res:
+            return ""
+        desc = res.get("description", "")
+        ref = res.get("ordo_ref", "")
+        ref_str = f" [{ref}]" if ref else ""
+        seq = res.get("sequence", [])
+        seq_steps = []
+        for step in seq:
+            target = step.get("target", "").replace("_", " ").title()
+            note = step.get("note", "")
+            note_str = f" ({note})" if note else ""
+            seq_steps.append(f"{target}{note_str}")
+        seq_str = " -> ".join(seq_steps)
+        seq_block = f" Path: {seq_str}" if seq_steps else ""
+        return f"Censing Sequence{ref_str}: {desc}{seq_block}"
+
+
+
 

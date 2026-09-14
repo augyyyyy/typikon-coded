@@ -26,6 +26,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "logic_switch": {
@@ -78,8 +82,21 @@
               "source_ref": "Dolnytsky_Typikon_Master.md:2.1.3.7"
             }
           },
-          "glory": "saint_doxastikon_if_present",
+          "glory": "saint_doxastikon_if_appointed",
           "both_now": "dogmatikon_current_tone"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.1.1.4",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "theotokion_aposticha_sunday_in_tone_of_doxastikon_else_current_tone"
         },
         "matins_canon_distribution": {
           "total_count": 14,
@@ -139,9 +156,27 @@
         },
         "praises_distribution": {
           "total_count": 8,
-          "source_ref": "Dolnytsky_Typikon_Master.md:2.2.1.9",
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.1.3.8",
           "logic_switch": {
             "1_saint": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 8
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 8
+                }
+              ]
+            },
+            "saint_on_6_with_praises": {
               "distribution": [
                 {
                   "source": "octoechos",
@@ -154,28 +189,9 @@
                   "qty": 4
                 }
               ]
-            },
-            "2_saints": {
-              "distribution": [
-                {
-                  "source": "octoechos",
-                  "type": "resurrection",
-                  "qty": 4
-                },
-                {
-                  "source": "menaion",
-                  "type": "saint_1",
-                  "qty": 2
-                },
-                {
-                  "source": "menaion",
-                  "type": "saint_2",
-                  "qty": 2
-                }
-              ]
             }
           },
-          "glory": "saint_doxastikon_if_present",
+          "glory": "eothinon_gospel_sticheron",
           "both_now": "most_blessed_art_thou"
         },
         "liturgy_variables": {
@@ -214,6 +230,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "daily_vespers",
+        "matins_type": "daily_matins",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "logic_switch": {
@@ -255,7 +275,7 @@
               ]
             }
           },
-          "glory": "saint_doxastikon",
+          "glory": "saint_doxastikon_if_appointed",
           "both_now": "theotokion_horologion_or_octoechos"
         },
         "matins_canon_distribution": {
@@ -342,6 +362,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "daily_vespers",
+        "matins_type": "daily_matins",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "priority_rule": "Menaion precedes Octoechos on Saturdays",
         "vespers_stichera_distribution": {
           "total_count": 6,
@@ -375,7 +399,21 @@
               ]
             }
           },
+          "glory": "saint_doxastikon_if_appointed",
           "both_now": "dogmatikon_current_tone"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.3.4",
+          "total_count": 3,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 3
+            }
+          ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "theotokion_aposticha_octoechos"
         },
         "matins_canon_distribution": {
           "total_count": 14,
@@ -415,6 +453,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -431,6 +473,19 @@
           ],
           "glory": "saint_doxastikon",
           "both_now": "dogmatikon_current_tone"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.4.1.4",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "theotokion_aposticha_sunday_in_tone_of_doxastikon"
         },
         "matins_canon_distribution": {
           "distribution": [
@@ -465,7 +520,9 @@
               "type": "saint",
               "qty": 4
             }
-          ]
+          ],
+          "glory": "eothinon_gospel_sticheron",
+          "both_now": "most_blessed_art_thou"
         }
       }
     },
@@ -503,7 +560,21 @@
               "qty": 8
             }
           ],
+          "glory": "saint_doxastikon",
           "both_now": "dogmatikon_current_tone_if_friday_else_theotokion"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.5.1.3",
+          "total_count": 3,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "theotokion_aposticha_sunday_in_tone_of_doxastikon"
         },
         "matins_canon_distribution": {
           "distribution": [
@@ -655,6 +726,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -674,8 +749,20 @@
               "qty": 3
             }
           ],
-          "glory": "forefeast_doxastikon",
+          "glory": "saint_doxastikon_if_appointed_else_forefeast",
           "both_now": "dogmatikon_current_tone"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.8.1.2",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            }
+          ],
+          "glory_both_now": "forefeast_theotokion"
         },
         "matins_canon_distribution": {
           "distribution": [
@@ -747,6 +834,10 @@
       },
       "variables": {
         "suppress_octoechos": true,
+        "vespers_type": "daily_vespers",
+        "matins_type": "daily_matins",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -761,6 +852,19 @@
               "qty": 3
             }
           ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "forefeast_theotokion"
+        },
+        "aposticha_distribution": {
+          "total_count": 3,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "forefeast",
+              "qty": 3
+            }
+          ],
+          "glory": "saint_doxastikon_if_appointed",
           "both_now": "forefeast_theotokion"
         },
         "matins_canon_distribution": {
@@ -795,6 +899,10 @@
       "variables": {
         "suppress_octoechos": true,
         "suppress_menaion_saint": true,
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 8,
           "distribution": [
@@ -865,6 +973,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -879,7 +991,20 @@
               "qty": 6
             }
           ],
-          "both_now": "feast_doxastikon"
+          "glory": "feast_doxastikon",
+          "both_now": "feast_theotokion"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.11.1.6",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            }
+          ],
+          "glory_both_now": "feast_doxastikon"
         },
         "matins_canon_distribution": {
           "distribution": [
@@ -965,6 +1090,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -983,7 +1112,21 @@
               "type": "saint",
               "qty": 3
             }
-          ]
+          ],
+          "glory": "saint_doxastikon_if_appointed_else_feast",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.13.1.3",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            }
+          ],
+          "glory_both_now": "feast_doxastikon"
         },
         "matins_canon_distribution": {
           "distribution": [
@@ -1055,6 +1198,10 @@
       },
       "variables": {
         "suppress_octoechos": true,
+        "vespers_type": "daily_vespers",
+        "matins_type": "daily_matins",
+        "has_polyeleos": false,
+        "doxology_type": "daily_read",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -1068,7 +1215,21 @@
               "type": "saint",
               "qty": 3
             }
-          ]
+          ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "feast_theotokion"
+        },
+        "aposticha_distribution": {
+          "total_count": 3,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 3
+            }
+          ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "feast_theotokion"
         },
         "matins_canon_distribution": {
           "distribution": [
@@ -1102,6 +1263,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": true,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -1121,7 +1286,21 @@
               "qty": 4
             }
           ],
+          "glory": "saint_doxastikon",
           "both_now": "dogmatikon_current_tone"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.15.1.4",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "feast_theotokion"
         },
         "matins_canon_distribution": {
           "distribution": [
@@ -1190,26 +1369,28 @@
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
-          "total_count": 10,
+          "total_count": 8,
           "distribution": [
             {
               "source": "menaion",
               "type": "feast",
-              "qty": 6
+              "qty": 3
             },
             {
               "source": "menaion",
               "type": "saint",
-              "qty": 4
+              "qty": 5
             }
-          ]
+          ],
+          "glory": "saint_doxastikon",
+          "both_now": "feast_theotokion"
         },
         "aposticha_distribution": {
           "total_count": 3,
           "distribution": [
             {
-              "source": "triodion",
-              "type": "feast",
+              "source": "menaion",
+              "type": "saint",
               "qty": 3
             }
           ],
@@ -1332,6 +1513,10 @@
         ]
       },
       "variables": {
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "suppress_menaion_saint": true,
         "duration_lookup": "refer_to_festal_table",
         "vespers_stichera_distribution": {
@@ -1350,6 +1535,18 @@
           ],
           "glory": "feast_doxastikon",
           "both_now": "dogmatikon_current_tone"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.19.1.4",
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            }
+          ],
+          "glory_both_now": "feast_doxastikon"
         },
         "matins_canon_distribution": {
           "distribution": [
@@ -1410,6 +1607,10 @@
       "variables": {
         "suppress_octoechos": true,
         "suppress_menaion_saint": true,
+        "vespers_type": "daily_vespers",
+        "matins_type": "great_matins",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
         "vespers_stichera_distribution": {
           "total_count": 6,
           "distribution": [
@@ -1418,7 +1619,21 @@
               "type": "feast",
               "qty": 6
             }
-          ]
+          ],
+          "glory": "feast_doxastikon",
+          "both_now": "feast_theotokion"
+        },
+        "aposticha_distribution": {
+          "source_ref": "Dolnytsky_Typikon_Master.md:2.20.4",
+          "total_count": 3,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "feast",
+              "qty": 3
+            }
+          ],
+          "glory_both_now": "feast_doxastikon"
         },
         "matins_canon_distribution": {
           "total_count": 14,

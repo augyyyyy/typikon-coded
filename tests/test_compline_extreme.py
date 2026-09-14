@@ -60,14 +60,18 @@ def test_GC_clean_tuesday_lent(engine):
     assert res_praises["ref_key"] == "lord_of_hosts_tone_6"
 
 def test_SC_afterfeast_canon(engine):
+    """
+    Dolnytsky Part II, Case 14 (line 410):
+    'AT COMPLINE: Canon of the Most Holy Theotokos, according to the sequence of the Octoechos.
+    After It is truly meet - Kontakion of the feast alone.'
+    """
     context = {
         "day_of_week": 2, # Tuesday
         "is_afterfeast": True
     }
     res = engine.resolve_compline_canon(context)
-    assert res["subject"] == "feast"
-    assert res["book"] == "menaion"
-    assert res["source"] == "canon_feast"
+    assert res["subject"] == "theotokos"
+    assert res["book"] == "octoechos"
 
 def test_SC_feast_canon(engine):
     context = {
@@ -95,11 +99,16 @@ def test_SC_monday_night_canon(engine):
     assert res["book"] == "octoechos"
 
 def test_SC_friday_night_afterfeast_priority(engine):
+    """
+    Friday night during an Afterfeast:
+    The Afterfeast suppresses the Friday departed canon, appointing the Octoechos
+    Theotokos canon instead (Dolnytsky Part II, Case 14 line 410).
+    """
     context = {
         "day_of_week": 5, # Friday
         "is_afterfeast": True
     }
     res = engine.resolve_compline_canon(context)
-    assert res["subject"] == "feast"
-    assert res["book"] == "menaion"
+    assert res["subject"] == "theotokos"
+    assert res["book"] == "octoechos"
 

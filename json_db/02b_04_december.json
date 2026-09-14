@@ -28,7 +28,19 @@
           "liturgy_readings": [
             "colossians_3_4_11",
             "luke_14_16_24"
-          ]
+          ],
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_polyeleos",
+          "matins_canon_stacking": [
+            "octoechos_4",
+            "forefathers_canon_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "communion_hymn": "praise_the_lord_and_rejoice"
         }
       },
       "sunday_ancestors": {
@@ -50,35 +62,127 @@
           "liturgy_readings": [
             "hebrews_11_9_10_17_23_32_40",
             "matthew_1_1_25"
-          ]
+          ],
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_polyeleos",
+          "matins_canon_stacking": [
+            "octoechos_4",
+            "ancestors_canon_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "communion_hymn": "praise_the_lord_and_rejoice"
         }
       }
     },
     "days": {
       "04": {
         "title_key": "menaion.dec_04.barbara_great_martyr",
-        "rank": "rank_polyeleos",
+        "rank": "rank_simple_6",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4",
-        "base_template": "CASE_05",
+        "base_template": "CASE_02",
         "variables": {
-          "matins_gospel": "matthew_25_1_13",
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "barbara",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "john_damascus",
+                "qty": 3
+              }
+            ],
+            "glory": "barbara_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "barbara_canon_4",
+            "damascus_canon_4"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
           "liturgy_readings": [
             "galatians_3_23_29",
             "mark_5_24_34"
-          ]
+          ],
+          "communion_hymn": "righteous_memory"
         }
       },
       "05": {
         "title_key": "menaion.dec_05.sabbas_sanctified",
         "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4",
-        "base_template": "CASE_05"
+        "base_template": "CASE_05",
+        "variables": {
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_polyeleos",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 8
+              }
+            ],
+            "glory": "saint_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "sabbas_canon_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 4
+              }
+            ],
+            "glory": "saint_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_gospel": "matthew_11_27_30",
+          "liturgy_readings": [
+            "galatians_5_22_6_2",
+            "matthew_11_27_30"
+          ],
+          "communion_hymn": "righteous_memory"
+        }
       },
       "06": {
         "title_key": "menaion.dec_06.nicholas_wonderworker",
         "rank": "rank_vigil_saint",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4",
-        "base_template": "CASE_06",
+        "base_template": "CASE_07",
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_06"
+          }
+        ],
         "variables": {
           "vespers_readings": [
             "proverbs_10",
@@ -91,7 +195,41 @@
             "hebrews_13_17_21",
             "luke_6_17_23"
           ],
-          "communion_hymn": "righteous_memory"
+          "communion_hymn": "righteous_memory",
+          "vespers_type": "great_vespers_vigil",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_vigil_saint",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 8
+              }
+            ],
+            "glory": "nicholas_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "nicholas_canon_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 4
+              }
+            ],
+            "glory": "nicholas_praises_doxastikon",
+            "both_now": "theotokion"
+          }
         }
       },
       "09": {
@@ -99,29 +237,169 @@
         "rank": "rank_vigil_theotokos",
         "period": "feast",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4",
-        "base_template": "CASE_14",
+        "base_template": "CASE_12",
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_11"
+          }
+        ],
         "variables": {
           "liturgy_antiphons": "typical_psalms_refrain_theotokos",
-          "megalynarion": "magnify_o_my_soul_conception"
+          "megalynarion": "magnify_o_my_soul_conception",
+          "vespers_type": "great_vespers_vigil",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_vigil_theotokos",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 8
+              }
+            ],
+            "glory_both_now": "conception_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "conception_canon_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 4
+              }
+            ],
+            "glory_both_now": "conception_praises_doxastikon"
+          },
+          "matins_gospel": "luke_1_39_49_56",
+          "liturgy_readings": [
+            "galatians_4_22_31",
+            "luke_8_16_21"
+          ],
+          "communion_hymn": "cup_of_salvation"
         }
       },
       "12": {
         "title_key": "menaion.dec_12.spyridon_trimythous",
-        "rank": "rank_polyeleos",
+        "rank": "rank_simple_6",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4",
-        "base_template": "CASE_05"
+        "base_template": "CASE_02",
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 6
+              }
+            ],
+            "glory": "spyridon_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "spyridon_canon_6"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "liturgy_readings": [
+            "ephesians_5_8_19",
+            "john_10_9_16"
+          ],
+          "communion_hymn": "righteous_memory"
+        }
       },
       "13": {
         "title_key": "menaion.dec_13.eustratius_and_others",
         "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4.3",
-        "base_template": "CASE_05"
+        "base_template": "CASE_05",
+        "variables": {
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "great_doxology",
+          "rank": "rank_doxology",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 6
+              }
+            ],
+            "glory": "saint_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "martyrs_canon_6"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "liturgy_readings": [
+            "ephesians_6_10_17",
+            "luke_21_12_19"
+          ],
+          "communion_hymn": "rejoice_in_the_lord"
+        }
       },
       "17": {
         "title_key": "menaion.dec_17.prophet_daniel_and_youths",
         "rank": "rank_simple_6",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4.4",
-        "base_template": "CASE_02"
+        "base_template": "CASE_02",
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "prophet",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "youths",
+                "qty": 3
+              }
+            ],
+            "glory": "prophet_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "prophet_youths_canon_6"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "liturgy_readings": [
+            "hebrews_11_33_40",
+            "luke_11_47_12_1"
+          ],
+          "communion_hymn": "rejoice_in_the_lord"
+        }
       },
       "24": {
         "title_key": "menaion.dec_24.nativity_paramony",
@@ -152,7 +430,33 @@
               "merge_logic": "vesperal_merge_logic",
               "readings": "nativity_paramony_8_readings"
             }
-          }
+          },
+          "vespers_type": "great_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_basil",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "forefeast",
+                "qty": 8
+              }
+            ],
+            "glory_both_now": "forefeast_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "forefeast_canon_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "liturgy_readings": [
+            "hebrews_1_1_12",
+            "luke_2_1_20"
+          ],
+          "communion_hymn": "praise_the_lord"
         }
       },
       "25": {
@@ -164,7 +468,7 @@
           "suppress_octoechos": true,
           "fast_level": "no_fast"
         },
-        "base_template": "CASE_12",
+        "base_template": "CASE_10",
         "variables": {
           "vespers_stichera_distribution": "nativity_stichera",
           "matins_gospel": "matthew_1_18_25",
@@ -176,7 +480,29 @@
             "matthew_2_1_12"
           ],
           "megalynarion": "magnify_o_my_soul_christ_king",
-          "communion_hymn": "the_lord_sent_redemption"
+          "communion_hymn": "the_lord_sent_redemption",
+          "vespers_type": "great_vespers_vigil",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_vigil_lord",
+          "matins_canon_stacking": [
+            "nativity_canon_1_8",
+            "nativity_canon_2_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 4
+              }
+            ],
+            "glory_both_now": "nativity_praises_doxastikon"
+          }
         }
       },
       "26": {
@@ -184,13 +510,59 @@
         "rank": "rank_vigil_theotokos",
         "period": "feast",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4.9",
-        "base_template": "CASE_14",
+        "base_template": "CASE_12",
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_11"
+          }
+        ],
         "variables": {
           "liturgy_antiphons": "typical_psalms_refrain_son_of_god",
           "entrance_hymn": "come_let_us_worship_nativity",
           "troparia_sequence": "nativity_synaxis_stacking",
           "megalynarion": "magnify_o_my_soul_christ_king",
-          "communion_hymn": "the_lord_sent_redemption"
+          "communion_hymn": "the_lord_sent_redemption",
+          "vespers_type": "great_vespers_vigil",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_vigil_theotokos",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 8
+              }
+            ],
+            "glory_both_now": "synaxis_theotokos_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "synaxis_canon_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 4
+              }
+            ],
+            "glory_both_now": "synaxis_theotokos_praises_doxastikon"
+          },
+          "liturgy_readings": [
+            "hebrews_2_11_18",
+            "matthew_2_13_23"
+          ]
         }
       },
       "27": {
@@ -203,7 +575,43 @@
             "acts_6_8_7_5",
             "matthew_21_33_42"
           ],
-          "troparia_sequence": "nativity_stephen_stacking"
+          "troparia_sequence": "nativity_stephen_stacking",
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_polyeleos",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "stephen",
+                "qty": 8
+              }
+            ],
+            "glory": "stephen_doxastikon",
+            "both_now": "nativity_theotokion"
+          },
+          "matins_canon_stacking": [
+            "stephen_canon_8"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "stephen",
+                "qty": 4
+              }
+            ],
+            "glory": "stephen_praises_doxastikon",
+            "both_now": "nativity_theotokion"
+          },
+          "matins_gospel": "matthew_21_33_42",
+          "communion_hymn": "righteous_memory"
         }
       },
       "31": {
@@ -211,7 +619,35 @@
         "rank": "rank_apodosis",
         "period": "apodosis",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4.14",
-        "base_template": "CASE_20"
+        "base_template": "CASE_20",
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "great_doxology",
+          "rank": "rank_apodosis",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 6
+              }
+            ],
+            "glory_both_now": "nativity_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "nativity_canon_14"
+          ],
+          "matins_katavasia": "christ_is_born_canon",
+          "liturgy_readings": [
+            "galatians_3_8_12",
+            "luke_2_20_40"
+          ],
+          "communion_hymn": "redemption_sent"
+        }
       }
     }
   }

@@ -344,8 +344,21 @@ class TextDBMixin:
             src_name = target_rec.replace("_", " ").title()
             return compile_sequential_text(db, text_id, src_name)
 
+        # -1. Explicit Custom In-Memory Overlay Lookup (Highest Priority)
+        if context and not item:
+            custom_overlay = context.get("custom_overlay") or context.get("overlay_db")
+            if isinstance(custom_overlay, dict):
+                cand = db_get(custom_overlay, text_id)
+                if cand:
+                    if isinstance(cand, str):
+                        item = {"id": text_id, "content": cand, "source": "Custom Overlay"}
+                    else:
+                        item = copy.deepcopy(cand)
+                if not item:
+                    item = compile_sequential_text(custom_overlay, text_id, "Custom Overlay")
+
         # 0. Recension Database Lookup
-        if recension:
+        if not item and recension:
             # 0.1 Daily Office Translation Drift Lookup for royal_doors_web
             if recension == "royal_doors_web" and language == "en" and year and hasattr(self, "royal_doors_drift_db") and self.royal_doors_drift_db:
                 dt = context.get("date")
@@ -527,15 +540,94 @@ class TextDBMixin:
                     return rendered_item
 
         # 3. Missing Handler (Human-readable clean placeholder)
-        humanized = text_id.split(".")[-1].replace("_", " ").title()
+        humanized = self.canonical_humanize_key(text_id)
         req_str = f" | Required by: {logic_requirement}" if logic_requirement else ""
-        rec_name = recension.replace("_", " ").title() if recension else "Stamford"
+        if recension:
+            rec_name = recension.replace("_", " ").title()
+        else:
+            rec_name = getattr(self, "version_id", "royal_doors").replace("_", " ").title()
         return {
             "title": humanized,
             "content": f"[{humanized} (Missing in {rec_name}{req_str})]",
             "source": "System Logic",
             "is_missing": True
         }
+
+    @staticmethod
+    def canonical_humanize_key(key: str) -> str:
+        """Canonically humanizes internal chant keys and identifiers to standard liturgical English."""
+        if not key:
+            return ""
+        raw_base = key.split(".")[-1].lower()
+        base = re.sub(r'_\d+$', '', raw_base)
+        
+        canon_map = {
+            "aposticha_feast": "Stichera of the Feast",
+            "aposticha_forefeast": "Stichera of the Forefeast",
+            "aposticha_afterfeast": "Stichera of the Feast",
+            "aposticha_saint": "Stichera of the Saint",
+            "aposticha_theotokos": "Stichera of the Theotokos",
+            "aposticha_resurrection": "Stichera of the Resurrection",
+            "aposticha_daily": "Daily Aposticha",
+            "stichera_feast": "Stichera of the Feast",
+            "stichera_forefeast": "Stichera of the Forefeast",
+            "stichera_afterfeast": "Stichera of the Feast",
+            "stichera_saint": "Stichera of the Saint",
+            "stichera_theotokos": "Stichera of the Theotokos",
+            "stichera_resurrection": "Stichera of the Resurrection",
+            "doxastikon_saint": "Doxastikon of the Saint",
+            "doxastikon_feast": "Doxastikon of the Feast",
+            "doxastikon_forefeast": "Doxastikon of the Forefeast",
+            "theotokion_feast": "Theotokion of the Feast",
+            "theotokion_forefeast": "Theotokion of the Forefeast",
+            "theotokion_afterfeast": "Theotokion of the Feast",
+            "theotokion_saint": "Theotokion of the Saint",
+            "theotokion_resurrection": "Theotokion of the Resurrection",
+            "feast_theotokion": "Theotokion of the Feast",
+            "forefeast_theotokion": "Theotokion of the Forefeast",
+            "afterfeast_theotokion": "Theotokion of the Feast",
+            "saint_doxastikon": "Doxastikon of the Saint",
+            "feast_doxastikon": "Doxastikon of the Feast",
+            "trop_feast": "Troparion of the Feast",
+            "troparion_feast": "Troparion of the Feast",
+            "trop_forefeast": "Troparion of the Forefeast",
+            "troparion_forefeast": "Troparion of the Forefeast",
+            "trop_saint": "Troparion of the Saint",
+            "troparion_saint": "Troparion of the Saint",
+            "kont_feast": "Kontakion of the Feast",
+            "kontakion_feast": "Kontakion of the Feast",
+            "kont_saint": "Kontakion of the Saint",
+            "kontakion_saint": "Kontakion of the Saint",
+            "troparion_saint_if_any": "Troparion of the Saint",
+            "troparion_day_of_week": "Troparion of the Day",
+            "troparion_temple": "Troparion of the Temple",
+            "theotokion_daily": "Daily Theotokion",
+            "kontakion_saint_if_any": "Kontakion of the Saint",
+            "kontakion_day_of_week": "Kontakion of the Day",
+            "kontakion_temple": "Kontakion of the Temple",
+        }
+        if base in canon_map:
+            return canon_map[base]
+            
+        m = re.match(r"^(aposticha|stichera|doxastikon|theotokion|troparion|kontakion|sessional|exapostilarion)_(feast|forefeast|afterfeast|saint|theotokos|resurrection|temple|cross|day)$", base)
+        if m:
+            h_type, subj = m.groups()
+            h_clean = "Stichera" if h_type == "aposticha" else h_type.capitalize()
+            return f"{h_clean} of the {subj.capitalize()}"
+
+        m_rev = re.match(r"^(feast|forefeast|afterfeast|saint|theotokos|resurrection)_(doxastikon|theotokion|troparion|kontakion|sessional|exapostilarion|stichera|aposticha)$", base)
+        if m_rev:
+            subj, h_type = m_rev.groups()
+            h_clean = "Stichera" if h_type == "aposticha" else h_type.capitalize()
+            return f"{h_clean} of the {subj.capitalize()}"
+            
+        m_trop = re.match(r"^(trop|kont)_(feast|forefeast|afterfeast|saint|theotokos|resurrection|temple|cross|day)$", base)
+        if m_trop:
+            h_type, subj = m_trop.groups()
+            h_clean = "Troparion" if h_type == "trop" else "Kontakion"
+            return f"{h_clean} of the {subj.capitalize()}"
+            
+        return base.replace("_", " ").title()
 
     # --- Phase 8: Advanced Collision Logic (Double Feasts) ---
 

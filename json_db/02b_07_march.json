@@ -33,7 +33,49 @@
               }
             }
           }
-        ]
+        ],
+        "variables": {
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_presanctified",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_polyeleos",
+          "vespers_stichera_distribution": {
+            "total_count": 8,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "martyrs",
+                "qty": 8
+              }
+            ],
+            "glory": "martyrs_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "martyrs_canon_8"
+          ],
+          "matins_katavasia": "triodion_current",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "martyrs",
+                "qty": 4
+              }
+            ],
+            "glory": "martyrs_praises_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_gospel": "matthew_20_1_16",
+          "liturgy_readings": [
+            "hebrews_12_1_10",
+            "matthew_20_1_16"
+          ],
+          "communion_hymn": "rejoice_in_the_lord"
+        }
       },
       "24": {
         "title_key": "menaion.mar_24.forefeast_annunciation",
@@ -41,7 +83,43 @@
         "period": "forefeast",
         "linked_feast_id": "03-25",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.7.2.8.3",
-        "base_template": "CASE_08"
+        "base_template": "CASE_09",
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_08"
+          }
+        ],
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_presanctified",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "forefeast",
+                "qty": 6
+              }
+            ],
+            "glory_both_now": "forefeast_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "forefeast_canon_8"
+          ],
+          "matins_katavasia": "triodion_current",
+          "liturgy_readings": [
+            "day_current"
+          ]
+        }
       },
       "25": {
         "title_key": "menaion.mar_25.annunciation",
@@ -52,7 +130,7 @@
           "suppress_octoechos": true,
           "fast_level": "wine_oil_fish"
         },
-        "base_template": "CASE_14",
+        "base_template": "CASE_12",
         "variants": [
           {
             "case_id": "ANN_01",
@@ -313,7 +391,39 @@
             "luke_1_24_38"
           ],
           "megalynarion": "receive_o_earth_glad_tidings",
-          "communion_hymn": "the_lord_has_chosen_zion"
+          "communion_hymn": "the_lord_has_chosen_zion",
+          "vespers_type": "great_vespers_vigil",
+          "matins_type": "great_matins",
+          "liturgy_type": "vesperal_merge_logic",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_vigil_theotokos",
+          "vespers_stichera_distribution": {
+            "total_count": 10,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 10
+              }
+            ],
+            "glory_both_now": "annunciation_doxastikon"
+          },
+          "matins_canon_stacking": [
+            "annunciation_canon_14"
+          ],
+          "matins_katavasia": "theotokos_canon_october",
+          "praises_distribution": {
+            "total_count": 4,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 4
+              }
+            ],
+            "glory_both_now": "annunciation_praises_doxastikon"
+          }
         }
       },
       "26": {
@@ -321,7 +431,42 @@
         "rank": "rank_apodosis",
         "period": "apodosis",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.7.3.26",
-        "base_template": "CASE_20"
+        "base_template": "CASE_20",
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "great_matins",
+          "liturgy_type": "liturgy_presanctified",
+          "has_polyeleos": false,
+          "doxology_type": "great_doxology",
+          "rank": "rank_apodosis",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "archangel",
+                "qty": 3
+              }
+            ],
+            "glory": "archangel_doxastikon",
+            "both_now": "annunciation_theotokion"
+          },
+          "matins_canon_stacking": [
+            "annunciation_canon_8",
+            "archangel_canon_6"
+          ],
+          "matins_katavasia": "triodion_current",
+          "liturgy_readings": [
+            "hebrews_2_2_10",
+            "luke_10_16_21"
+          ],
+          "communion_hymn": "he_makes_his_angels_winds"
+        }
       }
     }
   }

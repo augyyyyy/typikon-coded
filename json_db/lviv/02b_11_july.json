@@ -13,6 +13,41 @@
         "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:5.3.11",
         "base_template": "CASE_05"
+      },
+      "11": {
+        "title_key": "menaion.jul_11.euphemia_martyr",
+        "rank": "rank_simple_4",
+        "source_ref": "Dolnytsky_Typikon_Master.md:5.3.11",
+        "base_template": "CASE_02",
+        "variables": {
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
+          "liturgy_type": "liturgy_chrysostom",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_4",
+          "vespers_stichera_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "saint",
+                "qty": 6
+              }
+            ],
+            "glory": "saint_doxastikon",
+            "both_now": "theotokion"
+          },
+          "matins_canon_stacking": [
+            "euphemia_canon_4"
+          ],
+          "matins_katavasia": "irmos_last_canon",
+          "liturgy_readings": [
+            "2_corinthians_6_1_10",
+            "luke_7_36_50"
+          ],
+          "communion_hymn": "righteous_memory"
+        }
       }
     }
   }

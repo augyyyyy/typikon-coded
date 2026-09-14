@@ -145,6 +145,19 @@ class MatinsMixin:
              
         praises_logic = case_def.get("variables", {}).get("praises_distribution")
         
+        while praises_logic and "inherits" in praises_logic:
+            target_id = praises_logic["inherits"]
+            cases = self.general_cases.get("logic_definitions", {})
+            target_case = None
+            for c_k, c_v in cases.items():
+                if isinstance(c_v, dict) and (c_v.get("id") == target_id or c_k == target_id):
+                    target_case = c_v
+                    break
+            if target_case:
+                praises_logic = target_case.get("variables", {}).get("praises_distribution", {})
+            else:
+                break
+        
         # If no praises logic is defined for this case (e.g. daily/Lenten cases might behave differently)
         # Default behavior: No praises stichera on simple weekdays (unless festival)
         if not praises_logic:
@@ -486,7 +499,7 @@ class MatinsMixin:
         if is_feast_lord or is_feast_theotokos:
             selected_rule_id = "feast_lord_theotokos"
         elif is_sunday:
-            if context.get("is_fore_or_afterfeast"):
+            if is_fore_after:
                 if saint_count >= 1:
                     selected_rule_id = "sunday_with_feast_and_saint"
                 else:
@@ -499,7 +512,7 @@ class MatinsMixin:
                 else:
                     selected_rule_id = "sunday_with_two_saints"
         else: # Weekday
-            if context.get("is_fore_or_afterfeast"):
+            if is_fore_after:
                 if saint_count == 1:
                     selected_rule_id = "weekday_feast_and_saint"
                 elif saint_count >= 2:
@@ -1608,10 +1621,30 @@ class MatinsMixin:
                     return f"{book} {chap}:{verses[0]}"
             return key.replace('_', ' ').title()
 
+        # Check if Sunday coincides with a Great Feast of the Lord (rank == 1)
+        # On Great Feasts of the Lord, festal Gospel replaces the Sunday Eothinon (Dolnytsky Part V)
+        is_lord_great_feast = (rank == 1 or context.get("dolnytsky_rank") == "LORD") and not context.get("is_fore_or_afterfeast")
+
+        variables = context.get("variables", {})
+        matins_gospel = variables.get("matins_gospel") or context.get("matins_gospel")
+
+        if day_of_week == 0 and is_lord_great_feast and matins_gospel:
+            title = "Gospel of the Feast"
+            rubrics_title = context.get("rubrics_title")
+            if rubrics_title:
+                try:
+                    res = self.get_text(rubrics_title)
+                    res_val = res.get("title") if isinstance(res, dict) else res
+                    title = f"Gospel of the Feast ({res_val})"
+                except Exception:
+                    pass
+            return {
+                "type": "feast",
+                "title": title,
+                "text": format_gospel_key(matins_gospel)
+            }
+
         if day_of_week != 0 and rank <= 2:
-            # Check if there is an explicit matins_gospel key
-            variables = context.get("variables", {})
-            matins_gospel = variables.get("matins_gospel") or context.get("matins_gospel")
             if matins_gospel:
                 title = "Gospel of the Feast"
                 rubrics_title = context.get("rubrics_title")
@@ -1663,11 +1696,20 @@ class MatinsMixin:
                 
         # 2. Sunday Gospel (Eothinon)
         if day_of_week == 0: # Sunday
-            eothinon_num = context.get("eothinon_number", 1) 
-            return {
-                "reading_key": f"eothinon.gospel_{eothinon_num}",
-                "title": f"Matins Gospel {eothinon_num} (Eothinon)" 
-            }
+            if "eothinon_number" in context:
+                eothinon_num = context["eothinon_number"]
+            elif "eothinon" in context:
+                eothinon_num = context["eothinon"]
+            elif hasattr(self, "calendar") and hasattr(self.calendar, "calculate_eothinon_gospel"):
+                eothinon_num = self.calendar.calculate_eothinon_gospel(context)
+            else:
+                eothinon_num = 1
+
+            if eothinon_num is not None:
+                return {
+                    "reading_key": f"eothinon.gospel_{eothinon_num}",
+                    "title": f"Matins Gospel {eothinon_num} (Eothinon)" 
+                }
         
         return None
 
@@ -1792,6 +1834,23 @@ class MatinsMixin:
         day = context.get("day_of_week", 0)
         rank = parse_rank_integer(context.get("rank", 5))
         is_sunday = day == 0 or context.get("is_sunday_vigil")
+        is_after_or_fore = bool(
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_fore_or_afterfeast") or
+            context.get("period") in ("afterfeast", "forefeast")
+        )
+        if not is_sunday and is_after_or_fore:
+            p_name = "forefeast" if context.get("is_forefeast") else "feast"
+            return {
+                "type": "aposticha",
+                "components": [
+                    {"source": "menaion", "id": f"aposticha_{p_name}", "count": 3},
+                    {"source": "menaion", "id": "doxastikon_saint", "type": "glory"},
+                    {"source": "menaion", "id": f"theotokion_{p_name}", "type": "both_now"}
+                ]
+            }
+
         if not is_sunday and rank >= 5 and not context.get("feast_id"):
             return self.resolve_stichera_group_universal(context, group_type="matins_aposticha")
             
@@ -1970,6 +2029,17 @@ class MatinsMixin:
         day_names = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
         weekday = day_names[day_of_week] if day_of_week < len(day_names) else 'monday'
         
+        is_fore_after = bool(
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_fore_or_afterfeast") or
+            context.get("period") in ("afterfeast", "forefeast")
+        )
+        if is_fore_after and day_of_week != 0:
+            # Dolnytsky Part I Line 204:
+            # "In the Fore- and Afterfeast the Theotokion is not taken, but instead of it the troparion of the Feast is sung."
+            return None
+
         # 1. Great Feast: Festal Theotokion (if Theotokos feast) or no separate Theotokion
         if d_rank in ("LORD", "THEOTOKOS", "MOG") or rank == 1:
             feast_id = context.get('feast_id', '')
@@ -2107,8 +2177,14 @@ class MatinsMixin:
     def get_katavasia(self, context):
         """
         Gate 7: Katavasia Selector
+        Cites Dolnytsky Part V (Lines 244-273).
         """
-        # Fallback to generic, or katavasia_seasons lookup
+        if hasattr(self, 'resolve_katavasia'):
+            res = self.resolve_katavasia(context)
+            if isinstance(res, dict):
+                return res.get("katavasia_id") or res.get("id") or "katavasia_generic"
+            if isinstance(res, str):
+                return res
         return "katavasia_generic"
 
 

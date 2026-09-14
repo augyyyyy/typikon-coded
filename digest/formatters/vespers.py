@@ -106,6 +106,8 @@ class VespersFormatterMixin:
                 name = "Stichera"
             elif "res" in t.lower():
                 name = "Resurrectional Stichera"
+            elif t == "feast":
+                name = "Feast Stichera"
             else:
                 name = self.humanize_key(t) if t else "Stichera"
                 if not name.lower().endswith("stichera"):
@@ -127,19 +129,23 @@ class VespersFormatterMixin:
         glory_human = self.humanize_key(glory_val)
         both_now_human = self.humanize_key(both_now_val)
         
+        if both_now_human and both_now_human.strip().lower() == "theotokion":
+            tone = res.get("tone") or context.get("tone")
+            tone_rom = self._roman_tone(tone) if (tone and hasattr(self, "_roman_tone")) else None
+            if tone_rom:
+                both_now_human = f"Theotokion in Tone {tone_rom}"
+            else:
+                both_now_human = "Theotokion from the Horologion or Octoechos"
+
         has_glory = glory_human and glory_human.strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)")
         
         if has_glory:
             parts.append(f"Glory... {glory_human}")
             if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
                 parts.append(f"Both now... {both_now_human}")
-        elif str(glory_val).strip().lower() == "(no_saint_doxastikon)" or str(glory_val).strip().lower() == "(no saint doxastikon)":
-            parts.append("Glory... Doxastikon of the Saint")
-            if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
-                parts.append(f"Both now... {both_now_human}")
         else:
             if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
-                parts.append(f"Glory, Both now... {both_now_human}")
+                parts.append(f"Glory, Both now: {both_now_human}")
                 
         return "; ".join(parts) + "."
         
@@ -242,7 +248,7 @@ class VespersFormatterMixin:
                 return f"**At the Dismissal Troparia:** Troparion of {s_name}; Glory, both now... Dismissal Theotokion in Tone {tone_rom}."
             
         parts = []
-        for c in res["components"]:
+        for c in res.get("components", []):
             typ = c.get("type", "")
             ref_key = c.get("ref_key", "")
             ref = self.humanize_key(ref_key)
@@ -251,23 +257,33 @@ class VespersFormatterMixin:
             elif typ == "glory":
                 parts.append(f"Glory... {ref}")
             elif "both_now" in typ:
-                bn_text = "Glory, both now" if typ == "glory_both_now" else "Both now"
-                if "theotokion" in ref.lower() or "theotokion" in ref_key.lower() or "day_" in ref_key.lower():
-                    parts.append(f"{bn_text}... Theotokion")
+                bn_text = "Glory, Both now" if typ == "glory_both_now" else "Both now"
+                if "feast.troparion" in ref_key or ref == "Feast Troparion" or (is_fore_after and "feast" in ref_key):
+                    parts.append(f"{bn_text}: Troparion of the Feast")
+                elif "theotokion_of_the_feast" in ref_key.lower() or ref == "Theotokion of the Feast":
+                    parts.append(f"{bn_text}: Theotokion of the Feast")
+                elif "dismissal_theotokion" in ref_key.lower() or "theotokion" in ref.lower():
+                    # Qualify with tone or day if known
+                    tone_val = context.get("tone")
+                    tone_rom = self._roman_tone(tone_val) if tone_val else ""
+                    tone_str = f" in Tone {tone_rom}" if tone_rom else ""
+                    parts.append(f"{bn_text}: Dismissal Theotokion{tone_str}")
                 else:
-                    parts.append(f"{bn_text}... {ref}")
+                    parts.append(f"{bn_text}: {ref}")
             else:
-                if "Troparion" in ref:
+                if ref_key == "feast.troparion" or ref == "Feast Troparion":
+                    parts.append("the Troparion of the Feast")
+                elif "Troparion" in ref:
                     name = ref.replace("Troparion", "").strip()
                     if name.lower().startswith("of "):
-                        parts.append(f"the troparion {name}" if name else "the troparion")
+                        parts.append(f"the Troparion {name}" if name else "the Troparion")
                     else:
-                        parts.append(f"the troparion of the {name}" if name else "the troparion")
+                        parts.append(f"the Troparion of the {name}" if name else "the Troparion")
                 else:
                     if ref.lower().startswith("of "):
-                        parts.append(f"the troparion {ref}")
+                        parts.append(f"the Troparion {ref}")
                     else:
-                        parts.append(f"the troparion of the {ref}")
+                        parts.append(f"the Troparion of the {ref}")
         return "**At the Dismissal Troparia:** We sing " + "; ".join(parts) + "."
 
 
