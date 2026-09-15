@@ -397,17 +397,29 @@ class LiturgyFormatterMixin:
         tone = context.get("tone")
         tone_str = f" in Tone {tone}" if tone else ""
         
+        pending_prefix = ""
         for c in res["components"]:
+            c_type = c.get("type", "").lower()
+            if c_type in ("glory", "both_now", "glory_both_now"):
+                if c_type == "glory":
+                    pending_prefix = "Glory... "
+                elif c_type == "both_now":
+                    pending_prefix = "Both now... "
+                elif c_type == "glory_both_now":
+                    pending_prefix = "Glory, both now... "
+                continue
+
             typ = c.get("type", "").capitalize()
             source = c.get("source") or c.get("ref_key") or "hymn"
             
             # Helper to prepend Glory/Both now/etc.
-            prefix = ""
-            if c.get("glory") or c.get("type") == "glory":
+            prefix = pending_prefix
+            pending_prefix = ""
+            if c.get("glory"):
                 prefix = "Glory... "
-            elif c.get("both_now") or c.get("type") == "both_now":
+            elif c.get("both_now"):
                 prefix = "Both now... "
-            elif c.get("glory_both_now") or c.get("type") == "glory_both_now":
+            elif c.get("glory_both_now"):
                 prefix = "Glory, both now... "
                 
             if source == "resurrection_tone":
@@ -424,7 +436,7 @@ class LiturgyFormatterMixin:
             elif source == "menaion_saint":
                 saints = context.get("saints", [])
                 if saints:
-                    if typ.lower() == "kontakion" and len(saints) > 1 and (c.get("glory") or c.get("type") == "glory"):
+                    if typ.lower() == "kontakion" and len(saints) > 1 and (c.get("glory") or prefix.startswith("Glory")):
                         for s in saints[:-1]:
                             name = self.humanize_key(s.get("name", "Saint"))
                             parts.append(f"{typ} of {name}.")
@@ -507,6 +519,10 @@ class LiturgyFormatterMixin:
                     name_human = context.get("title") or "the Saint"
                 return f"*of {name_human}*"
             
+            scripture = self._format_scripture_key(ref_key)
+            if scripture:
+                return scripture
+
             ref_str = self.humanize_key(ref_key)
             if not ref_str or ref_str.lower() in (fallback_default.lower(), f"{fallback_default.lower()}_daily"):
                 return "*of the day*"
@@ -729,4 +745,29 @@ class LiturgyFormatterMixin:
         if text:
             return f"**Megalynarion:** *\"{text}\"*{rub_str}"
         return f"**Megalynarion:** {self.humanize_key(ref)}{rub_str}"
+
+
+    def _format_resolve_isodikon(self, res, context):
+        if not res:
+            return ""
+        verse = res.get("verse", "")
+        refrain = res.get("refrain", "")
+        if verse and refrain:
+            return f"**Entrance Hymn (Isodikon):** *\"{verse}\"* Refrain: *\"{refrain}\"*"
+        elif verse:
+            return f"**Entrance Hymn (Isodikon):** *\"{verse}\"*"
+        return ""
+
+
+    def _format_resolve_communion_hymn(self, res, context):
+        if not res:
+            return ""
+        text = res.get("text") or res.get("content")
+        ref_key = res.get("ref_key")
+        if text:
+            return f"**Kinonikon (Communion Verse):** *\"{text}\"*"
+        elif ref_key:
+            return f"**Kinonikon (Communion Verse):** {self.humanize_key(ref_key)}"
+        return ""
+
 

@@ -198,7 +198,10 @@ class CommonFormatterMixin:
         both_now_human = self.humanize_key(both_now)
         glory_both_now_human = self.humanize_key(glory_both_now)
         
-        has_glory = glory_human and glory_human.strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)")
+        if "if appointed" in glory_human.lower() or "if_appointed" in str(glory).lower():
+            has_glory = False
+        else:
+            has_glory = glory_human and glory_human.strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)")
         
         if has_glory:
             parts.append(f"Glory... {glory_human}")
@@ -371,11 +374,12 @@ class CommonFormatterMixin:
         elif variant == "great" or "great_prokeimenon" in ref_key:
             p_title = "Great Prokeimenon"
         elif res_type == "daily_prokeimenon":
-            day_name = {
-                0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
-                4: "Thursday", 5: "Friday", 6: "Saturday"
-            }.get(context.get("day_of_week", 4), "Thursday")
-            p_title = f"Daily Prokeimenon ({day_name} of the Octoechos)"
+            eve_index = (context.get("day_of_week", 1) - 1) % 7
+            eve_name = {
+                0: "Sunday Evening", 1: "Monday Evening", 2: "Tuesday Evening", 3: "Wednesday Evening",
+                4: "Thursday Evening", 5: "Friday Evening", 6: "Saturday Evening"
+            }.get(eve_index, "Sunday Evening")
+            p_title = f"Daily Prokeimenon ({eve_name})"
         elif res_type == "festal_prokeimenon":
             p_title = "Festal Prokeimenon"
         else:
@@ -407,7 +411,8 @@ class CommonFormatterMixin:
         if "saturday_evening" in ref_key or (context.get("day_of_week") == 6 and not variant):
             day_header = "On Saturday Evening:"
         elif res_type == "daily_prokeimenon" and context.get("day_of_week") is not None:
-            day_header = day_headers.get(context.get("day_of_week"))
+            eve_index = (context.get("day_of_week", 1) - 1) % 7
+            day_header = day_headers.get(eve_index)
             
         if day_header and content_116:
             # Parse daily prokeimenon refrain and verses from psalm_116
@@ -528,7 +533,9 @@ class CommonFormatterMixin:
             return "We sing the sessional hymns from the Octoechos."
         if "triodion" in val.lower():
             return "We sing the sessional hymns from the Triodion."
-        if "menaion" in val.lower() or "saint" in val.lower():
+        if "menaion" in val.lower() or "saint" in val.lower() or "feast" in val.lower():
+            if context.get("feast_level") in ("lord", "theotokos") or context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS") or context.get("is_fore_or_afterfeast") or "feast" in val.lower():
+                return "We sing the sessional hymns of the Feast."
             categories = context.get("saint_categories", [])
             if categories:
                 cat = categories[0]
@@ -613,8 +620,12 @@ class CommonFormatterMixin:
                 continue
                 
             if ref_key == "horologion.hypakoe_sunday":
-                t_val = tone or context.get("tone", 1)
-                parts.append(f"Sunday Hypakoe in Tone {t_val}")
+                if context.get("feast_level") == "lord" or context.get("dolnytsky_rank") == "LORD" or context.get("suppress_octoechos"):
+                    parts.append("Hypakoe of the Feast")
+                else:
+                    tone_val = tone if tone is not None else context.get("tone")
+                    t_val = tone_val if isinstance(tone_val, int) else 1
+                    parts.append(f"Sunday Hypakoe in Tone {t_val}")
                 continue
                 
             if ref_key == "horologion.troparion_uncreated_nature":

@@ -136,6 +136,12 @@ class VespersMixin:
                     dist = [{"source": vespers_logic.get("source"), "type": vespers_logic.get("type", "feast"), "qty": count}]
             glory = vespers_logic.get("glory")
             both_now = vespers_logic.get("both_now")
+            glory_both_now = vespers_logic.get("glory_both_now")
+            if glory_both_now:
+                if glory is None:
+                    glory = glory_both_now
+                if both_now is None:
+                    both_now = glory_both_now
             
             if glory is None or both_now is None:
                 base_context = context.copy()
@@ -159,7 +165,15 @@ class VespersMixin:
                 both_now = "feast_theotokion"
             elif both_now is None:
                 day_of_week = context.get("day_of_week", 0)
-                if day_of_week == 0 or context.get("is_sunday_vigil"):
+                is_lord_or_theotokos = (
+                    context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS")
+                    or context.get("feast_level") in ("lord", "theotokos")
+                    or context.get("rank") == 1
+                    or context.get("variables", {}).get("suppress_octoechos")
+                )
+                if is_lord_or_theotokos and day_of_week != 0:
+                    both_now = "feast_theotokion"
+                elif day_of_week == 0 or context.get("is_sunday_vigil"):
                     both_now = "dogmatikon_current_tone"
                 elif day_of_week in (3, 5):
                     both_now = "stavrotheotokion"
@@ -178,6 +192,8 @@ class VespersMixin:
                      if 60 <= context.get("pascha_offset", -100) <= 67 and context.get("is_afterfeast"):
                           return "pentecostarion.eucharist.vespers.theotokion_lord_i_call"
                      return "octoechos.theotokion_daily"
+                if key in ("cross_doxastikon", "cross_praises_doxastikon"):
+                     return "menaion.cross.doxastikon"
                 if (key == "saint" or key in ("saint_doxastikon_if_present", "saint_doxastikon_if_appointed", "saint_doxastikon")):
                      if context.get("saints"):
                           s = context["saints"][0]
@@ -232,7 +248,7 @@ class VespersMixin:
 
             expanded_items = expand_distribution(dist, context)
 
-            return {
+            res_dict = {
                 "total_count": count,
                 "distribution": dist,
                 "items": expanded_items,
@@ -240,6 +256,9 @@ class VespersMixin:
                 "both_now": resolved_both_now,
                 "case_id": "overridden_collision"
             }
+            if glory_both_now:
+                res_dict["glory_both_now"] = resolve_hymn_key(glory_both_now, context)
+            return res_dict
 
         # RULE: Lenten Sunday Evening Override
         # Citation: Dolnytsky Part IV (2nd and 5th Sunday Evening Vespers rubrics)
@@ -831,9 +850,18 @@ class VespersMixin:
         return None
 
 
-    def resolve_small_vespers_prokeimenon(self, context, rubrics):
-        # IV. Ps 92 Fixed
-        return {"type": "prokeimenon", "ref_key": "psalm_92_lord_is_king"}
+    def resolve_small_vespers_prokeimenon(self, context, rubrics=None):
+        # Saturday evening (for Sunday): Ps 92 Fixed
+        day_of_week = context.get("day_of_week", 0)
+        if day_of_week in (0, 6) or context.get("is_sunday_vigil"):
+            return {
+                "type": "prokeimenon",
+                "ref_key": "psalm_92_lord_is_king",
+                "tone": 6,
+                "text": "The Lord is King, He is clothed in majesty."
+            }
+        # On other days, the daily prokeimenon of the eve
+        return self.resolve_vespers_prokeimenon(context, rubrics)
 
 
     def resolve_small_vespers_case(self, context):
@@ -858,9 +886,19 @@ class VespersMixin:
             "CASE_11": "case_11_theotokos_sunday",
             "CASE_12": "case_12_theotokos_weekday",
             "CASE_17": "case_17_afterfeast_sunday_vigil",
-            "CASE_18": "case_18_afterfeast_weekday_vigil"
+            "CASE_18": "case_18_afterfeast_weekday_vigil",
+            "sunday_palm": "case_10_feast_lord",
+            "saturday_lazarus": "case_10_feast_lord"
         }
-        mapped_id = id_map.get(case_id, case_id)
+        is_lord_feast = (
+            context.get("feast_level") == "lord" or 
+            context.get("dolnytsky_rank") == "LORD" or
+            case_id in ("sunday_palm", "saturday_lazarus")
+        )
+        if is_lord_feast:
+            mapped_id = "case_10_feast_lord"
+        else:
+            mapped_id = id_map.get(case_id, case_id)
         dist_map = self.small_vespers_logic.get("small_vespers_distribution", {})
         
         # Check direct match
@@ -998,7 +1036,10 @@ class VespersMixin:
             
         both_now_val = tc.get("both_now", "none")
         if both_now_val == "resurrection_theotokion":
-            components.append({"type": "both_now", "ref_key": f"octoechos.theotokion_dismissal.tone_{tone}"})
+            if tone is not None:
+                components.append({"type": "both_now", "ref_key": f"octoechos.theotokion_dismissal.tone_{tone}"})
+            else:
+                components.append({"type": "both_now", "ref_key": "feast.theotokion"})
         elif both_now_val == "theotokion":
             components.append({"type": "both_now", "ref_key": f"horologion.theotokion_dismissal.day_{day_of_week}"})
         elif both_now_val == "dogmatikon":
@@ -1440,23 +1481,37 @@ class VespersMixin:
 
         # 2. Readings
         readings = []
+        r_overrides = None
         if rubrics:
              overrides = {**rubrics.get("variables", {}), **rubrics.get("overrides", {})}
              r_overrides = overrides.get("vespers_readings")
-             if r_overrides:
-                 for key in r_overrides:
-                     text_item = self.get_text(key, context=context)
-                     content_str = ""
-                     title_str = key.replace("_", " ").title()
-                     if text_item:
-                         content_str = text_item.get("content", "")
-                         title_str = text_item.get("title") or title_str
-                     readings.append({
-                         "type": "reading",
-                         "ref_key": key,
-                         "title": title_str,
-                         "content": content_str
-                     })
+        if not r_overrides:
+             r_overrides = context.get("variables", {}).get("vespers_readings") or context.get("vespers_readings")
+             
+        if r_overrides:
+             paremia_titles = {
+                 "exodus_15": "Exodus 15:22–16:1",
+                 "proverbs_3": "Proverbs 3:11–18",
+                 "isaiah_60": "Isaiah 60:11–16",
+                 "genesis_17": "Genesis 17:1–9",
+                 "exodus_3_1_8": "Exodus 3:1–8",
+                 "exodus_24_12_18": "Exodus 24:12–18",
+                 "exodus_33_11_23": "Exodus 33:11–23",
+                 "exodus_40": "Exodus 40:1–5, 9–10, 16, 34–35"
+             }
+             for key in r_overrides:
+                 text_item = self.get_text(key, context=context)
+                 content_str = ""
+                 title_str = paremia_titles.get(key, key.replace("_", " ").title())
+                 if text_item:
+                     content_str = text_item.get("content", "")
+                     title_str = text_item.get("title") or title_str
+                 readings.append({
+                     "type": "reading",
+                     "ref_key": key,
+                     "title": title_str,
+                     "content": content_str
+                 })
          
         return [prokeimenon] + readings
 

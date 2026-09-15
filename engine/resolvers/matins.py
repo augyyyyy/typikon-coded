@@ -512,13 +512,25 @@ class MatinsMixin:
                 else:
                     selected_rule_id = "sunday_with_two_saints"
         else: # Weekday
-            if is_fore_after:
+            is_apodosis = bool(
+                context.get("is_apodosis") or
+                context.get("period") == "apodosis" or
+                context.get("triodion_period") == "apodosis" or
+                context.get("dolnytsky_rank") == "apodosis" or
+                "apodosis" in d_title or "leave-taking" in d_title
+            )
+            if is_apodosis:
+                if has_saint_polyeleos or any(parse_rank_integer(s.get("rank", 5)) <= 3 for s in actual_saints):
+                    selected_rule_id = "weekday_feast_and_saint"
+                else:
+                    selected_rule_id = "feast_lord_theotokos"
+            elif is_fore_after:
                 if saint_count == 1:
                     selected_rule_id = "weekday_feast_and_saint"
                 elif saint_count >= 2:
                     selected_rule_id = "weekday_feast_and_two_saints"
                 else:
-                    selected_rule_id = "weekday_saint"
+                    selected_rule_id = "feast_lord_theotokos"
             else:
                 if saint_count >= 2 and not has_saint_polyeleos:
                     selected_rule_id = "weekday_two_non_polyeleos_saints"
@@ -1266,30 +1278,16 @@ class MatinsMixin:
                 }
         
         # Great Feast: Festal irmos instead of "It is truly meet"
-        if rank == 1:
-            # Specific feasts that replace "It is truly meet" (Megalynaria/Refrains)
-            # Most Great Feasts of the Lord and Theotokos have 9th Ode Refrains suppressing "More Honorable"
-            # TODO: Verify Entry/Exaltation specifics. For now adding Meeting, Transfiguration, Ascension, Pentecost.
-            if feast_id in ['nativity', 'theophany', 'annunciation', 'dormition', 
-                           'meeting', 'transfiguration', 'ascension', 'pentecost', 
-                           'entry_jerusalem', 'exaltation_cross', 'presentation_theotokos', 'nativity_theotokos', 'eucharist']:
-                return {
-                    "type": "festal_magnificat",
-                    "magnificat_id": f"magnificat_{feast_id}",
-                    "axion_estin": False,
-                    "more_honorable": False,
-                    "note": "Festal irmos replaces 'It is truly meet'"
-                }
-            else:
-                # Fallback for others (should be few if any Great Feasts left?)
-                # Maybe Patronal Feasts?
-                return {
-                    "type": "festal_with_more_honorable",
-                    "magnificat_id": f"magnificat_{feast_id}",
-                    "axion_estin": False,
-                    "more_honorable": True,
-                    "followed_by": "festal_irmos"
-                }
+        # Great Feast: Festal irmos and refrains replace "More honorable" and "It is truly meet"
+        if rank == 1 or context.get('feast_level') in ('lord', 'theotokos') or context.get('dolnytsky_rank') in ('LORD', 'THEOTOKOS'):
+            fid = feast_id or context.get('dolnytsky_title', '').lower().replace(' ', '_')
+            return {
+                "type": "festal_magnificat",
+                "magnificat_id": f"magnificat_{fid}",
+                "axion_estin": False,
+                "more_honorable": False,
+                "note": "Festal refrains and irmos replace 'More honorable than the Cherubim' and 'My soul magnifies the Lord'"
+            }
         
         # Sunday: Sing irmos instead of "It is truly meet"
         if day_of_week == 0:
@@ -1377,8 +1375,44 @@ class MatinsMixin:
         season_id = context.get("season_id", "") or context.get("season", "")
         season = context.get("season", "") or season_id
 
-        # 0. Holy Week Exaposteilaria
-        if season_id == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
+        # 0. Holy Week and Great Feast Exaposteilaria
+        if pascha_off == -8:
+            # Lazarus Saturday: "By Thy word, O Word of God..."
+            return {
+                "type": "exapostilarion_stack",
+                "components": [
+                    {
+                        "type": "feast_exapostilarion",
+                        "ref_key": "triodion.lazarus_saturday_exapostilarion",
+                        "note": "Exapostilarion of Lazarus Saturday"
+                    }
+                ]
+            }
+        elif pascha_off == -7:
+            # Palm Sunday: Exapostilarion of the Feast
+            return {
+                "type": "exapostilarion_stack",
+                "components": [
+                    {
+                        "type": "feast_exapostilarion",
+                        "ref_key": "triodion.palm_sunday_exapostilarion",
+                        "note": "Exapostilarion of Palm Sunday"
+                    }
+                ]
+            }
+        elif pascha_off == 49:
+            # Pentecost: "O All-Holy Spirit..."
+            return {
+                "type": "exapostilarion_stack",
+                "components": [
+                    {
+                        "type": "feast_exapostilarion",
+                        "ref_key": "pentecostarion.pentecost_exapostilarion",
+                        "note": "Exapostilarion of Pentecost"
+                    }
+                ]
+            }
+        elif season_id == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
             if pascha_off in (-6, -5, -4, -3):
                 # Holy Mon, Tue, Wed, Thu: "Thy bridal chamber I see adorned..."
                 return {
@@ -1751,11 +1785,28 @@ class MatinsMixin:
         Matched directly by 'resolve_exapostilarion' in JSON struct files.
         """
         day_of_week = context.get("day_of_week")
+        pascha_off = context.get("pascha_offset")
+        is_feast_of_lord = (
+            context.get("feast_level") == "lord" or 
+            context.get("dolnytsky_rank") == "LORD" or
+            context.get("suppress_octoechos") or
+            (pascha_off is not None and pascha_off in (-8, -7, 49))
+        )
+        
+        # Festal overrides for Lazarus Saturday, Palm Sunday, and Pentecost
+        if pascha_off == -8:
+            return [{"type": "fixed_ref", "ref_key": "triodion.lazarus_saturday_exapostilarion"}]
+        elif pascha_off == -7:
+            return [{"type": "fixed_ref", "ref_key": "triodion.palm_sunday_exapostilarion"}]
+        elif pascha_off == 49:
+            return [{"type": "fixed_ref", "ref_key": "pentecostarion.pentecost_exapostilarion"}]
+
         items = []
         
         # Holy is the Lord (Sunday)
-        if day_of_week == 0:
-             tone = context.get("tone", 1)
+        if day_of_week == 0 and not is_feast_of_lord:
+             tone_val = context.get("tone")
+             tone = tone_val if isinstance(tone_val, int) else 1
              items.append({"type": "fixed_ref", "ref_key": f"octoechos.holy_is_the_lord_tone_{tone}"})
              
              # Eothinon Exapostilarion (only if eothinon_number is set)
@@ -1775,7 +1826,7 @@ class MatinsMixin:
              # Weekday Feast / Saint exapostilarion
              rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
              saints = context.get("saints", [])
-             has_feast_exap = any(s.get("rank", 5) <= 3 for s in saints) or rank <= 2
+             has_feast_exap = any(s.get("rank", 5) <= 3 for s in saints) or rank <= 2 or is_feast_of_lord
              
              if has_feast_exap:
                   is_afterfeast = context.get("is_afterfeast") or context.get("period") in ("afterfeast", "apodosis")
@@ -1991,14 +2042,35 @@ class MatinsMixin:
 
         # 4. Sunday Fallback (Atomic Keys)
         elif is_sunday and group_type == "matins_praises":
-            base_key = f"tone_{tone}.sun_matins.stichera_praises"
-            source_data = self.get_text(base_key, context=context)
-            if source_data and "_segments" in source_data:
-                 for i, seg in enumerate(source_data["_segments"][:8]):
-                     items.append({"type": "sticheron", "content": seg, "addr": f"{base_key}[{i}]"})
-            
-            items.append({"type": "fixed_ref", "ref_key": f"eothinon.praises_glory_gospel_{context.get('eothinon_number', 1)}"})
-            items.append({"type": "fixed_ref", "ref_key": f"octoechos.praises_both_now_tone_{tone}"})
+            is_lord_feast = (
+                context.get("feast_level") == "lord" or 
+                context.get("dolnytsky_rank") == "LORD" or
+                context.get("suppress_octoechos")
+            )
+            if is_lord_feast:
+                items.append({
+                    "type": "fixed_ref",
+                    "ref_key": "glory_praises_feast_doxastikon",
+                    "rubric_note": "Glory... Both now... Doxastikon of the Feast"
+                })
+            else:
+                base_key = f"tone_{tone}.sun_matins.stichera_praises"
+                source_data = self.get_text(base_key, context=context)
+                if source_data and "_segments" in source_data:
+                     for i, seg in enumerate(source_data["_segments"][:8]):
+                         items.append({"type": "sticheron", "content": seg, "addr": f"{base_key}[{i}]"})
+                
+                eoth_num = context.get("eothinon_number")
+                if eoth_num is not None:
+                    items.append({"type": "fixed_ref", "ref_key": f"eothinon.praises_glory_gospel_{eoth_num}"})
+                else:
+                    items.append({"type": "fixed_ref", "ref_key": "glory_praises_doxastikon", "rubric_note": "Glory... Doxastikon of the Feast"})
+                
+                tone_val = context.get("tone")
+                if tone_val is not None:
+                    items.append({"type": "fixed_ref", "ref_key": f"octoechos.praises_both_now_tone_{tone_val}"})
+                else:
+                    items.append({"type": "fixed_ref", "ref_key": "both_now_feast_theotokion", "rubric_note": "Both now... Theotokion of the Feast"})
 
         return items
 
@@ -2308,7 +2380,13 @@ class MatinsMixin:
         Resolves the intercession stichera/refrains after Psalm 50 in Matins.
         - Sunday / Great Feast (ordinary): Apostles / Theotokos / Jesus Risen
         - Lenten (Triodion period): Repentance / Salvation / Multitude of evil
+        - Holy Week (Bridegroom Matins / Holy Week): Suppressed (no intercessions)
         """
+        season_id = context.get("season_id", "") or context.get("season", "")
+        pascha_off = context.get("pascha_offset")
+        if season_id == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
+            return None
+
         is_lent = context.get("season") == "lent" or context.get("triodion_period") in ("lent", "triodion")
         
         if is_lent:
@@ -2328,7 +2406,8 @@ class MatinsMixin:
                 }
             }
         else:
-            tone = context.get("tone", 1)
+            tone_val = context.get("tone")
+            tone = tone_val if isinstance(tone_val, int) else 1
             return {
                 "type": "standard_psalm_50_intercession",
                 "glory": {
@@ -2360,7 +2439,8 @@ class MatinsMixin:
         """
         Resolves the Matins Prokeimenon.
         """
-        tone = context.get("tone", 1)
+        tone_val = context.get("tone")
+        tone = tone_val if isinstance(tone_val, int) else 1
         sunday_prokeimena = {
             1: {"tone": 1, "text": "Arise, Lord, help us, and redeem us for Thy mercy's sake"},
             2: {"tone": 2, "text": "Arise, O Lord my God, in the precept which Thou hast commanded"},
@@ -2379,6 +2459,7 @@ class MatinsMixin:
         if feast_prok:
             if isinstance(feast_prok, dict):
                 return feast_prok
-            return {"tone": tone, "text": str(feast_prok)}
+            safe_tone = tone_val if isinstance(tone_val, int) else 4
+            return {"tone": safe_tone, "text": str(feast_prok)}
             
         return sunday_prokeimena.get(tone, {"tone": tone, "text": f"Resurrectional Prokeimenon of Tone {tone}"})

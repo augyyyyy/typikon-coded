@@ -55,15 +55,19 @@
           "liturgy_antiphons": "typical_psalms",
           "troparia_sequence": "indiction_simeon_glory_kont_simeon_bn_kont_indiction",
           "liturgy_readings": [
-            "indiction_colossians",
-            "indiction_luke",
-            "saint_colossians_end"
+            "1_timothy_2_1_7",
+            "colossians_3_12_16",
+            "luke_4_16_22",
+            "matthew_11_27_30"
           ],
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
           "doxology_type": "great_doxology",
           "rank": "rank_doxology",
-          "communion_hymn": "praise_the_lord",
+          "communion_hymn": [
+            "crown_of_the_year",
+            "righteous_memory"
+          ],
           "praises_distribution": {
             "total_count": 4,
             "distribution": [

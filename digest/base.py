@@ -86,7 +86,7 @@ class DigestGeneratorBase:
         return " ".join(cap_words)
 
 
-    def _clean_name(self, name):
+    def _clean_name(self, name, is_saint=None):
         if not name:
             return ""
         name = name.replace("**", "").strip().rstrip('.')
@@ -104,23 +104,24 @@ class DigestGeneratorBase:
             "elevation", "circumcision", "ascension", "pentecost", "pascha", "birth",
             "beheading", "memory", "repose", "conception", "commemoration", "placing", "deposition",
             "veneration", "miracle", "wonder", "relics", "icon", "robe", "cincture", "belt",
-            "mid-pentecost", "sunday", "saturday", "weekday", "vigil", "feast", "fast"
+            "mid-pentecost", "sunday", "saturday", "weekday", "vigil", "feast", "fast",
+            "beginning", "indiction", "new year", "praises", "stichera", "doxastikon", "troparion", "kontakion"
         ]
         
         name_lower = name.lower()
         
-        # Remove leading "St." or "St " if followed by a hierarchical title or a feast word
+        # Remove leading "St." or "St " if followed by a hierarchical title, a feast word, or if is_saint is False
         if name_lower.startswith("st. ") or name_lower.startswith("st "):
             rest = name[4:].strip() if name_lower.startswith("st. ") else name[3:].strip()
             rest_lower = rest.lower()
-            if any(t in rest_lower for t in titles) or any(w in rest_lower for w in feast_words):
+            if any(t in rest_lower for t in titles) or any(w in rest_lower for w in feast_words) or is_saint is False:
                 name = rest
                 name_lower = name.lower()
                 
-        # Only prepend "St. " if no title is present, it doesn't already have it, and it's not a feast/event/day
+        # Only prepend "St. " if no title is present, it doesn't already have it, it's not a feast/event/day, and is_saint is not False
         has_title = any(t in name_lower for t in titles)
         is_feast = any(w in name_lower for w in feast_words)
-        if not has_title and not name_lower.startswith("st.") and not name_lower.startswith("st ") and not is_feast:
+        if not has_title and not name_lower.startswith("st.") and not name_lower.startswith("st ") and not is_feast and is_saint is not False:
             name = "St. " + name
         return name
 
@@ -711,24 +712,36 @@ class DigestGeneratorBase:
                 p_prefix = p_type
             
             saints = enriched.get("saints", [])
-            if saints:
-                saint_name = saints[0].get("name", "")
-                saint_name_clean = saint_name.replace("**", "").strip().rstrip(".").strip()
+            actual_saints = [
+                s for s in saints
+                if not any(w in s.get("name", "").lower() for w in ["forefeast", "afterfeast", "prefeast", "postfeast", "apodosis", "dedication of the temple"])
+            ]
+            if actual_saints:
+                saint_name = actual_saints[0].get("name", "")
+                saint_name_clean = saint_name.replace("**", "").replace("St. ", "").replace("Saint ", "").strip().rstrip(".").strip()
                 title = f"{p_prefix}; {saint_name_clean}".upper()
             else:
                 title = p_prefix
         elif d_title_clean and d_title_clean.lower() != title.lower():
             if any(x in d_title_clean.lower() for x in ["apodosis", "feast", "afterfeast", "forefeast"]):
                 saints = enriched.get("saints", [])
-                if saints:
-                    saint_name = saints[0].get("name", "")
-                    saint_name_clean = saint_name.replace("**", "").strip().rstrip(".").strip()
+                actual_saints = [
+                    s for s in saints
+                    if not any(w in s.get("name", "").lower() for w in ["forefeast", "afterfeast", "prefeast", "postfeast", "apodosis", "dedication of the temple"])
+                ]
+                if actual_saints:
+                    saint_name = actual_saints[0].get("name", "")
+                    saint_name_clean = saint_name.replace("**", "").replace("St. ", "").replace("Saint ", "").strip().rstrip(".").strip()
                     title = f"{d_title_clean}; {saint_name_clean}".upper()
                 else:
                     title = d_title_clean.upper()
 
         tone_str = enriched.get('tone', '')
-        if tone_str:
+        is_weekday = enriched.get("day_of_week", 0) != 0
+        rank = enriched.get("rank")
+        dolnytsky_rank = enriched.get("dolnytsky_rank", "")
+        suppress_octoechos = enriched.get("variables", {}).get("suppress_octoechos", False)
+        if tone_str and not (is_weekday and (dolnytsky_rank in ("LORD", "THEOTOKOS") or rank == 1 or suppress_octoechos)):
             title += f" - TONE {self._roman_tone(tone_str)}."
         else:
             title += "."
@@ -736,7 +749,7 @@ class DigestGeneratorBase:
         
         # 3. Saints List
         if "saints" in enriched:
-             saints_str = "; ".join(self._clean_name(s.get("name", s.get("id", ""))) for s in enriched["saints"])
+             saints_str = "; ".join(self._clean_name(s.get("name", s.get("id", "")), is_saint=s.get("is_saint")) for s in enriched["saints"])
              if saints_str:
                  digest.append(saints_str)
                   
@@ -768,7 +781,7 @@ class DigestGeneratorBase:
                         if "saint" in header.lower() and s_name_clean.lower() not in header.lower():
                             import re
                             pattern = re.compile(r'\bsaint\b', re.IGNORECASE)
-                            clean_saint_name = self._clean_name(saints[0].get("name"))
+                            clean_saint_name = self._clean_name(saints[0].get("name"), is_saint=saints[0].get("is_saint"))
                             header = pattern.sub(self._capitalize_name(clean_saint_name), header)
                         
                     header_str = ((header[0].upper() + header[1:]) if header else "").rstrip('.') + "."
@@ -837,11 +850,18 @@ class DigestGeneratorBase:
             if service["type_key"] in rubrics.get("overrides", {}):
                 root_id = rubrics["overrides"][service["type_key"]]
 
+            if root_id == "great_vespers":
+                root_id = "great_vespers_simple"
+
             if root_id in ["structure_suppressed", "no_liturgy"]:
                 continue
             
             # Suppression logic for Compline and Midnight Office during Weekday Vigil
             if service_name in ("Compline", "Midnight Office"):
+                pascha_off = context.get("pascha_offset")
+                if pascha_off == 0:
+                    # On Pascha Sunday itself, Compline and Midnight Office are completely omitted
+                    continue
                 day = context.get("day_of_week")
                 v_type = rubrics.get("overrides", {}).get("vespers_type") or rubrics.get("variables", {}).get("vespers_type") or context.get("vespers_type")
                 if day != 0 and v_type == "great_vespers_vigil":
@@ -1020,9 +1040,17 @@ class DigestGeneratorBase:
                     root_id = "structure_paschal"
 
             if service_name == "Midnight Office":
-                 mode_data = self.engine.resolve_midnight_office_mode(context)
-                 if "mode" in mode_data:
-                     root_id = f"midnight_{mode_data['mode']}"
+                pascha_off = context.get("pascha_offset")
+                if pascha_off == -1:
+                    digest.append("=== MIDNIGHT OFFICE OF GREAT AND HOLY SATURDAY (NOCTURNS) ===")
+                    digest.append("**Opening:** Blessing by the Priest. Trisagion prayers, Psalm 50.")
+                    digest.append("**Tomb Canon:** We chant the Canon of Great Saturday (*\"He Who in ancient times enclosed the boundlessly flowing sea...\"*). At the 9th Ode, during the Troparion *\"When Thou didst descend unto death, O Life Immortal\"*, the Priest and Deacon cense the Holy Shroud (Plashchanytsia), take it up from the tomb, carry it into the Holy of Holies through the Royal Doors, and place it upon the Holy Table, where it remains until the Ascension.")
+                    digest.append("**Dismissal:** Dismissal of Great Saturday. The clergy vest in bright (white) vestments for the Paschal Matins and Procession.")
+                    digest.append("")
+                    continue
+                mode_data = self.engine.resolve_midnight_office_mode(context)
+                if "mode" in mode_data:
+                    root_id = f"midnight_{mode_data['mode']}"
 
             # Load the structure sequence
             struct_data = self.engine._load_json(struct_file)
@@ -1164,17 +1192,20 @@ class DigestGeneratorBase:
             if k_lower.startswith(b_key + '_'):
                 rem = k_lower[len(b_key) + 1:]
                 parts = rem.split('_')
-                if len(parts) == 6:
-                    return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}; {parts[3]}:{parts[4]}–{parts[5]}"
-                elif len(parts) == 4:
-                    return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}:{parts[3]}"
-                elif len(parts) == 3:
-                    return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}"
-                elif len(parts) == 2:
-                    return f"{b_name} {parts[0]}:{parts[1]}"
-                elif len(parts) == 1 and parts[0].isdigit():
-                    return f"{b_name} {parts[0]}"
+                if all(p.isdigit() for p in parts):
+                    if len(parts) == 6 and int(parts[3]) < int(parts[2]):
+                        return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}; {parts[3]}:{parts[4]}–{parts[5]}"
+                    elif len(parts) >= 3 and (len(parts) - 1) % 2 == 0:
+                        spans = [f"{parts[i]}–{parts[i+1]}" for i in range(1, len(parts), 2)]
+                        return f"{b_name} {parts[0]}:" + ", ".join(spans)
+                    elif len(parts) == 4:
+                        return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}:{parts[3]}"
+                    elif len(parts) == 2:
+                        return f"{b_name} {parts[0]}:{parts[1]}"
+                    elif len(parts) == 1:
+                        return f"{b_name} {parts[0]}"
         return ""
+
 
     def _hour_name(self, h):
         return {1: "First Hour", 3: "Third Hour", 6: "Sixth Hour", 9: "Ninth Hour"}.get(h, f"{h}th Hour")
@@ -1388,7 +1419,11 @@ class DigestGeneratorBase:
                     title = d_title.upper()
 
         tone_str = enriched.get('tone', '')
-        if tone_str:
+        is_weekday = enriched.get("day_of_week", 0) != 0
+        rank = enriched.get("rank")
+        dolnytsky_rank = enriched.get("dolnytsky_rank", "")
+        suppress_octoechos = enriched.get("variables", {}).get("suppress_octoechos", False)
+        if tone_str and not (is_weekday and (dolnytsky_rank in ("LORD", "THEOTOKOS") or rank == 1 or suppress_octoechos)):
             title += f" - TONE {self._roman_tone(tone_str)}."
         else:
             title += "."
@@ -1820,7 +1855,9 @@ class DigestGeneratorBase:
                         
                         try:
                             res = self.engine.resolve_magnificat(enriched)
-                            if res and res.get("type") == "suppressed_magnificat":
+                            if res and res.get("type") == "festal_magnificat":
+                                digest.append("**At Ode IX:** We do not sing 'More honorable than the Cherubim' nor the Magnification ('My soul magnifies the Lord'), but we sing the Festal Refrains and the Heirmos of Ode IX of the Feast.  ")
+                            elif res and res.get("type") == "suppressed_magnificat":
                                 digest.append("**After Ode VIII:** We sing 'We praise, we bless, we worship the Lord...'; at Ode IX we do not sing 'More honorable' but immediately the Heirmos of the Feast.  ")
                             else:
                                 digest.append("**At Ode IX:** We sing the Magnification ('My soul magnifies the Lord...') and the refrains ('More honorable than the Cherubim...').  ")
@@ -1872,7 +1909,9 @@ class DigestGeneratorBase:
                         
                         try:
                             res = self.engine.resolve_magnificat(enriched)
-                            if res and res.get("type") == "suppressed_magnificat":
+                            if res and res.get("type") == "festal_magnificat":
+                                digest.append("**At Ode IX:** We do not sing 'More honorable than the Cherubim' nor the Magnification ('My soul magnifies the Lord'), but we sing the Festal Refrains and the Heirmos of Ode IX of the Feast.  ")
+                            elif res and res.get("type") == "suppressed_magnificat":
                                 digest.append("**After Ode VIII:** We sing 'We praise, we bless, we worship the Lord...'; at Ode IX we do not sing 'More honorable' but immediately the Heirmos of the Feast.  ")
                             else:
                                 digest.append("**At Ode IX:** We sing the Magnification.  ")
@@ -1890,9 +1929,18 @@ class DigestGeneratorBase:
                 except Exception as e:
                     pass
                     
-                if context.get("day_of_week") == 0:
-                    t_val = self._roman_tone(context.get("tone", 1))
-                    digest.append(f"Holy is the Lord... Tone {t_val}.  ")
+                is_feast_of_lord = (
+                    context.get("feast_level") == "lord" or 
+                    context.get("dolnytsky_rank") == "LORD" or
+                    context.get("suppress_octoechos") or
+                    (context.get("pascha_offset") is not None and context.get("pascha_offset") in (-7, 49))
+                )
+                
+                if context.get("day_of_week") == 0 and not is_feast_of_lord:
+                    tone_val = context.get("tone")
+                    if tone_val is not None:
+                        t_val = self._roman_tone(tone_val)
+                        digest.append(f"Holy is the Lord... Tone {t_val}.  ")
 
                 try:
                     res = self.engine.resolve_exapostilarion_matins(enriched)
@@ -1920,11 +1968,12 @@ class DigestGeneratorBase:
                 except Exception as e:
                     digest.append(f"[RESOLVE ERROR: resolve_praises_stichera: {e}]  ")
                     
-                if context.get("day_of_week") == 0:
+                if context.get("day_of_week") == 0 and not is_feast_of_lord:
                     try:
-                        eothinon_num = enriched.get("eothinon_number", 1)
-                        rom_num = self._roman_tone(eothinon_num)
-                        digest.append(f"After the Dismissal of Matins: Glory... both now... Gospel Sticheron {rom_num}.  ")
+                        eothinon_num = enriched.get("eothinon_number")
+                        if eothinon_num is not None:
+                            rom_num = self._roman_tone(eothinon_num)
+                            digest.append(f"After the Dismissal of Matins: Glory... both now... Gospel Sticheron {rom_num}.  ")
                     except Exception as e:
                         digest.append(f"[RESOLVE ERROR: gospel_sticheron_formatting: {e}]  ")
                         
@@ -1949,13 +1998,16 @@ class DigestGeneratorBase:
                                 formatted = "**At the Aposticha:** " + formatted
                         digest.append(f"{formatted}")
                 
-                # Exaltation of Cross Elevation Ceremony
-                if context.get("date", "").endswith("-09-14"):
-                    digest.append("")
-                    digest.append("**Ceremony of the Elevation of the Precious and Life-Giving Cross:**")
-                    digest.append("After the Great Doxology (sung), the celebrant carries the Precious Cross in solemn procession to the center of the temple, chanting *\"Wisdom! Stand aright!\"*")
-                    digest.append("The priest elevates the Cross towards the four cardinal directions (East, West, South, North, and East again), while the choir sings *\"Lord, have mercy\"* 100 times for each station (500 times total).")
-                    digest.append("**Veneration of the Cross:** Celebrant and faithful venerate the Cross while singing the hymn *\"Before Your Cross, we bow down in worship, O Master, and Your holy Resurrection we glorify\"* (thrice).")
+                try:
+                    res_post = self.engine.resolve_post_doxology_event(context, rubrics)
+                    if res_post:
+                        formatted_post = self._format_resolve_post_doxology_event(res_post, context)
+                        if formatted_post:
+                            if digest and digest[-1] != "":
+                                digest.append("")
+                            digest.append(formatted_post)
+                except Exception as e:
+                    pass
 
                 if is_weekday:
                     if digest and digest[-1] != "":
@@ -2394,8 +2446,8 @@ class DigestGeneratorBase:
                         res = self.engine.resolve_liturgy_readings(enriched, rubrics)
                         if res and res.get("readings"):
                             def get_ref_label_local(ref_key, fallback_default):
-                                if not ref_key:
-                                    return f"*{fallback_default}*"
+                                if not ref_key or ref_key.strip().lower() in ("", "gospel", "epistle", "prokeimenon", "alleluia", "apostol", "evangelion", "weekday", "sunday", "day"):
+                                    return "*of the day*"
                                 if ref_key.startswith("menaion."):
                                     name = "Saint"
                                     if enriched.get("feast_level") in ("lord", "theotokos") or enriched.get("is_fore_or_afterfeast"):
@@ -2427,11 +2479,16 @@ class DigestGeneratorBase:
                                 if scripture_val and scripture_val != self.humanize_key(ref_key):
                                     return f"*{scripture_val}*"
                                 
+                                if ref_key.lower() in ("apostol.weekday", "evangelion.weekday", "apostol.sunday", "evangelion.sunday", "weekday", "sunday"):
+                                    return "*of the day*"
+
                                 ref_str = self.humanize_key(ref_key)
                                 if not ref_str or ref_str.lower() in (fallback_default.lower(), f"{fallback_default.lower()}_daily") or "day_" in ref_key.lower():
                                     return "*of the day*"
                                 
                                 ref_clean = ref_str.replace("Prokimenon", "").replace("Prokeimenon", "").replace("Epistle", "").replace("Alleluia", "").replace("Gospel", "").strip()
+                                if not ref_clean or ref_clean.lower() in ("weekday", "sunday", "day"):
+                                    return "*of the day*"
                                 return f"*{ref_clean}*"
 
                             for idx, r in enumerate(res["readings"]):
@@ -2461,9 +2518,16 @@ class DigestGeneratorBase:
                                         ref_key = p.get("ref_key", "")
                                         val = get_ref_label_local(ref_key, "Prokeimenon")
                                         val_clean = val.strip('*')
-                                        if val_clean.lower() in ("the feast", "of the feast"):
-                                            val_clean = enriched.get("title") or enriched.get("rubrics_title") or "the Feast"
-                                        if not val_clean.lower().startswith("of "):
+                                        if val_clean.lower() in ("prokeimenon", "of prokeimenon", "weekday", "of weekday", "sunday", "of sunday", "the day", "of the day"):
+                                            val_clean = "of the day"
+                                        elif val_clean.lower() in ("the feast", "of the feast"):
+                                            val_clean = f"of {enriched.get('title') or enriched.get('rubrics_title') or 'the Feast'}"
+                                        elif val_clean.lower() in ("the saint", "of the saint"):
+                                            val_clean = "of the Saint"
+                                        elif val_clean.lower().startswith(("saint ", "st. ", "martyr ", "apostle ", "prophet ", "hierarch ")):
+                                            if not val_clean.lower().startswith("of "):
+                                                val_clean = f"of {val_clean}"
+                                        elif not val_clean.lower().startswith("of ") and not any(k in val_clean.lower() for k in ["save", "lord", "god", "king", "salvation", "people", "earth", "holy"]):
                                             val_clean = f"of {val_clean}"
                                         p_body = f"{val_clean}{' (Tone ' + self._roman_tone(p.get('tone')) + ')' if p.get('tone') else ''}"
                                         digest.append(f"**{label}:**  \n> {p_body}")
@@ -2476,15 +2540,23 @@ class DigestGeneratorBase:
                                         scripture_val = self._format_scripture_key(e["ref_key"])
                                         if scripture_val and scripture_val != self.humanize_key(e["ref_key"]):
                                             text = scripture_val
+                                        elif ":" in e["ref_key"] and not "." in e["ref_key"] and any(c.isdigit() for c in e["ref_key"]):
+                                            text = e["ref_key"].replace("-", "–")
                                     if text:
                                         digest.append(f"**Epistle:**  \n> {text}")
                                     else:
                                         ref_key = e.get("ref_key", "")
                                         val = get_ref_label_local(ref_key, "Epistle")
                                         val_clean = val.strip('*')
-                                        if val_clean.lower() in ("the feast", "of the feast"):
-                                            val_clean = enriched.get("title") or enriched.get("rubrics_title") or "the Feast"
-                                        if not val_clean.lower().startswith("of "):
+                                        if val_clean.lower() in ("epistle", "of epistle", "weekday", "of weekday", "sunday", "of sunday", "the day", "of the day"):
+                                            val_clean = "of the day"
+                                        elif any(char.isdigit() for char in val_clean) or any(bk in val_clean.lower() for bk in ["gal", "rom", "cor", "eph", "phil", "col", "thess", "tim", "tit", "heb", "james", "pet", "john", "jude", "acts"]):
+                                            pass
+                                        elif val_clean.lower() in ("the feast", "of the feast"):
+                                            val_clean = f"of {enriched.get('title') or enriched.get('rubrics_title') or 'the Feast'}"
+                                        elif val_clean.lower() in ("the saint", "of the saint"):
+                                            val_clean = "of the Saint"
+                                        elif not val_clean.lower().startswith("of "):
                                             val_clean = f"of {val_clean}"
                                         digest.append(f"**Epistle:**  \n> {val_clean}")
                                 elif slot_id == "liturgy_alleluia" and "alleluia" in r:
@@ -2532,9 +2604,13 @@ class DigestGeneratorBase:
                                             else:
                                                 val = get_ref_label_local(ref_key, "Alleluia")
                                                 val_clean = val.strip('*')
-                                                if val_clean.lower() in ("the feast", "of the feast"):
-                                                    val_clean = enriched.get("title") or enriched.get("rubrics_title") or "the Feast"
-                                                if not val_clean.lower().startswith("of "):
+                                                if val_clean.lower() in ("alleluia", "of alleluia", "weekday", "of weekday", "sunday", "of sunday", "the day", "of the day"):
+                                                    val_clean = "of the day"
+                                                elif val_clean.lower() in ("the feast", "of the feast"):
+                                                    val_clean = f"of {enriched.get('title') or enriched.get('rubrics_title') or 'the Feast'}"
+                                                elif val_clean.lower() in ("the saint", "of the saint"):
+                                                    val_clean = "of the Saint"
+                                                elif not val_clean.lower().startswith("of "):
                                                     val_clean = f"of {val_clean}"
                                                 digest.append(f"**{label}:**  \n> {val_clean}")
                                     except Exception as e_all:
@@ -2548,15 +2624,25 @@ class DigestGeneratorBase:
                                         scripture_val = self._format_scripture_key(g["ref_key"])
                                         if scripture_val and scripture_val != self.humanize_key(g["ref_key"]):
                                             text = scripture_val
+                                        elif ":" in g["ref_key"] and not "." in g["ref_key"] and any(c.isdigit() for c in g["ref_key"]):
+                                            text = g["ref_key"].replace("-", "–")
                                     if text:
                                         digest.append(f"**Gospel:**  \n> {text}")
                                     else:
                                         ref_key = g.get("ref_key", "")
                                         val = get_ref_label_local(ref_key, "Gospel")
                                         val_clean = val.strip('*')
-                                        if val_clean.lower() in ("the feast", "of the feast"):
-                                            val_clean = enriched.get("title") or enriched.get("rubrics_title") or "the Feast"
-                                        if not val_clean.lower().startswith("of "):
+                                        if val_clean.lower() in ("gospel", "of gospel", "weekday", "of weekday", "sunday", "of sunday", "the day", "of the day"):
+                                            val_clean = "of the day"
+                                        elif any(char.isdigit() for char in val_clean) or any(bk in val_clean.lower() for bk in ["mt", "mk", "lk", "jn", "matt", "mark", "luke", "john"]):
+                                            pass
+                                        elif val_clean.lower() in ("the feast", "of the feast"):
+                                            val_clean = f"of {enriched.get('title') or enriched.get('rubrics_title') or 'the Feast'}"
+                                        elif val_clean.lower() in ("the saint", "of the saint"):
+                                            val_clean = "of the Saint"
+                                        elif val_clean.lower() in ("the day", "of the day"):
+                                            val_clean = "of the day"
+                                        elif not val_clean.lower().startswith("of "):
                                             val_clean = f"of {val_clean}"
                                         digest.append(f"**Gospel:**  \n> {val_clean}")
                     except Exception as e:
@@ -2747,6 +2833,13 @@ class DigestGeneratorBase:
                             digest.append(f"[ERROR: Structure ref '{root_id}' not found in {target_file}]")
                     except Exception as e:
                         digest.append(f"[ERROR: Loading Structure Ref {root_id} from {target_file} failed - {e}]")
+
+            elif slot_type == "fixed_action":
+                action = content.get("action", "")
+                if action == "clergy_make_entrance_with_censer":
+                    digest.append('**At the Entrance:** The clergy make the Entrance with the censer. *"Wisdom! Stand aright!"* *"O Joyful Light".*')
+                elif action == "clergy_make_entrance_with_gospel":
+                    digest.append('**At the Entrance:** The clergy make the Entrance with the Gospel. *"Wisdom! Stand aright!"* *"O Joyful Light".*')
 
             elif slot_type == "fixed_ref":
                 ref_key = content.get("ref_key")

@@ -88,8 +88,10 @@
                         }
                     },
                     "content": {
-                        "type": "component_ref",
-                        "ref_key": "components.little_entrance_rite"
+                        "type": "variable_logic",
+                        "logic": {
+                            "function": "resolve_isodikon"
+                        }
                     }
                 },
                 {

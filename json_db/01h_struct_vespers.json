@@ -311,6 +311,10 @@
                 }
             ]
         },
+        "great_vespers": {
+            "title_key": "titles.vespers_great_simple",
+            "inherits_from": "great_vespers_simple"
+        },
         "great_vespers_polyeleos": {
             "title_key": "titles.vespers_great_polyeleos",
             "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.2",

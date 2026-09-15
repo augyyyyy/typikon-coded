@@ -324,14 +324,18 @@ class CalendarMixin:
                 }
                 eothinon = paschal_eothina.get(delta)
             elif delta < 0:
-                # Before current year's Pascha — use previous year's All Saints
-                prev_all_saints = prev_pascha + timedelta(days=56)
-                days_since_prev_all_saints = (target_date - prev_all_saints).days
-                if days_since_prev_all_saints >= 0:
-                    weeks = days_since_prev_all_saints // 7
-                    eothinon = (weeks % 11) + 1
-                if eothinon is None:
-                    eothinon = 1  # fallback
+                # Palm Sunday (offset -7) is a Class 1 Great Feast of the Lord: Eothinon suppressed
+                if delta == -7:
+                    eothinon = None
+                else:
+                    # Before current year's Pascha — use previous year's All Saints
+                    prev_all_saints = prev_pascha + timedelta(days=56)
+                    days_since_prev_all_saints = (target_date - prev_all_saints).days
+                    if days_since_prev_all_saints >= 0:
+                        weeks = days_since_prev_all_saints // 7
+                        eothinon = (weeks % 11) + 1
+                    if eothinon is None:
+                        eothinon = 1  # fallback
             # Bright Week / Pascha Sunday: no standard Eothinon
             if 0 <= delta <= 6:
                 eothinon = None
@@ -741,16 +745,10 @@ class CalendarMixin:
                     for entry_idx, e in enumerate(entries):
                         parsed = e.get("parsed_saints", [])
                         if parsed:
-                            # Filter out non-saints first
+                            # Filter out non-saints first if saints are present
                             parsed_saints_only = [ps for ps in parsed if ps.get("is_saint", True)]
                             if not parsed_saints_only:
-                                parsed_saints_only = [{
-                                    "name": e.get("description", ""),
-                                    "title": "",
-                                    "gender": "unknown",
-                                    "monastic": False,
-                                    "is_saint": True
-                                }]
+                                parsed_saints_only = parsed
                             
                             # Only use the first saint to represent the structural core of the commemoration
                             ps = parsed_saints_only[0]
@@ -778,6 +776,7 @@ class CalendarMixin:
                                 "title": ps.get("title", ""),
                                 "gender": ps.get("gender", "unknown"),
                                 "monastic": ps.get("monastic", False),
+                                "is_saint": ps.get("is_saint", True),
                                 "rank": rank_numeric.get(e.get("rank_code", ""), 5),
                                 "rank_code": e.get("rank_code", ""),
                                 "entry_index": entry_idx,

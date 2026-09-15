@@ -125,6 +125,7 @@ class VespersFormatterMixin:
             parts.append(f"**At Lord, I Call:** We sing {joined_dist}")
         glory_val = res.get("glory")
         both_now_val = res.get("both_now")
+        glory_both_now_val = res.get("glory_both_now")
         
         glory_human = self.humanize_key(glory_val)
         both_now_human = self.humanize_key(both_now_val)
@@ -137,16 +138,28 @@ class VespersFormatterMixin:
             else:
                 both_now_human = "Theotokion from the Horologion or Octoechos"
 
-        has_glory = glory_human and glory_human.strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)")
-        
-        if has_glory:
-            parts.append(f"Glory... {glory_human}")
-            if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
-                parts.append(f"Both now... {both_now_human}")
+        if glory_both_now_val:
+            gbn_human = self.humanize_key(glory_both_now_val)
+            if any(k in gbn_human.lower() for k in ["cross doxastikon", "feast doxastikon", "menaion.cross.doxastikon", "nativity theotokos doxastikon", "theotokos doxastikon"]):
+                gbn_human = "Feast"
+            elif "doxastikon" in gbn_human.lower() and ("feast" in gbn_human.lower() or "theotokos" in gbn_human.lower() or "cross" in gbn_human.lower() or "nativity" in gbn_human.lower()):
+                gbn_human = "Feast"
+            parts.append(f"Glory, Both now: {gbn_human}")
+        elif glory_human and both_now_human and glory_human.strip().lower() == both_now_human.strip().lower():
+            parts.append(f"Glory, Both now: {glory_human}")
         else:
-            if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
-                parts.append(f"Glory, Both now: {both_now_human}")
-                
+            if "if appointed" in glory_human.lower() or "if_appointed" in str(glory_val).lower():
+                has_glory = False
+            else:
+                has_glory = glory_human and glory_human.strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)")
+            if has_glory:
+                parts.append(f"Glory... {glory_human}")
+                if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
+                    parts.append(f"Both now... {both_now_human}")
+            else:
+                if both_now_human and both_now_human.strip().lower() not in ("none", "", "null"):
+                    parts.append(f"Glory, Both now: {both_now_human}")
+                    
         return "; ".join(parts) + "."
         
 
@@ -154,12 +167,16 @@ class VespersFormatterMixin:
         if not res:
             return ""
         if isinstance(res, dict):
+            if hasattr(self, "_format_resolve_prokeimenon"):
+                p_text = self._format_resolve_prokeimenon(res, context)
+                if p_text:
+                    return p_text
             tone = res.get("tone") or context.get("tone")
             tone_str = f", Tone {self._roman_tone(tone)}" if tone else ""
+            if res.get("text"):
+                return f"Prokeimenon{tone_str}: *\"{res['text']}\"*"
             if res.get("type") == "prokeimenon" and res.get("ref_key"):
                 return f"Prokeimenon: of the {self.humanize_key(res['ref_key'])}{tone_str}."
-            if "text" in res:
-                return f"Prokeimenon: of the day{tone_str}."
         
         tone = context.get("tone")
         tone_str = f", Tone {self._roman_tone(tone)}" if tone else ""
@@ -187,9 +204,17 @@ class VespersFormatterMixin:
                 break
         
         # 2. Format the Readings
-        readings = [f"Reading: {r.get('citation', 'Unknown')}" for r in res if r.get('type') == 'ot_reading']
+        readings = []
+        for r in res:
+            if isinstance(r, dict) and r.get('type') in ('reading', 'ot_reading'):
+                citation = r.get('citation') or r.get('title') or r.get('ref_key')
+                if citation:
+                    readings.append(self.humanize_key(citation))
         if readings:
-            parts.append("Readings: " + "; ".join(readings) + ".")
+            if len(readings) == 3:
+                parts.append(f"**Readings (Paremias):** 1) {readings[0]}; 2) {readings[1]}; 3) {readings[2]}.")
+            else:
+                parts.append(f"**Readings (Paremias):** {'; '.join(readings)}.")
             
         return "\n".join(parts)
 
@@ -262,12 +287,14 @@ class VespersFormatterMixin:
                     parts.append(f"{bn_text}: Troparion of the Feast")
                 elif "theotokion_of_the_feast" in ref_key.lower() or ref == "Theotokion of the Feast":
                     parts.append(f"{bn_text}: Theotokion of the Feast")
-                elif "dismissal_theotokion" in ref_key.lower() or "theotokion" in ref.lower():
+                elif "dismissal_theotokion" in ref_key.lower() or "theotokion_dismissal" in ref_key.lower() or "theotokion" in ref.lower():
                     # Qualify with tone or day if known
                     tone_val = context.get("tone")
-                    tone_rom = self._roman_tone(tone_val) if tone_val else ""
+                    tone_rom = self._roman_tone(tone_val) if isinstance(tone_val, int) else ""
                     tone_str = f" in Tone {tone_rom}" if tone_rom else ""
                     parts.append(f"{bn_text}: Dismissal Theotokion{tone_str}")
+                elif "none" in ref.lower():
+                    parts.append(f"{bn_text}: Dismissal Theotokion")
                 else:
                     parts.append(f"{bn_text}: {ref}")
             else:

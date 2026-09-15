@@ -291,7 +291,12 @@ class MatinsFormatterMixin:
 
         # Force Sunday praises count to be exactly 8 (canonical cap)
         is_sunday = context.get("day_of_week") == 0 or context.get("is_sunday_vigil")
-        if is_sunday and total > 0:
+        is_suppress_octoechos = (
+            context.get("suppress_octoechos") or
+            context.get("feast_level") == "lord" or
+            context.get("dolnytsky_rank") == "LORD"
+        )
+        if is_sunday and total > 0 and not is_suppress_octoechos:
             has_menaion = any("menaion" in str(item.get("addr", "")).lower() or item.get("source") == "menaion" for item in res)
             if has_menaion:
                 stichera_counts = {"Octoechos": 4, "Menaion": 4}
@@ -385,7 +390,7 @@ class MatinsFormatterMixin:
         if typ == "paschal_magnificat":
             return "**At Ode IX:** We sing the Paschal magnification: 'The Angel cried out...'."
         elif typ == "festal_magnificat":
-            return "**At Ode IX:** We sing the Festal magnification and the Heirmos of Ode IX of the Feast."
+            return "**At Ode IX:** We do not sing 'More honorable than the Cherubim' nor the Magnification ('My soul magnifies the Lord'), but we sing the Festal Refrains and the Heirmos of Ode IX of the Feast."
         elif typ == "suppressed_magnificat":
             return "**At Ode IX:** We do not sing the Magnification, but immediately the Heirmos of Ode IX of the Canon."
         elif typ in ("sunday_magnificat", "festal_with_more_honorable"):
@@ -396,13 +401,16 @@ class MatinsFormatterMixin:
     def _format_resolve_exapostilarion(self, res, context):
         if not res:
             return ""
+        if isinstance(res, dict) and "components" in res:
+            return self._format_resolve_exapostilarion_matins(res, context)
         if isinstance(res, list):
             parts = []
             for item in res:
                 if isinstance(item, dict):
                     ref = item.get("ref_key")
                     if ref:
-                        parts.append(self.humanize_key(ref))
+                        clean_ref = ref.replace("tone_None", "tone_1")
+                        parts.append(self.humanize_key(clean_ref))
             return f"Exapostilarion: {'; '.join(parts)}."
         return f"Exapostilarion: {self.humanize_key(res)}."
 

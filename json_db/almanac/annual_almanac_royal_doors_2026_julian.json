@@ -2,7 +2,7 @@
   "file_metadata": {
     "year": 2026,
     "pascha_date": "2026-04-12",
-    "generated_at": "2026-09-14T20:50:21.797543Z",
+    "generated_at": "2026-09-15T12:44:20.633900Z",
     "engine_version": "1.2.0"
   },
   "days": {
@@ -39,16 +39,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "**Circumcision of the Lord",
+              "name": "Circumcision of the Lord",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -58,6 +59,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 1,
@@ -225,7 +227,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_2_20_21_40_52"
+              "ref_key": "luke_2_20_21_40_52",
+              "text": "Luke 2:20–21, 40–52"
             }
           }
         ]
@@ -264,16 +267,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Forefeast of Theophany.",
+              "name": "Forefeast of Theophany",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -420,6 +424,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -439,6 +444,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -458,6 +464,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 2,
@@ -648,6 +655,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -865,6 +873,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -891,6 +900,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 1,
@@ -1230,6 +1240,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 0,
@@ -1409,6 +1420,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -1428,6 +1440,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 1,
@@ -1585,6 +1598,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -1741,6 +1755,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -1760,6 +1775,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -1949,6 +1965,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -2171,6 +2188,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -2327,6 +2345,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -2633,6 +2652,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -2652,6 +2672,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -2870,16 +2891,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Veneration of the chains of St. Apostle Peter.",
+              "name": "Veneration of the chains of St. Apostle Peter",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -3087,6 +3109,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -3260,6 +3283,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -3549,6 +3573,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -3766,6 +3791,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -3938,6 +3964,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -3957,6 +3984,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -4175,6 +4203,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -4194,6 +4223,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -4396,6 +4426,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -4613,6 +4644,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -4791,6 +4823,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -4984,6 +5017,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -5208,16 +5242,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Translation of the Relics of St. John Chrysostom.",
+              "name": "Translation of the Relics of St. John Chrysostom",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -5380,6 +5415,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -5597,16 +5633,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Translation of the Relics of St. Hieromartyr Ignatius the God-bearer.",
+              "name": "Translation of the Relics of St. Hieromartyr Ignatius the God-bearer",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -5814,6 +5851,7 @@
           "title": "Hierarch",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -5987,6 +6025,7 @@
           "title": "Martyr and Unmercenary",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -6172,6 +6211,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -6181,7 +6221,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -6214,6 +6254,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -6311,20 +6352,22 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "menaion",
-              "ref_key": "menaion.feb_01.forefeast_meeting.prokeimenon"
+              "source": "octoechos",
+              "tone": 1,
+              "ref_key": "octoechos.prokeimenon.tone_1"
             },
             "epistle": {
-              "source": "menaion",
-              "ref_key": "day_current"
+              "source": "apostol",
+              "ref_key": "apostol.sunday"
             },
             "alleluia": {
-              "source": "menaion",
-              "ref_key": "menaion.feb_01.forefeast_meeting.alleluia"
+              "source": "octoechos",
+              "tone": 1,
+              "ref_key": "octoechos.alleluia.tone_1"
             },
             "gospel": {
-              "source": "menaion",
-              "ref_key": ""
+              "source": "evangelion",
+              "ref_key": "evangelion.sunday"
             }
           }
         ]
@@ -6528,6 +6571,7 @@
           "title": "Righteous",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -6695,6 +6739,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -6855,6 +6900,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -7015,6 +7061,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -7175,6 +7222,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -7364,6 +7412,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -7617,6 +7666,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -7835,6 +7885,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -8053,6 +8104,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -8271,6 +8323,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -8489,6 +8542,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -8620,6 +8674,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -8729,6 +8784,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -8863,6 +8919,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -8976,6 +9033,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -9089,6 +9147,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -9202,6 +9261,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -9315,6 +9375,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -9334,6 +9395,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -9489,16 +9551,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Finding of the relics of the holy martyrs in Eugenius.",
+              "name": "Finding of the relics of the holy martyrs in Eugenius",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -9619,6 +9682,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -9736,16 +9800,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "First and Second Finding of the Precious Head of the Forerunner.",
+              "name": "First and Second Finding of the Precious Head of the Forerunner",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -9906,6 +9971,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -10041,6 +10107,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -10176,6 +10243,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -10293,6 +10361,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -10370,7 +10439,25 @@
             },
             "gospel": {
               "source": "menaion",
+              "ref_key": ""
+            }
+          },
+          {
+            "prokeimenon": {
+              "source": "menaion",
+              "ref_key": "menaion.feb_28.basil.prokeimenon"
+            },
+            "epistle": {
+              "source": "menaion",
               "ref_key": "saint_theodore_gospel"
+            },
+            "alleluia": {
+              "source": "menaion",
+              "ref_key": "menaion.feb_28.basil.alleluia"
+            },
+            "gospel": {
+              "source": "menaion",
+              "ref_key": ""
             }
           }
         ]
@@ -10427,6 +10514,7 @@
           "title": "Venerable Martyr",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -10557,6 +10645,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -10692,6 +10781,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -10834,6 +10924,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -10969,6 +11060,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -11104,6 +11196,7 @@
           "title": "Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -11221,6 +11314,7 @@
           "title": "Hieromartyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -11354,6 +11448,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -11464,6 +11559,7 @@
           "title": "Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -11702,6 +11798,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -11844,6 +11941,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -11979,6 +12077,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -12109,21 +12208,22 @@
       "has_polyeleos": false,
       "transferred_saints": [
         {
-          "id": "mar_13.translation_relics_ven_nicephorus",
-          "name": "Translation of the relics of Ven. Nicephorus",
+          "id": "mar_13.translation_relics_nicephorus",
+          "name": "Translation of the relics of Nicephorus",
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Translation of the relics of Ven. Nicephorus.",
+              "name": "Translation of the relics of Nicephorus",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -12231,6 +12331,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -12364,6 +12465,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -12494,6 +12596,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -12629,6 +12732,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -12764,6 +12868,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -12899,6 +13004,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -13041,6 +13147,7 @@
           "title": "Venerable Martyr",
           "gender": "group",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -13158,6 +13265,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -13291,6 +13399,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -13419,6 +13528,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -13543,16 +13653,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Forefeast of the Annunciation.",
+              "name": "Forefeast of the Annunciation",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -13658,20 +13769,26 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "menaion",
-              "ref_key": "menaion.mar_24.forefeast_annunciation.prokeimenon"
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_2",
+              "tone": 1,
+              "text": null
             },
             "epistle": {
-              "source": "menaion",
-              "ref_key": "day_current"
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": null
             },
             "alleluia": {
-              "source": "menaion",
-              "ref_key": "menaion.mar_24.forefeast_annunciation.alleluia"
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_2",
+              "tone": 1,
+              "verses": null
             },
             "gospel": {
-              "source": "menaion",
-              "ref_key": ""
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": null
             }
           }
         ]
@@ -13945,16 +14062,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Synaxis of St. Archangel Gabriel.",
+              "name": "Synaxis of St. Archangel Gabriel",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -14119,6 +14237,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -14236,6 +14355,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -14397,6 +14517,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -14532,6 +14653,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -14667,6 +14789,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -14802,6 +14925,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -14986,6 +15110,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -15121,6 +15246,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -15272,6 +15398,21 @@
           "glory": "Tone VI: 'Today the grace of the Holy Spirit has gathered us together...'",
           "both_now": "Tone VI: 'Today the grace of the Holy Spirit has gathered us together...'"
         },
+        "matins_prokeimenon": {
+          "tone": 3,
+          "text": "The Lord is my light and my Savior: whom shall I fear?"
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 8
+            }
+          ],
+          "glory": "Tone II: 'A great and wondrous marvel is accomplished today...'",
+          "both_now": "Tone II: 'Most blessed art thou, O Virgin Theotokos...'"
+        },
         "praises_both_now": "use_resurrectional_theotokion_tone_2"
       },
       "period": "feast",
@@ -15321,8 +15462,8 @@
       "season": "lent",
       "tone": null,
       "tone_of_week": null,
-      "eothinon": 10,
-      "eothinon_number": 10,
+      "eothinon": null,
+      "eothinon_number": null,
       "rank": 1,
       "is_temple_feast": false,
       "temple_type": "saint",
@@ -15376,6 +15517,21 @@
           ],
           "glory": "Tone VIII: 'Having completed the forty days...'",
           "both_now": "Tone VIII: 'Having completed the forty days...'"
+        },
+        "matins_prokeimenon": {
+          "tone": 4,
+          "text": "Out of the mouth of babes and sucklings Thou hast perfected praise"
+        },
+        "praises_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 6
+            }
+          ],
+          "glory": "Tone VI: 'Six days before the Passover, Jesus came to Bethany...'",
+          "both_now": "Tone VI: 'Six days before the Passover, Jesus came to Bethany...'"
         },
         "aposticha_type": "sunday_aposticha"
       },
@@ -16870,6 +17026,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -16981,6 +17138,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -17094,6 +17252,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -17120,6 +17279,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 1,
@@ -17234,6 +17394,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -17347,6 +17508,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -17557,6 +17719,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -17670,6 +17833,7 @@
           "title": "Apostle and Evangelist",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -17845,6 +18009,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -17961,6 +18126,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -18074,6 +18240,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -18100,6 +18267,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -18228,6 +18396,7 @@
           "title": "Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -18348,6 +18517,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -18522,6 +18692,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -18635,6 +18806,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -18748,6 +18920,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -18767,6 +18940,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -18955,6 +19129,7 @@
           "title": "Monk-Martyr",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -19068,6 +19243,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -19181,6 +19357,7 @@
           "title": "Righteous",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -19298,16 +19475,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Appearance of the Sign of the Precious Cross in the Heavens.",
+              "name": "Appearance of the Sign of the Precious Cross in the Heavens",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -19476,7 +19654,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_19_6_11_13_20_25_28_30_35"
+              "ref_key": "john_19_6_11_13_20_25_28_30_35",
+              "text": "John 19:6–11, 13–20, 25–28, 30–35"
             }
           }
         ]
@@ -19515,6 +19694,7 @@
           "title": "Apostle and Evangelist",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -19534,6 +19714,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -19749,6 +19930,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -19758,7 +19940,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -19768,6 +19950,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -19953,6 +20136,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -20135,6 +20319,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -20323,6 +20508,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -20632,6 +20818,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -20745,6 +20932,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -20858,6 +21046,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -20971,6 +21160,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -21088,6 +21278,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -21222,6 +21413,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -21335,6 +21527,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -21563,6 +21756,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -21720,6 +21914,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -21877,6 +22072,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -21990,16 +22186,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Third Finding of the Precious Head of John the Forerunner.",
+              "name": "Third Finding of the Precious Head of John the Forerunner",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -22169,6 +22366,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -22326,6 +22524,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -22483,6 +22682,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -22779,6 +22979,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -22912,6 +23113,7 @@
       "has_polyeleos": true,
       "variables": {
         "season": "pentecost",
+        "suppress_octoechos": true,
         "vespers_type": "kneeling_vespers",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
@@ -22922,6 +23124,21 @@
           "acts_2_1_11",
           "john_7_37_52"
         ],
+        "matins_prokeimenon": {
+          "tone": 4,
+          "text": "Thy good Spirit shall lead me in the land of uprightness"
+        },
+        "praises_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "qty": 6
+            }
+          ],
+          "glory": "Tone VI: 'Come, all ye nations, let us worship the Godhead in three persons...'",
+          "both_now": "Tone VI: 'Come, all ye nations, let us worship the Godhead in three persons...'"
+        },
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
@@ -23105,6 +23322,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -23262,6 +23480,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -23426,6 +23645,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -23583,6 +23803,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -23880,6 +24101,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -23990,6 +24212,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -24207,6 +24430,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -24402,6 +24626,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -24541,20 +24766,26 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "menaion",
-              "ref_key": "menaion.jun_10.timothy_prussa.prokeimenon"
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_3",
+              "tone": 5,
+              "text": null
             },
             "epistle": {
-              "source": "menaion",
-              "ref_key": "day_current"
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Romans 4:13-25"
             },
             "alleluia": {
-              "source": "menaion",
-              "ref_key": "menaion.jun_10.timothy_prussa.alleluia"
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_3",
+              "tone": 5,
+              "verses": null
             },
             "gospel": {
-              "source": "menaion",
-              "ref_key": ""
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 7:21-23"
             }
           }
         ]
@@ -24760,6 +24991,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -24926,6 +25158,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -24945,6 +25178,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -25105,6 +25339,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -25124,6 +25359,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -25311,6 +25547,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -25470,6 +25707,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -25629,6 +25867,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -26097,6 +26336,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -26275,6 +26515,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -26557,6 +26798,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -26774,6 +27016,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -26991,16 +27234,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "**Nativity of St. John the Baptist.**",
+              "name": "Nativity of St. John the Baptist",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -27122,8 +27366,7 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "luke_1_1_25_57_68_80",
-              "text": "Luke 1:1–25; 57:68–80"
+              "ref_key": "luke_1_1_25_57_68_80"
             }
           }
         ]
@@ -27162,6 +27405,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -27379,6 +27623,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -27596,6 +27841,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -27774,16 +28020,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Translation of the relics of Saints Unmercenaries Cyrus and John.",
+              "name": "Translation of the relics of Saints Unmercenaries Cyrus and John",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -28056,6 +28303,7 @@
           "title": "Chief Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -28234,16 +28482,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Synaxis of the 12 Apostles.",
+              "name": "Synaxis of the 12 Apostles",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -28405,6 +28654,7 @@
           "title": "Unmercenary",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -28629,16 +28879,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Deposition of the Precious Robe of the Most Holy Theotokos.",
+              "name": "Deposition of the Precious Robe of the Most Holy Theotokos",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -28799,6 +29050,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -29016,6 +29268,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -29035,6 +29288,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -29214,6 +29468,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -29407,6 +29662,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -29624,6 +29880,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -29848,6 +30105,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -30065,6 +30323,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -30282,6 +30541,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -30460,6 +30720,7 @@
           "title": "Equal-to-the-Apostles",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -30633,6 +30894,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -30659,6 +30921,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -30942,6 +31205,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -30951,7 +31215,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -30961,6 +31225,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 1,
@@ -31179,6 +31444,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -31396,6 +31662,7 @@
           "title": "Equal-to-the-Apostles",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -31535,7 +31802,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "matthew_13_24_30_36_43"
+              "ref_key": "matthew_13_24_30_36_43",
+              "text": "Matthew 13:24–30, 36–43"
             }
           }
         ]
@@ -31574,6 +31842,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -31798,6 +32067,7 @@
           "title": "Great Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -32015,6 +32285,7 @@
           "title": "",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -32199,6 +32470,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -32466,6 +32738,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -32639,6 +32912,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -32665,6 +32939,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -32883,6 +33158,7 @@
           "title": "Myrrh-bearer and Equal-to-the-Apostles",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -32902,16 +33178,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
           "all_parsed_saints": [
             {
-              "name": "Return of the relics of Hieromartyr Phocas.",
+              "name": "Return of the relics of Hieromartyr Phocas",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -33120,6 +33397,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -33344,6 +33622,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -33523,6 +33802,7 @@
           "title": "Righteous Ancestor of God",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -33746,6 +34026,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -34035,6 +34316,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -34207,6 +34489,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -34445,6 +34728,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -34662,6 +34946,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -34907,6 +35192,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -34916,7 +35202,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -34926,6 +35212,7 @@
           "title": "Righteous",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -35037,20 +35324,26 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "menaion",
-              "ref_key": "menaion.jul_31.forefeast_cross.prokeimenon"
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_5",
+              "tone": 7,
+              "text": null
             },
             "epistle": {
-              "source": "menaion",
-              "ref_key": "day_current"
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": null
             },
             "alleluia": {
-              "source": "menaion",
-              "ref_key": "menaion.jul_31.forefeast_cross.alleluia"
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_5",
+              "tone": 7,
+              "verses": null
             },
             "gospel": {
-              "source": "menaion",
-              "ref_key": ""
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": null
             }
           }
         ]
@@ -35089,6 +35382,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 0,
@@ -35098,7 +35392,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -35108,6 +35402,7 @@
           "title": "Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 1,
@@ -35258,7 +35553,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_19_6_11_13_20_25_28_30_35"
+              "ref_key": "john_19_6_11_13_20_25_28_30_35",
+              "text": "John 19:6–11, 13–20, 25–28, 30–35"
             }
           }
         ]
@@ -35297,16 +35593,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Translation of the relics of St. Protomartyr Stephen.",
+              "name": "Translation of the relics of St. Protomartyr Stephen",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -35579,6 +35876,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -35810,6 +36108,7 @@
           "title": "Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -36027,6 +36326,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -36036,7 +36336,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -36046,6 +36346,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -36373,6 +36674,7 @@
           "title": "Venerable Martyr",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -36529,6 +36831,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -36685,6 +36988,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -36884,6 +37188,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -37040,6 +37345,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -37196,6 +37502,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -37493,6 +37800,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -37822,16 +38130,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Translation of the Icon Not-Made-By-Hands.",
+              "name": "Translation of the Icon Not-Made-By-Hands",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -38011,6 +38320,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -38170,6 +38480,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -38336,6 +38647,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -38502,6 +38814,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -38661,6 +38974,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -38680,6 +38994,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -38847,6 +39162,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -39177,6 +39493,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -39389,21 +39706,22 @@
       "concelebrating": false,
       "saints": [
         {
-          "id": "aug_25.return_relics_ap_bartholomew",
-          "name": "Return of the relics of Ap. Bartholomew",
+          "id": "aug_25.return_relics_bartholomew",
+          "name": "Return of the relics of Bartholomew",
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Return of the relics of Ap. Bartholomew",
+              "name": "Return of the relics of Bartholomew",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -39413,6 +39731,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -39631,6 +39950,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -39855,6 +40175,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -40072,6 +40393,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -40289,16 +40611,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "**Beheading of the Precious Head of the Forerunner.**",
+              "name": "Beheading of the Precious Head of the Forerunner",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -40461,6 +40784,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -40757,16 +41081,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Deposition of the Precious Sash of the Most Holy Theotokos.",
+              "name": "Deposition of the Precious Sash of the Most Holy Theotokos",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -40977,6 +41302,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -40986,7 +41312,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -40996,6 +41322,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 1,
@@ -41068,15 +41395,19 @@
         "liturgy_antiphons": "typical_psalms",
         "troparia_sequence": "indiction_simeon_glory_kont_simeon_bn_kont_indiction",
         "liturgy_readings": [
-          "indiction_colossians",
-          "indiction_luke",
-          "saint_colossians_end"
+          "1_timothy_2_1_7",
+          "colossians_3_12_16",
+          "luke_4_16_22",
+          "matthew_11_27_30"
         ],
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "great_doxology",
         "rank": "rank_doxology",
-        "communion_hymn": "praise_the_lord",
+        "communion_hymn": [
+          "crown_of_the_year",
+          "righteous_memory"
+        ],
         "praises_distribution": {
           "total_count": 4,
           "distribution": [
@@ -41141,7 +41472,8 @@
             },
             "epistle": {
               "source": "menaion",
-              "ref_key": "indiction_colossians"
+              "ref_key": "1_timothy_2_1_7",
+              "text": "1 Timothy 2:1–7"
             },
             "alleluia": {
               "source": "menaion",
@@ -41149,7 +41481,28 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "indiction_luke"
+              "ref_key": "luke_4_16_22",
+              "text": "Luke 4:16–22"
+            }
+          },
+          {
+            "prokeimenon": {
+              "source": "menaion",
+              "ref_key": "menaion.sept_01.indiction.prokeimenon"
+            },
+            "epistle": {
+              "source": "menaion",
+              "ref_key": "colossians_3_12_16",
+              "text": "Colossians 3:12–16"
+            },
+            "alleluia": {
+              "source": "menaion",
+              "ref_key": "menaion.sept_01.indiction.alleluia"
+            },
+            "gospel": {
+              "source": "menaion",
+              "ref_key": "matthew_11_27_30",
+              "text": "Matthew 11:27–30"
             }
           }
         ]
@@ -41188,6 +41541,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -41207,6 +41561,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -41425,6 +41780,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -41444,6 +41800,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -41662,6 +42019,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -41681,6 +42039,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -41899,6 +42258,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -42077,6 +42437,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -42086,7 +42447,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -42096,6 +42457,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 1,
@@ -42105,7 +42467,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -42115,6 +42477,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 2,
@@ -42310,6 +42673,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -42319,7 +42683,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         },
@@ -42329,6 +42693,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 1,
@@ -42434,20 +42799,26 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "menaion",
-              "ref_key": "menaion.sept_07.forefeast_nativity.prokeimenon"
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_1",
+              "tone": 4,
+              "text": null
             },
             "epistle": {
-              "source": "menaion",
-              "ref_key": "day_current"
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": null
             },
             "alleluia": {
-              "source": "menaion",
-              "ref_key": "menaion.sept_07.forefeast_nativity.alleluia"
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_1",
+              "tone": 4,
+              "verses": null
             },
             "gospel": {
-              "source": "menaion",
-              "ref_key": ""
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": null
             }
           }
         ]
@@ -42651,6 +43022,7 @@
           "title": "Righteous Ancestor of God",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -42824,6 +43196,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -42997,6 +43370,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -43334,20 +43708,28 @@
       "saints": [
         {
           "id": "sept_13.forefeast_cross",
-          "name": "Dedication of the Temple [of the Resurrection]. Forefeast of the Precious Cross",
+          "name": "Dedication of the Temple [of the Resurrection]",
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Dedication of the Temple [of the Resurrection]. Forefeast of the Precious Cross",
+              "name": "Dedication of the Temple [of the Resurrection]",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
+            },
+            {
+              "name": "Forefeast of the Precious Cross",
+              "title": "",
+              "gender": "unknown",
+              "monastic": false,
+              "is_saint": false
             }
           ]
         },
@@ -43357,6 +43739,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 1,
@@ -43710,7 +44093,8 @@
             },
             "gospel": {
               "source": "menaion",
-              "ref_key": "john_19_6_11_13_20_25_28_30_35"
+              "ref_key": "john_19_6_11_13_20_25_28_30_35",
+              "text": "John 19:6–11, 13–20, 25–28, 30–35"
             }
           }
         ]
@@ -43749,6 +44133,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -43905,6 +44290,7 @@
           "title": "Great Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -44061,6 +44447,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -44217,6 +44604,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -44373,6 +44761,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -44575,6 +44964,7 @@
           "title": "Great Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -44933,6 +45323,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -44952,6 +45343,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 1,
@@ -44971,6 +45363,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 2,
@@ -45190,16 +45583,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "Conception of the Forerunner.",
+              "name": "Conception of the Forerunner",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -45397,6 +45791,7 @@
           "title": "Protomartyr, Equal-to-the-Apostles",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -45614,6 +46009,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -45831,6 +46227,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -45999,6 +46396,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -46288,6 +46686,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -46468,6 +46867,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -46685,6 +47085,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -47066,6 +47467,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -47085,6 +47487,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 1,
@@ -47303,6 +47706,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -47481,6 +47885,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -47763,6 +48168,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -47980,6 +48386,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -48152,6 +48559,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -48376,6 +48784,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -48593,6 +49002,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -48814,6 +49224,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -49005,6 +49416,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -49024,6 +49436,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -49286,6 +49699,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -49319,6 +49733,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -49537,6 +49952,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -49761,6 +50177,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -49801,6 +50218,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -50019,6 +50437,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -50243,6 +50662,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -50460,6 +50880,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -50479,6 +50900,7 @@
           "title": "Venerable Martyr",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -50658,6 +51080,7 @@
           "title": "Apostle and Evangelist",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -50851,6 +51274,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -50870,6 +51294,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -51088,6 +51513,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -51305,6 +51731,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -51522,6 +51949,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -51746,6 +52174,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 4,
           "rank_code": "[GT DOX]",
           "entry_index": 0,
@@ -51953,6 +52382,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -52131,6 +52561,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -52420,6 +52851,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -52594,6 +53026,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -52811,6 +53244,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -52844,6 +53278,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -53040,6 +53475,7 @@
           "title": "Venerable Martyr",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -53059,6 +53495,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -53277,6 +53714,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -53501,6 +53939,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -53541,6 +53980,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -53758,6 +54198,7 @@
           "title": "Unmercenary",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -54047,6 +54488,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -54292,6 +54734,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -54325,6 +54768,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -54334,7 +54778,7 @@
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -54543,6 +54987,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -54562,6 +55007,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -54780,6 +55226,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -55004,6 +55451,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -55221,6 +55669,7 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -55240,6 +55689,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -55419,16 +55869,17 @@
           "title": "",
           "gender": "unknown",
           "monastic": false,
+          "is_saint": false,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
           "all_parsed_saints": [
             {
-              "name": "**Synaxis of St. Archangel Michael.**",
+              "name": "Synaxis of St. Archangel Michael",
               "title": "",
               "gender": "unknown",
               "monastic": false,
-              "is_saint": true
+              "is_saint": false
             }
           ]
         }
@@ -55624,6 +56075,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -55650,6 +56102,7 @@
           "title": "Venerable",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -55868,6 +56321,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -56106,6 +56560,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -56139,6 +56594,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -56158,6 +56614,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 2,
@@ -56377,6 +56834,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -56396,6 +56854,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -56415,6 +56874,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 2,
@@ -56592,6 +57052,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -56764,6 +57225,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -56937,6 +57399,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -57157,20 +57620,22 @@
         "readings": [
           {
             "prokeimenon": {
-              "source": "menaion",
-              "ref_key": "menaion.nov_15.begin_philip_fast.prokeimenon"
+              "source": "octoechos",
+              "tone": 7,
+              "ref_key": "octoechos.prokeimenon.tone_7"
             },
             "epistle": {
-              "source": "menaion",
-              "ref_key": "day_current"
+              "source": "apostol",
+              "ref_key": "apostol.sunday"
             },
             "alleluia": {
-              "source": "menaion",
-              "ref_key": "menaion.nov_15.begin_philip_fast.alleluia"
+              "source": "octoechos",
+              "tone": 7,
+              "ref_key": "octoechos.alleluia.tone_7"
             },
             "gospel": {
-              "source": "menaion",
-              "ref_key": ""
+              "source": "evangelion",
+              "ref_key": "evangelion.sunday"
             }
           }
         ]
@@ -57209,6 +57674,7 @@
           "title": "Apostle and Evangelist",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -57381,6 +57847,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -57598,6 +58065,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -57822,6 +58290,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -57841,6 +58310,7 @@
           "title": "",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -58059,6 +58529,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -58388,6 +58859,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -58581,6 +59053,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -58747,6 +59220,7 @@
           "title": "Great Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -58766,6 +59240,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -59092,6 +59567,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -59309,6 +59785,7 @@
           "title": "Great Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -59328,6 +59805,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 1,
@@ -59546,6 +60024,7 @@
           "title": "Venerable Martyr",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -59565,6 +60044,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 1,
@@ -59744,6 +60224,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -59770,6 +60251,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 1,
@@ -60053,6 +60535,7 @@
           "title": "Apostle",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -60230,6 +60713,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -60447,6 +60931,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -60664,6 +61149,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -60881,6 +61367,7 @@
           "title": "Great Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -60900,6 +61387,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 1,
@@ -61102,6 +61590,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -61275,6 +61764,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 2,
           "rank_code": "[VIGIL]",
           "entry_index": 0,
@@ -61479,6 +61969,7 @@
           "title": "Hierarch",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -61696,6 +62187,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -62070,6 +62562,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -62301,6 +62794,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -62518,6 +63012,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -62735,6 +63230,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 3,
           "rank_code": "[POL]",
           "entry_index": 0,
@@ -62983,6 +63479,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -63214,6 +63711,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -63570,6 +64068,7 @@
           "title": "Prophet",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -63777,6 +64276,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -64001,6 +64501,7 @@
           "title": "Martyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -64211,6 +64712,7 @@
           "title": "Hieromartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[6 SM]",
           "entry_index": 0,
@@ -64435,6 +64937,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 0,
@@ -64591,6 +65094,7 @@
           "title": "Great Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -64747,6 +65251,7 @@
           "title": "Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -64903,6 +65408,7 @@
           "title": "Venerable Martyr",
           "gender": "female",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,
@@ -65428,6 +65934,7 @@
           "title": "Protomartyr",
           "gender": "male",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -65447,6 +65954,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 TR]",
           "entry_index": 1,
@@ -65672,6 +66180,7 @@
           "title": "Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -65828,6 +66337,7 @@
           "title": "Martyr",
           "gender": "group",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 0,
@@ -65847,6 +66357,7 @@
           "title": "Venerable",
           "gender": "male",
           "monastic": true,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 A+G]",
           "entry_index": 1,
@@ -66004,6 +66515,7 @@
           "title": "Martyr",
           "gender": "female",
           "monastic": false,
+          "is_saint": true,
           "rank": 5,
           "rank_code": "[4 NO]",
           "entry_index": 0,

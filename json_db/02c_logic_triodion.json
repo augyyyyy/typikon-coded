@@ -609,6 +609,21 @@
           ],
           "glory": "Tone VI: 'Today the grace of the Holy Spirit has gathered us together...'",
           "both_now": "Tone VI: 'Today the grace of the Holy Spirit has gathered us together...'"
+        },
+        "matins_prokeimenon": {
+          "tone": 3,
+          "text": "The Lord is my light and my Savior: whom shall I fear?"
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 8
+            }
+          ],
+          "glory": "Tone II: 'A great and wondrous marvel is accomplished today...'",
+          "both_now": "Tone II: 'Most blessed art thou, O Virgin Theotokos...'"
         }
       }
     },
@@ -641,6 +656,21 @@
           ],
           "glory": "Tone VIII: 'Having completed the forty days...'",
           "both_now": "Tone VIII: 'Having completed the forty days...'"
+        },
+        "matins_prokeimenon": {
+          "tone": 4,
+          "text": "Out of the mouth of babes and sucklings Thou hast perfected praise"
+        },
+        "praises_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "qty": 6
+            }
+          ],
+          "glory": "Tone VI: 'Six days before the Passover, Jesus came to Bethany...'",
+          "both_now": "Tone VI: 'Six days before the Passover, Jesus came to Bethany...'"
         }
       }
     },
@@ -1075,6 +1105,7 @@
       "source_ref": "Dolnytsky_Typikon_Master.md:4.2.23",
       "variables": {
         "season": "pentecost",
+        "suppress_octoechos": true,
         "vespers_type": "kneeling_vespers",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
@@ -1085,6 +1116,21 @@
           "acts_2_1_11",
           "john_7_37_52"
         ],
+        "matins_prokeimenon": {
+          "tone": 4,
+          "text": "Thy good Spirit shall lead me in the land of uprightness"
+        },
+        "praises_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "qty": 6
+            }
+          ],
+          "glory": "Tone VI: 'Come, all ye nations, let us worship the Godhead in three persons...'",
+          "both_now": "Tone VI: 'Come, all ye nations, let us worship the Godhead in three persons...'"
+        },
         "vespers_stichera_distribution": {
           "total_count": 10,
           "distribution": [
