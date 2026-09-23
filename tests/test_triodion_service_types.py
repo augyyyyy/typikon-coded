@@ -64,7 +64,7 @@ def test_moveable_cycle_dynamic_resolution():
         (date(2026, 2, 15), "Cheesefare Sunday", "great_vespers_simple", "great_matins", "liturgy_chrysostom", True, "great_doxology"),
         (date(2026, 2, 16), "Clean Monday", "lenten_vespers", "lenten_matins_weekday", "structure_suppressed", False, "daily_read"),
         (date(2026, 2, 22), "Sunday of Orthodoxy (Lent 1)", "great_vespers_simple", "great_matins", "liturgy_basil", False, "great_doxology"),
-        (date(2026, 3, 28), "Lazarus Saturday", "lenten_vespers_presanctified", "great_matins", "liturgy_chrysostom", False, "great_doxology"),
+        (date(2026, 3, 28), "Lazarus Saturday", "great_vespers_simple", "great_matins", "liturgy_chrysostom", False, "great_doxology"),
         (date(2026, 3, 29), "Palm Sunday", "great_vespers_simple", "great_matins", "liturgy_chrysostom", True, "great_doxology"),
         (date(2026, 4, 2), "Holy Thursday", "structure_suppressed", "holy_thursday_matins", "vesperal_merge_logic", False, "daily_read"),
         (date(2026, 4, 3), "Holy Friday", "passion_burial_vespers", "passion_matins", "structure_suppressed", False, "daily_read"),

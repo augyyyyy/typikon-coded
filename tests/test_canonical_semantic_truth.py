@@ -36,6 +36,43 @@ def test_exaltation_of_the_cross_digest_semantic_truth(engine, generator):
     assert "The light of Thy countenance, O Lord, is signed upon us" in digest_text
     assert "500 times total" in digest_text  # Cross elevation rite
 
+def test_september_15_symmetrical_entity_specificity(engine, generator):
+    """
+    Tuesday, September 15, 2026: Afterfeast of the Exaltation of the Holy Cross + Great Martyr Nicetas.
+    Enforces symmetrical specificity between the feast and the saint.
+    Neither commemoration may be reduced to generic anonymous placeholders.
+    """
+    target_date = date(2026, 9, 15)
+    violations, digest_text = audit_day(target_date, engine, generator)
+    assert not violations, f"Canonical truth violations on 2026-09-15: {violations}"
+
+    # Header title check
+    assert "AFTERFEAST OF THE EXALTATION OF THE HOLY CROSS; NICETAS." in digest_text
+    assert "EXALTATION CROSS" not in digest_text
+
+    # Vespers Lord, I Call: both feast and saint named
+    assert "Stichera of the Holy Cross" in digest_text
+    assert "Stichera of St. Nicetas" in digest_text
+    assert "Doxastikon of Great Martyr Nicetas" in digest_text
+    assert "Theotokion of the Holy Cross in Tone VII" in digest_text
+    assert "Feast Stichera" not in digest_text
+    assert "Theotokion of the Feast" not in digest_text
+
+    # Matins Canon: both feast and saint named
+    assert "Canon of the Holy Cross with the Heirmos on 8" in digest_text
+    assert "Canon of Great Martyr St. Nicetas on 4" in digest_text
+    assert "Canon of the Feast" not in digest_text
+
+    # Matins Ode IX
+    assert "Heirmos of Ode IX of the Holy Cross" in digest_text
+    assert "Heirmos of Ode IX of the Feast" not in digest_text
+
+    # Divine Liturgy Troparia & Kontakia: both feast and saint named
+    assert "Troparion of the Exaltation of the Holy Cross." in digest_text
+    assert "Troparion of Great Martyr St. Nicetas." in digest_text
+    assert "Kontakion of Great Martyr St. Nicetas." in digest_text
+    assert "Kontakion of the Exaltation of the Holy Cross." in digest_text
+
 def test_exaltation_7_day_window_semantic_truth(engine, generator):
     """
     Scans the 7-day feast window (Forefeast, Feast, Afterfeast).
@@ -66,26 +103,28 @@ def test_full_month_september_semantic_truth(engine, generator):
     violations = audit_range(start_date, 30, engine, generator)
     assert len(violations) == 0, f"Violations found across full month of September 2026: {violations}"
 
-def test_full_year_2026_gregorian_semantic_truth(engine, generator):
+@pytest.mark.parametrize("year", [2025, 2026, 2027])
+def test_full_year_gregorian_semantic_truth(engine, generator, year):
     """
-    Brute-force audit of all 365 days of 2026 under the Gregorian paschalion.
-    Verifies zero canonical violations across all 6 service tiers for every single day.
+    Brute-force audit of all 365 days of given year under Gregorian paschalion.
+    Verifies zero canonical violations across all service tiers for every single day.
     """
-    start_date = date(2026, 1, 1)
+    start_date = date(year, 1, 1)
     from scripts.audit_canonical_truth_pipeline import audit_range
     violations = audit_range(start_date, 365, engine, generator)
-    assert len(violations) == 0, f"Violations found across full Gregorian year 2026: {violations}"
+    assert len(violations) == 0, f"Violations found across full Gregorian year {year}: {violations}"
 
-def test_full_year_2026_julian_semantic_truth():
+@pytest.mark.parametrize("year", [2025, 2026, 2027])
+def test_full_year_julian_semantic_truth(year):
     """
-    Brute-force audit of all 365 days of 2026 under the Julian paschalion.
-    Verifies zero canonical violations across all 6 service tiers for every single day.
+    Brute-force audit of all 365 days of given year under Julian paschalion.
+    Verifies zero canonical violations across all service tiers for every single day.
     """
     engine_julian = RuthenianEngine(".", paschalion="julian")
     generator_julian = TypikonDigestGenerator(engine_julian)
-    start_date = date(2026, 1, 1)
+    start_date = date(year, 1, 1)
     from scripts.audit_canonical_truth_pipeline import audit_range
     violations = audit_range(start_date, 365, engine_julian, generator_julian)
-    assert len(violations) == 0, f"Violations found across full Julian year 2026: {violations}"
+    assert len(violations) == 0, f"Violations found across full Julian year {year}: {violations}"
 
 

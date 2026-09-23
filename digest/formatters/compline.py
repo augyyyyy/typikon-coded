@@ -18,5 +18,6 @@ class ComplineFormatterMixin:
         ref = res.get("ref_key", "")
         if ref == "lord_of_hosts_tone_6":
             return "**Lord of Hosts:** We sing 'Lord of hosts, be with us...' in Tone 6."
-        return f"**Lord of Hosts:** We read the Kontakion of the Feast."
+        fname = self._get_feast_display_name(context, form="short")
+        return f"**Lord of Hosts:** We read the Kontakion of {fname}."
 

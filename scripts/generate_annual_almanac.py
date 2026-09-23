@@ -50,6 +50,11 @@ def main():
         except Exception as e:
             print(f"WARNING: Could not remove existing file: {e}")
 
+    # Ensure in-memory cache is cleared and bypass almanac loading to guarantee clean live computation
+    if hasattr(engine, "_almanacs"):
+        engine._almanacs.clear()
+    engine._get_almanac = lambda y: None
+
     # Load Lviv Typikon Paradigm Numbers mapping
     map_path = os.path.join("json_db", "lviv_format_map.json")
     if not os.path.exists(map_path):
@@ -75,7 +80,8 @@ def main():
         date_str = current_date.isoformat()
 
         # Get context (need to deepcopy to prevent cross-day mutation side effects)
-        context = engine.get_liturgical_context(current_date)
+        raw_context = engine.get_liturgical_context(current_date)
+        context = copy.deepcopy(raw_context)
         
         # Capture Pascha Date
         if context.get("pascha_offset") == 0:
@@ -95,8 +101,10 @@ def main():
         if lviv_paradigm_number is None or not (1 <= lviv_paradigm_number <= 26):
             lviv_paradigm_number = engine.resolve_canonical_format_number(context)
 
-        # Build day record by copying the base mutated context (preserving integer types for rank)
+        # Build day record from the resolved context (preserving post-rubrics suppression in saints)
+        # while keeping full commemoration list in calendar_saints
         day_record = copy.deepcopy(context)
+        day_record["calendar_saints"] = copy.deepcopy(raw_context.get("calendar_saints", []))
         day_record["paradigm_id"] = paradigm_id
         day_record["lviv_paradigm_number"] = lviv_paradigm_number
         day_record["rubrics_title"] = rubrics.get("title", "")

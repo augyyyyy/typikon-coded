@@ -1620,6 +1620,7 @@ class MatinsMixin:
             if not key:
                 return ""
             mapping = {
+                "john_15_17_16_2": "John 15:17–16:2",
                 "luke_1_39_49_56": "Luke 1:39-49, 56",
                 "john_21_15_25": "John 21:15-25",
                 "luke_1_24_25_57_68": "Luke 1:24-25, 57-68",
@@ -1642,15 +1643,21 @@ class MatinsMixin:
             }
             if key in mapping:
                 return mapping[key]
+            if hasattr(self, "_format_scripture_key"):
+                s_res = self._format_scripture_key(key)
+                if s_res:
+                    return s_res
             parts = key.split('_')
             if len(parts) >= 2:
                 book = parts[0].capitalize()
                 chap = parts[1]
                 verses = parts[2:]
                 if len(verses) == 2:
-                    return f"{book} {chap}:{verses[0]}-{verses[1]}"
-                elif len(verses) > 2:
-                    return f"{book} {chap}:{verses[0]}-{verses[1]}, {', '.join(verses[2:])}"
+                    return f"{book} {chap}:{verses[0]}–{verses[1]}"
+                elif len(verses) == 3:
+                    return f"{book} {chap}:{verses[0]}–{verses[1]}:{verses[2]}"
+                elif len(verses) > 3:
+                    return f"{book} {chap}:{verses[0]}–{verses[1]}, {', '.join(verses[2:])}"
                 elif len(verses) == 1:
                     return f"{book} {chap}:{verses[0]}"
             return key.replace('_', ' ').title()
@@ -1680,17 +1687,35 @@ class MatinsMixin:
 
         if day_of_week != 0 and rank <= 2:
             if matins_gospel:
-                title = "Gospel of the Feast"
+                s_name = ""
+                saints = context.get("saints", [])
+                if saints:
+                    s_name = saints[0].get("name", "")
                 rubrics_title = context.get("rubrics_title")
                 if rubrics_title:
                     try:
                         res = self.get_text(rubrics_title)
                         res_val = res.get("title") if isinstance(res, dict) else res
-                        title = f"Gospel of the Feast ({res_val})"
+                        if res_val:
+                            s_name = res_val
                     except Exception:
                         pass
+                
+                is_fore_or_after = bool(context.get("is_forefeast") or context.get("is_afterfeast") or context.get("is_fore_or_afterfeast") or context.get("period") in ("forefeast", "afterfeast"))
+                is_pure_feast = (context.get("feast_level") in ("lord", "theotokos") or context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS")) and not is_fore_or_after and not saints
+                
+                if s_name:
+                    title = f"Gospel of {s_name}"
+                    typ_val = "feast" if is_pure_feast else "saint"
+                else:
+                    if is_pure_feast:
+                        title = "Gospel of the Feast"
+                        typ_val = "feast"
+                    else:
+                        title = "Gospel of the Saint"
+                        typ_val = "saint"
                 return {
-                    "type": "saint",
+                    "type": typ_val,
                     "title": title,
                     "text": format_gospel_key(matins_gospel)
                 }

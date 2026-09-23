@@ -336,6 +336,11 @@
                 }
             ]
         },
+        "daily_vespers_memorial": {
+            "title_key": "titles.vespers_daily",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.3",
+            "inherits_from": "daily_vespers"
+        },
         "daily_vespers": {
             "title_key": "titles.vespers_daily",
             "sequence": [
@@ -672,6 +677,11 @@
                     }
                 }
             ]
+        },
+        "lenten_vespers_presanctified": {
+            "title_key": "titles.vespers_presanctified",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.7.3",
+            "inherits_from": "presanctified_vespers"
         },
         "presanctified_vespers": {
             "title_key": "titles.vespers_presanctified",

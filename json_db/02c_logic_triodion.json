@@ -107,7 +107,8 @@
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "daily_read",
-        "text_key": "saturday_of_the_departed"
+        "text_key": "saturday_of_the_departed",
+        "suppress_afterfeast": true
       }
     },
     "sunday_meatfare": {
@@ -346,7 +347,7 @@
       "title": "Saturday of St. Theodore the Recruit",
       "source_ref": "Dolnytsky_Typikon_Master.md:4.1.8",
       "variables": {
-        "vespers_type": "lenten_vespers_presanctified",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins_simple",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
@@ -541,7 +542,7 @@
       "title": "Saturday of the Akathist",
       "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12.3",
       "variables": {
-        "vespers_type": "lenten_vespers_presanctified",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
@@ -593,7 +594,7 @@
         "suppress_menaion_saints": true,
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
-        "vespers_type": "lenten_vespers_presanctified",
+        "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
@@ -709,7 +710,17 @@
           "glory": "Doxastikon from the Triodion",
           "both_now": "Theotokion from the Triodion"
         },
-        "aposticha_type": "triodion_only"
+        "aposticha_type": "triodion_only",
+        "matins_canon_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "triodion",
+              "qty": 6
+            }
+          ]
+        }
       }
     },
     "holy_thursday": {
@@ -736,6 +747,16 @@
         ],
         "matins_gospel": "Luke §108 [22:39–23:1]",
         "matins_canon": "Canon of St. Cosmas on 6 with refrain 'Glory to Thee, our God, glory to Thee'",
+        "matins_canon_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "triodion",
+              "qty": 6
+            }
+          ]
+        },
         "katavasia": "Heirmos of the Canon ('With severed rod the sea was parted')",
         "katavasia_tone": 6,
         "magnificat_suppressed": true,
@@ -805,6 +826,17 @@
         "suppress_temple_troparia": true,
         "suppress_penitential_troparia": true,
         "matins_type": "tomb_matins",
+        "matins_canon": "Canon of Holy Saturday on 12 with Heirmos ('He who buried beneath the wave of the sea')",
+        "matins_canon_distribution": {
+          "total_count": 12,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "triodion",
+              "qty": 12
+            }
+          ]
+        },
         "lamentations_title": "Jerusalem Matins: The Lamentations (Encomia) at the Tomb of the Lord (Psalm 118 in Three Stases) with Great Doxology and Procession of the Shroud",
         "liturgy_type": "vesperal_merge_logic",
         "vespers_type": "structure_suppressed",
@@ -845,6 +877,17 @@
         "midnight_type": "midnight_paschal_nocturns",
         "vespers_type": "paschal_vespers",
         "matins_type": "bright_matins",
+        "matins_canon": "Golden Paschal Canon of St. John of Damascus",
+        "matins_canon_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pascha",
+              "qty": 8
+            }
+          ]
+        },
         "hours_type": "structure_paschal",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
@@ -885,6 +928,17 @@
         "hours_type": "structure_paschal",
         "vespers_type": "paschal_vespers",
         "matins_type": "bright_matins",
+        "matins_canon": "Golden Paschal Canon of St. John of Damascus",
+        "matins_canon_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pascha",
+              "qty": 8
+            }
+          ]
+        },
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "paschal_sung",
@@ -1076,7 +1130,11 @@
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
-        "doxology_type": "great_doxology"
+        "doxology_type": "great_doxology",
+        "liturgy_readings": [
+          "acts_20_16_18_28_36",
+          "john_17_1_13"
+        ]
       }
     },
     "saturday_soul_pentecost": {

@@ -6,26 +6,31 @@ import copy
 from ruthenian_engine import RuthenianEngine
 
 class TestAnnualAlmanacConsistency(unittest.TestCase):
-    def test_almanac_consistency_2026(self):
+    def _check_almanac_consistency(self, year: int):
         # 1. Load the almanac JSON
-        almanac_path = os.path.join("json_db", "almanac", "annual_almanac_2026.json")
+        almanac_path = os.path.join("json_db", "almanac", f"annual_almanac_{year}.json")
         self.assertTrue(os.path.exists(almanac_path), f"Almanac file not found at {almanac_path}")
         
         # Freshness Check: Enforce almanac is newer than engine source edits
         import glob
-        engine_files = (
+        all_engine_files = (
             glob.glob(os.path.join("engine", "*.py")) + 
             glob.glob(os.path.join("engine", "resolvers", "*.py"))
         )
+        # Exclude booklet compilers which do not affect annual calendar/almanac resolution
+        engine_files = [
+            f for f in all_engine_files 
+            if os.path.basename(f) not in {"service_book_compiler.py"}
+        ]
         self.assertTrue(len(engine_files) > 0, "No engine source files found to check mtime.")
         max_engine_mtime = max(os.path.getmtime(f) for f in engine_files)
         almanac_mtime = os.path.getmtime(almanac_path)
         
         self.assertGreaterEqual(
             almanac_mtime, max_engine_mtime,
-            f"Almanac cache is stale! (Mtime: {datetime.datetime.fromtimestamp(almanac_mtime)} vs "
+            f"Almanac cache for {year} is stale! (Mtime: {datetime.datetime.fromtimestamp(almanac_mtime)} vs "
             f"Engine Mtime: {datetime.datetime.fromtimestamp(max_engine_mtime)}). "
-            f"Please run 'python scripts/generate_annual_almanac.py' to regenerate it."
+            f"Please run 'python scripts/generate_annual_almanac.py --year {year}' to regenerate it."
         )
         
         with open(almanac_path, "r", encoding="utf-8") as f:
@@ -43,7 +48,7 @@ class TestAnnualAlmanacConsistency(unittest.TestCase):
         
         # 3. Instantiate an engine WITH almanac active to test the almanac fast path
         almanac_engine = RuthenianEngine(version="lviv")
-        self.assertIsNotNone(almanac_engine._get_almanac(2026), "Almanac engine should successfully load the almanac")
+        self.assertIsNotNone(almanac_engine._get_almanac(year), f"Almanac engine should successfully load the almanac for {year}")
 
         # 4. Compare every day
         days = almanac["days"]
@@ -114,6 +119,15 @@ class TestAnnualAlmanacConsistency(unittest.TestCase):
                 alm_readings, live_readings,
                 f"Readings mismatch on {date_str}\nAlmanac: {alm_readings}\nLive: {live_readings}"
             )
+
+    def test_almanac_consistency_2025(self):
+        self._check_almanac_consistency(2025)
+
+    def test_almanac_consistency_2026(self):
+        self._check_almanac_consistency(2026)
+
+    def test_almanac_consistency_2027(self):
+        self._check_almanac_consistency(2027)
 
 if __name__ == "__main__":
     unittest.main()

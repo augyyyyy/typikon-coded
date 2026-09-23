@@ -531,6 +531,43 @@ class CalendarMixin:
             
         context["saint_categories"] = [get_liturgical_category(p) for p in parts]
 
+        # 4. Canonical Status Flags (Enriched to prevent title substring matching downstream)
+        m, d = context.get("month"), context.get("day")
+        if not m or not d:
+            dt = context.get("date")
+            if isinstance(dt, str) and len(dt) >= 10:
+                try:
+                    m, d = int(dt[5:7]), int(dt[8:10])
+                except (ValueError, IndexError):
+                    pass
+
+        # Paramony detection
+        if (m == 12 and d == 24) or (m == 1 and d == 5) or context.get("feast_id") in ("paramony_nativity", "paramony_theophany"):
+            context["is_paramony"] = True
+
+        # Primary feast ID resolution
+        if not context.get("primary_feast_id"):
+            f_id = context.get("feast_id")
+            if f_id:
+                context["primary_feast_id"] = f_id
+            elif m == 12 and d == 25:
+                context["primary_feast_id"] = "nativity"
+            elif m == 1 and d == 6:
+                context["primary_feast_id"] = "theophany"
+            elif m == 9 and d == 14:
+                context["primary_feast_id"] = "exaltation_cross"
+            elif m == 3 and d == 25:
+                context["primary_feast_id"] = "annunciation"
+
+        # Afterfeast / Forefeast / Apodosis canonical flags
+        period = context.get("period", "")
+        if period == "afterfeast" or context.get("is_afterfeast"):
+            context["is_afterfeast"] = True
+        if period == "forefeast" or context.get("is_forefeast"):
+            context["is_forefeast"] = True
+        if period == "apodosis" or context.get("is_apodosis"):
+            context["is_apodosis"] = True
+
 
     def _lookup_dolnytsky_calendar(self, target_date, delta):
         """
@@ -550,7 +587,7 @@ class CalendarMixin:
           [4 NO]     → Saint on 4, no special features (Rank 5)
           [4 TR]     → Saint on 4, Troparion (Rank 5)
         """
-        result = {"saints": []}
+        result = {"saints": [], "calendar_saints": []}
         
         # ── 1. MOVABLE CYCLE OVERRIDES (Dolnytsky Part V) ──────────────────
         movable_overrides = {
@@ -669,6 +706,9 @@ class CalendarMixin:
                 result["feast_id"] = "co_suffering_theotokos"
                 result["is_feast"] = True
                 result["feast_level"] = "theotokos"
+                
+            if result.get("feast_id") and (result.get("is_afterfeast") or result.get("is_forefeast") or result.get("is_feast")):
+                result["linked_feast"] = result["feast_id"]
         
         # ── 2. FIXED CALENDAR LOOKUP ──────────────────────────────────────
         if delta is not None and -8 <= delta <= 6:
@@ -812,6 +852,7 @@ class CalendarMixin:
                                 "all_parsed_saints": [{"name": name_clean, "title": "", "gender": "unknown", "monastic": False, "is_saint": True}]
                             })
                     result["saints"] = saints
+                    result["calendar_saints"] = copy.deepcopy(saints)
 
         # Check title/subtitle or explicit date ranges for forefeast, afterfeast, apodosis
         m, d = target_date.month, target_date.day
@@ -945,9 +986,19 @@ class CalendarMixin:
             result["is_fore_or_afterfeast"] = True
             if is_fixed_forefeast or "forefeast" in full_title_lower:
                 result["is_forefeast"] = True
+                result["period"] = "forefeast"
             if is_fixed_afterfeast or is_fixed_apodosis or "afterfeast" in full_title_lower or "apodosis" in full_title_lower:
                 result["is_afterfeast"] = True
+                result["period"] = "afterfeast"
+            if is_fixed_apodosis or "apodosis" in full_title_lower:
+                result["is_apodosis"] = True
+                result["period"] = "apodosis"
                 
+        if linked_feast:
+            result["linked_feast"] = linked_feast
+            if is_fixed_feast_day:
+                result["feast_id"] = linked_feast
+
         if is_fixed_feast_day or result.get("is_fore_or_afterfeast"):
             if linked_feast in ["nativity", "theophany", "transfiguration", "exaltation_cross", "dormition", "nativity_theotokos", "presentation", "meeting"]:
                 result["season"] = linked_feast.title()

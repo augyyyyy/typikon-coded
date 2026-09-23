@@ -29,13 +29,9 @@ class VespersMixin:
         liturgy = overrides.get("liturgy_type") or variables.get("liturgy_type") or ""
         
         if "vesperal" in liturgy or "merge_logic" in liturgy:
-            if "basil" in liturgy or "basil" in str(context.get("title", "")).lower():
+            if "basil" in liturgy or context.get("liturgy_type") == "basil" or context.get("pascha_offset") == -1:
                 return "vesperal_liturgy_basil"
-            if "chrysostom" in liturgy or "chrysostom" in str(context.get("title", "")).lower():
-                return "vesperal_liturgy_chrysostom"
-            if context.get("pascha_offset") == -1:
-                return "vesperal_liturgy_basil"
-            if context.get("pascha_offset") == -2:
+            if "chrysostom" in liturgy or context.get("liturgy_type") == "chrysostom" or context.get("pascha_offset") == -2:
                 return "vesperal_liturgy_chrysostom"
             return "vesperal_liturgy_basil"
 
@@ -1487,6 +1483,31 @@ class VespersMixin:
              r_overrides = overrides.get("vespers_readings")
         if not r_overrides:
              r_overrides = context.get("variables", {}).get("vespers_readings") or context.get("vespers_readings")
+
+        # Fallback Old Testament Paremias for Vigil and Polyeleos feasts
+        if not r_overrides:
+            is_vigil = context.get("is_vigil") or (rank <= 2) or context.get("has_polyeleos") or context.get("has_readings")
+            is_afterfeast = context.get("is_afterfeast")
+            is_forefeast = context.get("is_forefeast")
+            month = context.get("month")
+            day_num = context.get("day")
+            # Nativity (Dec 25) and Theophany (Jan 6) have their paremias on the eve at Vesperal Liturgy
+            has_eve_vesperal_paremias = (month == 12 and day_num == 25) or (month == 1 and day_num == 6)
+            if is_vigil and not is_afterfeast and not is_forefeast and not has_eve_vesperal_paremias:
+                s_name = (context.get("title") or "").lower()
+                s_commem = (context.get("dolnytsky_commemoration") or "").lower()
+                saints_list = context.get("saints", [])
+                s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
+                combined_info = f"{s_name} {s_commem} {s_names}"
+                if any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
+                    r_overrides = ["1_peter_1_3_9", "1_peter_1_13_19", "1_peter_2_11_24"]
+                elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas", "spyridon"]):
+                    r_overrides = ["proverbs_10_7_3_13_16", "proverbs_10_31_11_12", "wisdom_4_7_15"]
+                elif any(w in combined_info for w in ["theotokos", "conception", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
+                    r_overrides = ["genesis_28_10_17", "ezekiel_43_27_44_4", "proverbs_9_1_11"]
+                else:
+                    # Venerable, Martyrs, and General Polyeleos
+                    r_overrides = ["wisdom_3_1_9", "wisdom_5_15_6_3", "wisdom_4_7_15"]
              
         if r_overrides:
              paremia_titles = {
@@ -1497,15 +1518,33 @@ class VespersMixin:
                  "exodus_3_1_8": "Exodus 3:1–8",
                  "exodus_24_12_18": "Exodus 24:12–18",
                  "exodus_33_11_23": "Exodus 33:11–23",
-                 "exodus_40": "Exodus 40:1–5, 9–10, 16, 34–35"
+                 "exodus_40": "Exodus 40:1–5, 9–10, 16, 34–35",
+                 "wisdom_3_1_9": "Wisdom 3:1–9",
+                 "wisdom_5_15_6_3": "Wisdom 5:15–6:3",
+                 "wisdom_4_7_15": "Wisdom 4:7–15",
+                 "1_peter_1_3_9": "1 Peter 1:3–9",
+                 "1_peter_1_13_19": "1 Peter 1:13–19",
+                 "1_peter_2_11_24": "1 Peter 2:11–24",
+                 "genesis_28_10_17": "Genesis 28:10–17",
+                 "ezekiel_43_27_44_4": "Ezekiel 43:27–44:4",
+                 "proverbs_9_1_11": "Proverbs 9:1–11",
+                 "proverbs_10_7_3_13_16": "Composite Proverbs (Prov 10:7; 3:13–16)",
+                 "proverbs_10_31_11_12": "Proverbs 10:31–11:12"
              }
              for key in r_overrides:
                  text_item = self.get_text(key, context=context)
                  content_str = ""
-                 title_str = paremia_titles.get(key, key.replace("_", " ").title())
-                 if text_item:
+                 title_str = paremia_titles.get(key)
+                 if not title_str:
+                     formatted = self._format_scripture_key(key)
+                     if formatted and formatted != key:
+                         title_str = formatted
+                     else:
+                         title_str = key.replace("_", " ").title()
+                 if text_item and not (isinstance(text_item, dict) and text_item.get("is_missing")):
                      content_str = text_item.get("content", "")
-                     title_str = text_item.get("title") or title_str
+                     if text_item.get("title"):
+                         title_str = text_item.get("title")
                  readings.append({
                      "type": "reading",
                      "ref_key": key,
@@ -1660,7 +1699,7 @@ class VespersMixin:
         title = context.get("title", "").lower()
         
         # Only applies on Good Friday evening (Pascha offset -2 at evening)
-        if pascha_offset != -2 and "good friday" not in title and "great friday" not in title:
+        if pascha_offset != -2 and context.get("feast_id") != "great_friday":
             return None
         
         return {

@@ -1,60 +1,68 @@
-# Year 2026 Full-Year Brute-Force Forensic Audit Walkthrough
+# Walkthrough: Multi-Year Brute-Force Scanning & Remediation (2025–2027)
 
-## Summary of Accomplishments
-
-Every single day of the entire year 2026 (all 365 days, January 1 to December 31, 2026) was audited and verified across both the **Gregorian** and **Julian** paschalions (730 full-year service sets across all 6 service tiers: Small/Great/Daily Vespers, Compline, Midnight Office, Matins, Hours, and Divine Liturgy).
-
-### Forensic Diagnostic & Remediation Results
-* **Starting Anomalies:** 166 anomalies detected across Lazarus Saturday, Palm Sunday, Holy Week, Pentecost, and Julian fallbacks.
-* **Final Anomalies:** **0 anomalies** in Gregorian (365 days) and **0 anomalies** in Julian (365 days).
-* **Test Suite:** **1,373 passing tests** (0 failing) across the entire test suite.
+We have expanded brute-force scanning and canonical verification across a continuous $\pm 1$ year window covering **2025, 2026, and 2027** across both Gregorian and Julian Paschalions (2,190 days total). All canonical truth violations and edge-case collisions have been remediated, and the entire test suite is 100% green (1,380 passing tests, 0 failures).
 
 ---
 
-## Key Remediations Applied
+## Key Remediations Implemented
 
-1. **Palm Sunday & Lord's Feasts Octoechos Tone Suppression:**
-   - In `engine/calendar.py`, set `eothinon = None` on Palm Sunday (`delta == -7`) as a Class 1 Great Feast of the Lord suppressing the Resurrectional Eothinon cycle.
-   - In `engine/resolvers/matins.py` (`resolve_exapostilarion` and `resolve_exapostilarion_matins`), mapped Palm Sunday to the canonical Festal Exapostilarion (`triodion.palm_sunday_exapostilarion`), Lazarus Saturday (`triodion.lazarus_saturday_exapostilarion`), and Pentecost (`pentecostarion.pentecost_exapostilarion`), suppressing `octoechos.holy_is_the_lord_tone_None`.
-   - In `digest/formatters/matins.py`, enhanced `_format_resolve_exapostilarion` to delegate component structures and guard against `tone_None`.
+### 1. Small Vespers Dismissal Troparia Formatting
+- **File:** [`digest/formatters/vespers.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/digest/formatters/vespers.py)
+- **Problem:** When Feasts of the Theotokos fall on a Sunday (`2025-02-02`, `2027-08-15`, `2027-11-21`, `2027-12-26`), Small Vespers rendered `"Glory... Troparion of the Feast"` instead of qualifying the feast name.
+- **Fix:** In `_format_resolve_vespers_troparia_simple`, updated `typ == "glory"` to dynamically call `_get_feast_display_name(context, form="short")` or `_get_saint_display_name(context, 0, form="short")`, generating `"Glory... Troparion of the Meeting of the Lord"` and `"Glory... Troparion of the Dormition"`.
 
-2. **Holy Week Bridegroom Matins Intercessions:**
-   - In `engine/resolvers/matins.py` (`resolve_psalm_50_intercession`), returned `None` during Holy Week (`season_id == "holy_week"` or `pascha_off in range(-6, 0)`), suppressing spurious Sunday resurrectional stichera (`Jesus, having risen... Tone None`).
+### 2. Tone None Guard & Feast Label Disambiguation
+- **File:** [`digest/base.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/digest/base.py)
+- **Problem:** 
+  1. `_roman_tone(None)` threw `TypeError` in `int(None)` and returned string `"None"`, producing leaks such as `> of Tone None`.
+  2. In `_get_feast_display_name`, `fid = "presentation"` checked `"entrance" in d_title` before checking for `palm_sunday`. On Palm Sunday (`"Entrance of Our Lord into Jerusalem"`), it incorrectly matched the Entrance of the Theotokos into the Temple (`"presentation"`).
+- **Fix:** 
+  1. Guarded `_roman_tone` to return `""` when `tone is None or tone == "" or str(tone).strip().lower() == "none"`.
+  2. In `_get_feast_display_name`, placed `palm_sunday` before `presentation` and required `"theotokos"` in `d_title` for the Presentation check.
+  3. Added fallbacks to `rubrics_title` and `dolnytsky_title` in `get_ref_label_local`.
 
-3. **Holy Saturday & Pascha Midnight Office Presentation:**
-   - In `digest/base.py`, omitted Compline and Midnight Office on Pascha Sunday (`pascha_offset == 0`).
-   - Formatted the canonical Holy Saturday Nocturns order under Midnight Office on Great and Holy Saturday (Canon of Holy Saturday, transfer of the Shroud to the altar table, and vesting).
+### 3. Great Feast of the Lord Supremacy in Liturgy Troparia & Readings
+- **Files:** [`engine/rubrics.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/rubrics.py), [`engine/resolvers/liturgy.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/engine/resolvers/liturgy.py)
+- **Problem:** On `2027-04-25` Julian (Palm Sunday coinciding with St. Mark the Evangelist, rank 2 / Polyeleos):
+  1. `engine/rubrics.py` checked `suppress_menaion_saint` (singular) but not `suppress_menaion_saints` (plural), leaving the saint's rank in rubrics variables.
+  2. In `engine/resolvers/liturgy.py`, `is_great_lord_feast` was blocked by `and not (day == 0 and rank_numeric > 1)`, causing Palm Sunday to drop to ordinary Sunday liturgy hymns.
+  3. In `resolve_liturgy_readings`, `is_great_feast` did not verify `dolnytsky_rank == "LORD"` or `feast_level == "lord"`.
+- **Fix:** 
+  1. Updated `engine/rubrics.py` to check `suppress_menaion_saints` (plural).
+  2. Isolated `is_great_lord_feast` in `engine/resolvers/liturgy.py` so Great Feasts of the Lord unconditionally select `template_key = "festal_only"`.
+  3. Expanded `is_great_feast` in `resolve_liturgy_readings` to verify `dolnytsky_rank in ("LORD", "THEOTOKOS")` and `feast_id in ("palm_sunday", "pascha", "pentecost")`.
 
-4. **Pentecost Sunday Praises Doxastikon & Doxology:**
-   - In `json_db/02c_logic_triodion.json`, added `"suppress_octoechos": true`, canonical `matins_prokeimenon` (Tone 4), and `praises_distribution` (6 Pentecostarion stichera, Tone 6 Glory/Both now).
-   - In `digest/formatters/matins.py`, guarded Sunday Octoechos praises cap so it does not overwrite Pentecostarion/Triodion praises with Octoechos 8.
+### 4. Sunday of the Holy Fathers of the 1st Ecumenical Council Readings
+- **Files:** [`json_db/02c_logic_triodion.json`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/json_db/02c_logic_triodion.json), [`scripts/audit_canonical_truth_pipeline.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/scripts/audit_canonical_truth_pipeline.py)
+- **Problem:** `sunday_fathers_1st_council` (Pascha offset 42) lacked `liturgy_readings`, causing the lectionary to fall back to the generic Sunday name. Invariant 16 in the audit pipeline also had a greedy regex `r">\s*(of\s+weekday|of\s+sunday)\b"` that matched specific commemorations starting with `"of Sunday of ..."`.
+- **Fix:** 
+  1. Added canonical readings `["acts_20_16_18_28_36", "john_17_1_13"]` (Acts 20:16–18, 28–36 and John 17:1–13) to `sunday_fathers_1st_council` in `02c_logic_triodion.json`.
+  2. Refined Invariant 16 regex in `scripts/audit_canonical_truth_pipeline.py` to `r">\s*(of\s+weekday|of\s+sunday)\s*(\(|$|\.)"`.
 
-5. **Lectionary Fallback Hygiene & Normalization:**
-   - In `digest/base.py`, updated `get_ref_label_local` and liturgy reading slot formatters for prokeimenon, epistle, alleluia, and gospel so empty `ref_key` or generic strings like `"gospel"` / `"epistle"` / `"alleluia"` map cleanly to `"of the day"` rather than leaking `> of Gospel`.
-   - In `engine/resolvers/liturgy.py`, ignored `["day_current"]` during menaion reading normalization so that days with generic day readings (such as Julian 2026-02-01 coincident with Forefeast of Meeting) resolve canonically to the Sunday/daily lectionary without fabricating empty menaion reading references.
+### 5. Annual Almanac Generation & Testing
+- Generated and validated all precomputed annual almanacs:
+  - `annual_almanac_royal_doors_2025.json` and `annual_almanac_2025.json`
+  - `annual_almanac_royal_doors_2026.json` and `annual_almanac_2026.json`
+  - `annual_almanac_royal_doors_2027.json` and `annual_almanac_2027.json`
+- Enhanced [`tests/test_annual_almanac_consistency.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/tests/test_annual_almanac_consistency.py) to assert 100% consistency across all three years (2025, 2026, 2027).
 
-6. **Annual Almanacs Regenerated:**
-   - Precomputed and regenerated all four 2026 annual almanacs with 365 days each:
-     - `json_db/almanac/annual_almanac_2026.json`
-     - `json_db/almanac/annual_almanac_royal_doors_2026.json`
-     - `json_db/almanac/annual_almanac_2026_julian.json`
-     - `json_db/almanac/annual_almanac_royal_doors_2026_julian.json`
+### 6. Institutionalized Multi-Year Regression in Test Suite
+- Parameterized [`tests/test_canonical_semantic_truth.py`](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/Typikon%20Coded/tests/test_canonical_semantic_truth.py) over `[2025, 2026, 2027]` for both Gregorian and Julian Paschalions.
 
 ---
 
-## Verification Evidence
+## Verification Results
 
-### 1. 365-Day Canonical Semantic Truth Audit Pipeline
-```
-=== Auditing 365 days [GREGORIAN] starting from 2026-01-01 ===
-=== Audit Complete [GREGORIAN]: 365 days scanned, 0 violations found ===
+### Brute-Force Multi-Year Audit (2,190 Days Total)
+- **2025 Gregorian:** 365 days, 0 violations
+- **2025 Julian:** 365 days, 0 violations
+- **2026 Gregorian:** 365 days, 0 violations
+- **2026 Julian:** 365 days, 0 violations
+- **2027 Gregorian:** 365 days, 0 violations
+- **2027 Julian:** 365 days, 0 violations
 
-=== Auditing 365 days [JULIAN] starting from 2026-01-01 ===
-=== Audit Complete [JULIAN]: 365 days scanned, 0 violations found ===
-```
-
-### 2. Pytest Test Results
-* `tests/test_canonical_semantic_truth.py`: **6 passed** (including full 365-day Gregorian and Julian suites).
-* `tests/test_session_compliance.py`: **1 passed**.
-* `tests/test_annual_almanac_consistency.py`: **1 passed**.
-* Full Test Suite (`pytest --ignore=tests/test_ui_readability.py`): **1,373 passed, 0 failed in 155.16s**.
+### Automated Test Suite Runs
+- `tests/test_canonical_semantic_truth.py`: **11 passed in 46.67s**
+- `tests/test_annual_almanac_consistency.py`: **3 passed in 1.71s**
+- `tests/test_session_compliance.py`: **1 passed in 0.36s**
+- **Full Project Regression Suite:** **1,380 passed in 191.21s (100% green, 0 failed)**

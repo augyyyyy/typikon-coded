@@ -463,8 +463,7 @@ class HoursMixin:
             return "theophany"
             
         # Fallback for explicit paramony flags (from Chronos/Menaion variables)
-        title = context.get("title", "").lower()
-        if context.get("is_paramony", False) or "paramony" in title or "eve" in title:
+        if context.get("is_paramony", False) and weekday not in [0, 6]:
             if month == 12: return "nativity"
             if month == 1: return "theophany"
             
@@ -573,7 +572,7 @@ class HoursMixin:
         title = context.get("title", "").upper()
         
         # 0. Pascha (Midnight Office = Shroud Service)
-        is_pascha = context.get("is_pascha", False) or t_period == "pascha" or "PASCHA" in title or context.get("pascha_offset") == 0
+        is_pascha = context.get("is_pascha", False) or t_period == "pascha" or context.get("pascha_offset") == 0 or context.get("feast_id") == "pascha"
         if is_pascha or context.get("pascha_offset") == -1:
              return {
                  "mode": "paschal_nocturns",
@@ -607,8 +606,8 @@ class HoursMixin:
              is_afterfeast = (
                  context.get("is_afterfeast") or
                  context.get("is_fore_or_afterfeast") or
-                 "afterfeast" in str(context.get("title", "")).lower() or
-                 "apodosis" in str(context.get("title", "")).lower()
+                 context.get("is_apodosis") or
+                 context.get("period") in ("afterfeast", "apodosis")
              )
              try:
                  rank = self.calculate_rank(context)
@@ -663,8 +662,7 @@ class HoursMixin:
             if day == 3 and weekday == 5: # Jan 5 is Sunday, so Friday is Jan 3
                  return True
               
-        title = context.get("title", "").lower()
-        if context.get("is_paramony", False) or "paramony" in title or "eve of" in title:
+        if context.get("is_paramony", False) and weekday not in [0, 6]:
              return True
              
         return False
@@ -688,8 +686,8 @@ class HoursMixin:
         is_afterfeast = (
             context.get("is_afterfeast") or
             context.get("is_fore_or_afterfeast") or
-            "afterfeast" in str(context.get("title", "")).lower() or
-            "apodosis" in str(context.get("title", "")).lower()
+            context.get("is_apodosis") or
+            context.get("period") in ("afterfeast", "apodosis")
         )
         rank = self.calculate_rank(context)
 
@@ -721,8 +719,8 @@ class HoursMixin:
             return {
                 "type": "troparia_stack",
                 "components": [
-                    {"id": "After the 1st Trisagion — Troparion of the Feast (Eucharist)"},
-                    {"id": "After the 2nd Trisagion — Kontakion of the Feast. We do not say the prayer “Remember”. Instead: “Lord, have mercy” (12) and the dismissal"}
+                    {"id": "midnight_afterfeast_1"},
+                    {"id": "midnight_afterfeast_2"}
                 ]
             }
         

@@ -30,10 +30,10 @@ class VespersFormatterMixin:
             lines = [
                 "**KYRIOPASCHA (PASCHA WITH ANNUNCIATION) AGAPE VESPERS:**",
                 "**Opening:** The celebrant vests in full bright vestments, takes the censer and the Paschal Cross, and intones: *\"Glory to the Holy, Consubstantial, Life-Creating and Undivided Trinity...\"* followed by the Paschal Troparion *\"Christ is risen from the dead...\"* (thrice by clergy, then with the Paschal Verses by the choir).",
-                "**At Lord, I Call:** 3 Paschal Stichera, and 3 Feast Stichera of the Annunciation; Glory: Feast of the Annunciation; Both now: Paschal Dogmatikon in Tone II.",
+                "**At Lord, I Call:** 3 Paschal Stichera, and 3 Stichera of the Annunciation; Glory: Doxastikon of the Annunciation; Both now: Paschal Dogmatikon in Tone II.",
                 "**Entrance:** Solemn Entrance with the Holy Gospel Book, censer, and candles; *\"O Joyful Light\"* (*Phos Hilaron*).",
                 f"**{prok_line}**",
-                gospel_block + "**At the Aposticha:** Paschal Stichera (*\"Let God arise... Today a sacred Pascha is revealed to us...\"*); Glory: Feast of the Annunciation; Both now: *\"This is the day of Resurrection! Let us be illumined by the feast...\"*",
+                gospel_block + "**At the Aposticha:** Paschal Stichera (*\"Let God arise... Today a sacred Pascha is revealed to us...\"*); Glory: Doxastikon of the Annunciation; Both now: *\"This is the day of Resurrection! Let us be illumined by the feast...\"*",
                 "**Troparia:** Troparion of Pascha (*\"Christ is risen from the dead...\"*), Troparion of the Annunciation (*\"Today is the fountainhead of our salvation...\"*).",
                 "**Paschal Dismissal:** Dialogical Paschal Dismissal with the Cross (*\"Christ is risen from the dead...\"*)."
             ]
@@ -71,8 +71,15 @@ class VespersFormatterMixin:
     def _format_resolve_small_vespers_prokeimenon(self, res, context):
         if not res:
             return ""
-        ref_str = self.humanize_key(res.get("ref_key", ""))
-        return f"Prokeimenon: {ref_str}"
+        if isinstance(res, dict):
+            tone = res.get("tone")
+            tone_str = f", in Tone {self._roman_tone(tone)}" if tone else ""
+            text = res.get("text") or res.get("content")
+            if text:
+                return f"Prokeimenon{tone_str}: *\"{text}\"*"
+            ref_str = self.humanize_key(res.get("ref_key", ""))
+            return f"Prokeimenon{tone_str}: {ref_str}"
+        return f"Prokeimenon: {res}"
 
 
     def _format_resolve_vespers_stichera(self, res, context):
@@ -86,30 +93,39 @@ class VespersFormatterMixin:
             s = self.humanize_key(item.get('source', ''))
             
             # Map type to a human readable description
-            saints = context.get("saints", [])
             if t == "saint":
-                if saints:
-                    name = f"Stichera of {self._clean_name(saints[0].get('name', 'the Saint'))}"
+                if item.get('source') == "triodion":
+                    tp = context.get("triodion_period", "")
+                    triodion_map = {
+                        "sunday_mary_egypt": "St. Mary of Egypt",
+                        "sunday_john_climacus": "St. John Climacus",
+                        "sunday_gregory_palamas": "St. Gregory Palamas",
+                        "sunday_publican_pharisee": "the Publican and the Pharisee",
+                        "sunday_prodigal_son": "the Prodigal Son",
+                    }
+                    if tp in triodion_map:
+                        name = f"Stichera of {triodion_map[tp]}"
+                    else:
+                        sname = self._get_saint_display_name(context, 0, form="short")
+                        name = f"Stichera of {sname}" if sname != "the Saint" else "Stichera from the Triodion"
                 else:
-                    name = "Stichera of the Saint"
+                    sname = self._get_saint_display_name(context, 0, form="short")
+                    name = f"Stichera of {sname}"
             elif t == "saint_1":
-                if saints:
-                    name = f"Stichera of {self._clean_name(saints[0].get('name', 'the First Saint'))}"
-                else:
-                    name = "Stichera of the First Saint"
+                sname = self._get_saint_display_name(context, 0, form="short")
+                name = f"Stichera of {sname}" if sname != "the Saint" else "Stichera of the First Saint"
             elif t == "saint_2":
-                if len(saints) >= 2:
-                    name = f"Stichera of {self._clean_name(saints[1].get('name', 'the Second Saint'))}"
-                else:
-                    name = "Stichera of the Second Saint"
+                sname = self._get_saint_display_name(context, 1, form="short")
+                name = f"Stichera of {sname}" if sname != "the Saint" else "Stichera of the Second Saint"
             elif t in ("current_day", "current_day_stichera"):
                 name = "Stichera"
             elif "res" in t.lower():
                 name = "Resurrectional Stichera"
-            elif t == "feast":
-                name = "Feast Stichera"
+            elif t in ("feast", "forefeast", "afterfeast"):
+                fname = self._get_feast_display_name(context, form="short")
+                name = f"Stichera of {fname}"
             else:
-                name = self.humanize_key(t) if t else "Stichera"
+                name = self.humanize_key(t, context) if t else "Stichera"
                 if not name.lower().endswith("stichera"):
                     name = f"{name} Stichera"
             
@@ -127,23 +143,23 @@ class VespersFormatterMixin:
         both_now_val = res.get("both_now")
         glory_both_now_val = res.get("glory_both_now")
         
-        glory_human = self.humanize_key(glory_val)
-        both_now_human = self.humanize_key(both_now_val)
+        glory_human = self.humanize_key(glory_val, context)
+        both_now_human = self.humanize_key(both_now_val, context)
         
-        if both_now_human and both_now_human.strip().lower() == "theotokion":
+        if both_now_human and "theotokion" in both_now_human.lower() and "tone" not in both_now_human.lower():
             tone = res.get("tone") or context.get("tone")
             tone_rom = self._roman_tone(tone) if (tone and hasattr(self, "_roman_tone")) else None
             if tone_rom:
-                both_now_human = f"Theotokion in Tone {tone_rom}"
-            else:
-                both_now_human = "Theotokion from the Horologion or Octoechos"
+                both_now_human = f"{both_now_human} in Tone {tone_rom}"
 
         if glory_both_now_val:
-            gbn_human = self.humanize_key(glory_both_now_val)
+            gbn_human = self.humanize_key(glory_both_now_val, context)
             if any(k in gbn_human.lower() for k in ["cross doxastikon", "feast doxastikon", "menaion.cross.doxastikon", "nativity theotokos doxastikon", "theotokos doxastikon"]):
-                gbn_human = "Feast"
+                fname = self._get_feast_display_name(context, form="short")
+                gbn_human = f"Feast of {fname}"
             elif "doxastikon" in gbn_human.lower() and ("feast" in gbn_human.lower() or "theotokos" in gbn_human.lower() or "cross" in gbn_human.lower() or "nativity" in gbn_human.lower()):
-                gbn_human = "Feast"
+                fname = self._get_feast_display_name(context, form="short")
+                gbn_human = f"Feast of {fname}"
             parts.append(f"Glory, Both now: {gbn_human}")
         elif glory_human and both_now_human and glory_human.strip().lower() == both_now_human.strip().lower():
             parts.append(f"Glory, Both now: {glory_human}")
@@ -209,7 +225,14 @@ class VespersFormatterMixin:
             if isinstance(r, dict) and r.get('type') in ('reading', 'ot_reading'):
                 citation = r.get('citation') or r.get('title') or r.get('ref_key')
                 if citation:
-                    readings.append(self.humanize_key(citation))
+                    if ":" in citation:
+                        readings.append(citation)
+                    else:
+                        scripture_formatted = self._format_scripture_key(citation) if hasattr(self, "_format_scripture_key") else None
+                        if scripture_formatted and scripture_formatted != citation:
+                            readings.append(scripture_formatted)
+                        else:
+                            readings.append(self.humanize_key(citation))
         if readings:
             if len(readings) == 3:
                 parts.append(f"**Readings (Paremias):** 1) {readings[0]}; 2) {readings[1]}; 3) {readings[2]}.")
@@ -280,13 +303,21 @@ class VespersFormatterMixin:
             if "resurrectional" in typ:
                 parts.append("the Sunday (resurrectional) troparion in the tone of the week")
             elif typ == "glory":
-                parts.append(f"Glory... {ref}")
+                if "feast" in ref_key.lower() or "feast" in ref.lower():
+                    fname = self._get_feast_display_name(context, form="short")
+                    parts.append(f"Glory... Troparion of {fname}")
+                elif "saint" in ref_key.lower() or "saint" in ref.lower():
+                    sname = self._get_saint_display_name(context, 0, form="short")
+                    parts.append(f"Glory... Troparion of {sname}")
+                else:
+                    parts.append(f"Glory... {ref}")
             elif "both_now" in typ:
                 bn_text = "Glory, Both now" if typ == "glory_both_now" else "Both now"
+                fname = self._get_feast_display_name(context, form="short")
                 if "feast.troparion" in ref_key or ref == "Feast Troparion" or (is_fore_after and "feast" in ref_key):
-                    parts.append(f"{bn_text}: Troparion of the Feast")
+                    parts.append(f"{bn_text}: Troparion of {fname}")
                 elif "theotokion_of_the_feast" in ref_key.lower() or ref == "Theotokion of the Feast":
-                    parts.append(f"{bn_text}: Theotokion of the Feast")
+                    parts.append(f"{bn_text}: Theotokion of {fname}")
                 elif "dismissal_theotokion" in ref_key.lower() or "theotokion_dismissal" in ref_key.lower() or "theotokion" in ref.lower():
                     # Qualify with tone or day if known
                     tone_val = context.get("tone")
@@ -298,8 +329,9 @@ class VespersFormatterMixin:
                 else:
                     parts.append(f"{bn_text}: {ref}")
             else:
+                fname = self._get_feast_display_name(context, form="short")
                 if ref_key == "feast.troparion" or ref == "Feast Troparion":
-                    parts.append("the Troparion of the Feast")
+                    parts.append(f"the Troparion of {fname}")
                 elif "Troparion" in ref:
                     name = ref.replace("Troparion", "").strip()
                     if name.lower().startswith("of "):

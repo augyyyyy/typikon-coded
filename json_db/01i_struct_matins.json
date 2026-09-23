@@ -924,6 +924,11 @@
                 }
             ]
         },
+        "matins_memorial": {
+            "title_key": "titles.matins_daily",
+            "source_ref": "Dolnytsky_Typikon_Master.md:4.1.3",
+            "inherits_from": "daily_matins"
+        },
         "lenten_matins_weekday": {
             "title_key": "titles.matins_lenten_weekday",
             "source_ref": "Dolnytsky_Typikon_Master.md:4.1.9.1.1",

@@ -572,6 +572,11 @@
             "glory": "theologian_doxastikon",
             "both_now": "theotokion"
           },
+          "vespers_readings": [
+            "1_john_3_21_4_6",
+            "1_john_4_11_16",
+            "1_john_4_20_5_5"
+          ],
           "matins_canon_stacking": [
             "theologian_canon_8"
           ],

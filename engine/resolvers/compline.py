@@ -124,8 +124,8 @@ class ComplineMixin:
         is_afterfeast = (
             context.get("is_afterfeast") or
             context.get("is_fore_or_afterfeast") or
-            "afterfeast" in str(context.get("title", "")).lower() or
-            "apodosis" in str(context.get("title", "")).lower()
+            context.get("is_apodosis") or
+            context.get("period") in ("afterfeast", "apodosis")
         )
         rank = context.get("rank", 5)
         if isinstance(rank, str):
@@ -137,7 +137,7 @@ class ComplineMixin:
         season = context.get("season_id", "") or context.get("season", "")
         pascha_off = context.get("pascha_offset")
         
-        if pascha_off == -7 or "palm" in str(context.get("title", "")).lower():
+        if pascha_off == -7 or context.get("feast_id") == "palm_sunday":
             return {
                 "type": "troparia_stack",
                 "components": [
@@ -171,14 +171,11 @@ class ComplineMixin:
 
         # Polyeleos is rank <= 3
         if not day == 0 and is_afterfeast and rank <= 3:
-            saints = context.get("saints", [])
-            saint_id = saints[0].get("id") if saints else "saint"
-            saint_name = "Apostles Bartholomew and Barnabas" if "bartholomew" in saint_id else "the Saint"
             return {
                 "type": "troparia_stack",
                 "components": [
-                    {"type": "saint_kontakion", "ref_key": f"Kontakion of {saint_name}"},
-                    {"type": "glory_both_now_feast_kontakion", "ref_key": "Glory... Both now: Kontakion of the Feast (Eucharist)"}
+                    {"type": "saint_kontakion", "ref_key": "kont_saint"},
+                    {"type": "glory_both_now_feast_kontakion", "ref_key": "kont_feast_glory_both_now"}
                 ]
             }
 
@@ -230,11 +227,30 @@ class ComplineMixin:
         return {"type": "hymn", "mode": "solemn_festal_melody", "ref_key": "god_is_with_us"}
 
 
-    def resolve_compline_lord_of_hosts(self, context, rubrics):
-        # Praises Selector
-        if context.get("is_lent"):
-             return {"type": "praises", "ref_key": "lord_of_hosts_tone_6"}
-        return {"type": "praises", "ref_key": "kontakion_feast"}
+    def resolve_compline_lord_of_hosts(self, context, rubrics=None):
+        # Praises Selector at Great Compline
+        pascha_off = context.get("pascha_offset")
+        season = str(context.get("season", "")).lower()
+        season_id = str(context.get("season_id", "")).lower()
+        is_lent = (
+            bool(context.get("is_lent")) or
+            season in ("lent", "great_lent") or
+            season_id in ("lent", "great_lent") or
+            (pascha_off is not None and -48 <= pascha_off <= -1)
+        )
+        if is_lent:
+            return {
+                "type": "praises",
+                "ref_key": "lord_of_hosts_tone_6",
+                "title": "Lord of Hosts",
+                "text": "Lord of hosts, be with us, for in times of distress we have no other helper but You; Lord of hosts, have mercy on us."
+            }
+        kontakion_key = context.get("variables", {}).get("liturgy_kontakion") or f"{context.get('menaion_key', '')}.kontakion"
+        return {
+            "type": "kontakion",
+            "ref_key": kontakion_key,
+            "title": "Kontakion of the Day"
+        }
 
 
     def resolve_compline_canon(self, context):
@@ -264,14 +280,13 @@ class ComplineMixin:
                 }
 
         # 1. Forefeasts of Nativity & Theophany (Dolnytsky Part III, line 496)
-        title_lower = str(context.get("title", "")).lower()
         is_nativity_theophany_forefeast = (
             context.get("is_forefeast") and (
-                "nativity" in title_lower or
-                "theophany" in title_lower or
                 context.get("feast_id") in ("nativity", "theophany") or
+                context.get("primary_feast_id") in ("nativity", "theophany") or
                 (context.get("month") == 12 and context.get("day", 0) >= 20) or
-                (context.get("month") == 1 and 2 <= context.get("day", 0) <= 5)
+                (context.get("month") == 1 and 2 <= context.get("day", 0) <= 5) or
+                ("nativity" in str(context.get("title", "")).lower() or "theophany" in str(context.get("title", "")).lower())
             )
         )
         if is_nativity_theophany_forefeast:

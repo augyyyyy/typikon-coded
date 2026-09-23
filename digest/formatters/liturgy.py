@@ -260,7 +260,8 @@ class LiturgyFormatterMixin:
         is_weekday = 0 < context.get("day_of_week", 0) <= 5
         is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
         if is_weekday and is_simple:
-            return "**Typika & Beatitudes:** Psalms of Typica; Beatitudes on 6: 3 from the Octoechos, 3 from Ode III of the Saint."
+            sname = self._get_saint_display_name(context, 0, form="full")
+            return f"**Typika & Beatitudes:** Psalms of Typica; Beatitudes on 6: 3 from the Octoechos, 3 from Ode III of {sname}."
         return "**Typika & Beatitudes:** Psalms of Typica; Beatitudes."
 
 
@@ -353,10 +354,7 @@ class LiturgyFormatterMixin:
                 4: "Kontakion of the Apostles; Kontakion of St. Nicholas.",
                 5: "Kontakion of the Cross."
             }
-            sname = "the Saint"
-            saints = context.get("saints", [])
-            if saints:
-                sname = self._clean_name(saints[0].get("name", "the Saint"))
+            sname = self._get_saint_display_name(context, 0, form="full")
             
             rank_id = context.get("rank") or context.get("variables", {}).get("rank")
             temple_type = context.get("temple_type", "saint")
@@ -433,28 +431,32 @@ class LiturgyFormatterMixin:
                     parts.append(f"{prefix}{typ} of the Temple (Theotokos).")
                 else:
                     parts.append(f"{prefix}{typ} of the Temple.")
-            elif source == "menaion_saint":
+            elif source in ("feast", "feast_proper", "menaion_feast") or "feast" in str(source).lower():
+                fname = self._get_feast_display_name(context, form="full")
+                parts.append(f"{prefix}{typ} of {fname}.")
+            elif source == "menaion_saint" or "saint" in str(source).lower():
                 saints = context.get("saints", [])
                 if saints:
                     if typ.lower() == "kontakion" and len(saints) > 1 and (c.get("glory") or prefix.startswith("Glory")):
-                        for s in saints[:-1]:
-                            name = self.humanize_key(s.get("name", "Saint"))
+                        for idx, s in enumerate(saints[:-1]):
+                            name = self._get_saint_display_name(context, idx, form="full")
                             parts.append(f"{typ} of {name}.")
-                        last_saint = saints[-1]
-                        name = self.humanize_key(last_saint.get("name", "Saint"))
+                        last_idx = len(saints) - 1
+                        name = self._get_saint_display_name(context, last_idx, form="full")
                         parts.append(f"{prefix}{typ} of {name}.")
                     else:
-                        for s in saints:
-                            name = self.humanize_key(s.get("name", "Saint"))
+                        for idx, s in enumerate(saints):
+                            name = self._get_saint_display_name(context, idx, form="full")
                             parts.append(f"{prefix}{typ} of {name}.")
                 else:
-                    parts.append(f"{prefix}{typ} of the Saint.")
+                    sname = self._get_saint_display_name(context, 0, form="full")
+                    parts.append(f"{prefix}{typ} of {sname}.")
             elif source in ("steadfast_protectress", "fixed_theotokion") or "steadfast" in str(source).lower():
                 parts.append(f"{prefix}Kontakion 'Steadfast Protectress of Christians'.")
             elif "to_you_mother_of_god" in str(source).lower() or "to_you_o_mother" in str(source).lower():
                 parts.append(f"{prefix}Theotokion 'To you, O Mother of God...'.")
             else:
-                parts.append(f"{prefix}{typ} of the {self.humanize_key(source)}.")
+                parts.append(f"{prefix}{typ} of the {self.humanize_key(source, context)}.")
                 
         return "\n".join(parts)
 

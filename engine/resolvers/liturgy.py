@@ -33,6 +33,7 @@ class LiturgyMixin:
             ('numbers', 'Numbers'), ('deuteronomy', 'Deuteronomy'), ('isaiah', 'Isaiah'),
             ('jeremiah', 'Jeremiah'), ('ezekiel', 'Ezekiel'), ('daniel', 'Daniel'),
             ('proverbs', 'Proverbs'), ('job', 'Job'), ('jonah', 'Jonah'),
+            ('wisdom_of_solomon', 'Wisdom of Solomon'), ('wisdom', 'Wisdom of Solomon'),
             ('zechariah', 'Zechariah'), ('micah', 'Micah'), ('baruch', 'Baruch')
         ]
         k_lower = str(key).lower().replace('.', '_')
@@ -47,6 +48,8 @@ class LiturgyMixin:
                         spans = [f"{parts[i]}–{parts[i+1]}" for i in range(1, len(parts), 2)]
                         return f"{b_name} {parts[0]}:" + ", ".join(spans)
                     elif len(parts) == 4:
+                        if int(parts[1]) < int(parts[2]) < int(parts[3]):
+                            return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}, {parts[3]}"
                         return f"{b_name} {parts[0]}:{parts[1]}–{parts[2]}:{parts[3]}"
                     elif len(parts) == 2:
                         return f"{b_name} {parts[0]}:{parts[1]}"
@@ -297,7 +300,7 @@ class LiturgyMixin:
         if not collision_override and rubrics:
             collision_override = rubrics.get("variables", {}).get("liturgy_hymns_override") or rubrics.get("overrides", {}).get("liturgy_hymns_override")
             
-        if not collision_override:
+        if not collision_override and not context.get("is_temple_feast"):
             collision_override = context.get("variables", {}).get("troparia_sequence") or context.get("overrides", {}).get("troparia_sequence")
             if not collision_override and rubrics:
                 collision_override = rubrics.get("variables", {}).get("troparia_sequence") or rubrics.get("overrides", {}).get("troparia_sequence")
@@ -482,30 +485,59 @@ class LiturgyMixin:
             }
 
         template_key = "weekday_standard"
-        if (
-            (context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or 
-             context.get("paradigm") in ["p_feast_lord", "p_feast_theotokos"] or 
-             context.get("feast_level") in ["lord", "theotokos"])
+        is_great_lord_feast = (
+            context.get("dolnytsky_rank") == "LORD" or 
+            context.get("paradigm") == "p_feast_lord" or 
+            context.get("feast_level") == "lord"
+        )
+        if is_great_lord_feast and not is_fore_after:
+            template_key = "festal_only"
+        elif (
+            (context.get("dolnytsky_rank") in ["THEOTOKOS", "MOG"] or 
+             context.get("paradigm") in ["p_feast_theotokos"] or 
+             context.get("feast_level") in ["theotokos"])
             and not (day == 0 and rank_numeric > 1)
             and not is_fore_after
         ):
             template_key = "festal_only"
         elif day == 0:
-            if temple_type == "lord":
+            if context.get("is_temple_feast") and temple_type == "theotokos":
+                template_key = "sunday_patronal_theotokos_temple"
+            elif temple_type == "lord":
                 template_key = "sunday_lord_temple"
             elif temple_type == "theotokos":
                 template_key = "sunday_theotokos_temple"
             else:
                 template_key = "sunday_saint_temple"
         else:
-            if temple_type == "lord":
-                template_key = "weekday_lord_temple"
-            elif temple_type == "theotokos":
-                template_key = "weekday_theotokos_temple"
-            elif temple_type == "saint":
-                template_key = "weekday_saint_temple"
+            is_vigil_polyeleos = (
+                rank_numeric <= 2 or
+                context.get("is_vigil") or
+                context.get("has_polyeleos") or
+                (context.get("doxology_type") == "great_doxology" and rank_numeric <= 3) or
+                context.get("rank") in ["rank_vigil_saint", "rank_polyeleos_saint", "rank_vigil", "rank_polyeleos"] or
+                (rubrics and rubrics.get("variables", {}).get("rank") in ["rank_vigil_saint", "rank_polyeleos_saint", "rank_vigil", "rank_polyeleos"])
+            )
+            if is_vigil_polyeleos:
+                if context.get("is_temple_feast") and temple_type == "saint":
+                    template_key = "weekday_patronal_saint_temple"
+                elif temple_type == "lord":
+                    template_key = "weekday_vigil_lord_temple"
+                elif temple_type == "theotokos":
+                    template_key = "weekday_vigil_theotokos_temple"
+                elif temple_type == "saint":
+                    template_key = "weekday_vigil_saint_temple"
+                else:
+                    template_key = "weekday_vigil_standard"
             else:
-                template_key = "weekday_standard"
+                if temple_type == "lord":
+                    template_key = "weekday_lord_temple"
+                elif temple_type == "theotokos":
+                    template_key = "weekday_theotokos_temple"
+                elif temple_type == "saint":
+                    template_key = "weekday_saint_temple"
+                else:
+                    template_key = "weekday_standard"
             
         template = self.liturgy_logic.get("hymn_ordering_templates", {}).get(template_key, {})
         raw_order = template.get("order", [])
@@ -556,8 +588,9 @@ class LiturgyMixin:
         menaion_key = context.get("menaion_key", "")
         
         # BAPTISMAL HYMN: "As many as have been baptized into Christ"
+        # BAPTISMAL HYMN: "As many as have been baptized into Christ"
         # Nativity of the Lord (Feast Day only: Dec 25)
-        if feast_id == "nativity" or menaion_key == "menaion.1225" or ("nativity" in title and "afterfeast" not in title and "forefeast" not in title and "synaxis" not in title):
+        if feast_id == "nativity" or (menaion_key == "menaion.1225" and not context.get("is_afterfeast") and not context.get("is_forefeast")) or (context.get("primary_feast_id") == "nativity" and not context.get("is_afterfeast") and not context.get("is_forefeast")):
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -566,7 +599,7 @@ class LiturgyMixin:
             }
         
         # Theophany of the Lord (Feast Day only: Jan 6)
-        if feast_id == "theophany" or menaion_key == "menaion.0106" or ("theophany" in title and "afterfeast" not in title and "forefeast" not in title and "synaxis" not in title):
+        if feast_id == "theophany" or (menaion_key == "menaion.0106" and not context.get("is_afterfeast") and not context.get("is_forefeast")) or (context.get("primary_feast_id") == "theophany" and not context.get("is_afterfeast") and not context.get("is_forefeast")):
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -575,7 +608,7 @@ class LiturgyMixin:
             }
         
         # Lazarus Saturday
-        if pascha_offset == -8 or title == "lazarus saturday" or title == "saturday of lazarus":
+        if pascha_offset == -8 or feast_id == "lazarus_saturday":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -584,7 +617,7 @@ class LiturgyMixin:
             }
         
         # Holy Saturday
-        if pascha_offset == -1 or title == "holy saturday" or title == "great saturday":
+        if pascha_offset == -1 or feast_id == "holy_saturday":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -593,7 +626,7 @@ class LiturgyMixin:
             }
         
         # Pascha through Bright Week (offset 0-6)
-        if 0 <= pascha_offset <= 6 or paradigm == "p_pascha" or title == "pascha" or title == "bright week":
+        if 0 <= pascha_offset <= 6 or paradigm == "p_pascha" or feast_id == "pascha":
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -602,7 +635,7 @@ class LiturgyMixin:
             }
         
         # Pentecost (Pentecost Sunday only, offset 49)
-        if pascha_offset == 49 or title == "pentecost" or title == "pentecost sunday" or title == "sunday of pentecost":
+        if pascha_offset == 49:
             return {
                 "type": "replacement",
                 "replacement": "as_many_baptized",
@@ -612,7 +645,7 @@ class LiturgyMixin:
         
         # CROSS HYMN: "Before Thy Cross we bow down"
         # Exaltation of Cross (Sept 14)
-        if feast_id == "exaltation_cross" or menaion_key == "menaion.0914" or (("exaltation" in title or "elevation" in title) and "afterfeast" not in title and "forefeast" not in title):
+        if feast_id == "exaltation_cross" or (menaion_key == "menaion.0914" and not context.get("is_afterfeast") and not context.get("is_forefeast")) or (context.get("primary_feast_id") == "exaltation_cross" and not context.get("is_afterfeast") and not context.get("is_forefeast")):
             return {
                 "type": "replacement",
                 "replacement": "before_thy_cross",
@@ -630,7 +663,7 @@ class LiturgyMixin:
             }
         
         # Procession of Cross (Aug 1)
-        if feast_id == "procession_cross" or menaion_key == "menaion.0801" or "procession of the cross" in title:
+        if feast_id == "procession_cross" or menaion_key == "menaion.0801":
             return {
                 "type": "replacement",
                 "replacement": "before_thy_cross",
@@ -779,26 +812,29 @@ class LiturgyMixin:
         Great Feast: Proper of feast
         Weekday: Tone-appropriate or proper of day
         """
-        def resolve_str_hymn(key):
+        def resolve_str_hymn(key, source="feast"):
             if isinstance(key, list):
-                items = [resolve_str_hymn(k) for k in key if k]
+                items = [resolve_str_hymn(k, source) for k in key if k]
                 return {
                     "type": "communion_hymn",
                     "items": items,
                     "text": " And of the Saint: ".join(it.get("text", "") for it in items if it.get("text")),
-                    "ref_key": items[0].get("ref_key", "") if items else ""
+                    "ref_key": items[0].get("ref_key", "") if items else "",
+                    "source": source
                 }
             if isinstance(key, dict):
                 return {
                     "type": "communion_hymn",
                     "text": key.get("text", ""),
-                    "ref_key": key.get("ref_key", "")
+                    "ref_key": key.get("ref_key", ""),
+                    "source": key.get("source", source)
                 }
             if not isinstance(key, str):
                 return {
                     "type": "communion_hymn",
                     "text": str(key),
-                    "ref_key": ""
+                    "ref_key": "",
+                    "source": source
                 }
             known_hymns = {
                 "praise_the_lord": "Praise the Lord from the heavens; praise Him in the highest.",
@@ -819,7 +855,8 @@ class LiturgyMixin:
                 return {
                     "type": "communion_hymn",
                     "text": known_hymns[key],
-                    "ref_key": key
+                    "ref_key": key,
+                    "source": source
                 }
             try:
                 asset = self.get_text(key, context=context)
@@ -827,14 +864,16 @@ class LiturgyMixin:
                     return {
                         "type": "communion_hymn",
                         "text": asset["content"],
-                        "ref_key": key
+                        "ref_key": key,
+                        "source": source
                     }
             except Exception:
                 pass
             return {
                 "type": "communion_hymn",
                 "text": key,
-                "ref_key": ""
+                "ref_key": "",
+                "source": source
             }
 
         day_of_week = context.get("day_of_week", 0)
@@ -1018,7 +1057,7 @@ class LiturgyMixin:
             }
         
         # ASCENSION (Pascha offset 40 through Apodosis offset 48): "Be exalted, O God"
-        if 40 <= pascha_offset <= 48 or "ascension" in title:
+        if 40 <= pascha_offset <= 48 or feast_id in ("ascension", "ascension_afterfeast", "ascension_apodosis"):
             return {
                 "type": "post_communion",
                 "hymn": "Be exalted, O God, above the heavens, and let Your glory be over all the earth.",
@@ -1027,7 +1066,7 @@ class LiturgyMixin:
         
         # EXALTATION OF THE CROSS through Leavetaking: Troparion of the Cross (NOT Forefeast)
         is_forefeast = context.get("is_forefeast", False)
-        if not is_forefeast and (season == "Exaltation_Cross" or "exaltation" in title or feast_id in ("exaltation_cross", "exaltation")):
+        if not is_forefeast and (season == "Exaltation_Cross" or feast_id in ("exaltation_cross", "exaltation") or context.get("primary_feast_id") == "exaltation_cross"):
             return {
                 "type": "post_communion",
                 "hymn": "Save, O Lord, Your people, and bless Your inheritance, granting victory to our nation over its enemies, and by Your Cross preserving Your community.",
@@ -1035,7 +1074,7 @@ class LiturgyMixin:
             }
 
         # NATIVITY OF CHRIST through Leavetaking: Troparion of Nativity (NOT Nativity of Theotokos, NOT Forefeast)
-        if not is_forefeast and ("nativity" in title and "theotokos" not in title or feast_id == "nativity"):
+        if not is_forefeast and (feast_id == "nativity" or context.get("primary_feast_id") == "nativity"):
             return {
                 "type": "post_communion",
                 "hymn": "Your Nativity, O Christ our God, has shone upon the world the light of knowledge...",
@@ -1043,7 +1082,7 @@ class LiturgyMixin:
             }
         
         # THEOPHANY through Leavetaking: Troparion of Theophany
-        if "theophany" in title or feast_id == "theophany":
+        if feast_id == "theophany" or context.get("primary_feast_id") == "theophany":
             return {
                 "type": "post_communion",
                 "hymn": "When You, O Lord, were baptized in the Jordan, the worship of the Trinity was made manifest...",
@@ -1051,7 +1090,7 @@ class LiturgyMixin:
             }
         
         # HOLY THURSDAY (Pascha offset -3)
-        if pascha_offset == -3 or "holy thursday" in title or feast_id == "holy_thursday":
+        if pascha_offset == -3 or feast_id == "holy_thursday":
             return {
                 "type": "post_communion",
                 "hymn": "Receive me today, O Son of God, as a partaker of Your Mystical Supper...",
@@ -1059,7 +1098,7 @@ class LiturgyMixin:
             }
 
         # HOLY SATURDAY (Pascha offset -1)
-        if pascha_offset == -1 or "holy saturday" in title or feast_id == "holy_saturday":
+        if pascha_offset == -1 or feast_id == "holy_saturday":
             return {
                 "type": "post_communion",
                 "hymn": "The post-communion hymn is omitted; we proceed directly to the Thanksgiving Litany ('Let our mouths be filled...').",
@@ -1096,24 +1135,17 @@ class LiturgyMixin:
         vesperal_id = None
         date_str = context.get("date", "")
         # Check by fixed date
-        if date_str.endswith("-12-24"):
+        if date_str.endswith("-12-24") or feast_id == "nativity_eve" or context.get("primary_feast_id") == "nativity_eve" or "nativity" in title:
             vesperal_id = "nativity_eve"
-        elif date_str.endswith("-01-05"):
+        elif date_str.endswith("-01-05") or feast_id == "theophany_eve" or context.get("primary_feast_id") == "theophany_eve" or "theophany" in title or "epiphany" in title:
             vesperal_id = "theophany_eve"
         # Check by Pascha offset
-        elif context.get("pascha_offset") == -3:
+        elif context.get("pascha_offset") == -3 or feast_id == "holy_thursday" or "holy thursday" in title or "great thursday" in title or "thursday" in title:
             vesperal_id = "holy_thursday"
-        elif context.get("pascha_offset") == -1:
+        elif context.get("pascha_offset") == -1 or feast_id == "holy_saturday" or "holy saturday" in title or "great saturday" in title or "saturday" in title:
             vesperal_id = "holy_saturday"
-        # Fallbacks for safety
-        elif "nativity" in title: 
-            vesperal_id = "nativity_eve"
-        elif "theophany" in title or "epiphany" in title: 
-            vesperal_id = "theophany_eve"
-        elif feast_id == "holy_thursday" or "thursday" in title: 
-            vesperal_id = "holy_thursday"
-        elif feast_id == "holy_saturday" or "saturday" in title: 
-            vesperal_id = "holy_saturday"
+        elif feast_id in ("annunciation", "annunciation_eve") or context.get("primary_feast_id") == "annunciation" or "annunciation" in title:
+            vesperal_id = "annunciation"
         
         if not vesperal_id:
              return {"type": "error", "content": "Could not identify Vesperal Liturgy day from context."}
@@ -1185,6 +1217,70 @@ class LiturgyMixin:
                         s_val = self._format_scripture_key(g["ref_key"])
                         if s_val and s_val.lower() not in ("gospel", "feast gospel"):
                             g["text"] = s_val
+                if "epistle" in r and isinstance(r["epistle"], dict):
+                    ep = r["epistle"]
+                    if not ep.get("text") and ep.get("ref_key"):
+                        s_val = self._format_scripture_key(ep["ref_key"])
+                        if s_val and s_val.lower() not in ("epistle", "feast epistle"):
+                            ep["text"] = s_val
+                    # Fallback hydration from Common of Saints if epistle text still missing
+                    if not ep.get("text"):
+                        ref_k = (ep.get("ref_key") or "").lower()
+                        s_name = (context.get("title") or "").lower()
+                        s_commem = (context.get("dolnytsky_commemoration") or "").lower()
+                        saints_list = context.get("saints", [])
+                        s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
+                        s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list if isinstance(s, dict)).lower()
+                        combined_info = f"{ref_k} {s_name} {s_commem} {s_names} {s_titles}"
+                        if any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
+                            ep["text"] = "1 Corinthians 4:9–16"
+                        elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas"]):
+                            ep["text"] = "Hebrews 7:26–8:2"
+                        elif any(w in combined_info for w in ["venerable", "monk", "abbot", "chariton", "sabbas", "ven.", "ven "]):
+                            ep["text"] = "Galatians 5:22–6:2"
+                        elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr"]):
+                            ep["text"] = "2 Timothy 2:1–10"
+                        elif any(w in combined_info for w in ["theotokos", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
+                            ep["text"] = "Philippians 2:5–11"
+                        elif any(w in combined_info for w in ["forerunner", "baptist"]):
+                            ep["text"] = "Galatians 4:22–31"
+                        elif any(w in combined_info for w in ["prophet"]):
+                            ep["text"] = "James 5:10–20"
+                        else:
+                            ep["text"] = "Galatians 5:22–6:2"
+
+                if "gospel" in r and isinstance(r["gospel"], dict):
+                    g = r["gospel"]
+                    if not g.get("text") and g.get("ref_key"):
+                        s_val = self._format_scripture_key(g["ref_key"])
+                        if s_val and s_val.lower() not in ("gospel", "feast gospel"):
+                            g["text"] = s_val
+                    # Fallback hydration from Common of Saints if gospel text still missing
+                    if not g.get("text"):
+                        ref_k = (g.get("ref_key") or "").lower()
+                        s_name = (context.get("title") or "").lower()
+                        s_commem = (context.get("dolnytsky_commemoration") or "").lower()
+                        saints_list = context.get("saints", [])
+                        s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
+                        s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list if isinstance(s, dict)).lower()
+                        combined_info = f"{ref_k} {s_name} {s_commem} {s_names} {s_titles}"
+                        if any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
+                            g["text"] = "Luke 10:16–21"
+                        elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas"]):
+                            g["text"] = "John 10:9–16"
+                        elif any(w in combined_info for w in ["venerable", "monk", "abbot", "chariton", "sabbas", "ven.", "ven "]):
+                            g["text"] = "Matthew 11:27–30"
+                        elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr"]):
+                            g["text"] = "John 15:17–16:2"
+                        elif any(w in combined_info for w in ["theotokos", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
+                            g["text"] = "Luke 10:38–42; 11:27–28"
+                        elif any(w in combined_info for w in ["forerunner", "baptist"]):
+                            g["text"] = "Luke 1:5–25"
+                        elif any(w in combined_info for w in ["prophet"]):
+                            g["text"] = "Luke 11:47–12:1"
+                        else:
+                            g["text"] = "Matthew 11:27–30"
+
                 if "prokeimenon" in r and isinstance(r["prokeimenon"], dict):
                     p = r["prokeimenon"]
                     if not p.get("text") and p.get("ref_key"):
@@ -1193,6 +1289,100 @@ class LiturgyMixin:
                             p["text"] = asset.get("content")
                             if asset.get("tone") and not p.get("tone"):
                                 p["tone"] = asset["tone"]
+                    # Fallback hydration from Octoechos, Horologion, Feasts, and Common of Saints
+                    if not p.get("text"):
+                        ref_k = p.get("ref_key", "").lower()
+                        s_name = (context.get("title") or "").lower()
+                        s_commem = (context.get("dolnytsky_commemoration") or "").lower()
+                        saints_list = context.get("saints", [])
+                        s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
+                        s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list if isinstance(s, dict)).lower()
+                        combined_info = f"{ref_k} {s_name} {s_commem} {s_names} {s_titles}"
+
+                        # 1. Octoechos Sunday Resurrection Prokeimena
+                        oct_prokeimena = {
+                            1: {"tone": 1, "text": "Let Your mercy, O Lord, be upon us, as we have hoped in You.", "verse": "Rejoice in the Lord, O you righteous; praise is becoming to the upright."},
+                            2: {"tone": 2, "text": "The Lord is my strength and my song, and He has become my salvation.", "verse": "The Lord has chastened me severely, but He has not given me over to death."},
+                            3: {"tone": 3, "text": "Sing praises to our God, sing praises; sing praises to our King, sing praises.", "verse": "Clap your hands, all you nations; shout to God with the voice of joy."},
+                            4: {"tone": 4, "text": "How magnificent are Your works, O Lord; in wisdom You have made them all.", "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."},
+                            5: {"tone": 5, "text": "You shall keep us, O Lord; You shall preserve us from this generation and forever.", "verse": "Save me, O Lord, for the godly man ceases."},
+                            6: {"tone": 6, "text": "Save Your people, O Lord, and bless Your inheritance.", "verse": "To You, O Lord, will I call; O my God, do not be silent to me."},
+                            7: {"tone": 7, "text": "The Lord will give strength to His people; the Lord will bless His people with peace.", "verse": "Bring to the Lord, O you sons of God, bring to the Lord young rams."},
+                            8: {"tone": 8, "text": "Make vows and pay them to the Lord our God.", "verse": "In Judah God is known; His name is great in Israel."}
+                        }
+                        if "octoechos" in ref_k or (context.get("day_of_week") == 0 and "prokeimenon" in ref_k):
+                            m_t = re.search(r'tone_(\d+)', ref_k)
+                            t_num = int(m_t.group(1)) if m_t else (p.get("tone") or context.get("tone") or 1)
+                            if t_num in oct_prokeimena:
+                                p["tone"] = oct_prokeimena[t_num]["tone"]
+                                p["text"] = oct_prokeimena[t_num]["text"]
+                                p["verse"] = oct_prokeimena[t_num]["verse"]
+
+                        # 2. Horologion Daily Liturgy Prokeimena
+                        elif "horologion" in ref_k or "weekday" in ref_k:
+                            dow = context.get("day_of_week", 1)
+                            m_d = re.search(r'day_(\d+)', ref_k)
+                            if m_d:
+                                dow = int(m_d.group(1))
+                            horo_prokeimena = {
+                                1: {"tone": 4, "text": "He makes His angels spirits, and His ministers a flame of fire.", "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."},
+                                2: {"tone": 7, "text": "The righteous man shall rejoice in the Lord, and shall hope in Him.", "verse": "Hear my voice, O God, when I make my prayer to You."},
+                                3: {"tone": 3, "text": "My soul magnifies the Lord, and my spirit rejoices in God my Savior.", "verse": "For He has regarded the lowliness of His handmaiden; for behold, henceforth all generations shall call me blessed."},
+                                4: {"tone": 8, "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.", "verse": "The heavens declare the glory of God, and the firmament proclaims the work of His hands."},
+                                5: {"tone": 7, "text": "Exalt the Lord our God, and worship at His footstool, for He is holy.", "verse": "The Lord reigns, let the peoples tremble."},
+                                6: {"tone": 8, "text": "Be glad in the Lord and rejoice, you righteous.", "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."},
+                                0: {"tone": 8, "text": "Make vows and pay them to the Lord our God.", "verse": "In Judah God is known; His name is great in Israel."}
+                            }
+                            if dow in horo_prokeimena:
+                                p["tone"] = horo_prokeimena[dow]["tone"]
+                                p["text"] = horo_prokeimena[dow]["text"]
+                                p["verse"] = horo_prokeimena[dow]["verse"]
+
+                        # 3. Specific Feasts & Common of Saints
+                        if not p.get("text"):
+                            if any(w in combined_info for w in ["nativity", "dec_25", "dec_31"]):
+                                p["tone"] = p.get("tone") or 8
+                                p["text"] = "Let all the earth worship You and sing to You, let it sing to Your name, O Most High."
+                                p["verse"] = "Shout to God, all the earth; sing to the honor of His name, give glory to His praise."
+                            elif any(w in combined_info for w in ["exaltation_cross", "cross", "maccabees"]):
+                                p["tone"] = p.get("tone") or 7
+                                p["text"] = "Exalt the Lord our God, and worship at His footstool, for He is holy."
+                                p["verse"] = "The Lord reigns, let the peoples tremble."
+                            elif any(w in combined_info for w in ["forerunner", "baptist", "sept_23"]):
+                                p["tone"] = p.get("tone") or 7
+                                p["text"] = "The righteous man shall rejoice in the Lord, and shall hope in Him."
+                                p["verse"] = "Hear my voice, O God, when I make my prayer to You."
+                            elif any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
+                                p["tone"] = p.get("tone") or 8
+                                p["text"] = "Their proclamation has gone out into all the earth, and their words to the ends of the universe."
+                                p["verse"] = "The heavens declare the glory of God, and the firmament proclaims the work of His hands."
+                            elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr"]):
+                                p["tone"] = p.get("tone") or 7
+                                p["text"] = "The righteous man shall rejoice in the Lord and shall hope in Him."
+                                p["verse"] = "Hear my voice, O God, when I make my prayer to You."
+                            elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas"]):
+                                p["tone"] = p.get("tone") or 1
+                                p["text"] = "My mouth shall speak wisdom, and the meditation of my heart shall be understanding."
+                                p["verse"] = "Hear this, all you nations; give ear, all you inhabitants of the earth."
+                            elif any(w in combined_info for w in ["venerable", "monk", "abbot", "chariton", "sabbas"]):
+                                p["tone"] = p.get("tone") or 7
+                                p["text"] = "Precious in the sight of the Lord is the death of His saints."
+                                p["verse"] = "What shall I render to the Lord for all His benefits toward me?"
+                            elif any(w in combined_info for w in ["theotokos", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
+                                p["tone"] = p.get("tone") or 3
+                                p["text"] = "My soul magnifies the Lord, and my spirit rejoices in God my Savior."
+                                p["verse"] = "For He has regarded the lowliness of His handmaiden; for behold, henceforth all generations shall call me blessed."
+                            elif any(w in combined_info for w in ["prophet"]):
+                                p["tone"] = p.get("tone") or 4
+                                p["text"] = "You are a priest forever according to the order of Melchizedek."
+                                p["verse"] = "The Lord said to my Lord: Sit at My right hand, until I make Your enemies Your footstool."
+                            else:
+                                # Universal tone fallback
+                                t_num = p.get("tone") or context.get("tone") or 8
+                                if t_num in oct_prokeimena:
+                                    p["tone"] = oct_prokeimena[t_num]["tone"]
+                                    p["text"] = oct_prokeimena[t_num]["text"]
+                                    p["verse"] = oct_prokeimena[t_num]["verse"]
                 if "alleluia" in r and isinstance(r["alleluia"], dict):
                     a = r["alleluia"]
                     if not a.get("text") and a.get("ref_key"):
@@ -1207,6 +1397,115 @@ class LiturgyMixin:
                                     a["verses"] = raw_c["verses"]
                             if asset.get("tone") and not a.get("tone"):
                                 a["tone"] = asset["tone"]
+                    # Fallback hydration from Octoechos, Horologion, Feasts, and Common of Saints
+                    if not a.get("text") and not a.get("verses"):
+                        ref_k = a.get("ref_key", "").lower()
+                        s_name = (context.get("title") or "").lower()
+                        s_commem = (context.get("dolnytsky_commemoration") or "").lower()
+                        saints_list = context.get("saints", [])
+                        s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
+                        s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list if isinstance(s, dict)).lower()
+                        combined_info = f"{ref_k} {s_name} {s_commem} {s_names} {s_titles}"
+
+                        # 1. Octoechos Sunday Resurrection Alleluias
+                        oct_alleluias = {
+                            1: {"tone": 1, "verses": ["God gives vengeance to me and subdues peoples under me.", "He magnifies the salvation of His king and shows mercy to His anointed, to David and to his seed forever."]},
+                            2: {"tone": 2, "verses": ["The Lord hear you in the day of trouble; the name of the God of Jacob protect you.", "O Lord, save the king, and hear us in the day when we call."]},
+                            3: {"tone": 3, "verses": ["In You, O Lord, have I hoped, let me never be ashamed.", "Be to me a God of defense and a house of refuge to save me."]},
+                            4: {"tone": 4, "verses": ["Bend your bow and go forth and prosper and reign, for the sake of truth and meekness and righteousness.", "You have loved righteousness and hated iniquity."]},
+                            5: {"tone": 5, "verses": ["I will sing of the mercies of the Lord forever; with my mouth will I make known Your truth to all generations.", "For You have said: Mercy shall be built up forever; Your truth shall be established in the heavens."]},
+                            6: {"tone": 6, "verses": ["He who dwells in the help of the Most High shall abide under the shadow of the God of heaven.", "He shall say to the Lord: You are my protector and my refuge, my God, in Him will I hope."]},
+                            7: {"tone": 7, "verses": ["It is good to give thanks to the Lord, and to sing praises to Your name, O Most High.", "To proclaim Your mercy in the morning, and Your truth by night."]},
+                            8: {"tone": 8, "verses": ["Come, let us rejoice in the Lord, let us shout with joy to God our Savior.", "Let us come before His face with thanksgiving, and shout with joy to Him with psalms."]}
+                        }
+                        if "octoechos" in ref_k or (context.get("day_of_week") == 0 and "alleluia" in ref_k):
+                            m_t = re.search(r'tone_(\d+)', ref_k)
+                            t_num = int(m_t.group(1)) if m_t else (a.get("tone") or context.get("tone") or 1)
+                            if t_num in oct_alleluias:
+                                a["tone"] = oct_alleluias[t_num]["tone"]
+                                a["verses"] = oct_alleluias[t_num]["verses"]
+
+                        # 2. Horologion Daily Liturgy Alleluias
+                        elif "horologion" in ref_k or "weekday" in ref_k:
+                            dow = context.get("day_of_week", 1)
+                            m_d = re.search(r'day_(\d+)', ref_k)
+                            if m_d:
+                                dow = int(m_d.group(1))
+                            horo_alleluias = {
+                                1: {"tone": 2, "verses": ["Praise the Lord from the heavens, praise Him in the heights.", "Praise Him, all His angels; praise Him, all His hosts."]},
+                                2: {"tone": 4, "verses": ["The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.", "Planted in the house of the Lord, they shall flourish in the courts of our God."]},
+                                3: {"tone": 8, "verses": ["Hear, O daughter, and see, and incline your ear; forget your people and your father's house.", "The rich among the people shall entreat your favor."]},
+                                4: {"tone": 1, "verses": ["The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.", "God is glorified in the council of the saints."]},
+                                5: {"tone": 1, "verses": ["Remember Your congregation, which You purchased of old.", "God is our King before the ages; He has worked salvation in the midst of the earth."]},
+                                6: {"tone": 4, "verses": ["The righteous cried, and the Lord heard them, and delivered them from all their afflictions.", "Many are the afflictions of the righteous, but the Lord delivers them out of them all."]},
+                                0: {"tone": 8, "verses": ["Come, let us rejoice in the Lord, let us shout with joy to God our Savior.", "Let us come before His face with thanksgiving, and shout with joy to Him with psalms."]}
+                            }
+                            if dow in horo_alleluias:
+                                a["tone"] = horo_alleluias[dow]["tone"]
+                                a["verses"] = horo_alleluias[dow]["verses"]
+
+                        # 3. Specific Feasts & Common of Saints
+                        if not a.get("verses") and not a.get("text"):
+                            if any(w in combined_info for w in ["nativity", "dec_25", "dec_31"]):
+                                a["tone"] = a.get("tone") or 1
+                                a["verses"] = [
+                                    "The heavens declare the glory of God, and the firmament proclaims the work of His hands.",
+                                    "Day to day utters speech, and night to night proclaims knowledge."
+                                ]
+                            elif any(w in combined_info for w in ["exaltation_cross", "cross", "maccabees"]):
+                                a["tone"] = a.get("tone") or 1
+                                a["verses"] = [
+                                    "Remember Your congregation, which You purchased of old.",
+                                    "God is our King before the ages; He has worked salvation in the midst of the earth."
+                                ]
+                            elif any(w in combined_info for w in ["forerunner", "baptist", "sept_23"]):
+                                a["tone"] = a.get("tone") or 4
+                                a["verses"] = [
+                                    "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
+                                    "Planted in the house of the Lord, they shall flourish in the courts of our God."
+                                ]
+                            elif any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
+                                a["tone"] = a.get("tone") or 1
+                                a["verses"] = [
+                                    "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.",
+                                    "God is glorified in the council of the saints."
+                                ]
+                            elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr"]):
+                                a["tone"] = a.get("tone") or 4
+                                a["verses"] = [
+                                    "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
+                                    "Planted in the house of the Lord, they shall flourish in the courts of our God."
+                                ]
+                            elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas"]):
+                                a["tone"] = a.get("tone") or 2
+                                a["verses"] = [
+                                    "The mouth of the righteous man shall meditate wisdom, and his tongue shall speak of judgment.",
+                                    "The law of his God is in his heart, and his steps shall not stumble."
+                                ]
+                            elif any(w in combined_info for w in ["venerable", "monk", "abbot", "chariton", "sabbas"]):
+                                a["tone"] = a.get("tone") or 6
+                                a["verses"] = [
+                                    "Blessed is the man who fears the Lord, who greatly delights in His commandments.",
+                                    "His descendants shall be mighty upon the earth; the generation of the upright shall be blessed."
+                                ]
+                            elif any(w in combined_info for w in ["theotokos", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
+                                a["tone"] = a.get("tone") or 8
+                                a["verses"] = [
+                                    "Hear, O daughter, and see, and incline your ear; forget your people and your father's house.",
+                                    "The rich among the people shall entreat your favor."
+                                ]
+                            elif any(w in combined_info for w in ["prophet"]):
+                                a["tone"] = a.get("tone") or 5
+                                a["verses"] = [
+                                    "Moses and Aaron among His priests, and Samuel among those who call upon His name.",
+                                    "They called upon the Lord, and He answered them."
+                                ]
+                            else:
+                                # Universal tone fallback
+                                t_num = a.get("tone") or context.get("tone") or 1
+                                if t_num in oct_alleluias:
+                                    a["tone"] = oct_alleluias[t_num]["tone"]
+                                    a["verses"] = oct_alleluias[t_num]["verses"]
             return res_obj
 
         if context.get("_almanac_used"):
@@ -1445,7 +1744,14 @@ class LiturgyMixin:
         }
         
         # GREAT FEAST: Feast readings only
-        if rank == 1 or paradigm in ["p_feast_lord", "p_feast_theotokos"]:
+        is_great_feast = (
+            rank == 1 or
+            context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS") or
+            context.get("feast_level") in ("lord", "theotokos") or
+            context.get("feast_id") in ("palm_sunday", "pascha", "pentecost") or
+            paradigm in ["p_feast_lord", "p_feast_theotokos"]
+        )
+        if is_great_feast:
             if normalized_readings:
                 return _hydrate_all_readings({"type": "liturgy_readings", "readings": normalized_readings})
             result["readings"].append({

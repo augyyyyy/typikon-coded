@@ -185,7 +185,7 @@ BIBLE_METADATA = {
 # Regex to match scriptural citations (e.g. "1 Cor 6:12-20" or "Galatians 5:22-6:2" or "Lk 15:11-32")
 CITATION_REGEX = re.compile(
     r"\b(?P<book>[1-3]?\s*[A-Za-z]+)\s+(?P<chap>\d+)\s*:\s*(?P<start_v>\d+)"
-    r"(?:\s*-\s*(?:(?P<end_c>\d+)\s*:\s*)?(?P<end_v>\d+))?\b"
+    r"(?:\s*[-–—]\s*(?:(?P<end_c>\d+)\s*:\s*)?(?P<end_v>\d+))?\b"
 )
 
 def parse_and_validate_citation(citation_str, file_context):

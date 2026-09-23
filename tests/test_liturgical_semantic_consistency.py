@@ -33,7 +33,8 @@ def test_365_days_semantic_consistency(version):
         is_festal_period = (
             "afterfeast" in menaion_class.lower() or 
             "forefeast" in menaion_class.lower() or 
-            context.get("period") in ("afterfeast", "forefeast", "pentecostarion")
+            context.get("period") in ("afterfeast", "forefeast", "apodosis", "pentecostarion") or
+            bool(context.get("is_forefeast") or context.get("is_afterfeast") or context.get("is_apodosis"))
         )
         
         # 1. Polyeleos Cases (CASE_04, CASE_05, CASE_15)

@@ -456,6 +456,28 @@ class CommonResolverMixin:
                 m_count = std_dist.get("menaion", 4)
                 return [{"source": "menaion", "count": m_count, "irmos": True}]
 
+        # 1.5. Holy Week Logic (Triodion exclusively)
+        # Citation: Dolnytsky Part II § 4.2.13-17 / 2010 Lviv Typikon
+        season = context.get("season")
+        pascha_off = context.get("pascha_offset")
+        try:
+            pascha_off = int(pascha_off) if pascha_off is not None else None
+        except (ValueError, TypeError):
+            pascha_off = None
+
+        if season == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
+            return [{"source": "triodion", "type": "triodion", "qty": 6, "count": 6, "irmos": True}]
+
+        # Pascha & Bright Week Logic (Pentecostarion exclusively)
+        # Citation: Dolnytsky Part II § 5.1 / 2010 Lviv Typikon
+        if season in ("pascha", "bright_week") or (pascha_off is not None and 0 <= pascha_off <= 6):
+            return [{"source": "pentecostarion", "type": "pascha", "qty": 8, "count": 8, "irmos": True}]
+
+        # Suppressed Octoechos Fallback (Feasts of Lord/Theotokos/Vigils)
+        if context.get("suppress_octoechos") or context.get("variables", {}).get("suppress_octoechos"):
+            source = "triodion" if (pascha_off is not None and -70 <= pascha_off <= 0) else ("pentecostarion" if (pascha_off is not None and 0 < pascha_off <= 67) else "menaion")
+            return [{"source": source, "type": "feast", "qty": 6, "count": 6, "irmos": True}]
+
         # 2. Sunday / Standard Logic (Default fallback)
         # This typically comes from the 'matins_canon_distribution' variable in logic_general.json
         # But we define code-based fallback here if context is missing it.

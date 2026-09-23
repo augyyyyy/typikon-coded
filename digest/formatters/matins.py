@@ -272,10 +272,19 @@ class MatinsFormatterMixin:
             elif t == "fixed_ref":
                 ref = item.get("ref_key", "")
                 note = item.get("rubric_note")
-                val = note if note else self.humanize_key(ref)
-                if "glory" in ref.lower():
+                val = note if note else self.humanize_key(ref, context)
+                if ("saint" in ref.lower() or "saint" in str(val).lower()) and ("doxastikon" in ref.lower() or "doxastikon" in str(val).lower() or "glory" in ref.lower()) and context.get("saints"):
+                    sname = self._get_saint_display_name(context, 0, form="full")
+                    val = f"Doxastikon of {sname}"
+                elif ("feast" in ref.lower() or "feast" in str(val).lower() or "feast" in str(note).lower()):
+                    fname = self._get_feast_display_name(context, form="short")
+                    if "doxastikon" in ref.lower() or "doxastikon" in str(val).lower() or "doxastikon" in str(note).lower():
+                        val = f"Doxastikon of {fname}"
+                    elif "theotokion" in ref.lower() or "theotokion" in str(val).lower() or "theotokion" in str(note).lower() or "both_now" in ref.lower():
+                        val = f"Theotokion of {fname}"
+                if "glory" in ref.lower() or "glory" in str(note).lower():
                     glory.append(val)
-                elif "both_now" in ref.lower():
+                elif any(w in ref.lower() for w in ["both_now", "theotokion", "now_and_ever"]) or any(w in str(note).lower() for w in ["both now", "theotokion", "now and ever"]):
                     both_now.append(val)
                 elif "psalms_praises" in ref.lower():
                     pass
@@ -316,24 +325,63 @@ class MatinsFormatterMixin:
             parts.append("At the Praises, we sing the Praises Stichera")
             
         import re
+        valid_glory = []
         if glory:
-            cleaned_glory = []
             for g in glory:
                 g_str = str(g).strip()
                 g_stripped = re.sub(r'^(glory\b[.,\s]*)', '', g_str, flags=re.IGNORECASE).strip()
-                cleaned_glory.append(g_stripped)
-            parts.append(f"Glory... {', '.join(cleaned_glory)}")
+                if g_stripped:
+                    valid_glory.append(g_stripped)
+        
+        tone = context.get("octoechos_tone") or context.get("tone")
+        tone_str = f" in Tone {self._roman_tone(tone)}" if tone else ""
+        if is_sunday:
+            default_theotokion = "Theotokion in Tone II ('Most blessed are you')"
+        elif context.get("is_afterfeast") or context.get("is_forefeast") or context.get("feast_level") in ("lord", "theotokos"):
+            fname = self._get_feast_display_name(context, form="short")
+            default_theotokion = f"Theotokion of {fname}{tone_str}"
+        elif tone:
+            default_theotokion = f"Theotokion{tone_str}"
+        else:
+            default_theotokion = "Theotokion from the Octoechos"
+
+        valid_bn = []
         if both_now:
-            cleaned_bn = []
             for bn in both_now:
                 bn_str = str(bn).strip()
-                bn_stripped = re.sub(r'^(both\s+now\b[.,\s]*)', '', bn_str, flags=re.IGNORECASE).strip()
-                cleaned_bn.append(bn_stripped)
-            parts.append(f"Both now... {', '.join(cleaned_bn)}")
-        if other_refs:
-            parts.append(f"Other: {', '.join(other_refs)}")
+                bn_stripped = re.sub(r'^(both\s+now\b[.,\s]*|now\s+and\s+ever\b[.,\s]*)', '', bn_str, flags=re.IGNORECASE).strip()
+                if bn_stripped and bn_stripped.lower() != "theotokion":
+                    valid_bn.append(bn_stripped)
+                else:
+                    valid_bn.append(default_theotokion)
+        
+        if valid_glory and valid_bn:
+            parts.append(f"Glory... {', '.join(valid_glory)}")
+            parts.append(f"Both now... {', '.join(valid_bn)}")
+        elif valid_glory and not valid_bn:
+            parts.append(f"Glory... {', '.join(valid_glory)}")
+        elif not valid_glory and valid_bn:
+            if glory:
+                parts.append(f"Glory, Both now: {', '.join(valid_bn)}")
+            else:
+                parts.append(f"Both now... {', '.join(valid_bn)}")
+        elif glory and not both_now:
+            parts.append("Glory...")
+        elif glory and both_now:
+            parts.append(f"Glory, Both now: {default_theotokion}")
+
+        cleaned_other = []
+        for o in other_refs:
+            o_str = str(o).strip()
+            if o_str and not any(bad in o_str.lower() for bad in ["psalms_praises", "other:"]):
+                if any(w in o_str.lower() for w in ["both now", "now and ever", "theotokion"]) and not valid_bn:
+                    parts.append(f"Both now... {o_str}")
+                else:
+                    cleaned_other.append(o_str)
+        if cleaned_other:
+            parts.append(", ".join(cleaned_other))
             
-        return "; ".join(parts) + "."
+        return "; ".join(p for p in parts if p) + "."
 
 
     def _format_resolve_kathisma(self, res, context):
@@ -390,7 +438,8 @@ class MatinsFormatterMixin:
         if typ == "paschal_magnificat":
             return "**At Ode IX:** We sing the Paschal magnification: 'The Angel cried out...'."
         elif typ == "festal_magnificat":
-            return "**At Ode IX:** We do not sing 'More honorable than the Cherubim' nor the Magnification ('My soul magnifies the Lord'), but we sing the Festal Refrains and the Heirmos of Ode IX of the Feast."
+            fname = self._get_feast_display_name(context, form="short")
+            return f"**At Ode IX:** We do not sing 'More honorable than the Cherubim' nor the Magnification ('My soul magnifies the Lord'), but we sing the Festal Refrains and the Heirmos of Ode IX of {fname}."
         elif typ == "suppressed_magnificat":
             return "**At Ode IX:** We do not sing the Magnification, but immediately the Heirmos of Ode IX of the Canon."
         elif typ in ("sunday_magnificat", "festal_with_more_honorable"):
@@ -410,9 +459,9 @@ class MatinsFormatterMixin:
                     ref = item.get("ref_key")
                     if ref:
                         clean_ref = ref.replace("tone_None", "tone_1")
-                        parts.append(self.humanize_key(clean_ref))
+                        parts.append(self.humanize_key(clean_ref, context))
             return f"Exapostilarion: {'; '.join(parts)}."
-        return f"Exapostilarion: {self.humanize_key(res)}."
+        return f"Exapostilarion: {self.humanize_key(res, context)}."
 
 
     def _format_resolve_matins_dismissal_troparion(self, res, context):
@@ -429,25 +478,17 @@ class MatinsFormatterMixin:
             if "bartholomew" in saint_id.lower() or any("bartholomew" in s.get("id", "").lower() for s in context.get("saints", [])):
                 saint_name = "Apostles Bartholomew and Barnabas"
             elif saint_id == "saint":
-                saints = context.get("saints", [])
-                if saints:
-                    s_name = saints[0].get("name", "Saint").strip()
-                    if s_name.lower().startswith("st. "):
-                        s_name = s_name[4:]
-                    elif s_name.lower().startswith("st "):
-                        s_name = s_name[3:]
-                    saint_name = s_name.rstrip('.')
-                else:
-                    saint_name = "Saint"
+                saint_name = self._get_saint_display_name(context, 0, form="full")
             else:
-                saint_name = self.humanize_key(saint_id)
+                saint_name = self.humanize_key(saint_id, context)
             saint_tone = t2.get("tone")
             saint_tone_rom = self._roman_tone(saint_tone) if saint_tone else ""
             saint_tone_str = f" in Tone {saint_tone_rom}" if saint_tone_rom else ""
+            fname = self._get_feast_display_name(context, form="short")
             return (
-                f"**At the Dismissal Troparia:** Troparion of the Feast{feast_tone_str}; "
+                f"**At the Dismissal Troparia:** Troparion of {fname}{feast_tone_str}; "
                 f"Glory... Troparion of {saint_name}{saint_tone_str}; "
-                f"Both now: Troparion of the Feast{feast_tone_str}."
+                f"Both now: Troparion of {fname}{feast_tone_str}."
             )
         is_weekday = 0 < context.get("day_of_week", 0) <= 5
         
@@ -530,43 +571,52 @@ class MatinsFormatterMixin:
                     parts.append("Sunday Dismissal Troparion")
             elif t_type == "festal":
                 tone_rom = self._roman_tone(tone) if isinstance(tone, int) else str(tone)
-                parts.append(f"Troparion of the Feast in Tone {tone_rom}")
+                fname = self._get_feast_display_name(context, form="short")
+                parts.append(f"Troparion of {fname} in Tone {tone_rom}")
             elif t_type == "saint":
                 name_key = t_id.replace("troparion_", "")
                 if name_key == "saint":
-                    saints = context.get("saints", [])
-                    if saints:
-                        s_name = saints[0].get("name", "Saint").strip()
-                        if s_name.lower().startswith("st. "):
-                            s_name = s_name[4:]
-                        elif s_name.lower().startswith("st "):
-                            s_name = s_name[3:]
-                        saint_name = s_name.rstrip('.')
-                    else:
-                        saint_name = "Saint"
+                    saint_name = self._get_saint_display_name(context, 0, form="full")
                 else:
-                    saint_name = self.humanize_key(name_key)
+                    saint_name = self.humanize_key(name_key, context)
                 tone_rom = f" in Tone {self._roman_tone(tone)}" if isinstance(tone, int) else (f" in Tone {tone}" if tone else "")
                 parts.append(f"Troparion of {saint_name}{tone_rom}")
             else:
-                parts.append(f"Troparion {self.humanize_key(t_id)}")
+                parts.append(f"Troparion {self.humanize_key(t_id, context)}")
                 
         if "glory_both_now" in res:
             ref_key = res["glory_both_now"]
-            ref_human = self.humanize_key(ref_key)
+            ref_human = self.humanize_key(ref_key, context)
             if "theotokion" in ref_key.lower():
-                parts.append("Glory, Both now... Theotokion")
+                tone = res.get("tone") or context.get("tone")
+                tone_rom = f" in Tone {self._roman_tone(tone)}" if tone else ""
+                if context.get("is_afterfeast") or context.get("is_forefeast") or "feast" in ref_key.lower():
+                    fname = self._get_feast_display_name(context, form="short")
+                    parts.append(f"Glory, Both now: Troparion of {fname}{tone_rom}")
+                elif tone_rom:
+                    parts.append(f"Glory, Both now: Dismissal Theotokion{tone_rom}")
+                else:
+                    parts.append("Glory, Both now: Dismissal Theotokion from the Octoechos")
             elif "troparion" in ref_key.lower():
+                fname = self._get_feast_display_name(context, form="short")
                 feast_tone = res.get("feast_tone") or context.get("feast_tone")
                 tone_rom = f" in Tone {self._roman_tone(feast_tone)}" if isinstance(feast_tone, int) else (f" in Tone {feast_tone}" if feast_tone else "")
-                parts.append(f"Glory, Both now... Troparion of the Feast{tone_rom}")
+                parts.append(f"Glory, Both now: Troparion of {fname}{tone_rom}")
             else:
                 parts.append(f"Glory, Both now... {ref_human}")
         elif "both_now" in res:
             ref_key = res["both_now"]
-            ref_human = self.humanize_key(ref_key)
+            ref_human = self.humanize_key(ref_key, context)
             if "theotokion" in ref_key.lower():
-                parts.append("Both now... Theotokion")
+                tone = res.get("tone") or context.get("tone")
+                tone_rom = f" in Tone {self._roman_tone(tone)}" if tone else ""
+                if context.get("is_afterfeast") or context.get("is_forefeast") or "feast" in ref_key.lower():
+                    fname = self._get_feast_display_name(context, form="short")
+                    parts.append(f"Both now: Troparion of {fname}{tone_rom}")
+                elif tone_rom:
+                    parts.append(f"Both now... Dismissal Theotokion{tone_rom}")
+                else:
+                    parts.append("Both now... Dismissal Theotokion from the Octoechos")
             else:
                 parts.append(f"Both now... {ref_human}")
                 
@@ -694,12 +744,12 @@ class MatinsFormatterMixin:
             return "**After Ode III:** Sessional hymns from the Triodion (found after Ode III).  "
         
         is_sunday = context.get("day_of_week") == 0
+        tone = context.get("octoechos_tone", context.get("tone", 1))
+        tone_rom = self._roman_tone(tone)
         if is_sunday:
-            tone = context.get("octoechos_tone", context.get("tone", 1))
-            tone_rom = self._roman_tone(tone)
-            return f"**After Ode III:** Hypakoe in Tone {tone_rom}; Glory... both now... Theotokion.  "
+            return f"**After Ode III:** Hypakoe in Tone {tone_rom}.  "
         else:
-            return "**After Ode III:** Sessional hymns; Glory... both now... Theotokion.  "
+            return f"**After Ode III:** Sessional hymns; Glory... both now... Theotokion in Tone {tone_rom}.  "
 
 
     def _format_canon_interludes_ode_6(self, context):

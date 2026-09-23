@@ -1,0 +1,110 @@
+{
+  "file_metadata": {
+    "title": "Ruthenian Divine Office Service Book Partition Registry",
+    "version": "1.0",
+    "authority": "Dolnytsky Typikon (1899/2010) Part I & II; Ordo Celebrationis (1944/1996)",
+    "description": "Defines strict canonical boundaries partitioning the 20 Dolnytsky Paradigms and divine services between Binder I (Great Ordo) and Binder II (Daily Ordo)."
+  },
+  "binders": {
+    "BINDER_I_VIGIL_FESTAL": {
+      "binder_name": "The Great Ordo (Vigils, Sundays, & Feasts)",
+      "target_user": "Cantor Stand & Sanctuary Clergy",
+      "services": {
+        "great_vespers": {
+          "service_name": "Great Vespers (Vesperae magnae)",
+          "canonical_sources": ["Ordo Celebrationis §29–§73", "Dolnytsky Typikon Part I §§1–8"],
+          "authorized_paradigms": [
+            { "id": "CASE_01", "name": "Sunday with 1 Simple Saint", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_01a", "name": "Sunday with 2 Simple Saints", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_01_6st", "name": "Sunday with Saint on 6", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_04", "name": "Sunday with Class III Polyeleos", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_06", "name": "Sunday with Class II Vigil", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_08", "name": "Sunday in Forefeast", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_10", "name": "Class I Great Feast of the Lord", "stichera_count": 10, "day": "Eve of Feast" },
+            { "id": "CASE_11", "name": "Sunday with Feast of Theotokos (Class I)", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_12", "name": "Weekday Feast of Theotokos (Class I)", "stichera_count": 8, "day": "Eve of Feast" },
+            { "id": "CASE_13", "name": "Sunday in Afterfeast with Simple Saint", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_15", "name": "Sunday in Afterfeast with Polyeleos", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_17", "name": "Sunday in Afterfeast with Vigil", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_19", "name": "Sunday Apodosis of Feast", "stichera_count": 10, "day": "Saturday Evening" },
+            { "id": "CASE_02b", "name": "Weekday Class IV Great Doxology (with Great Vespers)", "stichera_count": 6, "day": "Weekday Evening" },
+            { "id": "CASE_05", "name": "Weekday Class III Polyeleos", "stichera_count": 8, "day": "Weekday Evening" },
+            { "id": "CASE_07", "name": "Weekday Class II Vigil", "stichera_count": 8, "day": "Weekday Evening" },
+            { "id": "CASE_16", "name": "Weekday in Afterfeast with Polyeleos", "stichera_count": 8, "day": "Weekday Evening" },
+            { "id": "CASE_18", "name": "Weekday in Afterfeast with Vigil", "stichera_count": 8, "day": "Weekday Evening" },
+            { "id": "CASE_20", "name": "Weekday Apodosis of Feast", "stichera_count": 8, "day": "Weekday Evening" }
+          ],
+          "prohibited_paradigms": [
+            { "id": "CASE_02", "reason": "Weekday with 1 Simple Saint is strictly Daily Vespers (Binder II)" },
+            { "id": "CASE_02a", "reason": "Weekday with 2 Simple Saints is strictly Daily Vespers (Binder II)" },
+            { "id": "CASE_03", "reason": "Friday Evening for Saturday with Simple Saint is strictly Daily Vespers (Binder II)" },
+            { "id": "CASE_03a", "reason": "Friday Evening for Saturday with 2 Simple Saints is strictly Daily Vespers (Binder II)" },
+            { "id": "CASE_09", "reason": "Weekday in Forefeast is strictly Daily Vespers (Binder II)" },
+            { "id": "CASE_14", "reason": "Weekday in Afterfeast with Simple Saint is strictly Daily Vespers (Binder II)" }
+          ],
+          "stichera_invariants": {
+            "saturday_evening_always_10": true,
+            "weekday_doxology_is_6": true,
+            "weekday_polyeleos_is_8": true,
+            "great_feast_lord_is_10": true
+          }
+        },
+        "great_matins": {
+          "service_name": "Great Matins (Matutinum festivum)",
+          "canonical_sources": ["Ordo Celebrationis §51–§80", "Dolnytsky Typikon Part I §§11–19"]
+        },
+        "great_compline": {
+          "service_name": "Great Compline (Completorium magnum)",
+          "canonical_sources": ["Ordo Celebrationis §41–§45", "Dolnytsky Typikon Part I §9, Part IV"]
+        },
+        "sunday_midnight_office": {
+          "service_name": "Sunday Midnight Office (Mesonyktikon dominicale)",
+          "canonical_sources": ["Ordo Celebrationis §46–§50", "Dolnytsky Typikon Part I §10"]
+        },
+        "saturday_midnight_office": {
+          "service_name": "Saturday Midnight Office (Mesonyktikon sabbati)",
+          "canonical_sources": ["Ordo Celebrationis §46–§50", "Dolnytsky Typikon Part I §10"]
+        }
+      }
+    },
+    "BINDER_II_DAILY_LENTEN": {
+      "binder_name": "The Daily Ordo (Simple Weekdays & Lenten Cycle)",
+      "target_user": "Cantor Stand & Sanctuary Clergy",
+      "services": {
+        "daily_vespers": {
+          "service_name": "Daily Vespers (Vesperae quotidianae)",
+          "canonical_sources": ["Ordo Celebrationis §18–§40", "Dolnytsky Typikon Part I §1–§8"],
+          "authorized_paradigms": [
+            { "id": "CASE_02", "name": "Weekday with 1 Simple Saint", "stichera_count": 6, "day": "Weekday Evening" },
+            { "id": "CASE_02a", "name": "Weekday with 2 Simple Saints", "stichera_count": 6, "day": "Weekday Evening" },
+            { "id": "CASE_03", "name": "Friday Evening for Saturday with Simple Saint", "stichera_count": 6, "day": "Friday Evening" },
+            { "id": "CASE_03a", "name": "Friday Evening for Saturday with 2 Simple Saints", "stichera_count": 6, "day": "Friday Evening" },
+            { "id": "CASE_09", "name": "Weekday in Forefeast", "stichera_count": 6, "day": "Weekday Evening" },
+            { "id": "CASE_14", "name": "Weekday in Afterfeast with Simple Saint", "stichera_count": 6, "day": "Weekday Evening" }
+          ],
+          "structural_invariants": {
+            "has_entrance": false,
+            "has_paremias": false,
+            "standard_stichera_count": 6
+          }
+        },
+        "daily_matins": {
+          "service_name": "Daily Matins (Matutinum quotidianum)",
+          "canonical_sources": ["Ordo Celebrationis §51–§80", "Dolnytsky Typikon Part I §11–§19"]
+        },
+        "small_compline": {
+          "service_name": "Small Compline (Completorium parvum)",
+          "canonical_sources": ["Ordo Celebrationis §41–§45", "Dolnytsky Typikon Part I §9"]
+        },
+        "daily_midnight_office": {
+          "service_name": "Daily Midnight Office (Mesonyktikon quotidianum)",
+          "canonical_sources": ["Ordo Celebrationis §46–§50", "Dolnytsky Typikon Part I §10"]
+        },
+        "the_hours": {
+          "service_name": "The Little Hours (Horæ minores)",
+          "canonical_sources": ["Ordo Celebrationis §11–§17", "Dolnytsky Typikon Part I §20–§24"]
+        }
+      }
+    }
+  }
+}

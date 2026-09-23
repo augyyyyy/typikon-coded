@@ -75,6 +75,9 @@ class TestResolvers(unittest.TestCase):
         ctx["rank"] = 5 # Simple
         ctx["saints"] = [{"id": "saint_gregory", "title": "St Gregory"}] # 1 Saint
         ctx["period"] = "normal"
+        ctx["triodion_period"] = "normal"
+        ctx.pop("variables", None)
+        ctx.pop("_almanac_used", None)
         
         # Verify Rank mapping
         rank_id = self.engine._get_rank_id(ctx)

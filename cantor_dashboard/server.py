@@ -197,6 +197,8 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             self.api_lint()
         elif path == "/api/live-reload":
             self.api_live_reload()
+        elif path == "/api/annual_patterns":
+            self.api_annual_patterns(query)
         else:
             self.send_json_error("Endpoint not found", 404)
 
@@ -587,6 +589,27 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             pass
         except Exception as e:
             print(f"Error in live-reload SSE: {e}")
+
+    def api_annual_patterns(self, query):
+        year_str = query.get("year", ["2026"])[0]
+        candidate_paths = [
+            os.path.join(CANTOR_DASHBOARD_DIR, f"annual_pattern_analysis_{year_str}.json"),
+            os.path.join(REPO_DIR, "json_db", "almanac", f"annual_pattern_analysis_{year_str}.json"),
+            os.path.join(REPO_DIR, f"annual_pattern_analysis_{year_str}.json")
+        ]
+        data = None
+        for p in candidate_paths:
+            if os.path.exists(p):
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                    break
+                except Exception as e:
+                    print(f"Error loading annual patterns from {p}: {e}")
+        if data is None:
+            self.send_json_error(f"Annual pattern analysis for {year_str} not found.", 404)
+        else:
+            self.send_json_response(data)
 
     def send_json_response(self, data, status_code=200):
         try:

@@ -49,7 +49,26 @@ class GenerationMixin:
         
         feast_period_name = ""
         season_str = context.get("season", "")
-        if season_str and season_str.lower() != "octoechos":
+        linked_feast = context.get("linked_feast") or context.get("feast_id")
+        
+        season_map = {
+            "exaltation_cross": "the Exaltation of the Holy Cross",
+            "nativity_theotokos": "the Nativity of the Theotokos",
+            "nativity": "the Nativity of Christ",
+            "theophany": "Theophany",
+            "meeting": "the Meeting of the Lord",
+            "annunciation": "the Annunciation",
+            "transfiguration": "the Transfiguration",
+            "dormition": "the Dormition",
+            "presentation": "the Entrance of the Theotokos",
+            "ascension": "the Ascension",
+            "pentecost": "Pentecost",
+            "eucharist": "the Holy Eucharist",
+        }
+        s_key = (linked_feast or season_str or "").lower().replace(" ", "_")
+        if s_key in season_map:
+            season_words = season_map[s_key]
+        elif season_str and season_str.lower() != "octoechos":
             season_words = season_str.replace("_", " ").title()
             if "Theotokos" in season_words:
                 season_words = season_words.replace("Theotokos", "of the Theotokos")
@@ -59,7 +78,10 @@ class GenerationMixin:
         if is_after_or_fore:
             p_type = "Forefeast" if (context.get("is_forefeast") or "forefeast" in full_text) else "Afterfeast"
             if season_words:
-                feast_period_name = f"the {p_type} of the {season_words}"
+                if season_words.lower().startswith("the "):
+                    feast_period_name = f"the {p_type} of {season_words}"
+                else:
+                    feast_period_name = f"the {p_type} of the {season_words}"
             else:
                 feast_period_name = f"the {p_type}"
 
@@ -1740,6 +1762,20 @@ class GenerationMixin:
                 p_text = p_text.strip()
                 if p_text:
                     output.append(f'<p>{p_text}</p>')
+            return "\n\n".join(output)
+
+        # Case 4.105: Result is Praises / Lord of Hosts
+        elif isinstance(result, dict) and result.get("type") == "praises":
+            ref_key = result.get("ref_key", "")
+            title = result.get("title") or "Lord of Hosts"
+            text_val = result.get("text") or ""
+            if not text_val and ref_key:
+                item = self.get_text(ref_key, context=context)
+                if item:
+                    text_val = item.get("content", "")
+            output.append(f'<div class="title-medium">{title}</div>')
+            if text_val:
+                output.extend(self._split_and_wrap("", text_val))
             return "\n\n".join(output)
 
         # Case 4.11: Result is a dynamic Generator block

@@ -161,32 +161,33 @@
       },
       "09": {
         "title_key": "menaion.oct_09.james_alpheus",
-        "rank": "rank_doxology",
+        "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
-        "base_template": "CASE_02",
+        "base_template": "CASE_05",
         "variables": {
           "vespers_type": "great_vespers_simple",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": false,
+          "has_polyeleos": true,
           "doxology_type": "great_doxology",
-          "rank": "rank_doxology",
+          "rank": "rank_polyeleos",
           "vespers_stichera_distribution": {
-            "total_count": 6,
+            "total_count": 8,
             "distribution": [
               {
                 "source": "menaion",
                 "type": "saint",
-                "qty": 6
+                "qty": 8
               }
             ],
             "glory": "saint_doxastikon",
             "both_now": "theotokion"
           },
           "matins_canon_stacking": [
-            "saint_canon_6"
+            "saint_canon_8"
           ],
           "matins_katavasia": "theotokos_canon_october",
+          "matins_gospel": "matthew_10_1_7",
           "praises_distribution": {
             "total_count": 4,
             "distribution": [

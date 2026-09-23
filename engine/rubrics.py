@@ -658,6 +658,7 @@ class RubricsMixin:
         
         # Calculate derived inputs for matching
         rank_id = self._get_rank_id(context)
+        match_rank_id = "rank_vigil" if rank_id in ("rank_vigil_lord", "rank_vigil_theotokos", "rank_vigil_patronal") else rank_id
         day_of_week = context.get("day_of_week", 0)
         
         # Enhanced Period/Type Logic
@@ -823,9 +824,9 @@ class RubricsMixin:
             if "rank_id" in triggers:
                 r_trigger = triggers["rank_id"]
                 if isinstance(r_trigger, list):
-                    if rank_id not in r_trigger: continue
+                    if rank_id not in r_trigger and match_rank_id not in r_trigger: continue
                 else:
-                    if rank_id != r_trigger: continue
+                    if rank_id != r_trigger and match_rank_id != r_trigger: continue
             
             # Check Type (e.g. Lord vs Theotokos)
             if "type" in triggers:
@@ -1347,6 +1348,12 @@ class RubricsMixin:
                     rubrics["_trace"].append(f"Override: Set {k}='{v}' from Triodion.")
             if "has_polyeleos" in t_vars:
                 context["has_polyeleos"] = t_vars["has_polyeleos"]
+            if t_vars.get("suppress_afterfeast"):
+                context["is_afterfeast"] = False
+                context["is_fore_or_afterfeast"] = False
+                context["period"] = ""
+                rubrics["variables"]["suppress_octoechos"] = False
+                rubrics["variables"]["is_afterfeast"] = False
 
         # Layer 2: Menaion
         if is_transferred:
@@ -1396,6 +1403,21 @@ class RubricsMixin:
                 if base_id and hasattr(self, "general_cases"):
                     for c_key, c_val in self.general_cases.get("logic_definitions", {}).items():
                         if isinstance(c_val, dict) and (c_key == base_id or c_val.get("id") == base_id):
+                            # Verify that base_id triggers actually match current context!
+                            c_triggers = c_val.get("triggers", {})
+                            c_period = c_triggers.get("period")
+                            if c_period:
+                                if isinstance(c_period, str):
+                                    c_period = [c_period]
+                                current_period = context.get("period", "normal")
+                                if context.get("is_afterfeast"):
+                                    current_period = "afterfeast"
+                                elif context.get("is_forefeast"):
+                                    current_period = "forefeast"
+                                elif context.get("is_apodosis"):
+                                    current_period = "apodosis"
+                                if current_period not in c_period:
+                                    break
                             base_vars = copy.deepcopy(c_val.get("variables", {}))
                             break
 
@@ -1496,6 +1518,22 @@ class RubricsMixin:
                         rubrics["_trace"].append(f"Temple Override: Set {k}='{v}' from {case_id}.")
                 if "has_polyeleos" in t_vars:
                     context["has_polyeleos"] = t_vars["has_polyeleos"]
+                # Import specific canon distribution if present in case_data
+                if "great_matins" in case_data and "canons" in case_data["great_matins"]:
+                    c_info = case_data["great_matins"]["canons"]
+                    if "distribution" in c_info:
+                        rubrics["variables"]["matins_canon_distribution"] = {
+                            "distribution": [
+                                {
+                                    "source": item.get("source", "temple").lower(),
+                                    "type": item.get("source", "temple").lower(),
+                                    "qty": item.get("on", item.get("qty", 8)),
+                                    "count": item.get("on", item.get("qty", 8)),
+                                    "irmos": item.get("with_heirmos", False)
+                                }
+                                for item in c_info["distribution"]
+                            ]
+                        }
             else:
                 # Dolnytsky General Rules G1 & G2 fallback
                 rubrics["overrides"]["vespers_type"] = "great_vespers_vigil"
@@ -1506,6 +1544,20 @@ class RubricsMixin:
                 rubrics["overrides"]["doxology_type"] = "great_doxology"
                 context["has_polyeleos"] = True
                 rubrics["variables"]["rank"] = "rank_vigil_patronal"
+
+            # Dolnytsky General Rule: Weekday Temple feasts suppress Octoechos
+            if context.get("day_of_week") != 0:
+                rubrics["variables"]["suppress_octoechos"] = True
+                context["suppress_octoechos"] = True
+                if "matins_canon_distribution" not in rubrics["variables"]:
+                    # Default weekday Vigil: Theotokos (6) + Temple (8) = 14
+                    rubrics["variables"]["matins_canon_distribution"] = {
+                        "distribution": [
+                            {"source": "octoechos", "type": "theotokos_special", "qty": 6, "count": 6, "irmos": True},
+                            {"source": "temple", "type": "temple", "qty": 8, "count": 8}
+                        ]
+                    }
+
             rubrics["_trace"].append("Temple Logic: Patronal Feast active.")
 
         if not rubrics["title"].strip() or "Service for" in rubrics["title"]:
@@ -1609,15 +1661,27 @@ class RubricsMixin:
             context["paradigm_id"] = general_case.get("id")
             rubrics["_trace"].append(f"General Case: Matched case '{general_case.get('id')}'.")
             gc_vars = general_case.get("variables", {})
+            is_after_or_fore = bool(
+                context.get("is_afterfeast") or
+                context.get("is_forefeast") or
+                context.get("is_apodosis") or
+                context.get("period") in ("afterfeast", "forefeast", "apodosis")
+            )
             for k, v in gc_vars.items():
-                if k not in rubrics["variables"]:
-                    rubrics["variables"][k] = v
+                if k not in rubrics["variables"] or (is_after_or_fore and k in ("aposticha_distribution", "suppress_octoechos")):
+                    rubrics["variables"][k] = copy.deepcopy(v)
                 if k.endswith("_type") and k not in rubrics["overrides"]:
                     rubrics["overrides"][k] = v
                     rubrics["_trace"].append(f"Override: Set {k}='{v}' from General Case.")
+            if is_after_or_fore:
+                rubrics["variables"]["suppress_octoechos"] = True
 
         # Check for explicit suppress_saints or suppress_menaion_saint variable from collision/general case overrides
-        if rubrics.get("variables", {}).get("suppress_saints") or rubrics.get("variables", {}).get("suppress_menaion_saint") is True:
+        if (
+            rubrics.get("variables", {}).get("suppress_saints") or
+            rubrics.get("variables", {}).get("suppress_menaion_saint") is True or
+            rubrics.get("variables", {}).get("suppress_menaion_saints") is True
+        ):
             context["saints"] = []
             rubrics["_trace"].append("Saint Suppression: Suppressed all saints from active context.")
         elif (context.get("feast_level") == "lord" or context.get("menaion_class") == "Class I — Great Feast") and not (
@@ -1651,7 +1715,7 @@ class RubricsMixin:
             }
 
         # Co-suffering of the Most Holy Theotokos (Friday after Corpus Christi / Sacred Heart cycle)
-        if context.get("feast_id") == "co_suffering_theotokos" or "co_suffering" in str(context.get("title", "")).lower():
+        if context.get("feast_id") == "co_suffering_theotokos" or context.get("pascha_offset") == 68:
             rubrics["variables"]["suppress_menaion_saint"] = True
             rubrics["variables"]["menaion_rank"] = "rank_polyeleos"
             context.setdefault("variables", {})["menaion_rank"] = "rank_polyeleos"

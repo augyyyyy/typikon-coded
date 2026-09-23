@@ -66,27 +66,22 @@ class HoursFormatterMixin:
                         if c == "trop_resurrection":
                             comps.append("Resurrectional troparion")
                         elif c == "trop_saint":
-                            if saints:
-                                comps.append(f"troparion of {self._clean_name(saints[0].get('name', 'Saint'))}")
-                            else:
-                                comps.append("troparion of the Saint")
+                            sname = self._get_saint_display_name(context, 0, form="full")
+                            comps.append(f"troparion of {sname}")
                         elif c == "trop_saint_2":
-                            if len(saints) >= 2:
-                                comps.append(f"troparion of {self._clean_name(saints[1].get('name', 'second Saint'))}")
-                            else:
-                                comps.append("troparion of the second Saint")
+                            sname2 = self._get_saint_display_name(context, 1, form="full")
+                            comps.append(f"troparion of {sname2}")
                         elif c == "trop_day":
                             comps.append("troparion of the Day")
                         elif c == "trop_temple":
                             comps.append("troparion of the Temple")
                         elif c == "trop_feast":
-                            title_lower = context.get("dolnytsky_title", "").lower()
-                            lbl = "forefeast" if "forefeast" in title_lower or "prefeast" in title_lower else "afterfeast" if "afterfeast" in title_lower else "feast"
-                            comps.append(f"troparion of the {lbl}")
+                            fname = self._get_feast_display_name(context, form="short")
+                            comps.append(f"troparion of {fname}")
                         elif c in ("glory", "both_now"):
                             pass
                         else:
-                            comps.append(self.humanize_key(c))
+                            comps.append(self.humanize_key(c, context))
                     first = comps[0]
                     others = comps[1:]
                     if others:
@@ -112,27 +107,21 @@ class HoursFormatterMixin:
                         elif "john of the ladder" in r_title_lower or "climacus" in r_title_lower:
                             kont_str = "Kontakion of St. John Climacus"
                         else:
-                            kont_str = "Kontakion of the Saint"
+                            sname = self._get_saint_display_name(context, 0, form="full")
+                            kont_str = f"Kontakion of {sname}"
                     elif source == "saint_or_feast":
-                        title_lower = context.get("dolnytsky_title", "").lower()
-                        lbl = "Forefeast" if "forefeast" in title_lower or "prefeast" in title_lower else "Afterfeast" if "afterfeast" in title_lower else "Feast"
-                        kont_str = f"Kontakion of the {lbl}"
+                        fname = self._get_feast_display_name(context, form="short")
+                        kont_str = f"Kontakion of {fname}"
                     else:
                         if source == "feast":
-                            pascha_offset = context.get("pascha_offset")
-                            if pascha_offset is not None and 60 <= pascha_offset <= 67:
-                                kont_str = "Kontakion of the Eucharist"
-                            else:
-                                title = context.get("dolnytsky_title") or "Feast"
-                                kont_str = f"Kontakion of the {self.humanize_key(title)}"
+                            fname = self._get_feast_display_name(context, form="short")
+                            kont_str = f"Kontakion of {fname}"
                         elif source in ("saints", "saint"):
-                            s_list = context.get("saints", [])
-                            if s_list:
-                                name = self._clean_name(s_list[0].get("name", "Saint")).rstrip('.')
-                                kont_str = f"Kontakion of {name}"
-                            else:
-                                kont_str = "Kontakion of the Saint"
+                            sname = self._get_saint_display_name(context, 0, form="full")
+                            kont_str = f"Kontakion of {sname}"
                         elif source == "saints_2":
+                            sname = self._get_saint_display_name(context, 1, form="full")
+                            kont_str = f"Kontakion of {sname}"
                             s_list = context.get("saints", [])
                             if len(s_list) >= 2:
                                 name = self._clean_name(s_list[1].get("name", "second Saint")).rstrip('.')
@@ -201,7 +190,7 @@ class HoursFormatterMixin:
                 name = targ.get('name', targ) if isinstance(targ, dict) else targ
                 parts.append(f"Glory... Troparion of {self.humanize_key(name)}")
             elif t.get("type") == "both_now":
-                parts.append("Both now... Theotokion")
+                parts.append("Both now... Theotokion of the Hour")
         kont_winner = self.humanize_key(res.get('kontakion_winner', 'according to the Typikon'))
         return f"**Troparia (at all the Hours):**  \n" + "  \n".join(parts) + f"\n\n**Kontakion:**  \n{kont_winner}."
 
@@ -224,21 +213,18 @@ class HoursFormatterMixin:
                 elif c == "both_now":
                     mapped.append("Both now...")
                 elif c == "trop_saint":
-                    if saints:
-                        mapped.append(f"Troparion of {self.humanize_key(saints[0].get('name', 'Saint'))}")
-                    else:
-                        mapped.append("Troparion of the Saint")
+                    sname = self._get_saint_display_name(context, 0, form="full")
+                    mapped.append(f"Troparion of {sname}")
                 elif c == "trop_saint_2":
-                    if len(saints) >= 2:
-                        mapped.append(f"Troparion of {self.humanize_key(saints[1].get('name', 'second Saint'))}")
-                    else:
-                        mapped.append("Troparion of the second Saint")
+                    sname2 = self._get_saint_display_name(context, 1, form="full")
+                    mapped.append(f"Troparion of {sname2}")
                 elif c == "trop_day":
                     mapped.append("Troparion of the Day")
                 elif c == "trop_temple":
                     mapped.append("Troparion of the Temple")
                 elif c == "trop_feast":
-                    mapped.append("Troparion of the Feast")
+                    fname = self._get_feast_display_name(context, form="full")
+                    mapped.append(f"Troparion of {fname}")
                 else:
                     mapped.append(self.humanize_key(c))
             

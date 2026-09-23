@@ -1,0 +1,328 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://ruthenian-engine.org/schemas/service_booklet.schema.json",
+  "title": "Ruthenian Service Booklet Schema",
+  "description": "Schema for authoritative Byzantine Divine Office service booklets utilizing the Pointer-Appendix architecture.",
+  "type": "object",
+  "properties": {
+    "booklet_metadata": {
+      "type": "object",
+      "properties": {
+        "booklet_id": {
+          "type": "string",
+          "pattern": "^booklet_[a-z0-9_]+$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "service_type": {
+          "type": "string",
+          "enum": [
+            "great_vespers",
+            "daily_vespers",
+            "small_vespers",
+            "great_matins",
+            "daily_matins",
+            "great_compline",
+            "small_compline",
+            "daily_midnight_office",
+            "saturday_midnight_office",
+            "sunday_midnight_office",
+            "little_hours",
+            "royal_hours",
+            "typika",
+            "divine_liturgy",
+            "presanctified_liturgy"
+          ]
+        },
+        "binder_assignment": {
+          "type": "string",
+          "enum": [
+            "BINDER_I_VIGIL_FESTAL",
+            "BINDER_II_DAILY_LENTEN"
+          ]
+        },
+        "canonical_authorities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "recension": {
+          "type": "string",
+          "enum": [
+            "royal_doors_primary",
+            "stamford_backup",
+            "synodal_standard"
+          ]
+        },
+        "version": {
+          "type": "string"
+        },
+        "last_updated": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "booklet_id",
+        "title",
+        "service_type",
+        "binder_assignment",
+        "canonical_authorities"
+      ]
+    },
+    "ordinary_flow": {
+      "type": "array",
+      "description": "Ordered linear stations of the continuous Ordinary service flow.",
+      "items": {
+        "$ref": "#/definitions/ordinary_station"
+      },
+      "minItems": 1
+    },
+    "rubric_appendix": {
+      "type": "object",
+      "description": "Codified canonical rules, matrices, and rubrical paradigms referenced by the pointers.",
+      "properties": {
+        "appendix_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "sections": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/appendix_section"
+          }
+        },
+        "paradigms_matrix": {
+          "type": "object",
+          "description": "The 20 Dolnytsky Part II Paradigms across Class I-V and Simple ranks.",
+          "additionalProperties": {
+            "$ref": "#/definitions/paradigm_entry"
+          }
+        },
+        "triodia_cases": {
+          "type": "object",
+          "description": "Seasonal exceptions and specific liturgical cases for Lenten and Paschal periods.",
+          "additionalProperties": {
+            "$ref": "#/definitions/triodia_case_entry"
+          }
+        }
+      },
+      "required": [
+        "appendix_id",
+        "title",
+        "sections"
+      ]
+    }
+  },
+  "required": [
+    "booklet_metadata",
+    "ordinary_flow",
+    "rubric_appendix"
+  ],
+  "definitions": {
+    "ordinary_station": {
+      "type": "object",
+      "properties": {
+        "station_id": {
+          "type": "string"
+        },
+        "station_index": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "title": {
+          "type": "string"
+        },
+        "ordo_citation": {
+          "type": "string"
+        },
+        "typikon_citation": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "object",
+          "properties": {
+            "priest": { "type": "string" },
+            "deacon": { "type": "string" },
+            "cantor": { "type": "string" },
+            "people": { "type": "string" }
+          }
+        },
+        "fixed_text_key": {
+          "type": "string"
+        },
+        "fixed_text": {
+          "type": "string"
+        },
+        "rubric_text": {
+          "type": "string"
+        },
+        "pointers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rubric_pointer"
+          }
+        }
+      },
+      "required": [
+        "station_id",
+        "station_index",
+        "title"
+      ]
+    },
+    "rubric_pointer": {
+      "type": "object",
+      "properties": {
+        "pointer_code": {
+          "type": "string",
+          "pattern": "^PTR-[A-Z0-9_-]+$"
+        },
+        "callout_text": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "appendix_target_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pointer_code",
+        "callout_text",
+        "appendix_target_id"
+      ]
+    },
+    "appendix_section": {
+      "type": "object",
+      "properties": {
+        "section_id": {
+          "type": "string"
+        },
+        "section_code": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "canonical_sources": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "summary_rule": {
+          "type": "string"
+        },
+        "rules_by_class": {
+          "type": "object",
+          "properties": {
+            "CLASS_I": { "type": "string" },
+            "CLASS_II": { "type": "string" },
+            "CLASS_III": { "type": "string" },
+            "CLASS_IV": { "type": "string" },
+            "CLASS_V": { "type": "string" },
+            "CLASS_SIMPLE": { "type": "string" }
+          }
+        },
+        "detail_content": {
+          "type": ["string", "object", "array"]
+        }
+      },
+      "required": [
+        "section_id",
+        "title",
+        "canonical_sources"
+      ]
+    },
+    "paradigm_entry": {
+      "type": "object",
+      "properties": {
+        "paradigm_id": {
+          "type": "string",
+          "pattern": "^CASE_[0-9]{2}[a-z]?$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "rank_class": {
+          "type": "string",
+          "enum": [
+            "CLASS_I",
+            "CLASS_II",
+            "CLASS_III",
+            "CLASS_IV",
+            "CLASS_V",
+            "CLASS_SIMPLE"
+          ]
+        },
+        "vespers_type": {
+          "type": "string"
+        },
+        "stichera_distribution": {
+          "type": "object",
+          "properties": {
+            "total_count": { "type": "integer", "enum": [10, 8, 6, 4] },
+            "octoechos": { "type": "integer" },
+            "menaion": { "type": "integer" },
+            "doxastikon_glory": { "type": "string" },
+            "theotokion_both_now": { "type": "string" }
+          }
+        },
+        "entrance_rule": {
+          "type": "string",
+          "enum": ["no_entrance", "censer_entrance", "gospel_entrance"]
+        },
+        "paremias_count": {
+          "type": "integer",
+          "enum": [0, 3, 5]
+        },
+        "litiya_appointed": {
+          "type": "boolean"
+        },
+        "dismissal_troparia_sequence": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": [
+        "paradigm_id",
+        "name",
+        "rank_class"
+      ]
+    },
+    "triodia_case_entry": {
+      "type": "object",
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "season": {
+          "type": "string",
+          "enum": ["pre_lent", "great_lent", "holy_week", "bright_week", "pentecostarion"]
+        },
+        "specific_modifications": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "canonical_source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "title",
+        "season",
+        "specific_modifications"
+      ]
+    }
+  }
+}

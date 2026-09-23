@@ -409,23 +409,23 @@
       },
       "31": {
         "title_key": "menaion.aug_31.deposition_sash",
-        "rank": "rank_doxology",
+        "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.12.6",
-        "base_template": "CASE_02",
+        "base_template": "CASE_05",
         "variables": {
           "vespers_type": "great_vespers_simple",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": false,
+          "has_polyeleos": true,
           "doxology_type": "great_doxology",
-          "rank": "rank_doxology",
+          "rank": "rank_polyeleos",
           "vespers_stichera_distribution": {
-            "total_count": 6,
+            "total_count": 8,
             "distribution": [
               {
                 "source": "menaion",
                 "type": "sash",
-                "qty": 6
+                "qty": 8
               }
             ],
             "glory_both_now": "sash_doxastikon"

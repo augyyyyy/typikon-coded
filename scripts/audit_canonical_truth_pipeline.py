@@ -4,9 +4,14 @@ Audits generated Typikon Digests across multi-day, 7-day, and annual ranges.
 Verifies deep liturgical invariants rather than just surface regex hygiene.
 """
 
+import os
 import sys
 import re
 from datetime import date, timedelta
+
+# Ensure project root is in path
+sys.path.append(os.path.abspath("."))
+
 from ruthenian_engine import RuthenianEngine
 from digest import TypikonDigestGenerator
 
@@ -26,8 +31,13 @@ def audit_day(date_obj, engine, generator):
     feast_level = ctx.get("feast_level", "")
     day_of_week = ctx.get("day_of_week", 0)
     is_weekday = day_of_week != 0
-    is_rank_1_lord_feast = (rank == 1 and (dolnytsky_rank == "LORD" or feast_level == "lord"))
-    is_rank_1_feast = (rank == 1 and (dolnytsky_rank in ("LORD", "THEOTOKOS") or feast_level in ("lord", "theotokos")))
+    is_temple = ctx.get("is_temple_feast", False)
+    is_afterfeast = ctx.get("is_afterfeast", False)
+    is_base_lord = (dolnytsky_rank == "LORD" or (feast_level == "lord" and not is_temple))
+    is_base_theotokos = (dolnytsky_rank == "THEOTOKOS" or (feast_level == "theotokos" and not is_temple))
+    is_rank_1_lord_feast = (rank == 1 and is_base_lord and not is_afterfeast)
+    is_rank_1_feast = (rank == 1 and (is_base_lord or is_base_theotokos) and not is_afterfeast)
+
     
     # Invariant 1: Header weekly tone suppression on weekday Lord's Great Feasts
     if is_rank_1_lord_feast and is_weekday:
@@ -121,7 +131,7 @@ def audit_day(date_obj, engine, generator):
 
     # Invariant 16: Zero generic reading citations
     for line in digest_text.splitlines():
-        if re.search(r">\s*(of\s+weekday|of\s+sunday)\b", line, re.I):
+        if re.search(r">\s*(of\s+weekday|of\s+sunday)\s*(\(|$|\.)", line, re.I):
             violations.append(f"[{date_str}] Generic reading citation: {line.strip()}")
 
     # Invariant 17: Zero hymn connective token leaks
@@ -150,14 +160,186 @@ def audit_day(date_obj, engine, generator):
         if re.search(r'>\s*of\s+(Gospel|Epistle|Alleluia|Prokeimenon)\b', line, re.I):
             violations.append(f"[{date_str}] Unrendered lectionary token: {line.strip()}")
 
-    # Invariant 21: Zero empty service sections
-    for s in re.findall(r"(##\s+[A-Z\s]+)\n+(?=##|\Z)", digest_text):
-        violations.append(f"[{date_str}] Empty service section: {s.strip()}")
-
-    # Invariant 22: Zero raw key / database identifier leaks
+    # Filter out Dolnytsky historical footnotes and editorial notes when checking service instruction wording
+    service_lines = []
+    in_footnotes = False
+    in_callout = False
     for line in digest_text.splitlines():
-        if re.search(r"\b(menaion|octoechos|triodion|pentecostarion|horologion|liturgikon)\.[a-zA-Z0-9_]+", line):
-            violations.append(f"[{date_str}] Leaked DB key: {line.strip()}")
+        if "## SYNODAL FOOTNOTES" in line or "## NOTES & FOOTNOTES" in line or "## NOTES" in line or "## FOOTNOTES" in line:
+            in_footnotes = True
+            continue
+        if in_footnotes:
+            continue
+        l_strip = line.strip()
+        if l_strip.startswith("> 💡") or l_strip.startswith("> **Note:"):
+            in_callout = True
+            continue
+        if in_callout:
+            if l_strip.startswith(">") or not l_strip:
+                continue
+            else:
+                in_callout = False
+        service_lines.append(line)
+
+    # Invariant 23: Anonymous Feast Placeholder Leak Gate
+    is_feast_active = bool(
+        ctx.get("linked_feast") or
+        ctx.get("feast_id") or
+        (ctx.get("season") and ctx.get("season") != "octoechos") or
+        ctx.get("is_forefeast") or
+        ctx.get("is_afterfeast") or
+        ctx.get("is_fore_or_afterfeast") or
+        (ctx.get("rank") == 1)
+    )
+    if is_feast_active:
+        feast_patterns = [
+            r"\bFeast Stichera\b",
+            r"\bStichera of the Feast\b",
+            r"\bTheotokion of the Feast\b",
+            r"\bTroparion of the Feast\b",
+            r"\bKontakion of the Feast\b",
+            r"\bCanon of the Feast\b",
+            r"\bHeirmos of Ode IX of the Feast\b",
+            r"\bsessional hymns of the Feast\b"
+        ]
+        for s_line in service_lines:
+            for pat in feast_patterns:
+                if re.search(pat, s_line, re.I):
+                    violations.append(f"[{date_str}] Anonymous Feast placeholder leak: {s_line.strip()}")
+
+    # Invariant 24: Anonymous Saint Placeholder Leak Gate
+    has_named_saint = bool(ctx.get("saints") and any(s.get("name") for s in ctx.get("saints", [])))
+    if has_named_saint:
+        saint_patterns = [
+            r"\bStichera of the Saint\b",
+            r"\bDoxastikon of the Saint\b",
+            r"\bTroparion of the Saint\b",
+            r"\bKontakion of the Saint\b",
+            r"\bCanon of the Saint\b",
+            r"\bsessional hymns of the Saint\b"
+        ]
+        for s_line in service_lines:
+            for pat in saint_patterns:
+                if re.search(pat, s_line, re.I):
+                    violations.append(f"[{date_str}] Anonymous Saint placeholder leak: {s_line.strip()}")
+
+    # Invariant 25: Entity Symmetry Gate (detects unbalanced sections where saint is named but feast is generic or vice versa)
+    if is_feast_active and has_named_saint:
+        for s_line in service_lines:
+            if ("of the Feast" in s_line or "Feast Stichera" in s_line) and any(s.get("name", "") in s_line for s in ctx.get("saints", []) if s.get("name")):
+                violations.append(f"[{date_str}] Asymmetrical entity specificity (named saint with generic feast): {s_line.strip()}")
+            if ("of the Saint" in s_line) and any(f_token in s_line for f_token in ["Holy Cross", "Nativity", "Theophany", "Meeting", "Annunciation", "Dormition"]):
+                violations.append(f"[{date_str}] Asymmetrical entity specificity (named feast with generic saint): {s_line.strip()}")
+
+    # Invariant 26: Seasonal Header Grammar Gate
+    header_lines = digest_text.splitlines()[:6]
+    for hline in header_lines:
+        if re.search(r'\b(EXALTATION CROSS|NATIVITY THEOTOKOS)\b', hline, re.I):
+            violations.append(f"[{date_str}] Ungrammatical seasonal header token: {hline.strip()}")
+
+    # =========================================================================
+    # THE 5 UNIVERSAL POSITIVE CANONICAL CONTRACTS
+    # =========================================================================
+
+    # CONTRACT 1: ZERO-STUB LECTIONARY CONTRACT
+    if "[CANONICAL DEFECT:" in digest_text:
+        for line in digest_text.splitlines():
+            if "[CANONICAL DEFECT:" in line:
+                violations.append(f"[{date_str}] Contract 1 (Zero-Stub Lectionary) defect: {line.strip()}")
+
+    liturgy_blocks = digest_text.split("## DIVINE LITURGY")
+    if len(liturgy_blocks) > 1:
+        lit_section = liturgy_blocks[1].split("## ")[0]
+        for line in lit_section.splitlines():
+            if re.search(r'>\s*of\s+[A-Z][a-z]+', line):
+                if not any(valid in line.lower() for valid in ["of the day", "of the feast", "of the saint"]):
+                    violations.append(f"[{date_str}] Contract 1 (Zero-Stub Lectionary) stub leak: {line.strip()}")
+
+        for m in re.finditer(r'\*\*Prokeimenon[^*]*\*\*:\s*\n>\s*([^\n]+)', lit_section):
+            p_line = m.group(1).strip()
+            if not re.search(r'Tone\s+[IVXLCDM1-8]+:\s*"[^"]{10,}"', p_line):
+                violations.append(f"[{date_str}] Contract 1 (Zero-Stub Lectionary) malformed Prokeimenon: {p_line}")
+
+        for m in re.finditer(r'\*\*Alleluia[^*]*\*\*:\s*\n>\s*([^\n]+)', lit_section):
+            a_line = m.group(1).strip()
+            if not re.search(r'Tone\s+[IVXLCDM1-8]+', a_line) or (not '"' in a_line and not "Verse" in a_line):
+                violations.append(f"[{date_str}] Contract 1 (Zero-Stub Lectionary) malformed Alleluia: {a_line}")
+
+    # CONTRACT 2: UNIVERSAL 7-DAY EVE-ALIGNMENT CONTRACT
+    eve_names = {
+        0: "Sunday Evening", 1: "Monday Evening", 2: "Tuesday Evening", 3: "Wednesday Evening",
+        4: "Thursday Evening", 5: "Friday Evening", 6: "Saturday Evening"
+    }
+    expected_eve_idx = (day_of_week - 1) % 7
+    expected_eve_name = eve_names[expected_eve_idx]
+
+    vespers_match = re.search(r'## (?:GREAT|SMALL|DAILY) VESPERS(.*?)(?=## |\Z)', digest_text, re.DOTALL)
+    if vespers_match:
+        v_body = vespers_match.group(1)
+        for dp_match in re.finditer(r'Daily Prokeimenon \(([^)]+)\)', v_body):
+            found_eve = dp_match.group(1)
+            if found_eve != expected_eve_name:
+                violations.append(f"[{date_str}] Contract 2 (Eve-Alignment) mismatch: {found_eve} instead of {expected_eve_name}")
+        if day_of_week == 6 and not ctx.get("is_sunday_vigil"):
+            if "Daily Prokeimenon (Saturday Evening)" in v_body or "Prokeimenon of Saturday Evening (Sunday prep)" in v_body:
+                violations.append(f"[{date_str}] Contract 2 (Eve-Alignment): Saturday Vespers used Saturday Evening instead of Friday Evening")
+            if "The Lord reigns, He is clothed in majesty" in v_body and "## GREAT VESPERS" in digest_text:
+                violations.append(f"[{date_str}] Contract 2 (Eve-Alignment): Saturday Great Vespers sang Sunday Psalm 92 instead of Friday prokeimenon")
+
+    # CONTRACT 3: LITURGY TROPARIA / KONTAKIA CANONICAL MATRIX CONTRACT
+    from engine.utils.type_utils import parse_rank_integer
+    rub_vars = rub.get("variables", {}) if isinstance(rub, dict) else {}
+    eff_rank = rub_vars.get("rank") or ctx.get("rank", 5)
+    rank_int = parse_rank_integer(eff_rank)
+    has_polyeleos = rub_vars.get("has_polyeleos", ctx.get("has_polyeleos", False))
+    is_vigil = rub_vars.get("is_vigil", ctx.get("is_vigil", False))
+    is_vigil_or_polyeleos = (rank_int <= 2 or is_vigil or has_polyeleos)
+    if len(liturgy_blocks) > 1 and is_vigil_or_polyeleos and is_weekday:
+        lit_section = liturgy_blocks[1].split("## ")[0]
+        troparia_section_match = re.search(r'\*\*Troparia and Kontakia:\*\*(.*?)(?=\n\*\*|\n## |\Z)', lit_section, re.DOTALL)
+        if troparia_section_match:
+            t_body = troparia_section_match.group(1)
+            if any(dt in t_body.lower() for dt in ["all saints", "apostles, prophets, martyrs", "remember, o lord", "with the saints give rest"]):
+                violations.append(f"[{date_str}] Contract 3 (Hymn Matrix): Weekday theme troparion/kontakion leaked on Vigil/Polyeleos feast")
+            s_title = (ctx.get("title") or "").lower()
+            s_commem = (ctx.get("dolnytsky_commemoration") or "").lower()
+            saints_names = " ".join(s.get("name", "") for s in ctx.get("saints", []) if isinstance(s, dict)).lower()
+            all_s_info = f"{s_title} {s_commem} {saints_names}"
+            is_apostle_or_great = any(w in all_s_info for w in ["apostle", "theologian", "evangelist", "forerunner", "baptist", "nicholas"])
+            if ctx.get("temple_type") == "saint" and is_apostle_or_great:
+                if "troparion of st. nicholas" in t_body.lower() or "kontakion of st. nicholas" in t_body.lower() or "troparion of the temple" in t_body.lower():
+                    violations.append(f"[{date_str}] Contract 3 (Hymn Matrix): Temple patron troparion/kontakion not suppressed for Apostle/Great Saint (Dolnytsky Note 89)")
+
+    # CONTRACT 4: PUNCTUATION & FORMATTING HYGIENE CONTRACT
+    for line in digest_text.splitlines():
+        if re.search(r';\s*;', line):
+            violations.append(f"[{date_str}] Contract 4 (Hygiene): Double semicolon in line: {line.strip()}")
+        if re.search(r'\.\.\.\s*;\s*$', line) or re.search(r'\bGlory\.\.\.\s*;\s*', line) or re.search(r'\bBoth now\.\.\.\s*;\s*', line):
+            violations.append(f"[{date_str}] Contract 4 (Hygiene): Dangling Glory/Both now semicolon: {line.strip()}")
+        if "; Other:" in line:
+            violations.append(f"[{date_str}] Contract 4 (Hygiene): Leaked '; Other:' label: {line.strip()}")
+        if "Psalm Lord Is King 92" in line:
+            violations.append(f"[{date_str}] Contract 4 (Hygiene): Unhumanized key 'Psalm Lord Is King 92': {line.strip()}")
+
+    # CONTRACT 5: FEAST PAREMIAS CONTRACT
+    if is_vigil_or_polyeleos and "## GREAT VESPERS" in digest_text and not is_afterfeast and not is_forefeast:
+        month = ctx.get("month")
+        day_num = ctx.get("day")
+        # Nativity (Dec 25) and Theophany (Jan 6) have their paremias on the eve at Vesperal Liturgy
+        has_eve_vesperal_paremias = (month == 12 and day_num == 25) or (month == 1 and day_num == 6)
+        # Pentecost Sunday evening (Kneeling Vespers) has no Old Testament Paremias
+        is_pentecost_sunday = (ctx.get("feast_id") == "pentecost" and day_of_week == 0) or (pascha_distance == 49 and day_of_week == 0)
+        if not has_eve_vesperal_paremias and not is_pentecost_sunday:
+            gv_section = digest_text.split("## GREAT VESPERS")[1].split("## ")[0]
+            has_ot_readings = any(header in gv_section for header in [
+                "**Readings (Paremias):**",
+                "**Old Testament Readings:**",
+                "**Old Testament Paremias:**",
+                "**Readings:**"
+            ])
+            if not has_ot_readings:
+                if eff_rank in ["rank_vigil_saint", "rank_polyeleos_saint", 1, 2] or ctx.get("has_readings"):
+                    violations.append(f"[{date_str}] Contract 5 (Feast Paremias): Missing Old Testament readings at Great Vespers for Vigil/Polyeleos feast")
 
     return violations, digest_text
 

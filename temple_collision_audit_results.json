@@ -1,0 +1,1575 @@
+{
+  "metadata": {
+    "total_cases": 34,
+    "archetypes_per_case": 4,
+    "total_scenarios": 136,
+    "total_violations": 0,
+    "elapsed_seconds": 46.5
+  },
+  "cases": {
+    "case_1a": {
+      "target": "Sep 1 Outside Triodion (Tuesday)",
+      "date": "2026-09-01",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-09-01",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_1a",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-09-01",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_1a",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-09-01",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_1a",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-09-01",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_1a",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_1b": {
+      "target": "Sep 1 transferred to Sunday (simulated Sep 6)",
+      "date": "2026-09-06",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-09-06",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-09-06",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-09-06",
+          "calculated_rank": 2,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-09-06",
+          "calculated_rank": 2,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_2": {
+      "target": "Jan 1 Feast of Lord / St. Basil",
+      "date": "2026-01-01",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-01-01",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-01-01",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-01-01",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-01-01",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_3": {
+      "target": "Sunday of the Publican & Pharisee (Pre-Lent)",
+      "date": "2026-01-25",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-01-25",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_3",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-01-25",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_3",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-01-25",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_3",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-01-25",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_3",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_4": {
+      "target": "Meatfare Saturday (Memorial)",
+      "date": "2026-02-07",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-07",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_4",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-07",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_4",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-07",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_4",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-07",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_4",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_5": {
+      "target": "Cheesefare Tuesday (Cheesefare Weekday)",
+      "date": "2026-02-11",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-11",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_5",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-11",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_5",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-11",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_5",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-11",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_5",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_6": {
+      "target": "Cheesefare Saturday (Ascetics)",
+      "date": "2026-02-14",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-14",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_6",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-14",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_6",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-14",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_6",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-14",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_6",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_7": {
+      "target": "Clean Monday (First Day of Lent)",
+      "date": "2026-02-16",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-16",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_7",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-16",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_7",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-16",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_7",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-16",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_7",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_8": {
+      "target": "Clean Wednesday (1st Week Lenten Weekday)",
+      "date": "2026-02-18",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-18",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_8",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-18",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_8",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-18",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_8",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-18",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_8",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_9": {
+      "target": "First Saturday of Lent (St. Theodore)",
+      "date": "2026-02-21",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-21",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_9",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-21",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_9",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-21",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_9",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-21",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_9",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_10": {
+      "target": "First Sunday of Lent (Sunday of Orthodoxy)",
+      "date": "2026-02-22",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-22",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_10",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-22",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_10",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-22",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_10",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-22",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_10",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_11": {
+      "target": "Second Tuesday of Lent (General Lenten Weekday)",
+      "date": "2026-02-26",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-26",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_11",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-26",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_11",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-26",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_11",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-26",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_11",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_12": {
+      "target": "Second Saturday of Lent (Memorial)",
+      "date": "2026-02-28",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-02-28",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_12",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-02-28",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_12",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-02-28",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_12",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-02-28",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_12",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_13": {
+      "target": "Second Sunday of Lent (St. Gregory Palamas)",
+      "date": "2026-03-01",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-03-01",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_13",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-03-01",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_13",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-03-01",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_13",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-03-01",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_13",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_14": {
+      "target": "Third Sunday of Lent (Veneration of the Cross)",
+      "date": "2026-03-08",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-03-08",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_14",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-03-08",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_14",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-03-08",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_14",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-03-08",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_14",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_15": {
+      "target": "Wednesday of Great Canon (5th Week)",
+      "date": "2026-03-19",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-03-19",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_15",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-03-19",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_15",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-03-19",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_15",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-03-19",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_15",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_16": {
+      "target": "Thursday of Great Canon (5th Week)",
+      "date": "2026-03-20",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-03-20",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_16",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-03-20",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_16",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-03-20",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_16",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-03-20",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_16",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_17": {
+      "target": "Saturday of the Akathist (5th Saturday of Lent)",
+      "date": "2026-03-21",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-03-21",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_17",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-03-21",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_17",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-03-21",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_17",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-03-21",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_17",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_18": {
+      "target": "Lazarus Saturday",
+      "date": "2026-03-28",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-03-28",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_18",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-03-28",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_18",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-03-28",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_18",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-03-28",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_18",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_19": {
+      "target": "Palm Sunday (Entrance of the Lord)",
+      "date": "2026-03-29",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-03-29",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_19",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-03-29",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_19",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-03-29",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_19",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-03-29",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_19",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_20": {
+      "target": "Great and Holy Wednesday (Passion Week)",
+      "date": "2026-04-01",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-04-01",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_20",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-04-01",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_20",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-04-01",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_20",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-04-01",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_20",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_21": {
+      "target": "Bright Tuesday (Bright Week)",
+      "date": "2026-04-07",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-04-07",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_21",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-04-07",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_21",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-04-07",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_21",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-04-07",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_21",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_22": {
+      "target": "Wednesday of Mid-Pentecost",
+      "date": "2026-05-03",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-03",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_22",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-03",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_22",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-03",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_22",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-03",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_22",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_23": {
+      "target": "Wednesday of Ascension Eve",
+      "date": "2026-05-13",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-13",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_23",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-13",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_23",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-13",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_23",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-13",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_23",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_24": {
+      "target": "Thursday of Ascension (Feast of the Lord)",
+      "date": "2026-05-14",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-14",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_24",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-14",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_24",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-14",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_24",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-14",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_24",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_25": {
+      "target": "Sunday of the Fathers of the 1st Ecumenical Council",
+      "date": "2026-05-17",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-17",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_25",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-17",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_25",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-17",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_25",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-17",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_25",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_26": {
+      "target": "Friday of Apodosis of Ascension",
+      "date": "2026-05-22",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-22",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_26",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-22",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_26",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-22",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_26",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-22",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_26",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_27": {
+      "target": "Memorial Saturday before Pentecost",
+      "date": "2026-05-23",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-23",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_27",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-23",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_27",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-23",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_27",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-23",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_27",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_28": {
+      "target": "Pentecost Sunday (Trinity Sunday)",
+      "date": "2026-05-24",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-24",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_28",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-24",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_28",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-24",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_28",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-24",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_28",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_29": {
+      "target": "Monday of the Holy Spirit",
+      "date": "2026-05-25",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-25",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_29",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-25",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_29",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-25",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_29",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-25",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_29",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_30": {
+      "target": "Wednesday of Trinity Week",
+      "date": "2026-05-27",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-27",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_30",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-27",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_30",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-27",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_30",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-27",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_30",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_31": {
+      "target": "Sunday of All Saints",
+      "date": "2026-05-31",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-05-31",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_31",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-05-31",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_31",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-05-31",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_31",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-05-31",
+          "calculated_rank": 2,
+          "resolved_case_id": "case_31",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_32": {
+      "target": "Solemnity of the Holy Eucharist (Corpus Christi)",
+      "date": "2026-06-04",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-06-04",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-06-04",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-06-04",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-06-04",
+          "calculated_rank": 1,
+          "resolved_case_id": null,
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    },
+    "case_33": {
+      "target": "Friday of Co-Suffering of the Theotokos",
+      "date": "2026-06-12",
+      "archetypes": [
+        {
+          "archetype": "temple_lord",
+          "patron": "Holy Transfiguration",
+          "type": "lord",
+          "date": "2026-06-12",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_33",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_theotokos",
+          "patron": "Holy Protection of the Theotokos",
+          "type": "theotokos",
+          "date": "2026-06-12",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_33",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_vigil",
+          "patron": "St. Nicholas the Wonderworker",
+          "type": "saint",
+          "date": "2026-06-12",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_33",
+          "status": "PASS",
+          "violations": []
+        },
+        {
+          "archetype": "temple_saint_simple",
+          "patron": "St. Eulampius and St. Eulampia",
+          "type": "saint",
+          "date": "2026-06-12",
+          "calculated_rank": 1,
+          "resolved_case_id": "case_33",
+          "status": "PASS",
+          "violations": []
+        }
+      ]
+    }
+  }
+}

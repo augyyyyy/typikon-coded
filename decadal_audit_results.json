@@ -1,0 +1,436 @@
+{
+  "metadata": {
+    "start_year": 2016,
+    "end_year": 2036,
+    "paschalions": [
+      "gregorian",
+      "julian"
+    ],
+    "total_days": 15342,
+    "total_violations": 0,
+    "elapsed_seconds": 244.78
+  },
+  "summary_by_year": {
+    "2016_gregorian": {
+      "year": 2016,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "2016-03-27",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.94
+    },
+    "2017_gregorian": {
+      "year": 2017,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2017-04-16",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.87
+    },
+    "2018_gregorian": {
+      "year": 2018,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2018-04-01",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.89
+    },
+    "2019_gregorian": {
+      "year": 2019,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2019-04-21",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.8
+    },
+    "2020_gregorian": {
+      "year": 2020,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "2020-04-12",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.78
+    },
+    "2021_gregorian": {
+      "year": 2021,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2021-04-04",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.8
+    },
+    "2022_gregorian": {
+      "year": 2022,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2022-04-17",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.87
+    },
+    "2023_gregorian": {
+      "year": 2023,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2023-04-09",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.85
+    },
+    "2024_gregorian": {
+      "year": 2024,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "2024-03-31",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.88
+    },
+    "2025_gregorian": {
+      "year": 2025,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2025-04-20",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.81
+    },
+    "2026_gregorian": {
+      "year": 2026,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2026-04-05",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.76
+    },
+    "2027_gregorian": {
+      "year": 2027,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2027-03-28",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.78
+    },
+    "2028_gregorian": {
+      "year": 2028,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "2028-04-16",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.81
+    },
+    "2029_gregorian": {
+      "year": 2029,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2029-04-01",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.82
+    },
+    "2030_gregorian": {
+      "year": 2030,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2030-04-21",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.79
+    },
+    "2031_gregorian": {
+      "year": 2031,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2031-04-13",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.83
+    },
+    "2032_gregorian": {
+      "year": 2032,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "2032-03-28",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.87
+    },
+    "2033_gregorian": {
+      "year": 2033,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2033-04-17",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.8
+    },
+    "2034_gregorian": {
+      "year": 2034,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2034-04-09",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.82
+    },
+    "2035_gregorian": {
+      "year": 2035,
+      "paschalion": "gregorian",
+      "is_leap": false,
+      "pascha": "2035-03-25",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.79
+    },
+    "2036_gregorian": {
+      "year": 2036,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "2036-04-13",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.78
+    },
+    "2016_julian": {
+      "year": 2016,
+      "paschalion": "julian",
+      "is_leap": true,
+      "pascha": "2016-05-01",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.8
+    },
+    "2017_julian": {
+      "year": 2017,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2017-04-16",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.79
+    },
+    "2018_julian": {
+      "year": 2018,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2018-04-08",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.83
+    },
+    "2019_julian": {
+      "year": 2019,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2019-04-28",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.88
+    },
+    "2020_julian": {
+      "year": 2020,
+      "paschalion": "julian",
+      "is_leap": true,
+      "pascha": "2020-04-19",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.78
+    },
+    "2021_julian": {
+      "year": 2021,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2021-05-02",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.78
+    },
+    "2022_julian": {
+      "year": 2022,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2022-04-24",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.81
+    },
+    "2023_julian": {
+      "year": 2023,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2023-04-16",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.89
+    },
+    "2024_julian": {
+      "year": 2024,
+      "paschalion": "julian",
+      "is_leap": true,
+      "pascha": "2024-05-05",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.79
+    },
+    "2025_julian": {
+      "year": 2025,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2025-04-20",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.79
+    },
+    "2026_julian": {
+      "year": 2026,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2026-04-12",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.79
+    },
+    "2027_julian": {
+      "year": 2027,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2027-05-02",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.8
+    },
+    "2028_julian": {
+      "year": 2028,
+      "paschalion": "julian",
+      "is_leap": true,
+      "pascha": "2028-04-16",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.84
+    },
+    "2029_julian": {
+      "year": 2029,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2029-04-08",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.82
+    },
+    "2030_julian": {
+      "year": 2030,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2030-04-28",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.86
+    },
+    "2031_julian": {
+      "year": 2031,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2031-04-13",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.81
+    },
+    "2032_julian": {
+      "year": 2032,
+      "paschalion": "julian",
+      "is_leap": true,
+      "pascha": "2032-05-02",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.79
+    },
+    "2033_julian": {
+      "year": 2033,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2033-04-24",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.83
+    },
+    "2034_julian": {
+      "year": 2034,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2034-04-09",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.83
+    },
+    "2035_julian": {
+      "year": 2035,
+      "paschalion": "julian",
+      "is_leap": false,
+      "pascha": "2035-04-29",
+      "days_audited": 365,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.87
+    },
+    "2036_julian": {
+      "year": 2036,
+      "paschalion": "julian",
+      "is_leap": true,
+      "pascha": "2036-04-20",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.79
+    }
+  },
+  "all_violations": []
+}

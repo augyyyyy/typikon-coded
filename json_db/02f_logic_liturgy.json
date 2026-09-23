@@ -90,8 +90,38 @@
         {
           "type": "kontakion",
           "source": "steadfast_protectress",
-          "both_now": true,
-          "condition": "not is_afterfeast"
+          "both_now": true
+        }
+      ]
+    },
+    "sunday_patronal_theotokos_temple": {
+      "description": "Case 2 Patronal Feast: Sunday in a Temple Dedicated to the Theotokos celebrating its Patronal Feast",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "resurrection_tone"
+        },
+        {
+          "type": "troparion",
+          "source": "temple"
+        },
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "resurrection_tone"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "temple",
+          "both_now": true
         }
       ]
     },
@@ -157,7 +187,7 @@
         },
         {
           "type": "kontakion",
-          "source": "temple",
+          "source": "steadfast_protectress",
           "both_now": true
         }
       ]
@@ -214,13 +244,45 @@
         },
         {
           "type": "kontakion",
-          "source": "menaion_saint",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "temple",
           "glory": true
         },
         {
           "type": "kontakion",
           "source": "steadfast_protectress",
           "both_now": true
+        }
+      ]
+    },
+    "weekday_patronal_saint_temple": {
+      "description": "Patronal Feast of a Saint on a Weekday (Dolnytsky Part V G1 & G2)",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "temple"
+        },
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "temple",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "steadfast_protectress",
+          "both_now": true,
+          "condition": "not is_afterfeast"
         }
       ]
     },
@@ -238,6 +300,90 @@
         {
           "type": "kontakion",
           "source": "day_theme"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "steadfast_protectress",
+          "both_now": true
+        }
+      ]
+    },
+    "weekday_vigil_lord_temple": {
+      "description": "Weekday Vigil/Polyeleos in a Temple Dedicated to the Lord",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "temple"
+        },
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "temple",
+          "both_now": true
+        }
+      ]
+    },
+    "weekday_vigil_theotokos_temple": {
+      "description": "Weekday Vigil/Polyeleos in a Temple Dedicated to the Theotokos",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "temple"
+        },
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "temple",
+          "both_now": true
+        }
+      ]
+    },
+    "weekday_vigil_saint_temple": {
+      "description": "Weekday Vigil/Polyeleos in a Temple Dedicated to a Saint (Dolnytsky Note 89)",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "steadfast_protectress",
+          "both_now": true
+        }
+      ]
+    },
+    "weekday_vigil_standard": {
+      "description": "Weekday Vigil/Polyeleos Standard",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "menaion_saint"
         },
         {
           "type": "kontakion",
