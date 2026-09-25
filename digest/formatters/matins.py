@@ -171,7 +171,11 @@ class MatinsFormatterMixin:
             return ""
         parts = []
         for item in res:
-            src = self.humanize_key(item.get('source', 'Unknown'))
+            c_type = item.get('type', '')
+            if c_type in ('theotokos_special', 'theotokos'):
+                src = "Theotokos"
+            else:
+                src = self.humanize_key(item.get('source', 'Unknown'))
             cnt = item.get('count', item.get('qty', '?'))
             extra = " (including the heirmos)" if item.get('irmos') else ""
             parts.append(f"{src} - {cnt}{extra}")
@@ -325,6 +329,19 @@ class MatinsFormatterMixin:
             parts.append("At the Praises, we sing the Praises Stichera")
             
         import re
+        d_rank = str(context.get("dolnytsky_rank", ""))
+        rank_val = context.get("rank")
+        from engine.utils.type_utils import parse_rank_integer
+        rank_int = parse_rank_integer(rank_val)
+        is_vigil_or_polyeleos = (
+            rank_int in (1, 2, 3) or
+            "VIGIL" in str(rank_val).upper() or
+            "POLYELEOS" in str(rank_val).upper() or
+            "VIGIL" in d_rank.upper() or
+            "POLYELEOS" in d_rank.upper() or
+            context.get("feast_level") in ("lord", "theotokos")
+        )
+
         valid_glory = []
         if glory:
             for g in glory:
@@ -332,6 +349,17 @@ class MatinsFormatterMixin:
                 g_stripped = re.sub(r'^(glory\b[.,\s]*)', '', g_str, flags=re.IGNORECASE).strip()
                 if g_stripped:
                     valid_glory.append(g_stripped)
+                else:
+                    if context.get("feast_level") in ("lord", "theotokos"):
+                        valid_glory.append("Doxastikon of the Feast")
+                    elif is_vigil_or_polyeleos or "saint" in str(context.get("title", "")).lower() or rank_val in (1, 2, 3):
+                        s_display = self._get_saint_display_name(context, 0, form="full")
+                        if s_display and s_display != "the Saint":
+                            valid_glory.append(f"Doxastikon of {s_display}")
+                        else:
+                            valid_glory.append("Doxastikon")
+                    else:
+                        valid_glory.append("Doxastikon")
         
         tone = context.get("octoechos_tone") or context.get("tone")
         tone_str = f" in Tone {self._roman_tone(tone)}" if tone else ""
@@ -352,8 +380,21 @@ class MatinsFormatterMixin:
                 bn_stripped = re.sub(r'^(both\s+now\b[.,\s]*|now\s+and\s+ever\b[.,\s]*)', '', bn_str, flags=re.IGNORECASE).strip()
                 if bn_stripped and bn_stripped.lower() != "theotokion":
                     valid_bn.append(bn_stripped)
+        if not valid_glory and (is_vigil_or_polyeleos or is_sunday):
+            if context.get("feast_level") in ("lord", "theotokos"):
+                fname = self._get_feast_display_name(context, form="short")
+                valid_glory.append(f"Doxastikon of {fname}")
+            elif is_vigil_or_polyeleos or "saint" in str(context.get("title", "")).lower() or rank_val in (1, 2, 3):
+                s_display = self._get_saint_display_name(context, 0, form="full")
+                if s_display and s_display != "the Saint":
+                    valid_glory.append(f"Doxastikon of {s_display}")
                 else:
-                    valid_bn.append(default_theotokion)
+                    valid_glory.append("Doxastikon")
+            elif is_sunday:
+                valid_glory.append("Gospel Sticheron")
+
+        if not valid_bn and (is_vigil_or_polyeleos or is_sunday):
+            valid_bn.append(default_theotokion)
         
         if valid_glory and valid_bn:
             parts.append(f"Glory... {', '.join(valid_glory)}")
@@ -631,6 +672,8 @@ class MatinsFormatterMixin:
             return "No kathisma is appointed."
         num = res.get("number")
         if num == 1:
+            if context.get("day_of_week") != 0 or "1st" in str(res.get("rubric_note", "")):
+                return "At Vespers, we sing the first antiphon of Kathisma 1 ('Blessed is the man')."
             return "At Vespers, Kathisma 1 ('Blessed is the man') is read."
         return f"At Vespers, Kathisma {num} is read."
 

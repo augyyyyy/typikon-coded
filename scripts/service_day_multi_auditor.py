@@ -1310,6 +1310,106 @@ class ServiceDayMultiAuditor:
                     errors.append(f"Katavasia Seasonal Error on {dt.isoformat()}: Appointed Theotokos Katavasia during Theophany period (Jan 1-14). Must be Theophany Irmoi.")
         return errors
 
+    def gate35_systemic_invariants(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
+        """Gate 35: Systemic Invariants (Preventing the 8 Systemic Flaws across all services)."""
+        errors = []
+        if not content:
+            return errors
+
+        dt_str = dt.isoformat()
+        dow_py = dt.weekday() # 0=Mon..4=Fri, 5=Sat, 6=Sun
+        rank = context.get("rank")
+        d_rank = str(context.get("dolnytsky_rank", ""))
+        is_vigil = (rank == 2 or "VIGIL" in d_rank)
+        is_polyeleos = ("POLYELEOS" in d_rank)
+        is_major = is_vigil or is_polyeleos or rank == 1
+
+        # 1. Small Vespers Prokeimenon (Bug 1)
+        if "Small Vespers" in service_name or "## SMALL VESPERS" in content:
+            if dow_py == 4 or (context.get("day_of_week") == 6):
+                if '"The Lord is King' in content or '"The Lord is king' in content or "psalm_92" in content.lower():
+                    errors.append(f"Small Vespers Error on {dt_str}: Small Vespers on Friday afternoon (for Saturday) cannot appoint Sunday Prokeimenon 'The Lord is King'.")
+
+        # 2. Octoechos Canon Leaked on Vigil/Polyeleos (Bug 2)
+        if "Matins" in service_name or "## FESTAL MATINS" in content or "## SUNDAY MATINS" in content or "## MATINS" in content:
+            if (is_vigil or is_polyeleos) and context.get("day_of_week") != 0:
+                for line in content.splitlines():
+                    if "Canon:" in line or "**Canon:**" in line or "Order of the Canon:" in line:
+                        has_octoechos = (
+                            "Octoechos -" in line or
+                            "Octoechos (including" in line or
+                            "Canon of the Tone" in line or
+                            "Canon from the Octoechos" in line
+                        )
+                        if has_octoechos:
+                            errors.append(f"Matins Canon Error on {dt_str}: Octoechos canon leaked on Vigil/Polyeleos feast: '{line.strip()}'.")
+
+            # 3. Katavasia Generic Fallback (Bug 3)
+            is_festal_or_sunday = (
+                context.get("day_of_week") == 0 or
+                is_major or
+                context.get("is_afterfeast") or
+                context.get("is_forefeast") or
+                context.get("is_apodosis") or
+                context.get("feast_level") in ("lord", "theotokos")
+            )
+            for line in content.splitlines():
+                if "Katavasia:" in line or "**Katavasia:**" in line:
+                    if ("Heirmos of the last canon" in line and is_festal_or_sunday) or "katavasia_unknown" in line.lower() or "[katavasia]" in line.lower():
+                        errors.append(f"Katavasia Error on {dt_str}: Katavasia defaulted to generic fallback on festal day: '{line.strip()}'.")
+
+            # 4. Praises Doxastikon Swallowed (Bug 4)
+            if is_major and ("At the Praises" in content or "## Praises" in content):
+                praises_match = re.search(r"(?:At the Praises|## Praises|Praises:).*?(?=(?:Doxology|Dismissal Troparia|##|$))", content, re.DOTALL)
+                if praises_match:
+                    p_text = praises_match.group(0)
+                    if "stichera" in p_text.lower() and "glory" not in p_text.lower() and "both now" not in p_text.lower():
+                        errors.append(f"Praises Error on {dt_str}: Praises Doxastikon swallowed on Vigil/Polyeleos.")
+
+        # 5. Vespers Kathisma on Vigil Eve (Bug 5)
+        if "Vespers" in service_name or "## GREAT VESPERS" in content:
+            if is_vigil and "Kathisma 1 ('Blessed is the man') is read" in content:
+                errors.append(f"Vespers Kathisma Error on {dt_str}: Great Vespers prescribed full Kathisma 1 read instead of 1st Antiphon ('Blessed is the man') on Vigil eve.")
+
+        # 6. Lectionary Dual Readings (Bug 6)
+        if "Liturgy" in service_name or "## DIVINE LITURGY" in content:
+            is_saint_vigil_or_polyeleos = ("VIGIL" in d_rank or "POLYELEOS" in d_rank)
+            is_lord_feast = (context.get("feast_level") == "lord")
+            is_theotokos_great = (context.get("feast_level") == "theotokos" and ("VIGIL" in d_rank or rank <= 2))
+            is_special_vigil_saint = ((dt.month == 6 and dt.day in (24, 29)) or (dt.month == 8 and dt.day == 29))
+            is_lent_presanctified_weekday = (context.get("season") == "lent" and dt.weekday() < 5)
+
+            if is_saint_vigil_or_polyeleos and context.get("day_of_week") != 0:
+                if not is_lord_feast and not is_theotokos_great and not is_special_vigil_saint and not is_lent_presanctified_weekday:
+                    epistle_lines = [l for l in content.splitlines() if "**Epistle" in l or "Epistle:" in l]
+                    has_two_epistles = (len(epistle_lines) >= 2)
+                    for el in epistle_lines:
+                        if ";" in el or "1)" in el or "2)" in el or "and" in el:
+                            has_two_epistles = True
+
+                    gospel_lines = [l for l in content.splitlines() if "**Gospel" in l or "Gospel:" in l]
+                    has_two_gospels = (len(gospel_lines) >= 2)
+                    for gl in gospel_lines:
+                        if "1)" in gl or "2)" in gl or "and" in gl or gl.count(":") >= 2:
+                            has_two_gospels = True
+
+                    if not has_two_epistles or not has_two_gospels:
+                        errors.append(f"Lectionary Error on {dt_str}: Divine Liturgy dropped sequential daily reading on Polyeleos/Vigil Saint.")
+
+        # 7. Crude Programmer Token Leaks (Bug 7)
+        token_patterns = [
+            (r"\b[A-Z][a-z]+ Doxastikon\b", "Pattern '<Name> Doxastikon' without preposition"),
+            (r"\bDoxastikon of Litiya\b", "Pattern 'Doxastikon of Litiya'"),
+            (r"\bTheotokion of Litiya\b", "Pattern 'Theotokion of Litiya'"),
+            (r"\b(falling_asleep|first_called|great_martyr|holy_apostle)_[a-z_]+\b", "Snake case identifier leak")
+        ]
+        for pat, desc in token_patterns:
+            for line in content.splitlines():
+                if re.search(pat, line):
+                    errors.append(f"Crude Token Leak on {dt_str}: Found {desc} in '{line.strip()}'.")
+
+        return errors
+
     def call_deepseek_remediation(self, dt: date, service_name: str, context: dict, rubrics: dict, errors: list, booklet: str):
         """Call DeepSeek to propose a logic or database fix for the failing service."""
         if not self.deepseek_key:
@@ -1471,6 +1571,7 @@ Suggest how to remediate these failures in the python engine (under engine/) or 
                 service_errors.extend(self.gate32_holy_doors_veil_state(current_date, service_name, context, rubrics, target_content))
                 service_errors.extend(self.gate33_paradigm_invariants(current_date, service_name, context, rubrics, target_content))
                 service_errors.extend(self.gate34_katavasia_seasonal_matrix(current_date, service_name, context, rubrics, target_content))
+                service_errors.extend(self.gate35_systemic_invariants(current_date, service_name, context, rubrics, target_content))
 
             if service_errors:
                 day_failures.append({

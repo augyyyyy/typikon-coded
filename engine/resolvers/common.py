@@ -1444,8 +1444,8 @@ class CommonResolverMixin:
         seasonal_text = text
         seasonal_tone = tone
 
-        # Override for specific structural types (Polyeleos / Lenten weekday)
-        if kat_type == 'polyeleos_katavasia' or kat_type == 'lenten_katavasia':
+        # Override for specific structural types (Lenten weekday)
+        if kat_type == 'lenten_katavasia':
              kat_id = "irmos_last_canon"
              text = "Irmos of the last canon"
         elif kat_type == 'paschal_katavasia' and not found:

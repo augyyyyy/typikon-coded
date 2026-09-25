@@ -2,7 +2,7 @@
   "file_metadata": {
     "year": 2026,
     "pascha_date": "2026-04-12",
-    "generated_at": "2026-09-23T17:07:26.470432Z",
+    "generated_at": "2026-09-24T02:37:45.933172Z",
     "engine_version": "1.2.0"
   },
   "days": {
@@ -3933,6 +3933,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_6",
+              "tone": 8,
+              "text": "Be glad in the Lord and rejoice, you righteous.",
+              "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Galatians 5:22–6:2"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_6",
+              "tone": 4,
+              "verses": [
+                "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 11:27–30"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.jan_17.anthony_great.prokeimenon",
               "tone": 7,
@@ -4705,6 +4733,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_2",
+              "tone": 7,
+              "text": "The righteous man shall rejoice in the Lord, and shall hope in Him.",
+              "verse": "Hear my voice, O God, when I make my prayer to You."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Galatians 5:22–6:2"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_2",
+              "tone": 4,
+              "verses": [
+                "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
+                "Planted in the house of the Lord, they shall flourish in the courts of our God."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 11:27–30"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -6407,6 +6463,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_2",
+              "tone": 7,
+              "text": "The righteous man shall rejoice in the Lord, and shall hope in Him.",
+              "verse": "Hear my voice, O God, when I make my prayer to You."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_2",
+              "tone": 4,
+              "verses": [
+                "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
+                "Planted in the house of the Lord, they shall flourish in the courts of our God."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.jan_27.translation_relics_chrysostom.prokeimenon",
               "tone": 8,
@@ -7097,6 +7181,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_5",
+              "tone": 7,
+              "text": "Exalt the Lord our God, and worship at His footstool, for He is holy.",
+              "verse": "The Lord reigns, let the peoples tremble."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Hebrews 7:26–8:2"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_5",
+              "tone": 1,
+              "verses": [
+                "Remember Your congregation, which You purchased of old.",
+                "God is our King before the ages; He has worked salvation in the midst of the earth."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 10:9–16"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -7950,8 +8062,7 @@
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-3)",
       "overrides": {
-        "liturgy_type": "structure_suppressed",
-        "vespers_type": "lenten_vespers",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
@@ -8135,8 +8246,7 @@
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-4)",
       "overrides": {
-        "liturgy_type": "liturgy_presanctified",
-        "vespers_type": "structure_suppressed",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
@@ -8320,8 +8430,7 @@
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-5)",
       "overrides": {
-        "liturgy_type": "structure_suppressed",
-        "vespers_type": "lenten_vespers",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
@@ -8505,8 +8614,7 @@
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-6)",
       "overrides": {
-        "liturgy_type": "liturgy_presanctified",
-        "vespers_type": "structure_suppressed",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
@@ -8704,9 +8812,8 @@
       "lviv_paradigm_number": 14,
       "rubrics_title": "Saint of the Day (2-7)",
       "overrides": {
-        "matins_type": "daily_matins",
-        "liturgy_type": "liturgy_chrysostom",
         "vespers_type": "daily_vespers",
+        "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
       "readings": {
@@ -9309,8 +9416,7 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (2-10)",
       "overrides": {
-        "liturgy_type": "structure_suppressed",
-        "vespers_type": "lenten_vespers",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
@@ -9554,8 +9660,7 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (2-11)",
       "overrides": {
-        "liturgy_type": "liturgy_presanctified",
-        "vespers_type": "structure_suppressed",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
@@ -9799,8 +9904,7 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (2-12)",
       "overrides": {
-        "liturgy_type": "structure_suppressed",
-        "vespers_type": "lenten_vespers",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
@@ -10044,8 +10148,7 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Saint of the Day (2-13)",
       "overrides": {
-        "liturgy_type": "liturgy_presanctified",
-        "vespers_type": "structure_suppressed",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
         "doxology_type": "daily_read"
       },
@@ -10528,9 +10631,9 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Cheesefare Week",
       "overrides": {
-        "vespers_type": "lenten_vespers",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
-        "liturgy_type": "structure_suppressed",
+        "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "daily_read"
       },
@@ -10668,9 +10771,9 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Cheesefare Week",
       "overrides": {
-        "vespers_type": "lenten_vespers",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
-        "liturgy_type": "structure_suppressed",
+        "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "daily_read"
       },
@@ -10808,9 +10911,9 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Cheesefare Week",
       "overrides": {
-        "vespers_type": "structure_suppressed",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
-        "liturgy_type": "liturgy_presanctified",
+        "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "daily_read"
       },
@@ -10948,9 +11051,9 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Cheesefare Week",
       "overrides": {
-        "vespers_type": "lenten_vespers",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
-        "liturgy_type": "structure_suppressed",
+        "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "daily_read"
       },
@@ -11088,9 +11191,9 @@
       "lviv_paradigm_number": 2,
       "rubrics_title": "Cheesefare Week",
       "overrides": {
-        "vespers_type": "structure_suppressed",
+        "vespers_type": "daily_vespers",
         "matins_type": "daily_matins",
-        "liturgy_type": "liturgy_presanctified",
+        "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "daily_read"
       },
@@ -12458,6 +12561,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_6",
+              "tone": 8,
+              "text": "Be glad in the Lord and rejoice, you righteous.",
+              "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Hebrews 7:26–8:2"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_6",
+              "tone": 4,
+              "verses": [
+                "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 10:9–16"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -14023,6 +14154,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_1",
+              "tone": 4,
+              "text": "He makes His angels spirits, and His ministers a flame of fire.",
+              "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "2 Timothy 2:1–10"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_1",
+              "tone": 2,
+              "verses": [
+                "Praise the Lord from the heavens, praise Him in the heights.",
+                "Praise Him, all His angels; praise Him, all His hosts."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 15:17–16:2"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -18010,6 +18169,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_3",
+              "tone": 3,
+              "text": "My soul magnifies the Lord, and my spirit rejoices in God my Savior.",
+              "verse": "For He has regarded the lowliness of His handmaiden; for behold, henceforth all generations shall call me blessed."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Galatians 5:22–6:2"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_3",
+              "tone": 8,
+              "verses": [
+                "Hear, O daughter, and see, and incline your ear; forget your people and your father's house.",
+                "The rich among the people shall entreat your favor."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 11:27–30"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.apr_01.prokeimenon",
               "tone": 1,
@@ -21107,6 +21294,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_4",
+              "tone": 8,
+              "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.",
+              "verse": "The heavens declare the glory of God, and the firmament proclaims the work of His hands."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "2 Timothy 2:1–10"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_4",
+              "tone": 1,
+              "verses": [
+                "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.",
+                "God is glorified in the council of the saints."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 15:17–16:2"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.apr_23.george_great_martyr.prokeimenon",
               "tone": 7,
@@ -21451,6 +21666,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_6",
+              "tone": 8,
+              "text": "Be glad in the Lord and rejoice, you righteous.",
+              "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_6",
+              "tone": 4,
+              "verses": [
+                "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -22320,6 +22563,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_4",
+              "tone": 8,
+              "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.",
+              "verse": "The heavens declare the glory of God, and the firmament proclaims the work of His hands."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_4",
+              "tone": 1,
+              "verses": [
+                "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.",
+                "God is glorified in the council of the saints."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -23795,6 +24066,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "feast",
+              "ref_key": "menaion.mid_pentecost.prokeimenon",
+              "tone": 7,
+              "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.",
+              "verse": "The heavens declare the glory of God, and the firmament proclaims the work of His hands."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "feast",
+              "ref_key": "menaion.mid_pentecost.alleluia",
+              "tone": 7,
+              "verses": [
+                "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.",
+                "God is glorified in the council of the saints."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.mid_pentecost.prokeimenon",
               "tone": 8,
@@ -24057,6 +24356,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "feast",
+              "ref_key": "menaion.mid_pentecost.prokeimenon",
+              "tone": 6,
+              "text": "The righteous man shall rejoice in the Lord and shall hope in Him.",
+              "verse": "Hear my voice, O God, when I make my prayer to You."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Hebrews 7:26–8:2"
+            },
+            "alleluia": {
+              "source": "feast",
+              "ref_key": "menaion.mid_pentecost.alleluia",
+              "tone": 6,
+              "verses": [
+                "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
+                "Planted in the house of the Lord, they shall flourish in the courts of our God."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 10:9–16"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -34045,6 +34372,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_2",
+              "tone": 7,
+              "text": "The righteous man shall rejoice in the Lord, and shall hope in Him.",
+              "verse": "Hear my voice, O God, when I make my prayer to You."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Romans 12:15-21"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_2",
+              "tone": 4,
+              "verses": [
+                "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
+                "Planted in the house of the Lord, they shall flourish in the courts of our God."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 12:14-16, 22-30"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.jun_30.synaxis_12_apostles.prokeimenon",
               "tone": 8,
@@ -34502,6 +34857,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_4",
+              "tone": 8,
+              "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.",
+              "verse": "The heavens declare the glory of God, and the firmament proclaims the work of His hands."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Romans 15:1-7"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_4",
+              "tone": 1,
+              "verses": [
+                "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.",
+                "God is glorified in the council of the saints."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 12:38-45"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -36404,6 +36787,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_5",
+              "tone": 7,
+              "text": "Exalt the Lord our God, and worship at His footstool, for He is holy.",
+              "verse": "The Lord reigns, let the peoples tremble."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Galatians 5:22–6:2"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_5",
+              "tone": 1,
+              "verses": [
+                "Remember Your congregation, which You purchased of old.",
+                "God is our King before the ages; He has worked salvation in the midst of the earth."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 11:27–30"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.jul_10.anthony_caves.prokeimenon",
               "tone": 7,
@@ -37749,6 +38160,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_3",
+              "tone": 3,
+              "text": "My soul magnifies the Lord, and my spirit rejoices in God my Savior.",
+              "verse": "For He has regarded the lowliness of His handmaiden; for behold, henceforth all generations shall call me blessed."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_3",
+              "tone": 8,
+              "verses": [
+                "Hear, O daughter, and see, and incline your ear; forget your people and your father's house.",
+                "The rich among the people shall entreat your favor."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.jul_15.vladimir_great.prokeimenon",
               "text": "Sing to our God, sing; sing to our King, sing.\nverse: Clap your hands, all you nations; shout unto God with the voice of joy."
@@ -38973,6 +39412,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_1",
+              "tone": 4,
+              "text": "He makes His angels spirits, and His ministers a flame of fire.",
+              "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "James 5:10–20"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_1",
+              "tone": 2,
+              "verses": [
+                "Praise the Lord from the heavens, praise Him in the heights.",
+                "Praise Him, all His angels; praise Him, all His hosts."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 11:47–12:1"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.jul_20.elijah_prophet.prokeimenon",
               "tone": 4,
@@ -40032,6 +40499,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_5",
+              "tone": 7,
+              "text": "Exalt the Lord our God, and worship at His footstool, for He is holy.",
+              "verse": "The Lord reigns, let the peoples tremble."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "2 Timothy 2:1–10"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_5",
+              "tone": 1,
+              "verses": [
+                "Remember Your congregation, which You purchased of old.",
+                "God is our King before the ages; He has worked salvation in the midst of the earth."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 15:17–16:2"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.jul_24.boris_and_gleb.prokeimenon",
               "tone": 7,
@@ -40234,6 +40729,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_6",
+              "tone": 8,
+              "text": "Be glad in the Lord and rejoice, you righteous.",
+              "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Philippians 2:5–11"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_6",
+              "tone": 4,
+              "verses": [
+                "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:38–42; 11:27–28"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -40764,6 +41287,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_1",
+              "tone": 4,
+              "text": "He makes His angels spirits, and His ministers a flame of fire.",
+              "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "2 Timothy 2:1–10"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_1",
+              "tone": 2,
+              "verses": [
+                "Praise the Lord from the heavens, praise Him in the heights.",
+                "Praise Him, all His angels; praise Him, all His hosts."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 15:17–16:2"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -42091,6 +42642,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_6",
+              "tone": 8,
+              "text": "Be glad in the Lord and rejoice, you righteous.",
+              "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "2 Timothy 2:1–10"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_6",
+              "tone": 4,
+              "verses": [
+                "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 15:17–16:2"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -48699,6 +49278,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_1",
+              "tone": 4,
+              "text": "He makes His angels spirits, and His ministers a flame of fire.",
+              "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Philippians 2:5–11"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_1",
+              "tone": 2,
+              "verses": [
+                "Praise the Lord from the heavens, praise Him in the heights.",
+                "Praise Him, all His angels; praise Him, all His hosts."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:38–42; 11:27–28"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.aug_31.deposition_sash.prokeimenon",
               "tone": 3,
@@ -48966,6 +49573,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_2",
+              "tone": 7,
+              "text": "The righteous man shall rejoice in the Lord, and shall hope in Him.",
+              "verse": "Hear my voice, O God, when I make my prayer to You."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Galatians 5:22–6:2"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_2",
+              "tone": 4,
+              "verses": [
+                "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
+                "Planted in the house of the Lord, they shall flourish in the courts of our God."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 11:27–30"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -54165,6 +54800,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_3",
+              "tone": 3,
+              "text": "My soul magnifies the Lord, and my spirit rejoices in God my Savior.",
+              "verse": "For He has regarded the lowliness of His handmaiden; for behold, henceforth all generations shall call me blessed."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Galatians 4:22–31"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_3",
+              "tone": 8,
+              "verses": [
+                "Hear, O daughter, and see, and incline your ear; forget your people and your father's house.",
+                "The rich among the people shall entreat your favor."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 1:5–25"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.sept_23.conception_baptist.prokeimenon",
               "tone": 7,
@@ -54855,6 +55518,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_6",
+              "tone": 8,
+              "text": "Be glad in the Lord and rejoice, you righteous.",
+              "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_6",
+              "tone": 4,
+              "verses": [
+                "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -57325,6 +58016,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_2",
+              "tone": 7,
+              "text": "The righteous man shall rejoice in the Lord, and shall hope in Him.",
+              "verse": "Hear my voice, O God, when I make my prayer to You."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_2",
+              "tone": 4,
+              "verses": [
+                "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
+                "Planted in the house of the Lord, they shall flourish in the courts of our God."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.oct_06.st_thomas.prokeimenon",
               "tone": 8,
@@ -58028,6 +58747,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_5",
+              "tone": 7,
+              "text": "Exalt the Lord our God, and worship at His footstool, for He is holy.",
+              "verse": "The Lord reigns, let the peoples tremble."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_5",
+              "tone": 1,
+              "verses": [
+                "Remember Your congregation, which You purchased of old.",
+                "God is our King before the ages; He has worked salvation in the midst of the earth."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -61743,6 +62490,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_5",
+              "tone": 7,
+              "text": "Exalt the Lord our God, and worship at His footstool, for He is holy.",
+              "verse": "The Lord reigns, let the peoples tremble."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_5",
+              "tone": 1,
+              "verses": [
+                "Remember Your congregation, which You purchased of old.",
+                "God is our King before the ages; He has worked salvation in the midst of the earth."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.oct_23.james_brother_of_lord.prokeimenon",
               "tone": 8,
@@ -62478,6 +63253,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_1",
+              "tone": 4,
+              "text": "He makes His angels spirits, and His ministers a flame of fire.",
+              "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "2 Timothy 2:1–10"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_1",
+              "tone": 2,
+              "verses": [
+                "Praise the Lord from the heavens, praise Him in the heights.",
+                "Praise Him, all His angels; praise Him, all His hosts."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "John 15:17–16:2"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -67326,6 +68129,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_4",
+              "tone": 8,
+              "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.",
+              "verse": "The heavens declare the glory of God, and the firmament proclaims the work of His hands."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_4",
+              "tone": 1,
+              "verses": [
+                "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.",
+                "God is glorified in the council of the saints."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.nov_12.josaphat_kuncevyc.prokeimenon",
               "text": "Precious in the sight of the Lord is the death of His venerable ones.\nverse: What shall I render to the Lord for all the things He has rendered to me?"
@@ -67521,6 +68352,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_5",
+              "tone": 7,
+              "text": "Exalt the Lord our God, and worship at His footstool, for He is holy.",
+              "verse": "The Lord reigns, let the peoples tremble."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_5",
+              "tone": 1,
+              "verses": [
+                "Remember Your congregation, which You purchased of old.",
+                "God is our King before the ages; He has worked salvation in the midst of the earth."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -67725,6 +68584,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_6",
+              "tone": 8,
+              "text": "Be glad in the Lord and rejoice, you righteous.",
+              "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_6",
+              "tone": 4,
+              "verses": [
+                "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -68247,6 +69134,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_1",
+              "tone": 4,
+              "text": "He makes His angels spirits, and His ministers a flame of fire.",
+              "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_1",
+              "tone": 2,
+              "verses": [
+                "Praise the Lord from the heavens, praise Him in the heights.",
+                "Praise Him, all His angels; praise Him, all His hosts."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",
@@ -71682,6 +72597,34 @@
         "readings": [
           {
             "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_1",
+              "tone": 4,
+              "text": "He makes His angels spirits, and His ministers a flame of fire.",
+              "verse": "Bless the Lord, O my soul; O Lord my God, You are very great."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "1 Corinthians 4:9–16"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_1",
+              "tone": 2,
+              "verses": [
+                "Praise the Lord from the heavens, praise Him in the heights.",
+                "Praise Him, all His angels; praise Him, all His hosts."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Luke 10:16–21"
+            }
+          },
+          {
+            "prokeimenon": {
               "source": "menaion",
               "ref_key": "menaion.nov_30.andrew_first_called.prokeimenon",
               "tone": 8,
@@ -72889,6 +73832,34 @@
       "readings": {
         "type": "liturgy_readings",
         "readings": [
+          {
+            "prokeimenon": {
+              "source": "horologion",
+              "ref_key": "horologion.prokeimenon.day_6",
+              "tone": 8,
+              "text": "Be glad in the Lord and rejoice, you righteous.",
+              "verse": "Blessed are they whose iniquities are forgiven, and whose sins are covered."
+            },
+            "epistle": {
+              "source": "apostol",
+              "ref_key": "apostol.weekday",
+              "text": "Galatians 5:22–6:2"
+            },
+            "alleluia": {
+              "source": "horologion",
+              "ref_key": "horologion.alleluia.day_6",
+              "tone": 4,
+              "verses": [
+                "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
+              ]
+            },
+            "gospel": {
+              "source": "evangelion",
+              "ref_key": "evangelion.weekday",
+              "text": "Matthew 11:27–30"
+            }
+          },
           {
             "prokeimenon": {
               "source": "menaion",

@@ -1,0 +1,27 @@
+{
+  "year": 2026,
+  "total_days_scanned": 365,
+  "elapsed_seconds": 5.68,
+  "total_incidents": 0,
+  "unique_days_affected": 0,
+  "summary_counts": {
+    "bug1_small_vespers_sunday_prokeimenon_on_friday": 0,
+    "bug2_octoechos_canon_leaked_on_vigil_or_polyeleos": 0,
+    "bug3_katavasia_generic_fallback": 0,
+    "bug4_praises_doxastikon_swallowed": 0,
+    "bug5_vespers_kathisma_full_instead_of_antiphon": 0,
+    "bug6_lectionary_dropped_daily_reading": 0,
+    "bug7_crude_token_leaks": 0,
+    "bug8_footnote_spam_or_irrelevant": 0
+  },
+  "details": {
+    "bug1_small_vespers_sunday_prokeimenon_on_friday": [],
+    "bug2_octoechos_canon_leaked_on_vigil_or_polyeleos": [],
+    "bug3_katavasia_generic_fallback": [],
+    "bug4_praises_doxastikon_swallowed": [],
+    "bug5_vespers_kathisma_full_instead_of_antiphon": [],
+    "bug6_lectionary_dropped_daily_reading": [],
+    "bug7_crude_token_leaks": [],
+    "bug8_footnote_spam_or_irrelevant": []
+  }
+}

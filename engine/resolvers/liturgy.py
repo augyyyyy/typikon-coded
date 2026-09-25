@@ -1702,13 +1702,15 @@ class LiturgyMixin:
             if pascha_off in bright_readings:
                 return _hydrate_all_readings({"type": "liturgy_readings", "readings": [bright_readings[pascha_off]]})
 
-        # Dolnytsky §3.10.2: On Sunday with a Vigil/Polyeleos saint (rank 2 or 3), we combine them.
-        # On weekdays or other Sundays (e.g. Triodion Sundays), we return the override directly.
+        # Dolnytsky §3.10.2: On weekdays or Saturdays with a Polyeleos or Vigil saint (rank 2 or 3),
+        # Divine Liturgy combines the readings of the day with the saint's proper readings.
         if day_of_week != 0:
-            if normalized_readings:
+            if rank > 3 and normalized_readings:
                 return _hydrate_all_readings({"type": "liturgy_readings", "readings": normalized_readings})
             elif is_special_vigil_weekday:
                 # Suppress daily readings on weekdays, saint readings only
+                if normalized_readings:
+                    return _hydrate_all_readings({"type": "liturgy_readings", "readings": normalized_readings})
                 result = {
                     "type": "liturgy_readings",
                     "readings": []
@@ -1952,7 +1954,9 @@ class LiturgyMixin:
             })
 
             # Saint's readings second
-            if saints and rank <= 3:
+            if normalized_readings:
+                result["readings"].extend(normalized_readings)
+            elif saints and rank <= 3:
                 saint_id = saints[0].get("id", "saint")
                 if saint_id == "jun_11.bartholomew_barnabas":
                     result["readings"].append({

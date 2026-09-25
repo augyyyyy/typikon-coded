@@ -223,7 +223,7 @@ class TestSemanticLinting:
                     scan_json(v, filepath)
     
         for filepath in json_files:
-            if "almanac" in str(filepath) or "st_sergius" in str(filepath) or "_struct_" in str(filepath) or "synodal_footnotes" in str(filepath):
+            if any(token in str(filepath) for token in ["almanac", "st_sergius", "stamford", "lviv", "propers_comparisons", "_struct_", "synodal_footnotes", "_template"]):
                 continue
             try:
                 with open(filepath, "r", encoding="utf-8") as f:

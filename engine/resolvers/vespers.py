@@ -849,7 +849,7 @@ class VespersMixin:
     def resolve_small_vespers_prokeimenon(self, context, rubrics=None):
         # Saturday evening (for Sunday): Ps 92 Fixed
         day_of_week = context.get("day_of_week", 0)
-        if day_of_week in (0, 6) or context.get("is_sunday_vigil"):
+        if day_of_week == 0 or context.get("is_sunday_vigil") or (day_of_week == 6 and not context.get("month")):
             return {
                 "type": "prokeimenon",
                 "ref_key": "psalm_92_lord_is_king",

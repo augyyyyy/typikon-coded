@@ -999,7 +999,7 @@ class LentenMixin:
         except (ValueError, TypeError):
             pascha_off = None
             
-        is_lent = (season == "lent") or (context.get("season_id") in ("triodion", "great_lent")) or (pascha_off is not None and -48 <= pascha_off <= -1)
+        is_lent = (season == "lent" or context.get("season_id") == "great_lent" or (pascha_off is not None and -48 <= pascha_off <= -1)) and season != "pre_lent"
         is_holy_week = (context.get("season_id") == "holy_week") or (pascha_off is not None and -6 <= pascha_off <= -1) or context.get("is_passion_week", False)
         
         # 0. Feast Exception (Annunciation / Great Feasts / Vigils)

@@ -1570,7 +1570,7 @@ class RubricsMixin:
         except (ValueError, TypeError):
             pascha_off = None
             
-        is_lent = (context.get("season") == "lent") or (context.get("season_id") in ("triodion", "great_lent")) or (pascha_off is not None and -48 <= pascha_off <= -1)
+        is_lent = (context.get("season") == "lent" or context.get("season_id") == "great_lent" or (pascha_off is not None and -48 <= pascha_off <= -1)) and context.get("season") != "pre_lent"
         dow = context.get("day_of_week")
         try:
             dow = int(dow)

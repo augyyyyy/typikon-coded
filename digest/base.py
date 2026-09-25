@@ -457,6 +457,13 @@ class DigestGeneratorBase:
         if len(parts) >= 2 and parts[-1].lower() in ("troparion", "kontakion", "stichera", "doxastikon", "theotokion", "exapostilarion", "glory"):
             category = parts[-1].lower()
             subject = parts[-2]
+
+            if subject.lower() == "litiya":
+                if category == "glory":
+                    return "Doxastikon at the Litiya"
+                elif category == "theotokion":
+                    return "Theotokion at the Litiya"
+                return f"{category.capitalize()} at the Litiya"
             
             subject_human = fixed_saint_name
             if not subject_human:
@@ -465,11 +472,20 @@ class DigestGeneratorBase:
                 elif subject.lower() in ("saint", "saints"):
                     subject_human = self._get_saint_display_name(context, 0, form="full")
                 else:
-                    subject_map = {
-                        "bartholomew_barnabas": "Apostles Bartholomew and Barnabas",
-                        "eucharist": "the Holy Eucharist",
-                    }
-                    subject_human = subject_map.get(subject.lower())
+                    if context and context.get("saints"):
+                        for s_idx, s_entry in enumerate(context.get("saints", [])):
+                            s_id = s_entry.get("id", "").lower()
+                            s_id_clean = s_id.split(".")[-1]
+                            s_name = s_entry.get("name", "").lower()
+                            if subject.lower() in (s_id, s_id_clean) or s_id_clean in subject.lower() or any(w in subject.lower() for w in s_name.split() if len(w) > 3):
+                                subject_human = self._get_saint_display_name(context, s_idx, form="full")
+                                break
+                    if not subject_human:
+                        subject_map = {
+                            "bartholomew_barnabas": "Apostles Bartholomew and Barnabas",
+                            "eucharist": "the Holy Eucharist",
+                        }
+                        subject_human = subject_map.get(subject.lower())
                     if not subject_human:
                         words = subject.replace('_', ' ').split()
                         capitalized_words = [w.capitalize() if w.lower() not in ('of', 'the', 'in', 'and', 'to', 'a', 'for', 'with', 'from', 'at') else w.lower() for w in words]
@@ -657,6 +673,43 @@ class DigestGeneratorBase:
                 return f"{h_clean} of {sname}"
             return f"{h_clean} of the {subj.capitalize()}"
 
+        # Doxastikon matching for keys like theologian_doxastikon, andrew_doxastikon, etc.
+        m_dox = re.search(r'(.+?)_(?:praises_|aposticha_|litiya_)?doxasti[kc]on$', lower_base)
+        if m_dox:
+            subj = m_dox.group(1).split('.')[-1]
+            if 'litiya' in lower_base:
+                return 'Doxastikon at the Litiya'
+            if ctx and ctx.get('saints'):
+                for s_idx, s_entry in enumerate(ctx.get('saints', [])):
+                    s_id = s_entry.get('id', '').lower()
+                    s_id_clean = s_id.split('.')[-1]
+                    s_name = s_entry.get('name', '').lower()
+                    if subj in (s_id, s_id_clean) or s_id_clean in subj or any(w in subj for w in s_name.split() if len(w) > 3):
+                        sname_match = self._get_saint_display_name(ctx, s_idx, form='full')
+                        return f'Doxastikon of {sname_match}'
+                return f'Doxastikon of {sname}'
+            if ctx and (ctx.get('feast_name') or ctx.get('title')):
+                return f'Doxastikon of {fname}'
+            return 'Doxastikon of ' + subj.replace('_', ' ').title()
+
+        # Hymn suffix matching for keys ending in _troparion, _kontakion, _exapostilarion
+        m_hymn_suffix = re.search(r'(.+?)_(troparion|kontakion|exapostilarion)$', lower_base)
+        if m_hymn_suffix:
+            subj = m_hymn_suffix.group(1).split('.')[-1]
+            h_name = m_hymn_suffix.group(2).capitalize()
+            if ctx and ctx.get('saints'):
+                for s_idx, s_entry in enumerate(ctx.get('saints', [])):
+                    s_id = s_entry.get('id', '').lower()
+                    s_id_clean = s_id.split('.')[-1]
+                    s_name = s_entry.get('name', '').lower()
+                    if subj in (s_id, s_id_clean) or s_id_clean in subj or any(w in subj for w in s_name.split() if len(w) > 3):
+                        sname_match = self._get_saint_display_name(ctx, s_idx, form='full')
+                        return f'{h_name} of {sname_match}'
+                return f'{h_name} of {sname}'
+            if ctx and (ctx.get('feast_name') or ctx.get('title')):
+                return f'{h_name} of {fname}'
+            return f'{h_name} of ' + subj.replace('_', ' ').title()
+
         words = base.replace('_', ' ').split()
         capitalized_words = []
         for w in words:
@@ -750,6 +803,44 @@ class DigestGeneratorBase:
         text = text.replace(" litiya stichera", " Litiya Stichera")
         text = text.replace(" daily stichera", " Daily Stichera")
         text = text.replace("6 Stichera to the Saint", "6 Stichera to the Saint")
+
+        # Standardize Litiya glory/both now and clean token leaks
+        text = text.replace("Doxastikon of Litiya", "Doxastikon at the Litiya")
+        text = text.replace("doxastikon of Litiya", "Doxastikon at the Litiya")
+        text = text.replace("Theotokion of Litiya", "Theotokion at the Litiya")
+        text = text.replace("theotokion of Litiya", "Theotokion at the Litiya")
+        text = text.replace("Doxastikon of litiya", "Doxastikon at the Litiya")
+        text = text.replace("Theotokion of litiya", "Theotokion at the Litiya")
+
+        # Specific feast title humanization
+        text = text.replace("Falling Asleep John Theologian", "Apostle St. John the Theologian")
+        text = text.replace("Falling Asleep John", "Apostle St. John the Theologian")
+        text = text.replace("Finding Head Baptist", "the Finding of the Head of the Forerunner")
+        text = text.replace("Dormition St Anna", "the Dormition of St. Anna")
+        text = text.replace("Miracle Archangel Michael", "the Miracle of the Archangel Michael")
+        text = text.replace("Nativity John Baptist", "the Nativity of the Forerunner")
+        text = text.replace("Translation Relics Chrysostom", "the Translation of the Relics of St. John Chrysostom")
+        text = text.replace("Procession Cross Maccabees", "the Procession of the Cross and the Maccabees")
+
+        # Regex prepositions for <Name> Doxastikon patterns
+        text = re.sub(r'\b([A-Z][a-z]+) Praises Doxastikon\b', r'Doxastikon of \1 at the Praises', text)
+        text = re.sub(r'\b([A-Z][a-z]+) Aposticha Doxastikon\b', r'Doxastikon of \1 at the Aposticha', text)
+        text = re.sub(r'\b([A-Z][a-z]+) Doxastikon\b', r'Doxastikon of \1', text)
+        text = re.sub(r'\bDoxastikon of ([A-Z][a-z]+)\b', lambda m: f"Doxastikon of the {m.group(1)}" if m.group(1) in ("Theologian", "Forerunner", "Baptist", "Cross", "Feast", "Saint") else m.group(0), text)
+
+        # Standardize Over-concatenated troparion titles
+        text = re.sub(r'\bTroparion of Great Martyr ([A-Z][a-z]+)\b', r'Troparion of Great-Martyr St. \1', text)
+        text = re.sub(r'\bTroparion of Martyr ([A-Z][a-z]+)\b', r'Troparion of Martyr St. \1', text)
+        text = re.sub(r'\bTroparion of Chief Apostles Peter\b', r'Troparion of the Chief Apostles Peter and Paul', text)
+        text = re.sub(r'\bTroparion of Chief Apostle St\b', r'Troparion of the Chief Apostles', text)
+        text = re.sub(r'\bTroparion of Andrew First Called\b', r'Troparion of Apostle St. Andrew the First-Called', text)
+        text = re.sub(r'\bTroparion of Apostle James Alphaeus\b', r'Troparion of Apostle St. James Alphaeus', text)
+        text = re.sub(r'\bTroparion of James Brother John\b', r'Troparion of Apostle St. James the Brother of John', text)
+        text = re.sub(r'\bTroparion of Venerable Martyr St\b', r'Troparion of the Venerable Martyr', text)
+        text = re.sub(r'\bTroparion of Venerable Mother St\b', r'Troparion of the Venerable Mother', text)
+        text = text.replace("Troparion of George Great Martyr", "Troparion of Great-Martyr St. George")
+        text = text.replace("Troparion of Falling Asleep", "Troparion of the Falling Asleep")
+        text = text.replace("Exapostilarion of Falling Asleep", "Exapostilarion of the Falling Asleep")
         
         return text
 
@@ -1044,6 +1135,7 @@ class DigestGeneratorBase:
 
         self._liturgy_readings_printed = False
         hours_formatted = False
+        seen_inline_footnote_ids = set()
         for service in self.engine.daily_cycle:
             context["overrides"] = rubrics.get("overrides", {})
             service_name = service["name"]
@@ -1280,10 +1372,14 @@ class DigestGeneratorBase:
             try:
                 srv_footnotes = self.engine.resolve_synodal_footnotes(enriched, rubrics, service_name=service_name)
                 if srv_footnotes:
-                    callouts_str = self._format_service_synodal_callouts(srv_footnotes)
-                    if callouts_str:
-                        digest.append("")
-                        digest.append(callouts_str)
+                    new_srv_footnotes = [fn for fn in srv_footnotes if fn.get("number") not in seen_inline_footnote_ids]
+                    if new_srv_footnotes and len(seen_inline_footnote_ids) < 5:
+                        callouts_str = self._format_service_synodal_callouts(new_srv_footnotes, max_inline=2)
+                        if callouts_str:
+                            for fn in new_srv_footnotes[:2]:
+                                seen_inline_footnote_ids.add(fn.get("number"))
+                            digest.append("")
+                            digest.append(callouts_str)
             except Exception:
                 pass
             digest.append("")
@@ -2057,7 +2153,26 @@ class DigestGeneratorBase:
                             canon_details = f"First Canon of the Octoechos with the Heirmos on 4; second Canon of the Octoechos on 4; Canon of {s_name_disp} on 6."
                         else:
                             canon_details = f"First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of {s_name_disp} on 4."
-                        digest.append(f"**Canon:** Order of the Canon: {canon_details} Katavasia: Heirmos of the last canon (of {s_name_disp}) after Odes 3, 6, 8, and 9.  ")
+                        
+                        kat_res = None
+                        try:
+                            kat_res = self.engine.resolve_katavasia(enriched)
+                        except Exception:
+                            pass
+                        
+                        is_after_or_fore = bool(
+                            enriched.get("is_afterfeast") or
+                            enriched.get("is_forefeast") or
+                            enriched.get("is_apodosis")
+                        )
+                        if is_after_or_fore and kat_res and kat_res.get("text") and kat_res.get("katavasia_id") != "irmos_last_canon":
+                            k_text = kat_res.get("text")
+                            k_tone = kat_res.get("tone")
+                            k_tone_str = f" in Tone {self._roman_tone(k_tone)}" if k_tone else ""
+                            kat_str = f"Katavasia: Heirmos (*\"{k_text}\"*{k_tone_str}) after Odes 3, 6, 8, and 9."
+                        else:
+                            kat_str = f"Katavasia: Heirmos of the last canon (of {s_name_disp}) after Odes 3, 6, 8, and 9."
+                        digest.append(f"**Canon:** Order of the Canon: {canon_details} {kat_str}  ")
                         digest.append("")
                         digest.append("**After Ode III:** Sessional hymns; Glory... both now... Theotokion.  ")
                         digest.append("")
@@ -2753,8 +2868,13 @@ class DigestGeneratorBase:
                                             text = scripture_val
                                         elif ":" in e["ref_key"] and not "." in e["ref_key"] and any(c.isdigit() for c in e["ref_key"]):
                                             text = e["ref_key"].replace("-", "–")
+                                    if len(res["readings"]) > 1:
+                                        ep_tag = "Day" if enriched.get("day_of_week") != 0 else "Sunday"
+                                        ep_label = f"Epistle ({ep_tag})" if idx == 0 else "Epistle (Saint)"
+                                    else:
+                                        ep_label = "Epistle"
                                     if text:
-                                        digest.append(f"**Epistle:**  \n> {text}")
+                                        digest.append(f"**{ep_label}:**  \n> {text}")
                                     else:
                                         ref_key = e.get("ref_key", "")
                                         val = get_ref_label_local(ref_key, "Epistle")
@@ -2774,7 +2894,7 @@ class DigestGeneratorBase:
                                             val_clean = f"of {enriched.get('title') or enriched.get('rubrics_title') or 'the Feast'}"
                                         else:
                                             val_clean = "of the Saint"
-                                        digest.append(f"**Epistle:**  \n> {val_clean}")
+                                        digest.append(f"**{ep_label}:**  \n> {val_clean}")
                                 elif slot_id == "liturgy_alleluia" and "alleluia" in r:
                                     try:
                                         all_res = r["alleluia"]
@@ -2833,8 +2953,13 @@ class DigestGeneratorBase:
                                             text = scripture_val
                                         elif ":" in g["ref_key"] and not "." in g["ref_key"] and any(c.isdigit() for c in g["ref_key"]):
                                             text = g["ref_key"].replace("-", "–")
+                                    if len(res["readings"]) > 1:
+                                        gosp_tag = "Day" if enriched.get("day_of_week") != 0 else "Sunday"
+                                        gosp_label = f"Gospel ({gosp_tag})" if idx == 0 else "Gospel (Saint)"
+                                    else:
+                                        gosp_label = "Gospel"
                                     if text:
-                                        digest.append(f"**Gospel:**  \n> {text}")
+                                        digest.append(f"**{gosp_label}:**  \n> {text}")
                                     else:
                                         ref_key = g.get("ref_key", "")
                                         val = get_ref_label_local(ref_key, "Gospel")
@@ -2854,7 +2979,7 @@ class DigestGeneratorBase:
                                             val_clean = f"of {enriched.get('title') or enriched.get('rubrics_title') or 'the Feast'}"
                                         else:
                                             val_clean = "of the Saint"
-                                        digest.append(f"**Gospel:**  \n> {val_clean}")
+                                        digest.append(f"**{gosp_label}:**  \n> {val_clean}")
                     except Exception as e:
                         digest.append(f"[ERROR: Resolving liturgy readings failed - {e}]")
                 elif "kontakion" in str(slot_id):
@@ -2968,7 +3093,26 @@ class DigestGeneratorBase:
                             canon_details = f"First Canon of the Octoechos with the Heirmos on 4; second Canon of the Octoechos on 4; Canon of {s_name_disp} on 6."
                         else:
                             canon_details = f"First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of {s_name_disp} on 4."
-                        digest.append(f"**Canon:** Order of the Canon: {canon_details} Katavasia: Heirmos of the last canon (of {s_name_disp}) after Odes 3, 6, 8, and 9.")
+                        
+                        kat_res = None
+                        try:
+                            kat_res = self.engine.resolve_katavasia(enriched)
+                        except Exception:
+                            pass
+                        
+                        is_after_or_fore = bool(
+                            enriched.get("is_afterfeast") or
+                            enriched.get("is_forefeast") or
+                            enriched.get("is_apodosis")
+                        )
+                        if is_after_or_fore and kat_res and kat_res.get("text") and kat_res.get("katavasia_id") != "irmos_last_canon":
+                            k_text = kat_res.get("text")
+                            k_tone = kat_res.get("tone")
+                            k_tone_str = f" in Tone {self._roman_tone(k_tone)}" if k_tone else ""
+                            kat_str = f"Katavasia: Heirmos (*\"{k_text}\"*{k_tone_str}) after Odes 3, 6, 8, and 9."
+                        else:
+                            kat_str = f"Katavasia: Heirmos of the last canon (of {s_name_disp}) after Odes 3, 6, 8, and 9."
+                        digest.append(f"**Canon:** Order of the Canon: {canon_details} {kat_str}")
                         digest.append("")
                         digest.append("> **Note:** At the 9th Ode, the priest censes as at Great Matins.")
                         self._matins_canon_printed = True

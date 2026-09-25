@@ -44,20 +44,38 @@ class FootnoteResolverMixin:
                         continue
             triggers = entry.get("triggers", {})
             menaion_triggers = triggers.get("menaion_keys", [])
-            matched = False
-            if menaion_key and menaion_triggers:
-                if menaion_key in menaion_triggers:
-                    matched = True
             season_trigger = triggers.get("season")
-            if season_trigger:
+            matched = False
+            if menaion_triggers:
+                if menaion_key and menaion_key in menaion_triggers:
+                    if season_trigger:
+                        if season_trigger == "triodion" and (season in ("lent", "triodion", "holy_week") or context.get("season_id") == "triodion"):
+                            matched = True
+                        elif season_trigger == "pascha" and (season in ("bright_week", "pascha") or context.get("season_id") == "pascha"):
+                            matched = True
+                        elif season_trigger == "pentecostarion" and (season == "pentecostarion" or context.get("season_id") == "pentecostarion"):
+                            matched = True
+                    else:
+                        matched = True
+            elif season_trigger and include_academic:
                 if season_trigger == "triodion" and (season in ("lent", "triodion", "holy_week") or context.get("season_id") == "triodion"):
                     matched = True
                 elif season_trigger == "pascha" and (season in ("bright_week", "pascha") or context.get("season_id") == "pascha"):
                     matched = True
                 elif season_trigger == "pentecostarion" and (season == "pentecostarion" or context.get("season_id") == "pentecostarion"):
                     matched = True
+            # Exclude conditional misattributions
+            dow = context.get("day_of_week")
+            pascha_off = context.get("pascha_offset")
+            if fn_id == "464" and dow not in (1, 2):
+                continue
+            if fn_id == "741" and pascha_off != 42:
+                continue
+            if fn_id == "705" and not (menaion_key and menaion_key.endswith("0913")):
+                continue
+
             comp_triggers = triggers.get("components", [])
-            if comp_triggers:
+            if comp_triggers and include_academic:
                 if "censing_initial" in comp_triggers and service_name in ("Vespers", "Great Vespers", "Matins"):
                     matched = True
                 if "liturgy_antiphons" in comp_triggers and service_name in ("Liturgy", "DivineLiturgy"):
