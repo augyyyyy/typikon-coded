@@ -2,7 +2,7 @@
 Unit Tests for Temple (Patronal Feast) Service Types and Canonical Rubrics Resolution
 ======================================================================================
 Authority: Lviv (Dolnytsky) Typikon (2010) Part V (Rubrics about Temples, pp. 458-472)
-Source Text: Data/Service Books/Typikon/readable_parts/Final_Dolnytsky_part5_temple.txt
+Source Text: Data/Service Books/Typikon/readable_parts/Final_Dolnytsky_part5_temple.md
 
 Validates:
 1. Static completeness of json_db/02d_logic_temple.json (34 cases, non-null canonical types).

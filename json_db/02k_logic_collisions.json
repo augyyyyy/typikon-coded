@@ -286,7 +286,7 @@
           "movable_day": "Great_Monday_Tuesday_Wednesday",
           "rubric": {
             "vespers_param": "10 Stichera: 5 Triodion, 5 Feast.",
-            "matins_canon": "Feast 12 (Irmos 14), Triodion 2-3 ode.",
+            "matins_canon": "Feast 12 (Heirmos 14), Triodion 2-3 ode.",
             "liturgy_type": "Chrysostom (with Vespers)",
             "notes": "Readings: 2 Triodion, 2 Feast. Gospel Feast.",
             "variables": {
@@ -436,7 +436,7 @@
             "liturgy_type": "Chrysostom",
             "notes": "Gospel Feast read after 6th Ode of Matins or at Liturgy? Dolnytsky: Gospel of Feast at Matins after 6th. Liturgy: Gospel Day + Feast.",
             "variables": {
-              "matins_canon_description": "Paschal Canon with irmos on 8 and of the Annunciation with irmos on 8",
+              "matins_canon_description": "Paschal Canon with heirmos on 8 and of the Annunciation with heirmos on 8",
               "matins_canon_distribution": {
                 "distribution": [
                   {
@@ -2267,7 +2267,7 @@
           "rubric": {
             "source_ref": "Dolnytsky_Typikon_Master.md:3.10.1.10",
             "vespers_param": "Great Vespers. 10 Stichera: 6 Feast, 4 Saint. Glory: Saint, Both now: Feast.",
-            "matins_canon": "Canons on 14: Feast with irmos on 6, Saint on 8.",
+            "matins_canon": "Canons on 14: Feast with heirmos on 6, Saint on 8.",
             "notes": "Dolnytsky 3.10.1.10 cites 3.9.25.2.1: Vespers on 10 (6 Feast + 4 Saint), Matins Canon on 14 (Feast 6 + Saint 8).",
             "variables": {
               "suppress_menaion_saint": false,

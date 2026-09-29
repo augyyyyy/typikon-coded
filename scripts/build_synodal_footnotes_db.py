@@ -7,55 +7,71 @@ PARTS_DIR = os.path.join(BASE_DIR, 'Data', 'Service Books', 'Typikon', 'readable
 FOOTNOTES_PATH = os.path.join(PARTS_DIR, 'Final_footnotes.txt')
 OUTPUT_PATH = os.path.join(BASE_DIR, 'json_db', 'synodal_footnotes.json')
 
-PARTS = {
-    'intro': os.path.join(PARTS_DIR, 'Final_Dolnytsky_intro.txt'),
-    'part_1_structure': os.path.join(PARTS_DIR, 'Final_Dolnytsky_part1_structure.txt'),
-    'part_2_general_rubrics': os.path.join(PARTS_DIR, 'Final_Dolnytsky_part2_general_rubrics.txt'),
-    'part_3_menaion': os.path.join(PARTS_DIR, 'Final_Dolnytsky_part3_menaion.txt'),
-    'part_4_triodion': os.path.join(PARTS_DIR, 'Final_Dolnytsky_part4_triodion.txt'),
-    'part_5_temple': os.path.join(PARTS_DIR, 'Final_Dolnytsky_part5_temple.txt'),
-    'appendix': os.path.join(PARTS_DIR, 'Final_Dolnytsky_appendix.txt')
-}
+PARTS = [
+    ('intro', 'Final_Dolnytsky_intro'),
+    ('part_1_structure', 'Final_Dolnytsky_part1_structure'),
+    ('part_2_general_rubrics', 'Final_Dolnytsky_part2_general_rubrics'),
+    ('part_3_menaion', 'Final_Dolnytsky_part3_menaion'),
+    ('part_4_triodion', 'Final_Dolnytsky_part4_triodion'),
+    ('part_5_temple', 'Final_Dolnytsky_part5_temple'),
+    ('appendix', 'Final_Dolnytsky_appendix')
+]
 
 def extract_anchors():
     anchors = {}
-    for part_id, path in PARTS.items():
+    for part_id, name in PARTS:
+        path = os.path.join(PARTS_DIR, f'{name}.md')
+        if not os.path.exists(path):
+            path = os.path.join(PARTS_DIR, f'{name}.txt')
         if not os.path.exists(path):
             continue
         with open(path, 'r', encoding='utf-8', errors='ignore') as f:
             lines = f.readlines()
-        current_section = ''
-        current_service = ''
+        curr_major = ''
+        curr_sub = ''
+        curr_service = ''
         for line in lines:
             stripped = line.strip()
             if not stripped:
                 continue
             upper = stripped.upper()
             if 'VESPERS' in upper:
-                current_service = 'Vespers'
+                curr_service = 'Vespers'
             elif 'MATINS' in upper:
-                current_service = 'Matins'
+                curr_service = 'Matins'
             elif 'LITURGY' in upper or 'TYPIKA' in upper:
-                current_service = 'Liturgy'
+                curr_service = 'Liturgy'
             elif 'COMPLINE' in upper:
-                current_service = 'Compline'
+                curr_service = 'Compline'
             elif 'MIDNIGHT OFFICE' in upper:
-                current_service = 'Midnight Office'
+                curr_service = 'Midnight Office'
             elif 'HOUR' in upper:
-                current_service = 'Hours'
-            if stripped.startswith('#') or stripped.startswith('•') or stripped.startswith('o') or (stripped.isupper() and len(stripped) < 60):
-                current_section = stripped.lstrip('#•o ').strip()
+                curr_service = 'Hours'
+
+            if stripped.startswith('#') or (stripped.isupper() and len(stripped) < 60):
+                clean_heading = re.sub(r'\[\^[^\]]+\]', '', stripped).lstrip('#•o ').strip()
+                if stripped.startswith('### ') or (stripped.isupper() and len(stripped) < 60 and not any(s in upper for s in ['VESPERS', 'MATINS', 'LITURGY', 'COMPLINE', 'HOURS'])):
+                    curr_major = clean_heading
+                    curr_sub = ''
+                elif stripped.startswith('#### ') or stripped.startswith('##### ') or any(s in upper for s in ['VESPERS', 'MATINS', 'LITURGY', 'COMPLINE', 'HOURS']):
+                    curr_sub = clean_heading
+
             for m in re.finditer(r'\[\^([^\]]+)\]', line):
                 fn_id = m.group(1).strip()
                 start = max(0, m.start() - 150)
                 end = min(len(line), m.end() + 150)
                 snippet = line[start:end].strip()
+                sec = curr_major
+                if curr_sub and curr_sub != curr_major:
+                    sec = f'{curr_major} - {curr_sub}' if curr_major else curr_sub
+                if not sec:
+                    sec = clean_heading if 'clean_heading' in locals() else ''
                 if fn_id not in anchors:
                     anchors[fn_id] = []
                 anchors[fn_id].append({
                     'part': part_id,
-                    'section': current_section,
-                    'service': current_service,
+                    'section': sec,
+                    'service': curr_service or 'General',
                     'anchor_snippet': snippet
                 })
     return anchors
@@ -161,6 +177,18 @@ def build_footnotes_database():
     for fn_id, raw_content in raw_footnotes:
         fn_id_clean = fn_id.strip()
         content_clean = raw_content.strip()
+        # Vocabulary normalization
+        content_clean = re.sub(r'\bIrmos\b', 'Heirmos', content_clean)
+        content_clean = re.sub(r'\birmos\b', 'heirmos', content_clean)
+        content_clean = re.sub(r'\bIrmoi\b', 'Heirmoi', content_clean)
+        content_clean = re.sub(r'\birmoi\b', 'heirmoi', content_clean)
+        content_clean = re.sub(r'\bIrmologion\b', 'Heirmologion', content_clean)
+        content_clean = re.sub(r'\birmologion\b', 'heirmologion', content_clean)
+        # Service book normalization (where referring to the book, excluding literal glosses)
+        if '(lit. "Service Books")' not in content_clean and '(lit. "Service Book")' not in content_clean:
+            content_clean = re.sub(r'\bservice\s+books\b', 'sluzhebnyky', content_clean, flags=re.I)
+            content_clean = re.sub(r'\bservice\s+book\b', 'sluzhebnik', content_clean, flags=re.I)
+
         anchors = anchors_map.get(fn_id_clean, [])
         category, services, tags, triggers = classify_footnote(fn_id_clean, content_clean, anchors)
         primary_part = anchors[0]['part'] if anchors else 'unknown'
@@ -169,6 +197,7 @@ def build_footnotes_database():
             'id': f'footnote_{fn_id_clean}',
             'number': fn_id_clean,
             'text': content_clean,
+            'text_en': content_clean,
             'category': category,
             'authority': 'Dolnytsky Typikon (1891 Synod of Lviv)',
             'typikon_part': primary_part,

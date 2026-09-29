@@ -1,0 +1,25 @@
+# Task: Full Remediation Plan Following Typikon Source Modifications
+
+- [x] Phase 1: Re-Compilation & Decontamination of Master Source Text Files <!-- id: 1 -->
+  - [x] Inspect structure of `Dolnytsky_Typikon_Master.md` vs 9 `readable_parts/Final_*.md` files <!-- id: 1.1 -->
+  - [x] Write `scripts/compile_master_typikon_md.py` to deterministically compile `Dolnytsky_Typikon_Master.md` and `Dolnytsky_Typikon_Master_Readable.md` <!-- id: 1.2 -->
+  - [x] Verify 0 instances of `kondakion`, 0 unnormalized `irmos`, and FN 775/784 are decontaminated in compiled master files <!-- id: 1.3 -->
+- [x] Phase 2: JSON Database Grounding & Terminology Remediation <!-- id: 2 -->
+  - [x] Update `json_db/02d_logic_temple.json` (migrate 34 `Final_Dolnytsky_part5_temple.txt` refs to `.md` / section anchors) <!-- id: 2.1 -->
+  - [x] Update `json_db/02e_logic_katavasia.json` (migrate `Final_Dolnytsky_part5_temple.txt` refs to `.md` lines 340-390 and normalize 3 `irmos` descriptions) <!-- id: 2.2 -->
+  - [x] Update `json_db/02k_logic_collisions.json` (normalize 3 `irmos` descriptions on lines 289, 439, 2270) <!-- id: 2.3 -->
+  - [x] Update `json_db/regional_chant_rules.json` (normalize `Kondak` to `Kontakion` on line 89) <!-- id: 2.4 -->
+  - [x] Update `json_db/01j_struct_liturgy.json` (normalize 2 `:L340` line citations to section references) <!-- id: 2.5 -->
+- [x] Phase 3: Canonical Citation Matrix & Documentation Synchronization <!-- id: 3 -->
+  - [x] Update `docs/DOLNYTSKY_IMPLEMENTATION.md` and `docs/ARCHITECTURE.md` (convert fragile `:L###` line citations to invariant canonical sections) <!-- id: 3.1 -->
+  - [x] Re-align `docs/encyclopedia/master_citation_matrix.md` line ranges to match clean compiled master files <!-- id: 3.2 -->
+  - [x] Update `Data/Service Books/Typikon/vocabulary_standardization_matrix.md` with September 28 25-group audit metrics <!-- id: 3.3 -->
+- [x] Phase 4: Test Suite Modernization & Verification Gates <!-- id: 4 -->
+  - [x] Update `tests/test_menologion_canonical_signs.py` to support `.md` source path (lines 604-979) while preserving `.txt` fallback <!-- id: 4.1 -->
+  - [x] Update docstrings in `tests/test_menaion_service_types.py` and `tests/test_temple_service_types.py` <!-- id: 4.2 -->
+  - [x] Re-run annual almanac consistency test (`tests/test_annual_almanac_consistency.py`) <!-- id: 4.3 -->
+  - [x] Run full test suite (`pytest --ignore=tests/test_ui_readability.py`) <!-- id: 4.4 -->
+- [x] Phase 5: Handoff & Ecosystem Ledger Certification <!-- id: 5 -->
+  - [x] Archive session history to `.agents/brain/session_history/2026-09-28/` <!-- id: 5.1 -->
+  - [x] Verify `tests/test_session_compliance.py` passes <!-- id: 5.2 -->
+  - [x] Report git diff stats and test pass/fail counts <!-- id: 5.3 -->

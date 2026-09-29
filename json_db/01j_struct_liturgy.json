@@ -11,7 +11,7 @@
     "structures": {
         "liturgy_chrysostom": {
             "title_key": "titles.liturgy_chrysostom",
-            "source_ref": "Dolnytsky_Typikon_Master.md:L340",
+            "source_ref": "Dolnytsky_Typikon_Master.md:1.1",
             "ordo_ref": "§97–§145",
             "sequence": [
                 {
@@ -292,7 +292,7 @@
         },
         "liturgy_basil": {
             "title_key": "titles.liturgy_basil",
-            "source_ref": "Dolnytsky_Typikon_Master.md:L340",
+            "source_ref": "Dolnytsky_Typikon_Master.md:1.1",
             "inherits_from": "liturgy_chrysostom",
             "overrides": [
                 {

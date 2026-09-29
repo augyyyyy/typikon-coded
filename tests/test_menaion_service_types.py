@@ -2,7 +2,7 @@
 """
 Test Suite: Service Types for the Fixed Cycle (Dolnytsky Typikon Part III: Menaion)
 Authority: Lviv (Dolnytsky) Typikon (2010) Part III: Menaion
-Canonical Source: Data/Service Books/Typikon/readable_parts/Final_Dolnytsky_part3_menaion.txt
+Canonical Source: Data/Service Books/Typikon/readable_parts/Final_Dolnytsky_part3_menaion.md
 Validates that every feast entry across all 12 monthly logic files:
   - json_db/02b_01_september.json through json_db/02b_12_august.json
 has explicit, non-null definitions for:

@@ -20,7 +20,10 @@ import datetime
 import pytest
 from engine import RuthenianEngine
 
-DOLNYTSKY_SOURCE_PATH = os.path.join(
+DOLNYTSKY_MD_PATH = os.path.join(
+    "Data", "Service Books", "Typikon", "readable_parts", "Final_Dolnytsky_part5_temple.md"
+)
+DOLNYTSKY_TXT_PATH = os.path.join(
     "Data", "Service Books", "Typikon", "readable_parts", "Final_Dolnytsky_part5_temple.txt"
 )
 CALENDAR_TYPIKON_PATH = os.path.join("json_db", "calendar_typikon.json")
@@ -46,7 +49,8 @@ RANK_TO_CLASS = {
 
 
 def parse_canonical_dolnytsky_menologion():
-    with open(DOLNYTSKY_SOURCE_PATH, "r", encoding="utf-8") as f:
+    source_path = DOLNYTSKY_MD_PATH if os.path.exists(DOLNYTSKY_MD_PATH) else DOLNYTSKY_TXT_PATH
+    with open(source_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
     month_names = [
@@ -63,10 +67,11 @@ def parse_canonical_dolnytsky_menologion():
     current_month = None
     days_data = {}
 
-    for line in lines[279:708]:
+    # Scan the full file for canonical month headers and day entries
+    for line in lines:
         line_s = line.strip()
         for m in month_names:
-            if line_s.startswith(f"### {m}"):
+            if re.search(rf"^###\s+(?:\d+\.\d+\.\d+\s+)?{m}\b", line_s):
                 current_month = month_numbers[m]
                 break
 

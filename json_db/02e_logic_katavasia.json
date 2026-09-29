@@ -2,12 +2,12 @@
   "file_metadata": {
     "filename": "02e_logic_katavasia.json",
     "version": "2.0",
-    "description": "Katavasia (Irmos) seasonal selection per Dolnytsky Part V lines 244-273",
+    "description": "Katavasia (Heirmos) seasonal selection per Dolnytsky Part V § 5.3",
     "authority": "Lviv (Dolnytsky) Typikon (2010) Part V pp. 244-273"
   },
   "katavasia_seasons": {
     "description": "Seasonal Katavasiae sung after each Ode at Great Matins",
-    "source_ref": "Final_Dolnytsky_part5_temple.txt:244-273",
+    "source_ref": "Final_Dolnytsky_part5_temple.md:5.3",
     "seasons": [
       {
         "id": "exaltation_sep",
@@ -140,7 +140,7 @@
       "tone": 3,
       "feast": "Meeting",
       "rule": "During the period of the Meeting (Jan 15–Feb 9), the Katavasia of the Meeting is sung, with the exception of Meatfare Sunday, which takes the Katavasia of the Triodion per Slavonic rubrics.",
-      "citation": "Final_Dolnytsky_part5_temple.txt:262"
+      "citation": "Final_Dolnytsky_part5_temple.md:5.3"
     },
     "triodion_seasons": [
       {
@@ -290,7 +290,7 @@
     ]
   },
   "daily_matins_override": {
-    "description": "For Daily (non-Great) Matins, Katavasia is the irmos of the LAST canon, not seasonal",
+    "description": "For Daily (non-Great) Matins, Katavasia is the heirmos of the LAST canon, not seasonal",
     "source_ref": "Dolnytsky_Typikon_Master.md:1.2.2.5",
     "applies_to": "daily_matins",
     "odes_with_katavasia": [
@@ -305,7 +305,7 @@
     "resolve_katavasia": {
       "description": "Select Katavasia based on date, season, and service type per Dolnytsky Part V lines 244-273",
       "steps": [
-        "1. If Daily Matins (rank 5 weekday) -> use irmos of last canon (Odes 3, 6, 8, 9 only)",
+        "1. If Daily Matins (rank 5 weekday) -> use heirmos of last canon (Odes 3, 6, 8, 9 only)",
         "2. If Meeting overlap (Jan 15-Feb 9) and not Meatfare Sunday -> use Meeting Katavasia",
         "3. If Triodion movable Sunday -> use Triodion Katavasia",
         "4. If Pascha/Pentecostarion period -> check pascha_seasons by offset",

@@ -191,8 +191,8 @@ To maintain canonical precision and prevent deviations from authoritative rubric
 
 ```python
 @liturgical_source(
-    dolnytsky="Dolnytsky_Typikon_Master.md:L187",
-    ordo="Ordo Celebrationis (1996) L74"
+    dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1.5",
+    ordo="Ordo Celebrationis (1996) §74"
 )
 def resolve_canon_interludes(self, ode_number, context):
     # logic execution...

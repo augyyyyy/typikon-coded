@@ -202,7 +202,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:31-49"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 1a)"
     },
     "case_1b": {
       "title": "Temple of Ven. Symeon Stylites – Sep 1 – Sunday",
@@ -344,7 +344,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:50-70"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 1b)"
     },
     "case_2": {
       "title": "Temple of St. Basil – Jan 1 on Sunday before Theophany",
@@ -365,7 +365,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:71-74"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 2)"
     },
     "case_3": {
       "title": "Temple on Sundays of Publican, Prodigal, Meatfare, Cheesefare + Mon of 1st Week",
@@ -466,7 +466,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:77-84"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 3)"
     },
     "case_4": {
       "title": "Temple on Meatfare Saturday",
@@ -489,7 +489,7 @@
         "rank": "rank_vigil_patronal"
       },
       "memorial_transferred_to": "thursday_before_meatfare",
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:85-86"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 4)"
     },
     "case_5": {
       "title": "Temple in Cheesefare Mon-Fri",
@@ -519,7 +519,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:87-91"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 5)"
     },
     "case_6": {
       "title": "Temple on Cheesefare Saturday",
@@ -557,7 +557,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:92-96"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 6)"
     },
     "case_7": {
       "title": "Temple on Monday of 1st Week of Lent",
@@ -588,7 +588,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:97-100"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 7)"
     },
     "case_8": {
       "title": "Temple on Tue-Sat of 1st Week of Lent",
@@ -619,7 +619,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:101-104"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 8)"
     },
     "case_9": {
       "title": "Temple on 1st Saturday of Lent",
@@ -677,7 +677,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:105-113"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 9)"
     },
     "case_10": {
       "title": "Temple on 1st and 3rd Sundays of Lent",
@@ -801,7 +801,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:114-126"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 10)"
     },
     "case_11": {
       "title": "Temple on Lenten Weekdays (2nd week through Lazarus Saturday)",
@@ -892,7 +892,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:127-148"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 11)"
     },
     "case_12": {
       "title": "Temple on 2nd, 3rd, 4th Saturdays of Lent",
@@ -917,7 +917,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:149-152"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 12)"
     },
     "case_13": {
       "title": "Temple on 2nd, 4th, 5th Sundays of Lent",
@@ -994,7 +994,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:153-155"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 13)"
     },
     "case_14": {
       "title": "Temple on Sunday of the Cross (3rd Sunday of Lent)",
@@ -1017,7 +1017,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:156-157"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 14)"
     },
     "case_15": {
       "title": "Temple on Wednesday of 5th Week (Great Canon displaced)",
@@ -1043,7 +1043,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:158-159"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 15)"
     },
     "case_16": {
       "title": "Temple on Thursday of 5th Week",
@@ -1068,7 +1068,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:160-161"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 16)"
     },
     "case_17": {
       "title": "Temple on Akathist Saturday (5th Saturday of Lent)",
@@ -1196,7 +1196,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:162-182"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 17)"
     },
     "case_18": {
       "title": "Temple on Lazarus Saturday",
@@ -1331,7 +1331,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:183-200"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 18)"
     },
     "case_19": {
       "title": "Temple on Palm Sunday",
@@ -1393,7 +1393,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:201-205"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 19)"
     },
     "case_20": {
       "title": "Temple on Passion Week / Resurrection Sunday",
@@ -1434,7 +1434,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:206-208"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 20)"
     },
     "case_21": {
       "title": "Temple from Bright Monday to 4th Sunday after Pascha",
@@ -1456,7 +1456,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:209-211"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 21)"
     },
     "case_22": {
       "title": "Temple from 4th Sunday after Pascha to Saturday of Pentecost",
@@ -1478,7 +1478,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:212-215"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 22)"
     },
     "case_23": {
       "title": "Temple on Wednesday of Apodosis of Pascha",
@@ -1517,7 +1517,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:216-218"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 23)"
     },
     "case_24": {
       "title": "Temple on Ascension Thursday",
@@ -1539,7 +1539,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:219-220"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 24)"
     },
     "case_25": {
       "title": "Temple on 7th Sunday after Pascha",
@@ -1564,7 +1564,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:221-223"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 25)"
     },
     "case_26": {
       "title": "Temple with Apodosis of Ascension",
@@ -1587,7 +1587,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:224-225"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 26)"
     },
     "case_27": {
       "title": "Temple on Soul Saturday (before Pentecost)",
@@ -1610,7 +1610,7 @@
         "rank": "rank_vigil_patronal"
       },
       "memorial_transferred_to": "previous_saturday_or_thursday",
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:226-227"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 27)"
     },
     "case_28": {
       "title": "Temple on Pentecost Sunday",
@@ -1633,7 +1633,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:228-229"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 28)"
     },
     "case_29": {
       "title": "Temple on Monday of the Holy Spirit",
@@ -1671,7 +1671,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:230-231"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 29)"
     },
     "case_30": {
       "title": "Temple in midst of Pentecost Feast (except Monday)",
@@ -1693,7 +1693,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:232-234"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 30)"
     },
     "case_31": {
       "title": "Temple on Sunday of All Saints",
@@ -1716,7 +1716,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:235-236"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 31)"
     },
     "case_32": {
       "title": "Temple on Sunday of Feast of Eucharist",
@@ -1738,7 +1738,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:238-239"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 32)"
     },
     "case_33": {
       "title": "Temple on Compassion of Most Holy Theotokos",
@@ -1778,7 +1778,7 @@
         "doxology_type": "great_doxology",
         "rank": "rank_vigil_patronal"
       },
-      "source_ref": "Final_Dolnytsky_part5_temple.txt:240-243"
+      "source_ref": "Final_Dolnytsky_part5_temple.md:5.2.2 (Case 33)"
     }
   }
 }
