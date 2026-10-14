@@ -17,7 +17,7 @@ def is_port_open(port):
 
 @pytest.fixture(scope="module")
 def dashboard_server():
-    server_script = os.path.join(REPO_DIR, "data", "prototypes", "cantor_dashboard", "server.py")
+    server_script = os.path.join(REPO_DIR, "Data", "prototypes", "cantor_dashboard", "server.py")
     if not os.path.exists(server_script):
         server_script = os.path.join(REPO_DIR, "cantor_dashboard", "server.py")
     server_log_path = os.path.join(REPO_DIR, "scratch", "server_test.log")
