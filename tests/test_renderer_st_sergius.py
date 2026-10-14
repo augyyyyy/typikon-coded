@@ -1,5 +1,8 @@
 import json
-from generate_cantor_prototype import CantorRenderer
+try:
+    from generate_cantor_prototype import CantorRenderer
+except ImportError:
+    from scripts.legacy_runners.generate_cantor_prototype import CantorRenderer
 
 # Mock Engine
 class MockEngine:

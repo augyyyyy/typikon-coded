@@ -1,0 +1,32 @@
+{
+  "yas_num": 76,
+  "verified_at": "2026-09-09T21:18:55.182475",
+  "cache_file": "master_incipit_index_yas76.json",
+  "sha256": "96fb257c9ba18fabb8233f7959b3d6854af375dbcc7323363eaf825e121b4e3e",
+  "status": "VERIFIED_BY_HUMAN_SCHOLAR",
+  "technical_checks_passed": true,
+  "human_verified": true,
+  "stats": {
+    "total_leaves": 33,
+    "physical_count": 33,
+    "log_records_count": 33,
+    "music_leaves": 49,
+    "blank_leaves": 10,
+    "continuation_leaves": 0,
+    "total_chants": 86,
+    "total_blocks": 151,
+    "unique_incipits": 83,
+    "historic_graphemes_count": 455,
+    "synthetic_violations": [],
+    "gate1_passed": true,
+    "gate2_passed": true,
+    "gate3_passed": true,
+    "gate4_passed": true,
+    "ontology_passed": true,
+    "proportionality_passed": true,
+    "confabulation_passed": true,
+    "triangulation_passed": true,
+    "pdf_audit_passed": true
+  },
+  "human_verification_timestamp": "2026-09-10T01:18:55.189896+00:00"
+}

@@ -1,0 +1,638 @@
+[
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\cantor_dashboard",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\prototypes\\cantor_dashboard",
+    "timestamp": "2026-10-05T11:55:28.462581+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\cantor_prototypes",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\prototypes\\cantor_prototypes",
+    "timestamp": "2026-10-05T11:55:28.465693+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\audit_results",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\legacy_audit_results\\audit_results",
+    "timestamp": "2026-10-05T11:55:28.468337+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\final_results",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\final_results",
+    "timestamp": "2026-10-05T11:55:28.471212+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\generated_digests",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\generated_digests\\generated_digests",
+    "timestamp": "2026-10-05T11:55:28.473889+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\verification_examples",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\verification_examples\\verification_examples",
+    "timestamp": "2026-10-05T11:55:28.476539+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\archive",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\archive\\archive",
+    "timestamp": "2026-10-05T11:55:28.479298+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\parsers",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\scripts\\parsers",
+    "timestamp": "2026-10-05T11:55:28.482609+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\json_db",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\databases\\json_db",
+    "timestamp": "2026-10-05T11:55:28.485220+00:00"
+  },
+  {
+    "action_type": "junction_create",
+    "link": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\json_db",
+    "target": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\databases\\json_db",
+    "timestamp": "2026-10-05T11:55:28.507298+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\schemas",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\schemas\\schemas",
+    "timestamp": "2026-10-05T11:55:28.508073+00:00"
+  },
+  {
+    "action_type": "junction_create",
+    "link": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\schemas",
+    "target": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\schemas\\schemas",
+    "timestamp": "2026-10-05T11:55:28.529175+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Rubrics",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\rubrics\\Rubrics",
+    "timestamp": "2026-10-05T11:55:28.530038+00:00"
+  },
+  {
+    "action_type": "junction_create",
+    "link": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Rubrics",
+    "target": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\rubrics\\Rubrics",
+    "timestamp": "2026-10-05T11:55:28.551184+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2025-12-31.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2025-12-31.md",
+    "timestamp": "2026-10-05T11:55:28.552808+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-01-01.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-01-01.md",
+    "timestamp": "2026-10-05T11:55:28.554558+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-01-07.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-01-07.md",
+    "timestamp": "2026-10-05T11:55:28.556549+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-01-25.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-01-25.md",
+    "timestamp": "2026-10-05T11:55:28.558225+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-02-01.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-02-01.md",
+    "timestamp": "2026-10-05T11:55:28.560004+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-02-24.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-02-24.md",
+    "timestamp": "2026-10-05T11:55:28.561652+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-03-19.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-03-19.md",
+    "timestamp": "2026-10-05T11:55:28.563629+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-09.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-09.md",
+    "timestamp": "2026-10-05T11:55:28.565524+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-09_full.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-09_full.md",
+    "timestamp": "2026-10-05T11:55:28.567270+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-09_quick.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-09_quick.md",
+    "timestamp": "2026-10-05T11:55:28.568938+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-10.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-10.md",
+    "timestamp": "2026-10-05T11:55:28.570603+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-10_full.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-10_full.md",
+    "timestamp": "2026-10-05T11:55:28.572302+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-10_quick.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-10_quick.md",
+    "timestamp": "2026-10-05T11:55:28.573942+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-11.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-11.md",
+    "timestamp": "2026-10-05T11:55:28.575628+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-11_full.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-11_full.md",
+    "timestamp": "2026-10-05T11:55:28.577219+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-11_full_test.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-11_full_test.md",
+    "timestamp": "2026-10-05T11:55:28.579107+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-11_quick.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-11_quick.md",
+    "timestamp": "2026-10-05T11:55:28.581015+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-11_quick_test.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-11_quick_test.md",
+    "timestamp": "2026-10-05T11:55:28.582832+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-12.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-12.md",
+    "timestamp": "2026-10-05T11:55:28.584486+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-12_full.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-12_full.md",
+    "timestamp": "2026-10-05T11:55:28.586288+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-12_quick.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-12_quick.md",
+    "timestamp": "2026-10-05T11:55:28.588092+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-13.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-13.md",
+    "timestamp": "2026-10-05T11:55:28.589728+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-14.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-14.md",
+    "timestamp": "2026-10-05T11:55:28.591308+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-15.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-15.md",
+    "timestamp": "2026-10-05T11:55:28.592917+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-16.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-16.md",
+    "timestamp": "2026-10-05T11:55:28.594501+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-17.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-17.md",
+    "timestamp": "2026-10-05T11:55:28.596217+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-18.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-18.md",
+    "timestamp": "2026-10-05T11:55:28.598151+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-19.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-19.md",
+    "timestamp": "2026-10-05T11:55:28.599789+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-20.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-20.md",
+    "timestamp": "2026-10-05T11:55:28.601478+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-21.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-21.md",
+    "timestamp": "2026-10-05T11:55:28.603326+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-22.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-22.md",
+    "timestamp": "2026-10-05T11:55:28.605078+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-23.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-23.md",
+    "timestamp": "2026-10-05T11:55:28.606670+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-24.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-24.md",
+    "timestamp": "2026-10-05T11:55:28.608399+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-25.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-25.md",
+    "timestamp": "2026-10-05T11:55:28.610040+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-26.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-26.md",
+    "timestamp": "2026-10-05T11:55:28.611698+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-27.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-27.md",
+    "timestamp": "2026-10-05T11:55:28.613420+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-28.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-28.md",
+    "timestamp": "2026-10-05T11:55:28.615328+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-29.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-29.md",
+    "timestamp": "2026-10-05T11:55:28.617064+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-06-30.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-06-30.md",
+    "timestamp": "2026-10-05T11:55:28.618892+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-07-05.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-07-05.md",
+    "timestamp": "2026-10-05T11:55:28.620579+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Digest_2026-07-05_Lviv.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\Digest_2026-07-05_Lviv.md",
+    "timestamp": "2026-10-05T11:55:28.622270+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\digest_output.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\digests\\digest_output.md",
+    "timestamp": "2026-10-05T11:55:28.623914+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\audit_35_keys_results.json",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\audit_35_keys_results.json",
+    "timestamp": "2026-10-05T11:55:28.625586+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\decadal_audit_results.json",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\decadal_audit_results.json",
+    "timestamp": "2026-10-05T11:55:28.627224+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\golden_window_50yr_results.json",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\golden_window_50yr_results.json",
+    "timestamp": "2026-10-05T11:55:28.629141+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\temple_collision_audit_results.json",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\temple_collision_audit_results.json",
+    "timestamp": "2026-10-05T11:55:28.631138+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\scan_2026_systemic_bugs_report.json",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\scan_2026_systemic_bugs_report.json",
+    "timestamp": "2026-10-05T11:55:28.632825+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\wing1_audit_report.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\wing1_audit_report.md",
+    "timestamp": "2026-10-05T11:55:28.634489+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\wing2_audit_report.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\wing2_audit_report.md",
+    "timestamp": "2026-10-05T11:55:28.636106+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\deepseek_response.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\deepseek_response.md",
+    "timestamp": "2026-10-05T11:55:28.638011+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\gui_features_roadmap.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\gui_features_roadmap.md",
+    "timestamp": "2026-10-05T11:55:28.639833+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Service_2026-06-09.txt",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\Service_2026-06-09.txt",
+    "timestamp": "2026-10-05T11:55:28.642108+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Service_2026-06-10.txt",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\Service_2026-06-10.txt",
+    "timestamp": "2026-10-05T11:55:28.643812+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Service_2026-06-11.txt",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\Service_2026-06-11.txt",
+    "timestamp": "2026-10-05T11:55:28.645665+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Service_2026-07-05.txt",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\Service_2026-07-05.txt",
+    "timestamp": "2026-10-05T11:55:28.647410+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Service_2026-07-05_Lviv.txt",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\Service_2026-07-05_Lviv.txt",
+    "timestamp": "2026-10-05T11:55:28.649191+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Logic_Trace_2026-03-15.txt",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\Logic_Trace_2026-03-15.txt",
+    "timestamp": "2026-10-05T11:55:28.650977+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\git_log_calendar.txt",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\git_log_calendar.txt",
+    "timestamp": "2026-10-05T11:55:28.652745+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\git_log_calendar_utf8.txt",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\traces\\git_log_calendar_utf8.txt",
+    "timestamp": "2026-10-05T11:55:28.654723+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\generate_cantor_prototype.py",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\scripts\\legacy_runners\\generate_cantor_prototype.py",
+    "timestamp": "2026-10-05T11:55:28.656528+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\generate_typikon_service.py",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\scripts\\legacy_runners\\generate_typikon_service.py",
+    "timestamp": "2026-10-05T11:55:28.658810+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\test_execution_log.json",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\scratch\\logs\\test_execution_log.json",
+    "timestamp": "2026-10-05T11:55:28.664868+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report.md",
+    "timestamp": "2026-10-05T12:02:26.413952+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-10.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-10.md",
+    "timestamp": "2026-10-05T12:02:26.415293+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-11.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-11.md",
+    "timestamp": "2026-10-05T12:02:26.416650+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-11_compline.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-11_compline.md",
+    "timestamp": "2026-10-05T12:02:26.418172+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-11_hours.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-11_hours.md",
+    "timestamp": "2026-10-05T12:02:26.419894+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-11_liturgy.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-11_liturgy.md",
+    "timestamp": "2026-10-05T12:02:26.421231+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-11_matins.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-11_matins.md",
+    "timestamp": "2026-10-05T12:02:26.422635+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-11_midnight_office.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-11_midnight_office.md",
+    "timestamp": "2026-10-05T12:02:26.424379+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-11_vespers.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-11_vespers.md",
+    "timestamp": "2026-10-05T12:02:26.425716+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-12.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-12.md",
+    "timestamp": "2026-10-05T12:02:26.427035+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-13.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-13.md",
+    "timestamp": "2026-10-05T12:02:26.428374+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-14.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-14.md",
+    "timestamp": "2026-10-05T12:02:26.429660+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-15.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-15.md",
+    "timestamp": "2026-10-05T12:02:26.431099+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-16.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-16.md",
+    "timestamp": "2026-10-05T12:02:26.432420+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-17.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-17.md",
+    "timestamp": "2026-10-05T12:02:26.433835+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-18.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-18.md",
+    "timestamp": "2026-10-05T12:02:26.435332+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-19.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-19.md",
+    "timestamp": "2026-10-05T12:02:26.436737+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-20.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-20.md",
+    "timestamp": "2026-10-05T12:02:26.438022+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-21.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-21.md",
+    "timestamp": "2026-10-05T12:02:26.439478+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-22.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-22.md",
+    "timestamp": "2026-10-05T12:02:26.440859+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-23.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-23.md",
+    "timestamp": "2026-10-05T12:02:26.442219+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-24.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-24.md",
+    "timestamp": "2026-10-05T12:02:26.443516+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-25.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-25.md",
+    "timestamp": "2026-10-05T12:02:26.444819+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-26.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-26.md",
+    "timestamp": "2026-10-05T12:02:26.446326+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-27.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-27.md",
+    "timestamp": "2026-10-05T12:02:26.447700+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-28.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-28.md",
+    "timestamp": "2026-10-05T12:02:26.449148+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-29.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-29.md",
+    "timestamp": "2026-10-05T12:02:26.450693+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\compliance_report_2026-06-30.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\compliance_report_2026-06-30.md",
+    "timestamp": "2026-10-05T12:02:26.452291+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\anti_pattern_audit_report.md",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\reports\\audits\\anti_pattern_audit_report.md",
+    "timestamp": "2026-10-05T12:02:26.453682+00:00"
+  },
+  {
+    "action_type": "file_move",
+    "src": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\chronicle_index.json",
+    "dest": "C:\\Users\\augus\\OneDrive\\Documents\\Google Antigravity\\Projects\\Typikon Coded\\Data\\databases\\chronicle_index.json",
+    "timestamp": "2026-10-05T12:02:26.454963+00:00"
+  }
+]

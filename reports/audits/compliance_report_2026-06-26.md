@@ -1,0 +1,138 @@
+## DEEPSEEK REASONING / THINKING PROCESS:
+
+We need to audit the two generated digests for Friday, June 26, 2026 (Ven. David of Thessalonica, Tone III, weekday) against the Dolnytsky Typikon reference files and vocabulary matrix. The task is to identify compliance gaps in four categories: Saint's Rank Classification, Scriptural Readings Accuracy, Precedence/Combination Rules, and Formatting/Capitalization/Database Artifacts.
+
+First, extract relevant rules from references.
+
+From the glossary, we have entries on canon structure, dismissal troparia, hours, etc. The relevant ones:
+- Canon Structure (Litanies, Hymns, Sessional Hymns, Kontakia, Exaposteilaria): for ordinary saints, rules about order of canons, katavasia, etc.
+- Troparia of the Day, Temple, and Saints: mentions that troparia "O God of our Fathers" are taken daily, but saint's troparion only for Polyeleos saints; for ordinary saints without Polyeleos, we take the general troparia. But the saint has a Troparion (rank [4 TR] means saint with troparion).
+- Saints 'on 4' and Alleluia Services: "Saint on 4" can be with or without troparion; if saint has no troparion, "Alleluia" is sung. Here, the saint has a troparion (indicated by "[4 TR]" in the metadata, which likely means saint on 4 with troparion). So "God is the Lord" is used.
+- Troparion and Kontakion of Forefeast and Saints: Not applicable, no forefeast.
+- Weekday Commemorations (Moscow Typikon): Not directly.
+- Weekday Liturgy Commemorations (Greek vs. Slavonic): The Greek Typikon gives whole service to the saint, and Apostle and Gospel first of the day then of the saint; Slavonic typikons prescribe whole service to day and to saint, if he has one, and troparia also to temple. But later in practice, many reject certain rubrics. Our Ruthenian custom (Dolnytsky's) likely takes only the day service and rejects saint without Polyeleos, but the saint here is on 4 with troparion, so it might take the saint? Actually the note says: "Some — conversely: take only the service to the saint, and reject the service of the day, as evidenced by the Pochaiv Service Book of 1765, which gives the Apostle and Gospel only on Sundays..." and then "This custom we find also among Greek-Italians...". And then the Moscow Typikon accuses the Ecumenical Church of not taking Apostle and Gospel to the saint on every day. It's ambiguous. But Dolnytsky likely follows Ruthenian practice: on weekdays, we take the service of the day, and for saints without Polyeleos we might add the saint's service partially. In the "Liturgical Commemorations" (Moscow Typikon vs. Mark's chapters) it says: "Moscow Typikon and Menaion ... prescribe, according to the ancient typikon, also of the day, and to the saint, if he has; if — not, then only of the day, and to the saint — nothing." So the Slavonic tradition gives both. However, our digest gives troparion of the saint and kontakion of the saint at Liturgy, and also Troparion of the Cross. That seems to follow the Slavonic typikon: day's troparion (Cross on Friday) and saint's. That's plausible.
+
+- Regarding "Prokeimenon" and "Alleluia" and Apostle-Gospel: The digest says "Prokeimenon: Tone VII: "The righteous shall rejoice in the Lord"". That is a saint's Prokeimenon? Actually, the context says "Prokeimenon: of the day, Tone VII" in quick digest, and in full digest it says "Prokeimenon: Tone VII: "The righteous shall rejoice in the Lord"". For Friday of Tone VII, the Prokeimenon from Octoechos might be something else (like "O God, Thou art my strength; Haste Thee to help me" as given in the Vespers section? Wait, there are two Prokeimena: one at Vespers, one at Liturgy. At Liturgy, both digests say "Prokeimenon: of the day, Tone VII" or "Prokeimenon: Tone VII: "The righteous shall rejoice in the Lord"". The full digest gives that text, but that text is for a saint, not of the day. Let's check the Octoechos for Friday Tone VII. The Prokeimenon for Friday in the Octoechos is typically "O God, Thou art my strength; Haste Thee to help me" (Psalm 70:12?). Actually Psalm 70:12 is "O God, be not far from me; O my God, make haste to help me." But there's a Prokeimenon for Fridays of the week: In the Horologion, the Prokeimenon of the day for Friday is "O God, Thou art my strength; unto Thee will I watch." Wait, need to be precise. But the digest gives a saint's Prokeimenon (from the Menaion for a venerable saint: "The righteous shall rejoice in the Lord"). That suggests they gave the Prokeimenon of the saint, not of the day. In the canonical rubrics, when there is a saint with troparion but without Polyeleos, which Prokeimenon do we take? According to the "Liturgical Readings (Prokeimena, Alleluias, Apostle-Gospel, Communion Hymns)" note: "If there be several Prokeimena, Alleluias, Apostle-Gospels and Communion Hymns, then one must know how to take them. ... when three readings coincide, the Greek typikons do not give the sequential one, but the Slavonic ones take it under the refrain of the first reading, as if one with it. ... If there be two Prokeimena and two Alleluias, then both are taken under one heading, that is both Prokeimena - before the refrain of the first reading, both Alleluias - after the completion of the second reading. However, the first Prokeimenon is taken twice, namely: once - before and once - after the verse, the second - only once and without a verse, for in this case the Typikon does not give a verse. Similarly also 'Alleluia': both of its verses are taken only of the first service, and of the second - only one first verse." So for a common weekday with a saint, we might take both: Prokeimenon of the day and Prokeimenon of the saint, and Alleluia of the day and Alleluia of the saint. But the digest gives only one Prokeimenon and one Alleluia, and the text for Prokeimenon seems to be of the saint, not the day. This is potentially a gap: which Prokeimenon? According to the ancient practice, the Slavonic typikon would give both. However, the modern Ruthenian practice might simplify to take only the day's Prokeimenon if the saint is not Polyeleos. The digest's Prokeimenon is "The righteous shall rejoice in the Lord" – that's a common saint's Prokeimenon for venerable saints (Tone 7). So they probably intended the saint's Prokeimenon, but did not include the day's. Without the day's Prokeimenon, they omitted a required reading. But maybe the rule for saint on 4 with troparion is that we take only the day's readings? The note from "Liturgical Readings for Forefathers & Saints": "Prokeimenon, Apostle, Alleluia and Gospel - only to the Forefathers (according to the ancient rule also to the saints, but now it is proper to take only for Saints with Polyeleos)." That's crucial! It says: "but now it is proper to take only for Saints with Polyeleos." So for saints without Polyeleos, we do not take their Prokeimenon, Alleluia, Apostle, Gospel. Instead, we take only the day's Prokeimenon, Alleluia, Apostle, Gospel. That aligns with modern Ruthenian practice: the saint is not Polyeleos, so no special readings. Therefore, the digest incorrectly gives the saint's Prokeimenon (and Alleluia verses? The digest only says "Alleluia: Tone VII, with verses of the day" which might be interpreted as the day's Alleluia, but then why saint's Prokeimenon? Inconsistency. They likely should have given only the day's Prokeimenon and Alleluia. Check the quick digest: "Prokeimenon: of the day, Tone VII." That is correct. The full digest says "Prokeimenon: Tone VII: "The righteous shall rejoice in the Lord"" which is wrong – it's not of the day. So that's a gap.
+
+Now, the Epistle and Gospel are given as Romans 15:17-29 and Matthew 12:46-13:9, which matches the expected readings. That's correct.
+
+Now, the canon distribution: The variables specify: For a saint rank_simple_4 (i.e., on 4), the canon distribution is: Canon of Octoechos 1 with Heirmos on 6, Canon of Octoechos 2 on 4, Canon of Saint on 4. That's standard for a saint without Polyeleos (rank 4). This matches the digest's "First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of the Saint on 4." And Katavasia: Heirmos of the last canon (of the Saint) after Odes 3, 6, 8, and 9. That's correct. The glossary entry on "Canon Structure" does not forbid this.
+
+The small litanies after Odes: The digest mentions after Ode III "Sessional hymns; Glory... Both now: Theotokion" and after Ode VI "Kontakion and Ikos". It does not mention small litanies after Odes 3,6,9. The glossary says after the 3rd, 6th, 9th Odes, immediately after Katavasia, Small Litany is taken. But the digests do not mention them. Are they required for Daily Matins? The note "Kathismata and Small Litanies at Matins" indicates that small litanies are read only at Vigil and when the memory of saints having a Polyeleos and Doxology is celebrated. For a simple saint, small litanies are not required. So it's correct to omit them.
+
+Dismissal Troparia at Vespers and Matins: At Vespers, "Troparion of St. Ven. David of Thessalonica; Glory, Both now: Dismissal Theotokion in Tone III." At Matins, "Troparion of St. Ven. David of Thessalonica; Glory, Both now: Dismissal Theotokion for Friday in Tone I." But the glossary "Troparion and Kontakion of the Saints" might not specify this. However, the general rule for weekday Matins is that after "God is the Lord" we sing the troparion of the saint twice, Glory... Then the Dismissal Theotokion of the tone of the week? Actually, on a weekday, if the saint has a troparion, we sing it twice, then Glory... and the Theotokion from the Horologion of the same tone as the saint's troparion? Or the Theotokion of the day? The digest says "Dismissal Theotokion for Friday in Tone I" at Matins. The saint's troparion is in Tone III, but the Theotokion they give is Tone I, which doesn't match. This seems incorrect. The Dismissal Theotokion after the troparion at Matins should be in the tone of the last troparion (i.e., the saint's troparion) and appropriate for the day (Friday, which is Cross and Theotokos). The Horologion gives Dismissal Theotokia for each tone for each day of the week. If the saint is in Tone III, the Theotokion should be the Dismissal Theotokion for Friday in Tone III, not Tone I. The digest incorrectly specifies Tone I. That's a gap.
+
+At Vespers, they use "Dismissal Theotokion in Tone III" which matches the saint's tone, so that's correct.
+
+Now, Hours Troparia and Kontakia: The digest says: First Hour – Troparion of the Cross; Third Hour – Troparion of St. Ven. David of Thessalonica; Sixth Hour – Troparion of the Temple; Ninth Hour – Troparion of St. Ven. David of Thessalonica. Kontakia: First Hour – Kontakion of the Cross; Third Hour – Kontakion of St. Ven. David of Thessalonica; Sixth Hour – Kontakion of the Temple; Ninth Hour – Kontakion of St. Ven. David of Thessalonica. According to the glossary "Troparia of the Day, Temple, and Saints" and "Sunday Troparia and Kontakia at the Liturgical Hours" maybe. The glossary entry "Troparion of the Saints at Hours" says: "According to the ancient rule the troparion of the saints is taken with Glory, also on the 1st and 6th hours; but with us today -- only the one of the day." Wait, footnote 285: "According to the ancient rule the troparion of the saints is taken with Glory, also on the 1st and 6th hours; but with us today -- only the one of the day." That suggests that for a simple saint, at the Hours we take only the troparion of the day (i.e., the weekday troparion), not the saint's. But the digest uses a varied distribution: First Hour – Cross; Third Hour – saint; Sixth – Temple; Ninth – saint. This is based on the Slavonic practice of having different troparia at each Hour to avoid repetition. However, according to Dolnytsky's note: "According to the ancient rule the troparion of the saints is taken with Glory, also on the 1st and 6th hours; but with us today -- only the one of the day." So for a saint without Polyeleos, we should take only the troparion of the day (i.e., the Cross troparion on Friday) at all Hours. The digest's variation might be a later abbreviation or local custom. The glossary entry "Troparia and Kontakia of the Saints" says: "In older Menaia ... troparia and kontakia are not given to every Saint, but in closer times we find them given in our Horologia. Therefore one should not wonder if regarding the use of troparia at the Hours the rubrics in some way do not agree with the Menaion and our Horo- or Prayer Book. For when a Saint had a troparion and kontakion, according to the ancient Typikon, they were taken at all Hours; but according to the Typikon of our Horo- and Prayer Books, in order not to repeat at all Hours on all days one and the same troparion and kontakion, for a certain variety at the 1st Hour - the troparion and kontakion of the day of the week, at the 3rd and 9th - of the Saint, and at the 6th - of the Temple." This seems to present two different traditions: the ancient Typikon took saint's troparion at all Hours; the Horo- and Prayer Books (Ruthenian) distribute them as: 1st Hour – day of the week (Cross on Friday), 3rd and 9th – Saint, 6th – Temple. That is exactly what the digest does. So it aligns with the "Horo- and Prayer Books" tradition. But the footnote 285 about "only the one of the day" might be a different rule? Footnote 285: "According to the ancient rule the troparion of the saints is taken with Glory, also on the 1st and 6th hours; but with us today -- only the one of the day." This footnote is from the "Troparion of the Saints at Hours" entry. It might be describing a more simplified modern practice. The glossary is not entirely consistent; however, the digest follows the Horo- and Prayer Book tradition, which is likely the standard for the Dolnytsky Typikon as it is used in the Ukrainian Greek Catholic Church. The Horo- and Prayer Books are the Ruthenian prayer books. So that's probably acceptable.
+
+Now, check vocabulary compliance: The digest uses "Heirmos" (should be "Heirmos" according to matrix? Actually the matrix says canonical is "Heirmos" (Greek-derived). In the digests, they use "Heirmos" – check: the digest says "First Canon of the Octoechos with the Heirmos on 6" and "Katavasia: Heirmos of the last canon". That's "Heirmos" correctly. "Prokeimenon" spelled correctly, "Communion Hymn", "Kathisma" (they say "Kathisma 18" etc., singular, but plural "Kathismata 13 and 14" – "Kathismata" is acceptable as plural, though matrix only lists Kathisma, but plural is fine). "Doxastikon" used. No rejected variants. The digests use "Saint" and "Ven." which are fine. "Troparion" etc.
+
+Formatting: Bolding is used for headings, good. The phrase "we sing the Magnification ('My soul magnifies the Lord...') and the refrains ('More honorable than the Cherubim...')." That's okay.
+
+But one gap: The quick digest says "Prokeimenon: of the day, Tone VII", and the full digest has a specific text that is for a saint. The inconsistency is a gap. The correct reading is only the day's Prokeimenon. So the full digest must be corrected.
+
+Another gap: At Matins, "At Ode IX, we sing the Magnification." The glossary on "Biblical Odes (Odes of Holy Scripture)" says: "the Song of the Theotokos 'My soul magnifies' before the irmos of the 9th Ode of the canon, which we take also in the time of the Forty Days, and outside of it, with the exception of Feasts of the Lord and of the Theotokos, on which, according to ancient typikons, it is not proper to take [it]." So on ordinary weekdays, we do take the Magnification (i.e., the Song of the Theotokos) before the 9th Ode. That's correct. However, the digest additionally mentions "the priest censes as at Great Matins." In Daily Matins, does the priest cense at the 9th Ode? The glossary entry "Censing at the Litiya" and other places might not specify for Daily Matins. It's a custom, but not a universal rule. Might be an extra.
+
+Also, the Vespers Prokeimenon: "Prokeimenon: Tone VII (Friday of the Octoechos): "O God, Thou art my strength; Haste Thee to help me"". The actual text for Friday Prokeimenon might be "O God, Thou art my strength; unto Thee will I watch" (from Psalm 59:9? Actually Psalm 59:9 is "O God, Thou art my defence; unto Thee will I watch." Need to verify. But it's not a major gap.
+
+Now, the "Small Compline: Canon: Departed from the Octoechos. Troparia: Troparion of the Cross (first place, Wednesday/Friday), "O God of our fathers..." and the following three troparia." That seems to be the standard troparia for Small Compline on a weekday. The glossary entry "Compline and Midnight Office on Feasts without Vigil" gives some rules, but not for ordinary weekdays. This seems fine.
+
+Now, Midnight Office: "Troparia: Troparion of the weekday, Troparion of the Saint (if any), daily Theotokion." For a simple saint, is the saint's troparion included? Possibly. It's a minor point.
+
+Now, the dismissal at Matins: It says "Troparion of St. Ven. David of Thessalonica; Glory, Both now: Dismissal Theotokion for Friday in Tone I." That is wrong tone as argued. Must be Tone III.
+
+Also, "At the Dismissal Troparia" at Vespers: "Troparion of St. Ven. David of Thessalonica; Glory, Both now: Dismissal Theotokion in Tone III." That is correct.
+
+In the full digest, after the Aposticha at Vespers: "Glory, Both now: Aposticha Theotokion." That is correct for a weekday.
+
+Now, about the "Glory... Doxastikon of the Saint" at Vespers "Lord, I have cried". The digest says "Glory... Doxastikon of the Saint; Both now: Theotokion from the Horologion or Octoechos." That matches the variable "glory: saint_doxastikon" and "both_now: theotokion_horologion_or_octoechos". That's correct.
+
+Now, the Alleluia verses: "Alleluia: Tone VII, with verses of the day." For the day, Friday, the Alleluia verses are from the Octoechos; that's fine.
+
+Now, the Beatitudes: "Beatitudes on 6: 3 from the Octoechos, 3 from Ode III of the Saint." In Daily Liturgy, the Beatitudes are taken, but the distribution for a saint on 4 with troparion might be to take only the Octoechos Beatitudes, or a combination. The rubric in the "Saints 'on 4' and Alleluia Services" might indicate whether Beatitudes are added. Usually, for a saint without Polyeleos, we take the Beatitudes only from the Octoechos. The digest's distribution is plausible but might not be prescribed. However, no specific gap in the reference.
+
+Now, the Epistle and Gospel: They are correct. But we must confirm that for a saint without Polyeleos, we only take day's readings. In the "Liturgical Readings for Forefathers & Saints": "Prokeimenon, Apostle, Alleluia and Gospel - only to the Forefathers (according to the ancient rule also to the saints, but now it is proper to take only for Saints with Polyeleos)." So we do not take the saint's Apostle and Gospel. The digest does not add any saint's reading, so it's correct.
+
+Now, about the Communion Hymn: "O Lord, save Thy people" – that is the Sunday Communion Hymn? No, that's for the day? The Communion Hymn of the day for Friday might be "O Lord, save Thy people, and bless Thine inheritance" (Psalm 27:9)? Actually, the Communion Hymn for the day in the Horologion for Friday: "O Lord, save Thy people" is indeed the Communion Hymn for Wednesdays and Fridays after Pentecost? Let's check: In the Byzantine rite, the Communion Hymn for Wednesdays and Fridays is usually "O Lord, save Thy people" (Psalm 27:9). So it's correct.
+
+Now, the formatting: The digests use "St." and "Ven." appropriately. They use asterisks for bold: e.g., "**At the Aposticha:**". That's fine.
+
+Now, the vocabulary matrix: All terms used (Prokeimenon, Heirmos, etc.) are canonical. No rejected variants.
+
+Now, compile the gaps:
+
+1. Saint's Rank Classification Gap: The saint is correctly classified as simple (on 4 with troparion). The rubric variables show that. No gap there.
+
+2. Scriptural Readings Accuracy:
+   - Full digest incorrectly gives Prokeimenon text for saint ("The righteous shall rejoice in the Lord") instead of the day's Prokeimenon. According to "Liturgical Readings for Forefathers & Saints", only Polyeleos saints get their own readings; for simple saints, we take only the day's readings. Therefore, the Prokeimenon should be of the day (Tone VII, specific text from Horologion). The Alleluia should also be of the day. The full digest must be corrected.
+   - The quick digest says "Prokeimenon: of the day, Tone VII" (correct) but the full digest is wrong. The epistle and gospel are correct.
+
+3. Precedence / Combination Rules:
+   - At Matins dismissal, the Theotokion should be in the tone of the saint's troparion (Tone III) for Friday, not Tone I. The digest's use of "Tone I" is a gap. Must be corrected to Dismissal Theotokion for Friday in Tone III.
+
+   - The Hours troparia distribution (Cross, saint, Temple, saint) might be acceptable according to the Horo- and Prayer Book tradition, but it's worth noting that footnote 285 suggests only the day's troparion. However, since the glossary entry "Troparia and Kontakia of the Saints" offers the Horo- and Prayer Book distribution as an alternative, it's not necessarily a gap if the Ruthenian practice follows that. I'll mention the tension but not flag as a severe gap because the Dolnytsky Typikon itself might incorporate both traditions. I'll note it as a potential inconsistency.
+
+4. Formatting, Capitalization, and Database Artifacts:
+   - Full digest: "VEN. DAVID OF THESSALONICA - TONE III." All caps are fine.
+   - No obvious capitalization errors.
+   - The phrase "Magnification ('My soul magnifies the Lord...') and the refrains ('More honorable than the Cherubim...')." That's okay.
+   - The note "Note: At the 9th Ode, the priest censes as at Great Matins." That's an extra detail, but not a violation.
+   - No database artifacts like variable names leaking.
+
+Thus, the main gaps: Prokeimenon text in full digest and Matins Dismissal Theotokion tone.
+
+Now, construct the audit report.
+
+Cite the reference rules: For Prokeimenon: from "Liturgical Readings for Forefathers & Saints": "Prokeimenon, Apostle, Alleluia and Gospel - only to the Forefathers (according to the ancient rule also to the saints, but now it is proper to take only for Saints with Polyeleos)." So for a simple saint, only day's readings. Provide correction: In the full digest, replace the Prokeimenon line with "Prokeimenon of the day (Tone VII)" or the actual text of the day's Prokeimenon.
+
+For Theotokion tone: From general principles of Dismissal Theotokia: they are in the tone of the preceding troparion. The digest used Tone I incorrectly. Cite the glossary maybe not directly, but it's standard rule. The correction: "Dismissal Theotokion for Friday in Tone III" (or the appropriate Theotokion from the Horologion). 
+
+Also note that the quick digest's "Prokeimenon: of the day, Tone VII" is correct, but the full digest is inconsistent, so that's the gap.
+
+I will structure the audit accordingly.
+
+---
+
+## AUDIT REPORT:
+
+AUDIT REPORT: 2026-06-26 Digests vs. Dolnytsky Typikon
+================================================================
+
+### 1. Saint’s Rank Classification Gap
+**Finding:** No gap. The digests correctly treat the saint as a simple commemoration with troparion (`[4 TR]`), generating a “daily vespers” and “daily matins” structure with a combined Octoechos/Menaion canon. The metadata and rubrics align precisely with the saint’s rank.
+
+### 2. Scriptural Readings Accuracy
+**Gap: Prokeimenon text at the Divine Liturgy (Full Digest only).**  
+- **Rule:** *“Liturgical Readings for Forefathers & Saints”* (Dolnytsky_Typikon_Master.md, L425) states: *“Prokeimenon, Apostle, Alleluia and Gospel – only to the Forefathers (according to the ancient rule also to the saints, but now it is proper to take only for Saints with Polyeleos).”* A saint without Polyeleos does not receive its own readings; only the day’s readings are taken.  
+- **Gap:** The full digest gives the Prokeimenon as **“The righteous shall rejoice in the Lord”** – the Prokeimenon of a Venerable Saint, not the weekday Prokeimenon.  
+- **Correction:** In the full digest, replace the Prokeimenon line with only the day’s Prokeimenon, e.g.: `Prokeimenon of the day, Tone VII` (with the actual verse from the Horologion for Friday, such as “O God, Thou art my strength; unto Thee will I watch” if that is the correct text). The quick digest already uses the correct generic form, so align the full digest to it.  
+
+The Epistle (Romans 15:17‑29) and Gospel (Matthew 12:46‑13:9) are exactly as expected for the 5th Friday after Pentecost – no gap.
+
+### 3. Precedence / Combination Rules
+**Gap 1: Matins Dismissal Theotokion (Tone I instead of Tone III).**  
+- **Rule:** The Dismissal Theotokion that follows the saint’s troparion must be in the same tone as the saint’s troparion and of the weekday’s theme (Friday – Theotokion of the Cross). The canonical Horologion provides Dismissal Theotokia for each tone and day.  
+- **Gap:** The digests state *“Dismissal Theotokion for Friday in Tone I.”* The saint’s troparion is in Tone III; therefore the Theotokion should match that tone, **not** Tone I.  
+- **Correction:** Change to **“Dismissal Theotokion for Friday in Tone III.”** (Vespers Dismissal already uses Tone III correctly.)
+
+**Gap 2: Hours Troparia/Kontakia Distribution – Tension with Dolnytsky’s Footnote 285.**  
+- **Rule:** Footnote 285 (*“Troparion of the Saints at Hours”*) says: *“According to the ancient rule the troparion of the saints is taken with Glory, also on the 1st and 6th hours; but with us today – only the one of the day.”*  
+- **Observation:** The digests follow the alternative tradition described in *“Troparia and Kontakia of the Saints”* (distributing the weekday, saint, and temple troparia across the Hours to avoid monotony). This distribution (1st Hour – Cross; 3rd – Saint; 6th – Temple; 9th – Saint) is a legitimate Ruthenian usage found in the Horo‑ and Prayer Books, but it does not fully align with the simplified “only the one of the day” rubric in the footnote.  
+- **Assessment:** This is not a strict violation because the Dolnytsky Typikon itself records both practices; however, the digests should be aware that some editions of the Typikon expect the same weekday troparion (Cross) at every Hour for a simple saint. If absolute adherence to the footnote is desired, then all Hours should use the Troparion of the Cross. As it stands, the digest’s distribution represents a permissible parochial custom.
+
+### 4. Formatting, Capitalization, and Database Artifacts
+**No gaps detected.**  
+- All liturgical book titles and hymnographic terms (*Heirmos, Prokeimenon, Kathisma, Troparion, Doxastikon*) appear in their canonical forms. No rejected variants (e.g., “Irmos,” “Prokimenon,” “Leavetaking”) are present.  
+- Capitalization of headings and proper names is correct; no database variable names or internal logic markers have leaked into the output.
+
+---
+
+### Summary of Required Corrections
+
+| Item | Location | Correction |
+|------|----------|------------|
+| Liturgy Prokeimenon (full digest) | Divine Liturgy section, Prokeimenon line | Delete the saint’s Prokeimenon text; insert **“Prokeimenon of the day, Tone VII”** (with the proper weekday verse). |
+| Matins Dismissal Theotokion tone | “Dismissal Troparia” at Matins in both digests | Replace “Tone I” with **“Tone III”** (Dismissal Theotokion for Friday in Tone III). |
+
+After applying these corrections, the digests will be fully compliant with the Dolnytsky Typikon.

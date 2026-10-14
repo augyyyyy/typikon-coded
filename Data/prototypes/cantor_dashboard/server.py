@@ -40,18 +40,24 @@ def watch_frontend_files():
             reload_event.clear()
 
 
-# Resolve paths
+# Resolve paths dynamically
 CANTOR_DASHBOARD_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_DIR = os.path.dirname(CANTOR_DASHBOARD_DIR)
-sys.path.insert(0, REPO_DIR)
+curr = CANTOR_DASHBOARD_DIR
+REPO_DIR = curr
+for _ in range(5):
+    if os.path.exists(os.path.join(curr, "engine")) and os.path.exists(os.path.join(curr, ".agents")):
+        REPO_DIR = curr
+        break
+    curr = os.path.dirname(curr)
+
+if REPO_DIR not in sys.path:
+    sys.path.insert(0, REPO_DIR)
 
 # Import the engine
 try:
-    from ruthenian_engine import RuthenianEngine
+    from engine import RuthenianEngine
 except ImportError:
-    # If not in path, try adding REPO_DIR/engine
-    sys.path.insert(0, os.path.join(REPO_DIR, "engine"))
-    from ruthenian_engine import RuthenianEngine
+    from engine.core import RuthenianEngine
 
 PORT = int(os.environ.get("PORT", 8080))
 

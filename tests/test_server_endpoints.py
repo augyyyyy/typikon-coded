@@ -17,8 +17,9 @@ def is_port_open(port):
 
 @pytest.fixture(scope="module")
 def dashboard_server():
-    """Fixture to start the cantor dashboard server on a test port."""
-    server_script = os.path.join(REPO_DIR, "cantor_dashboard", "server.py")
+    server_script = os.path.join(REPO_DIR, "data", "prototypes", "cantor_dashboard", "server.py")
+    if not os.path.exists(server_script):
+        server_script = os.path.join(REPO_DIR, "cantor_dashboard", "server.py")
     server_log_path = os.path.join(REPO_DIR, "scratch", "server_test.log")
     os.makedirs(os.path.dirname(server_log_path), exist_ok=True)
     server_log = open(server_log_path, "w", encoding="utf-8")

@@ -82,11 +82,28 @@ secrets.json
 anti_pattern_audit_report.md
 
 # ----------------------------------------------------------
-# Private / Copyrighted / Raw Data Workspaces
+# Private / Copyrighted / Raw Data Workspaces (6-Tier Data/)
 # ----------------------------------------------------------
 json_db/private_assets/
 json_db/external/
-Data/
+Data/Inbox/
+Data/Service Books/
+Data/historical_data_caches/
+Data/archive/
+Data/prototypes/cantor_prototypes/
+Data/*.pdf
+Data/*.txt
+# Prevent double-tracking root NTFS junctions (json_db, schemas, Rubrics)
+Data/databases/json_db/
+Data/schemas/schemas/
+Data/rubrics/Rubrics/
+
+# ----------------------------------------------------------
+# Bulk Brain Harvest Archives (Local Disk Only - 177 MB)
+# ----------------------------------------------------------
+docs/historical_artifacts/
+docs/user_evidence/
+scripts/archived_pipelines/
 
 # ----------------------------------------------------------
 # Internal Development Notes
@@ -124,6 +141,10 @@ cantor_output_example.txt
 missing_materials.txt
 archive/
 audit_results/
+reports/audits/legacy_audit_results/
+reports/digests/generated_digests/
+reports/traces/verification_examples/
+reports/final_results/
 
 # ----------------------------------------------------------
 # Trace & Verification Artifacts
@@ -140,8 +161,9 @@ Service_*.txt
 digest_output.*
 digest_vespers_*.txt
 cantor_dashboard/assets.zip
-Digest_*.md
-Digest_*_test.md
-compliance_report_*.md
+Data/prototypes/cantor_dashboard/assets.zip
+/Digest_*.md
+/Digest_*_test.md
+/compliance_report_*.md
 wing1_audit_report.md
 wing2_audit_report.md

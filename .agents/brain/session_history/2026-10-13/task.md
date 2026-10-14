@@ -1,0 +1,23 @@
+# Software Forensics Audit & Working-Tree Stabilization Tasks
+
+- [x] **Pre-Flight Compliance (`.agents/AGENTS.md` Rule 11)**
+  - [x] Read `.agents/AGENTS.md`, `GLOBAL_SYSTEM_RULES.md`, `.agents/references/project_facts.md`, `.agents/references/learnings.md`, and `.agents/references/anti_patterns.md`
+  - [x] Run `tests/test_session_compliance.py` and verify PASS
+- [x] **Phase 1: Deep Forensic Verification & Metrics Gathering**
+  - [x] Verify `json_db/almanac/` vs. live `RuthenianEngine` parity (`tests/test_annual_almanac_consistency.py`)
+  - [x] Run server & musicology endpoint tests (`tests/test_server_endpoints.py`, `tests/test_musicology_ingestion.py`)
+  - [x] Quantify exact key counts across `Royal Doors`, `Stamford`, `st_sergius`, `synodal_footnotes.json`, and `Data/Codex_*_Structured_DB.json`
+  - [x] Audit `Data/Inbox/` (542 items / 1.58 GB): compute exact SHA-256 duplicate matrix for the 461 PDFs and inventory Monuments 1–6 & Oct 12 Kyivan Musicology payloads
+  - [x] Inspect `reports/audits/*.json` historical violation metrics
+- [x] **Phase 2: Immediate 6-Tier Working-Tree Stabilization**
+  - [x] Resolve `scripts/parsers_collision_20261005115528/` $\rightarrow$ `scripts/parsers/` and `reports/final_results_collision_20261005115528/` $\rightarrow$ `reports/final_results/`
+  - [x] Restore original root shims `ruthenian_engine.py` and `typikon_digest_generator.py` from `scripts/legacy_runners/`
+  - [x] Update `_dedup_meta/reorg_manifest.json` and fix pre-creation/junction-logging bug in `scripts/execute_spoke_reorg.py`
+  - [x] Purge OneDrive `desktop.ini` files from `.git/refs/**` and remove empty root `audit_results/`
+  - [x] Relocate `ARTIFACT_REGISTRY.md` to `reports/ARTIFACT_REGISTRY.md` with updated relative links
+  - [x] Replace blanket `Data/` ignore in `.gitignore` with selective 6-Tier ignores and update `render.yaml` (`startCommand: python Data/prototypes/cantor_dashboard/server.py`)
+- [x] **Phase 3: Persistent Memory & Forensic Deliverables**
+  - [x] Author `FORENSIC_AUDIT_REPORT.md` (Brain Artifact + `reports/audits/FORENSIC_AUDIT_REPORT.md`)
+  - [x] Create `.agents/STATE.md` persistent situational memory
+  - [x] Update `.agents/references/project_facts.md` and `../GLOBAL_ECOSYSTEM_STATE.md`
+  - [x] Execute Rule 12 Post-Flight Checklist (`git diff --stat HEAD`, `test_session_compliance.py`, full `pytest` suite, and archive planning artifacts to `.agents/brain/session_history/2026-10-13/`)
