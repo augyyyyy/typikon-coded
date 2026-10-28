@@ -26,7 +26,11 @@
     "proportionality_passed": true,
     "confabulation_passed": true,
     "triangulation_passed": true,
-    "pdf_audit_passed": true
+    "pdf_audit_passed": true,
+    "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+    "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in No. 76_evidence_manifest.json awaits folio/line-level SGC-02 primary-source verification]"
   },
-  "human_verification_timestamp": "2026-09-10T01:18:55.189896+00:00"
+  "human_verification_timestamp": "2026-09-10T01:18:55.189896+00:00",
+  "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+  "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in No. 76_evidence_manifest.json awaits folio/line-level SGC-02 primary-source verification]"
 }

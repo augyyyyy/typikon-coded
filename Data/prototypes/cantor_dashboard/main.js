@@ -421,7 +421,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            renderLiturgicalContext(data.context, data.rubrics, data.fasting, data.ceremonial, data.katavasia);
+            state.lastSeasonalRepertoire = data.seasonal_repertoire || null;
+            renderLiturgicalContext(data.context, data.rubrics, data.fasting, data.ceremonial, data.katavasia, data.seasonal_repertoire);
             renderTraceLogs(data.rubrics.trace);
             
             state.lastContext = data.context;
@@ -737,7 +738,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return `<span class="badge-katavasia" style="cursor: help;" title="${titleTooltip}">${incipit}</span>`;
     }
 
-    function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial, katavasia) {
+    function renderLiturgicalContext(ctx, rubrics, fasting, ceremonial, katavasia, seasonalRepertoire) {
         let html = "";
         
         // General Info
@@ -839,12 +840,44 @@ document.addEventListener("DOMContentLoaded", () => {
             html += `<div class="context-row" title="${clergyTooltip}"><span class="context-label">Clergy Variant</span><span class="context-val" style="font-size: 0.85rem;">${variantLabel}</span></div>`;
         }
 
+        // Seasonal Chant Repertoire (WO-01 to WO-05)
+        if (seasonalRepertoire && seasonalRepertoire.cycle_id) {
+            html += `<div class="context-section-header">Seasonal Chant Repertoire</div>`;
+            const cid = escapeHtml(seasonalRepertoire.cycle_id);
+            const cname = escapeHtml(seasonalRepertoire.cycle_name || cid);
+            const pnum = seasonalRepertoire.primary_phase || 1;
+            const pname = escapeHtml(seasonalRepertoire.primary_phase_name || `Phase ${pnum}`);
+            const countVal = seasonalRepertoire.appointed_items_count || 0;
+            html += `<div class="context-row" title="Canonical Kyivan/Galician seasonal chant cycle resolved for this liturgical date."><span class="context-label">Chant Cycle</span><span class="context-val"><span class="badge-tone" title="${cname}">${cid}</span></span></div>`;
+            html += `<div class="context-row" title="Liturgical phase within ${cid} (${cname})."><span class="context-label">Seasonal Phase</span><span class="context-val" style="max-width: 65%; text-align: right; font-size: 0.82rem;">${pname}</span></div>`;
+            if (seasonalRepertoire.dogmatikon_of_the_tone) {
+                const dogm = seasonalRepertoire.dogmatikon_of_the_tone;
+                const dogmLabel = `${escapeHtml(dogm.title_en)} (${escapeHtml(dogm.title_cyr)})`;
+                html += `<div class="context-row" title="The Master Octoechos Dogmatikon of St. John Damascene appointed for the weekly Tone."><span class="context-label">Tone Dogmatikon</span><span class="context-val" style="max-width: 65%; text-align: right; font-size: 0.82rem;">${dogmLabel}</span></div>`;
+            }
+            html += `<div class="context-row" title="Total canonical chants appointed for this seasonal phase and Tone."><span class="context-label">Appointed Chants</span><span class="context-val" style="display: flex; align-items: center; gap: 8px;"><span>${countVal} Chants</span><button class="btn btn-secondary btn-sm" id="btn-jump-seasonal-repertoire" data-cycle="${cid}" data-phase="${pnum}" style="padding: 2px 8px; font-size: 0.75rem;">Explore ▶</button></span></div>`;
+        }
+
         // Rubrics Resolution Outputs
         html += `<div class="context-section-header">Rubrics Outcomes</div>`;
         const outlinesVal = formatOutlines(rubrics.overrides.outlines || rubrics.variables.outlines || "Default");
         html += `<div class="context-row" title="Engine Resolvers: The structural outlines chosen by the rubric engine to generate this service booklet."><span class="context-label">Selected Outlines</span><span class="context-val" style="font-family: var(--font-mono); font-size: 0.8rem;">${outlinesVal}</span></div>`;
         
         el.contextContent.innerHTML = html;
+
+        const jumpRepBtn = document.getElementById("btn-jump-seasonal-repertoire");
+        if (jumpRepBtn) {
+            jumpRepBtn.addEventListener("click", async () => {
+                const targetCycle = jumpRepBtn.getAttribute("data-cycle") || "ALL";
+                const targetPhase = jumpRepBtn.getAttribute("data-phase") || "ALL";
+                switchTab("tab-roadmap");
+                await loadSeasonalRepertoires(targetCycle, targetPhase);
+                const explorerCard = document.getElementById("repertoire-explorer-card");
+                if (explorerCard) {
+                    explorerCard.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            });
+        }
     }
 
     function renderTraceLogs(trace) {
@@ -2296,11 +2329,195 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             renderFeastTimeline();
+            await loadSeasonalRepertoires();
 
         } catch (err) {
             console.error("Error loading roadmap: ", err);
             wingsContainer.innerHTML = `<p class="placeholder-text" style="color: var(--rubric-color);">Error loading: ${err.message}</p>`;
         }
+    }
+
+    let repertoireControlsBound = false;
+
+    async function loadSeasonalRepertoires(initialCycle = null, initialPhase = null) {
+        const container = document.getElementById("repertoire-items-container");
+        const cycleSelect = document.getElementById("repertoire-cycle-select");
+        const phaseSelect = document.getElementById("repertoire-phase-select");
+        const searchInput = document.getElementById("repertoire-search-input");
+        if (!container) return;
+
+        if (!state.repertoiresCatalog) {
+            container.innerHTML = "<p class='placeholder-text'>Loading seasonal chant repertoires...</p>";
+            try {
+                const res = await fetch(`${API_BASE}/api/repertoires`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                state.repertoiresCatalog = await res.json();
+            } catch (err) {
+                console.error("Error loading seasonal repertoires:", err);
+                container.innerHTML = `<p class="placeholder-text" style="color: var(--rubric-color);">Error loading seasonal repertoires: ${escapeHtml(err.message)}</p>`;
+                return;
+            }
+        }
+
+        if (initialCycle && cycleSelect) {
+            cycleSelect.value = initialCycle;
+        }
+        syncRepertoirePhaseOptions();
+        if (initialPhase && phaseSelect) {
+            phaseSelect.value = String(initialPhase);
+        }
+
+        if (!repertoireControlsBound) {
+            repertoireControlsBound = true;
+            if (cycleSelect) {
+                cycleSelect.addEventListener("change", () => {
+                    syncRepertoirePhaseOptions();
+                    renderSeasonalRepertoireExplorer();
+                });
+            }
+            if (phaseSelect) {
+                phaseSelect.addEventListener("change", () => {
+                    renderSeasonalRepertoireExplorer();
+                });
+            }
+            if (searchInput) {
+                searchInput.addEventListener("input", () => {
+                    renderSeasonalRepertoireExplorer();
+                });
+            }
+        }
+
+        renderSeasonalRepertoireExplorer();
+    }
+
+    function syncRepertoirePhaseOptions() {
+        const cycleSelect = document.getElementById("repertoire-cycle-select");
+        const phaseSelect = document.getElementById("repertoire-phase-select");
+        if (!cycleSelect || !phaseSelect || !state.repertoiresCatalog) return;
+
+        const selectedCycle = cycleSelect.value;
+        const previousPhase = phaseSelect.value;
+        let html = `<option value="ALL">All Phases (1–6)</option>`;
+
+        if (selectedCycle !== "ALL") {
+            const cycleObj = (state.repertoiresCatalog.cycles || []).find(c => c.cycle_id === selectedCycle);
+            if (cycleObj && Array.isArray(cycleObj.phases)) {
+                cycleObj.phases.forEach(p => {
+                    html += `<option value="${p.phase}">Phase ${p.phase} — ${escapeHtml(p.phase_name)} (${p.item_count})</option>`;
+                });
+            }
+        } else {
+            for (let p = 1; p <= 6; p++) {
+                html += `<option value="${p}">Phase ${p}</option>`;
+            }
+        }
+        phaseSelect.innerHTML = html;
+        if ([...phaseSelect.options].some(o => o.value === previousPhase)) {
+            phaseSelect.value = previousPhase;
+        } else {
+            phaseSelect.value = "ALL";
+        }
+    }
+
+    function renderSeasonalRepertoireExplorer() {
+        const container = document.getElementById("repertoire-items-container");
+        const cycleSelect = document.getElementById("repertoire-cycle-select");
+        const phaseSelect = document.getElementById("repertoire-phase-select");
+        const searchInput = document.getElementById("repertoire-search-input");
+        const summaryBadges = document.getElementById("repertoire-summary-badges");
+        if (!container || !state.repertoiresCatalog) return;
+
+        const selectedCycle = cycleSelect ? cycleSelect.value : "ALL";
+        const selectedPhase = phaseSelect ? phaseSelect.value : "ALL";
+        const queryText = (searchInput ? searchInput.value : "").trim().toLowerCase();
+
+        const matchedItems = [];
+        (state.repertoiresCatalog.cycles || []).forEach(cycle => {
+            if (selectedCycle !== "ALL" && cycle.cycle_id !== selectedCycle) return;
+            (cycle.items || []).forEach(item => {
+                if (selectedPhase !== "ALL" && String(item.phase) !== String(selectedPhase)) return;
+                if (queryText) {
+                    const haystack = [
+                        item.id,
+                        item.title_en,
+                        item.title_cyr,
+                        item.genre,
+                        item.tone,
+                        item.station,
+                        item.phase_name
+                    ].filter(Boolean).join(" ").toLowerCase();
+                    if (!haystack.includes(queryText)) return;
+                }
+                matchedItems.push(item);
+            });
+        });
+
+        if (summaryBadges) {
+            summaryBadges.innerHTML = `
+                <span class="badge-tone">${matchedItems.length} / ${state.repertoiresCatalog.total_canonical_items || 140} Chants Shown</span>
+                <span class="badge-eothinon">${state.repertoiresCatalog.total_cycles || 5} Cycles (30 Phases)</span>
+            `;
+        }
+
+        if (matchedItems.length === 0) {
+            container.innerHTML = "<p class='placeholder-text'>No seasonal chants match the current filter criteria.</p>";
+            return;
+        }
+
+        let html = "";
+        matchedItems.forEach((item, idx) => {
+            const openAttr = idx === 0 && matchedItems.length <= 8 ? " open" : "";
+            const titleEn = escapeHtml(item.title_en || item.id);
+            const titleCyr = escapeHtml(item.title_cyr || "");
+            const genre = escapeHtml(item.genre || "Chant");
+            const tone = escapeHtml(item.tone || "");
+            const station = escapeHtml(item.station || "");
+            const phaseName = escapeHtml(item.phase_name || `Phase ${item.phase}`);
+            const whyPicked = escapeHtml(item.why_picked || "");
+            const typikonRubrics = escapeHtml(item.typikon_rubrics || "");
+            const primaryExemplar = escapeHtml(item.primary_exemplar || "");
+            const parallelWitnesses = escapeHtml(item.parallel_witnesses || "");
+            const printBenchmarks = escapeHtml(item.print_benchmarks || "");
+            const discography = escapeHtml(item.discography_and_scores || "");
+            const epistemicBadge = escapeHtml(item.epistemic_badge || "");
+
+            html += `
+                <details class="repertoire-item-card"${openAttr}>
+                    <summary class="repertoire-item-summary">
+                        <div class="repertoire-item-title-block">
+                            <span class="badge-rank rank-major">${escapeHtml(item.id)}</span>
+                            <span>${titleEn}</span>
+                            ${titleCyr ? `<span class="repertoire-item-cyr">(${titleCyr})</span>` : ""}
+                        </div>
+                        <div class="repertoire-item-meta-badges">
+                            <span class="badge badge-category">${genre}</span>
+                            ${tone ? `<span class="badge-tone">${tone}</span>` : ""}
+                            <span class="badge-eothinon">Phase ${item.phase}</span>
+                        </div>
+                    </summary>
+                    <div class="repertoire-item-body">
+                        <div><strong>Liturgical Station:</strong> ${station} &mdash; <em>${phaseName}</em></div>
+                        ${whyPicked ? `<div><strong>Selection Rationale:</strong> ${whyPicked}</div>` : ""}
+                        ${epistemicBadge ? `<div><strong>Tradition Witness Category:</strong> ${epistemicBadge}</div>` : ""}
+                        <div class="repertoire-pillar-box">
+                            <div class="repertoire-pillar-title">Pillar 1 — Typikon Rubrics (2010 Lviv &amp; 1899 Dolnytsky)</div>
+                            <div>${typikonRubrics}</div>
+                        </div>
+                        <div class="repertoire-pillar-box">
+                            <div class="repertoire-pillar-title">Pillar 2 — Manuscript Witnesses &amp; Print Benchmarks (1598–1904)</div>
+                            <div><strong>Primary Exemplar:</strong> ${primaryExemplar}</div>
+                            <div><strong>Parallel Witnesses:</strong> ${parallelWitnesses}</div>
+                            <div><strong>Print Benchmarks:</strong> ${printBenchmarks}</div>
+                        </div>
+                        <div class="repertoire-pillar-box">
+                            <div class="repertoire-pillar-title">Pillar 3 — Performance Practice &amp; Reference Editions</div>
+                            <div>${discography}</div>
+                        </div>
+                    </div>
+                </details>
+            `;
+        });
+        container.innerHTML = html;
     }
 
     function renderFeastTimeline() {

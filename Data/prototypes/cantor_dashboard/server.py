@@ -1,3 +1,4 @@
+import glob
 import http.server
 import socketserver
 import urllib.parse
@@ -13,13 +14,14 @@ from datetime import datetime, date
 FRONTEND_FILES = ["index.html", "style.css", "main.js"]
 reload_event = threading.Event()
 
+
 def watch_frontend_files():
     mtimes = {}
     for f in FRONTEND_FILES:
         filepath = os.path.join(CANTOR_DASHBOARD_DIR, f)
         if os.path.exists(filepath):
             mtimes[filepath] = os.path.getmtime(filepath)
-            
+
     while True:
         time.sleep(0.5)
         changed = False
@@ -65,53 +67,132 @@ PORT = int(os.environ.get("PORT", 8080))
 standardized_db = {}
 backup_db = {}
 key_to_file = {}
+repertoires_db = {}
+
+
+def _extract_nested_preview(node):
+    """Extract a readable text preview and synthesized content from a 3-level nested Triodion dict."""
+    if isinstance(node, str):
+        return node
+    if isinstance(node, list):
+        for item in node:
+            if isinstance(item, str) and item.strip():
+                return item.strip()
+        return ""
+    if isinstance(node, dict):
+        if "content" in node and isinstance(node["content"], str):
+            return node["content"]
+        for _, child in node.items():
+            res = _extract_nested_preview(child)
+            if res:
+                return res
+    return ""
+
+
+def _flatten_nested_triodion_day(day_key, day_dict):
+    """Flatten a nested Triodion day dictionary into a structured text view for the Database Inspector."""
+    sections = []
+    for service_key, slots in day_dict.items():
+        if not isinstance(slots, dict):
+            continue
+        sections.append(f"=== {service_key.replace('_', ' ').upper()} ===")
+        for slot_key, paragraphs in slots.items():
+            sections.append(f"\n[{slot_key.replace('_', ' ').title()}]")
+            if isinstance(paragraphs, list):
+                for p in paragraphs:
+                    if isinstance(p, str) and p.strip():
+                        sections.append(p.strip())
+    return {
+        "content": "\n".join(sections) if sections else "(Empty Triodion Day Entry)",
+        "title": day_key.replace("_", " ").title(),
+        "verse": "",
+        "source": "Stamford Divine Office (Nested Triodion)",
+        "_rubrics": [],
+    }
+
+
+def ensure_repertoires_loaded():
+    """Ensure WO_01..WO_05 seasonal chant repertoire databases are loaded into memory."""
+    if repertoires_db:
+        return repertoires_db
+    repertoires_dir = os.path.join(REPO_DIR, "Data", "databases", "repertoires")
+    if os.path.exists(repertoires_dir):
+        pattern = os.path.join(repertoires_dir, "WO_0*.json")
+        for filepath in sorted(glob.glob(pattern)):
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                cycle_id = data.get("cycle_id")
+                if cycle_id:
+                    repertoires_db[cycle_id] = data
+            except Exception as e:
+                print(f"Error loading repertoire {filepath}: {e}")
+    return repertoires_db
+
 
 def load_databases():
-    print("Pre-loading Stamford databases...")
-    stamford_dir = os.path.join(REPO_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets")
-    backup_dir = os.path.join(REPO_DIR, "json_db", "stamford_backup")
-    
-    # Load standardized
+    print("Pre-loading Royal Doors (standardized), Stamford (baseline), and Seasonal Repertoire databases...")
+    royal_doors_dir = os.path.join(
+        REPO_DIR, "Data", "Service Books", "Recensions", "Royal Doors", "JSON", "assets"
+    )
+    stamford_dir = os.path.join(
+        REPO_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets"
+    )
+
+    if os.path.exists(royal_doors_dir):
+        for fname in sorted(os.listdir(royal_doors_dir)):
+            if fname.startswith("text_") and fname.endswith(".json"):
+                filepath = os.path.join(royal_doors_dir, fname)
+                try:
+                    with open(filepath, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        if isinstance(data, dict):
+                            for k, v in data.items():
+                                if k == "file_metadata":
+                                    continue
+                                standardized_db[k] = v
+                                key_to_file[k] = fname
+                except Exception as e:
+                    print(f"Error loading {filepath}: {e}")
+
     if os.path.exists(stamford_dir):
-        for fname in os.listdir(stamford_dir):
-            if fname.endswith(".json") and not fname.endswith(".bak"):
+        for fname in sorted(os.listdir(stamford_dir)):
+            if fname.startswith("text_") and fname.endswith(".json"):
                 filepath = os.path.join(stamford_dir, fname)
                 try:
                     with open(filepath, "r", encoding="utf-8") as f:
                         data = json.load(f)
                         if isinstance(data, dict):
                             for k, v in data.items():
-                                standardized_db[k] = v
-                                key_to_file[k] = fname
+                                if k == "file_metadata":
+                                    continue
+                                backup_db[k] = v
+                                if k not in standardized_db:
+                                    standardized_db[k] = v
+                                    key_to_file[k] = fname
                 except Exception as e:
                     print(f"Error loading {filepath}: {e}")
-                    
-    # Load backups
-    if os.path.exists(backup_dir):
-        for fname in os.listdir(backup_dir):
-            if fname.endswith(".json"):
-                filepath = os.path.join(backup_dir, fname)
-                try:
-                    with open(filepath, "r", encoding="utf-8") as f:
-                        data = json.load(f)
-                        if isinstance(data, dict):
-                            for k, v in data.items():
-                                backup_db[k] = v
-                except Exception as e:
-                    print(f"Error loading backup {filepath}: {e}")
-                    
-    print(f"Loaded {len(standardized_db)} standardized keys, {len(backup_db)} backup keys.")
 
-def normalize_text_val(val):
+    ensure_repertoires_loaded()
+    total_repertoire_items = sum(c.get("total_canonical_items", 0) for c in repertoires_db.values())
+    print(
+        f"Loaded {len(standardized_db)} Royal Doors standardized keys, {len(backup_db)} Stamford baseline keys, and "
+        f"{len(repertoires_db)} seasonal chant cycles ({total_repertoire_items} canonical items)."
+    )
+
+
+def normalize_text_val(val, key=""):
     if val is None:
         return None
     if isinstance(val, dict):
+        if "content" not in val and any(isinstance(v, dict) for v in val.values()):
+            return _flatten_nested_triodion_day(key, val)
         return {
             "content": val.get("content", ""),
             "title": val.get("title", ""),
             "verse": val.get("verse", ""),
             "source": val.get("source", ""),
-            "_rubrics": val.get("_rubrics", [])
+            "_rubrics": val.get("_rubrics", []),
         }
     elif isinstance(val, str):
         return {
@@ -119,16 +200,161 @@ def normalize_text_val(val):
             "title": "",
             "verse": "",
             "source": "",
-            "_rubrics": []
+            "_rubrics": [],
         }
     return None
+
+
+def resolve_seasonal_repertoire(target_date, context):
+    """Deterministically resolve the active WO-01..WO-05 seasonal chant repertoire for a liturgical date.
+
+    Maps pascha_offset, fixed calendar dates (MM-DD), and Octoechos tone (1..8) to:
+    - Primary seasonal cycle (WO-01..WO-05)
+    - Active phase(s) within that cycle
+    - Concurrent fixed Marian/Theotokos feast overlays (e.g., Annunciation during Great Lent)
+    - Matching Tone's Dogmatic Theotokion from WO-05 Phase 6 (WO-05.23..WO-05.30)
+    """
+    ensure_repertoires_loaded()
+    if not repertoires_db:
+        return None
+
+    pascha_offset = context.get("pascha_offset")
+    tone = context.get("tone")
+    month = target_date.month
+    day = target_date.day
+    weekday = target_date.weekday()  # Monday=0 .. Sunday=6
+
+    # List of (cycle_id, phase_num) pairs active on this date
+    selected_cycle_phases = []
+    primary_cycle_id = "WO-05"
+
+    if isinstance(pascha_offset, int) and -8 <= pascha_offset <= -1:
+        primary_cycle_id = "WO-03"
+        if pascha_offset in (-8, -7):
+            selected_cycle_phases.append(("WO-03", 1))
+        elif pascha_offset in (-6, -5, -4):
+            selected_cycle_phases.append(("WO-03", 2))
+        elif pascha_offset == -3:
+            selected_cycle_phases.append(("WO-03", 3))
+        elif pascha_offset == -2:
+            selected_cycle_phases.extend([("WO-03", 4), ("WO-03", 5)])
+        elif pascha_offset == -1:
+            selected_cycle_phases.extend([("WO-03", 5), ("WO-03", 6)])
+    elif isinstance(pascha_offset, int) and 0 <= pascha_offset <= 56:
+        primary_cycle_id = "WO-04"
+        if pascha_offset == 0:
+            selected_cycle_phases.extend([("WO-04", 1), ("WO-04", 2), ("WO-04", 3)])
+        elif 1 <= pascha_offset <= 6:
+            selected_cycle_phases.extend([("WO-04", 2), ("WO-04", 3)])
+        elif 7 <= pascha_offset <= 38:
+            selected_cycle_phases.append(("WO-04", 4))
+        elif 39 <= pascha_offset <= 47:
+            selected_cycle_phases.append(("WO-04", 5))
+        else:
+            selected_cycle_phases.append(("WO-04", 6))
+    elif isinstance(pascha_offset, int) and -70 <= pascha_offset <= -9:
+        primary_cycle_id = "WO-02"
+        if -70 <= pascha_offset <= -49:
+            selected_cycle_phases.append(("WO-02", 1))
+        else:
+            if -48 <= pascha_offset <= -43:
+                selected_cycle_phases.append(("WO-02", 2))
+            if weekday in (2, 4):
+                selected_cycle_phases.append(("WO-02", 3))
+            elif weekday == 6:
+                selected_cycle_phases.extend([("WO-02", 4), ("WO-02", 5), ("WO-02", 6)])
+            else:
+                if ("WO-02", 2) not in selected_cycle_phases:
+                    selected_cycle_phases.append(("WO-02", 3))
+            if pascha_offset == -15:
+                # Akathist Saturday
+                selected_cycle_phases.append(("WO-05", 1))
+    elif (month == 11 and day >= 15) or month == 12 or (month == 1 and day <= 14):
+        primary_cycle_id = "WO-01"
+        if month == 11 and 15 <= day <= 24:
+            selected_cycle_phases.append(("WO-01", 1))
+        elif (month == 11 and day >= 25) or (month == 12 and day <= 23):
+            selected_cycle_phases.append(("WO-01", 2))
+        elif month == 12 and day == 24:
+            selected_cycle_phases.extend([("WO-01", 3), ("WO-01", 4)])
+        elif month == 12 and day >= 25:
+            selected_cycle_phases.append(("WO-01", 5))
+        else:
+            selected_cycle_phases.append(("WO-01", 6))
+    else:
+        primary_cycle_id = "WO-05"
+        if month == 3 and 20 <= day <= 31:
+            selected_cycle_phases.append(("WO-05", 1))
+        elif month in (6, 7) or (month == 8 and 1 <= day <= 13):
+            selected_cycle_phases.append(("WO-05", 2))
+        elif month == 8 and 14 <= day <= 31:
+            selected_cycle_phases.append(("WO-05", 3))
+        elif month == 9:
+            selected_cycle_phases.append(("WO-05", 4))
+        elif month == 10 or (month == 11 and 1 <= day <= 14):
+            selected_cycle_phases.append(("WO-05", 5))
+        else:
+            selected_cycle_phases.append(("WO-05", 6))
+
+    # Concurrent Annunciation overlay if March 24-26 falls inside Great Lent / Holy Week
+    if month == 3 and 24 <= day <= 26 and ("WO-05", 1) not in selected_cycle_phases:
+        selected_cycle_phases.append(("WO-05", 1))
+
+    primary_cycle = repertoires_db.get(primary_cycle_id, {})
+    active_items = []
+    seen_ids = set()
+    active_phases = []
+    seen_phases = set()
+
+    for cid, phase_num in selected_cycle_phases:
+        cycle_obj = repertoires_db.get(cid, {})
+        for item in cycle_obj.get("items", []):
+            if item.get("phase") == phase_num:
+                phase_key = (cid, phase_num)
+                if phase_key not in seen_phases:
+                    seen_phases.add(phase_key)
+                    active_phases.append({
+                        "cycle_id": cid,
+                        "phase": phase_num,
+                        "phase_name": item.get("phase_name", f"Phase {phase_num}"),
+                    })
+                item_id = item.get("id")
+                if item_id not in seen_ids:
+                    seen_ids.add(item_id)
+                    active_items.append(item)
+
+    # Resolve Tone's Dogmatic Theotokion from WO-05 Phase 6 (WO-05.23 .. WO-05.30)
+    dogmatikon_of_the_tone = None
+    if isinstance(tone, int) and 1 <= tone <= 8:
+        target_tone_str = f"Tone {tone}"
+        wo05_items = repertoires_db.get("WO-05", {}).get("items", [])
+        for item in wo05_items:
+            if item.get("phase") == 6 and item.get("tone") == target_tone_str:
+                dogmatikon_of_the_tone = item
+                if item.get("id") not in seen_ids:
+                    seen_ids.add(item.get("id"))
+                    active_items.append(item)
+                break
+
+    return {
+        "cycle_id": primary_cycle_id,
+        "cycle_name": primary_cycle.get("cycle_name", primary_cycle_id),
+        "primary_phase": active_phases[0]["phase"] if active_phases else 1,
+        "primary_phase_name": active_phases[0]["phase_name"] if active_phases else "",
+        "active_phases": active_phases,
+        "tone": tone,
+        "dogmatikon_of_the_tone": dogmatikon_of_the_tone,
+        "appointed_items_count": len(active_items),
+        "items": active_items,
+    }
+
 
 class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
         # Enable CORS
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type")
         super().end_headers()
 
     def do_OPTIONS(self):
@@ -153,7 +379,6 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             self.handle_api(path, query)
         else:
             # Serve static files from cantor_dashboard directory
-            # Default to index.html
             local_path = path.lstrip("/")
             if not local_path or local_path == "index.html":
                 filepath = os.path.join(CANTOR_DASHBOARD_DIR, "index.html")
@@ -165,20 +390,24 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 filepath = os.path.join(CANTOR_DASHBOARD_DIR, "main.js")
                 content_type = "application/javascript"
             else:
-                # Fallback to default handler (will look in cwd)
-                # But we want to enforce cantor_dashboard folder
                 filepath = os.path.join(CANTOR_DASHBOARD_DIR, local_path)
                 if not os.path.exists(filepath):
                     self.send_error(404, "File not found")
                     return
-                # Determine content type
-                if filepath.endswith(".html"): content_type = "text/html"
-                elif filepath.endswith(".css"): content_type = "text/css"
-                elif filepath.endswith(".js"): content_type = "application/javascript"
-                elif filepath.endswith(".json"): content_type = "application/json"
-                elif filepath.endswith(".png"): content_type = "image/png"
-                elif filepath.endswith(".jpg") or filepath.endswith(".jpeg"): content_type = "image/jpeg"
-                else: content_type = "text/plain"
+                if filepath.endswith(".html"):
+                    content_type = "text/html"
+                elif filepath.endswith(".css"):
+                    content_type = "text/css"
+                elif filepath.endswith(".js"):
+                    content_type = "application/javascript"
+                elif filepath.endswith(".json"):
+                    content_type = "application/json"
+                elif filepath.endswith(".png"):
+                    content_type = "image/png"
+                elif filepath.endswith(".jpg") or filepath.endswith(".jpeg"):
+                    content_type = "image/jpeg"
+                else:
+                    content_type = "text/plain"
 
             if os.path.exists(filepath):
                 self.send_response(200)
@@ -197,6 +426,8 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             self.api_text(query)
         elif path == "/api/resolve":
             self.api_resolve(query)
+        elif path == "/api/repertoires":
+            self.api_repertoires(query)
         elif path == "/api/roadmap":
             self.api_roadmap(query)
         elif path == "/api/lint":
@@ -205,40 +436,52 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             self.api_live_reload()
         elif path == "/api/annual_patterns":
             self.api_annual_patterns(query)
+        elif path == "/api/musicology_catalogs":
+            self.api_musicology_catalogs(query)
         else:
             self.send_json_error("Endpoint not found", 404)
 
     def api_books(self):
-        stamford_dir = os.path.join(REPO_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets")
+        royal_doors_dir = os.path.join(
+            REPO_DIR, "Data", "Service Books", "Recensions", "Royal Doors", "JSON", "assets"
+        )
+        stamford_dir = os.path.join(
+            REPO_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets"
+        )
+        target_dir = royal_doors_dir if os.path.exists(royal_doors_dir) else stamford_dir
         books_data = []
-        if os.path.exists(stamford_dir):
-            for fname in sorted(os.listdir(stamford_dir)):
-                if fname.endswith(".json") and not fname.endswith(".bak"):
-                    filepath = os.path.join(stamford_dir, fname)
+        if os.path.exists(target_dir):
+            for fname in sorted(os.listdir(target_dir)):
+                if fname.startswith("text_") and fname.endswith(".json"):
+                    filepath = os.path.join(target_dir, fname)
                     try:
                         with open(filepath, "r", encoding="utf-8") as f:
                             data = json.load(f)
                         keys_list = []
                         if isinstance(data, dict):
                             for k, v in sorted(data.items()):
+                                if k == "file_metadata":
+                                    continue
                                 content = ""
                                 title = ""
                                 if isinstance(v, dict):
                                     content = v.get("content", "")
                                     title = v.get("title", "")
+                                    if not content:
+                                        content = _extract_nested_preview(v)
                                 elif isinstance(v, str):
                                     content = v
                                 preview = content[:100] + "..." if len(content) > 100 else content
                                 keys_list.append({
                                     "key": k,
                                     "title": title or k.split(".")[-1].replace("_", " ").title(),
-                                    "preview": preview
+                                    "preview": preview,
                                 })
                         books_data.append({
                             "filename": fname,
                             "name": fname.replace("text_", "").replace(".json", "").replace("_", " ").title(),
                             "key_count": len(keys_list),
-                            "keys": keys_list
+                            "keys": keys_list,
                         })
                     except Exception as e:
                         print(f"Error reading file for books listing: {fname} - {e}")
@@ -250,6 +493,9 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             self.send_json_error("Missing required parameter 'key'", 400)
             return
 
+        if not standardized_db:
+            load_databases()
+
         std_val = standardized_db.get(key)
         orig_val = backup_db.get(key)
 
@@ -258,15 +504,99 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         filename = key_to_file.get(key, "unknown")
-        
+
         response = {
             "key": key,
             "filename": filename,
-            "original": normalize_text_val(orig_val if orig_val is not None else std_val),
-            "standardized": normalize_text_val(std_val)
+            "original": normalize_text_val(orig_val if orig_val is not None else std_val, key=key),
+            "standardized": normalize_text_val(std_val, key=key),
         }
         self.send_json_response(response)
 
+    def api_repertoires(self, query):
+        """Expose the WO-01..WO-05 seasonal chant repertoires (140 canonical items across 30 phases)."""
+        ensure_repertoires_loaded()
+
+        cycle_filter = query.get("cycle", [None])[0]
+        phase_str = query.get("phase", [None])[0]
+        genre_filter = query.get("genre", [None])[0]
+        date_str = query.get("date", [None])[0]
+
+        phase_filter = None
+        if phase_str is not None and phase_str != "":
+            try:
+                phase_filter = int(phase_str)
+            except ValueError:
+                self.send_json_error("Invalid 'phase' parameter. Expected integer 1..6.", 400)
+                return
+
+        cycles_payload = []
+        for cid in sorted(repertoires_db.keys()):
+            if cycle_filter and cid.upper() != cycle_filter.upper():
+                continue
+            raw_cycle = repertoires_db[cid]
+            items = raw_cycle.get("items", [])
+
+            # Build phase summaries for this cycle
+            phase_map = {}
+            for item in items:
+                p_num = item.get("phase")
+                if p_num not in phase_map:
+                    phase_map[p_num] = {
+                        "phase": p_num,
+                        "phase_name": item.get("phase_name", f"Phase {p_num}"),
+                        "item_count": 0,
+                    }
+                phase_map[p_num]["item_count"] += 1
+
+            filtered_items = items
+            if phase_filter is not None:
+                filtered_items = [i for i in filtered_items if i.get("phase") == phase_filter]
+            if genre_filter:
+                q_low = genre_filter.lower()
+                filtered_items = [
+                    i
+                    for i in filtered_items
+                    if q_low in (i.get("genre") or "").lower()
+                    or q_low in (i.get("title_en") or "").lower()
+                    or q_low in (i.get("title_cyr") or "").lower()
+                    or q_low in (i.get("tone") or "").lower()
+                    or q_low in (i.get("station") or "").lower()
+                ]
+
+            cycles_payload.append({
+                "cycle_id": cid,
+                "cycle_name": raw_cycle.get("cycle_name", cid),
+                "schema_version": raw_cycle.get("schema_version", ""),
+                "total_canonical_items": raw_cycle.get("total_canonical_items", len(items)),
+                "phases_count": raw_cycle.get("phases_count", len(phase_map)),
+                "phases": [phase_map[k] for k in sorted(phase_map.keys())],
+                "typikon_authorities": raw_cycle.get("typikon_authorities", []),
+                "manuscript_codices": raw_cycle.get("manuscript_codices", []),
+                "provenance_status": raw_cycle.get("provenance_status", "VERIFIED_PRIMARY_SOURCE"),
+                "filtered_items_count": len(filtered_items),
+                "items": filtered_items,
+            })
+
+        resolved_for_date = None
+        if date_str:
+            try:
+                target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                engine = RuthenianEngine(base_dir=REPO_DIR)
+                context = engine.get_liturgical_context(target_date)
+                resolved_for_date = resolve_seasonal_repertoire(target_date, context)
+            except ValueError:
+                self.send_json_error("Invalid date format. Expected YYYY-MM-DD", 400)
+                return
+
+        response = {
+            "total_cycles": len(repertoires_db),
+            "total_canonical_items": sum(c.get("total_canonical_items", 0) for c in repertoires_db.values()),
+            "total_phases": sum(c.get("phases_count", 0) for c in repertoires_db.values()),
+            "cycles": cycles_payload,
+            "resolved_for_date": resolved_for_date,
+        }
+        self.send_json_response(response)
 
     def api_resolve(self, query):
         date_str = query.get("date", [None])[0]
@@ -305,7 +635,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     temple_feast_date = (int(parts[0]), int(parts[1]))
             except ValueError:
                 pass
-                
+
         if parish_profile and isinstance(parish_profile, dict):
             t_info = parish_profile.get("temple", {})
             if t_info.get("name"):
@@ -321,16 +651,16 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         try:
             # Instantiate engine
             engine = RuthenianEngine(
-                base_dir=REPO_DIR, 
+                base_dir=REPO_DIR,
                 version=version,
                 paschalion=paschalion,
                 temple_feast_date=temple_feast_date,
                 temple_patron=temple_patron,
                 temple_type=temple_type,
                 parish_profile=parish_profile,
-                calendar_source=calendar_source
+                calendar_source=calendar_source,
             )
-            
+
             # Resolve
             context = engine.get_liturgical_context(target_date)
 
@@ -344,6 +674,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             prostrations_info = engine.resolve_prostrations_rule(context)
             clergy_variant = engine.resolve_clergy_variant(context, service="liturgy")
             katavasia = engine.resolve_katavasia(context)
+            seasonal_repertoire = resolve_seasonal_repertoire(target_date, context)
 
             # Make context JSON serializable
             serializable_context = {}
@@ -377,24 +708,26 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 "ceremonial": {
                     "vestment": vestment,
                     "prostrations": prostrations_info,
-                    "clergy_variant": clergy_variant
+                    "clergy_variant": clergy_variant,
                 },
+                "seasonal_repertoire": seasonal_repertoire,
                 "rubrics": {
                     "title": rubrics.get("title", ""),
                     "variables": rubrics.get("variables", {}),
                     "overrides": rubrics.get("overrides", {}),
-                    "trace": rubrics.get("_trace", [])
+                    "trace": rubrics.get("_trace", []),
                 },
                 "booklet": booklet,
-                "digest": digest
+                "digest": digest,
             }
             self.send_json_response(response)
 
         except Exception as e:
             import traceback
+
             response = {
                 "error": str(e),
-                "traceback": traceback.format_exc()
+                "traceback": traceback.format_exc(),
             }
             self.send_json_response(response, 500)
 
@@ -420,24 +753,21 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
             except ValueError:
                 pass
 
-        # Resolve days dynamically using the RuthenianEngine
+        # Resolve days dynamically using a single RuthenianEngine instance
         timeline_days = []
         try:
-            # We resolve September 7 to September 12 dynamically for the given year
-            # September 8 is the fixed date of the Nativity of the Theotokos
+            engine = RuthenianEngine(
+                base_dir=REPO_DIR,
+                version=version,
+                paschalion=paschalion,
+                temple_feast_date=temple_feast_date,
+                calendar_source=calendar_source,
+            )
             for d_day in range(7, 13):
                 target_date = date(year, 9, d_day)
-                engine = RuthenianEngine(
-                    base_dir=REPO_DIR,
-                    version=version,
-                    paschalion=paschalion,
-                    temple_feast_date=temple_feast_date,
-                    calendar_source=calendar_source
-                )
                 context = engine.get_liturgical_context(target_date)
                 rubrics = engine.resolve_rubrics(context)
 
-                # Determine type
                 if d_day == 7:
                     day_type = "forefeast"
                     lbl = "Sept 7"
@@ -451,27 +781,35 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     day_type = "apodosis"
                     lbl = "Sept 12"
 
-                # Extract rank title
                 rank_name = rubrics.get("title")
                 if not rank_name:
                     rank_name = context.get("dolnytsky_title", f"September {d_day}")
 
-                # Determine Tone
                 tone_val = context.get("tone", 1)
-                
-                # Stichera descriptions
+
                 fixed_stichera = "Troparion of the Feast (Tone 4); Kontakion (Tone 4)."
                 if day_type == "forefeast":
-                    fixed_stichera = "Troparion of the Forefeast (Tone 4): 'Today from the root of Jesse...'; Stichera of the Forefeast."
+                    fixed_stichera = (
+                        "Troparion of the Forefeast (Tone 4): 'Today from the root of Jesse...'; "
+                        "Stichera of the Forefeast."
+                    )
                 elif day_type == "feast" or day_type == "apodosis":
-                    fixed_stichera = "Troparion of the Feast (Tone 4): 'Your Nativity, O Virgin...'; Kontakion (Tone 4): 'Joachim and Anna...'"
-                
-                # Relative rules
+                    fixed_stichera = (
+                        "Troparion of the Feast (Tone 4): 'Your Nativity, O Virgin...'; "
+                        "Kontakion (Tone 4): 'Joachim and Anna...'"
+                    )
+
                 is_sunday = (target_date.weekday() + 1) % 7 == 0
                 if is_sunday:
-                    rel_rule = f"Sunday Octoechos merges with Feast in Tone {tone_val}. Resurrectional Stichera and Canons take precedence."
+                    rel_rule = (
+                        f"Sunday Octoechos merges with Feast in Tone {tone_val}. "
+                        "Resurrectional Stichera and Canons take precedence."
+                    )
                 else:
-                    rel_rule = f"Weekday Octoechos canons suppressed or merged. Daily Prokeimenon for {target_date.strftime('%A')}."
+                    rel_rule = (
+                        f"Weekday Octoechos canons suppressed or merged. "
+                        f"Daily Prokeimenon for {target_date.strftime('%A')}."
+                    )
 
                 timeline_days.append({
                     "date": target_date.isoformat(),
@@ -481,21 +819,33 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     "rank": rubrics.get("variables", {}).get("rank_class", "Simple Class"),
                     "tone_override": f"Tone {tone_val}",
                     "fixed_text": fixed_stichera,
-                    "relative_rule": rel_rule
+                    "relative_rule": rel_rule,
                 })
         except Exception as e:
-            # Fallback to static if resolution fails
             print(f"Error in dynamic roadmap resolving: {e}")
-            timeline_days = [{
-                "date": f"{year}-09-08",
-                "label": "Sept 8",
-                "name": "NATIVITY OF THE MOST HOLY THEOTOKOS",
-                "type": "feast",
-                "rank": "Vigil Feast (Rank 1)",
-                "tone_override": "Tone 4",
-                "fixed_text": "Troparion of the Feast (Tone 4)",
-                "relative_rule": "Special festal prokeimena."
-            }]
+            timeline_days = [
+                {
+                    "date": f"{year}-09-08",
+                    "label": "Sept 8",
+                    "name": "NATIVITY OF THE MOST HOLY THEOTOKOS",
+                    "type": "feast",
+                    "rank": "Vigil Feast (Rank 1)",
+                    "tone_override": "Tone 4",
+                    "fixed_text": "Troparion of the Feast (Tone 4)",
+                    "relative_rule": "Special festal prokeimena.",
+                }
+            ]
+
+        ensure_repertoires_loaded()
+        repertoire_cycles_summary = [
+            {
+                "cycle_id": cid,
+                "cycle_name": repertoires_db[cid].get("cycle_name", cid),
+                "total_canonical_items": repertoires_db[cid].get("total_canonical_items", 0),
+                "phases_count": repertoires_db[cid].get("phases_count", 0),
+            }
+            for cid in sorted(repertoires_db.keys())
+        ]
 
         roadmap_data = {
             "status": "success",
@@ -504,7 +854,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 "structures": 100,
                 "assets": 100,
                 "docs": 100,
-                "ui": 100
+                "ui": 100,
             },
             "matins_gates": [
                 {"gate": 1, "name": "Six Psalms (Hexapsalmos)", "status": "completed"},
@@ -519,7 +869,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 {"gate": 10, "name": "Exaposteilarion", "status": "completed"},
                 {"gate": 11, "name": "Lauds (Praises) & Doxology", "status": "completed"},
                 {"gate": 12, "name": "Matins Litanies", "status": "completed"},
-                {"gate": 13, "name": "Matins Dismissal & Litany", "status": "completed"}
+                {"gate": 13, "name": "Matins Dismissal & Litany", "status": "completed"},
             ],
             "variant_matrix": {
                 "daily_vespers": "completed",
@@ -532,19 +882,24 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 "presanctified_liturgy": "completed",
                 "vesperal_liturgy": "completed",
                 "great_compline": "completed",
-                "midnight_office": "completed"
+                "midnight_office": "completed",
             },
             "unresolved_gaps": [
                 "Lviv recension assets stubbed for Great Lent",
-                "Menaion translations incomplete for the month of October"
+                "Menaion translations incomplete for the month of October",
             ],
+            "seasonal_repertoires": {
+                "total_cycles": len(repertoire_cycles_summary),
+                "total_canonical_items": sum(c["total_canonical_items"] for c in repertoire_cycles_summary),
+                "cycles": repertoire_cycles_summary,
+            },
             "feast_cycles": {
                 "nativity_theotokos": {
                     "feast_name": "Nativity of the Most Holy Theotokos",
                     "double_border_date": f"{year}-09-08",
-                    "days": timeline_days
+                    "days": timeline_days,
                 }
-            }
+            },
         }
         self.send_json_response(roadmap_data)
 
@@ -561,9 +916,9 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
 
         # Trigger linter dynamically if missing
         try:
-            # Add scripts to path
             sys.path.insert(0, os.path.join(REPO_DIR, "scripts"))
             from lint_liturgical_db import run_linter
+
             run_linter()
             with open(report_path, "r", encoding="utf-8") as f:
                 report = json.load(f)
@@ -577,11 +932,11 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Cache-Control", "no-cache")
         self.send_header("Connection", "keep-alive")
         self.end_headers()
-        
+
         try:
             self.wfile.write(b": ping\n\n")
             self.wfile.flush()
-            
+
             while True:
                 event_set = reload_event.wait(timeout=5.0)
                 if event_set:
@@ -601,7 +956,7 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         candidate_paths = [
             os.path.join(CANTOR_DASHBOARD_DIR, f"annual_pattern_analysis_{year_str}.json"),
             os.path.join(REPO_DIR, "json_db", "almanac", f"annual_pattern_analysis_{year_str}.json"),
-            os.path.join(REPO_DIR, f"annual_pattern_analysis_{year_str}.json")
+            os.path.join(REPO_DIR, f"annual_pattern_analysis_{year_str}.json"),
         ]
         data = None
         for p in candidate_paths:
@@ -617,6 +972,48 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
         else:
             self.send_json_response(data)
 
+    def api_musicology_catalogs(self, query):
+        db_dir = os.path.join(REPO_DIR, "Data", "databases")
+        catalog_name = query.get("catalog", [None])[0]
+        catalog_files = {
+            "lexicon_bridge_concordance": "lexicon_bridge_concordance.json",
+            "pan_catalogue": "pan_catalogue_fortified_corpus.json",
+            "yasinovsky_catalogue": "yasinovsky_catalogue_fortified_corpus.json",
+            "liturgical_aggregator_cross_ref": "liturgical_aggregator_cross_ref_handoff.json",
+        }
+        if catalog_name and catalog_name in catalog_files:
+            filepath = os.path.join(db_dir, catalog_files[catalog_name])
+            if not os.path.exists(filepath):
+                self.send_json_error(f"Catalog {catalog_name} not found.", 404)
+                return
+            with open(filepath, "r", encoding="utf-8") as f:
+                self.send_json_response(json.load(f))
+            return
+
+        summaries = {}
+        for key, fname in catalog_files.items():
+            filepath = os.path.join(db_dir, fname)
+            if os.path.exists(filepath):
+                try:
+                    with open(filepath, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                    if isinstance(data, list):
+                        summaries[key] = {
+                            "filename": fname,
+                            "record_count": len(data),
+                        }
+                    else:
+                        summaries[key] = {
+                            "filename": fname,
+                            "metadata": data.get("metadata", {}),
+                            "top_level_keys": [
+                                k for k in data.keys() if k not in ("provenance_status", "gap_marker")
+                            ],
+                        }
+                except Exception as e:
+                    summaries[key] = {"filename": fname, "error": str(e)}
+        self.send_json_response(summaries)
+
     def send_json_response(self, data, status_code=200):
         try:
             json_bytes = json.dumps(data, indent=2).encode("utf-8")
@@ -631,26 +1028,24 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
     def send_json_error(self, message, status_code=500):
         self.send_json_response({"error": message}, status_code)
 
+
 def run():
     load_databases()
-    
-    # Start frontend file watcher thread
+
     watcher_thread = threading.Thread(target=watch_frontend_files, daemon=True)
     watcher_thread.start()
-    
-    # Create handler
+
     handler_class = CantorDashboardHandler
-    
-    server_address = ('', PORT)
-    # Enable socket re-use to avoid port-binding issues on restarts
+
+    server_address = ("", PORT)
     socketserver.ThreadingTCPServer.allow_reuse_address = True
-    
-    print(f"\n=======================================================")
-    print(f"Starting Cantor Dashboard Server...")
+
+    print("\n=======================================================")
+    print("Starting Cantor Dashboard Server...")
     print(f"Server is running locally at: http://localhost:{PORT}")
-    print(f"Press Ctrl+C in terminal to stop.")
-    print(f"=======================================================\n")
-    
+    print("Press Ctrl+C in terminal to stop.")
+    print("=======================================================\n")
+
     try:
         with socketserver.ThreadingTCPServer(server_address, handler_class) as httpd:
             httpd.serve_forever()
@@ -658,6 +1053,7 @@ def run():
         print("\nStopping server...")
     except Exception as e:
         print(f"Server error: {e}")
+
 
 if __name__ == "__main__":
     run()

@@ -4,8 +4,8 @@ import re
 import copy
 from datetime import datetime, date, timedelta
 
-CANTOR_DASHBOARD_DIR = r"c:\Users\augus\OneDrive\Documents\Google Antigravity\Projects\Typikon Coded\cantor_dashboard"
-REPO_DIR = os.path.dirname(CANTOR_DASHBOARD_DIR)
+REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CANTOR_DASHBOARD_DIR = os.path.join(REPO_DIR, "Data", "prototypes", "cantor_dashboard")
 sys.path.insert(0, REPO_DIR)
 
 from ruthenian_engine import RuthenianEngine

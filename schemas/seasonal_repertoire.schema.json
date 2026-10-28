@@ -1,0 +1,183 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://ruthenian-engine.org/schemas/seasonal_repertoire.schema.json",
+    "title": "Kyivan Musicology Seasonal Chant Repertoire (WO-01..WO-05)",
+    "description": "Schema for deduplicated seasonal chant repertoire databases (Data/databases/repertoires/WO_01..WO_05_*.json).",
+    "type": "object",
+    "required": [
+        "schema_version",
+        "cycle_id",
+        "cycle_name",
+        "typikon_authorities",
+        "manuscript_codices",
+        "total_canonical_items",
+        "phases_count",
+        "items",
+        "provenance_status"
+    ],
+    "properties": {
+        "schema_version": {
+            "type": "string"
+        },
+        "cycle_id": {
+            "type": "string",
+            "pattern": "^WO-0[1-5]$"
+        },
+        "cycle_name": {
+            "type": "string"
+        },
+        "typikon_authorities": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "string"
+            }
+        },
+        "manuscript_codices": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "string"
+            }
+        },
+        "total_canonical_items": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "phases_count": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "provenance_status": {
+            "type": "string",
+            "enum": [
+                "VERIFIED_PRIMARY_SOURCE",
+                "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE"
+            ]
+        },
+        "gap_marker": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "phase",
+                    "phase_name",
+                    "title_en",
+                    "title_cyr",
+                    "station",
+                    "genre",
+                    "tone",
+                    "season_id",
+                    "season_name",
+                    "epistemic_category",
+                    "epistemic_badge",
+                    "pillar_1_significance",
+                    "pillar_2_discography",
+                    "pillar_3_sources",
+                    "provenance_status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^WO-0[1-5]\\.[0-9]{2}$"
+                    },
+                    "phase": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 6
+                    },
+                    "phase_name": {
+                        "type": "string"
+                    },
+                    "title_en": {
+                        "type": "string"
+                    },
+                    "title_cyr": {
+                        "type": "string"
+                    },
+                    "station": {
+                        "type": "string"
+                    },
+                    "genre": {
+                        "type": "string"
+                    },
+                    "tone": {
+                        "type": "string"
+                    },
+                    "why_picked": {
+                        "type": "string"
+                    },
+                    "full_title": {
+                        "type": "string"
+                    },
+                    "season_id": {
+                        "type": "string",
+                        "pattern": "^WO-0[1-5]$"
+                    },
+                    "season_name": {
+                        "type": "string"
+                    },
+                    "epistemic_category": {
+                        "type": "string"
+                    },
+                    "epistemic_badge": {
+                        "type": "string"
+                    },
+                    "automelon_model": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "primary_exemplar": {
+                        "type": "string"
+                    },
+                    "parallel_witnesses": {
+                        "type": "string"
+                    },
+                    "manuscript_witnesses": {
+                        "type": "array"
+                    },
+                    "print_benchmarks": {
+                        "type": "string"
+                    },
+                    "print_benchmarks_provenance": {
+                        "type": "array"
+                    },
+                    "pillar_1_significance": {
+                        "type": "object"
+                    },
+                    "pillar_2_discography": {
+                        "type": "object"
+                    },
+                    "pillar_3_sources": {
+                        "type": "object"
+                    },
+                    "provenance_status": {
+                        "type": "string",
+                        "enum": [
+                            "VERIFIED_PRIMARY_SOURCE",
+                            "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE"
+                        ]
+                    },
+                    "gap_marker": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                },
+                "additionalProperties": true
+            }
+        }
+    },
+    "additionalProperties": true
+}

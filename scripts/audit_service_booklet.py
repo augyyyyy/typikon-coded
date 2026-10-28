@@ -180,7 +180,10 @@ BANNED_TERMINOLOGY_MAP = {
     "sedalion": "sessional hymn (or kathisma reading)",
     "heirmos": "irmos",
     "heirmoi": "irmoi",
-    "last supper": "mystical supper"
+    "last supper": "mystical supper",
+    "prokimenon": "prokeimenon",
+    "prokimena": "prokeimena",
+    "anabathmoi": "gradual",
 }
 
 RAW_KEY_LEAK_REGEX = re.compile(
@@ -485,6 +488,16 @@ class CanonicalBookletAuditor:
             violations.append({
                 "rule": "Anti-Pattern 3 (Raw Internal Keys Leaked to UI)",
                 "description": f"Raw text DB keys leaked into user-facing text: {set(raw_key_matches)}",
+                "status": "FAIL"
+            })
+
+        # 4. Unhydrated STUB placeholder leak checks
+        stub_matches = list(re.finditer(r"(\[STUB\]|\bSTUB:)", text, re.I))
+        if stub_matches:
+            violations.append({
+                "rule": "Master Rule 7 (Unhydrated STUB Placeholder Leak)",
+                "description": f"Unhydrated STUB placeholder leaked into booklet text ({len(stub_matches)} occurrence(s)).",
+                "count": len(stub_matches),
                 "status": "FAIL"
             })
 

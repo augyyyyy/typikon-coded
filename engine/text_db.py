@@ -84,6 +84,37 @@ LEGACY_KEY_ALIASES = {
     "horologion.trisagion_block": "horologion.common.trisagion_block",
 }
 
+ATOMIC_CORPUS_HUB_ALIASES = {
+    "horologion.common.creed": "ORD.PRIM.CREED",
+    "horologion.common.axion_estin": "ORD.PRIM.MORE_HONORABLE",
+    "horologion.common.our_father": "ORD.PRIM.OUR_FATHER",
+    "horologion.common.lord_have_mercy_3x": "ORD.PRIM.KYRIES_THREEFOLD",
+    "horologion.common.lord_have_mercy_12": "ORD.PRIM.KYRIES_TWELVEFOLD",
+    "horologion.common.blessing": "ORD.PRIM.INITIAL_BLESSING",
+    "horologion.common.trisagion_block": "ORD.PRIM.TRISAGION",
+    "horologion.matins.blessing_vigil": "HOR.PRIM.CONSUBSTANTIAL_BLESSING",
+    "horologion.matins.glory_to_holy": "HOR.PRIM.CONSUBSTANTIAL_BLESSING",
+    "horologion.glory_to_holy": "HOR.PRIM.CONSUBSTANTIAL_BLESSING",
+    "horologion.matins.great_doxology": "HOR.PRIM.GREAT_DOXOLOGY",
+    "horologion.matins.small_doxology_read": "ORD.PRIM.SMALL_DOXOLOGY",
+    "horologion.matins.hexapsalmos": "HOR.PRIM.HEXAPSALMOS",
+    "horologion.matins.six_psalms": "HOR.PRIM.HEXAPSALMOS",
+    "horologion.matins.praises_psalms": "HOR.PRIM.PRAISES_PSALMS",
+    "horologion.matins.invitatory_3x": "HOR.COMMON.INVITATORY_3X",
+    "horologion.vespers.nunc_dimittis": "HOR.VESP.NUNC_DIMITTIS",
+    "horologion.vespers.phos_hilaron_read": "HOR.VESP.PHOS_HILARON",
+    "horologion.vespers.vouchsafe_o_lord": "HOR.VESP.VOUCHSAFE_O_LORD",
+    "horologion.vespers.psalm_33": "HOR.VESP.PSALM_33",
+    "horologion.dismissal_full": "ORD.PRIM.DAILY_MAJOR_DISMISSAL",
+    "horologion.dismissal_great": "ORD.PRIM.DAILY_MAJOR_DISMISSAL",
+    "horologion.dismissal_small": "ORD.PRIM.MINOR_DISMISSAL",
+    "horologion.only_begotten": "LIT.PRIM.O_MONOGENES",
+    "horologion.protection_christians": "ORD.PRIM.STEADFAST_PROTECTRESS",
+    "liturgikon.ambo_prayer": "LIT.PRIM.AMBO_PRAYER",
+    "liturgikon.blessing_kingdom": "LIT.PRIM.KINGDOM_BLESSING",
+    "liturgikon.litanies_catechumens": "LIT.PRIM.LITANY_OF_CATECHUMENS",
+}
+
 
 def humanize_key(key):
     """
@@ -285,8 +316,64 @@ class TextDBMixin:
                 rationale = entry.get("adjudication_rationale") or {}
                 for alias in rationale.get("hub_key_aliases", []):
                     self.atomic_corpus_aliases[alias] = sid
+            for hub_key, sid in ATOMIC_CORPUS_HUB_ALIASES.items():
+                if sid in self.atomic_corpus_db:
+                    self.atomic_corpus_aliases.setdefault(hub_key, sid)
+            for legacy_key, new_key in LEGACY_KEY_ALIASES.items():
+                if new_key in self.atomic_corpus_aliases:
+                    self.atomic_corpus_aliases.setdefault(legacy_key, self.atomic_corpus_aliases[new_key])
         except Exception as e:
             print(f"Warning: Failed to load Shared Atomic Corpus at {corpus_path}: {e}")
+
+    @staticmethod
+    def _is_stub_record(val) -> bool:
+        """Returns True if a text database entry contains an unhydrated '[STUB]' placeholder."""
+        if not val:
+            return False
+        if isinstance(val, dict):
+            raw = val.get("content", val.get("text", ""))
+            if isinstance(raw, dict):
+                raw = raw.get("text", raw.get("en", ""))
+            raw_str = str(raw)
+        else:
+            raw_str = str(val)
+        return bool(re.search(r'(\[STUB\]|\bSTUB:)', raw_str, re.IGNORECASE))
+
+    @staticmethod
+    def _normalize_ugcc_text(text: str) -> str:
+        """
+        Normalizes raw text at the engine/output boundary to UGCC Royal Doors standards
+        without mutating diplomatic witness JSON files on disk:
+        - Strips '[STUB]' and 'STUB:' markers
+        - Replaces 'prokimenon'/'prokimena' -> 'Prokeimenon'/'Prokeimena' (case-preserving)
+        - Replaces 'anabathmoi' -> 'Gradual' (case-preserving)
+        """
+        if not text or not isinstance(text, str):
+            return text
+        text = re.sub(r'\[STUB\]\s*', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bSTUB:\s*', '', text, flags=re.IGNORECASE)
+
+        def _repl_prok(m):
+            word = m.group(0)
+            suffix = "a" if word.lower().endswith("a") else "on"
+            if word.isupper():
+                return f"PROKEIMEN{suffix.upper()}"
+            if word[0].isupper():
+                return f"Prokeimen{suffix}"
+            return f"prokeimen{suffix}"
+
+        text = re.sub(r'\bprokimen(?:on|a)\b', _repl_prok, text, flags=re.IGNORECASE)
+
+        def _repl_anab(m):
+            word = m.group(0)
+            if word.isupper():
+                return "GRADUAL"
+            if word[0].isupper():
+                return "Gradual"
+            return "gradual"
+
+        text = re.sub(r'\banabathmoi\b', _repl_anab, text, flags=re.IGNORECASE)
+        return text.strip() if text.startswith(" ") else text
 
 
     def get_text(self, text_id, logic_requirement=None, context=None):
@@ -409,17 +496,24 @@ class TextDBMixin:
 
         # -0.5. Shared Atomic Key-Value Liturgical Corpus Lookup (self.atomic_corpus_db)
         if not item and hasattr(self, "atomic_corpus_db") and self.atomic_corpus_db:
+            canon_id = LEGACY_KEY_ALIASES.get(text_id, text_id)
             if text_id in self.atomic_corpus_db:
                 item = copy.deepcopy(self.atomic_corpus_db[text_id])
-            elif hasattr(self, "atomic_corpus_aliases") and text_id in self.atomic_corpus_aliases:
-                sid = self.atomic_corpus_aliases[text_id]
+            elif hasattr(self, "atomic_corpus_aliases") and (text_id in self.atomic_corpus_aliases or canon_id in self.atomic_corpus_aliases):
+                sid = self.atomic_corpus_aliases.get(text_id) or self.atomic_corpus_aliases.get(canon_id)
                 entry_rec = self.atomic_corpus_db.get(sid)
                 if entry_rec:
                     witnesses = entry_rec.get("recension_witnesses", {})
                     prefer_atomic = bool(context and context.get("prefer_atomic_corpus")) or recension == "atomic_corpus"
+                    is_hub_alias = (text_id in ATOMIC_CORPUS_HUB_ALIASES) or (canon_id in ATOMIC_CORPUS_HUB_ALIASES)
+                    p_cand = db_get(self.primary_db, text_id) if (hasattr(self, "primary_db") and self.primary_db) else None
+                    b_cand = db_get(self.backup_db, text_id) if (hasattr(self, "backup_db") and self.backup_db) else None
+                    t_cand = db_get(self.text_db, text_id) if (hasattr(self, "text_db") and self.text_db) else None
+                    has_stub = self._is_stub_record(p_cand) or self._is_stub_record(b_cand) or self._is_stub_record(t_cand)
                     in_primary = bool(
-                        (hasattr(self, "primary_db") and self.primary_db and db_get(self.primary_db, text_id))
-                        or (hasattr(self, "text_db") and self.text_db and db_get(self.text_db, text_id))
+                        not is_hub_alias
+                        and not has_stub
+                        and (p_cand or b_cand or t_cand)
                     )
                     if prefer_atomic or (recension and recension in witnesses) or not in_primary:
                         item = copy.deepcopy(entry_rec)
@@ -547,6 +641,8 @@ class TextDBMixin:
         if item:
             # Deep copy to avoid mutation
             item = copy.deepcopy(item)
+            if isinstance(item, str):
+                item = {"id": text_id, "content": item, "source": "System Logic"}
             
             # 1.1 Content Processing
             if isinstance(item, dict) and "content" in item:
@@ -560,13 +656,13 @@ class TextDBMixin:
                             raw_text = str(inner)
                     else:
                         raw_text = raw_text.get("en") or next(iter(raw_text.values())) if raw_text else ""
-                raw_text = str(raw_text)
+                raw_text = self._normalize_ugcc_text(str(raw_text))
                 
                 # Sanitization: Strip instructions in () or ending in :
                 # e.g. "(Spec. Mel.: ...):" -> moved to metadata
                 rubric_matches = re.findall(r'\((.*?)\):?', raw_text)
                 if rubric_matches:
-                    item["_rubrics"] = item.get("_rubrics", []) + rubric_matches
+                    item["_rubrics"] = item.get("_rubrics", []) + [self._normalize_ugcc_text(r) for r in rubric_matches]
                     # Remove from spoken text
                     clean_content = re.sub(r'\(.*?\):?', '', raw_text).strip()
                 else:
@@ -575,7 +671,12 @@ class TextDBMixin:
                 # Musical Syntax: Handle * and **
                 # Store segments for musical phrasing
                 item["_segments"] = [s.strip() for s in clean_content.split("*") if s.strip()]
-                item["content"] = clean_content.replace("*", "").replace("  ", " ") # Spoken text
+                item["content"] = self._normalize_ugcc_text(clean_content.replace("*", "").replace("  ", " ")) # Spoken text
+            if isinstance(item, dict):
+                if "title" in item and isinstance(item["title"], str):
+                    item["title"] = self._normalize_ugcc_text(item["title"])
+                if "rubric" in item and isinstance(item["rubric"], str):
+                    item["rubric"] = self._normalize_ugcc_text(item["rubric"])
                 
             return item
         

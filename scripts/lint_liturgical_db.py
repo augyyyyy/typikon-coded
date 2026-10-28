@@ -245,7 +245,7 @@ def run_linter():
             report["files"][filename] = file_report
 
     # Pass 2: Audit frontend UI files for "robot speak" and banned developer terms
-    frontend_dir = os.path.join(REPO_DIR, "cantor_dashboard")
+    frontend_dir = os.path.join(REPO_DIR, "Data", "prototypes", "cantor_dashboard")
     frontend_files = ["main.js", "index.html"]
     for fname in frontend_files:
         fpath = os.path.join(frontend_dir, fname)

@@ -1,0 +1,1314 @@
+{
+  "metadata": {
+    "title": "Pan-Ecosystem Lexicon Bridge Concordance",
+    "sender_spoke": "Kyivan Musicology",
+    "target_hub": "Typikon Coded",
+    "canonical_genres_count": 35,
+    "date": "2026-10-12",
+    "standards": [
+      "Atomic Monument Standard",
+      "Codicological Evidence Gate",
+      "Kachmar Grid"
+    ],
+    "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+    "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+  },
+  "canonical_liturgical_tree": {
+    "cherubikon": {
+      "genre": "Cherubic Hymn (Херувимська пісня)",
+      "category": "The Divine Liturgy",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "херувик",
+        "херувимская",
+        "херувимское",
+        "херувимска",
+        "херувимски",
+        "іже херувими",
+        "иже херувими",
+        "херови"
+      ],
+      "incipits": [
+        "иже херувими тайно образующе",
+        "іже херувими тайно образующе",
+        "иже херувимы тайно образующе",
+        "іже херувимы тайно образующе",
+        "вси упованіє",
+        "да молчит всякая плоть",
+        "вечери твоея тайныя"
+      ],
+      "canonical_english_titles": [
+        "Who mystically represent the Cherubim",
+        "Let all mortal flesh keep silent",
+        "Of Thy Mystical Supper"
+      ],
+      "greek_equivalents": [
+        "οἱ τὰ χερουβεὶм μυστικῶς εἰκονίζοντες",
+        "σιγησάτω πᾶσα σὰρξ βροτεία"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "anaphora": {
+      "genre": "Anaphora / Eucharistic Canon (Милость мира)",
+      "category": "The Divine Liturgy",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "милость мира",
+        "достойно и праведно",
+        "свят свят свят",
+        "тебе поем"
+      ],
+      "incipits": [
+        "милость мира жертву хваления",
+        "милость мира жертву хвалєнія",
+        "достойно и праведно есть покланятися отцу",
+        "свят свят свят господь саваоф",
+        "тебе поем тебе благословим"
+      ],
+      "canonical_english_titles": [
+        "A mercy of peace, a sacrifice of praise",
+        "It is meet and right",
+        "Holy, Holy, Holy, Lord of Sabaoth",
+        "We hymn Thee, we bless Thee"
+      ],
+      "greek_equivalents": [
+        "ἔλεον εἰρήνης, θυσίαν αἰνέσεως",
+        "ἄξιον καὶ δίκαιον"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "koinonikon": {
+      "genre": "Koinonikon / Communion Hymn (Киноник)",
+      "category": "The Divine Liturgy",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "киноник",
+        "кинониг",
+        "причастен",
+        "причастный"
+      ],
+      "incipits": [
+        "хвалите господа с небес",
+        "хвалите господа съ небесъ",
+        "радуйтеся праведнии о господе",
+        "во всю землю изыде вещание их",
+        "чашу спасения прииму",
+        "в память вечную будет праведник",
+        "тело христово приимите",
+        "явися благодать божия"
+      ],
+      "canonical_english_titles": [
+        "Praise the Lord from the heavens",
+        "Rejoice in the Lord, O ye righteous",
+        "Their sound hath gone forth",
+        "I will receive the cup of salvation"
+      ],
+      "greek_equivalents": [
+        "αἰνεῖτε τὸν κύριον ἐκ τῶν οὐρανῶν",
+        "ἀγαλλιᾶσθε δίκαιοι ἐν κυρίῳ"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "trisagion": {
+      "genre": "Trisagion & Festal Substitutes (Трисвятое)",
+      "category": "The Divine Liturgy",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "трисвятое",
+        "вместо трисвятаго",
+        "елицы",
+        "кресту твоему"
+      ],
+      "incipits": [
+        "святый боже святый крепкий святый безсмертный",
+        "святый боже",
+        "елицы во христа крестистеся",
+        "елицы во христа",
+        "кресту твоему покланяемся владыко"
+      ],
+      "canonical_english_titles": [
+        "Holy God, Holy Mighty, Holy Immortal",
+        "As many of you as have been baptized into Christ",
+        "Before Thy Cross we bow down in worship, O Master"
+      ],
+      "greek_equivalents": [
+        "ἅγιος ὁ θεός, ἅγιος ἰσχυρός",
+        "ὅσοι εἰς χριστὸν ἐβαπτίσθητε"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "liturgy_antiphons": {
+      "genre": "Liturgical Antiphons & Typika (Антифоны літургійні)",
+      "category": "The Divine Liturgy",
+      "tones_covered": [
+        1,
+        2,
+        null
+      ],
+      "slavonic_rubrics": [
+        "антифон 1",
+        "антифон 2",
+        "антифон 3",
+        "изобразительнии",
+        "типика"
+      ],
+      "incipits": [
+        "благослови душе моя господа и вся внутренняя моя",
+        "хвали душе моя господа восхвалю господа",
+        "единородный сыне и слове божий",
+        "во царствии твоем помяни нас господи"
+      ],
+      "canonical_english_titles": [
+        "Bless the Lord, O my soul, and all that is within me",
+        "Praise the Lord, O my soul",
+        "Only-begotten Son and Word of God",
+        "In Thy Kingdom remember us, O Lord"
+      ],
+      "greek_equivalents": [
+        "εὐλόγει, ἡ ψυχή μου, τὸν κύριον",
+        "ὁ μονογενὴς υἱὸς"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "great_entrance": {
+      "genre": "Great Entrance Transfer Hymns (Перенос)",
+      "category": "The Divine Liturgy",
+      "tones_covered": [
+        1,
+        2,
+        6,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "перенос",
+        "на великом входе",
+        "яко да царя"
+      ],
+      "incipits": [
+        "яко да царя всех подымем",
+        "і животворящей тройце",
+        "и животворящей троице"
+      ],
+      "canonical_english_titles": [
+        "That we may receive the King of all",
+        "And to the Life-creating Trinity"
+      ],
+      "greek_equivalents": [
+        "ὡς τὸν βασιλέα τῶν ὅλων ὑποδεξόμενοι"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "proemial_psalm": {
+      "genre": "Proemial Psalm (Псалом 103)",
+      "category": "Vespers & All-Night Vigil",
+      "tones_covered": [
+        1,
+        4,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "предначинательный псалом",
+        "псалом 103",
+        "на всенощном"
+      ],
+      "incipits": [
+        "благослови душе моя господа господи боже мой",
+        "благослови душе моя господа"
+      ],
+      "canonical_english_titles": [
+        "Bless the Lord, O my soul, O Lord my God Thou art very great"
+      ],
+      "greek_equivalents": [
+        "εὐλόγει, ἡ ψυχή μου, τὸν κύριον, κύριε ὁ θεός μου"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "blessed_is_the_man": {
+      "genre": "Blessed is the Man / Kathisma 1 (Блажен муж)",
+      "category": "Vespers & All-Night Vigil",
+      "tones_covered": [
+        1,
+        4,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "блажен муж",
+        "кафисма 1",
+        "псалом 1"
+      ],
+      "incipits": [
+        "блажен муж иже не иде на совет нечестивых",
+        "блажен муж острожского напева",
+        "блажен муж"
+      ],
+      "canonical_english_titles": [
+        "Blessed is the man that walketh not in the counsel of the ungodly",
+        "Blessed is the man, Ostroh chant"
+      ],
+      "greek_equivalents": [
+        "μακάριος ἀνήρ, ὃς οὐκ ἐπορεύθη"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "great_ektenia": {
+      "genre": "Great Ektenia & Responses (Велика єктенія)",
+      "category": "Vespers & All-Night Vigil",
+      "tones_covered": [
+        null
+      ],
+      "slavonic_rubrics": [
+        "ектенія",
+        "велика єктенія",
+        "господи помилуй"
+      ],
+      "incipits": [
+        "аминь господи помилуй",
+        "господи помилуй",
+        "подай господи",
+        "тебе господи"
+      ],
+      "canonical_english_titles": [
+        "Amen. Lord, have mercy",
+        "Grant this, O Lord",
+        "To Thee, O Lord"
+      ],
+      "greek_equivalents": [
+        "κύριε ἐλέησον"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "prokeimenon": {
+      "genre": "Prokeimena (Прокимени вечірні та вседенні)",
+      "category": "Vespers & All-Night Vigil",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "прокимен",
+        "прокимен великий",
+        "прокимени"
+      ],
+      "incipits": [
+        "господь воцарися в лепоту облечеся",
+        "се ныне благословите господа",
+        "не отврати лица твоего",
+        "дал еси достояние",
+        "кто бог велий яко бог наш"
+      ],
+      "canonical_english_titles": [
+        "The Lord is King, He is robed in majesty",
+        "Behold now, bless the Lord",
+        "Turn not Thy face from Thy servant",
+        "Who is so great a god as our God"
+      ],
+      "greek_equivalents": [
+        "ὁ κύριος ἐβασίλευσεν",
+        "τίς θεὸς μέγας ὡς ὁ θεὸς ἡμῶν"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "litia_artoklasia": {
+      "genre": "Litia & Artoklasia (Лития)",
+      "category": "Vespers & All-Night Vigil",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "на литии",
+        "стихиры на литии",
+        "богородице дево"
+      ],
+      "incipits": [
+        "богородице дево радуйся благодатная марие",
+        "богатии обнищаша и взалкаша"
+      ],
+      "canonical_english_titles": [
+        "O Theotokos and Virgin, rejoice, Mary full of grace",
+        "The rich have become poor and gone hungry"
+      ],
+      "greek_equivalents": [
+        "θεοτόκε παρθένε, χαῖρε κεχαριτωμένη"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "great_doxology": {
+      "genre": "Great Doxology (Велике славослов'я)",
+      "category": "Vespers & All-Night Vigil",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "великое славословие",
+        "славословие",
+        "слава в вишних богу"
+      ],
+      "incipits": [
+        "слава в вишних богу и на земли мир",
+        "слава в вышних богу"
+      ],
+      "canonical_english_titles": [
+        "Glory to God in the highest, and on earth peace, goodwill among men"
+      ],
+      "greek_equivalents": [
+        "δόξα ἐν ὑψίστοις θεῷ"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "god_is_the_lord": {
+      "genre": "God is the Lord (Бог Господь на 8 гласів)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "бог господь",
+        "бог господь на 8 гласов"
+      ],
+      "incipits": [
+        "бог господь и явися нам благословен грядый во имя господне",
+        "бог господь болгарского напева"
+      ],
+      "canonical_english_titles": [
+        "God is the Lord, and hath appeared unto us; blessed is He that cometh in the name of the Lord"
+      ],
+      "greek_equivalents": [
+        "θεὸς κύριος καὶ ἐπέφανεν ἡμῖν"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "troparion": {
+      "genre": "Troparion (Воскресні та празникові тропарі)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "тропарь",
+        "воскресный тропарь",
+        "тропари"
+      ],
+      "incipits": [
+        "камени запечатану от иудей",
+        "егда снизшел еси к смерти",
+        "да веселятся небесная",
+        "светлую воскресения проповедь",
+        "собезначальное слово отцу и духови",
+        "ангельския силы на гробе твоем",
+        "разрушил еси крестом твоим смерть",
+        "с высоты снизшел еси благоутробне",
+        "христос воскресе из мертвых"
+      ],
+      "canonical_english_titles": [
+        "When the stone was sealed by the Jews",
+        "When Thou didst submit unto death, O Life Immortal",
+        "Let the heavens rejoice",
+        "Having learned the radiant proclamation of the Resurrection",
+        "Let us the faithful hymn and worship the Word",
+        "The angelic powers were upon Thy tomb",
+        "By Thy Cross Thou didst destroy death",
+        "From on high didst Thou descend, O Compassionate One",
+        "Christ is risen from the dead"
+      ],
+      "greek_equivalents": [
+        "τοῦ λίθου σφραγισθέντος",
+        "ὅτε κατῆλθες πρὸς τὸν θάνατον"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "theotokion": {
+      "genre": "Theotokion (Богородичні на 8 гласів)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "богородичен",
+        "богородична",
+        "богородичны"
+      ],
+      "incipits": [
+        "гавриилу вещавшу тебе дево",
+        "вся паче смысла вся преславная твоя",
+        "тя ходатайствовавшую спасение рода нашего",
+        "еже от века утаенное",
+        "радуйся врата господня непроходимая",
+        "благословенная нареченная во евангелии",
+        "яко нашего воскресения сокровище",
+        "иже нас ради рождейся от девы"
+      ],
+      "canonical_english_titles": [
+        "As Gabriel proclaimed unto thee, O Virgin",
+        "All beyond thought, all most glorious are thy mysteries",
+        "Thee who mediated the salvation of our race",
+        "The mystery hidden from all eternity",
+        "Rejoice, impassable gate of the Lord",
+        "O thou who wast called blessed in the Gospels",
+        "As the treasury of our resurrection",
+        "Thou who for our sake wast born of the Virgin"
+      ],
+      "greek_equivalents": [
+        "τοῦ γαβριὴλ φθεγξαμένου σοι παρθένε"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "dogmatikon": {
+      "genre": "Dogmatikon (Богородиченъ догматикъ на 8 гласів)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "догмат",
+        "догматикъ",
+        "богородичен догматик",
+        "догма"
+      ],
+      "incipits": [
+        "всемирную славу",
+        "преиде сень законная",
+        "како не дивимся",
+        "иже тебе ради богоотец",
+        "в чермнем мори",
+        "кто тебе не ублажит",
+        "мати убо позналася еси",
+        "царь небесный"
+      ],
+      "canonical_english_titles": [
+        "Universal glory",
+        "The shadow of the law hath passed",
+        "How can we not marvel",
+        "He who for thy sake, O Mother of God",
+        "In the Red Sea",
+        "Who shall not call thee blessed",
+        "Thou wast known as Mother",
+        "The King of Heaven"
+      ],
+      "greek_equivalents": [
+        "τὴν παγκόσμιον δόξαν",
+        "παρῆλθεν ἡ σκιὰ τοῦ νόμου",
+        "πῶς μὴ θαυμάσωμεν"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "sessional_hypakoe": {
+      "genre": "Sessional Hymn & Hypakoe (Сідальні та іпакої)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "седален",
+        "седальны",
+        "сидален",
+        "ипакои",
+        "ѵпакои"
+      ],
+      "incipits": [
+        "гроб твой спасе воини стрегущии",
+        "жены ко гробу пришедша рано",
+        "по страсти шедша во гроб жены",
+        "яже по вольном твоем распятии",
+        "христос воста от мертвых начаток умерших",
+        "яже прежде утро яже о марии пришедшия"
+      ],
+      "canonical_english_titles": [
+        "The soldiers guarding Thy tomb, O Savior",
+        "The women coming early to the tomb",
+        "Christ is risen from the dead, the firstfruits of those who have fallen asleep"
+      ],
+      "greek_equivalents": [
+        "τὸν τάφον σου σωτήρ"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "beatitudes": {
+      "genre": "Beatitudes (Блаженні на 8 гласів)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "блаженны",
+        "блаженна",
+        "блаженни"
+      ],
+      "incipits": [
+        "блажени нищии духом",
+        "помяни нас господи егда приидеши во царствии твоем",
+        "снедию изведе из рая враг адама",
+        "глас приносим ти разбойника"
+      ],
+      "canonical_english_titles": [
+        "Blessed are the poor in spirit",
+        "Remember us, O Lord, when Thou comest into Thy Kingdom"
+      ],
+      "greek_equivalents": [
+        "μακάριοι οἱ πτωχοὶ τῷ πνεύματι"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "stepenna_antiphons": {
+      "genre": "Stepenna Antiphons (Степенні антифони)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "степенна",
+        "антифон степенен",
+        "степенны"
+      ],
+      "incipits": [
+        "внегда скорбети ми",
+        "от юности моея мнози борют мя страсти",
+        "на небо очи посылаю моего сердца",
+        "плен сион ты взял еси от вавилона"
+      ],
+      "canonical_english_titles": [
+        "In my affliction I cried unto the Lord",
+        "From my youth many passions war against me",
+        "Unto heaven I send up the eyes of my heart"
+      ],
+      "greek_equivalents": [
+        "ἐν τῷ θλίβεσθαί με",
+        "ἐκ νεότητός μου πολλὰ πολεμεῖ με πάθη"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "katavasia": {
+      "genre": "Katavasia (Катавасії празникові на 8 гласів)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "катавасиа",
+        "катавасиі",
+        "катавасия",
+        "катавасиї"
+      ],
+      "incipits": [
+        "избави от бед рабы твоя богородице",
+        "отверзу уста моя и наполнятся духа",
+        "христос раждается славите",
+        "воскресения день просветимся людие"
+      ],
+      "canonical_english_titles": [
+        "Deliver from troubles thy servants, O Theotokos",
+        "I shall open my mouth and it shall be filled with the Spirit",
+        "Christ is born, give ye glory",
+        "It is the Day of Resurrection, let us be radiant, O ye peoples"
+      ],
+      "greek_equivalents": [
+        "ἀνοίξω τὸ στόμα μου",
+        "χριστὸς γεννᾶται, δοξάσατε"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "canon_irmoi_ode1": {
+      "genre": "Canon Irmoi Ode 1 (Ірмоси пісні 1)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "песнь 1",
+        "пѣснь а",
+        "ірмос 1"
+      ],
+      "incipits": [
+        "твоя победительная десница",
+        "во глубине постла иногда",
+        "господи сокрушивый брани",
+        "моря чермную пучину",
+        "коня и всадника в море чермное",
+        "яко по суху пешешествовав израиль",
+        "манием твоим изменися",
+        "колесницегонителя фараоня погрузи"
+      ],
+      "canonical_english_titles": [
+        "Thy victorious right hand",
+        "In the deep of old",
+        "The Lord who breaketh battles"
+      ],
+      "greek_equivalents": [
+        "σου ἡ τροπαιοῦχος δεξιά",
+        "ἐν βυθῷ κατέστρωσέ ποτε"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "canon_irmoi_ode3": {
+      "genre": "Canon Irmoi Ode 3 (Ірмоси пісні 3)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "песнь 3",
+        "пѣснь г",
+        "ірмос 3"
+      ],
+      "incipits": [
+        "едине сведый человеческаго естества неможение",
+        "процвела есть пустыня",
+        "неплодная душе",
+        "лук сильных изнеможе",
+        "водрузивый на ничесомже землю",
+        "несть свят якоже ты господи",
+        "в начатцех небеса всесильным словом твоим утвердивый",
+        "небеснаго круга верхотворче господи"
+      ],
+      "canonical_english_titles": [
+        "Thou alone who knowest the weakness of human nature",
+        "The desert hath blossomed",
+        "There is none holy as Thou, O Lord"
+      ],
+      "greek_equivalents": [
+        "ὁ μόνος εἰδὼς τὴν τῶν βροτῶν ἀσθένειαν"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "canon_irmoi_ode4": {
+      "genre": "Canon Irmoi Ode 4 (Ірмоси пісні 4)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "песнь 4",
+        "пѣснь д",
+        "ірмос 4"
+      ],
+      "incipits": [
+        "гору тя благодатию божественною осененную",
+        "пришел еси от девы не ходатай",
+        "положил еси к нам твердую любовь господи",
+        "вознесена тя видевши церковь",
+        "божественное твое разумев истощание",
+        "христос моя сила бог и господь"
+      ],
+      "canonical_english_titles": [
+        "Having perceived Thee as the mountain overshadowed with divine grace",
+        "Thou didst come from the Virgin, neither mediator nor angel"
+      ],
+      "greek_equivalents": [
+        "ὄρος σε τῇ χάριτι τῇ θείᾳ κατάσκιον"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "canon_irmoi_ode5": {
+      "genre": "Canon Irmoi Ode 5 (Ірмоси пісні 5)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "песнь 5",
+        "пѣснь е",
+        "ірмос 5"
+      ],
+      "incipits": [
+        "просветивый сиянием пришествия твоего христе",
+        "ходатай богу и человеком был еси",
+        "к тебе утренюю создателю всех",
+        "ужасошася всяческая о божественней славе твоей",
+        "одеяйся светом яко ризою",
+        "божиим светом твоим блаже утренюющих ти души"
+      ],
+      "canonical_english_titles": [
+        "Thou who hast enlightened the world with the radiance of Thy coming",
+        "Thou hast become a Mediator between God and men"
+      ],
+      "greek_equivalents": [
+        "ὁ φωτίσας τῇ ἐλλάμψει"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "canon_irmoi_ode6": {
+      "genre": "Canon Irmoi Ode 6 (Ірмоси пісні 6)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "песнь 6",
+        "пѣснь ѕ",
+        "ірмос 6"
+      ],
+      "incipits": [
+        "обыде нас бездна последняя",
+        "в бездне греховней валяяся",
+        "возопих ти всем сердцем моим",
+        "пожру ти со гласом хваления господи",
+        "неистовое волнующееся бурею душетленною",
+        "житейское море воздвизаемое зря"
+      ],
+      "canonical_english_titles": [
+        "The lowest abyss hath encompassed us",
+        "Wallowing in the abyss of sins",
+        "I cried with all my heart unto the compassionate God"
+      ],
+      "greek_equivalents": [
+        "ἐκύκλωσεν ἡμᾶς ἐσχάτη ἄβυσσος"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "canon_irmoi_ode7": {
+      "genre": "Canon Irmoi Ode 7 (Ірмоси пісні 7)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "песнь 7",
+        "пѣснь з",
+        "ірмос 7"
+      ],
+      "incipits": [
+        "тебе мысленную богородице пещь",
+        "богопротивное веление беззаконнующаго мучителя",
+        "иже в начале землю основавый",
+        "не послужиша твари богомудрии паче создавшаго",
+        "иже в пещи огненней отроки спасый",
+        "росодательну убо пещь содела ангел"
+      ],
+      "canonical_english_titles": [
+        "We understand thee, O Theotokos, as a spiritual furnace",
+        "The godless command of the lawless tyrant"
+      ],
+      "greek_equivalents": [
+        "σὲ νοητὴν θεοτόκε κάμινον"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "canon_irmoi_ode8": {
+      "genre": "Canon Irmoi Ode 8 (Ірмоси пісні 8)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "песнь 8",
+        "пѣснь и",
+        "ірмос 8"
+      ],
+      "incipits": [
+        "в пещи отроцы израильтестии",
+        "пещи огненна иногда вавилоне",
+        "соприсносущна безначальна отцу",
+        "отроки благочестивыя в пещи",
+        "из пламене преподобным росу источил еси",
+        "законов отечеblockх отроцы вавилонстии"
+      ],
+      "canonical_english_titles": [
+        "In the furnace the children of Israel",
+        "The fiery furnace once in Babylon",
+        "O ye youths equal in number to the Trinity"
+      ],
+      "greek_equivalents": [
+        "ἐν καμίνῳ παῖδες ἰσραήλ"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "canon_irmoi_ode9": {
+      "genre": "Canon Irmoi Ode 9 (Ірмоси пісні 9)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "песнь 9",
+        "пѣснь ѳ",
+        "ірмос 9"
+      ],
+      "incipits": [
+        "образ чистаго рождества твоего",
+        "безначальнаго родителя сын бог и господь",
+        "нове чудо и боголепно",
+        "всяк земнородный да взыграется духом просвещаем",
+        "исаие ликуй дева име во чреве",
+        "бога человеком невозможно видети",
+        "честнейшую херувим и славнейшую без сравнения серафим"
+      ],
+      "canonical_english_titles": [
+        "The type of thy pure childbearing",
+        "The Son of the unoriginate Father, God and Lord",
+        "Let every earthborn mortal leap for joy in spirit",
+        "Rejoice, O Isaiah, the Virgin hath conceived in womb",
+        "More honorable than the Cherubim"
+      ],
+      "greek_equivalents": [
+        "τύπον τῆς ἁγνῆς λοχείας σου",
+        "ἅπας γηγενὴς σκιρτάτω τῷ πνεύματι"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "exapostilarion": {
+      "genre": "Exapostilarion & Photagogikon (Світильні / Ексапостиларії)",
+      "category": "Matins & Eight Tones",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "светилен",
+        "ексапостиларий",
+        "світилен",
+        "свѣтиленъ"
+      ],
+      "incipits": [
+        "плотию уснув яко мертв царю и господи",
+        "разбойника благоразумнаго во едином часе",
+        "светися светися новый иерусалиме",
+        "чертог твой вижду спасе мой"
+      ],
+      "canonical_english_titles": [
+        "Having fallen asleep in the flesh as mortal, O King and Lord",
+        "The wise thief in a single hour Thou didst deem worthy of paradise",
+        "Shine, shine, O New Jerusalem",
+        "Thy bridal chamber I behold, O my Savior"
+      ],
+      "greek_equivalents": [
+        "σαρκὶ ὑπνώσας ὡς θνητός",
+        "τὸν νυμφῶνά σου βλέπω"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "polyeleos": {
+      "genre": "Polyeleos (Полієлей: Хваліте ім'я Господнє)",
+      "category": "Feasts, Fasts, & Supplemental Chants",
+      "tones_covered": [
+        1,
+        4,
+        5,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "полієлей",
+        "полиелей",
+        "многомилостивое",
+        "два псалма"
+      ],
+      "incipits": [
+        "хвалите имя господне",
+        "хвалите імя господнє",
+        "раби господа",
+        "исповедайтеся господеви яко благ",
+        "хвалите имя господне болгарское"
+      ],
+      "canonical_english_titles": [
+        "Praise the name of the Lord; praise the Lord, O ye His servants",
+        "O give thanks unto the Lord, for He is good"
+      ],
+      "greek_equivalents": [
+        "αἰνεῖτε τὸ ὄνομα κυρίου"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "passion_stichera": {
+      "genre": "Passion Stichera & Antiphons (Страсні стихири та антифони)",
+      "category": "Feasts, Fasts, & Supplemental Chants",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "страсті",
+        "страсти",
+        "ст҃ры",
+        "стихиры страстны",
+        "антифон страстен"
+      ],
+      "incipits": [
+        "венцем от терния",
+        "вѣнцемъ ѿ тернія",
+        "днесь висит на древе",
+        "днєсь висит на древѣ",
+        "разделиша ризы моя себе",
+        "поставиша тридесять сребреник"
+      ],
+      "canonical_english_titles": [
+        "With a crown of thorns",
+        "Today He who hung the earth upon the waters is hung upon a tree",
+        "They parted my garments among them"
+      ],
+      "greek_equivalents": [
+        "σήμερον κρεμᾶται ἐπὶ ξύλου"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "paschal_stichera": {
+      "genre": "Paschal Stichera & Golden Canon (Пасхальні стихири)",
+      "category": "Feasts, Fasts, & Supplemental Chants",
+      "tones_covered": [
+        1,
+        5,
+        null
+      ],
+      "slavonic_rubrics": [
+        "стихиры пасхи",
+        "пасхальнии",
+        "на пасху"
+      ],
+      "incipits": [
+        "да воскреснет бог и расточатся врази его",
+        "пасха священная нам днесь показася",
+        "приидите от видения жены благовестницы",
+        "воскресения день просветимся торжеством"
+      ],
+      "canonical_english_titles": [
+        "Let God arise, and let His enemies be scattered",
+        "Today a sacred Pascha hath been revealed unto us",
+        "It is the Day of Resurrection, let us be radiant in festal triumph"
+      ],
+      "greek_equivalents": [
+        "ἀναστήτω ὁ θεός",
+        "πάσχα ἱερὸν ἡμῖν σήμερον ἀναδέδεικται"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "zadostoynyk": {
+      "genre": "Megalynaria & Festal Axion Substitutes (Задостойники)",
+      "category": "Feasts, Fasts, & Supplemental Chants",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        null
+      ],
+      "slavonic_rubrics": [
+        "задостойник",
+        "вместо достойно",
+        "величай душе моя"
+      ],
+      "incipits": [
+        "величай душе моя честнейшую и славнейшую",
+        "любити убо нам яко безбедное страхом",
+        "странствия владычня и безсмертныя трапезы",
+        "ангел вопияше благодатней"
+      ],
+      "canonical_english_titles": [
+        "Magnify, O my soul, her that is more honorable",
+        "It were easier for us through fear to love silence",
+        "Come, ye faithful, let us enjoy the Master's hospitality"
+      ],
+      "greek_equivalents": [
+        "μεγάλυνον, ψυχή μου",
+        "στέργειν μὲν ἡμᾶς"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "automelon_podoben": {
+      "genre": "Automela & Model Stichera (Самоподобні та подібні)",
+      "category": "Feasts, Fasts, & Supplemental Chants",
+      "tones_covered": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "slavonic_rubrics": [
+        "подобен",
+        "подобенъ",
+        "самоподобен",
+        "самогласен"
+      ],
+      "incipits": [
+        "о преславнаго чудесе",
+        "небесных чинов радование",
+        "егда от древа тя мертва",
+        "яко добля в мученицех",
+        "киими похвальными венцы",
+        "все отложше на небесех"
+      ],
+      "canonical_english_titles": [
+        "O most glorious wonder",
+        "The joy of the heavenly ranks",
+        "When from the Tree, a corpse, the noble Joseph took Thee down",
+        "As noble among martyrs"
+      ],
+      "greek_equivalents": [
+        "ὢ τοῦ παραδόξου θαύματος",
+        "τῶν οὐρανίων ταγμάτων"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "spiritual_canticle": {
+      "genre": "Spiritual Canticles & Kants (Духовні канти та наславники)",
+      "category": "Feasts, Fasts, & Supplemental Chants",
+      "tones_covered": [
+        null
+      ],
+      "slavonic_rubrics": [
+        "кант",
+        "канты",
+        "наславник",
+        "песнь духовная"
+      ],
+      "incipits": [
+        "прийми мя пустыне",
+        "приими мя пустыне",
+        "на реках вавилонских",
+        "покаяния отверзи ми двери"
+      ],
+      "canonical_english_titles": [
+        "Receive me, O wilderness",
+        "By the waters of Babylon",
+        "Open to me the doors of repentance"
+      ],
+      "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+      "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+    },
+    "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+    "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+  },
+  "recension_filter_spec": {
+    "authority": "Dr. Maria Kachmar-Velgan (2021) & Daniel Galadza",
+    "layers": [
+      "Kyivan_Autonomous_Pre_Nikon",
+      "Mohylian_Revision",
+      "Lviv_Regional_Tradition",
+      "Synodal_Censored"
+    ],
+    "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+    "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+  },
+  "provenance_status": "CORPUS_GAP_UNVERIFIED_PRIMARY_SOURCE",
+  "gap_marker": "[UNRESOLVED_CANONICAL_GAP: Spoke record in lexicon_bridge_concordance.json awaits folio/line-level SGC-02 primary-source verification]"
+}

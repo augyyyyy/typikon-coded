@@ -3863,3 +3863,135 @@ body.dark-theme .service-card-footer {
 
 
 
+/* ==========================================================================
+   SEASONAL CHANT REPERTOIRE EXPLORER (WO-01 TO WO-05)
+   ========================================================================== */
+.repertoire-explorer-card {
+    margin-bottom: 24px;
+    padding: 24px;
+}
+
+.repertoire-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.repertoire-summary-badges {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.repertoire-controls-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+    padding: 14px;
+    border-radius: 8px;
+    background: rgba(197, 160, 89, 0.05);
+    border: 1px solid var(--card-border);
+}
+
+.repertoire-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.repertoire-control-group label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--gold-accent);
+}
+
+.repertoire-items-container {
+    max-height: 620px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 4px;
+}
+
+.repertoire-item-card {
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    transition: border-color 0.2s ease;
+}
+
+body.dark-theme .repertoire-item-card {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.repertoire-item-card[open] {
+    border-color: var(--gold-accent);
+}
+
+.repertoire-item-summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-weight: 600;
+}
+
+.repertoire-item-title-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.repertoire-item-cyr {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+.repertoire-item-meta-badges {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.repertoire-item-body {
+    padding: 14px 18px 18px 18px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.repertoire-pillar-box {
+    padding: 10px 14px;
+    border-radius: 6px;
+    background: rgba(197, 160, 89, 0.06);
+    border-left: 3px solid var(--gold-accent);
+}
+
+.repertoire-pillar-title {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--gold-accent);
+    margin-bottom: 4px;
+}

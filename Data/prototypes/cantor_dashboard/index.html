@@ -447,6 +447,55 @@
                      </div>
                 </div>
 
+                <!-- Seasonal Chant Repertoire Explorer (WO-01 to WO-05) -->
+                <div class="card glass-container repertoire-explorer-card" id="repertoire-explorer-card">
+                     <div class="repertoire-header-row">
+                         <div>
+                             <h3 class="card-title">Seasonal Chant Repertoire Explorer (WO-01–WO-05)</h3>
+                             <p class="card-description">Explore 140 canonical Kyivan and Galician chants across 5 seasonal cycles and 30 liturgical phases with 3-Pillar musicological provenance.</p>
+                         </div>
+                         <div class="repertoire-summary-badges" id="repertoire-summary-badges">
+                             <span class="badge-tone">5 Cycles</span>
+                             <span class="badge-eothinon">30 Phases</span>
+                             <span class="badge-season season-paschal">140 Canonical Chants</span>
+                         </div>
+                     </div>
+
+                     <div class="repertoire-controls-bar">
+                         <div class="repertoire-control-group">
+                             <label for="repertoire-cycle-select">Seasonal Cycle:</label>
+                             <select id="repertoire-cycle-select" class="select-input">
+                                 <option value="ALL">All Cycles (WO-01–WO-05 — 140 Chants)</option>
+                                 <option value="WO-01">WO-01 — Winter Pascha Cycle (32 Chants)</option>
+                                 <option value="WO-02">WO-02 — Great Lent &amp; Triodion Cycle (24 Chants)</option>
+                                 <option value="WO-03">WO-03 — Holy Passion Week (22 Chants)</option>
+                                 <option value="WO-04">WO-04 — Pascha, Bright Week &amp; Pentecostarion (32 Chants)</option>
+                                 <option value="WO-05">WO-05 — Theotokos Feasts, Summer &amp; Dogmatika (30 Chants)</option>
+                             </select>
+                         </div>
+                         <div class="repertoire-control-group">
+                             <label for="repertoire-phase-select">Liturgical Phase:</label>
+                             <select id="repertoire-phase-select" class="select-input">
+                                 <option value="ALL">All Phases (1–6)</option>
+                                 <option value="1">Phase 1</option>
+                                 <option value="2">Phase 2</option>
+                                 <option value="3">Phase 3</option>
+                                 <option value="4">Phase 4</option>
+                                 <option value="5">Phase 5</option>
+                                 <option value="6">Phase 6</option>
+                             </select>
+                         </div>
+                         <div class="repertoire-control-group repertoire-search-group">
+                             <label for="repertoire-search-input">Filter Genre / Tone / Title:</label>
+                             <input type="text" id="repertoire-search-input" class="text-input" placeholder="e.g. Troparion, Tone 4, Heirmos, Dogmatikon...">
+                         </div>
+                     </div>
+
+                     <div class="repertoire-items-container scrollable" id="repertoire-items-container">
+                         <p class="placeholder-text">Loading seasonal chant repertoires...</p>
+                     </div>
+                </div>
+
                 <!-- 5 Wings & Logic Gates Layout -->
                 <div class="roadmap-layout-grid dev-element">
                      <!-- 5 Wings Progress Card -->

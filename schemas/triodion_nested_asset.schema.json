@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Typikon Coded Nested Triodion Asset Database",
+  "description": "Strict schema for 3-level nested Triodion text assets (text_lenten_triodion.json and text_floral_triodion.json) consumed by engine/text_db.py::_resolve_variable_ref.",
+  "type": "object",
+  "patternProperties": {
+    "^[a-z0-9_]+$": {
+      "type": "object",
+      "description": "Liturgical day key (e.g., sunday_of_the_publican_and_the_pharisee, palm_sunday, thomas_sunday).",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Service key (e.g., great_vespers, matins, liturgy).",
+        "additionalProperties": {
+          "type": "array",
+          "description": "Ordered list of hymn/rubric text paragraphs for the variable slot (e.g., stichera_on_lord_i_have_cried, troparia, sessional_hymns).",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

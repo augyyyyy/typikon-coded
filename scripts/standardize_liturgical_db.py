@@ -6,12 +6,19 @@ import difflib
 
 # File Paths
 REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_DIR = os.path.join(REPO_DIR, "json_db", "stamford")
-BACKUP_DIR = os.path.join(REPO_DIR, "json_db", "stamford_backup")
+SOURCE_DIR = os.path.join(
+    REPO_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets"
+)
+TARGET_DIR = os.path.join(
+    REPO_DIR, "Data", "Service Books", "Recensions", "Royal Doors", "JSON", "assets"
+)
+DRIFT_MAP_PATH = os.path.join(
+    REPO_DIR, "json_db", "propers_comparisons", "royaldoors_daily_drift_mapping.json"
+)
 AUDIT_DIR = os.path.join(REPO_DIR, "audit_results")
 
 # Ensure directories exist
-os.makedirs(BACKUP_DIR, exist_ok=True)
+os.makedirs(TARGET_DIR, exist_ok=True)
 os.makedirs(AUDIT_DIR, exist_ok=True)
 
 # Terminology replacements (case-insensitive search, case-matching replacement)
@@ -239,60 +246,112 @@ def process_value(val):
         return {k: process_value(v) for k, v in val.items()}
     return val
 
-def run_standardization():
-    files = sorted([f for f in os.listdir(DB_DIR) if f.endswith(".json") and not f.endswith(".bak")])
-    diff_report = []
+def _load_royal_doors_drift_by_mmdd():
+    """Load fixed-date Royal Doors propers drift records keyed by MMDD (e.g. '0101')."""
+    if not os.path.isfile(DRIFT_MAP_PATH):
+        return {}
+    with open(DRIFT_MAP_PATH, "r", encoding="utf-8") as f:
+        records = json.load(f)
+    by_mmdd = {}
+    for rec in records:
+        mm_dd = rec.get("mm_dd", "").replace("_", "")
+        element = rec.get("element", "")
+        pairs = rec.get("pairs", [])
+        if mm_dd and element and pairs:
+            latest_text = pairs[-1].get("text2") or pairs[-1].get("text1")
+            if latest_text:
+                by_mmdd.setdefault(mm_dd, {})[element] = standardize_text(latest_text)
+    return by_mmdd
 
-    print("Beginning systematic database corrections...")
+
+def run_standardization():
+    files = sorted(
+        [f for f in os.listdir(SOURCE_DIR) if f.startswith("text_") and f.endswith(".json")]
+    )
+    diff_report = []
+    drift_by_mmdd = _load_royal_doors_drift_by_mmdd()
+    total_keys = 0
+    modified_keys = 0
+    linked_drift_days = 0
+
+    print("Beginning systematic Royal Doors recension hydration & UGCC standardization...")
 
     for filename in files:
-        filepath = os.path.join(DB_DIR, filename)
-        backup_filepath = os.path.join(BACKUP_DIR, filename)
+        src_filepath = os.path.join(SOURCE_DIR, filename)
+        target_filepath = os.path.join(TARGET_DIR, filename)
 
-        # 1. Back up file
-        shutil.copy2(filepath, backup_filepath)
-        # Also copy as .bak in DB_DIR if desired, but BACKUP_DIR is cleaner
-        print(f"Backed up {filename} to {backup_filepath}")
-
-        # 2. Load original data
-        with open(filepath, "r", encoding="utf-8") as f:
+        # 1. Load source data from Stamford Divine Office recension
+        with open(src_filepath, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        # 3. Deep copy and process
+        # 2. Deep copy and process with UGCC Royal Doors standardization
         standardized_data = {}
+        file_key_count = 0
+        file_mod_count = 0
         for key, entry in data.items():
-            standardized_data[key] = process_value(entry)
+            if key == "file_metadata" and isinstance(entry, dict):
+                meta = dict(entry)
+                meta["recension"] = "Royal Doors UGCC Standardized"
+                standardized_data[key] = meta
+                continue
 
-        # 4. Generate diff
+            file_key_count += 1
+            total_keys += 1
+            processed_entry = process_value(entry)
+            if isinstance(processed_entry, dict) and "content" in processed_entry:
+                processed_entry["_source"] = "Royal Doors UGCC Standardized"
+                if filename == "text_menaion.json" and key.startswith("menaion."):
+                    parts = key.split(".")
+                    if len(parts) >= 2 and parts[1] in drift_by_mmdd:
+                        mmdd = parts[1]
+                        if key.endswith(".troparion") or key.endswith(".vespers.stichera_lord_i_call"):
+                            processed_entry["_royal_doors_variants"] = drift_by_mmdd[mmdd]
+                            linked_drift_days += 1
+
+            if json.dumps(entry, sort_keys=True, ensure_ascii=False) != json.dumps(
+                processed_entry, sort_keys=True, ensure_ascii=False
+            ):
+                file_mod_count += 1
+                modified_keys += 1
+
+            standardized_data[key] = processed_entry
+
+        # 3. Generate diff summary
         orig_str = json.dumps(data, indent=2, ensure_ascii=False)
         new_str = json.dumps(standardized_data, indent=2, ensure_ascii=False)
 
         if orig_str != new_str:
-            diff = list(difflib.unified_diff(
-                orig_str.splitlines(),
-                new_str.splitlines(),
-                fromfile=f"a/json_db/stamford/{filename}",
-                tofile=f"b/json_db/stamford/{filename}",
-                lineterm=""
-            ))
+            diff = list(
+                difflib.unified_diff(
+                    orig_str.splitlines(),
+                    new_str.splitlines(),
+                    fromfile=f"a/Stamford Divine Office/{filename}",
+                    tofile=f"b/Royal Doors/{filename}",
+                    lineterm="",
+                )
+            )
             if diff:
-                diff_report.append(f"=== File: {filename} ===")
-                diff_report.extend(diff)
+                diff_report.append(f"=== File: {filename} ({file_key_count} keys, {file_mod_count} standardized) ===")
+                diff_report.extend(diff[:200])
                 diff_report.append("\n")
 
-            # 5. Write standardized file back
-            with open(filepath, "w", encoding="utf-8") as f_out:
-                json.dump(standardized_data, f_out, indent=2, ensure_ascii=False)
-            print(f"Standardized and saved: {filename}")
-        else:
-            print(f"No changes needed for: {filename}")
+        # 4. Write hydrated file to Royal Doors/JSON/assets/
+        with open(target_filepath, "w", encoding="utf-8") as f_out:
+            json.dump(standardized_data, f_out, indent=2, ensure_ascii=False)
+        print(
+            f"Hydrated and standardized: {filename} ({file_key_count} keys, {file_mod_count} standardized)"
+        )
 
     # Write unified diff report
     diff_path = os.path.join(AUDIT_DIR, "standardization_diff.txt")
     with open(diff_path, "w", encoding="utf-8") as d_f:
         d_f.write("\n".join(diff_report))
-    
-    print(f"\nStandardization complete. Diffs written to: {diff_path}")
+
+    print(
+        f"\nRoyal Doors hydration complete: {len(files)} files, {total_keys} keys hydrated "
+        f"({modified_keys} keys standardized, {linked_drift_days} fixed-date Royal Doors variant blocks linked)."
+    )
+    print(f"Diffs written to: {diff_path}")
 
 if __name__ == "__main__":
     run_standardization()

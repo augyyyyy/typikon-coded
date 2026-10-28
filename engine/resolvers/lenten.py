@@ -749,32 +749,59 @@ class LentenMixin:
             "ref_key": f"triodion.proverbs.week_{triodion_week}.day_{day_of_week}"
         })
         
-        # RULE: Feast day adds Epistle and Gospel after "Let my prayer arise"
+        # RULE: Feast day adds Saint Paremias (3 OT readings) and Epistle/Gospel after "Let my prayer arise"
         if rank <= 3:  # Polyeleos or higher
+            if hasattr(self, "resolve_vespers_readings_logic"):
+                try:
+                    vesp_readings = self.resolve_vespers_readings_logic(context) or []
+                    for vr in vesp_readings:
+                        if isinstance(vr, dict) and vr.get("type") == "reading":
+                            ref_k = vr.get("ref_key", "")
+                            result["sequence"].append({
+                                "id": ref_k or "feast_paremia",
+                                "type": "paremia",
+                                "book": vr.get("title") or ref_k or "Feast Reading",
+                                "ref_key": ref_k,
+                                "text": vr.get("title") or ref_k,
+                                "content": vr.get("content", ""),
+                            })
+                except Exception:
+                    pass
+
             saints = context.get("saints", [])
             s_ids = " ".join(s.get("id", "") for s in saints) + " " + str(feast_id or "")
+            ep_ref = f"menaion.{feast_id}.epistle" if feast_id else "feast.epistle"
+            gosp_ref = f"menaion.{feast_id}.gospel" if feast_id else "feast.gospel"
             if "baptist" in s_ids or "finding" in s_ids or "feb_24" in s_ids:
                 ep_text = "2 Corinthians 4:6–15"
                 gosp_text = "Matthew 11:2–15"
+                ep_ref = "2_corinthians_4_6_15"
+                gosp_ref = "matthew_11_2_15"
             elif "forty_martyrs" in s_ids or "sebaste" in s_ids or "mar_09" in s_ids:
                 ep_text = "Hebrews 12:1–10"
                 gosp_text = "Matthew 20:1–16"
+                ep_ref = "hebrews_12_1_10"
+                gosp_ref = "matthew_20_1_16"
             elif "annunciation" in s_ids or "theotokos" in s_ids or "mar_25" in s_ids:
                 ep_text = "Hebrews 2:11–18"
                 gosp_text = "Luke 1:24–38"
+                ep_ref = "hebrews_2_11_18"
+                gosp_ref = "luke_1_24_38"
             else:
                 ep_text = "Hebrews 12:1–10"
                 gosp_text = "Matthew 20:1–16"
+                ep_ref = "hebrews_12_1_10"
+                gosp_ref = "matthew_20_1_16"
 
             result["has_feast_readings"] = True
             result["feast_readings"] = {
                 "epistle": {
                     "text": ep_text,
-                    "ref_key": f"menaion.{feast_id}.epistle" if feast_id else "feast.epistle"
+                    "ref_key": ep_ref
                 },
                 "gospel": {
                     "text": gosp_text,
-                    "ref_key": f"menaion.{feast_id}.gospel" if feast_id else "feast.gospel"
+                    "ref_key": gosp_ref
                 }
             }
         

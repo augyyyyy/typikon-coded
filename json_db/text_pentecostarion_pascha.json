@@ -1,6 +1,7 @@
 {
     "pentecostarion.opening_let_god_arise": {
         "id": "pentecostarion.opening_let_god_arise",
+        "source": "Ruthenian",
         "rubrics": {
             "instruction": "The Priest sings the verses, and the people respond with 'Christ is Risen'."
         },
@@ -14,6 +15,7 @@
     },
     "pentecostarion.dismissal_paschal_full": {
         "id": "pentecostarion.dismissal_paschal_full",
+        "source": "Ruthenian",
         "rubrics": {
             "instruction": "Dialogical Dismissal with the Cross."
         },
@@ -25,6 +27,7 @@
     },
     "pentecostarion.dismissal_paschal_hours": {
         "id": "pentecostarion.dismissal_paschal_hours",
+        "source": "Ruthenian",
         "rubrics": {
             "instruction": "At the Hours/Compline"
         },
@@ -37,6 +40,9 @@
     "pentecostarion.canon_pascha": {
         "id": "pentecostarion.canon_pascha",
         "type": "canon",
+        "source": "Ruthenian",
+        "tone": "Tone 1",
+        "content": "The Canon of Pascha (Tone 1, St. John of Damascus): It is the Day of Resurrection! Let us be radiant, O people! Pascha! The Lord's Pascha! For Christ our God has passed us from death to life, and from earth to heaven, we who sing the triumphal hymn.",
         "metadata": {
             "title": "The Canon of Pascha",
             "author": "St. John of Damascus",
@@ -79,32 +85,38 @@
     },
     "menaion.pascha.prokeimenon": {
         "id": "menaion.pascha.prokeimenon",
+        "source": "Ruthenian",
         "content": "This is the day which the Lord has made; let us rejoice and be glad in it.",
-        "tone": 8
+        "tone": "Tone 8"
     },
     "menaion.pascha.alleluia": {
         "id": "menaion.pascha.alleluia",
+        "source": "Ruthenian",
         "content": "Rise up, O Lord, have mercy on Zion.",
-        "tone": 4
+        "tone": "Tone 4"
     },
     "menaion.ascension.prokeimenon": {
         "id": "menaion.ascension.prokeimenon",
+        "source": "Ruthenian",
         "content": "Be exalted, O God, above the heavens, and let Your glory be over all the earth.",
-        "tone": 7
+        "tone": "Tone 7"
     },
     "menaion.ascension.alleluia": {
         "id": "menaion.ascension.alleluia",
+        "source": "Ruthenian",
         "content": "All you nations, clap your hands; shout to God with cries of joy.",
-        "tone": 2
+        "tone": "Tone 2"
     },
     "menaion.pentecost.prokeimenon": {
         "id": "menaion.pentecost.prokeimenon",
+        "source": "Ruthenian",
         "content": "Their sound has gone forth into all the earth, and their words to the ends of the world.",
-        "tone": 8
+        "tone": "Tone 8"
     },
     "menaion.pentecost.alleluia": {
         "id": "menaion.pentecost.alleluia",
+        "source": "Ruthenian",
         "content": "By the word of the Lord the heavens were established, and all their power by the spirit of His mouth.",
-        "tone": 1
+        "tone": "Tone 1"
     }
 }

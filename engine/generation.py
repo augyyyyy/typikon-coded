@@ -401,6 +401,12 @@ class GenerationMixin:
                           # Map "sunday" -> "midnight_sunday"
                           root_id = f"midnight_{mode_data['mode']}"
 
+                if root_id == "structure_suppressed":
+                    booklet.append(
+                        f"\n--- {service_name.upper()} ---\nNOTE: {service_name} is combined with the Liturgy of the Presanctified Gifts below."
+                    )
+                    continue
+
                 if include_ceremonial:
                     booklet.append(f"\n--- {service_name.upper()} ({root_id}) ---")
                 else:
@@ -471,7 +477,10 @@ class GenerationMixin:
 
                 process_sequence(skeleton)
 
-            return "\n".join(booklet)
+            full_str = "\n".join(booklet)
+            if hasattr(self, "_normalize_ugcc_text"):
+                full_str = self._normalize_ugcc_text(full_str)
+            return full_str
 
 
     def generate_rubrical_abstract(self, context, rubrics):
@@ -1516,6 +1525,49 @@ class GenerationMixin:
                                 output.append(f'<p class="rubric">[Missing Gospel: {ref_key}]</p>')
                 else:
                     output.append(f'<p>{str(r_set)}</p>')
+            return "\n\n".join(output)
+
+        # Case 3.6: Result is Presanctified Readings (OT Paremias, Light of Christ, and Feast Readings)
+        elif isinstance(result, dict) and result.get("type") == "presanctified_readings":
+            output.append('<div class="title-medium">Presanctified Readings & Paremias</div>')
+            for r_item in result.get("sequence", []):
+                r_type = r_item.get("type")
+                ref_key = r_item.get("ref_key", "")
+                if r_type == "prokeimenon":
+                    text_item = self.get_text(ref_key, context=context) if ref_key else None
+                    content = (text_item.get("content", "") if isinstance(text_item, dict) else "") or r_item.get("text", "")
+                    output.extend(self._split_and_wrap(f'<strong>Prokeimenon</strong> ({ref_key}): ', content or ref_key))
+                elif r_type == "exclamation":
+                    excl_text = r_item.get("text", "The Light of Christ illumines all!")
+                    output.append(f'<p><strong>Exclamation</strong>: {excl_text}</p>')
+                elif r_type in ("paremia", "reading"):
+                    book = r_item.get("book") or r_item.get("title") or ref_key
+                    text_item = self.get_text(ref_key, context=context) if ref_key else None
+                    content = (
+                        r_item.get("content")
+                        or (text_item.get("content", "") if isinstance(text_item, dict) else "")
+                        or r_item.get("text", "")
+                    )
+                    label = f"{book} ({ref_key})" if ref_key and ref_key not in str(book) else str(book or ref_key)
+                    output.extend(self._split_and_wrap(f'<strong>Paremia — {label}</strong>: ', content or label))
+
+            if result.get("has_feast_readings"):
+                fr = result.get("feast_readings", {})
+                output.append('<div class="title-medium">Feast Epistle & Gospel</div>')
+                ep = fr.get("epistle", {})
+                if ep:
+                    ep_ref = ep.get("ref_key", "")
+                    ep_label = ep.get("text") or ep_ref
+                    ep_item = self.get_text(ep_ref, context=context) if ep_ref else None
+                    ep_body = (ep_item.get("content", "") if isinstance(ep_item, dict) else "") or ep_label
+                    output.extend(self._split_and_wrap(f'<strong>Epistle ({ep_label} / {ep_ref})</strong>: ', ep_body))
+                gs = fr.get("gospel", {})
+                if gs:
+                    gs_ref = gs.get("ref_key", "")
+                    gs_label = gs.get("text") or gs_ref
+                    gs_item = self.get_text(gs_ref, context=context) if gs_ref else None
+                    gs_body = (gs_item.get("content", "") if isinstance(gs_item, dict) else "") or gs_label
+                    output.extend(self._split_and_wrap(f'<strong>Gospel ({gs_label} / {gs_ref})</strong>: ', gs_body))
             return "\n\n".join(output)
             
         # Case 4: Result has 'sequence' or 'troparia_sequence' (like troparia/kontakia stacking)

@@ -24,7 +24,7 @@
                 },
                 "tone": {
                     "type": "string",
-                    "pattern": "^Tone [1-8]$|^[1-8]$|^Variable$",
+                    "pattern": "^Tone [1-8]$|^[1-8]$|^(I|II|III|IV|V|VI|VII|VIII)$|^Variable$",
                     "description": "The musical tone (e.g., 'Tone 1', 'Tone 8')."
                 },
                 "source": {
@@ -34,7 +34,9 @@
                         "Ruthenian",
                         "Common",
                         "Other",
-                        "System Logic"
+                        "System Logic",
+                        "St. Sergius Unabridged",
+                        "St. Sergius Unabridged (Tone 1)"
                     ],
                     "description": "The provenance of the text."
                 },

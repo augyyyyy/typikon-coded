@@ -976,7 +976,7 @@ Check that all spellings conform (e.g. 'Prokeimenon' instead of 'Prokimenon'), t
 
     def run_ui_panel_audit(self):
         """Audits the Cantor Dashboard UI files (HTML, JS, CSS) for panel integrity, DOM elements, and event bindings."""
-        ui_dir = PROJECT_ROOT / "cantor_dashboard"
+        ui_dir = PROJECT_ROOT / "Data" / "prototypes" / "cantor_dashboard"
         index_path = ui_dir / "index.html"
         main_js_path = ui_dir / "main.js"
         
