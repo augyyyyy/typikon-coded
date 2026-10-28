@@ -4,7 +4,7 @@
 This workspace inherits and enforces all compliance protocols, API configurations, and general code safety standards defined in the parent root:
 * [GLOBAL_SYSTEM_RULES.md](file:///c:/Users/augus/OneDrive/Documents/Google%20Antigravity/Projects/GLOBAL_SYSTEM_RULES.md)
 
-You must strictly comply with the Honesty Protocol, the Evidence Gate, Banned Phrases, UTF-8 Enforcement, Dynamic Path Resolution, and DeepSeek V4 API Orchestration rules defined therein.
+You must strictly comply with the Honesty Protocol, the Evidence Gate, Banned Phrases, UTF-8 Enforcement, Dynamic Path Resolution, the Native Gemini Vision Mandate (Zero Third-Party APIs), the Exclusive Write-Ownership Matrix (§7), and the Universal Ground-Truth & Anti-Potemkin Law (`SGC-01`..`SGC-05`, §8) defined therein.
 
 ---
 
@@ -28,8 +28,8 @@ Simulate temperature=0.0 reasoning. Avoid speculative language (e.g., "probably"
 ### 6. Evidence Gate Enforcement
 Every claim of completion, fixing, or testing MUST be accompanied by actual terminal output showing test counts, git diffs, or diff matches.
 
-### 7. Hub-Spoke Model Integrity
-Typikon Coded is the logic Hub. Never hardcode translation strings or raw text into the engine. All texts must be resolved dynamically through `engine/text_db.py` keys populated by Spokes.
+### 7. Hub-Spoke Model Integrity & Shared Atomic Corpus Resolution
+Typikon Coded is the logic Hub. Never hardcode translation strings or raw text into the engine. All texts must be resolved dynamically through `engine/text_db.py` keys and the 4-shard Unified Atomic Key-Value Liturgical Corpus (`Projects/Shared_Lexicon/atomic_corpus/` verified via `atomic_corpus_resolver.py`), with spoke handoff payloads ingested strictly via `Data/Inbox/`.
 
 ### 8. UGCC Terminology Compliance
 All outputs and documentation must use standardized Ukrainian Greek Catholic terminology mapped to the Royal Doors vocabulary standards defined in `.agents/references/liturgical_authority.md`. Never invent custom terminology.
@@ -51,8 +51,9 @@ Before editing or creating any files, you MUST run this mental check and state t
 ### 12. Post-Flight Checklist & Handoff (After ANY Code Change)
 After making changes and before concluding your session, you MUST:
 1. Run `$env:PAGER="cat"; git --no-pager diff --stat HEAD` and paste the output.
-2. Run the compliance check and the full test suite and paste the pass/fail counts:
+2. Run the compliance check, the ecosystem integrity spoke check, and the full test suite, and paste the pass/fail counts:
    `$env:PYTHONPATH="." ; $env:PAGER="cat" ; .venv\Scripts\pytest tests/test_session_compliance.py --verbose`
+   `python "../scripts/verify_ecosystem_integrity.py" --spoke "Typikon Coded"`
    `$env:PYTHONPATH="." ; $env:PAGER="cat" ; .venv\Scripts\pytest --ignore=tests/test_ui_readability.py --verbose`
 3. If digest generator changed, generate the digest and paste the output.
 4. Copy your session planning files (`implementation_plan.md`, `task.md`, `walkthrough.md` from `.gemini/` app data folder) to `.agents/brain/session_history/<date>/`.

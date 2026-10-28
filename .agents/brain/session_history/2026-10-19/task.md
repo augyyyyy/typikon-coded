@@ -1,0 +1,26 @@
+# Task Checklist: Zero-Cache Live-Engine Sequential Forensic Audit & Remediation
+
+- [x] **Component 1: Forensic Bundle Generator & Subagent Setup**
+  - [x] Create `scripts/forensic_day_bundle.py` (dynamic path resolution, UTF-8, extracts Digest + Dolnytsky §5.3/§2.x + Resolver-vs-Formatter diff + Multi-Gate Auditor status).
+  - [x] Define read-only subagent `forensic-day-auditor` via `define_subagent`.
+- [x] **Component 2: Stage 0 — Baseline Remediation & 365-Day Blast-Radius Scan**
+  - [x] Add Gate 1 grammar/duplication checks, `gate36_resolver_formatter_fidelity`, and `gate37_dolnytsky_menologion_parity` in `scripts/service_day_multi_auditor.py`.
+  - [x] Fix baseline formatter/resolver defects and all 45 Menologion footnote triggers (`[^699]`–`[^744]`) in `json_db/synodal_footnotes.json`.
+  - [x] Verify 365-day blast-radius scan across Gates 1, 36, and 37 passes with `0 errors`.
+- [ ] **Component 3: Zero-Cache Live Engine Enforcement (`use_almanac_cache=False`) & Self-Contained Bundle Upgrade**
+  - [ ] Delete all 8 pre-computed `annual_almanac_*.json` cache files in `json_db/almanac/`.
+  - [ ] Default `use_almanac_cache: bool = False` in `RuthenianEngine.__init__()` (`engine/core.py`) so the engine ALWAYS executes 100% live calculation unless `use_almanac_cache=True` is explicitly passed.
+  - [ ] Update `tests/test_annual_almanac_consistency.py` to skip when pre-computed almanac cache files are absent on disk, and reconcile `tests/test_canonical_semantic_truth.py` (`2026-09-15` saint title assertion).
+  - [ ] Upgrade `scripts/forensic_day_bundle.py` to embed the full canonical Format row from `.agents/references/canonical_maximalist_digest_standard.md` and update `forensic-day-auditor` prompt rules (1 tool call, Defects-Only output, strict Hub vs. Spoke boundary).
+- [ ] **Component 4: Phase A — Consecutive Daily Audits Until 7-Day First-Pass Zero-Defect Streak**
+  - [x] **Day 1 (`2026-10-11` Sun — `FORMAT 05/74`)**: Audited & remediated (`0` gate errors).
+  - [x] **Day 2 (`2026-10-12` Mon — `FORMAT 04`)**: Audited & remediated (`0` gate errors).
+  - [x] **Day 3 (`2026-10-13` Tue — `FORMAT 02`)**: Audited & remediated (`0` gate errors).
+  - [ ] **Day 4 (`2026-10-14` Wed — `FORMAT 04` `[4 A+G]`)**: Generate live bundle $\rightarrow$ 1-pass `forensic-day-auditor` $\rightarrow$ If 0 defects, `streak = 1`; else fix, ratchet Gate 36/37, reset `streak = 0`.
+  - [ ] **Day 5 (`2026-10-15` Thu — `FORMAT 04` `[^706]`)**: Generate live bundle $\rightarrow$ 1-pass `forensic-day-auditor` $\rightarrow$ Update streak / fix & ratchet.
+  - [ ] **Day 6 (`2026-10-16` Fri — `FORMAT 02` Cross)**: Generate live bundle $\rightarrow$ 1-pass `forensic-day-auditor` $\rightarrow$ Update streak / fix & ratchet.
+  - [ ] **Day 7 (`2026-10-17` Sat — `FORMAT 17`)**: Generate live bundle $\rightarrow$ 1-pass `forensic-day-auditor` $\rightarrow$ Update streak / fix & ratchet.
+  - [ ] **Continue Consecutive Days (`2026-10-18+`)**: Walk consecutive calendar days one at a time until `streak == 7` (7 consecutive days with `0` first-pass subagent defects).
+- [ ] **Component 5: Phase B — Chronological 26-Format & Movable Landmark Queue (`Jan` $\rightarrow$ `Dec 2026`)**
+  - [ ] Step sequentially through the first chronological occurrence in 2026 of each remaining untested Format (`FORMAT 01`–`26`) and movable Triodion/Paschal landmark one day at a time (fixing & ratcheting any defect into `service_day_multi_auditor.py`).
+  - [ ] Run the full 365-day 37-gate `service_day_multi_auditor.py` scan and full pytest suite to verify `0` defects and `0` failures across the entire year, then notify the user.

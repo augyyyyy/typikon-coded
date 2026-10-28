@@ -116,7 +116,7 @@ def test_gate_10_eothinon_doxastikon():
     print("\n=== Testing Gate 10: Eothinon Doxastikon ===")
     engine = RuthenianEngine()
     
-    # Test 1: Sunday Eothinon 1 - Tone 5
+    # Test 1: Sunday Eothinon 1 - Tone 1
     context = {
         'day_of_week': 0,
         'eothinon': 1
@@ -124,28 +124,28 @@ def test_gate_10_eothinon_doxastikon():
     result = engine.resolve_eothinon_doxastikon(context)
     assert result['type'] == 'eothinon_doxastikon'
     assert result['eothinon'] == 1
-    assert result['tone'] == 5
+    assert result['tone'] == 1
     assert result['doxastikon_id'] == 'gospel_sticheron_eothinon_1'
-    print("  [PASS] Sunday Eothinon 1 uses Gospel Sticheron Tone 5")
+    print("  [PASS] Sunday Eothinon 1 uses Gospel Sticheron Tone 1")
     
-    # Test 2: Sunday Eothinon 6 - Tone 7
+    # Test 2: Sunday Eothinon 6 - Tone 6
     context = {
         'day_of_week': 0,
         'eothinon': 6
     }
     result = engine.resolve_eothinon_doxastikon(context)
-    assert result['tone'] == 7
+    assert result['tone'] == 6
     assert result['doxastikon_id'] == 'gospel_sticheron_eothinon_6'
-    print("  [PASS] Sunday Eothinon 6 uses Gospel Sticheron Tone 7")
+    print("  [PASS] Sunday Eothinon 6 uses Gospel Sticheron Tone 6")
     
-    # Test 3: Sunday Eothinon 11 - Tone 2
+    # Test 3: Sunday Eothinon 11 - Tone 8
     context = {
         'day_of_week': 0,
         'eothinon': 11
     }
     result = engine.resolve_eothinon_doxastikon(context)
-    assert result['tone'] == 2
-    print("  [PASS] Sunday Eothinon 11 uses Gospel Sticheron Tone 2")
+    assert result['tone'] == 8
+    print("  [PASS] Sunday Eothinon 11 uses Gospel Sticheron Tone 8")
     
     # Test 4: Weekday - No Doxastikon
     context = {

@@ -21,6 +21,8 @@ class DayCardsAuditor:
     def __init__(self):
         self.engine = RuthenianEngine(base_dir=str(PROJECT_ROOT))
         self.digest_gen = TypikonDigestGenerator(self.engine)
+        dolnytsky_path = PROJECT_ROOT / "Data" / "Service Books" / "Typikon" / "Dolnytsky_Typikon_Master.md"
+        self.dolnytsky_verified = dolnytsky_path.is_file() and ("PART IV" in dolnytsky_path.read_text(encoding="utf-8", errors="replace"))
 
     def audit_day(self, target_date: date) -> dict:
         ctx = self.engine.get_liturgical_context(target_date)

@@ -80,6 +80,21 @@
                 }
               ],
               "source_ref": "Dolnytsky_Typikon_Master.md:2.1.3.7"
+            },
+            "saint_on_6_doxology": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 6
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ],
+              "source_ref": "Dolnytsky_Typikon_Master.md:2.1.3.7"
             }
           },
           "glory": "saint_doxastikon_if_appointed",
@@ -151,6 +166,56 @@
                   "qty": 4
                 }
               ]
+            },
+            "saint_on_6": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "cross_res",
+                  "qty": 2
+                },
+                {
+                  "source": "octoechos",
+                  "type": "theotokos",
+                  "qty": 2
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 6
+                }
+              ]
+            },
+            "saint_on_6_doxology": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "resurrection",
+                  "qty": 4,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "cross_res",
+                  "qty": 2
+                },
+                {
+                  "source": "octoechos",
+                  "type": "theotokos",
+                  "qty": 2
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 6
+                }
+              ]
             }
           }
         },
@@ -197,14 +262,10 @@
         "liturgy_variables": {
           "antiphons": "typical",
           "troparia": [
-            "res_trop",
-            "saint_trop",
-            "patron_trop"
+            "res_trop"
           ],
           "kontakia": [
-            "res_kontakion",
-            "saint_kontakion",
-            "patron_kontakion"
+            "res_kontakion"
           ]
         }
       }
@@ -265,6 +326,15 @@
                 }
               ]
             },
+            "saint_on_6": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 6
+                }
+              ]
+            },
             "saint_on_6_doxology": {
               "distribution": [
                 {
@@ -318,6 +388,26 @@
                   "source": "menaion",
                   "type": "saint_2",
                   "qty": 4
+                }
+              ]
+            },
+            "saint_on_6": {
+              "distribution": [
+                {
+                  "source": "octoechos",
+                  "type": "canon_1",
+                  "qty": 4,
+                  "irmos": true
+                },
+                {
+                  "source": "octoechos",
+                  "type": "canon_2",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 6
                 }
               ]
             },
@@ -840,6 +930,36 @@
         "doxology_type": "daily_read",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "forefeast",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
           "distribution": [
             {
               "source": "menaion",
@@ -868,6 +988,58 @@
           "both_now": "forefeast_theotokion"
         },
         "matins_canon_distribution": {
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "forefeast",
+                  "qty": 8,
+                  "irmos": true
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "forefeast",
+                  "qty": 6,
+                  "irmos": true
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 4
+                }
+              ]
+            },
+            "saint_on_6_doxology": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "forefeast",
+                  "qty": 6,
+                  "irmos": true
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 6
+                }
+              ]
+            }
+          },
           "distribution": [
             {
               "source": "menaion",
@@ -1171,7 +1343,25 @@
           ],
           "glory": "eothinon_gospel_sticheron",
           "both_now": "most_blessed_art_thou"
-        }
+        },
+        "beatitudes_count": 8,
+        "beatitudes_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "qty": 4
+            },
+            {
+              "source": "feast",
+              "qty": 4
+            }
+          ],
+          "note": "4 Octoechos + 4 Feast Ode 6"
+        },
+        "liturgy_readings": [
+          "day_current"
+        ]
       }
     },
     "case_14_afterfeast_weekday_simple": {
@@ -1204,6 +1394,36 @@
         "doxology_type": "daily_read",
         "vespers_stichera_distribution": {
           "total_count": 6,
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "feast",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 3
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 3
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 3
+                }
+              ]
+            }
+          },
           "distribution": [
             {
               "source": "menaion",
@@ -1232,6 +1452,58 @@
           "both_now": "feast_theotokion"
         },
         "matins_canon_distribution": {
+          "logic_switch": {
+            "1_saint": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "feast",
+                  "qty": 8,
+                  "irmos": true
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 4
+                }
+              ]
+            },
+            "2_saints": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "feast",
+                  "qty": 6,
+                  "irmos": true
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_1",
+                  "qty": 4
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint_2",
+                  "qty": 4
+                }
+              ]
+            },
+            "saint_on_6_doxology": {
+              "distribution": [
+                {
+                  "source": "menaion",
+                  "type": "feast",
+                  "qty": 6,
+                  "irmos": true
+                },
+                {
+                  "source": "menaion",
+                  "type": "saint",
+                  "qty": 6
+                }
+              ]
+            }
+          },
           "distribution": [
             {
               "source": "menaion",

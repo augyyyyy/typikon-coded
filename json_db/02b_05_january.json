@@ -109,7 +109,8 @@
             "glory": "basil_doxastikon",
             "both_now": "circumcision_doxastikon"
           }
-        }
+        },
+        "multi_saint": true
       },
       "05": {
         "title_key": "menaion.jan_05.theophany_eve",
@@ -225,7 +226,7 @@
       },
       "07": {
         "title_key": "menaion.jan_07.synaxis_forerunner",
-        "rank": "rank_simple_6",
+        "rank": "rank_doxology",
         "period": "afterfeast",
         "linked_feast_id": "01-06",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.5.5",
@@ -240,7 +241,7 @@
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
           "doxology_type": "great_doxology",
-          "rank": "rank_simple_6",
+          "rank": "rank_doxology",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
@@ -523,7 +524,7 @@
       },
       "22": {
         "title_key": "menaion.jan_22.timothy_apostle",
-        "rank": "rank_simple_6",
+        "rank": "rank_simple_4",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.5.22",
         "base_template": "CASE_02",
         "variables": {
@@ -532,7 +533,7 @@
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
           "doxology_type": "daily_read",
-          "rank": "rank_simple_6",
+          "rank": "rank_simple_4",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
@@ -560,7 +561,8 @@
             "matthew_10_16_22"
           ],
           "communion_hymn": "their_sound_has_gone_forth"
-        }
+        },
+        "multi_saint": true
       },
       "25": {
         "title_key": "menaion.jan_25.gregory_theologian",

@@ -440,12 +440,17 @@
           "doxology_type": "great_doxology",
           "rank": "rank_apodosis",
           "vespers_stichera_distribution": {
-            "total_count": 6,
+            "total_count": 10,
             "distribution": [
+              {
+                "source": "triodion",
+                "type": "idiomelon_and_martyricon",
+                "qty": 3
+              },
               {
                 "source": "menaion",
                 "type": "feast",
-                "qty": 3
+                "qty": 4
               },
               {
                 "source": "menaion",
@@ -453,8 +458,8 @@
                 "qty": 3
               }
             ],
-            "glory": "archangel_doxastikon",
-            "both_now": "annunciation_theotokion"
+            "glory": "doxastikon_of_the_archangel",
+            "both_now": "doxastikon_of_the_feast"
           },
           "matins_canon_stacking": [
             "annunciation_canon_8",

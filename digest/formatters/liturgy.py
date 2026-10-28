@@ -247,22 +247,40 @@ class LiturgyFormatterMixin:
             beat_res = self.engine.resolve_beatitudes(context)
             if beat_res and beat_res.get("stichera"):
                 parts = []
-                for s in beat_res["stichera"]:
+                stich_list = beat_res["stichera"]
+                for s in stich_list:
                     src = s.get("source", "")
                     cnt = s.get("count", 0)
-                    parts.append(f"{self.humanize_key(src)} - {cnt}")
+                    if len(stich_list) == 1 and src == "menaion" and cnt == 8:
+                        parts.append(f"{self.humanize_key(src)} - 8 (4 from Ode III, and 4 from Ode VI)")
+                    else:
+                        parts.append(f"{self.humanize_key(src)} - {cnt}")
                 if parts:
-                    total_qty = sum(s.get("count", 0) for s in beat_res["stichera"])
-                    return f"Psalms of Typica; Beatitudes on {total_qty}: {', '.join(parts)}."
+                    total_qty = sum(s.get("count", 0) for s in stich_list)
+                    return f"Psalms of Typika; Beatitudes on {total_qty}: {', '.join(parts)}."
         except Exception:
             pass
 
         is_weekday = 0 < context.get("day_of_week", 0) <= 5
-        is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
+        is_after_or_apodosis = bool(
+            context.get("is_afterfeast") or
+            context.get("is_apodosis") or
+            context.get("is_forefeast") or
+            context.get("period") in ("afterfeast", "forefeast", "apodosis") or
+            context.get("dolnytsky_rank") in ("afterfeast", "forefeast", "apodosis")
+        )
+        if is_after_or_apodosis and is_weekday:
+            fname = self._get_feast_display_name(context, form="short")
+            return f"**Antiphons & Beatitudes:** Daily Antiphons of {fname} (or Psalms of Typika; Beatitudes from Ode III and VI of the Feast)."
+
+        rank_id = context.get("rank") or context.get("variables", {}).get("rank")
+        is_simple = rank_id in ("rank_simple_6", "rank_simple_4", "rank_doxology")
         if is_weekday and is_simple:
-            sname = self._get_saint_display_name(context, 0, form="full")
-            return f"**Typika & Beatitudes:** Psalms of Typica; Beatitudes on 6: 3 from the Octoechos, 3 from Ode III of {sname}."
-        return "**Typika & Beatitudes:** Psalms of Typica; Beatitudes."
+            if rank_id == "rank_doxology":
+                sname = self._get_saint_display_name(context, 0, form="full")
+                return f"**Typika & Beatitudes:** Usual Weekday Antiphons (or Psalms of Typika; Beatitudes on 8: 4 from the Octoechos, 4 from Ode III of {sname})."
+            return "**Typika & Beatitudes:** Usual Weekday Antiphons (or Psalms of Typika; Beatitudes on 6 from the Octoechos)."
+        return "**Typika & Beatitudes:** Psalms of Typika; Beatitudes."
 
 
     def _format_resolve_liturgy_alleluia(self, res, context):
@@ -307,22 +325,29 @@ class LiturgyFormatterMixin:
 
 
     def _format_resolve_communion_hymn(self, res, context):
+        if getattr(self, "_communion_hymn_printed", False):
+            return ""
         is_weekday = 0 < context.get("day_of_week", 0) <= 5
         is_simple = context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")
-        if is_weekday and is_simple:
+        if is_weekday and is_simple and getattr(self, "_liturgy_readings_printed", False):
             return ""
-        if not res or not res.get("text"):
+        if not res:
             return ""
-        text = res.get('text')
-        cleaned_text = self._clean_hymn_text(text)
-        return f"**Communion Hymn:**  \n> {cleaned_text}"
+        text = res.get("text") or res.get("content")
+        ref_key = res.get("ref_key")
+        if text:
+            cleaned_text = self._clean_hymn_text(text)
+            return f"**Communion Hymn:** {cleaned_text}"
+        elif ref_key:
+            return f"**Communion Hymn:** {self.humanize_key(ref_key)}"
+        return ""
 
 
     def _format_resolve_liturgy_hymns(self, res, context):
         if not res or not res.get("components"):
             return ""
             
-        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_weekday = 0 < context.get("day_of_week", 0) <= 6
         
         pascha_offset = context.get("pascha_offset")
         is_fore_after = bool(
@@ -345,16 +370,20 @@ class LiturgyFormatterMixin:
                 2: "Troparion of the Forerunner.",
                 3: "Troparion of the Cross.",
                 4: "Troparion of the Apostles; Troparion of St. Nicholas.",
-                5: "Troparion of the Cross."
+                5: "Troparion of the Cross.",
+                6: 'Troparion of Saturday (*"O Apostles, Martyrs, and Prophets..."*, Tone II); Troparion for the Departed (*"Remember your servants, O Lord..."*, Tone II).'
             }
             day_kontakia = {
                 1: "Kontakion of the Angels.",
                 2: "Kontakion of the Forerunner.",
                 3: "Kontakion of the Cross.",
                 4: "Kontakion of the Apostles; Kontakion of St. Nicholas.",
-                5: "Kontakion of the Cross."
+                5: "Kontakion of the Cross.",
+                6: 'Kontakion for the Departed (*"With the saints give rest..."*, Tone VIII).'
             }
+            saints = context.get("saints", [])
             sname = self._get_saint_display_name(context, 0, form="full")
+            sname2 = self._get_saint_display_name(context, 1, form="full") if len(saints) >= 2 else None
             
             rank_id = context.get("rank") or context.get("variables", {}).get("rank")
             temple_type = context.get("temple_type", "saint")
@@ -365,30 +394,80 @@ class LiturgyFormatterMixin:
                 ]
                 if temple_type == "theotokos":
                     parts.append("Troparion of the Temple.")
-                parts.extend([
-                    f"Troparion of {sname}.",
-                    f"Glory... Kontakion of {sname}.",
-                    "Both now... Kontakion of the Cross."
-                ])
+                if sname2:
+                    parts.extend([
+                        f"Troparion of {sname}.",
+                        f"Troparion of {sname2}.",
+                        f"Kontakion of {sname}.",
+                        f"Glory... Kontakion of {sname2}.",
+                        "Both now... Kontakion of the Cross."
+                    ])
+                else:
+                    parts.extend([
+                        f"Troparion of {sname}.",
+                        f"Glory... Kontakion of {sname}.",
+                        "Both now... Kontakion of the Cross."
+                    ])
+            elif day == 6:
+                has_temple_trop = any(c.get("source") == "temple" and c.get("type") == "troparion" for c in (res.get("components") or []))
+                has_temple_kont = any(c.get("source") == "temple" and c.get("type") == "kontakion" and not c.get("both_now") for c in (res.get("components") or []))
+                parts = ["**Troparia and Kontakia:**"]
+                if has_temple_trop:
+                    parts.append("Troparion of the Temple.")
+                parts.append(f"Troparion of {sname}.")
+                if sname2:
+                    parts.append(f"Troparion of {sname2}.")
+                parts.append('Troparion of Saturday (*"O Apostles, Martyrs, and Prophets..."*, Tone II).')
+                parts.append('Troparion for the Departed (*"Remember your servants, O Lord..."*, Tone II).')
+                if has_temple_kont:
+                    parts.append("Kontakion of the Temple.")
+                parts.append(f"Kontakion of {sname}.")
+                if sname2:
+                    parts.append(f"Kontakion of {sname2}.")
+                parts.append('Glory... Kontakion for the Departed (*"With the saints give rest..."*, Tone VIII).')
+                if temple_type == "theotokos":
+                    parts.append("Both now... Kontakion of the Temple.")
+                else:
+                    parts.append('Both now... Martyrikon of Saturday (*"As first-fruits of nature..."*, Tone VIII).')
             else:
                 temple_part = "Theotokion 'Steadfast Protectress of Christians'."
+                has_temple_trop = False
+                has_temple_kont = False
                 if res and res.get("components"):
                     for c in res["components"]:
+                        if c.get("source") == "temple" and c.get("type") == "troparion":
+                            has_temple_trop = True
                         if c.get("source") == "temple" and c.get("type") == "kontakion":
-                            temple_part = "Kontakion of the Temple."
-                            break
+                            if c.get("both_now"):
+                                temple_part = "Kontakion of the Temple."
+                            else:
+                                has_temple_kont = True
                         elif "steadfast" in str(c.get("source", "")).lower() or "steadfast" in str(c.get("key", "")).lower():
                             temple_part = "Theotokion 'Steadfast Protectress of Christians'."
-                            break
                 
                 parts = [
                     "**Troparia and Kontakia:**",
                     day_troparia.get(day, "Troparion of the Day."),
-                    f"Troparion of {sname}.",
-                    day_kontakia.get(day, "Kontakion of the Day."),
-                    f"Glory... Kontakion of {sname}.",
-                    f"Both now... {temple_part}"
                 ]
+                if has_temple_trop:
+                    parts.append("Troparion of the Temple.")
+                parts.append(f"Troparion of {sname}.")
+                if sname2:
+                    parts.append(f"Troparion of {sname2}.")
+                parts.append(day_kontakia.get(day, "Kontakion of the Day."))
+                if has_temple_kont:
+                    parts.append("Kontakion of the Temple.")
+                if sname2:
+                    parts.extend([
+                        f"Kontakion of {sname}.",
+                        f"Glory... Kontakion of {sname2}.",
+                        f"Both now... {temple_part}"
+                    ])
+                else:
+                    parts.extend([
+                        f"Glory... Kontakion of {sname}.",
+                        f"Both now... {temple_part}"
+                    ])
             return "\n".join(parts)
             
         parts = ["**Troparia and Kontakia:**"]
@@ -422,6 +501,10 @@ class LiturgyFormatterMixin:
                 
             if source == "resurrection_tone":
                 parts.append(f"{prefix}{typ} of the Resurrection{tone_str}.")
+            elif source == "day_theme":
+                d_map = {1: "the Angels", 2: "the Forerunner", 3: "the Cross", 4: "the Apostles and St. Nicholas", 5: "the Cross", 6: "Saturday (All Saints and the Departed)"}
+                d_lbl = d_map.get(context.get("day_of_week", 1), "the Day")
+                parts.append(f"{prefix}{typ} of {d_lbl}.")
             elif source == "temple":
                 temple_name = context.get("temple_patron") or context.get("parish_profile", {}).get("temple", {}).get("name")
                 temple_type = context.get("temple_type") or context.get("parish_profile", {}).get("temple", {}).get("type")
@@ -434,6 +517,12 @@ class LiturgyFormatterMixin:
             elif source in ("feast", "feast_proper", "menaion_feast") or "feast" in str(source).lower():
                 fname = self._get_feast_display_name(context, form="full")
                 parts.append(f"{prefix}{typ} of {fname}.")
+            elif source in ("menaion_saint_1", "saint_1") or source == "saints_1":
+                sname = self._get_saint_display_name(context, 0, form="full")
+                parts.append(f"{prefix}{typ} of {sname}.")
+            elif source in ("menaion_saint_2", "saint_2") or source == "saints_2":
+                sname = self._get_saint_display_name(context, 1, form="full") if len(context.get("saints", [])) >= 2 else "the Saint"
+                parts.append(f"{prefix}{typ} of {sname}.")
             elif source == "menaion_saint" or "saint" in str(source).lower():
                 saints = context.get("saints", [])
                 if saints:
@@ -452,7 +541,8 @@ class LiturgyFormatterMixin:
                     sname = self._get_saint_display_name(context, 0, form="full")
                     parts.append(f"{prefix}{typ} of {sname}.")
             elif source in ("steadfast_protectress", "fixed_theotokion") or "steadfast" in str(source).lower():
-                parts.append(f"{prefix}Kontakion 'Steadfast Protectress of Christians'.")
+                label_t = "Theotokion" if typ.lower() == "theotokion" else "Kontakion"
+                parts.append(f"{prefix}{label_t} 'Steadfast Protectress of Christians'.")
             elif "to_you_mother_of_god" in str(source).lower() or "to_you_o_mother" in str(source).lower():
                 parts.append(f"{prefix}Theotokion 'To you, O Mother of God...'.")
             else:
@@ -759,17 +849,4 @@ class LiturgyFormatterMixin:
         elif verse:
             return f"**Entrance Hymn (Isodikon):** *\"{verse}\"*"
         return ""
-
-
-    def _format_resolve_communion_hymn(self, res, context):
-        if not res:
-            return ""
-        text = res.get("text") or res.get("content")
-        ref_key = res.get("ref_key")
-        if text:
-            return f"**Kinonikon (Communion Verse):** *\"{text}\"*"
-        elif ref_key:
-            return f"**Kinonikon (Communion Verse):** {self.humanize_key(ref_key)}"
-        return ""
-
 

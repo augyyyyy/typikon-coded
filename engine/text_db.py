@@ -98,6 +98,16 @@ def humanize_key(key):
     # Extract the relevant suffix
     parts = key.split(".")
     suffix = parts[-1]
+    special_map = {
+        "prayer_holy_trinity_all_creating": "Prayer to the Most Holy Trinity",
+        "prayer_eustratius": "Prayer of St. Eustratius",
+        "prayer_mardarius": "Prayer of St. Mardarius",
+        "prayer_first": "First Prayer of the Midnight Office",
+        "prayer_second": "Second Prayer of the Midnight Office",
+        "fathers_seventh_council": "the Holy Fathers of the Seventh Ecumenical Council",
+    }
+    if suffix.lower() in special_map:
+        return special_map[suffix.lower()]
     return suffix.replace("_", " ").title()
 
 
@@ -237,13 +247,53 @@ class TextDBMixin:
         print(f"Engine: Loaded {count} assets from {assets_base}")
 
 
-
+    def _load_atomic_corpus(self):
+        """
+        Loads the 4-Shard Unified Atomic Key-Value Liturgical Corpus
+        (../Shared_Lexicon/atomic_corpus/master_liturgical_corpus.json)
+        into self.atomic_corpus_db and self.atomic_corpus_aliases.
+        """
+        self.atomic_corpus_db = {}
+        self.atomic_corpus_aliases = {}
+        corpus_path = os.path.abspath(
+            os.path.join(self.base_dir, "..", "Shared_Lexicon", "atomic_corpus", "master_liturgical_corpus.json")
+        )
+        if not os.path.exists(corpus_path):
+            return
+        try:
+            with open(corpus_path, "r", encoding="utf-8") as f:
+                master_data = json.load(f)
+            entries = master_data.get("entries", {})
+            for sid, entry in entries.items():
+                canon = entry.get("canonical_text", {})
+                text_val = canon.get("text") if canon.get("text") is not None else (canon.get("gap_marker") or "")
+                record = {
+                    "id": sid,
+                    "structural_id": sid,
+                    "content": text_val,
+                    "slavonic_incipit": entry.get("slavonic_incipit"),
+                    "greek_incipit": entry.get("greek_incipit"),
+                    "codex_domain": entry.get("codex_domain"),
+                    "corpus_division": entry.get("corpus_division"),
+                    "tone": entry.get("tone"),
+                    "gap_marker": canon.get("gap_marker"),
+                    "provenance": canon.get("provenance"),
+                    "recension_witnesses": entry.get("recension_witnesses", {}),
+                    "source": f"Shared Atomic Corpus ({entry.get('corpus_division', 'MASTER')})",
+                }
+                self.atomic_corpus_db[sid] = record
+                rationale = entry.get("adjudication_rationale") or {}
+                for alias in rationale.get("hub_key_aliases", []):
+                    self.atomic_corpus_aliases[alias] = sid
+        except Exception as e:
+            print(f"Warning: Failed to load Shared Atomic Corpus at {corpus_path}: {e}")
 
 
     def get_text(self, text_id, logic_requirement=None, context=None):
         """
         Public accessor for text_db.
         Implements hierarchical fallback:
+          0. Shared Atomic Key-Value Liturgical Corpus (self.atomic_corpus_db)
           1. Selected Recension DB (e.g. st_sergius_db, lviv_db if present)
           2. Stamford base recension (self.text_db)
           3. General Menaion fallback (self.general_menaion_db)
@@ -356,6 +406,24 @@ class TextDBMixin:
                         item = copy.deepcopy(cand)
                 if not item:
                     item = compile_sequential_text(custom_overlay, text_id, "Custom Overlay")
+
+        # -0.5. Shared Atomic Key-Value Liturgical Corpus Lookup (self.atomic_corpus_db)
+        if not item and hasattr(self, "atomic_corpus_db") and self.atomic_corpus_db:
+            if text_id in self.atomic_corpus_db:
+                item = copy.deepcopy(self.atomic_corpus_db[text_id])
+            elif hasattr(self, "atomic_corpus_aliases") and text_id in self.atomic_corpus_aliases:
+                sid = self.atomic_corpus_aliases[text_id]
+                entry_rec = self.atomic_corpus_db.get(sid)
+                if entry_rec:
+                    witnesses = entry_rec.get("recension_witnesses", {})
+                    prefer_atomic = bool(context and context.get("prefer_atomic_corpus")) or recension == "atomic_corpus"
+                    in_primary = bool(
+                        (hasattr(self, "primary_db") and self.primary_db and db_get(self.primary_db, text_id))
+                        or (hasattr(self, "text_db") and self.text_db and db_get(self.text_db, text_id))
+                    )
+                    if prefer_atomic or (recension and recension in witnesses) or not in_primary:
+                        item = copy.deepcopy(entry_rec)
+                        item["id"] = text_id
 
         # 0. Recension Database Lookup
         if not item and recension:
@@ -605,6 +673,15 @@ class TextDBMixin:
             "kontakion_saint_if_any": "Kontakion of the Saint",
             "kontakion_day_of_week": "Kontakion of the Day",
             "kontakion_temple": "Kontakion of the Temple",
+            "prayer_holy_trinity_all_creating": "Prayer to the Most Holy Trinity",
+            "prayer_eustratius": "Prayer of St. Eustratius",
+            "prayer_mardarius": "Prayer of St. Mardarius",
+            "prayer_first": "First Prayer of the Midnight Office",
+            "prayer_second": "Second Prayer of the Midnight Office",
+            "theotokion_aposticha_sunday_in_tone_of_doxastikon": "Theotokion from the Octoechos in the tone of the Doxastikon",
+            "theotokion_aposticha_sunday_in_tone_of_doxastikon_else_current_tone": "Theotokion from the Octoechos in the tone of the Doxastikon",
+            "theotokion_after_doxastikon": "Theotokion from the Octoechos in the tone of the Doxastikon",
+            "theotokion_horologion_or_octoechos": "Theotokion from the Horologion or Octoechos",
         }
         if base in canon_map:
             return canon_map[base]

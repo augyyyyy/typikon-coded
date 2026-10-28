@@ -81,16 +81,16 @@
     "days": {
       "04": {
         "title_key": "menaion.dec_04.barbara_great_martyr",
-        "rank": "rank_simple_6",
+        "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4",
-        "base_template": "CASE_02",
+        "base_template": "CASE_05",
         "variables": {
-          "vespers_type": "daily_vespers",
-          "matins_type": "daily_matins",
+          "vespers_type": "great_vespers_simple",
+          "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": false,
-          "doxology_type": "daily_read",
-          "rank": "rank_simple_6",
+          "has_polyeleos": true,
+          "doxology_type": "great_doxology",
+          "rank": "rank_polyeleos",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
@@ -117,8 +117,29 @@
             "galatians_3_23_29",
             "mark_5_24_34"
           ],
-          "communion_hymn": "righteous_memory"
-        }
+          "communion_hymn": "righteous_memory",
+          "matins_canon_distribution": {
+            "distribution": [
+              {
+                "source": "octoechos",
+                "type": "theotokos_special",
+                "qty": 6,
+                "irmos": true
+              },
+              {
+                "source": "menaion",
+                "type": "barbara",
+                "qty": 4
+              },
+              {
+                "source": "menaion",
+                "type": "john_damascus",
+                "qty": 4
+              }
+            ]
+          }
+        },
+        "multi_saint": true
       },
       "05": {
         "title_key": "menaion.dec_05.sabbas_sanctified",
@@ -363,7 +384,7 @@
       },
       "17": {
         "title_key": "menaion.dec_17.prophet_daniel_and_youths",
-        "rank": "rank_simple_6",
+        "rank": "rank_simple_4",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4.4",
         "base_template": "CASE_02",
         "variables": {
@@ -372,7 +393,7 @@
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
           "doxology_type": "daily_read",
-          "rank": "rank_simple_6",
+          "rank": "rank_simple_4",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
@@ -399,7 +420,8 @@
             "luke_11_47_12_1"
           ],
           "communion_hymn": "rejoice_in_the_lord"
-        }
+        },
+        "multi_saint": true
       },
       "24": {
         "title_key": "menaion.dec_24.nativity_paramony",
@@ -507,10 +529,10 @@
       },
       "26": {
         "title_key": "menaion.dec_26.synaxis_theotokos",
-        "rank": "rank_vigil_theotokos",
-        "period": "feast",
+        "rank": "rank_doxology",
+        "period": "afterfeast",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4.9",
-        "base_template": "CASE_12",
+        "base_template": "CASE_14",
         "variants": [
           {
             "condition": {
@@ -527,12 +549,12 @@
           "troparia_sequence": "nativity_synaxis_stacking",
           "megalynarion": "magnify_o_my_soul_christ_king",
           "communion_hymn": "the_lord_sent_redemption",
-          "vespers_type": "great_vespers_vigil",
+          "vespers_type": "daily_vespers",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": true,
+          "has_polyeleos": false,
           "doxology_type": "great_doxology",
-          "rank": "rank_vigil_theotokos",
+          "rank": "rank_doxology",
           "vespers_stichera_distribution": {
             "total_count": 8,
             "distribution": [
@@ -563,25 +585,27 @@
             "hebrews_2_11_18",
             "matthew_2_13_23"
           ]
-        }
+        },
+        "linked_feast_id": "12-25",
+        "multi_saint": true
       },
       "27": {
         "title_key": "menaion.dec_27.stephen_protomartyr",
-        "rank": "rank_polyeleos",
+        "rank": "rank_doxology",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.4.5.5.1",
-        "base_template": "CASE_05",
+        "base_template": "CASE_14",
         "variables": {
           "liturgy_readings": [
             "acts_6_8_7_5",
             "matthew_21_33_42"
           ],
           "troparia_sequence": "nativity_stephen_stacking",
-          "vespers_type": "great_vespers_simple",
+          "vespers_type": "daily_vespers",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": true,
+          "has_polyeleos": false,
           "doxology_type": "great_doxology",
-          "rank": "rank_polyeleos",
+          "rank": "rank_doxology",
           "vespers_stichera_distribution": {
             "total_count": 8,
             "distribution": [
@@ -612,7 +636,10 @@
           },
           "matins_gospel": "matthew_21_33_42",
           "communion_hymn": "righteous_memory"
-        }
+        },
+        "period": "afterfeast",
+        "linked_feast_id": "12-25",
+        "multi_saint": true
       },
       "31": {
         "title_key": "menaion.dec_31.apodosis_nativity",

@@ -1,0 +1,32 @@
+# Task Checklist: Systemic Calendar, Rubric & Pre-Training Intrusion Architecture Remediation
+
+- [x] **Pre-Flight Checklist (Master Rule 11)**
+  - [x] Read `.agents/AGENTS.md`, `.agents/references/project_facts.md`, `.agents/references/learnings.md`, `.agents/references/anti_patterns.md`
+  - [x] Run `tests/test_session_compliance.py`
+- [x] **Component 1: Unified Calendar Schema (`calendar_typikon.json`), Service-vs-Person Normalization & Scoping `02b_*.json` to Part III**
+  - [x] Normalize `json_db/calendar_typikon.json` across all 366 days (`1 entry = 1 distinct Menaion service`, `parsed_saints = individual persons`, fix `9-26` Repose translation, encode the 9 UGCC Synodal diffs and 1901 Metropolitan decrees `[^708]`, `[^712]`, `[^719]`, `[^728]`, `[^737]` with `"lviv_1899"` tags, and add capability flags & General Menaion category/tone metadata)
+  - [x] Update `engine/core.py` and `engine/calendar.py` (`_lookup_dolnytsky_calendar`: remove `split_two_saints_keys` hack, map `entries` to `context["saints"]`, preserve group names & `all_parsed_saints`)
+  - [x] Audit & clean `json_db/02b_01_september.json`–`02b_12_august.json` (scope strictly to Dolnytsky Part III, fix rank mismatches while keeping `total_days >= 85`) and guard `engine/rubrics.py`
+- [x] **Component 2: Dolnytsky Part II Unabridged Logic (`02a_logic_general.json`, `02f_logic_liturgy.json`) & `canonical_maximalist_digest_standard.md`**
+  - [x] Update `json_db/02a_logic_general.json` (`CASE_01` `"saint_on_6_doxology"` & `"saint_on_6"` `4+2+2+6` canon distribution, Sunday Liturgy gate, `CASE_02`–`CASE_20` audit)
+  - [x] Update `json_db/02f_logic_liturgy.json`, `engine/resolvers/liturgy.py`, and `digest/formatters/liturgy.py` (purge Moscow Typikon `temple` Troparion/Kontakion for Temple-of-a-Saint per `[^89]`, `[^91]`; enforce Sunday Liturgy gate `[GT DOX]`/`[POL]`/`[VIGIL]` vs. Sunday-only for `[6 SM]`/`[4 A+G]`/`[4 TR]`/`[4 NO]` per `§2.1` lines 991–994 & `[^69]`)
+  - [x] Unify `resolve_canon_structure` and `resolve_canon_stack` in `engine/resolvers/common.py`
+  - [x] Rewrite `.agents/references/canonical_maximalist_digest_standard.md` (`FORMAT 01`–`FORMAT 26`) against `Dolnytsky_Typikon_Master.md` Parts II–V
+- [x] **Component 3: 5 Festal Classes + Simple vs. 9 Dolnytsky Ranks (`ssjc.uk`), Hours Fixes & Purge of False `[4 NO]` Suppression**
+  - [x] Implement `ssjc_festal_class` (`major_lord`, `major_theotokos`, `major_saint`, `minor_V`, `minor_VI`, `simple`) and `dolnytsky_rank_code` (9 codes) in `engine/calendar.py` and `Data/prototypes/cantor_dashboard/main.js`
+  - [x] Fix Sunday Ode 3 Saint Kontakion/Ikos/Sessional (`engine/resolvers/common.py:547`), Sunday Ode 9 Exapostilarion & `[6 SM]` sub-variants (`engine/resolvers/matins.py`), and Sunday 1st/6th Hour Temple Troparion (`engine/resolvers/hours.py:145-155`)
+  - [x] Delete false `is_no_troparion` (`[4 NO]`) weekday-troparion substitution in `digest/formatters/vespers.py:428-449` and `digest/formatters/matins.py:607-635` (`Dolnytsky [^45], [^699]`)
+- [x] **Component 4: Corpus-Blind `"If Appointed"` Resolution & Formatter Filter Cleanup**
+  - [x] Refactor `_saint_has_vespers_aposticha_doxastikon` in `engine/resolvers/vespers.py`
+  - [x] Remove destructive `"if_appointed"` deletion filter in `digest/formatters/common.py:230`
+- [x] **Component 5: Dismissal Theotokion Tone & General Menaion Tone Binding (`Dolnytsky Part I §101`)**
+  - [x] Bind General Menaion category default Troparion tone in `engine/calendar.py`
+  - [x] Bind Dismissal Theotokion tone to preceding `Glory` Troparion (`saints[-1]`) and explicitly format Series (`Resurrectional` vs. `Weekday of [Day]`) + Tone (`Tone I`–`VIII`) in `vespers.py` and `matins.py`
+- [x] **Component 6: Synodal Footnotes Classification & Anti-Pre-Training Vaccination**
+  - [x] Add `execution_class` (`"structural_override"`, `"ceremonial_directive"`, `"informational_note"`) and `target_dates` to `json_db/synodal_footnotes.json`
+  - [x] Upgrade `scripts/forensic_day_bundle.py` to embed verbatim Dolnytsky Parts II, III, IV, V and footnotes
+  - [x] Add deterministic Anti-Pre-Training Intrusion Gates to `scripts/service_day_multi_auditor.py`
+- [x] **Verification & Post-Flight Checklist (Master Rule 12)**
+  - [x] Write and run `tests/test_systemic_dolnytsky_architecture.py` (including Days 1–22 `2026-10-11`–`2026-11-01` verification)
+  - [x] Run `scripts/lint_liturgical_db.py`, `tests/test_session_compliance.py`, and full pytest suite (`--ignore=tests/test_ui_readability.py`)
+  - [x] Copy planning artifacts to `.agents/brain/session_history/2026-10-17/` and report final test/file counts

@@ -60,63 +60,66 @@ def extract_function_calls_from_json(json_dir="json_db"):
     
     return function_calls
 
-def extract_function_definitions_from_engine(engine_file="ruthenian_engine.py"):
+def extract_function_definitions_from_engine(engine_dir="engine"):
     """
-    Extract all function definitions from the Python engine.
-    Returns: dict of {function_name: (line_number, signature)}
+    Extract all function definitions from the modular Python engine package.
+    Returns: dict of {function_name: (file_and_line, signature)}
     """
     function_defs = {}
-    
-    if not os.path.exists(engine_file):
-        print(f"{Colors.RED}Error: Engine file not found: {engine_file}{Colors.RESET}")
+    project_root = Path(__file__).resolve().parent.parent
+    engine_path = project_root / engine_dir
+
+    if not engine_path.exists():
+        print(f"{Colors.RED}Error: Engine directory not found: {engine_path}{Colors.RESET}")
         return function_defs
-    
-    try:
-        with open(engine_file, 'r', encoding='utf-8') as f:
-            lines = f.readlines()
-        
-        # Find all method definitions (def resolve_*, def check_*, def calculate_*, etc.)
-        for i, line in enumerate(lines, 1):
-            match = re.match(r'\s*def\s+(resolve_\w+|check_\w+|calculate_\w+|identify_\w+|update_\w+)\s*\(', line)
-            if match:
-                func_name = match.group(1)
-                signature = line.strip()
-                function_defs[func_name] = (i, signature)
-    
-    except Exception as e:
-        print(f"{Colors.RED}Error reading engine file: {e}{Colors.RESET}")
-    
+
+    for py_file in sorted(engine_path.rglob("*.py")):
+        try:
+            lines = py_file.read_text(encoding="utf-8").splitlines()
+            rel_name = py_file.relative_to(project_root).as_posix()
+            for i, line in enumerate(lines, 1):
+                match = re.match(
+                    r"\s*def\s+(resolve_\w+|check_\w+|calculate_\w+|identify_\w+|update_\w+|generate_\w+|construct_\w+)\s*\(",
+                    line,
+                )
+                if match:
+                    func_name = match.group(1)
+                    signature = line.strip()
+                    function_defs[func_name] = (f"{rel_name}:{i}", signature)
+        except Exception as e:
+            print(f"{Colors.RED}Error reading {py_file}: {e}{Colors.RESET}")
+
     return function_defs
 
-def check_if_placeholder(engine_file, func_name, line_number):
+
+def check_if_placeholder(engine_file, func_name, file_and_line):
     """
     Check if a function implementation is just a placeholder.
     Returns True if function contains [MISSING] or similar markers.
     """
     try:
-        with open(engine_file, 'r', encoding='utf-8') as f:
-            lines = f.readlines()
-        
-        # Read next ~20 lines after the function definition
+        project_root = Path(__file__).resolve().parent.parent
+        rel_path, line_str = str(file_and_line).rsplit(":", 1)
+        line_number = int(line_str)
+        lines = (project_root / rel_path).read_text(encoding="utf-8").splitlines()
         start = line_number
         end = min(line_number + 20, len(lines))
-        func_body = ''.join(lines[start:end])
-        
-        # Check for placeholder patterns
+        func_body = "\n".join(lines[start:end])
+
         placeholder_patterns = [
-            r'\[MISSING',
-            r'TODO:.*implement',
-            r'Placeholder',
-            r'raise NotImplementedError',
-            r'pass\s*#.*stub',
+            r"\[MISSING",
+            r"TODO:.*implement",
+            r"Placeholder",
+            r"raise NotImplementedError",
+            r"pass\s*#.*stub",
         ]
-        
+
         for pattern in placeholder_patterns:
             if re.search(pattern, func_body, re.IGNORECASE):
                 return True
-        
+
         return False
-    
+
     except Exception:
         return False
 

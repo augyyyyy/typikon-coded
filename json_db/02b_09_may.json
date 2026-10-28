@@ -60,7 +60,7 @@
       },
       "07": {
         "title_key": "menaion.may_07.sign_precious_cross",
-        "rank": "rank_simple_4",
+        "rank": "rank_simple_6",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.9.2",
         "base_template": "CASE_02",
         "variables": {
@@ -69,7 +69,7 @@
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
           "doxology_type": "daily_read",
-          "rank": "rank_simple_4",
+          "rank": "rank_simple_6",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
@@ -338,7 +338,8 @@
             "glory": "saints_praises_doxastikon",
             "both_now": "theotokion"
           }
-        }
+        },
+        "ugcc_synodal_only": true
       },
       "21": {
         "title_key": "menaion.may_21.constantine_and_helen",

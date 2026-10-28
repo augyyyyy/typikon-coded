@@ -576,7 +576,7 @@ class LentenMixin:
         return result
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L1615:§226")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L1678-1712,§226")
     def resolve_presanctified_transfer(self, context, rubrics=None, moment=None):
         """
         Presanctified Gifts Transfer during Kathisma 18.
@@ -916,13 +916,13 @@ class LentenMixin:
         """
         Implements Logic Gate B1: The Lenten Canon Merger.
         Merges Menaion and Triodion Canons based on the specific Lenten Weekday/Saturday.
+        Citation: Dolnytsky Part IV §4.1.7:7388–7418 & §4.1.8:7489
         """
         day = context.get("day_of_week")
         
         # 1. Define the Triodic Ode Schedule (The "Three Odes" / "Four Odes")
         # Mon=1, Tue=2, Wed=3, Thu=4, Fri=5 (Three Odes)
         # Sat=6 (Four Odes: Tetraodion)
-        
         triodic_schedule = {
             1: [1, 8, 9],
             2: [2, 8, 9],
@@ -934,35 +934,83 @@ class LentenMixin:
         
         active_triodic_odes = triodic_schedule.get(day, [])
         if not active_triodic_odes:
-             # Fallback/Weekend (Sunday): Return standard stack trigger or empty to signal standard handling
-             return {"mode": "standard_weekend"}
+            return {"mode": "standard_weekend"}
              
         # 2. Build the Hybrid Stack (Odes 1-9)
         final_stack = {}
         
         for ode_num in range(1, 10):
-             if ode_num == 2 and day != 2: 
-                 continue # Ode 2 is usually skipped unless it's Tuesday (Triodic)
+            if ode_num == 2 and day != 2: 
+                continue # Ode 2 is skipped unless Tuesday (Triodic)
                  
-             if ode_num in active_triodic_odes:
-                 # CASE A: Triodic Ode
-                 # Logic: Menaion is SUPPRESSED. Triodion takes all.
-                 final_stack[ode_num] = {
-                     "source": "triodion",
-                     "components": [
-                         {"book": "triodion", "count": 14} # Heavy count for Triodion
-                     ]
-                 }
-             else:
-                 # CASE B: Standard Ode
-                 # Logic: Menaion is ACTIVE.
-                 final_stack[ode_num] = {
-                     "source": "menaion",
-                     "components": [
-                         {"book": "menaion_1", "count": 3},
-                         {"book": "menaion_2", "count": 3}
-                     ]
-                 }
+            if hasattr(self, "resolve_canon_structure"):
+                ode_dist = self.resolve_canon_structure(ode_num, context)
+            else:
+                ode_dist = None
+
+            if ode_num in active_triodic_odes:
+                if day == 2 and ode_num == 2:
+                    final_stack[ode_num] = {
+                        "source": "triodion",
+                        "components": [
+                            {"book": "triodion_1", "count": 4},
+                            {"book": "triodion_2", "count": 4}
+                        ],
+                        "distribution": ode_dist or [
+                            {"source": "triodion_1", "count": 4, "irmos": True},
+                            {"source": "triodion_2", "count": 4}
+                        ]
+                    }
+                elif day == 6:
+                    final_stack[ode_num] = {
+                        "source": "triodion",
+                        "components": [
+                            {"book": "triodion_merged", "count": 14, "sub_components": [
+                                {"book": "menaion", "count": 6},
+                                {"book": "triodion", "count": 8}
+                            ]}
+                        ],
+                        "distribution": ode_dist or [
+                            {"source": "menaion", "count": 6, "irmos": True},
+                            {"source": "triodion", "count": 8}
+                        ]
+                    }
+                else:
+                    final_stack[ode_num] = {
+                        "source": "triodion",
+                        "components": [
+                            {"book": "triodion_merged", "count": 14, "sub_components": [
+                                {"book": "menaion", "count": 6},
+                                {"book": "triodion_1", "count": 4},
+                                {"book": "triodion_2", "count": 4}
+                            ]}
+                        ],
+                        "distribution": ode_dist or [
+                            {"source": "menaion", "count": 6, "irmos": True},
+                            {"source": "triodion_1", "count": 4},
+                            {"source": "triodion_2", "count": 4}
+                        ]
+                    }
+            else:
+                if day == 6:
+                    final_stack[ode_num] = {
+                        "source": "menaion",
+                        "components": [
+                            {"book": "menaion", "count": 6},
+                            {"book": "temple", "count": 4},
+                            {"book": "octoechos", "count": 4}
+                        ],
+                        "distribution": ode_dist
+                    }
+                else:
+                    m_count = 6 if len(context.get("saints", [])) >= 2 else 4
+                    final_stack[ode_num] = {
+                        "source": "menaion",
+                        "components": [
+                            {"book": "menaion_1", "count": m_count}
+                        ],
+                        "distribution": ode_dist or [{"source": "menaion", "count": m_count, "irmos": True}]
+                    }
                  
         return {
             "type": "lenten_canon_stack",
@@ -1040,6 +1088,10 @@ class LentenMixin:
                  
             # Rule 4: Apodosis of the Annunciation (offset -10)
             if context.get("pascha_offset") == -10 and day in [1, 2, 3, 4, 5]:
+                return True
+
+            # Rule 5: Thursday of the Great Canon (offset -17, Dolnytsky §4.1.18:7902)
+            if pascha_off == -17:
                 return True
 
         return False

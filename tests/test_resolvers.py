@@ -131,16 +131,16 @@ class TestResolvers(unittest.TestCase):
         self.assertTrue(self.engine.check_service_type(ctx, "vigil", rubrics))
         
         # 4. Test resolve_daily_kathisma
-        ctx = {"day_of_week": 6}
+        ctx = {"day_of_week": 0} # Sunday service (celebrated Saturday evening) -> Kathisma 1
         res = self.engine.resolve_daily_kathisma(ctx)
         self.assertEqual(res["number"], 1)
-        ctx = {"day_of_week": 0}
+        ctx = {"day_of_week": 1} # Monday service (celebrated Sunday evening) -> None
         res = self.engine.resolve_daily_kathisma(ctx)
         self.assertEqual(res["number"], 0)
-        ctx = {"day_of_week": 3} # Ordinary Summer Wednesday -> Kathisma 12
+        ctx = {"day_of_week": 4} # Ordinary Summer Thursday (Wed evening) -> Kathisma 12
         res = self.engine.resolve_daily_kathisma(ctx)
         self.assertEqual(res["number"], 12)
-        ctx = {"day_of_week": 3, "season": "lent"} # Lenten Wednesday -> Kathisma 18
+        ctx = {"day_of_week": 4, "season": "lent"} # Lenten Thursday (Wed evening) -> Kathisma 18
         res = self.engine.resolve_daily_kathisma(ctx)
         self.assertEqual(res["number"], 18)
         

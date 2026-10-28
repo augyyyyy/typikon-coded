@@ -38,6 +38,27 @@ def test_auditor_passes_on_programmatically_compiled_booklet(compiled_booklet_pa
     assert report["summary"]["pointer_integrity"] == "PASS"
     assert report["summary"]["appendix_validation"] == "PASS"
     assert report["summary"]["choreography_terminology"] == "PASS"
+    assert report["summary"]["primary_source_grounding"] == "PASS"
+    assert report["layer_5_primary_sources"]["ordo_paragraphs_verified"] >= 10
+
+
+def test_adversarial_invalid_ordo_paragraph_fails(compiled_booklet_path, tmp_path):
+    """Adversarial test: Citing a non-existent Ordo paragraph (§999) MUST fail Layer 5 SGC-02 grounding."""
+    with open(compiled_booklet_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    mutated = content.replace("Ordo §54", "Ordo §999")
+    assert mutated != content
+
+    mutated_file = tmp_path / "mutated_ordo.md"
+    with open(mutated_file, "w", encoding="utf-8") as f:
+        f.write(mutated)
+
+    auditor = CanonicalBookletAuditor(service_type="great_vespers")
+    report = auditor.audit_file(mutated_file)
+
+    assert report["summary"]["overall_status"] == "FAIL"
+    assert report["summary"]["primary_source_grounding"] == "FAIL"
 
 def test_adversarial_mutation_saturday_stichera_fails(compiled_booklet_path, tmp_path):
     """Adversarial test: Mutating Saturday stichera to 8 MUST cause the auditor to fail."""

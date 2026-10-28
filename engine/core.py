@@ -36,8 +36,9 @@ class EngineCore:
     """Mixin providing core methods for RuthenianEngine."""
 
 
-    def __init__(self, base_dir=".", temple_feast_date=None, temple_patron=None, temple_type="saint", parish_profile=None, hierarchy=None, version="royal_doors", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None, calendar_source=None):
+    def __init__(self, base_dir=".", temple_feast_date=None, temple_patron=None, temple_type="saint", parish_profile=None, hierarchy=None, version="royal_doors", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None, calendar_source=None, use_almanac_cache=False):
         self.base_dir = base_dir
+        self.use_almanac_cache = use_almanac_cache
         self.json_db = os.path.join(base_dir, "json_db")
         self.paschalion = paschalion # 'gregorian' or 'julian'
         print(f"Engine: Paschalion -> [{self.paschalion.upper()}]")
@@ -193,19 +194,12 @@ class EngineCore:
         self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/assets/text_floral_triodion.json", target_db=self.royal_doors_db)
         self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/assets/text_lenten_triodion.json", target_db=self.stamford_db)
         self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/assets/text_floral_triodion.json", target_db=self.stamford_db)
-        # Primary Source: Calendar Data (Fixed & Movable)
+        # Primary Source: Unified Calendar Data (Fixed & Movable)
+        calendar_file = "json_db/calendar_typikon.json"
         if calendar_source:
-            if calendar_source == "typikon":
-                calendar_file = "json_db/calendar_typikon.json"
-            else:
-                calendar_file = "json_db/calendar_ugcc_official.json"
+            self.calendar_source = calendar_source
         else:
-            calendar_file = "json_db/calendar_ugcc_official.json" if self.version_id != "lviv" else "json_db/calendar_typikon.json"
-            
-        if not os.path.exists(os.path.join(self.base_dir, calendar_file)):
-            calendar_file = "json_db/calendar_typikon.json"
-
-        self.calendar_source = "typikon" if "calendar_typikon.json" in calendar_file else "ugcc_official"
+            self.calendar_source = "typikon" if self.version_id in ("lviv", "lviv_1899") else "ugcc_official"
 
         self.dolnytsky_fixed = self._load_json(calendar_file)
         self.dolnytsky_movable = self._load_json("json_db/calendar_movable.json")
@@ -241,7 +235,13 @@ class EngineCore:
         self.stamford_printed_db = {k[:-3]: v for k, v in self.pure_typikon_db.items() if k.endswith("_uk")}
         self.royal_doors_web_db = {k[:-3]: v for k, v in self.propers_web_db.items() if k.endswith("_en")}
         self.stamford_web_2026_db = {k[:-3]: v for k, v in self.propers_web_db.items() if k.endswith("_uk")}
-        
+
+        # Load 4-Shard Unified Atomic Key-Value Liturgical Corpus (SGC-02 Master)
+        self.atomic_corpus_db = {}
+        self.atomic_corpus_aliases = {}
+        if hasattr(self, "_load_atomic_corpus"):
+            self._load_atomic_corpus()
+
         # Define the Daily Cycle (Standard Sequence)
         self.daily_cycle = [
             {"name": "Vespers", "type_key": "vespers_type", "root": "daily_vespers", "file": "json_db/01h_struct_vespers.json"},
@@ -266,6 +266,8 @@ class EngineCore:
 
 
     def _get_almanac(self, year):
+        if not getattr(self, "use_almanac_cache", False):
+            return None
         # Bypass almanac if calendar_source is overridden from the version's default calendar
         default_source = "typikon" if self.version_id == "lviv" else "ugcc_official"
         if getattr(self, "calendar_source", default_source) != default_source:

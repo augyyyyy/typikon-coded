@@ -30,6 +30,11 @@ class FootnoteResolverMixin:
         if not db:
             return []
         menaion_key = context.get("menaion_key", "")
+        if not menaion_key and context.get("month") and context.get("day"):
+            try:
+                menaion_key = f"menaion.{int(context['month']):02d}{int(context['day']):02d}"
+            except (ValueError, TypeError):
+                pass
         season = context.get("season", "")
         resolved = []
         seen_ids = set()
@@ -44,8 +49,13 @@ class FootnoteResolverMixin:
                         continue
             triggers = entry.get("triggers", {})
             menaion_triggers = triggers.get("menaion_keys", [])
+            pascha_triggers = triggers.get("pascha_offset")
             season_trigger = triggers.get("season")
             matched = False
+            pascha_off = context.get("pascha_offset")
+            if pascha_triggers is not None and pascha_off is not None:
+                if (isinstance(pascha_triggers, list) and pascha_off in pascha_triggers) or pascha_off == pascha_triggers:
+                    matched = True
             if menaion_triggers:
                 if menaion_key and menaion_key in menaion_triggers:
                     if season_trigger:
@@ -57,7 +67,7 @@ class FootnoteResolverMixin:
                             matched = True
                     else:
                         matched = True
-            elif season_trigger and include_academic:
+            elif season_trigger and pascha_triggers is None and include_academic:
                 if season_trigger == "triodion" and (season in ("lent", "triodion", "holy_week") or context.get("season_id") == "triodion"):
                     matched = True
                 elif season_trigger == "pascha" and (season in ("bright_week", "pascha") or context.get("season_id") == "pascha"):
@@ -66,12 +76,12 @@ class FootnoteResolverMixin:
                     matched = True
             # Exclude conditional misattributions
             dow = context.get("day_of_week")
-            pascha_off = context.get("pascha_offset")
+            days_of_week_trigger = triggers.get("days_of_week")
+            if days_of_week_trigger is not None and dow not in days_of_week_trigger:
+                continue
             if fn_id == "464" and dow not in (1, 2):
                 continue
-            if fn_id == "741" and pascha_off != 42:
-                continue
-            if fn_id == "705" and not (menaion_key and menaion_key.endswith("0913")):
+            if fn_id == "705" and not (menaion_key and menaion_key.endswith("1014")):
                 continue
 
             comp_triggers = triggers.get("components", [])

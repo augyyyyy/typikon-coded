@@ -21,12 +21,17 @@ from datetime import date, timedelta
 # Dynamic Path Resolution
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+from pathlib import Path
 from ruthenian_engine import RuthenianEngine
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 class LiturgicalContextAuditor:
     def __init__(self):
         self.engine = RuthenianEngine()
+        ordo_path = PROJECT_ROOT / "Data" / "Service Books" / "Typikon" / "Ordo" / "Ordo_Celebrationis_1996_CLEAN.md"
+        self.ordo_verified = ordo_path.is_file() and ("12." in ordo_path.read_text(encoding="utf-8", errors="replace"))
 
     def audit_context(self, target_date: date) -> dict:
         ctx = self.engine.get_liturgical_context(target_date)

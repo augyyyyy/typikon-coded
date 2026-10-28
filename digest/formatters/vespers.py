@@ -1,3 +1,6 @@
+import re
+
+
 class VespersFormatterMixin:
     def _format_paschal_vespers(self, enriched, rubrics):
         day_of_week = enriched.get("day_of_week", 0)
@@ -85,6 +88,13 @@ class VespersFormatterMixin:
     def _format_resolve_vespers_stichera(self, res, context):
         if not res:
             return ""
+        if context.get("pascha_offset") == -17 and context.get("feast_level") not in ("lord", "theotokos"):
+            total_st = res.get("total_count", 29) if isinstance(res, dict) else 29
+            return (
+                f"**At Lord, I Call:** We sing {total_st} Stichera: 24 Alphabetical Stichera of the Great Canon from the Triodion, "
+                "3 Stichera of the Triodion (2 Idiomela repeated + 1 Martyricon), and 2 Prosomoia Stichera to St. Mary of Egypt "
+                "(Dolnytsky §4.1.17:7902); Glory, Both now: Stavrotheotokion or Theotokion from the Triodion."
+            )
         
         dist = []
         for item in res.get("distribution", []):
@@ -97,17 +107,16 @@ class VespersFormatterMixin:
                 if item.get('source') == "triodion":
                     tp = context.get("triodion_period", "")
                     triodion_map = {
-                        "sunday_mary_egypt": "St. Mary of Egypt",
-                        "sunday_john_climacus": "St. John Climacus",
-                        "sunday_gregory_palamas": "St. Gregory Palamas",
                         "sunday_publican_pharisee": "the Publican and the Pharisee",
                         "sunday_prodigal_son": "the Prodigal Son",
                     }
+                    if context.get("monastic_triodion_saints"):
+                        triodion_map["sunday_4_of_lent"] = "St. John of the Ladder"
+                        triodion_map["sunday_5_of_lent"] = "St. Mary of Egypt"
                     if tp in triodion_map:
                         name = f"Stichera of {triodion_map[tp]}"
                     else:
-                        sname = self._get_saint_display_name(context, 0, form="short")
-                        name = f"Stichera of {sname}" if sname != "the Saint" else "Stichera from the Triodion"
+                        name = "Stichera from the Triodion"
                 else:
                     sname = self._get_saint_display_name(context, 0, form="short")
                     name = f"Stichera of {sname}"
@@ -145,12 +154,57 @@ class VespersFormatterMixin:
         
         glory_human = self.humanize_key(glory_val, context)
         both_now_human = self.humanize_key(both_now_val, context)
+        fname_st = self._get_feast_display_name(context, form="short")
+        if glory_human == "Feast": glory_human = f"Doxastikon of {fname_st}"
+        if both_now_human == "Feast": both_now_human = f"Doxastikon of {fname_st}"
         
-        if both_now_human and "theotokion" in both_now_human.lower() and "tone" not in both_now_human.lower():
-            tone = res.get("tone") or context.get("tone")
-            tone_rom = self._roman_tone(tone) if (tone and hasattr(self, "_roman_tone")) else None
-            if tone_rom:
-                both_now_human = f"{both_now_human} in Tone {tone_rom}"
+        is_weekday_stich = 0 < context.get("day_of_week", 0) <= 5
+        is_fore_after_stich = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("triodion_period") in ["forefeast", "afterfeast", "apodosis"] or
+            context.get("dolnytsky_rank") in ["forefeast", "afterfeast", "apodosis"]
+        )
+        rank_val = context.get("rank") or context.get("variables", {}).get("rank")
+        is_poly_or_vigil_saint = bool(
+            rank_val in ("rank_polyeleos", "rank_vigil", "rank_vigil_saint", 2, 3)
+            or context.get("has_polyeleos")
+            or context.get("variables", {}).get("has_polyeleos")
+        )
+        has_saint_dox = bool(
+            glory_val
+            and str(glory_val).strip().lower() not in ("none", "", "null", "glory", "(no saint doxastikon)", "(no_saint_doxastikon)")
+            and "if appointed" not in str(glory_val).lower()
+            and "if_appointed" not in str(glory_val).lower()
+        )
+        if is_weekday_stich and not is_fore_after_stich and not is_poly_or_vigil_saint and context.get("saints") and str(both_now_val) in ("octoechos.theotokion_daily", "theotokion_daily", "stavrotheotokion", "theotokion", "menaion.theotokion"):
+            if has_saint_dox:
+                both_now_human = "Theotokion from the Octoechos in the tone of the Doxastikon"
+            elif context.get("day_of_week") in (3, 5):
+                both_now_human = "Stavrotheotokion from the Menaion"
+            else:
+                both_now_human = "Theotokion from the Menaion"
+        elif 0 < context.get("day_of_week", 0) <= 6 and not is_fore_after_stich and context.get("is_small_vespers") and "theotokion" in both_now_human.lower():
+            both_now_human = "Theotokion from the Octoechos in the tone of the Doxastikon"
+        elif 0 < context.get("day_of_week", 0) <= 6 and not is_fore_after_stich and is_poly_or_vigil_saint and ("dogmatikon" in both_now_human.lower() or "theotokion" in both_now_human.lower()):
+            is_vigil_saint = rank_val in ("rank_vigil", "rank_vigil_saint", 2) or context.get("dolnytsky_rank_code") == "[VIGIL]"
+            tone_rom = self._roman_tone(context.get("tone", 1)) if hasattr(self, "_roman_tone") else context.get("tone", 1)
+            if is_vigil_saint:
+                if context.get("day_of_week") == 6:
+                    both_now_human = f"Dogmatikon (1st Theotokion) in Tone {tone_rom} (of the departing tone)"
+                else:
+                    both_now_human = "Dogmatikon (1st Theotokion) in the tone of the Doxastikon"
+            else:
+                both_now_human = f"Dogmatikon (1st Theotokion) in Tone {tone_rom} (of the current tone)"
+        elif both_now_human and ("theotokion" in both_now_human.lower() or "dogmatikon" in both_now_human.lower()) and "tone" not in both_now_human.lower():
+            if is_weekday_stich and not is_fore_after_stich and context.get("day_of_week") in (3, 5) and both_now_human.startswith("Theotokion"):
+                both_now_human = "Stavrotheotokion" + both_now_human[len("Theotokion"):]
+            if str(glory_val) != "(No Saint Doxastikon)":
+                tone = res.get("tone") or context.get("tone")
+                tone_rom = self._roman_tone(tone) if (tone and hasattr(self, "_roman_tone")) else None
+                if tone_rom:
+                    both_now_human = f"{both_now_human} in Tone {tone_rom}"
 
         if glory_both_now_val:
             gbn_human = self.humanize_key(glory_both_now_val, context)
@@ -246,7 +300,7 @@ class VespersFormatterMixin:
         if not res or not res.get("components"):
             return ""
             
-        is_weekday = 0 < context.get("day_of_week", 0) <= 5
+        is_weekday = 0 < context.get("day_of_week", 0) <= 6
         
         pascha_offset = context.get("pascha_offset")
         is_fore_after = bool(
@@ -263,11 +317,9 @@ class VespersFormatterMixin:
 
         is_simple = (context.get("rank") in ("rank_simple_6", "rank_simple_4") or context.get("variables", {}).get("rank") in ("rank_simple_6", "rank_simple_4")) and not is_fore_after
         if is_weekday and is_simple:
-            is_no_troparion = (context.get("dolnytsky_rank_code") == "[4 NO]" or context.get("variables", {}).get("dolnytsky_rank_code") == "[4 NO]")
-            has_saint_trop = any(c.get("type") == "saint" for c in res.get("components", []))
-            if is_no_troparion and has_saint_trop:
-                is_no_troparion = False
-            if is_no_troparion:
+            saints = context.get("saints", [])
+            has_saint_trop = bool(saints) or any(c.get("type") == "saint" for c in res.get("components", []))
+            if not has_saint_trop:
                 day = context.get("day_of_week", 1)
                 if day in (3, 5):
                     wname = "the Cross"
@@ -281,18 +333,23 @@ class VespersFormatterMixin:
                 elif day == 4:
                     wname = "the Apostles and St. Nicholas"
                     wtone = "Tone III and Tone IV"
+                elif day == 6:
+                    wname = "All Saints"
+                    wtone = "Tone II"
                 else:
                     wname = "the day"
                     wtone = "the tone of the week"
                 return f"**At the Dismissal Troparia:** We sing the troparion of {wname}; Glory, both now... Dismissal Theotokion in {wtone}."
             else:
                 s_name = "Saint"
-                saints = context.get("saints", [])
                 if saints:
-                    s_name_raw = saints[0].get("name", "Saint").strip()
-                    s_name = self._clean_name(s_name_raw)
-                tone_val = context.get("tone", 1)
+                    s_name = self._get_saint_display_name(context, 0, form="short")
+                last_saint = saints[-1] if saints else {}
+                tone_val = last_saint.get("troparion_tone") or last_saint.get("tone") or context.get("saint_tone") or context.get("troparion_tone") or 4
                 tone_rom = self._roman_tone(tone_val) if isinstance(tone_val, int) else str(tone_val)
+                if len(saints) >= 2:
+                    s_name_2 = self._get_saint_display_name(context, 1, form="short")
+                    return f"**At the Dismissal Troparia:** Troparion of {s_name}; Glory... Troparion of {s_name_2}; Both now: Dismissal Theotokion in Tone {tone_rom}."
                 return f"**At the Dismissal Troparia:** Troparion of {s_name}; Glory, both now... Dismissal Theotokion in Tone {tone_rom}."
             
         parts = []
@@ -306,8 +363,9 @@ class VespersFormatterMixin:
                 if "feast" in ref_key.lower() or "feast" in ref.lower():
                     fname = self._get_feast_display_name(context, form="short")
                     parts.append(f"Glory... Troparion of {fname}")
-                elif "saint" in ref_key.lower() or "saint" in ref.lower():
-                    sname = self._get_saint_display_name(context, 0, form="short")
+                elif "saint" in ref_key.lower() or "saint" in ref.lower() or ref_key == "menaion.troparion" or ref_key.startswith("menaion."):
+                    s_idx = 1 if (len(context.get("saints", [])) >= 2 and len(parts) > 0) else 0
+                    sname = self._get_saint_display_name(context, s_idx, form="short")
                     parts.append(f"Glory... Troparion of {sname}")
                 else:
                     parts.append(f"Glory... {ref}")
@@ -319,8 +377,15 @@ class VespersFormatterMixin:
                 elif "theotokion_of_the_feast" in ref_key.lower() or ref == "Theotokion of the Feast":
                     parts.append(f"{bn_text}: Theotokion of {fname}")
                 elif "dismissal_theotokion" in ref_key.lower() or "theotokion_dismissal" in ref_key.lower() or "theotokion" in ref.lower():
-                    # Qualify with tone or day if known
-                    tone_val = context.get("tone")
+                    m_t = re.search(r"tone_(\d+)", ref_key.lower())
+                    saints_list = context.get("saints", [])
+                    weekday_saint_t = (
+                        (saints_list[-1].get("troparion_tone") or saints_list[-1].get("tone")) if saints_list else None
+                    ) or context.get("saint_tone") or context.get("troparion_tone") or context.get("variables", {}).get("saint_tone") or context.get("variables", {}).get("troparion_tone")
+                    if context.get("day_of_week") != 0 and weekday_saint_t:
+                        tone_val = int(weekday_saint_t)
+                    else:
+                        tone_val = int(m_t.group(1)) if m_t else context.get("tone")
                     tone_rom = self._roman_tone(tone_val) if isinstance(tone_val, int) else ""
                     tone_str = f" in Tone {tone_rom}" if tone_rom else ""
                     parts.append(f"{bn_text}: Dismissal Theotokion{tone_str}")
@@ -330,19 +395,25 @@ class VespersFormatterMixin:
                     parts.append(f"{bn_text}: {ref}")
             else:
                 fname = self._get_feast_display_name(context, form="short")
+                saints_list = context.get("saints", [])
+                saint_t = (
+                    (saints_list[0].get("troparion_tone") or saints_list[0].get("tone")) if saints_list else None
+                ) or context.get("saint_tone") or context.get("troparion_tone") or context.get("variables", {}).get("saint_tone") or context.get("variables", {}).get("troparion_tone")
+                saint_t_rom = self._roman_tone(int(saint_t)) if saint_t and str(saint_t).isdigit() else ""
+                saint_t_suffix = f" in Tone {saint_t_rom}" if (context.get("day_of_week") != 0 and saint_t_rom) else ""
                 if ref_key == "feast.troparion" or ref == "Feast Troparion":
                     parts.append(f"the Troparion of {fname}")
                 elif "Troparion" in ref:
                     name = ref.replace("Troparion", "").strip()
                     if name.lower().startswith("of "):
-                        parts.append(f"the Troparion {name}" if name else "the Troparion")
+                        parts.append(f"the Troparion {name}{saint_t_suffix}" if name else "the Troparion")
                     else:
-                        parts.append(f"the Troparion of the {name}" if name else "the Troparion")
+                        parts.append(f"the Troparion of the {name}{saint_t_suffix}" if name else "the Troparion")
                 else:
                     if ref.lower().startswith("of "):
-                        parts.append(f"the Troparion {ref}")
+                        parts.append(f"the Troparion {ref}{saint_t_suffix}")
                     else:
-                        parts.append(f"the Troparion of the {ref}")
+                        parts.append(f"the Troparion of the {ref}{saint_t_suffix}")
         return "**At the Dismissal Troparia:** We sing " + "; ".join(parts) + "."
 
 

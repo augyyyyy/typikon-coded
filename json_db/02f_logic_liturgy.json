@@ -134,6 +134,34 @@
         },
         {
           "type": "troparion",
+          "source": "menaion_saint"
+        },
+        {
+          "type": "kontakion",
+          "source": "resurrection_tone"
+        },
+        {
+          "type": "kontakion",
+          "source": "menaion_saint",
+          "glory": true
+        },
+        {
+          "type": "kontakion",
+          "source": "steadfast_protectress",
+          "both_now": true,
+          "condition": "not is_afterfeast"
+        }
+      ]
+    },
+    "sunday_patronal_saint_temple": {
+      "description": "Case 3 Patronal Feast: Sunday in a Temple Dedicated to a Saint celebrating its Patronal Feast",
+      "order": [
+        {
+          "type": "troparion",
+          "source": "resurrection_tone"
+        },
+        {
+          "type": "troparion",
           "source": "temple"
         },
         {
@@ -146,7 +174,8 @@
         },
         {
           "type": "kontakion",
-          "source": "temple"
+          "source": "temple",
+          "condition": "not is_afterfeast"
         },
         {
           "type": "kontakion",
@@ -232,10 +261,6 @@
         },
         {
           "type": "troparion",
-          "source": "temple"
-        },
-        {
-          "type": "troparion",
           "source": "menaion_saint"
         },
         {
@@ -244,11 +269,7 @@
         },
         {
           "type": "kontakion",
-          "source": "menaion_saint"
-        },
-        {
-          "type": "kontakion",
-          "source": "temple",
+          "source": "menaion_saint",
           "glory": true
         },
         {

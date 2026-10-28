@@ -12,9 +12,9 @@
     "days": {
       "01": {
         "title_key": "menaion.aug_01.procession_cross_maccabees",
-        "rank": "rank_polyeleos",
+        "rank": "rank_doxology",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.12",
-        "base_template": "CASE_05",
+        "base_template": "CASE_02",
         "system_flags": {
           "fast_period_start": "dormition",
           "fast_level": "simple"
@@ -31,12 +31,12 @@
             "john_19_6_11_13_20_25_28_30_35"
           ],
           "communion_hymn": "light_of_your_countenance",
-          "vespers_type": "great_vespers_simple",
+          "vespers_type": "daily_vespers",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": true,
+          "has_polyeleos": false,
           "doxology_type": "great_doxology",
-          "rank": "rank_polyeleos",
+          "rank": "rank_doxology",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
@@ -76,7 +76,8 @@
             "glory": "maccabees_praises_doxastikon",
             "both_now": "cross_theotokion"
           }
-        }
+        },
+        "multi_saint": true
       },
       "06": {
         "title_key": "menaion.aug_06.transfiguration",
@@ -224,7 +225,7 @@
       },
       "16": {
         "title_key": "menaion.aug_16.image_not_made_by_hands",
-        "rank": "rank_simple_6",
+        "rank": "rank_doxology",
         "period": "afterfeast",
         "linked_feast_id": "08-15",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.12.4",
@@ -249,7 +250,7 @@
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
           "doxology_type": "great_doxology",
-          "rank": "rank_simple_6",
+          "rank": "rank_doxology",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [

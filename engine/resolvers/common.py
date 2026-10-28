@@ -364,16 +364,22 @@ class CommonResolverMixin:
         Determines the structural distribution of troparia for a specific Ode.
         Returns a list of dictionaries defining the source and count.
         
-        Citation: Dolnytsky Part IV (Triodion Rubrics) & Part I (General Canon Structure)
+        Citation: Dolnytsky Part IV (Triodion Rubrics) & Part I/II (General Canon Structure)
         """
         # Special Vigil Override for June 24, June 29, August 29: Saint's canon alone on 12 on weekdays
         month = context.get("month")
         day = context.get("day")
         day_of_week = context.get("day_of_week")
         if day_of_week != 0 and ((month == 6 and day == 24) or (month == 6 and day == 29) or (month == 8 and day == 29)):
-            return [{"source": "menaion", "type": "saint", "count": 12, "irmos": True}]
+            return [{"source": "menaion", "type": "saint", "count": 12, "qty": 12, "irmos": True}]
 
-        # Check for overridden distribution first (e.g. from collisions)
+        pascha_off = context.get("pascha_offset")
+        try:
+            pascha_off = int(pascha_off) if pascha_off is not None else None
+        except (ValueError, TypeError):
+            pascha_off = None
+
+        # Check for overridden distribution first (e.g. from collisions or Triodion/Pentecostarion)
         overridden_dist = context.get("variables", {}).get("matins_canon_distribution")
         if not overridden_dist:
             if context.get("season") != "lent":
@@ -384,15 +390,39 @@ class CommonResolverMixin:
                     pass
         if overridden_dist:
             if isinstance(overridden_dist, dict):
+                # Ode-specific Triodion structures (Saturdays 2/3/4 of Lent, Thursday of Great Canon)
+                if "odes_1_3_4_5" in overridden_dist and "odes_6_7_8_9" in overridden_dist:
+                    if ode_number in (6, 7, 8, 9):
+                        dist = overridden_dist.get("odes_6_7_8_9", [])
+                    else:
+                        if context.get("temple_type") in ("lord", "theotokos"):
+                            dist = [
+                                {"source": "temple", "type": "temple", "qty": 6, "irmos": True},
+                                {"source": "menaion", "type": "saint", "qty": 4},
+                                {"source": "octoechos", "type": "martyrs_dead", "qty": 4}
+                            ]
+                        else:
+                            dist = overridden_dist.get("odes_1_3_4_5", [])
+                elif "odes_4_8_9" in overridden_dist and "distribution" not in overridden_dist:
+                    if ode_number in (4, 8, 9):
+                        dist = overridden_dist.get("odes_4_8_9", [])
+                    else:
+                        dist = overridden_dist.get("odes_other", overridden_dist.get("distribution", []))
                 # Check for Logic Switch
-                if "logic_switch" in overridden_dist:
+                elif "logic_switch" in overridden_dist:
                     s_count = len(context.get("saints", []))
                     switch_key = "1_saint"
                     if s_count >= 2: 
                         switch_key = "2_saints"
                     else:
                         rank_id = self._get_rank_id(context)
-                        if rank_id == "rank_simple_6" or rank_id == "rank_doxology":
+                        is_fore_after_can = bool(
+                            context.get("is_forefeast")
+                            or context.get("is_afterfeast")
+                            or context.get("is_fore_or_afterfeast")
+                            or context.get("period") in ("forefeast", "afterfeast")
+                        )
+                        if rank_id == "rank_doxology" or (rank_id == "rank_simple_6" and not is_fore_after_can):
                             switch_key = "saint_on_6_doxology"
                     sub_rule = overridden_dist["logic_switch"].get(
                         switch_key,
@@ -408,16 +438,21 @@ class CommonResolverMixin:
             else:
                 dist = []
                 
-            # Normalize qty to count if count is missing
+            # Normalize qty to count if count is missing, and handle monastic_triodion_saints opt-in on Lenten Sundays 4 & 5
             dist_normalized = []
             for item in dist:
                 item_copy = item.copy()
+                if pascha_off in (-21, -14) and context.get("monastic_triodion_saints") and item_copy.get("source") == "menaion":
+                    item_copy["source"] = "triodion"
+                    item_copy["type"] = "john_climacus" if pascha_off == -21 else "mary_of_egypt"
                 if "qty" in item_copy and "count" not in item_copy:
                     item_copy["count"] = item_copy["qty"]
+                elif "count" in item_copy and "qty" not in item_copy:
+                    item_copy["qty"] = item_copy["count"]
                 dist_normalized.append(item_copy)
             dist = dist_normalized
 
-            if 60 <= context.get("pascha_offset", -100) <= 67:
+            if pascha_off is not None and 60 <= pascha_off <= 67:
                 dist_copy = []
                 for item in dist:
                     item_copy = item.copy()
@@ -428,15 +463,38 @@ class CommonResolverMixin:
             return dist
 
         # 1. Lenten Weekday Logic (Complex varying counts)
-        # Citation: Dolnytsky_Typikon_Master.md:4.1.10.2.3
+        # Citation: Dolnytsky_Typikon_Master.md §4.1.7:7388–7418 & §4.1.14:7845
         if context.get("season") == "lent" and context.get("day_of_week") not in [0, 6]: 
-            day = str(context.get("day_of_week"))
+            day_str = str(context.get("day_of_week"))
             lenten_maps = self.triodion_logic.get("lenten_logic_maps", {})
-            schedule = lenten_maps.get("ode_schedule", {}).get(day)
+            schedule = lenten_maps.get("ode_schedule", {}).get(day_str)
+            is_triodic_ode = bool(schedule and ode_number in schedule.get("odes", []))
+
+            # 4th Week of Lent Wednesday (-25) and Friday (-23): Canon of the Cross added (Dolnytsky §4.1.14:7845)
+            if pascha_off in (-25, -23):
+                if is_triodic_ode:
+                    return [
+                        {"source": "triodion", "type": "cross", "count": 4, "qty": 4, "irmos": True},
+                        {"source": "menaion", "type": "saint", "count": 2, "qty": 2},
+                        {"source": "triodion_1", "count": 4, "qty": 4},
+                        {"source": "triodion_2", "count": 4, "qty": 4}
+                    ]
+                else:
+                    return [
+                        {"source": "triodion", "type": "cross", "count": 6, "qty": 6, "irmos": True},
+                        {"source": "menaion", "type": "saint", "count": 4, "qty": 4}
+                    ]
+
+            # Tuesday Ode 2: Menaion has no Ode 2, so Triodion alone on 8 (Dolnytsky §4.1.7:7406)
+            if day_str == "2" and ode_number == 2:
+                return [
+                    {"source": "triodion_1", "count": 4, "qty": 4, "irmos": True},
+                    {"source": "triodion_2", "count": 4, "qty": 4}
+                ]
             
             # Check if this Ode is Triodic for this Day
-            if schedule and ode_number in schedule.get("odes", []):
-                # Triodic Ode: Get distribution from JSON (e.g. Triodion 8, Menaion 6)
+            if is_triodic_ode:
+                # Triodic Ode: Get distribution from JSON (Triodion 8, Menaion 6)
                 dist = schedule.get("distribution", {})
                 t_count = dist.get("triodion", 8)
                 m_count = dist.get("menaion", 6)
@@ -446,30 +504,33 @@ class CommonResolverMixin:
                 t2 = t_count - t1
                 
                 return [
-                    {"source": "menaion", "count": m_count, "irmos": True},
-                    {"source": "triodion_1", "count": t1},
-                    {"source": "triodion_2", "count": t2}
+                    {"source": "menaion", "count": m_count, "qty": m_count, "irmos": True},
+                    {"source": "triodion_1", "count": t1, "qty": t1},
+                    {"source": "triodion_2", "count": t2, "qty": t2}
                 ]
             else:
-                # Standard Lenten Ode (Non-Triodic)
+                # Standard Lenten Ode (Non-Triodic): 4 Menaion for 1 simple saint, 6 Menaion for 2 saints or Saint on 6
                 std_dist = lenten_maps.get("standard_ode_distribution", {})
-                m_count = std_dist.get("menaion", 4)
-                return [{"source": "menaion", "count": m_count, "irmos": True}]
+                raw_rank = context.get("rank") or context.get("variables", {}).get("rank")
+                rank_code = context.get("dolnytsky_rank_code")
+                if (
+                    len(context.get("saints", [])) >= 2
+                    or raw_rank in ("rank_simple_6", "rank_doxology", "rank_polyeleos")
+                    or rank_code in ("[6 SM]", "[GT DOX]", "[POL]")
+                ):
+                    m_count = 6
+                else:
+                    m_count = std_dist.get("menaion", 4)
+                return [{"source": "menaion", "count": m_count, "qty": m_count, "irmos": True}]
 
         # 1.5. Holy Week Logic (Triodion exclusively)
-        # Citation: Dolnytsky Part II § 4.2.13-17 / 2010 Lviv Typikon
+        # Citation: Dolnytsky Part IV §4.1.21-26 / 2010 Lviv Typikon
         season = context.get("season")
-        pascha_off = context.get("pascha_offset")
-        try:
-            pascha_off = int(pascha_off) if pascha_off is not None else None
-        except (ValueError, TypeError):
-            pascha_off = None
-
         if season == "holy_week" or (pascha_off is not None and -6 <= pascha_off <= -1):
             return [{"source": "triodion", "type": "triodion", "qty": 6, "count": 6, "irmos": True}]
 
         # Pascha & Bright Week Logic (Pentecostarion exclusively)
-        # Citation: Dolnytsky Part II § 5.1 / 2010 Lviv Typikon
+        # Citation: Dolnytsky Part IV §4.2.1-2 / 2010 Lviv Typikon
         if season in ("pascha", "bright_week") or (pascha_off is not None and 0 <= pascha_off <= 6):
             return [{"source": "pentecostarion", "type": "pascha", "qty": 8, "count": 8, "irmos": True}]
 
@@ -479,19 +540,21 @@ class CommonResolverMixin:
             return [{"source": source, "type": "feast", "qty": 6, "count": 6, "irmos": True}]
 
         # 2. Sunday / Standard Logic (Default fallback)
-        # This typically comes from the 'matins_canon_distribution' variable in logic_general.json
-        # But we define code-based fallback here if context is missing it.
-        
         # Hard fallback for simple Sunday if JSON missing
         if context.get("day_of_week") == 0:
             return [
-                {"source": "octoechos", "type": "resurrection", "qty": 4, "count": 4, "irmos": True},
-                {"source": "octoechos", "type": "cross_res", "qty": 3, "count": 3}, 
-                {"source": "octoechos", "type": "theotokos", "qty": 3, "count": 3},
-                {"source": "menaion", "type": "saint", "qty": 4, "count": 4} 
+                {"source": "octoechos", "type": "resurrection", "qty": 4, "irmos": True},
+                {"source": "octoechos", "type": "cross_res", "qty": 3}, 
+                {"source": "octoechos", "type": "theotokos", "qty": 3},
+                {"source": "menaion", "type": "saint", "qty": 4} 
             ]
             
-        return [{"source": "octoechos", "type": "weekday", "qty": 4, "count": 4, "irmos": True}] # Final fallback
+        # Standard Weekday fallback: Dolnytsky Part II §2.2:1030-1037 (6 Octoechos 1 + 4 Octoechos 2 + 4 Menaion = 14)
+        return [
+            {"source": "octoechos", "type": "canon_1", "qty": 6, "irmos": True},
+            {"source": "octoechos", "type": "canon_2", "qty": 4},
+            {"source": "menaion", "type": "saint", "qty": 4}
+        ]
 
 
     def resolve_canon_interludes(self, ode_number, context):
@@ -543,8 +606,9 @@ class CommonResolverMixin:
                     "source": "octoechos", "note": "Hypakoe of the Tone"
                 })
                 
-                # If there's a Polyeleos or higher Saint (Scenario 1), we do the Kontakion Shift in addition:
-                if has_polyeleos and saints:
+                # Dolnytsky Part II §2.1 (line 966): On Sunday, after the Hypakoe of the Tone,
+                # read the Kontakion, Ikos (if any), and Sessional of the Saint after Ode 3.
+                if saints:
                     saint_id = saints[0].get("id", "saint")
                     result["components"].append({
                         "type": "kontakion", "id": f"kontakion_{saint_id}",
@@ -563,27 +627,131 @@ class CommonResolverMixin:
                     "source": "theotokion"
                 })
             else:
-                # Weekday (Scenario 3): Sessional of the Saint
-                if saints:
-                    saint_id = saints[0].get("id", "saint")
+                # Weekday (Scenario 3): Sessional of the Saint (plus 2nd Saint Kontakion/Ikos/Sessional if 2 saints)
+                is_afterfeast_inter = bool(context.get("is_afterfeast") or context.get("is_forefeast") or context.get("period") in ("afterfeast", "forefeast"))
+                is_poly_afterfeast = is_afterfeast_inter and (has_polyeleos or context.get("has_polyeleos") or rank <= 3)
+                if is_poly_afterfeast:
+                    # Dolnytsky §2.16:1638 & §3.3.3:2284:
+                    # After Ode 3: Kontakion and Ikos of the Feast (and Kontakion of 2nd Saint if 2 saints),
+                    # Sessional of the 1st Saint; Glory: Sessional of 2nd Saint; Both now: Sessional of Feast
                     result["components"].append({
-                        "type": "sessional", "id": f"sessional_{saint_id}",
-                        "source": "menaion", "note": "Sessional of the Saint"
+                        "type": "kontakion", "id": "kontakion_feast",
+                        "source": "menaion", "note": "Kontakion of the Feast"
                     })
+                    result["components"].append({
+                        "type": "ikos", "id": "ikos_feast",
+                        "source": "menaion", "note": "Ikos of the Feast"
+                    })
+                    if len(saints) >= 2:
+                        saint_1_id = saints[0].get("id", "saint_1")
+                        saint_2_id = saints[1].get("id", "saint_2")
+                        result["components"].append({
+                            "type": "kontakion", "id": f"kontakion_{saint_2_id}",
+                            "source": "menaion", "note": "Kontakion of the 2nd Saint"
+                        })
+                        result["components"].append({
+                            "type": "sessional", "id": f"sessional_{saint_1_id}",
+                            "source": "menaion", "note": "Sessional of the 1st Saint"
+                        })
+                        result["components"].append({
+                            "type": "glory", "id": f"sessional_{saint_2_id}",
+                            "source": "menaion", "note": "Glory: Sessional of the 2nd Saint"
+                        })
+                    elif saints:
+                        saint_id = saints[0].get("id", "saint")
+                        result["components"].append({
+                            "type": "sessional", "id": f"sessional_{saint_id}",
+                            "source": "menaion", "note": "Sessional of the Saint"
+                        })
+                    result["components"].append({
+                        "type": "both_now", "id": "feast_sidalen_ode_3",
+                        "source": "menaion", "note": "Both now: Sessional of the Feast"
+                    })
+                elif len(saints) >= 2 and not has_polyeleos:
+                    saint_1_id = saints[0].get("id", "saint_1")
+                    saint_2_id = saints[1].get("id", "saint_2")
+                    result["components"].append({
+                        "type": "kontakion", "id": f"kontakion_{saint_2_id}",
+                        "source": "menaion", "note": "Kontakion of the 2nd Saint"
+                    })
+                    result["components"].append({
+                        "type": "ikos", "id": f"ikos_{saint_2_id}",
+                        "source": "menaion", "note": "Ikos of the 2nd Saint"
+                    })
+                    result["components"].append({
+                        "type": "sessional", "id": f"sessional_{saint_1_id}",
+                        "source": "menaion", "note": "Sessional of the 1st Saint"
+                    })
+                    result["components"].append({
+                        "type": "glory", "id": f"sessional_{saint_2_id}",
+                        "source": "menaion", "note": "Glory: Sessional of the 2nd Saint"
+                    })
+                    if is_afterfeast_inter:
+                        result["components"].append({
+                            "type": "both_now", "id": "feast_sidalen_ode_3",
+                            "source": "menaion", "note": "Both now: Sessional of the Feast"
+                        })
+                    else:
+                        result["components"].append({
+                            "type": "both_now", "id": "both_now_theotokion",
+                            "source": "theotokion"
+                        })
+                elif saints:
+                    saint_id = saints[0].get("id", "saint")
+                    if is_afterfeast_inter:
+                        result["components"].append({
+                            "type": "kontakion", "id": f"kontakion_{saint_id}",
+                            "source": "menaion", "note": "Kontakion of the Saint"
+                        })
+                        result["components"].append({
+                            "type": "ikos", "id": f"ikos_{saint_id}",
+                            "source": "menaion", "note": "Ikos of the Saint"
+                        })
+                        result["components"].append({
+                            "type": "sessional", "id": f"sessional_{saint_id}",
+                            "source": "menaion", "note": "Sessional of the Saint"
+                        })
+                        result["components"].append({
+                            "type": "glory_both_now", "id": "feast_sidalen_ode_3",
+                            "source": "menaion", "note": "Glory, Both now: Sessional of the Feast"
+                        })
+                    else:
+                        result["components"].append({
+                            "type": "sessional", "id": f"sessional_{saint_id}",
+                            "source": "menaion", "note": "Sessional of the Saint"
+                        })
+                        result["components"].append({
+                            "type": "glory_both_now", "id": "glory_both_now_theotokion",
+                            "source": "theotokion"
+                        })
                 else:
                     result["components"].append({
                         "type": "sessional", "id": "sessional_menaion",
                         "source": "menaion", "count": 1
                     })
-                result["components"].append({
-                    "type": "glory_both_now", "id": "glory_both_now_theotokion",
-                    "source": "theotokion"
-                })
+                    result["components"].append({
+                        "type": "glory_both_now", "id": "glory_both_now_theotokion",
+                        "source": "theotokion"
+                    })
              
         # ODE 6 Logic
         elif ode_number == 6:
-            if is_feast:
-                # Great Feast: Kontakion & Ikos of the Feast
+            is_afterfeast_ode6 = bool(context.get("is_afterfeast") or context.get("is_forefeast") or context.get("period") in ("afterfeast", "forefeast"))
+            is_poly_afterfeast = is_afterfeast_ode6 and not is_sunday and (has_polyeleos or context.get("has_polyeleos") or rank <= 3)
+            if is_poly_afterfeast and saints:
+                # Dolnytsky §2.16:1639 & §3.3.3:2285:
+                # After Ode 6: Kontakion and Ikos of the Saint with Polyeleos
+                saint_1_id = saints[0].get("id", "saint_1")
+                result["components"].append({
+                    "type": "kontakion", "id": f"kontakion_{saint_1_id}",
+                    "source": "menaion", "note": "Kontakion of the Saint"
+                })
+                result["components"].append({
+                    "type": "ikos", "id": f"ikos_{saint_1_id}",
+                    "source": "menaion", "note": "Ikos of the Saint"
+                })
+            elif is_feast or (is_afterfeast_ode6 and not is_sunday):
+                # Great Feast or Weekday Afterfeast (Dolnytsky §2.14:1552): Kontakion & Ikos of the Feast
                 result["components"].append({
                     "type": "kontakion", "id": "kontakion_feast",
                     "source": "menaion", "note": "Kontakion of the Feast"
@@ -1281,7 +1449,44 @@ class CommonResolverMixin:
             if (m == 1 and d >= 15) or (m == 2 and d <= 9):
                 is_meeting_window = True
 
-        if rank == 1 or season == 'meeting_season' or is_afterfeast or is_feast:
+        saints = context.get("saints", [])
+        is_afterfeast_weekday_simple = (
+            is_afterfeast and day_of_week != 0 and rank > 3 and not (saints and any(parse_rank_integer(s.get("rank", 5)) <= 3 for s in saints))
+        )
+        if is_afterfeast_weekday_simple:
+            # Determine seasonal katavasia metadata first
+            seas_id = "i_will_open_my_mouth"
+            seas_text = "I will open my mouth"
+            seas_tone = 4
+            if is_meeting_window:
+                seas_id = "katavasia_meeting"
+                seas_text = "The dry land"
+                seas_tone = 3
+            elif self.katavasia_seasons and m is not None and d is not None:
+                for rule in self.katavasia_seasons.get("immovable", []):
+                    sm, sd = rule["start_month"], rule["start_day"]
+                    em, ed = rule["end_month"], rule["end_day"]
+                    if (m > sm or (m == sm and d >= sd)) and (m < em or (m == em and d <= ed)):
+                        seas_id = rule.get("katavasia_id") or f"katavasia_{rule['feast'].lower().replace(' ', '_')}"
+                        if rule['feast'] in ["General of Theotokos", "General"]:
+                            seas_id = "i_will_open_my_mouth"
+                        seas_text = rule["katavasia"]
+                        seas_tone = rule["tone"]
+                        break
+            # Dolnytsky §2.14:1550, 1554: On afterfeast weekdays with a saint without Polyeleos,
+            # Katavasia is after Odes 3, 6, 8, 9 (Heirmos of the saint / last canon).
+            return {
+                "type": "daily_katavasia",
+                "katavasia_id": "irmos_last_canon",
+                "id": "irmos_last_canon",
+                "seasonal_katavasia_id": seas_id,
+                "seasonal_text": seas_text,
+                "seasonal_tone": seas_tone,
+                "text": "Heirmos of the last canon",
+                "frequency": "limited_odes",
+                "after_odes": [3, 6, 8, 9]
+            }
+        elif rank == 1 or season == 'meeting_season' or is_afterfeast or is_feast:
             if season in ['pascha', 'bright_week']:
                 kat_type = 'paschal_katavasia'
             else:
@@ -1622,7 +1827,8 @@ class CommonResolverMixin:
              # Citation: Dolnytsky_Typikon_Master.md:4.1.9.1.6
              return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
              
-        if rank <= 3:
+        has_poly = context.get("has_polyeleos") is not False and context.get("variables", {}).get("has_polyeleos") is not False
+        if rank <= 3 and (has_poly or rank <= 2):
              # Feast Logic
              if context.get("season_id") in ("triodion", "pentecostarion") or context.get("season") in ("triodion", "pentecostarion"):
                  return {"type": "sessional_group", "source": "triodion", "id": f"sessional_triodion_set_{num}"}
@@ -1638,15 +1844,28 @@ class CommonResolverMixin:
 
 
     def resolve_kathisma_choice(self, context, **kwargs):
-        # Polyeleos (Paslms 134-135) vs Kathisma 17
+        # Polyeleos (Psalms 134-135) vs Kathisma 17
         rank = self.calculate_rank(context)
-        if rank <= 3 or context.get("has_polyeleos"):
+        has_polyeleos_flag = context.get("has_polyeleos")
+        if has_polyeleos_flag is None:
+            has_polyeleos_flag = context.get("variables", {}).get("has_polyeleos")
+        if has_polyeleos_flag is False:
+            if context.get("day_of_week") == 0:
+                if hasattr(self, "resolve_matins_kathisma") and "kathisma_17" in (self.resolve_matins_kathisma(context) or []):
+                    return {"type": "none", "id": "none"}
+                return {"type": "kathisma", "id": "kathisma_17"}
+            return {"type": "none", "id": "none"}
+        if rank <= 3 or has_polyeleos_flag:
             return {"type": "polyeleos", "id": "psalms_134_135"}
         
-        # Sundays of certain periods use Polyeleos, others Kathisma 17
         is_sunday = context["day_of_week"] == 0 or context.get("is_sunday_vigil")
         if is_sunday:
-            # Simplified: Use Polyeleos for now as default for Sunday Matins in many usages
+            if hasattr(self, "resolve_polyeleos_or_kathisma_17") and context.get("date"):
+                pk_res = self.resolve_polyeleos_or_kathisma_17(context)
+                if pk_res and pk_res.get("type") == "kathisma_17":
+                    if hasattr(self, "resolve_matins_kathisma") and "kathisma_17" in (self.resolve_matins_kathisma(context) or []):
+                        return {"type": "none", "id": "none"}
+                    return {"type": "kathisma", "id": "kathisma_17"}
             return {"type": "polyeleos", "id": "psalms_134_135"}
             
         return {"type": "kathisma", "id": "kathisma_17"}
@@ -1679,12 +1898,16 @@ class CommonResolverMixin:
             'dormition': 1,
             'nativity_theotokos': 4,
             'exaltation_cross': 1,
+            'presentation': 4,
             'presentation_theotokos': 4,
+            'entrance_theotokos': 4,
+            'entry_theotokos': 4,
+            'nov_21.entrance_theotokos': 4,
             'eucharist': 8
         }
         return festal_tones.get(feast_id, 1)
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1,L717-748")
     def resolve_canon_ode_troparion(self, context, ode, position="glory"):
         """
         Resolves specific troparion details at a given position within a canon ode (primarily Ode 8).

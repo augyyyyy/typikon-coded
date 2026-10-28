@@ -12,9 +12,9 @@
     "days": {
       "01": {
         "title_key": "menaion.apr_01.mary_egypt",
-        "rank": "rank_polyeleos",
+        "rank": "rank_simple_4",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.8",
-        "base_template": "CASE_05",
+        "base_template": "CASE_02",
         "variants": [
           {
             "condition": {
@@ -31,26 +31,32 @@
           }
         ],
         "variables": {
-          "vespers_type": "great_vespers_simple",
-          "matins_type": "great_matins",
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": true,
-          "doxology_type": "great_doxology",
-          "rank": "rank_polyeleos",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_4",
           "vespers_stichera_distribution": {
-            "total_count": 8,
+            "total_count": 6,
             "distribution": [
+              {
+                "source": "octoechos",
+                "type": "current",
+                "qty": 3
+              },
               {
                 "source": "menaion",
                 "type": "saint",
-                "qty": 8
+                "qty": 3
               }
             ],
-            "glory": "saint_doxastikon",
+            "glory": "theotokion",
             "both_now": "theotokion"
           },
           "matins_canon_stacking": [
-            "saint_canon_8"
+            "octoechos_4",
+            "saint_canon_4"
           ],
           "matins_katavasia": "triodion_current",
           "praises_distribution": {
@@ -65,7 +71,6 @@
             "glory": "saint_doxastikon",
             "both_now": "theotokion"
           },
-          "matins_gospel": "luke_7_36_50",
           "liturgy_readings": [
             "galatians_3_23_29",
             "luke_7_36_50"

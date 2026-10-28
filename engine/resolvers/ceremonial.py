@@ -123,12 +123,23 @@ class CeremonialMixin:
             return {"type": "dairy_and_eggs", "note": "Dairy and eggs permitted, no meat",
                     "citation": "Dolnytsky Appendix — Cheesefare Week"}
         
+        is_gt_dox_or_poly_only = (
+            "GT_DOX" in rank_code
+            or "GT DOX" in rank_code
+            or context.get("rank") == "rank_doxology"
+            or context.get("variables", {}).get("rank") == "rank_doxology"
+            or (rank_val == 3 and (context.get("has_polyeleos") is False or context.get("variables", {}).get("has_polyeleos") is False))
+        )
+
         # 3.5. Apostles' Fast (Lviv Synod)
         # Starts on Monday after All Saints (pascha_offset >= 57) and ends on June 28 (inclusive)
         if pascha_offset >= 57 and ((month == 5) or (month == 6 and day <= 28)):
             if day_of_week in (1, 3, 5):
+                if is_gt_dox_or_poly_only:
+                    return {"type": "oil_and_wine", "note": "Oil and wine permitted for the feast",
+                            "citation": "Dolnytsky Appendix — Festal relaxation"}
                 # Great Feasts (Rank 1/2) and Vigils (Rank 3) -> Fish
-                if rank_val <= 3 or any(r in rank_code for r in ("LORD", "THEOTOKOS", "MOG", "VIGIL")):
+                elif rank_val <= 3 or any(r in rank_code for r in ("LORD", "THEOTOKOS", "MOG", "VIGIL")):
                     return {"type": "fish_permitted", "note": "Fish and wine permitted for the feast",
                             "citation": "Dolnytsky Appendix — Festal relaxation"}
                 # Polyeleos Feasts (Rank 4) -> Oil and Wine
@@ -138,11 +149,42 @@ class CeremonialMixin:
                 else:
                     return {"type": "fast_day", "note": "Apostles' Fast: Abstinence from meat and dairy",
                             "citation": "Lviv Synod — Title XI, part 4"}
+
+        # 3.6. Nativity Fast (Philip's Fast / Pylypivka)
+        # Nov 15 to Dec 24 inclusive
+        is_nativity_fast = (month == 11 and day >= 15) or (month == 12 and day <= 24)
+        if is_nativity_fast:
+            has_poly = (
+                context.get("has_polyeleos")
+                or context.get("variables", {}).get("has_polyeleos")
+                or "POL" in rank_code
+                or "POLUELEOS" in rank_code
+            )
+            # Great Feasts (Rank 1/2), Vigils (Rank 3), Polyeleos or Afterfeasts -> Fish permitted (or wine/oil on Wed/Fri)
+            if rank_val <= 3 or any(r in rank_code for r in ("LORD", "THEOTOKOS", "MOG", "VIGIL")) or has_poly:
+                return {"type": "fish_permitted", "note": "Nativity Fast: Fish, wine, and oil permitted for the feast",
+                        "citation": "Dolnytsky §3.3.1 Lines 2240–2250 & Appendix"}
+            elif (context.get("is_afterfeast") or context.get("is_fore_or_afterfeast")):
+                return {"type": "fish_permitted" if day_of_week not in (3, 5) else "oil_and_wine", 
+                        "note": "Nativity Fast: Fish, wine, and oil permitted (afterfeast)" if day_of_week not in (3, 5) else "Nativity Fast: Wine and oil permitted (afterfeast)",
+                        "citation": "Dolnytsky §3.3.1 Lines 2240–2250 & Appendix"}
+            elif day_of_week in (1, 3, 5):
+                return {"type": "fast_day", "note": "Nativity Fast: Abstinence from meat and dairy",
+                        "citation": "Dolnytsky §3.3.1 Lines 2240–2250"}
+            elif day_of_week in (6, 0): # Sat/Sun
+                return {"type": "fish_permitted", "note": "Nativity Fast: Fish, wine, and oil permitted on Saturday and Sunday",
+                        "citation": "Dolnytsky Appendix — Fasting rules"}
+            else: # Tue/Thu
+                return {"type": "oil_and_wine", "note": "Nativity Fast: Oil and wine permitted (abstinence from meat and dairy)",
+                        "citation": "Dolnytsky §3.3.1 Lines 2240–2250"}
         
         # 4. Normal Wed/Fri
         if day_of_week in (3, 5):
+            if is_gt_dox_or_poly_only:
+                return {"type": "oil_and_wine", "note": "Oil and wine permitted for the feast",
+                        "citation": "Dolnytsky Appendix — Festal relaxation"}
             # Great Feasts (Rank 1/2) and Vigils (Rank 3) -> Fish
-            if rank_val <= 3 or any(r in rank_code for r in ("LORD", "THEOTOKOS", "MOG", "VIGIL")):
+            elif rank_val <= 3 or any(r in rank_code for r in ("LORD", "THEOTOKOS", "MOG", "VIGIL")):
                 return {"type": "fish_permitted", "note": "Fish and wine permitted for the feast",
                         "citation": "Dolnytsky Appendix — Festal relaxation"}
             # Polyeleos Feasts (Rank 4) -> Oil and Wine
@@ -184,7 +226,10 @@ class CeremonialMixin:
         
         d_title = context.get("dolnytsky_title", "").lower()
         d_commem = context.get("dolnytsky_commemoration", "").lower()
-        full_text = f"{d_title} {d_commem}"
+        s_titles = " ".join(
+            str(s.get("title", "")) for s in context.get("saints", []) if isinstance(s, dict)
+        ).lower()
+        full_text = f"{d_title} {d_commem} {s_titles}"
         
         rank_val = context.get("rank")
         if rank_val is None:
@@ -1206,7 +1251,7 @@ class CeremonialMixin:
     # ref: Dolnytsky_Typikon_Master.md:V
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L315-419,L83-96,L146-215,L248-261")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L315-419,§29-§49")
     def resolve_deacon_role(self, context, service="vespers", moment=None, rubrics=None):
         """
         Ordo §29–§49, §74–§91, §97–§174, §216–§260: Returns diaconal prompts based on deacon counts.
@@ -1421,7 +1466,7 @@ class CeremonialMixin:
         }
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L420-431,L92-96,L175-215,L261")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L420-431,§50-§53")
     def resolve_concelebration_roles(self, context, service="vespers", moment=None, rubrics=None):
         """
         Ordo §50–§52, §92–§96, §175–§215, §261:
@@ -1623,7 +1668,7 @@ class CeremonialMixin:
         return res
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L330,L378,L402")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L330-405,§33,§39,§45")
     def resolve_vespers_censing_sequence(self, context, moment=None, rubrics=None):
         """
         Ordo §33, §39, §45: Translates exact censing paths (Holy Table, apsidal icons, people, choirs).
@@ -1678,7 +1723,7 @@ class CeremonialMixin:
             }
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L495:§59,§61")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L456-480,§59,§61")
     def resolve_litya_procession(self, context, moment=None, rubrics=None):
         """
         Ordo §59, §61: Procession order to the narthex and diaconal petitions.
@@ -1717,7 +1762,7 @@ class CeremonialMixin:
 
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L610:§76")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L587-595,§76")
     def resolve_polyeleos_movement(self, context, moment=None, rubrics=None):
         """
         Ordo §76: Clergy movement and exit to the tetrapod during the Polyeleos.
@@ -1733,7 +1778,7 @@ class CeremonialMixin:
         }
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L635:§79")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L618-630,§79")
     def resolve_matins_gospel_censing(self, context, moment=None, rubrics=None):
         """
         Ordo §79: Censing before and during the Matins Gospel reading.
@@ -1753,7 +1798,7 @@ class CeremonialMixin:
             }
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L895:§115")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L862-880,§115")
     def resolve_proskomedia_vessels(self, context, moment=None, rubrics=None):
         """
         Ordo §115: Proskomedia vessel placement and arrangements.
@@ -1764,7 +1809,7 @@ class CeremonialMixin:
         }
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L945:§122,§129")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L940-1030,§122,§129")
     def resolve_liturgy_entrances(self, context, entrance_type="little", moment=None, rubrics=None):
         """
         Ordo §122, §129: Coordinated movements for Little and Great Entrances.
@@ -1796,7 +1841,7 @@ class CeremonialMixin:
 
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L1685:§235")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L1713-1730,§235")
     def resolve_presanctified_censing(self, context, moment=None, rubrics=None):
         """
         Ordo §235: Censing sequences for Presanctified Liturgy.
@@ -1826,7 +1871,7 @@ class CeremonialMixin:
         }
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L284,L715-725")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L677-735,§87-§96")
     def resolve_hierarchical_ceremonial(self, context, moment=None, rubrics=None):
         """
         Ordo §19f, §28 note, Ruthenian Archieratikon / Pontifical:
@@ -1852,7 +1897,7 @@ class CeremonialMixin:
         }
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L330,L378,L402,L1685")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L330-405,L1713-1730,§33,§39,§45,§235")
     def resolve_censing_sequence(self, context, pattern="full_censing", rubrics=None):
         """
         Ordo §33, §39, §45, §74, §117, §128, §235:

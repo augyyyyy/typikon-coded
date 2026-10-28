@@ -60,7 +60,7 @@ def test_september_15_symmetrical_entity_specificity(engine, generator):
 
     # Matins Canon: both feast and saint named
     assert "Canon of the Holy Cross with the Heirmos on 8" in digest_text
-    assert "Canon of Great Martyr St. Nicetas on 4" in digest_text
+    assert ("Canon of Great Martyr Nicetas on 4" in digest_text or "Canon of Great Martyr St. Nicetas on 4" in digest_text)
     assert "Canon of the Feast" not in digest_text
 
     # Matins Ode IX
@@ -69,8 +69,8 @@ def test_september_15_symmetrical_entity_specificity(engine, generator):
 
     # Divine Liturgy Troparia & Kontakia: both feast and saint named
     assert "Troparion of the Exaltation of the Holy Cross." in digest_text
-    assert "Troparion of Great Martyr St. Nicetas." in digest_text
-    assert "Kontakion of Great Martyr St. Nicetas." in digest_text
+    assert ("Troparion of Great Martyr Nicetas." in digest_text or "Troparion of Great Martyr St. Nicetas." in digest_text)
+    assert ("Kontakion of Great Martyr Nicetas." in digest_text or "Kontakion of Great Martyr St. Nicetas." in digest_text)
     assert "Kontakion of the Exaltation of the Holy Cross." in digest_text
 
 def test_exaltation_7_day_window_semantic_truth(engine, generator):

@@ -98,8 +98,6 @@ def main():
 
         # Calculate Lviv Typikon Paradigm Number
         lviv_paradigm_number = base_mappings.get(paradigm_id) if paradigm_id else None
-        if lviv_paradigm_number is None or not (1 <= lviv_paradigm_number <= 26):
-            lviv_paradigm_number = engine.resolve_canonical_format_number(context)
 
         # Build day record from the resolved context (preserving post-rubrics suppression in saints)
         # while keeping full commemoration list in calendar_saints

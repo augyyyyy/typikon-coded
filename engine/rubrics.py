@@ -112,7 +112,11 @@ class RubricsMixin:
             return True
         if rule_movable_day == "Sunday_Orthodoxy" and offset == -42:
             return True
-        if rule_movable_day == "Sunday_Gregory_Palamas" and offset == -35:
+        if rule_movable_day in ["Sunday_2_of_Lent", "Sunday_Gregory_Palamas"] and offset == -35:
+            return True
+        if rule_movable_day in ["Sunday_4_of_Lent", "Sunday_John_Climacus"] and offset == -21:
+            return True
+        if rule_movable_day in ["Sunday_5_of_Lent", "Sunday_Mary_of_Egypt"] and offset == -14:
             return True
         if rule_movable_day in ["Lenten_Sundays", "Sundays_Lent"] and offset in [-42, -35, -28, -21, -14]:
             return True
@@ -262,16 +266,16 @@ class RubricsMixin:
         if offset in [-6, -5, -4]: return "Great_Monday_Tuesday_Wednesday"
         if offset == -7: return "Sunday_Palm"
         if offset == -8: return "Saturday_Lazarus"
-        if offset == -14: return "Sunday_Mary_of_Egypt"
+        if offset == -14: return "Sunday_5_of_Lent"
         if offset == -15: return "Saturday_Akathist"
         if offset == -16: return "Friday_5"
         if offset == -17: return "Thursday_Great_Canon"
-        if offset == -21: return "Sunday_John_Climacus"
+        if offset == -21: return "Sunday_4_of_Lent"
         if offset == -22: return "Saturday_4"
         if offset == -25: return "Wednesday_Cross"
         if offset == -28: return "Sunday_Cross"
         if offset == -29: return "Saturday_3"
-        if offset == -35: return "Sunday_Gregory_Palamas"
+        if offset == -35: return "Sunday_2_of_Lent"
         if offset == -36: return "Saturday_2"
         if offset == -42: return "Sunday_Orthodoxy"
         if offset == -43: return "Saturday_1_Theodore"
@@ -396,7 +400,15 @@ class RubricsMixin:
         # Check Marian Great Feast / Feast of Theotokos FIRST
         # Dolnytsky §2.11 / §2.12: Marian Feasts do not eclipse Sunday Resurrection like Lord feasts do,
         # and on weekdays follow the Marian rubric frame (p_feast_theotokos).
-        is_theotokos = (
+        # Note: Forefeasts and Afterfeasts are not the Great Feast itself and have their own distinct weekday/Sunday rubrics.
+        is_fore_after = bool(
+            context.get("is_afterfeast")
+            or context.get("is_forefeast")
+            or context.get("is_apodosis")
+            or context.get("is_fore_or_afterfeast")
+            or context.get("period") in ("forefeast", "afterfeast", "apodosis")
+        )
+        is_theotokos = not is_fore_after and (
             context.get("feast_level") == "theotokos"
             or context.get("dolnytsky_rank") == "THEOTOKOS"
             or context.get("menaion_rank") in ["rank_great_feast_theotokos", "rank_vigil_theotokos"]
@@ -407,7 +419,7 @@ class RubricsMixin:
 
         # PRIORITY 1: Great Feasts of the Lord (Rank 1)
         # Dolnytsky §2.10: Feast of the Lord on Sunday overrides Sunday.
-        if rank == 1 or context.get("feast_level") == "lord" or context.get("dolnytsky_rank") == "LORD":
+        if not is_fore_after and (rank == 1 or context.get("feast_level") == "lord" or context.get("dolnytsky_rank") == "LORD"):
             return "p_feast_lord"
 
         # PRIORITY 2: Sunday Resurrection (Rank > 1)
@@ -705,7 +717,8 @@ class RubricsMixin:
         # 1. Start with Empty or Triodion if applicable (Priority)
         candidate_cases = {}
         
-        if context.get("season_id") in ["triodion", "pentecostarion"] and self.triodion_logic:
+        p_off_check = context.get("pascha_offset")
+        if (context.get("season_id") in ["triodion", "pentecostarion"] or (isinstance(p_off_check, int) and 60 <= p_off_check <= 68)) and self.triodion_logic:
              candidate_cases.update(self.triodion_logic.get("logic_map", {}))
              
         # 2. specific overrides or merges?
@@ -878,6 +891,8 @@ class RubricsMixin:
         # 1. Check if pre-computed in context
         lviv_num = context.get("lviv_paradigm_number")
         if isinstance(lviv_num, int) and 1 <= lviv_num <= 26:
+            if lviv_num in (1, 2) and len(context.get("saints", [])) >= 2 and context.get("day_of_week", 0) != 6:
+                return 3 if context.get("day_of_week", 0) == 0 else 4
             return lviv_num
             
         # 2. Check general case mapping
@@ -899,6 +914,8 @@ class RubricsMixin:
         if paradigm_id and paradigm_id in self._lviv_format_map:
             mapped_num = self._lviv_format_map[paradigm_id]
             if isinstance(mapped_num, int) and 1 <= mapped_num <= 26:
+                if mapped_num in (1, 2) and len(context.get("saints", [])) >= 2 and context.get("day_of_week", 0) != 6:
+                    return 3 if context.get("day_of_week", 0) == 0 else 4
                 return mapped_num
 
         # 3. Deterministic Liturgical Calculation Fallback
@@ -913,12 +930,20 @@ class RubricsMixin:
         is_paschal = context.get("season") == "pascha" or (p_off is not None and 0 <= p_off <= 56)
         rank_val = parse_rank_integer(context.get("rank", 5))
         f_level = context.get("feast_level")
+        d_code = context.get("dolnytsky_rank_code") or context.get("fixed_rank_code") or ""
+        d_rank = context.get("dolnytsky_rank") or ""
+        is_polyeleos_or_vigil = (
+            d_code in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]")
+            or d_rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS")
+            or bool(context.get("has_polyeleos") or context.get("is_temple_feast"))
+            or (not d_code and not d_rank and rank_val <= 2)
+        )
         
         # Triodion / Great Fast
         if is_lent:
             if dow == 0:
                 return 23  # Sundays during Triodion
-            elif rank_val <= 3:
+            elif is_polyeleos_or_vigil:
                 return 22  # Weekday during Great Fast with Polyeleos/Vigil
             else:
                 return 21  # Weekdays of Triodion & Great Fast
@@ -927,7 +952,7 @@ class RubricsMixin:
         if is_paschal:
             if dow == 0:
                 return 25  # Sundays during Paschal Season
-            elif rank_val <= 3:
+            elif is_polyeleos_or_vigil:
                 return 26  # Polyeleos/Vigil Saint on Weekday in Paschal Season
             else:
                 return 24  # Weekdays during Paschal Season
@@ -1252,6 +1277,16 @@ class RubricsMixin:
             rubric_data = collision_rule.get("rubric", {})
             if rubric_data.get("action") == "TRANSFER_FIXED":
                 is_transferred = True
+                context["is_transferred_away"] = True
+                if context.get("triodion_priority", 0) < 90:
+                    context["rank"] = 5
+                    context["dolnytsky_rank"] = "SIMPLE"
+                    context["has_polyeleos"] = False
+                    context["is_vigil"] = False
+                    rubrics["variables"]["rank"] = "rank_simple"
+                    rubrics["variables"]["has_polyeleos"] = False
+                if "variables" in rubric_data and rubric_data["variables"]:
+                    context["_collision_variables"] = rubric_data["variables"]
                 rubrics["_trace"].append("Collision Action: Fixed Feast Transferred (Menaion Suppressed for today).")
             elif "variables" in rubric_data:
                 context["_collision_variables"] = rubric_data["variables"]
@@ -1351,7 +1386,12 @@ class RubricsMixin:
             if t_vars.get("suppress_afterfeast"):
                 context["is_afterfeast"] = False
                 context["is_fore_or_afterfeast"] = False
+                context["is_apodosis"] = False
                 context["period"] = ""
+                context.pop("linked_feast", None)
+                context.pop("feast_level", None)
+                if context.get("season") in ("Meeting", "Annunciation"):
+                    context["season"] = "Triodion"
                 rubrics["variables"]["suppress_octoechos"] = False
                 rubrics["variables"]["is_afterfeast"] = False
 
@@ -1364,15 +1404,41 @@ class RubricsMixin:
                 or self.menaion_logic.get(month_str, {})
                 or self.menaion_logic.get(str(month_int), {})
             )
-            # Check Floating Feasts (e.g. Sunday of Forefathers)
+            # Check Floating Feasts (e.g. Sunday of Forefathers, Sunday of 7th Council)
+            matched_floating_key = None
             floating_feasts = menaion_month_logic.get("floating_rules", {})
             for key, rule in floating_feasts.items():
                 date_range = rule.get("date_range", {})
                 day_int = day_val if day_val is not None else 1
                 if date_range and date_range.get("start", 0) <= day_int <= date_range.get("end", 31):
                     if self._check_condition(rule.get("triggers", {}), context):
+                        matched_floating_key = key
                         rubrics["title"] += f" & {rule.get('title_key', key)}"
                         rubrics["variables"].update(rule.get("variables", {}))
+                        if rule.get("rank_override"):
+                            r_ov = rule["rank_override"]
+                            rubrics["variables"]["rank"] = r_ov
+                            if not context.get("is_fore_or_afterfeast") and context.get("period") not in ("forefeast", "afterfeast", "apodosis"):
+                                rubrics["variables"]["menaion_rank"] = r_ov
+                                context["rank"] = r_ov
+                                context["menaion_rank"] = r_ov
+                        if key == "sunday_fathers_seventh_council":
+                            if context.get("saints"):
+                                context["transferred_saints"] = list(context["saints"])
+                            context["saints"] = [{
+                                "id": "fathers_seventh_council",
+                                "name": "the Holy Fathers of the Seventh Ecumenical Council",
+                                "title": "",
+                                "rank": 3,
+                                "rank_code": "[POL]",
+                                "is_saint": False,
+                                "has_doxastikon": True,
+                                "tone": 8,
+                                "troparion_tone": 8
+                            }]
+                            context["dolnytsky_title"] = "Commemoration of the Holy Fathers of the Seventh Ecumenical Council"
+                            context["dolnytsky_commemoration"] = "Commemoration of the Holy Fathers of the Seventh Ecumenical Council"
+                            rubrics["title"] = "menaion.fathers_seventh_council"
                         rubrics["_trace"].append(f"Menaion Floating Logic: Matched '{key}'.")
                         for k, v in rule.get("variables", {}).items():
                             if k.endswith("_type"): 
@@ -1381,12 +1447,32 @@ class RubricsMixin:
                         break
 
             menaion_day = menaion_month_logic.get("days", {}).get(day_str)
-            if menaion_day:
+            if menaion_day and matched_floating_key != "sunday_fathers_seventh_council":
+                is_lviv_1899 = (
+                    getattr(self, "version_id", "royal_doors") in ("lviv", "lviv_1899")
+                    and getattr(self, "calendar_source", "ugcc_official") == "typikon"
+                )
+                if is_lviv_1899 and menaion_day.get("ugcc_synodal_only"):
+                    menaion_day = None
+                elif is_lviv_1899 and context.get("dolnytsky_rank_code") == "[6 SM]" and menaion_day.get("rank") == "rank_polyeleos":
+                    menaion_day = copy.deepcopy(menaion_day)
+                    menaion_day["rank"] = "rank_doxology"
+                    menaion_day["base_template"] = "CASE_02"
+                    if "variables" in menaion_day:
+                        menaion_day["variables"]["rank"] = "rank_doxology"
+                        menaion_day["variables"]["vespers_type"] = "daily_vespers"
+                        menaion_day["variables"]["has_polyeleos"] = False
+                        menaion_day["variables"].pop("matins_canon_distribution", None)
+            if menaion_day and matched_floating_key != "sunday_fathers_seventh_council":
                 title_key = menaion_day.get("title_key", "")
-                if title_key.startswith("menaion."):
+                if title_key.startswith("menaion.") and not menaion_day.get("multi_saint"):
                     saint_id = title_key[len("menaion."):]
                     if "saints" in context and context["saints"]:
-                        context["saints"][0]["id"] = saint_id
+                        if len(context["saints"]) == 1 and not any(
+                            x in saint_id for x in ("begin_philip_fast", "forefeast", "apodosis", "paramony", "theophany_eve")
+                        ):
+                            context["saints"][0].setdefault("calendar_id", context["saints"][0].get("id"))
+                            context["saints"][0]["id"] = saint_id
                     else:
                         context["saints"] = [{"id": saint_id, "name": menaion_day.get("st_name", ""), "rank": 2}]
                 
@@ -1399,9 +1485,24 @@ class RubricsMixin:
                                 base_id = variant["base_template"]
                             break
 
+                is_sunday_non_lord_feast = (
+                    context.get("day_of_week") == 0
+                    and menaion_day.get("rank") != "rank_vigil_lord"
+                    and context.get("feast_level") != "lord"
+                    and context.get("dolnytsky_rank") != "LORD"
+                )
+                if is_sunday_non_lord_feast and base_id:
+                    if base_id in ("CASE_05", "case_05_weekday_polyeleos"):
+                        base_id = "CASE_04"
+                    elif base_id in ("CASE_07", "case_07_weekday_vigil") and menaion_day.get("rank") != "rank_vigil_theotokos" and context.get("feast_level") != "theotokos":
+                        base_id = "CASE_06"
+                    elif base_id in ("CASE_02", "CASE_03", "case_02_weekday_simple_saint", "case_03_saturday_simple_saint"):
+                        base_id = "CASE_01"
+
                 base_vars = {}
                 if base_id and hasattr(self, "general_cases"):
-                    for c_key, c_val in self.general_cases.get("logic_definitions", {}).items():
+                    logic_defs = self.general_cases.get("logic_definitions", {})
+                    for c_key, c_val in logic_defs.items():
                         if isinstance(c_val, dict) and (c_key == base_id or c_val.get("id") == base_id):
                             # Verify that base_id triggers actually match current context!
                             c_triggers = c_val.get("triggers", {})
@@ -1418,11 +1519,48 @@ class RubricsMixin:
                                     current_period = "apodosis"
                                 if current_period not in c_period:
                                     break
-                            base_vars = copy.deepcopy(c_val.get("variables", {}))
+                            parent_id = c_val.get("base_template")
+                            if parent_id:
+                                for p_key, p_val in logic_defs.items():
+                                    if isinstance(p_val, dict) and (p_key == parent_id or p_val.get("id") == parent_id):
+                                        base_vars.update(copy.deepcopy(p_val.get("variables", {})))
+                                        break
+                            base_vars.update(copy.deepcopy(c_val.get("variables", {})))
                             break
 
                 m_vars = dict(base_vars)
-                m_vars.update(menaion_day.get("variables", {}))
+                day_vars = dict(menaion_day.get("variables", {}))
+                if is_sunday_non_lord_feast:
+                    weekday_only_keys = {
+                        "vespers_stichera_distribution",
+                        "aposticha_distribution",
+                        "vespers_aposticha_distribution",
+                        "matins_canon_distribution",
+                        "matins_canon_stacking",
+                        "praises_distribution",
+                        "matins_praises_distribution",
+                        "matins_gospel",
+                        "suppress_octoechos",
+                        "litia_stichera",
+                        "hours_troparia",
+                        "hours_kontakion",
+                        "troparia_sequence",
+                    }
+                    for wk in weekday_only_keys:
+                        day_vars.pop(wk, None)
+                    if day_vars.get("vespers_type") == "daily_vespers":
+                        day_vars.pop("vespers_type", None)
+                    if day_vars.get("matins_type") == "daily_matins":
+                        day_vars.pop("matins_type", None)
+                    if day_vars.get("doxology_type") == "daily_read":
+                        day_vars.pop("doxology_type", None)
+                    if day_vars.get("matins_katavasia") == "irmos_last_canon":
+                        day_vars.pop("matins_katavasia", None)
+                    if day_vars.get("has_polyeleos") is False:
+                        day_vars.pop("has_polyeleos", None)
+                    if day_vars.get("liturgy_readings") in (["day_current"], "day_current"):
+                        day_vars.pop("liturgy_readings", None)
+                m_vars.update(day_vars)
 
                 is_festal_menaion = (
                     m_vars.get("has_polyeleos") is True
@@ -1434,6 +1572,8 @@ class RubricsMixin:
                 if best_priority < 90:
                     if not best_match or (best_priority < 50 and is_festal_menaion):
                         rubrics["title"] = menaion_day.get("title_key", rubrics["title"])
+                        if is_sunday_non_lord_feast and "matins_canon_stacking" in m_vars and "matins_canon_distribution" not in m_vars:
+                            rubrics["variables"].pop("matins_canon_distribution", None)
                         rubrics["variables"].update(m_vars)
                         # Copy saint metadata if present
                         for key in ["saint_class", "st_name", "feast_title"]:
@@ -1667,13 +1807,32 @@ class RubricsMixin:
                 context.get("is_apodosis") or
                 context.get("period") in ("afterfeast", "forefeast", "apodosis")
             )
+            is_non_poly_sunday_case = (
+                context.get("day_of_week") == 0
+                and general_case.get("id") in ("CASE_01", "CASE_08", "CASE_13", "CASE_19")
+                and context.get("pascha_offset") not in (-63, -56, -49)
+                and context.get("rank") not in ("rank_polyeleos", "rank_vigil", "rank_vigil_lord", "rank_vigil_theotokos", 1, 2, 3)
+            )
             for k, v in gc_vars.items():
-                if k not in rubrics["variables"] or (is_after_or_fore and k in ("aposticha_distribution", "suppress_octoechos")):
+                if (
+                    k not in rubrics["variables"]
+                    or (is_after_or_fore and k in ("aposticha_distribution", "suppress_octoechos"))
+                    or (
+                        is_after_or_fore
+                        and context.get("day_of_week") != 0
+                        and k == "vespers_stichera_distribution"
+                        and any(
+                            d.get("source") == "octoechos"
+                            for d in rubrics["variables"].get("vespers_stichera_distribution", {}).get("distribution", [])
+                        )
+                    )
+                    or (is_non_poly_sunday_case and k == "has_polyeleos" and v is False)
+                ):
                     rubrics["variables"][k] = copy.deepcopy(v)
                 if k.endswith("_type") and k not in rubrics["overrides"]:
                     rubrics["overrides"][k] = v
                     rubrics["_trace"].append(f"Override: Set {k}='{v}' from General Case.")
-            if is_after_or_fore:
+            if is_after_or_fore and context.get("day_of_week", 0) != 0:
                 rubrics["variables"]["suppress_octoechos"] = True
 
         # Check for explicit suppress_saints or suppress_menaion_saint variable from collision/general case overrides
@@ -1923,6 +2082,22 @@ class RubricsMixin:
                     {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"}
                 ]
                 result["kontakion_winner"] = "resurrection_kontakion"
+            return result
+
+        # Case A-Polyeleos: Sunday + Polyeleos/Vigil Saint (Dolnytsky Part II §2.4)
+        has_poly_sunday = bool(
+            is_sunday and saints and rank <= 3
+            and context.get("has_polyeleos") is not False
+            and context.get("variables", {}).get("has_polyeleos") is not False
+        )
+        if has_poly_sunday:
+            name = saints[0].get("name", "") if saints else "Saint"
+            result["troparia_sequence"] = [
+                {"type": "resurrectional", "tone": tone, "content": f"octoechos.tone_{tone}.troparion.resurrection"},
+                {"type": "glory", "target": {"type": "saint", "name": name}, "content": "saint_troparion"},
+                {"type": "both_now", "target": "theotokion", "content": "dismissal_theotokion"},
+            ]
+            result["kontakion_winner"] = "resurrection_kontakion" if hour_num in [1, 6] else "saint_kontakion"
             return result
 
         # Case A: Sunday + Simple/Double Saint (Ordinary Sunday)

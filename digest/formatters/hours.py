@@ -20,10 +20,10 @@ class HoursFormatterMixin:
             s_name = "Saint"
             saints = context.get("saints", [])
             if saints:
-                s_name_raw = saints[0].get("name", "Saint").strip()
-                s_name = self._clean_name(s_name_raw)
+                s_name = self._get_saint_display_name(context, 0, form="short")
             else:
                 s_name = "St. Cyril"
+            s_name_2 = self._get_saint_display_name(context, 1, form="short") if len(saints) >= 2 else s_name
             day = context.get("day_of_week", 1)
             if day in (3, 5):
                 return (
@@ -31,12 +31,25 @@ class HoursFormatterMixin:
                     f"First Hour – Troparion of the Cross.  \n"
                     f"Third Hour – Troparion of {s_name}.  \n"
                     f"Sixth Hour – Troparion of the Temple.  \n"
-                    f"Ninth Hour – Troparion of {s_name}.  \n\n"
+                    f"Ninth Hour – Troparion of {s_name_2}.  \n\n"
                     f"**Kontakia:**  \n"
                     f"First Hour – Kontakion of the Cross.  \n"
                     f"Third Hour – Kontakion of {s_name}.  \n"
                     f"Sixth Hour – Kontakion of the Temple.  \n"
-                    f"Ninth Hour – Kontakion of {s_name}."
+                    f"Ninth Hour – Kontakion of {s_name_2}."
+                )
+            if len(saints) >= 2:
+                return (
+                    f"**Troparia:**  \n"
+                    f"First Hour – Troparion of the Day.  \n"
+                    f"Third Hour – Troparion of {s_name}.  \n"
+                    f"Sixth Hour – Troparion of the Temple.  \n"
+                    f"Ninth Hour – Troparion of {s_name_2}.  \n\n"
+                    f"**Kontakia:**  \n"
+                    f"First Hour – Kontakion of the Day.  \n"
+                    f"Third Hour – Kontakion of {s_name}.  \n"
+                    f"Sixth Hour – Kontakion of the Temple.  \n"
+                    f"Ninth Hour – Kontakion of {s_name_2}."
                 )
             return (
                 f"**Troparia:**  \n"
@@ -102,10 +115,12 @@ class HoursFormatterMixin:
                         kont_str = "Kontakion of the Triodion"
                     elif source == "triodion_saint":
                         r_title_lower = rubrics.get("title", "").lower()
-                        if "palamas" in r_title_lower:
-                            kont_str = "Kontakion of St. Gregory Palamas"
+                        if context.get("monastic_triodion_saints") and context.get("pascha_offset") == -21:
+                            kont_str = "Kontakion of St. John of the Ladder"
+                        elif context.get("monastic_triodion_saints") and context.get("pascha_offset") == -14:
+                            kont_str = "Kontakion of St. Mary of Egypt"
                         elif "john of the ladder" in r_title_lower or "climacus" in r_title_lower:
-                            kont_str = "Kontakion of St. John Climacus"
+                            kont_str = "Kontakion of St. John of the Ladder"
                         else:
                             sname = self._get_saint_display_name(context, 0, form="full")
                             kont_str = f"Kontakion of {sname}"
@@ -128,6 +143,10 @@ class HoursFormatterMixin:
                                 kont_str = f"Kontakion of {name}"
                             else:
                                 kont_str = "Kontakion of the second Saint"
+                        elif source == "temple":
+                            kont_str = "Kontakion of the Temple"
+                        elif source == "day":
+                            kont_str = "Kontakion of the Day"
                         else:
                             kont_str = f"Kontakion of {self.humanize_key(source)}"
                 else:

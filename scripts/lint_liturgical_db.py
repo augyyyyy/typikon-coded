@@ -301,6 +301,160 @@ def run_linter():
         if total_ui_issues > 0:
             report["files"][f"cantor_dashboard/{fname}"] = ui_report
 
+    # Pass 3: Monument 0 Authority, Inbox Isolation, and Synodal Footnote Anchor Governance
+    json_db_dir = os.path.join(REPO_DIR, "json_db")
+    banned_authorities = [
+        r"Mother\s+Maria",
+        r"Kallistos\s+Ware",
+        r"Anthology\s+for\s+Worship",
+        r"Muscovite\s+Typicon",
+    ]
+    part3_sec_dates = {
+        "3.1.1": {"09-01"},
+        "3.1.2": {"09-07", "09-08", "09-09", "09-10", "09-11", "09-12", "09-13"},
+        "3.1.3": {"09-13"},
+        "3.1.4": {"09-14"},
+        "3.1.5": {"09-15", "09-16", "09-17", "09-18", "09-19", "09-20", "09-21"},
+        "3.1.6": {"09-15", "09-16", "09-17", "09-18", "09-19", "09-20", "09-21"},
+        "3.1.7": {"09-21"},
+        "3.1.8": {"09-23"},
+        "3.1.9": {"09-26"},
+        "3.2.1": {"10-01"},
+        "3.2.2": {"10-11", "10-12", "10-13", "10-14", "10-15", "10-16", "10-17"},
+        "3.2.3": {"10-26"},
+        "3.2.4": {"11-12"},
+        "3.3.1": {"11-08"},
+        "3.3.2": {"11-15"},
+        "3.3.3": {"11-24", "11-25"},
+        "3.3.4": {"11-25"},
+        "3.4.1": {"12-09"},
+        "3.4.2": {"12-11", "12-12", "12-13", "12-14", "12-15", "12-16", "12-17"},
+        "3.4.3": {"12-13"},
+        "3.4.4": {"12-17"},
+        "3.4.5": {"12-18", "12-19", "12-20", "12-21", "12-22", "12-23", "12-24"},
+        "3.4.6": {"12-20", "12-21", "12-22", "12-23", "12-24"},
+        "3.4.7": {"12-24"},
+        "3.4.8": {"12-25"},
+        "3.4.9": {"12-26"},
+        "3.4.10": {"12-26", "12-27", "12-28", "12-29", "12-30", "12-31"},
+        "3.4.11": {"12-26", "12-27", "12-28", "12-29", "12-30", "12-31"},
+        "3.4.12": {"12-26", "12-27", "12-28", "12-29", "12-30", "12-31", "01-01", "01-02", "01-03", "01-04", "01-05"},
+        "3.4.13": {"12-27"},
+        "3.4.14": {"12-31"},
+        "3.5.1": {"01-01"},
+        "3.5.2": {"01-02", "01-03", "01-04", "01-05"},
+        "3.5.3": {"01-05"},
+        "3.5.4": {"01-06"},
+        "3.5.5": {"01-07"},
+        "3.5.6": {"01-07", "01-08", "01-09", "01-10", "01-11", "01-12", "01-13", "01-14"},
+        "3.5.7": {"01-07", "01-08", "01-09", "01-10", "01-11", "01-12", "01-13", "01-14"},
+        "3.5.8": {"01-11"},
+        "3.5.9": {"01-14"},
+        "3.5.17": {"01-17"},
+        "3.5.20": {"01-20"},
+        "3.5.25": {"01-25"},
+        "3.5.27": {"01-27"},
+        "3.5.10": {"01-30"},
+        "3.6.1": {"02-01"},
+        "3.6.2": {"02-02"},
+        "3.6.3": {"02-03", "02-04", "02-05", "02-06", "02-07", "02-08", "02-09"},
+        "3.6.4": {"02-24"},
+        "3.7.1": {"03-09"},
+        "3.7.2": {"03-24"},
+        "3.7.3": {"03-25"},
+        "3.7.4": {"03-26"},
+        "3.8.1": {"04-23"},
+        "3.8.2": {"04-25"},
+        "3.8.3": {"04-30"},
+        "3.9.1": {"05-03"},
+        "3.9.2": {"05-07"},
+        "3.9.3": {"05-08"},
+        "3.9.4": {"05-09"},
+        "3.9.5": {"05-10"},
+        "3.9.6": {"05-21"},
+        "3.9.25": {"05-25"},
+        "3.10.1": {"06-11"},
+        "3.10.2": {"06-24"},
+        "3.10.3": {"06-29"},
+        "3.11.1": {"07-02"},
+        "3.11.2": {"07-13", "07-14", "07-15", "07-16", "07-17", "07-18", "07-19"},
+        "3.11.3": {"07-20"},
+        "3.11.4": {"07-25"},
+        "3.11.5": {"07-31"},
+        "3.12.1": {"08-01"},
+        "3.12.2": {"08-06"},
+        "3.12.3": {"08-15"},
+        "3.12.4": {"08-16"},
+        "3.12.5": {"08-29", "09-26"},
+        "3.12.6": {"08-31"},
+    }
+    if os.path.exists(json_db_dir):
+        for jname in sorted(os.listdir(json_db_dir)):
+            if not jname.endswith(".json"):
+                continue
+            jpath = os.path.join(json_db_dir, jname)
+            if not os.path.isfile(jpath):
+                continue
+            report["summary"]["total_files_checked"] += 1
+            j_report = {"terminology": [], "pronoun": [], "hieratic": [], "typography": []}
+            with open(jpath, "r", encoding="utf-8") as f:
+                raw_text = f.read()
+            for auth_pat in banned_authorities:
+                m_auth = re.search(auth_pat, raw_text, re.IGNORECASE)
+                if m_auth:
+                    j_report["terminology"].append({
+                        "key": jname,
+                        "type": "non_dolnytsky_authority",
+                        "match": m_auth.group(0),
+                        "message": f"Non-Dolnytsky authority '{m_auth.group(0)}' detected in json_db/{jname}."
+                    })
+                    report["summary"]["total_terminology_issues"] += 1
+            if jname == "synodal_footnotes.json":
+                try:
+                    fn_data = json.loads(raw_text)
+                    for fn_id, fn_entry in fn_data.items():
+                        if fn_entry.get("typikon_part") == "part_3_menaion":
+                            anchors = fn_entry.get("anchors", [])
+                            sec_str = anchors[0].get("section", "") if anchors else fn_entry.get("section", "")
+                            m_code = re.match(r"(3\.\d+\.\d+)", sec_str)
+                            if m_code:
+                                allowed_dates = part3_sec_dates.get(m_code.group(1), set())
+                                td = set(fn_entry.get("target_dates", []))
+                                if allowed_dates and (not td or not td.issubset(allowed_dates)):
+                                    j_report["terminology"].append({
+                                        "key": f"FN_{fn_id}",
+                                        "type": "footnote_anchor_contradiction",
+                                        "match": str(sorted(td)),
+                                        "message": f"Part III FN {fn_id} section {m_code.group(1)} contradicts target_dates {sorted(td)} (expected subset of {sorted(allowed_dates)})."
+                                    })
+                                    report["summary"]["total_terminology_issues"] += 1
+                except Exception as e:
+                    print(f"Failed to validate synodal_footnotes.json: {e}")
+            if sum(len(x) for x in j_report.values()) > 0:
+                report["files"][f"json_db/{jname}"] = j_report
+
+    # Check runtime dirs (engine/, digest/) for references to Data/Inbox/1899_Dolnytsky_Typikon
+    for runtime_dir_name in ("engine", "digest"):
+        rdir = os.path.join(REPO_DIR, runtime_dir_name)
+        if not os.path.exists(rdir):
+            continue
+        for root, _, rfiles in os.walk(rdir):
+            for rfile in rfiles:
+                if not rfile.endswith(".py"):
+                    continue
+                rpath = os.path.join(root, rfile)
+                with open(rpath, "r", encoding="utf-8") as f:
+                    rc = f.read()
+                if "1899_Dolnytsky_Typikon" in rc:
+                    rel_rpath = os.path.relpath(rpath, REPO_DIR).replace("\\", "/")
+                    report["files"].setdefault(rel_rpath, {"terminology": [], "pronoun": [], "hieratic": [], "typography": []})["terminology"].append({
+                        "key": rel_rpath,
+                        "type": "inbox_monument_leak",
+                        "match": "1899_Dolnytsky_Typikon",
+                        "message": "Runtime reference to Data/Inbox/1899_Dolnytsky_Typikon detected."
+                    })
+                    report["summary"]["total_terminology_issues"] += 1
+
     # Complete Summary calculation
     report["summary"]["total_issues"] = (
         report["summary"]["total_terminology_issues"] +

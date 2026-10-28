@@ -106,13 +106,46 @@ class HoursMixin:
         saints = context.get("saints", [])
 
         # Case F: Great Feast of Lord/Theotokos (Rank 1 or feast level)
-        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and not (is_fore_after and rank <= 3):
+        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and (not is_fore_after or (not is_sunday and (context.get("is_apodosis") or context.get("period") == "apodosis" or "apodosis" in d_title) and rank > 3)):
             return {"mode": "standard", "components": ["trop_feast"]}
+
+        # Apodosis on Weekday (Dolnytsky §2.20:1765, §3.3.4:2336, §3.9.6:6574)
+        is_apodosis_h = bool(context.get("is_apodosis") or context.get("period") == "apodosis" or "apodosis" in d_title or "leave-taking" in d_title)
+        if not is_sunday and is_apodosis_h:
+            is_poly = rank <= 3 or any(parse_rank_integer(s.get("rank", 5)) <= 3 for s in saints) or context.get("has_polyeleos")
+            if is_poly:
+                # Dolnytsky §3.9.6:6574 (Polyeleos Saint on Apodosis): On all Hours: Troparion of Feast, Glory: Saint
+                return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint"]}
+            elif len(saints) >= 2 and not context.get("suppress_menaion_saint"):
+                # Dolnytsky §3.3.4:2336: 1st & 6th Feast alone; 3rd Feast + Glory: 1st Saint; 9th Feast + Glory: 2nd Saint
+                if hour == 3:
+                    return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint"]}
+                elif hour == 9:
+                    return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint_2"]}
+                else:
+                    return {"mode": "standard", "components": ["trop_feast"]}
+            elif len(saints) == 1 and not context.get("suppress_menaion_saint"):
+                if hour in (3, 9):
+                    return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint"]}
+                else:
+                    return {"mode": "standard", "components": ["trop_feast"]}
+            else:
+                return {"mode": "standard", "components": ["trop_feast"]}
 
         # Case E: Weekday + Polyeleos/Vigil Saint (Rank <= 3 on weekday)
         if not is_sunday and rank <= 3:
             if is_fore_after:
+                if len(saints) >= 2:
+                    if hour in [1, 6]:
+                        return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint"]}
+                    else:
+                        return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint_2"]}
                 return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint"]}
+            if len(saints) >= 2:
+                if hour in [1, 6]:
+                    return {"mode": "standard", "components": ["trop_saint"]}
+                else:
+                    return {"mode": "standard", "components": ["trop_saint", "glory", "trop_saint_2"]}
             return {"mode": "standard", "components": ["trop_saint"]}
 
         # Case D & C: Sunday + Fore/Afterfeast
@@ -129,24 +162,35 @@ class HoursMixin:
                     target_trop = "trop_saint" if saints else "trop_feast"
                     return {"mode": "standard", "components": ["trop_resurrection", "glory", target_trop]}
 
-        # Case A: Sunday + Simple/Double Saint (Ordinary Sunday)
+        # Case A-Polyeleos: Sunday + Polyeleos/Vigil Saint (Dolnytsky Part II §2.4: Sunday troparion; Glory: Saint at all Hours)
+        has_poly_sunday = bool(
+            is_sunday and saints and rank <= 3
+            and context.get("has_polyeleos") is not False
+            and context.get("variables", {}).get("has_polyeleos") is not False
+        )
+        if has_poly_sunday:
+            return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint"]}
+
+        # Case A: Sunday + Simple/Double Saint (Ordinary Sunday, Dolnytsky II:983-985)
         if is_sunday:
             if not saints:
                 return {"mode": "standard", "components": ["trop_resurrection"]}
-            if hour == 1:
-                return {"mode": "standard", "components": ["trop_resurrection"]}
+            if hour in [1, 6]:
+                return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_temple"]}
             elif hour == 3:
                 return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint"]}
-            elif hour == 6:
-                return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_temple"]}
             elif hour == 9:
                 if len(saints) >= 2:
                     return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint_2"]}
                 else:
                     return {"mode": "standard", "components": ["trop_resurrection", "glory", "trop_saint"]}
 
-        # Weekday + Afterfeast (Simple/Double Saint or no Saint)
+        # Weekday + Forefeast/Afterfeast (Simple/Double Saint or no Saint)
         if not is_sunday and is_fore_after:
+            if len(saints) >= 2:
+                if hour in [1, 6]:
+                    return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint"]}
+                return {"mode": "standard", "components": ["trop_feast", "glory", "trop_saint_2"]}
             if hour in [1, 6]:
                 return {"mode": "standard", "components": ["trop_feast"]}
             else:
@@ -213,16 +257,31 @@ class HoursMixin:
         saints = context.get("saints", [])
 
         # Case F: Great Feast of Lord/Theotokos (Rank 1 or feast level)
-        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and not (is_fore_after and rank <= 3):
+        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and (not is_fore_after or (not is_sunday and (context.get("is_apodosis") or context.get("period") == "apodosis" or "apodosis" in d_title) and rank > 3)):
             return {"type": "kontakion", "source": "feast"}
 
         # Case E: Weekday + Polyeleos/Vigil Saint (Rank <= 3 on weekday)
         if not is_sunday and rank <= 3:
             if is_fore_after:
+                if len(saints) >= 2:
+                    # Dolnytsky §3.3.3:2294 & Footnote [^280]: 1st Feast, 3rd Saint 1, 6th Saint 2, 9th Feast
+                    if hour == 1:
+                        return {"type": "kontakion", "source": "feast"}
+                    elif hour == 3:
+                        return {"type": "kontakion", "source": "saints"}
+                    elif hour == 6:
+                        return {"type": "kontakion", "source": "saints_2"}
+                    elif hour == 9:
+                        return {"type": "kontakion", "source": "feast"}
                 if hour in [1, 6]:
                     return {"type": "kontakion", "source": "feast"}
                 else:
                     return {"type": "kontakion", "source": "saints"}
+            if len(saints) >= 2:
+                if hour in [1, 6]:
+                    return {"type": "kontakion", "source": "saints"}
+                else:
+                    return {"type": "kontakion", "source": "saints_2"}
             return {"type": "kontakion", "source": "saints"}
 
         # Case D: Sunday + Afterfeast + Polyeleos/Vigil Saint
@@ -243,6 +302,18 @@ class HoursMixin:
             else:
                 return {"type": "kontakion", "source": "resurrection"}
 
+        # Case A-Polyeleos: Sunday + Polyeleos/Vigil Saint (Dolnytsky Part II §2.4: 1st & 6th—Sunday; 3rd & 9th—Saint)
+        has_poly_sunday = bool(
+            is_sunday and saints and rank <= 3
+            and (context.get("dolnytsky_rank_code") or context.get("date") or context.get("year") or context.get("has_polyeleos") is True)
+            and context.get("has_polyeleos") is not False
+            and context.get("variables", {}).get("has_polyeleos") is not False
+        )
+        if has_poly_sunday:
+            if hour in [1, 6]:
+                return {"type": "kontakion", "source": "resurrection"}
+            return {"type": "kontakion", "source": "saints"}
+
         # Case A: Sunday + Simple/Double Saint (Ordinary Sunday)
         if is_sunday:
             if not saints:
@@ -256,8 +327,17 @@ class HoursMixin:
             elif hour == 6:
                 return {"type": "kontakion", "source": "temple"}
 
-        # Weekday + Afterfeast (Simple/Double Saint or no Saint)
+        if not is_sunday and is_fore_after and context.get("date"):
+            if hour in [1, 6]:
+                return {"type": "kontakion", "source": "feast"}
+            if hour == 9 and len(saints) >= 2:
+                return {"type": "kontakion", "source": "saints_2"}
+            return {"type": "kontakion", "source": "saints" if saints else "feast"}
+
+        # Weekday + Forefeast/Afterfeast (Simple/Double Saint or no Saint)
         if not is_sunday and is_fore_after:
+            if len(saints) >= 2:
+                return {"type": "kontakion", "source": "feast"}
             if hour in [1, 6]:
                 return {"type": "kontakion", "source": "feast"}
             else:
@@ -362,7 +442,7 @@ class HoursMixin:
             return {"type": "prayer", "ref_key": "horologion.prayer_mardarius"}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7,L2789-2866")
     def resolve_royal_psalms(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -385,7 +465,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7,L2789-2866")
     def resolve_royal_stichera(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -405,7 +485,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7,L2789-2866")
     def resolve_royal_readings(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -424,7 +504,7 @@ class HoursMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7,L2789-2866")
     def resolve_royal_troparia(self, context, rubrics, hour=None):
         """
         No specific daily troparia in Royal Hours. Handled by Idiomela.
@@ -433,7 +513,7 @@ class HoursMixin:
         return {"type": "sequence", "components": []}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7,L2789-2866")
     def resolve_royal_kontakion(self, context, rubrics, hour=None):
         if hour is None:
             hour = context.get("hour", 1)
@@ -632,7 +712,7 @@ class HoursMixin:
     # ref: Dolnytsky_Typikon_Master.md:1.2.1.9
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.6.3")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.6,L2759-2788")
     def check_royal_hours_trigger(self, context):
         """
         Implements Logic Gate A7: Royal Hours Trigger.
@@ -676,6 +756,9 @@ class HoursMixin:
         Resolves Troparia for Midnight Office.
         Fixes empty list issue in Lenten trace.
         """
+        v_type = context.get("variables", {}).get("vespers_type") or context.get("vespers_type")
+        if context.get("is_vigil") or v_type == "great_vespers_vigil":
+            return {"type": "suppressed", "reason": "Midnight Office omitted due to All-Night Vigil", "components": []}
         is_lent = (
             context.get("season") == "lent" or 
             context.get("is_lent") or 
@@ -766,7 +849,7 @@ class HoursMixin:
     # =========================================================================
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7.1")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.7,L2789-2866")
     def resolve_typika_kontakia(self, context):
         """
         Typika: Kontakia order
@@ -776,7 +859,7 @@ class HoursMixin:
             "order": ["temple", "day", "saint", "glory_with_the_saints", "both_now_undisputed_intercessor"]
         }
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L453", dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.1")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L465-472,§60", dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1,L262-299")
     def check_service_continuity(self, context, check="is_preceding_service_connected"):
         """
         Check if the preceding service is connected to skip opening blessing.

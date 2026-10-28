@@ -515,18 +515,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!code) return '<span class="badge badge-rank rank-minor">N/A</span>';
         const cleanCode = code.trim();
         const map = {
-            "[LORD]": "Lord's Feast",
-            "[MOG]": "Theotokos Feast",
-            "[VIGIL]": "Vigil",
-            "[POL]": "Polyeleos",
-            "[GT DOX]": "Great Doxology",
-            "[6 SM]": "Six-Stichera",
+            "[LORD]": "Class I — Great Feast of the Lord",
+            "[MOG]": "Class I — Great Feast of the Theotokos",
+            "[VIGIL]": "Class II — Vigil",
+            "[POL]": "Class III — Polyeleos",
+            "[GT DOX]": "Class IV — Great Doxology",
+            "[6 SM]": "Class V — Six-Stichera",
             "[4 A+G]": "Simple (Apostle & Gospel)",
-            "[4 NO]": "Simple (No Special Features)",
-            "[4 TR]": "Simple (with Troparion)"
+            "[4 TR]": "Simple (with Troparion)",
+            "[4 NO]": "Simple (Without Sign — General Menaion Troparion)"
         };
         const desc = map[cleanCode];
-        const isMajor = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(cleanCode);
+        const isMajor = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]", "[GT DOX]"].includes(cleanCode);
         const badgeClass = isMajor ? "rank-major" : "rank-minor";
         
         if (desc) {
@@ -593,7 +593,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return {
             triodion: ctx.triodion_book || "N/A",
             menaion: ctx.menaion_book || "N/A",
-            menaionDetail: ctx.menaion_class || ""
+            menaionDetail: ctx.menaion_class || ctx.solemnity_class || ""
         };
     }
 

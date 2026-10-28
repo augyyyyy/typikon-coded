@@ -14,7 +14,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 2
       },
       {
         "rank_code": "[POL]",
@@ -27,7 +29,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **1** **[POL]** Beginning of the New Year; Ven. Symeon Stylites."
@@ -47,7 +51,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -60,7 +66,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **2** **[4 A+G]** Martyr Mamas; Ven. John the Faster."
@@ -80,7 +88,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -93,7 +103,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **3** **[4 A+G]** Hieromartyr Anthimus; Ven. Theoctistus."
@@ -113,7 +125,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -126,7 +140,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **4** **[4 A+G]** Hieromartyr Babylas; Ven. Moses the God-seer."
@@ -146,7 +162,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **5** **[6 SM]** Prophet Zachariah, father of St. John the Forerunner."
@@ -158,6 +176,7 @@
       {
         "rank_code": "[6 SM]",
         "description": "Miracle of the Archistrategos Michael",
+        "has_praises_stichera_small_doxology": true,
         "parsed_saints": [
           {
             "name": "Miracle of the Archistrategos Michael",
@@ -166,23 +185,12 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       },
       {
-        "rank_code": "[6 SM]",
-        "description": "Praises Stichera",
-        "parsed_saints": [
-          {
-            "name": "Praises Stichera",
-            "title": "",
-            "gender": "unknown",
-            "monastic": false,
-            "is_saint": false
-          }
-        ]
-      },
-      {
-        "rank_code": "[6 SM]",
+        "rank_code": "[4 NO]",
         "description": "Martyr Eudoxius",
         "parsed_saints": [
           {
@@ -192,10 +200,13 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **6** **[6 SM]** Miracle of the Archistrategos Michael; Praises Stichera; Martyr Eudoxius."
+    "raw_source": "* **6** **[6 SM]** Miracle of the Archistrategos Michael; Praises Stichera; Martyr Eudoxius.",
+    "has_praises_stichera_small_doxology": true
   },
   "9-7": {
     "month": 9,
@@ -212,7 +223,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Forefeast",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[6 SM]",
@@ -225,7 +238,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **7** **[6 SM]** Forefeast of the Nativity of the Most Holy Theotokos; Martyr Sozon."
@@ -245,7 +260,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **8** **[MOG]** **NATIVITY OF THE MOST HOLY THEOTOKOS.**"
@@ -272,7 +289,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saints",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **9** **[4 A+G]** Righteous Ancestors of God Joachim and Anna."
@@ -306,7 +325,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[4 NO]** Martyrs Menodora, Metrodora and Nymphodora."
@@ -326,7 +347,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **11** **[4 A+G]** Ven. Theodora."
@@ -353,7 +376,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **12** **[GT DOX]** (Hieromartyr Autonomus). Apodosis of the Nativity of the Most Holy Theotokos."
@@ -380,7 +405,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Forefeast",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[GT DOX]",
@@ -393,7 +420,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **13** **[GT DOX]** Dedication of the Temple [of the Resurrection]. Forefeast of the Precious Cross; Hieromartyr Cornelius the Centurion."
@@ -413,7 +442,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Cross",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **14** **[LORD]** **EXALTATION OF THE PRECIOUS CROSS.**"
@@ -433,7 +464,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **15** **[6 SM]** Great Martyr Nicetas."
@@ -453,7 +486,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **16** **[4 A+G]** Great Martyr Euphemia."
@@ -473,7 +508,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **17** **[4 NO]** Martyr Sophia and her three daughters."
@@ -493,7 +530,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **18** **[4 NO]** Ven. Eumenius."
@@ -527,7 +566,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **19** **[4 TR]** Martyrs Trophimus, Sabbatius and Dorymedon."
@@ -547,7 +588,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **20** **[6 SM]** Great Martyr Eustathius and those with him."
@@ -567,7 +610,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **21** **[GT DOX]** Apodosis of the Exaltation."
@@ -587,11 +632,13 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       },
       {
-        "rank_code": "[6 SM]",
-        "description": "Prophet Jonah",
+        "rank_code": "[4 NO]",
+        "description": "Prophet Jonah and Ven. Jonah",
         "parsed_saints": [
           {
             "name": "Jonah",
@@ -599,13 +646,7 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          }
-        ]
-      },
-      {
-        "rank_code": "[6 SM]",
-        "description": "Ven. Jonah",
-        "parsed_saints": [
+          },
           {
             "name": "Jonah",
             "title": "Venerable",
@@ -613,7 +654,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerables",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[6 SM]** Hieromartyr Phocas; Prophet Jonah and Ven. Jonah."
@@ -633,7 +676,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[GT DOX]** Conception of the Forerunner."
@@ -653,7 +698,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Equal-to-the-Apostles",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **24** **[6 SM]** Protomartyr and Equal-to-the-Apostles Thecla."
@@ -673,7 +720,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **25** **[4 TR]** Ven. Euphrosyne."
@@ -684,7 +733,7 @@
     "entries": [
       {
         "rank_code": "[VIGIL]",
-        "description": "**Translation of Ap. John the Theologian.**",
+        "description": "**Repose of the Holy Apostle and Evangelist John the Theologian.**",
         "parsed_saints": [
           {
             "name": "John the Theologian",
@@ -693,10 +742,16 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 2
       }
     ],
-    "raw_source": "* **26** **[VIGIL]** **Translation of Ap. John the Theologian (On Sunday).**"
+    "raw_source": "* **26** **[VIGIL]** **Translation of Ap. John the Theologian (On Sunday).**",
+    "lviv_1899_transfer_to_sunday": true,
+    "ugcc_synodal_override": {
+      "transfer_to_sunday": false
+    }
   },
   "9-27": {
     "month": 9,
@@ -715,15 +770,19 @@
           },
           {
             "name": "His company",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4,
+        "has_vespers_aposticha_doxastikon": false
       }
     ],
-    "raw_source": "* **27** **[4 TR]** Martyr Callistratus and his company."
+    "raw_source": "* **27** **[4 TR]** Martyr Callistratus and his company.",
+    "has_vespers_aposticha_doxastikon": false
   },
   "9-28": {
     "month": 9,
@@ -740,7 +799,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **28** **[POL]** Ven. Chariton."
@@ -760,7 +821,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **29** **[6 SM]** Ven. Cyriacus the Anchorite."
@@ -780,7 +843,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **30** **[6 SM]** Hieromartyr Gregory of Greater Armenia."
@@ -800,7 +865,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **1** **[VIGIL]** **Protection of the Most Holy Theotokos.**"
@@ -820,7 +887,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[6 SM]",
@@ -833,7 +902,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **2** **[6 SM]** Hieromartyr Cyprian; Martyr Justina."
@@ -853,7 +924,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[6 SM]** Hieromartyr Dionysius."
@@ -873,7 +946,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **4** **[4 TR]** Hieromartyr Hierotheus."
@@ -893,7 +968,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **5** **[4 TR]** Martyr Charitina."
@@ -913,7 +990,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **6** **[POL]** Apostle Thomas."
@@ -940,10 +1019,14 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "has_praises_stichera_small_doxology": true,
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **7** **[6 SM]** Martyrs Sergius and Bacchus."
+    "raw_source": "* **7** **[6 SM]** Martyrs Sergius and Bacchus.",
+    "has_praises_stichera_small_doxology": true
   },
   "10-8": {
     "month": 10,
@@ -960,7 +1043,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **8** **[4 TR]** Ven. Pelagia."
@@ -980,7 +1065,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **9** **[POL]** Apostle James Alphaeus."
@@ -1007,7 +1094,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[4 TR]** Martyrs Eulampius and Eulampia."
@@ -1027,7 +1116,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -1040,7 +1131,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **11** **[4 A+G]** Apostle Philip, one of the seven deacons; Ven. Theophanes."
@@ -1074,7 +1167,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 5
       },
       {
         "rank_code": "[4 A+G]",
@@ -1087,7 +1182,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **12** **[4 A+G]** Martyrs Probus, Tarachus and Andronicus; Ven. Cosmas."
@@ -1114,7 +1211,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **13** **[4 TR]** Martyrs Carpus and Papylas."
@@ -1155,7 +1254,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -1168,7 +1269,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **14** **[4 A+G]** Martyrs Nazarius, Gervasius, Protasius and Celsus; Ven. Paraskeva."
@@ -1179,7 +1282,7 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Ven. Euthymius, Monk-Martyr Lucian.",
+        "description": "Ven. Euthymius",
         "parsed_saints": [
           {
             "name": "Euthymius",
@@ -1187,7 +1290,15 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 4
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Monk-Martyr Lucian",
+        "parsed_saints": [
           {
             "name": "Lucian",
             "title": "Venerable Martyr",
@@ -1195,7 +1306,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **15** **[4 TR]** Ven. Euthymius, Monk-Martyr Lucian."
@@ -1215,7 +1328,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **16** **[4 A+G]** Martyr Longinus the Centurion."
@@ -1235,7 +1350,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       },
       {
         "rank_code": "[4 TR]",
@@ -1248,7 +1365,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyrs",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **17** **[4 TR]** Prophet Hosea and Monk-Martyr Andrew of Crete."
@@ -1268,7 +1387,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 5
       }
     ],
     "raw_source": "* **18** **[POL]** Ap. and Evangelist Luke."
@@ -1288,7 +1409,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       },
       {
         "rank_code": "[4 TR]",
@@ -1301,7 +1424,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **19** **[4 TR]** Prophet Joel and Martyr Varus."
@@ -1321,7 +1446,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **20** **[6 SM]** Great Martyr Artemius."
@@ -1341,7 +1468,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **21** **[6 SM]** Ven. Hilarion the Great."
@@ -1352,7 +1481,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "St. Abercius and the seven youths.",
+        "description": "St. Abercius",
         "parsed_saints": [
           {
             "name": "Abercius",
@@ -1360,15 +1489,25 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Seven Youths of Ephesus",
+        "parsed_saints": [
           {
             "name": "Seven Youths",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 A+G]** St. Abercius and the seven youths."
@@ -1388,7 +1527,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[GT DOX]** Apostle James, Brother of the Lord."
@@ -1408,7 +1549,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **24** **[4 A+G]** Martyr Arethas."
@@ -1435,7 +1578,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **25** **[4 A+G]** Martyrs Marcian and Martyrius."
@@ -1455,7 +1600,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **26** **[VIGIL]** **Great Martyr Demetrius.**"
@@ -1475,7 +1622,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **27** **[4 A+G]** Martyr Nestor."
@@ -1509,7 +1658,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -1522,7 +1673,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **28** **[4 TR]** Martyrs Terence and Neonilla, Ven. Stephen; Martyr Paraskeva."
@@ -1542,7 +1695,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -1555,7 +1710,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **29** **[4 TR]** Monk-Martyr Anastasia; **[4 A+G]** Ven. Abramius."
@@ -1582,7 +1739,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **30** **[4 TR]** Martyrs Zenobius and Zenobia."
@@ -1623,7 +1782,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       },
       {
         "rank_code": "[4 TR]",
@@ -1636,7 +1797,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 5
       }
     ],
     "raw_source": "* **31** **[4 TR]** Apostles Stachys, Amplias, Urban and Narcissus; Martyr Epimachus."
@@ -1663,6 +1826,12 @@
             "monastic": false,
             "is_saint": true
           }
+        ],
+        "category": "Unmercenaries",
+        "default_troparion_tone": 8,
+        "optional_elevations": [
+          "[GT DOX]",
+          "[POL]"
         ]
       }
     ],
@@ -1711,7 +1880,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **2** **[4 A+G]** Martyrs Akindynos, Pegasius, Aphthonius, Elpidephorus and Anempodistus."
@@ -1745,7 +1916,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -1758,7 +1931,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[4 A+G]** Martyrs Acepsimas, Joseph and Aithalas; Dedication of the Temple of Great Martyr George."
@@ -1778,7 +1953,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       },
       {
         "rank_code": "[4 A+G]",
@@ -1791,7 +1968,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **4** **[4 A+G]** Ven. Joannicius and Martyr Nicander."
@@ -1818,7 +1997,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **5** **[4 TR]** Martyrs Galaction and Episteme."
@@ -1838,7 +2019,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **6** **[6 SM]** St. Paul, Archbishop of Constantinople."
@@ -1858,7 +2041,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -1871,7 +2056,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **7** **[4 A+G]** Martyr Hieron and those with him; Ven. Lazarus."
@@ -1891,7 +2078,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Angels",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **8** **[VIGIL]** **Synaxis of St. Archangel Michael.**"
@@ -1918,7 +2107,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -1931,7 +2122,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **9** **[4 TR]** Martyrs Onesiphorus and Porphyrius; Ven. Matrona."
@@ -1967,12 +2160,14 @@
           },
           {
             "name": "those with them",
-            "title": "Apostle",
+            "title": "Apostles",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **10** **[4 TR]** Apostles Erastus, Olympas, Herodion and those with them."
@@ -1983,7 +2178,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Martyrs Menas, Victor and Vincent",
+        "description": "Martyrs Menas, Victor, Vincent and Stephanida",
         "parsed_saints": [
           {
             "name": "Menas",
@@ -2005,13 +2200,7 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          }
-        ]
-      },
-      {
-        "rank_code": "[4 A+G]",
-        "description": "Martyr Stephanida",
-        "parsed_saints": [
+          },
           {
             "name": "Stephanida",
             "title": "Martyr",
@@ -2019,7 +2208,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -2032,7 +2223,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **11** **[4 A+G]** Martyrs Menas, Victor and Vincent; Martyr Stephanida; Ven. Theodore the Studite."
@@ -2052,7 +2245,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -2065,7 +2260,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -2078,10 +2275,33 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
-    "raw_source": "* **12** **[VIGIL]** **St. Hieromartyr Josaphat (On Sunday)**; **[4 A+G]** St. John the Merciful; Ven. Nilus."
+    "raw_source": "* **12** **[VIGIL]** **St. Hieromartyr Josaphat (On Sunday)**; **[4 A+G]** St. John the Merciful; Ven. Nilus.",
+    "lviv_1899_transfer_to_sunday": true,
+    "ugcc_synodal_override": {
+      "transfer_to_sunday": false,
+      "entries": [
+        {
+          "rank_code": "[VIGIL]",
+          "description": "**St. Hieromartyr Josaphat**",
+          "category": "Hieromartyr",
+          "default_troparion_tone": 4,
+          "parsed_saints": [
+            {
+              "name": "Josaphat",
+              "title": "Hieromartyr",
+              "gender": "male",
+              "monastic": false,
+              "is_saint": true
+            }
+          ]
+        }
+      ]
+    }
   },
   "11-13": {
     "month": 11,
@@ -2098,7 +2318,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **13** **[POL]** St. John Chrysostom."
@@ -2118,7 +2340,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **14** **[POL]** Apostle Philip."
@@ -2152,7 +2376,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **15** **[4 A+G]** Martyrs Gurias, Samonas and Abibus."
@@ -2172,7 +2398,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **16** **[POL]** Ap. and Evangelist Matthew."
@@ -2192,10 +2420,14 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "has_matins_aposticha_doxastikon": true,
+        "category": "Hierarch",
+        "default_troparion_tone": 8
       }
     ],
-    "raw_source": "* **17** **[6 SM]** St. Gregory the Wonderworker."
+    "raw_source": "* **17** **[6 SM]** St. Gregory the Wonderworker.",
+    "has_matins_aposticha_doxastikon": true
   },
   "11-18": {
     "month": 11,
@@ -2219,7 +2451,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 TR]** Martyrs Plato and Romanus."
@@ -2239,7 +2473,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       },
       {
         "rank_code": "[4 TR]",
@@ -2252,7 +2488,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **19** **[4 TR]** Prophet Obadiah; **[4 TR]** Barlaam."
@@ -2263,7 +2501,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Ven. Gregory Decapolite, and St. Proclus.",
+        "description": "Ven. Gregory Decapolite",
         "parsed_saints": [
           {
             "name": "Gregory Decapolite",
@@ -2271,7 +2509,15 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "St. Proclus",
+        "parsed_saints": [
           {
             "name": "Proclus",
             "title": "Hierarch",
@@ -2279,7 +2525,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **20** **[4 A+G]** Ven. Gregory Decapolite, and St. Proclus."
@@ -2299,7 +2547,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **21** **[MOG]** **ENTRY OF THE MOST HOLY THEOTOKOS INTO THE TEMPLE.**"
@@ -2326,7 +2576,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **22** **[4 A+G]** Ap. Philemon and those with him."
@@ -2337,7 +2589,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Sts. Amphilochius and Gregory.",
+        "description": "St. Amphilochius",
         "parsed_saints": [
           {
             "name": "Amphilochius",
@@ -2345,7 +2597,15 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "St. Gregory",
+        "parsed_saints": [
           {
             "name": "Gregory",
             "title": "Hierarch",
@@ -2353,7 +2613,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[4 A+G]** Sts. Amphilochius and Gregory."
@@ -2373,7 +2635,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -2386,10 +2650,47 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **24** **[6 SM]** Great Martyr Catherine; **[4 TR]** Great Martyr Mercurius."
+    "raw_source": "* **24** **[6 SM]** Great Martyr Catherine; **[4 TR]** Great Martyr Mercurius.",
+    "ugcc_synodal_override": {
+      "decree_note": "§3.3.3 / [^713] Pochaiv Anthologion: Great Martyr Catherine with Polyeleos",
+      "entries": [
+        {
+          "rank_code": "[POL]",
+          "description": "Great Martyr Catherine",
+          "parsed_saints": [
+            {
+              "name": "Catherine",
+              "title": "Great Martyr",
+              "gender": "female",
+              "monastic": false,
+              "is_saint": true
+            }
+          ],
+          "category": "Martyr",
+          "default_troparion_tone": 4
+        },
+        {
+          "rank_code": "[4 TR]",
+          "description": "Great Martyr Mercurius.",
+          "parsed_saints": [
+            {
+              "name": "Mercurius",
+              "title": "Great Martyr",
+              "gender": "male",
+              "monastic": false,
+              "is_saint": true
+            }
+          ],
+          "category": "Martyr",
+          "default_troparion_tone": 4
+        }
+      ]
+    }
   },
   "11-25": {
     "month": 11,
@@ -2406,7 +2707,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -2419,7 +2722,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saints",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[GT DOX]",
@@ -2432,7 +2737,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **25** **[4 A+G]** Hieromartyr Clement, Pope of Rome; Peter of Alexandria. **[GT DOX]** Apodosis of the Entry."
@@ -2452,7 +2759,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **26** **[4 NO]** Ven. Alypius."
@@ -2472,7 +2781,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[6 SM]",
@@ -2485,7 +2796,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **27** **[6 SM]** Great Martyr James the Persian; Ven. Palladius."
@@ -2505,7 +2818,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyr",
+        "default_troparion_tone": 8
       },
       {
         "rank_code": "[6 SM]",
@@ -2518,7 +2833,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **28** **[6 SM]** Monk-Martyr Stephen; Martyr Irenarchus."
@@ -2545,7 +2862,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 NO]",
@@ -2558,7 +2877,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **29** **[4 NO]** Martyrs Paramon and Philoumenos; Ven. Acacius."
@@ -2578,7 +2899,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **30** **[POL]** Ap. Andrew the First-Called."
@@ -2598,7 +2921,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **1** **[4 TR]** Prop. Nahum."
@@ -2618,7 +2943,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **2** **[4 TR]** Prop. Habakkuk."
@@ -2638,7 +2965,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **3** **[4 NO]** Prop. Zephaniah."
@@ -2658,6 +2987,11 @@
             "monastic": false,
             "is_saint": true
           }
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 8,
+        "optional_elevations": [
+          "[POL]"
         ]
       },
       {
@@ -2671,10 +3005,47 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
-    "raw_source": "* **4** **[6 SM]** Great Martyr Barbara; Ven. John of Damascus."
+    "raw_source": "* **4** **[6 SM]** Great Martyr Barbara; Ven. John of Damascus.",
+    "ugcc_synodal_override": {
+      "reason": "1901 Lviv Metropolitan Ordinariate Decree (Footnote [^719]): Great Martyr Barbara elevated to 6 with Great Doxology ([GT DOX]).",
+      "entries": [
+        {
+          "rank_code": "[POL]",
+          "description": "Great Martyr Barbara",
+          "parsed_saints": [
+            {
+              "name": "Barbara",
+              "title": "Great Martyr",
+              "gender": "female",
+              "monastic": false,
+              "is_saint": true
+            }
+          ],
+          "category": "Martyr",
+          "default_troparion_tone": 8
+        },
+        {
+          "rank_code": "[6 SM]",
+          "description": "Ven. John of Damascus",
+          "parsed_saints": [
+            {
+              "name": "John of Damascus",
+              "title": "Venerable",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            }
+          ],
+          "category": "Venerable",
+          "default_troparion_tone": 8
+        }
+      ]
+    }
   },
   "12-5": {
     "month": 12,
@@ -2691,7 +3062,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **5** **[POL]** Ven. Sabbas the Sanctified."
@@ -2711,7 +3084,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **6** **[VIGIL]** **St. Nicholas the Wonderworker.**"
@@ -2731,7 +3106,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **7** **[4 TR]** St. Ambrose."
@@ -2751,7 +3128,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **8** **[4 TR]** Ven. Patapius."
@@ -2771,7 +3150,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **9** **[MOG]** **IMMACULATE CONCEPTION OF THE MOST HOLY THEOTOKOS.**"
@@ -2805,7 +3186,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[4 A+G]** Martyrs Menas, Hermogenes and Eugraphus."
@@ -2825,7 +3208,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **11** **[4 TR]** Ven. Daniel the Stylite."
@@ -2845,7 +3230,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **12** **[6 SM]** Ven. Spyridon."
@@ -2893,7 +3280,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **13** **[POL]** Martyrs Eustratius, Auxentius, Eugene, Mardarius and Orestes."
@@ -2922,12 +3311,14 @@
           },
           {
             "name": "Those with them",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **14** **[4 NO]** Martyrs Thyrsus, Leucius and those with them."
@@ -2938,7 +3329,7 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Hieromartyr Eleutherius and Ven. Paul of Latros.",
+        "description": "Hieromartyr Eleutherius",
         "parsed_saints": [
           {
             "name": "Eleutherius",
@@ -2946,7 +3337,15 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Ven. Paul of Latros",
+        "parsed_saints": [
           {
             "name": "Paul of Latros",
             "title": "Venerable",
@@ -2954,7 +3353,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **15** **[4 TR]** Hieromartyr Eleutherius and Ven. Paul of Latros."
@@ -2974,7 +3375,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **16** **[GT DOX]** Apodosis of the Immaculate Conception."
@@ -2985,7 +3388,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Prop. Daniel and the three youths.",
+        "description": "Prop. Daniel",
         "parsed_saints": [
           {
             "name": "Daniel",
@@ -2993,7 +3396,15 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Three Holy Youths",
+        "parsed_saints": [
           {
             "name": "Three Youths",
             "title": "",
@@ -3001,7 +3412,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **17** **[4 A+G]** Prop. Daniel and the three youths."
@@ -3028,7 +3441,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 TR]** Martyr Sebastian and his wife."
@@ -3048,7 +3463,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **19** **[4 TR]** Martyr Boniface."
@@ -3068,7 +3485,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **20** **[6 SM]** Hieromartyr Ignatius the God-bearer."
@@ -3088,7 +3507,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **21** **[4 TR]** Martyr Juliana."
@@ -3108,7 +3529,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 A+G]** Great Martyr Anastasia."
@@ -3123,12 +3546,14 @@
         "parsed_saints": [
           {
             "name": "Ten Martyrs of Crete",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[4 A+G]** Ten Martyrs of Crete."
@@ -3148,7 +3573,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyr",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **24** **[4 NO]** Monk-Martyr Eugenia."
@@ -3168,7 +3595,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **25** **[LORD]** **NATIVITY OF CHRIST**"
@@ -3195,7 +3624,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saints",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[GT DOX]",
@@ -3208,7 +3639,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **26** **[GT DOX]** Synaxis of the Most Holy Theotokos and St. Joseph; Hieromartyr Euthymius."
@@ -3228,7 +3661,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -3241,10 +3676,47 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
-    "raw_source": "* **27** **[4 A+G]** Protomartyr and Archdeacon Stephen; **[4 TR]** Ven. Theodore Graptos."
+    "raw_source": "* **27** **[4 A+G]** Protomartyr and Archdeacon Stephen; **[4 TR]** Ven. Theodore Graptos.",
+    "ugcc_synodal_override": {
+      "decree_note": "[^728] 1901 Lviv Ordinariate Decree: Protomartyr Stephen with Great Doxology",
+      "entries": [
+        {
+          "rank_code": "[GT DOX]",
+          "description": "Protomartyr and Archdeacon Stephen",
+          "parsed_saints": [
+            {
+              "name": "Stephen",
+              "title": "Protomartyr",
+              "gender": "male",
+              "monastic": false,
+              "is_saint": true
+            }
+          ],
+          "category": "Martyrs",
+          "default_troparion_tone": 4
+        },
+        {
+          "rank_code": "[4 TR]",
+          "description": "Ven. Theodore Graptos.",
+          "parsed_saints": [
+            {
+              "name": "Theodore Graptos",
+              "title": "Venerable",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            }
+          ],
+          "category": "Venerable",
+          "default_troparion_tone": 8
+        }
+      ]
+    }
   },
   "12-28": {
     "month": 12,
@@ -3256,12 +3728,14 @@
         "parsed_saints": [
           {
             "name": "Twenty thousand martyrs",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **28** **[4 A+G]** Twenty thousand martyrs, burned in Nicomedia."
@@ -3276,12 +3750,14 @@
         "parsed_saints": [
           {
             "name": "Fourteen thousand infants",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saints",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -3294,7 +3770,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **29** **[4 A+G]** Fourteen thousand martyred infants; Ven. Marcellus."
@@ -3314,7 +3792,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **30** **[4 NO]** Martyr Anysia."
@@ -3341,7 +3821,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **31** **[GT DOX]** (Ven. Melania). Apodosis of the Nativity of Christ."
@@ -3361,7 +3843,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 1
       },
       {
         "rank_code": "[VIGIL]",
@@ -3374,7 +3858,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **1** **[VIGIL]** **Circumcision of the Lord; St. Basil the Great.**"
@@ -3394,7 +3880,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Forefeast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **2** **[4 TR]** Forefeast of Theophany."
@@ -3414,7 +3902,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -3427,7 +3917,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       },
       {
         "rank_code": "[4 A+G]",
@@ -3440,7 +3932,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[4 A+G]** St. Sylvester, Pope of Rome; Prop. Malachi; **[4 A+G]** Martyr Gordius."
@@ -3451,7 +3945,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Synaxis of the 70 Apostles. Ven. Theoctistus.",
+        "description": "Synaxis of the 70 Apostles",
         "parsed_saints": [
           {
             "name": "Synaxis of the 70 Apostles",
@@ -3459,7 +3953,15 @@
             "gender": "unknown",
             "monastic": false,
             "is_saint": false
-          },
+          }
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Ven. Theoctistus",
+        "parsed_saints": [
           {
             "name": "Theoctistus",
             "title": "Venerable",
@@ -3467,7 +3969,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **4** **[4 A+G]** Synaxis of the 70 Apostles. Ven. Theoctistus."
@@ -3494,7 +3998,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 NO]",
@@ -3507,7 +4013,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **5** **[4 NO]** Martyrs Theopemptus and Theonas; Ven. Syncletica."
@@ -3527,7 +4035,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **6** **[LORD]** **HOLY THEOPHANY.**"
@@ -3547,7 +4057,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **7** **[GT DOX]** Synaxis of the Forerunner."
@@ -3567,7 +4079,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       },
       {
         "rank_code": "[4 NO]",
@@ -3580,7 +4094,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **8** **[4 NO]** Ven. George the Chozebite; Ven. Domnica."
@@ -3600,7 +4116,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **9** **[4 TR]** Martyr Polyeuctus."
@@ -3620,7 +4138,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -3633,7 +4153,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **10** **[4 A+G]** St. Gregory of Nyssa; Ven. Dometian."
@@ -3653,7 +4175,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **11** **[POL]** Ven. Theodosius."
@@ -3673,7 +4197,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **12** **[4 NO]** Martyr Tatiana."
@@ -3700,7 +4226,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **13** **[4 TR]** Martyrs Hermylus and Stratonicus."
@@ -3715,12 +4243,15 @@
         "parsed_saints": [
           {
             "name": "Fathers slain in Sinai and Raithu",
-            "title": "Venerable Martyr",
+            "title": "Venerable Martyrs",
             "gender": "group",
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerables",
+        "default_troparion_tone": 4,
+        "has_vespers_aposticha_doxastikon": false
       },
       {
         "rank_code": "[GT DOX]",
@@ -3733,10 +4264,13 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **14** **[4 A+G]** Venerable Fathers slain in Sinai and Raithu. **[GT DOX]** Apodosis of Theophany."
+    "raw_source": "* **14** **[4 A+G]** Venerable Fathers slain in Sinai and Raithu. **[GT DOX]** Apodosis of Theophany.",
+    "has_vespers_aposticha_doxastikon": false
   },
   "1-15": {
     "month": 1,
@@ -3753,7 +4287,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       },
       {
         "rank_code": "[4 A+G]",
@@ -3766,7 +4302,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **15** **[4 A+G]** Ven. Paul of Thebes and John the Hut-dweller."
@@ -3786,7 +4324,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **16** **[6 SM]** Veneration of the chains of St. Apostle Peter."
@@ -3806,7 +4346,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **17** **[POL]** Ven. Anthony the Great."
@@ -3833,7 +4375,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saints",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 A+G]** Sts. Athanasius and Cyril."
@@ -3853,7 +4397,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **19** **[6 SM]** Ven. Macarius of Egypt."
@@ -3873,7 +4419,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **20** **[POL]** Ven. Euthymius the Great."
@@ -3893,7 +4441,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       },
       {
         "rank_code": "[4 A+G]",
@@ -3906,7 +4456,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **21** **[4 A+G]** Ven. Maximus; Martyr Neophytus."
@@ -3926,7 +4478,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       },
       {
         "rank_code": "[4 TR]",
@@ -3939,7 +4493,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 A+G]** Ap. Timothy. **[4 TR]** Martyr Anastasius."
@@ -3959,7 +4515,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[4 A+G]** Hieromartyr Clement of Ancyra."
@@ -3979,7 +4537,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **24** **[4 NO]** Ven. Xenia."
@@ -3999,7 +4559,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **25** **[POL]** Gregory the Theologian."
@@ -4026,7 +4588,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerables",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **26** **[4 TR]** Ven. Xenophon and his wife."
@@ -4046,7 +4610,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **27** **[POL]** Translation of the Relics of St. John Chrysostom."
@@ -4066,7 +4632,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **28** **[6 SM]** Ven. Ephraim the Syrian."
@@ -4086,7 +4654,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **29** **[6 SM]** Translation of the Relics of St. Hieromartyr Ignatius the God-bearer."
@@ -4101,12 +4671,14 @@
         "parsed_saints": [
           {
             "name": "Three Hierarchs",
-            "title": "Hierarch",
+            "title": "Hierarchs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarchs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **30** **[VIGIL]** **Three Hierarchs.**"
@@ -4133,7 +4705,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **31** **[6 SM]** Martyrs and Unmercenaries Cyrus and John."
@@ -4153,7 +4727,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Forefeast",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -4166,7 +4742,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **1** **[4 TR]** Forefeast of the Meeting; **[4 A+G]** Martyr Tryphon."
@@ -4186,7 +4764,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **2** **[MOG]** **MEETING OF THE LORD.**"
@@ -4213,7 +4793,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saints",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[6 SM]** Righteous Simeon the God-Receiver and Anna the Prophetess."
@@ -4233,7 +4815,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **4** **[4 TR]** Ven. Isidore of Pelusium."
@@ -4253,7 +4837,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **5** **[4 TR]** Martyr Agatha."
@@ -4273,7 +4859,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **6** **[4 TR]** Ven. Bucolus."
@@ -4284,7 +4872,7 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Venerables Parthenius and Luke.",
+        "description": "Ven. Parthenius",
         "parsed_saints": [
           {
             "name": "Parthenius",
@@ -4292,7 +4880,15 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Ven. Luke",
+        "parsed_saints": [
           {
             "name": "Luke",
             "title": "Venerable",
@@ -4300,7 +4896,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **7** **[4 TR]** Venerables Parthenius and Luke."
@@ -4311,7 +4909,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Great Martyr Theodore Stratelates. Prophet Zachariah.",
+        "description": "Great Martyr Theodore Stratelates",
         "parsed_saints": [
           {
             "name": "Theodore Stratelates",
@@ -4319,7 +4917,15 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Prophet Zachariah",
+        "parsed_saints": [
           {
             "name": "Zachariah",
             "title": "Prophet",
@@ -4327,7 +4933,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **8** **[4 A+G]** Great Martyr Theodore Stratelates. Prophet Zachariah."
@@ -4347,7 +4955,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[GT DOX]",
@@ -4360,7 +4970,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **9** **[4 TR]** (Martyr Nicephorus); **[GT DOX]** Apodosis of the Meeting."
@@ -4380,7 +4992,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[4 TR]** Martyr Charalampus."
@@ -4400,7 +5014,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **11** **[4 TR]** Hieromartyr Blaise."
@@ -4420,7 +5036,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **12** **[4 TR]** St. Meletius."
@@ -4440,7 +5058,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **13** **[4 TR]** Ven. Martinian."
@@ -4460,7 +5080,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **14** **[4 TR]** Ven. Auxentius."
@@ -4480,7 +5102,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **15** **[4 TR]** Ap. Onesimus."
@@ -4516,12 +5140,14 @@
           },
           {
             "name": "Others",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **16** **[4 NO]** Martyrs Pamphilus, Valens, Paul and others."
@@ -4541,7 +5167,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **17** **[6 SM]** Great Martyr Theodore the Tyro."
@@ -4561,7 +5189,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 TR]** St. Leo, Pope of Rome."
@@ -4581,7 +5211,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **19** **[4 TR]** Ap. Archippus."
@@ -4601,7 +5233,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **20** **[4 TR]** Ven. Leo of Catania."
@@ -4621,7 +5255,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       },
       {
         "rank_code": "[4 TR]",
@@ -4634,7 +5270,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **21** **[4 TR]** Ven. Timothy of Symbola; St. Eustathius."
@@ -4654,7 +5292,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 TR]** Finding of the relics of the holy martyrs in Eugenius."
@@ -4674,7 +5314,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[4 TR]** Hieromartyr Polycarp."
@@ -4694,7 +5336,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **24** **[POL]** First and Second Finding of the Precious Head of the Forerunner."
@@ -4714,7 +5358,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **25** **[4 TR]** St. Tarasius."
@@ -4734,7 +5380,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **26** **[4 TR]** St. Porphyrius."
@@ -4754,7 +5402,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **27** **[4 TR]** Ven. Procopius the Decapolite."
@@ -4774,7 +5424,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **28** **[4 TR]** Ven. Basil."
@@ -4794,7 +5446,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **29** **[4 NO]** Ven. Cassian."
@@ -4814,7 +5468,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyr",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **1** **[4 TR]** Monk-Martyr Eudokia."
@@ -4834,7 +5490,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **2** **[4 NO]** Hieromartyr Theodotus."
@@ -4861,7 +5519,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[4 NO]** Martyr Eutropius and his wife."
@@ -4881,7 +5541,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **4** **[4 NO]** Ven. Gerasimus."
@@ -4901,7 +5563,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **5** **[4 NO]** Martyr Conon."
@@ -4916,12 +5580,14 @@
         "parsed_saints": [
           {
             "name": "42 Martyrs newly revealed in Amorium",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **6** **[4 TR]** 42 Martyrs newly revealed in Amorium."
@@ -4936,12 +5602,14 @@
         "parsed_saints": [
           {
             "name": "Hieromartyrs who were bishops in Cherson",
-            "title": "Hieromartyr",
+            "title": "Hieromartyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **7** **[4 NO]** Hieromartyrs who were bishops in Cherson."
@@ -4961,7 +5629,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **8** **[4 NO]** Ven. Theophylact."
@@ -4976,12 +5646,14 @@
         "parsed_saints": [
           {
             "name": "40 Martyrs tortured in the lake of Sebaste",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **9** **[POL]** 40 Martyrs tortured in the lake of Sebaste."
@@ -5008,7 +5680,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[4 NO]** Martyr Quadratus and his wife."
@@ -5028,7 +5702,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **11** **[4 NO]** St. Sophronius, Archbishop of Jerusalem."
@@ -5048,7 +5724,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **12** **[4 NO]** Ven. Theophanes."
@@ -5068,7 +5746,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **13** **[4 NO]** Translation of the relics of Ven. Nicephorus."
@@ -5088,7 +5768,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **14** **[4 NO]** Ven. Benedict."
@@ -5108,7 +5790,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **15** **[4 NO]** Martyr Agapius and those with him."
@@ -5128,7 +5812,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **16** **[4 NO]** Martyr Sabinus."
@@ -5148,7 +5834,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **17** **[4 TR]** Ven. Alexis, Man of God."
@@ -5168,7 +5856,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 NO]** St. Cyril, Archbishop of Jerusalem."
@@ -5195,7 +5885,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **19** **[4 NO]** Martyrs Chrysanthus and Daria."
@@ -5210,12 +5902,14 @@
         "parsed_saints": [
           {
             "name": "Fathers slain in the Monastery of St. Sabbas",
-            "title": "Venerable Martyr",
+            "title": "Venerable Martyrs",
             "gender": "group",
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerables",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **20** **[4 NO]** Venerable Fathers slain in the Monastery of St. Sabbas."
@@ -5235,7 +5929,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **21** **[4 NO]** Ven. James."
@@ -5255,7 +5951,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 NO]** Hieromartyr Basil."
@@ -5277,12 +5975,14 @@
           },
           {
             "name": "200 disciples of Nicon",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[4 NO]** Martyr Nicon and two hundred of his disciples."
@@ -5302,7 +6002,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Forefeast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **24** **[4 TR]** Forefeast of the Annunciation."
@@ -5322,7 +6024,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **25** **[MOG]** **ANNUNCIATION OF THE MOST HOLY VIRGIN MARY.**"
@@ -5342,7 +6046,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Angels",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[GT DOX]",
@@ -5355,7 +6061,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **26** **[6 SM]** Synaxis of St. Archangel Gabriel. **[GT DOX]** Apodosis of the Annunciation."
@@ -5375,7 +6083,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **27** **[4 NO]** Martyr Matrona."
@@ -5386,7 +6096,7 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Venerables Hilarion and Stephen the Wonderworker.",
+        "description": "Ven. Hilarion",
         "parsed_saints": [
           {
             "name": "Hilarion",
@@ -5394,7 +6104,15 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Ven. Stephen the Wonderworker",
+        "parsed_saints": [
           {
             "name": "Stephen the Wonderworker",
             "title": "Venerable",
@@ -5402,7 +6120,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **28** **[4 NO]** Venerables Hilarion and Stephen the Wonderworker."
@@ -5413,7 +6133,7 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Hieromartyrs Mark and Cyril the Deacon.",
+        "description": "Hieromartyr Mark",
         "parsed_saints": [
           {
             "name": "Mark",
@@ -5421,7 +6141,15 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Cyril the Deacon",
+        "parsed_saints": [
           {
             "name": "Cyril the Deacon",
             "title": "Hieromartyr",
@@ -5429,7 +6157,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **29** **[4 NO]** Hieromartyrs Mark and Cyril the Deacon."
@@ -5449,7 +6179,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **30** **[4 TR]** Ven. John of the Ladder (Climacus)."
@@ -5469,7 +6201,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **31** **[4 NO]** Ven. Hypatius."
@@ -5489,7 +6223,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **1** **[4 TR]** Ven. Mary of Egypt."
@@ -5509,7 +6245,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **2** **[4 NO]** Ven. Titus the Wonderworker."
@@ -5529,7 +6267,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **3** **[4 NO]** Ven. Nicetas."
@@ -5540,7 +6280,7 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Venerables Joseph and George.",
+        "description": "Ven. Joseph",
         "parsed_saints": [
           {
             "name": "Joseph",
@@ -5548,7 +6288,15 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Ven. George",
+        "parsed_saints": [
           {
             "name": "George",
             "title": "Venerable",
@@ -5556,7 +6304,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **4** **[4 NO]** Venerables Joseph and George."
@@ -5585,12 +6335,14 @@
           },
           {
             "name": "those with him",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **5** **[4 NO]** Martyrs Theodulus, Agathopod and those with him."
@@ -5610,7 +6362,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **6** **[4 TR]** St. Eutychius."
@@ -5630,7 +6384,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **7** **[4 NO]** Ven. George of Melitene."
@@ -5666,12 +6422,14 @@
           },
           {
             "name": "those with them",
-            "title": "Apostle",
+            "title": "Apostles",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **8** **[4 NO]** Apostles Herodion, Agabus, Rufus and those with them."
@@ -5691,7 +6449,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **9** **[4 NO]** Martyr Eupsychius."
@@ -5734,12 +6494,14 @@
           },
           {
             "name": "36 Martyrs",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[4 NO]** Martyrs Terence, Africanus, Maximus, Pompilus and 36 others."
@@ -5759,7 +6521,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **11** **[4 TR]** Hieromartyr Antipas."
@@ -5779,7 +6543,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **12** **[4 NO]** Ven. Basil."
@@ -5799,7 +6565,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **13** **[4 NO]** Hieromartyr Artemon."
@@ -5819,7 +6587,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **14** **[4 NO]** St. Martin, Pope of Rome."
@@ -5853,7 +6623,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **15** **[4 NO]** Ap. Aristarchus, Pudens and Trophimus."
@@ -5887,7 +6659,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **16** **[4 NO]** Martyrs Agape, Irene and Chionia."
@@ -5898,7 +6672,7 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Venerables Simeon and Acacius.",
+        "description": "Ven. Simeon",
         "parsed_saints": [
           {
             "name": "Simeon",
@@ -5906,7 +6680,15 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Ven. Acacius",
+        "parsed_saints": [
           {
             "name": "Acacius",
             "title": "Venerable",
@@ -5914,7 +6696,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **17** **[4 NO]** Venerables Simeon and Acacius."
@@ -5934,7 +6718,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **18** **[4 NO]** Ven. John the Decapolite."
@@ -5954,7 +6740,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **19** **[4 NO]** Ven. John of the Ancient Cave."
@@ -5974,7 +6762,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **20** **[4 NO]** Ven. Theodore Trichinas."
@@ -5996,12 +6786,14 @@
           },
           {
             "name": "those with him",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 NO]",
@@ -6014,7 +6806,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **21** **[4 NO]** Hieromartyr Januarius and those with him; Hieromartyr Theodore of Perge."
@@ -6034,7 +6828,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **22** **[4 TR]** Ven. Theodore the Sykeote."
@@ -6054,10 +6850,16 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **23** **[VIGIL]** **Great Martyr George (On Sunday).**"
+    "raw_source": "* **23** **[VIGIL]** **Great Martyr George (On Sunday).**",
+    "lviv_1899_transfer_to_sunday": true,
+    "ugcc_synodal_override": {
+      "transfer_to_sunday": false
+    }
   },
   "4-24": {
     "month": 4,
@@ -6074,7 +6876,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **24** **[4 TR]** Martyr Sabbas Stratelates."
@@ -6094,7 +6898,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **25** **[POL]** Ap. and Evangelist Mark."
@@ -6114,7 +6920,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **26** **[4 NO]** Hieromartyr Basil."
@@ -6134,7 +6942,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **27** **[6 SM]** Hieromartyr Simeon, Kinsman of the Lord."
@@ -6161,7 +6971,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       },
       {
         "rank_code": "[4 TR]",
@@ -6188,7 +7000,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **28** **[4 TR]** Apostles James and Sosipater; Martyrs Maximus, Dada and Quintilian."
@@ -6199,15 +7013,23 @@
     "entries": [
       {
         "rank_code": "[4 NO]",
-        "description": "Martyrs of Cyzicus and Ven. Memnon.",
+        "description": "Nine Martyrs of Cyzicus",
         "parsed_saints": [
           {
             "name": "Martyrs of Cyzicus",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
+      },
+      {
+        "rank_code": "[4 NO]",
+        "description": "Ven. Memnon",
+        "parsed_saints": [
           {
             "name": "Memnon",
             "title": "Venerable",
@@ -6215,7 +7037,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **29** **[4 NO]** Martyrs of Cyzicus and Ven. Memnon."
@@ -6235,10 +7059,14 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3,
+        "has_vespers_aposticha_doxastikon": false
       }
     ],
-    "raw_source": "* **30** **[POL]** Apostle James, brother of St. Apostle John."
+    "raw_source": "* **30** **[POL]** Apostle James, brother of St. Apostle John.",
+    "has_vespers_aposticha_doxastikon": false
   },
   "5-1": {
     "month": 5,
@@ -6255,7 +7083,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **1** **[4 A+G]** Prop. Jeremiah."
@@ -6275,7 +7105,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarchs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **2** **[6 SM]** St. Athanasius, Archbishop of Alexandria."
@@ -6295,7 +7127,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       },
       {
         "rank_code": "[4 TR]",
@@ -6315,7 +7149,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[POL]** Ven. Theodosius of the Caves; **[4 TR]** Martyrs Timothy and Maura."
@@ -6335,7 +7171,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyr",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **4** **[4 TR]** Monk-Martyr Pelagia."
@@ -6355,7 +7193,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **5** **[4 TR]** Martyr Irene."
@@ -6375,7 +7215,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **6** **[4 A+G]** Righteous Job the Long-Suffering."
@@ -6395,7 +7237,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Cross",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **7** **[6 SM]** Appearance of the Sign of the Precious Cross in the Heavens."
@@ -6415,7 +7259,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 2
       },
       {
         "rank_code": "[4 TR]",
@@ -6428,7 +7274,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **8** **[VIGIL]** **Ap. and Evangelist John the Theologian**; **[4 TR]** Ven. Arsenius."
@@ -6448,7 +7296,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 2
       },
       {
         "rank_code": "[4 TR]",
@@ -6468,7 +7318,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **9** **[POL]** Translation of the relics of St. Nicholas; **[4 TR]** Prop. Isaiah and Martyr Christopher."
@@ -6488,7 +7340,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **10** **[POL]** Ap. Simon the Zealot."
@@ -6508,10 +7362,38 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **11** **[4 A+G]** Hieromartyr Mocius."
+    "raw_source": "* **11** **[4 A+G]** Hieromartyr Mocius.",
+    "ugcc_synodal_override": {
+      "entries": [
+        {
+          "rank_code": "[POL]",
+          "description": "Holy Equals-to-the-Apostles Cyril and Methodius, Teachers of the Slavs.",
+          "category": "Equal-to-the-Apostles",
+          "default_troparion_tone": 4,
+          "parsed_saints": [
+            {
+              "name": "Cyril",
+              "title": "Apostle",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            },
+            {
+              "name": "Methodius",
+              "title": "Apostle",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            }
+          ]
+        }
+      ]
+    }
   },
   "5-12": {
     "month": 5,
@@ -6519,7 +7401,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Saints Epiphanius and Germanus.",
+        "description": "St. Epiphanius",
         "parsed_saints": [
           {
             "name": "Epiphanius",
@@ -6527,7 +7409,15 @@
             "gender": "male",
             "monastic": false,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "St. Germanus",
+        "parsed_saints": [
           {
             "name": "Germanus",
             "title": "Hierarch",
@@ -6535,7 +7425,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **12** **[4 A+G]** Saints Epiphanius and Germanus."
@@ -6555,7 +7447,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **13** **[4 TR]** Martyr Glyceria."
@@ -6575,7 +7469,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **14** **[4 TR]** Martyr Isidore."
@@ -6595,7 +7491,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **15** **[6 SM]** Ven. Pachomius the Great."
@@ -6615,7 +7513,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **16** **[4 TR]** Ven. Theodore the Sanctified."
@@ -6637,12 +7537,14 @@
           },
           {
             "name": "Companions of Apostle Andronicus",
-            "title": "Apostle",
+            "title": "Apostles",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **17** **[4 TR]** Ap. Andronicus and those with him."
@@ -6683,7 +7585,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 NO]** Martyr Theodotus of Ancyra and with him Peter, Dionysius and seven virgins."
@@ -6703,7 +7607,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **19** **[4 NO]** Hieromartyr Patrick."
@@ -6725,12 +7631,14 @@
           },
           {
             "name": "those with him",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **20** **[4 NO]** Martyr Thallelaus and those with him."
@@ -6757,7 +7665,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saints",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **21** **[POL]** Constantine and Helena."
@@ -6777,7 +7687,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 NO]** Martyr Basiliscus."
@@ -6797,7 +7709,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **23** **[4 NO]** Ven. Michael, Bishop of Synada."
@@ -6817,7 +7731,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **24** **[6 SM]** Ven. Simeon the Stylite (Divnogorets)."
@@ -6837,7 +7753,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **25** **[POL]** Third Finding of the Precious Head of John the Forerunner."
@@ -6857,7 +7775,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **26** **[4 TR]** Ap. Carpus."
@@ -6877,7 +7797,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **27** **[4 NO]** Hieromartyr Therapont."
@@ -6897,7 +7819,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **28** **[4 TR]** Ven. Nicetas, Bishop of Chalcedon."
@@ -6917,7 +7841,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **29** **[4 TR]** Martyr Theodosia the Virgin."
@@ -6937,7 +7863,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **30** **[4 NO]** Ven. Isaac."
@@ -6957,7 +7885,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **31** **[4 TR]** Martyr Hermias."
@@ -6984,7 +7914,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **1** **[4 TR]** Martyr Justin the Philosopher and those with him."
@@ -7004,7 +7936,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **2** **[4 TR]** St. Nicephorus, Archbishop of Constantinople."
@@ -7026,12 +7960,14 @@
           },
           {
             "name": "those with him",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[4 NO]** Martyr Lucillian and those with him."
@@ -7051,7 +7987,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **4** **[4 TR]** St. Metrophanes, Archbishop of Constantinople."
@@ -7071,7 +8009,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **5** **[4 TR]** Hieromartyr Dorotheus."
@@ -7082,7 +8022,7 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Venerables Bessarion and Hilarion.",
+        "description": "Ven. Bessarion",
         "parsed_saints": [
           {
             "name": "Bessarion",
@@ -7090,7 +8030,15 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Ven. Hilarion",
+        "parsed_saints": [
           {
             "name": "Hilarion",
             "title": "Venerable",
@@ -7098,7 +8046,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **6** **[4 TR]** Venerables Bessarion and Hilarion."
@@ -7118,7 +8068,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **7** **[4 TR]** Hieromartyr Theodotus, Bishop of Ancyra."
@@ -7138,7 +8090,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **8** **[6 SM]** Great Martyr Theodore Stratelates."
@@ -7158,7 +8112,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarchs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **9** **[6 SM]** St. Cyril, Archbishop of Alexandria."
@@ -7178,7 +8134,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[4 NO]** Hieromartyr Timothy."
@@ -7205,7 +8163,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **11** **[POL]** Apostles Bartholomew and Barnabas."
@@ -7216,7 +8176,7 @@
     "entries": [
       {
         "rank_code": "[4 A+G]",
-        "description": "Venerables Onuphrius and Peter of Athos.",
+        "description": "Ven. Onuphrius",
         "parsed_saints": [
           {
             "name": "Onuphrius",
@@ -7224,7 +8184,20 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 1,
+        "optional_elevations": [
+          "[6 SM]",
+          "[GT DOX]",
+          "[POL]"
+        ]
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Ven. Peter of Athos",
+        "parsed_saints": [
           {
             "name": "Peter of Athos",
             "title": "Venerable",
@@ -7232,10 +8205,51 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
-    "raw_source": "* **12** **[4 A+G]** Venerables Onuphrius and Peter of Athos."
+    "raw_source": "* **12** **[4 A+G]** Venerables Onuphrius and Peter of Athos.",
+    "ugcc_synodal_override": {
+      "reason": "Dolnytsky Part III §3.10 & Footnote [^737]: St. Onuphrius has 6 stichera ([6 SM]) with optional Great Doxology or Polyeleos.",
+      "entries": [
+        {
+          "rank_code": "[6 SM]",
+          "description": "Ven. Onuphrius",
+          "parsed_saints": [
+            {
+              "name": "Onuphrius",
+              "title": "Venerable",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            }
+          ],
+          "category": "Venerable",
+          "default_troparion_tone": 1,
+          "optional_elevations": [
+            "[GT DOX]",
+            "[POL]"
+          ]
+        },
+        {
+          "rank_code": "[4 TR]",
+          "description": "Ven. Peter of Athos",
+          "parsed_saints": [
+            {
+              "name": "Peter of Athos",
+              "title": "Venerable",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            }
+          ],
+          "category": "Venerable",
+          "default_troparion_tone": 8
+        }
+      ]
+    }
   },
   "6-13": {
     "month": 6,
@@ -7252,7 +8266,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -7265,7 +8281,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **13** **[4 TR]** Martyr Aquilina and St. Triphyllius, Bishop of Leucosia."
@@ -7285,7 +8303,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       },
       {
         "rank_code": "[4 TR]",
@@ -7298,7 +8318,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **14** **[4 A+G]** Ven. Elisha; **[4 TR]** Methodius, Archbishop of Constantinople."
@@ -7318,7 +8340,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **15** **[4 TR]** Prop. Amos."
@@ -7338,7 +8362,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **16** **[4 TR]** St. Tychon the Wonderworker."
@@ -7372,7 +8398,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **17** **[4 A+G]** Martyrs Manuel, Sabel and Ishmael."
@@ -7392,7 +8420,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 A+G]** Martyr Leontius."
@@ -7412,7 +8442,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **19** **[POL]** Ap. Jude, brother of the Lord."
@@ -7432,7 +8464,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **20** **[4 TR]** Hieromartyr Methodius, Bishop of Patara."
@@ -7452,7 +8486,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **21** **[4 A+G]** Martyr Julian of Tarsus."
@@ -7472,7 +8508,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 NO]** Hieromartyr Eusebius, Bishop of Samosata."
@@ -7492,7 +8530,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[4 TR]** Martyr Agrippina."
@@ -7512,7 +8552,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **24** **[VIGIL]** **Nativity of St. John the Baptist.**"
@@ -7532,7 +8574,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **25** **[4 A+G]** Martyr Febronia."
@@ -7552,7 +8596,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **26** **[4 TR]** Ven. David of Thessalonica."
@@ -7572,7 +8618,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **27** **[4 A+G]** Ven. Sampson, Host of Strangers."
@@ -7592,7 +8640,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Unmercenaries",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **28** **[6 SM]** Translation of the relics of Saints Unmercenaries Cyrus and John."
@@ -7619,7 +8669,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **29** **[VIGIL]** **Chief Apostles Peter and Paul.**"
@@ -7639,7 +8691,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **30** **[GT DOX]** Synaxis of the 12 Apostles."
@@ -7666,7 +8720,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Unmercenaries",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **1** **[6 SM]** Physicians and Unmercenaries Cosmas and Damian."
@@ -7686,7 +8742,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **2** **[POL]** Deposition of the Precious Robe of the Most Holy Theotokos."
@@ -7706,7 +8764,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[4 TR]** Martyr Hyacinth."
@@ -7726,7 +8786,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarchs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -7739,7 +8801,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **4** **[4 A+G]** St. Andrew, Archbishop of Crete; **[4 TR]** Ven. Martha."
@@ -7766,10 +8830,31 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **5** **[POL]** Holy Fathers and Slavic Apostles Cyril and Methodius."
+    "raw_source": "* **5** **[POL]** Holy Fathers and Slavic Apostles Cyril and Methodius.",
+    "ugcc_synodal_override": {
+      "entries": [
+        {
+          "rank_code": "[POL]",
+          "description": "Ven. Athanasius of Athos.",
+          "category": "Venerable",
+          "default_troparion_tone": 3,
+          "parsed_saints": [
+            {
+              "name": "Athanasius of Athos",
+              "title": "Venerable",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            }
+          ]
+        }
+      ]
+    }
   },
   "7-6": {
     "month": 7,
@@ -7786,10 +8871,31 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
-    "raw_source": "* **6** **[POL]** Ven. Athanasius of Athos."
+    "raw_source": "* **6** **[POL]** Ven. Athanasius of Athos.",
+    "ugcc_synodal_override": {
+      "entries": [
+        {
+          "rank_code": "[4 TR]",
+          "description": "Our Venerable Father Sisoes the Great.",
+          "category": "Venerable",
+          "default_troparion_tone": 8,
+          "parsed_saints": [
+            {
+              "name": "Sisoes the Great",
+              "title": "Venerable",
+              "gender": "male",
+              "monastic": true,
+              "is_saint": true
+            }
+          ]
+        }
+      ]
+    }
   },
   "7-7": {
     "month": 7,
@@ -7797,7 +8903,7 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Venerables Thomas and Acacius.",
+        "description": "Ven. Thomas",
         "parsed_saints": [
           {
             "name": "Thomas",
@@ -7805,7 +8911,15 @@
             "gender": "male",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Ven. Acacius",
+        "parsed_saints": [
           {
             "name": "Acacius",
             "title": "Venerable",
@@ -7813,7 +8927,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **7** **[4 TR]** Venerables Thomas and Acacius."
@@ -7833,7 +8949,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **8** **[6 SM]** Great Martyr Procopius."
@@ -7853,7 +8971,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **9** **[4 TR]** Hieromartyr Pancratius."
@@ -7873,7 +8993,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[POL]** Ven. Anthony of the Caves."
@@ -7893,10 +9015,31 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **11** **[4 A+G]** Martyr Euphemia."
+    "raw_source": "* **11** **[4 A+G]** Martyr Euphemia.",
+    "ugcc_synodal_override": {
+      "entries": [
+        {
+          "rank_code": "[POL]",
+          "description": "Equal-to-the-Apostles Olga, Princess of Kyiv, whose baptismal name was Helen.",
+          "category": "Equal-to-the-Apostle",
+          "default_troparion_tone": 1,
+          "parsed_saints": [
+            {
+              "name": "Olga",
+              "title": "Equal-to-the-Apostles",
+              "gender": "female",
+              "monastic": false,
+              "is_saint": true
+            }
+          ]
+        }
+      ]
+    }
   },
   "7-12": {
     "month": 7,
@@ -7920,7 +9063,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -7933,7 +9078,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **12** **[4 NO]** Martyrs Proclus and Hilarion; **[4 TR]** Ven. Michael Maleinos."
@@ -7953,7 +9100,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Angels",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[6 SM]",
@@ -7966,7 +9115,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **13** **[6 SM]** Synaxis of St. Archangel Gabriel; Ven. Stephen of St. Sabbas."
@@ -7986,7 +9137,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **14** **[4 TR]** Ap. Aquila."
@@ -8006,7 +9159,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Equal-to-the-Apostles",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **15** **[POL]** St. Equal-to-the-Apostles Prince Vladimir."
@@ -8028,12 +9183,14 @@
           },
           {
             "name": "Ten Disciples of Athenogenes",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **16** **[4 NO]** Hieromartyr Athenogenes and ten of his disciples."
@@ -8053,7 +9210,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **17** **[6 SM]** Great Martyr Marina."
@@ -8073,7 +9232,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 TR]** Emilian."
@@ -8084,7 +9245,7 @@
     "entries": [
       {
         "rank_code": "[4 TR]",
-        "description": "Ven. Macrina and Ven. Dius.",
+        "description": "Ven. Macrina",
         "parsed_saints": [
           {
             "name": "Macrina",
@@ -8092,7 +9253,15 @@
             "gender": "female",
             "monastic": true,
             "is_saint": true
-          },
+          }
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
+      },
+      {
+        "rank_code": "[4 TR]",
+        "description": "Ven. Dius",
+        "parsed_saints": [
           {
             "name": "Dius",
             "title": "Venerable",
@@ -8100,7 +9269,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **19** **[4 TR]** Ven. Macrina and Ven. Dius."
@@ -8120,10 +9291,16 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 4
       }
     ],
-    "raw_source": "* **20** **[VIGIL]** **Prop. Elijah (On Sunday).**"
+    "raw_source": "* **20** **[VIGIL]** **Prop. Elijah (On Sunday).**",
+    "lviv_1899_transfer_to_sunday": true,
+    "ugcc_synodal_override": {
+      "transfer_to_sunday": false
+    }
   },
   "7-21": {
     "month": 7,
@@ -8147,7 +9324,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerables",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -8160,7 +9339,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **21** **[4 TR]** Venerables Simeon and John; Prop. Ezekiel."
@@ -8180,7 +9361,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Equal-to-the-Apostles",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -8193,7 +9376,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 A+G]** Myrrh-bearer and Equal-to-the-Apostles Mary Magdalene; **[4 TR]** Return of the relics of Hieromartyr Phocas."
@@ -8220,7 +9405,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[4 TR]** Martyr Trophimus, Theophilus and those with them."
@@ -8247,7 +9434,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **24** **[POL]** Martyrs Boris and Gleb."
@@ -8267,7 +9456,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **25** **[POL]** Dormition of St. Anna, mother of the Most Holy Theotokos."
@@ -8289,12 +9480,14 @@
           },
           {
             "name": "Companions of Hermolaus",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **26** **[4 TR]** Hieromartyr Hermolaus and those with him."
@@ -8314,7 +9507,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **27** **[POL]** Great Martyr Panteleimon."
@@ -8355,7 +9550,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **28** **[4 TR]** Apostles Prochorus, Nicanor, Timon and Parmenas."
@@ -8375,10 +9572,14 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4,
+        "has_vespers_aposticha_doxastikon": false
       }
     ],
-    "raw_source": "* **29** **[4 TR]** Martyr Callinicus."
+    "raw_source": "* **29** **[4 TR]** Martyr Callinicus.",
+    "has_vespers_aposticha_doxastikon": false
   },
   "7-30": {
     "month": 7,
@@ -8423,7 +9624,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostles",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **30** **[4 TR]** Apostles Silas, Silvanus, Crescens, Epenetus and Andronicus."
@@ -8443,7 +9646,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Forefeast",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 A+G]",
@@ -8456,7 +9661,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **31** **[4 TR]** Forefeast of the Procession of the Precious Cross; **[4 A+G]** Righteous Eudocimus."
@@ -8476,7 +9683,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Cross",
+        "default_troparion_tone": 1
       },
       {
         "rank_code": "[GT DOX]",
@@ -8484,12 +9693,14 @@
         "parsed_saints": [
           {
             "name": "Maccabean Martyrs",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **1** **[GT DOX]** Procession of the Precious Cross; Maccabean Martyrs."
@@ -8509,7 +9720,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **2** **[6 SM]** Translation of the relics of St. Protomartyr Stephen."
@@ -8543,7 +9756,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerables",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **3** **[4 TR]** Venerables Isaac, Dalmatus and Faustus."
@@ -8558,12 +9773,14 @@
         "parsed_saints": [
           {
             "name": "Seven Youths of Ephesus",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **4** **[4 TR]** Seven Youths of Ephesus."
@@ -8583,7 +9800,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Forefeast",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -8596,7 +9815,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **5** **[4 TR]** Forefeast of the Transfiguration; Martyr Eusignius."
@@ -8616,7 +9837,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 7
       }
     ],
     "raw_source": "* **6** **[LORD]** **TRANSFIGURATION.**"
@@ -8636,7 +9859,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable Martyr",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **7** **[4 A+G]** Monk-Martyr Dometius."
@@ -8656,7 +9881,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarch",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **8** **[4 NO]** St. Emilian, Bishop of Cyzicus."
@@ -8676,7 +9903,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **9** **[POL]** Ap. Matthias."
@@ -8696,7 +9925,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **10** **[4 TR]** Martyr and Archdeacon Lawrence."
@@ -8716,7 +9947,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **11** **[4 TR]** Martyr and Archdeacon Euplus."
@@ -8743,7 +9976,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **12** **[4 TR]** Martyrs Photius and Anicetus."
@@ -8763,7 +9998,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       },
       {
         "rank_code": "[4 TR]",
@@ -8776,7 +10013,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **13** **[GT DOX]** Apodosis of the Transfiguration; **[4 TR]** Ven. Maximus the Confessor."
@@ -8803,7 +10042,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Forefeast",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **14** **[4 A+G]** Forefeast of the Dormition. Prop. Micah."
@@ -8823,7 +10064,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Feast",
+        "default_troparion_tone": 1
       }
     ],
     "raw_source": "* **15** **[MOG]** **DORMITION OF THE MOST HOLY THEOTOKOS.**"
@@ -8843,7 +10086,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Saints",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **16** **[GT DOX]** Translation of the Icon Not-Made-By-Hands."
@@ -8863,7 +10108,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **17** **[4 NO]** Martyr Myron."
@@ -8890,7 +10137,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **18** **[4 A+G]** Martyrs Florus and Laurus."
@@ -8912,12 +10161,14 @@
           },
           {
             "name": "those with him",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **19** **[4 A+G]** Martyr Andrew Stratelates and those with him."
@@ -8937,7 +10188,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
     "raw_source": "* **20** **[4 TR]** Prop. Samuel."
@@ -8957,7 +10210,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       },
       {
         "rank_code": "[4 TR]",
@@ -8972,12 +10227,14 @@
           },
           {
             "name": "Bassa's children",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **21** **[4 TR]** Ap. Thaddeus; Martyr Bassa and her children."
@@ -8999,12 +10256,14 @@
           },
           {
             "name": "Those with him",
-            "title": "Martyr",
+            "title": "Martyrs",
             "gender": "group",
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **22** **[4 TR]** Martyr Agathonicus and those with him."
@@ -9024,7 +10283,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apodosis",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **23** **[GT DOX]** Apodosis of the Dormition of the Most Holy Theotokos."
@@ -9044,7 +10305,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hieromartyr",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **24** **[6 SM]** Hieromartyr Eutyches."
@@ -9064,7 +10327,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       },
       {
         "rank_code": "[4 A+G]",
@@ -9077,7 +10342,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Apostle",
+        "default_troparion_tone": 3
       }
     ],
     "raw_source": "* **25** **[4 A+G]** Return of the relics of Ap. Bartholomew; Ap. Titus."
@@ -9104,7 +10371,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Martyrs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **26** **[4 TR]** Martyrs Adrian and Natalia."
@@ -9124,7 +10393,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **27** **[4 A+G]** Ven. Pimen."
@@ -9144,7 +10415,9 @@
             "monastic": true,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Venerable",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **28** **[4 TR]** Ven. Moses the Black."
@@ -9164,10 +10437,16 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Prophet",
+        "default_troparion_tone": 2
       }
     ],
-    "raw_source": "* **29** **[VIGIL]** **Beheading of the Precious Head of the Forerunner (On Sunday).**"
+    "raw_source": "* **29** **[VIGIL]** **Beheading of the Precious Head of the Forerunner (On Sunday).**",
+    "lviv_1899_transfer_to_sunday": true,
+    "ugcc_synodal_override": {
+      "transfer_to_sunday": false
+    }
   },
   "8-30": {
     "month": 8,
@@ -9198,7 +10477,9 @@
             "monastic": false,
             "is_saint": true
           }
-        ]
+        ],
+        "category": "Hierarchs",
+        "default_troparion_tone": 4
       }
     ],
     "raw_source": "* **30** **[4 TR]** Saints Alexander, John and Paul, Archbishops of Constantinople."
@@ -9218,7 +10499,9 @@
             "monastic": false,
             "is_saint": false
           }
-        ]
+        ],
+        "category": "Saint",
+        "default_troparion_tone": 8
       }
     ],
     "raw_source": "* **31** **[POL]** Deposition of the Precious Sash of the Most Holy Theotokos."

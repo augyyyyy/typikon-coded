@@ -114,6 +114,13 @@ class LiturgyMixin:
                 "verse": "Blessed is He who comes in the name of the Lord. God is the Lord and has appeared to us.",
                 "refrain": "O Son of God, baptized in the Jordan, save us who sing to You: Alleluia."
             }
+
+        is_forefeast_cur = bool(context.get("is_forefeast") or context.get("period") == "forefeast")
+        if not is_forefeast_cur and (dolnytsky_rank in ("THEOTOKOS", "MOG") or context.get("feast_level") == "theotokos"):
+            return {
+                "verse": "Come, let us worship and bow down before Christ.",
+                "refrain": "Through the prayers of the Theotokos, save us who sing to You: Alleluia."
+            }
             
         # General Saint/Weekday -> "Wondrous in the saints"
         return {
@@ -274,7 +281,11 @@ class LiturgyMixin:
             if "rank >=" in cond:
                 try:
                     req_rank = int(cond.split(">=")[1].strip())
-                    if rank <= req_rank: 
+                    is_theotokos_feast = (
+                        context.get("feast_level") == "theotokos"
+                        or context.get("dolnytsky_rank") in ("THEOTOKOS", "MOG")
+                    )
+                    if rank <= req_rank and not is_theotokos_feast: 
                          match = True
                 except:
                     pass
@@ -338,11 +349,10 @@ class LiturgyMixin:
                 ],
                 "saint_demetrius_earthquake_stacking": [
                     {"type": "troparion", "source": "menaion_saint"},
-                    {"type": "troparion", "source": "feast"},
                     {"type": "glory"},
                     {"type": "kontakion", "source": "menaion_saint"},
                     {"type": "both_now"},
-                    {"type": "kontakion", "source": "feast"}
+                    {"type": "theotokion", "source": "steadfast_protectress"}
                 ],
                 "nativity_synaxis_stacking": [
                     {"type": "troparion", "source": "feast"},
@@ -402,15 +412,25 @@ class LiturgyMixin:
             context.get("paradigm") in ["p_feast_lord", "p_feast_theotokos"]
         )
         
-        if day in (3, 5) and not is_festal_day:
+        is_vigil_polyeleos_early = (
+            rank_numeric <= 2 or
+            context.get("is_vigil") or
+            context.get("has_polyeleos") or
+            (context.get("doxology_type") == "great_doxology" and rank_numeric <= 3) or
+            context.get("rank") in ["rank_vigil_saint", "rank_polyeleos_saint", "rank_vigil", "rank_polyeleos", "rank_doxology"] or
+            (rubrics and rubrics.get("variables", {}).get("rank") in ["rank_vigil_saint", "rank_polyeleos_saint", "rank_vigil", "rank_polyeleos", "rank_doxology"])
+        )
+        
+        if day in (3, 5) and not is_festal_day and not is_vigil_polyeleos_early:
             final_components = [
                 {"type": "troparion", "source": "cross"}
             ]
             if temple_type == "theotokos":
                 final_components.append({"type": "troparion", "source": "temple"})
             
-            # Commemorate saint only if rank is Doxology (4) or higher (<= 3), or explicitly overridden
-            if rank_numeric <= 4 or context.get("combined_service_override"):
+            # Commemorate saint if rank <= 4, explicitly overridden, or calendar saint is present
+            has_trop_saint = bool(context.get("saints"))
+            if rank_numeric <= 4 or context.get("combined_service_override") or has_trop_saint:
                 final_components.extend([
                     {"type": "troparion", "source": "menaion_saint"},
                     {"type": "kontakion", "source": "menaion_saint", "glory": True},
@@ -446,34 +466,65 @@ class LiturgyMixin:
             if not any(w in s.get("name", "").lower() for w in ["forefeast", "afterfeast", "prefeast", "postfeast", "apodosis", "meeting", "encounter", "leave-taking"])
         ]
 
-        if is_sunday and is_fore_after:
+        is_real_calendar_context = bool(
+            saints
+            or context.get("dolnytsky_rank_code")
+            or context.get("year")
+            or context.get("date")
+        )
+
+        if is_sunday and is_fore_after and is_real_calendar_context:
+            has_sunday_liturgy_saint = bool(
+                actual_saints and (
+                    rank_numeric <= 3
+                    or context.get("dolnytsky_rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]")
+                    or any(
+                        isinstance(s, dict) and (
+                            parse_rank_integer(s.get("rank", 5)) <= 3
+                            or s.get("rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]")
+                        )
+                        for s in saints
+                    )
+                )
+            )
             final_components = [
                 {"type": "troparion", "source": "resurrection_tone"},
                 {"type": "troparion", "source": "feast"}
             ]
-            if temple_type in ("saint", "theotokos"):
+            if temple_type == "theotokos":
                 final_components.append({"type": "troparion", "source": "temple"})
-            if actual_saints:
+            if has_sunday_liturgy_saint:
                 final_components.append({"type": "troparion", "source": "menaion_saint"})
             
-            final_components.append({"type": "kontakion", "source": "resurrection_tone"})
-            if temple_type in ("saint", "theotokos"):
-                final_components.append({"type": "kontakion", "source": "temple"})
-            if actual_saints:
+            if has_sunday_liturgy_saint:
+                final_components.append({"type": "kontakion", "source": "resurrection_tone"})
+                if temple_type == "theotokos":
+                    final_components.append({"type": "kontakion", "source": "temple"})
                 final_components.append({"type": "kontakion", "source": "menaion_saint", "glory": True})
                 final_components.append({"type": "kontakion", "source": "feast", "both_now": True})
             else:
+                if temple_type == "theotokos":
+                    final_components.append({"type": "kontakion", "source": "resurrection_tone"})
+                    final_components.append({"type": "kontakion", "source": "temple", "glory": True})
+                else:
+                    final_components.append({"type": "kontakion", "source": "resurrection_tone", "glory": True})
                 final_components.append({"type": "kontakion", "source": "feast", "both_now": True})
             return {
                 "type": "hymn_stack",
                 "components": final_components
             }
 
-        if not is_sunday and is_fore_after:
+        if not is_sunday and is_fore_after and is_real_calendar_context:
             final_components = [
                 {"type": "troparion", "source": "feast"}
             ]
-            if actual_saints:
+            if len(actual_saints) >= 2:
+                final_components.append({"type": "troparion", "source": "menaion_saint_1"})
+                final_components.append({"type": "troparion", "source": "menaion_saint_2"})
+                final_components.append({"type": "kontakion", "source": "menaion_saint_1"})
+                final_components.append({"type": "kontakion", "source": "menaion_saint_2", "glory": True})
+                final_components.append({"type": "kontakion", "source": "feast", "both_now": True})
+            elif actual_saints:
                 final_components.append({"type": "troparion", "source": "menaion_saint"})
                 final_components.append({"type": "kontakion", "source": "menaion_saint", "glory": True})
                 final_components.append({"type": "kontakion", "source": "feast", "both_now": True})
@@ -503,6 +554,8 @@ class LiturgyMixin:
         elif day == 0:
             if context.get("is_temple_feast") and temple_type == "theotokos":
                 template_key = "sunday_patronal_theotokos_temple"
+            elif temple_type == "saint" and (context.get("is_temple_feast") or not is_real_calendar_context):
+                template_key = "sunday_patronal_saint_temple"
             elif temple_type == "lord":
                 template_key = "sunday_lord_temple"
             elif temple_type == "theotokos":
@@ -545,6 +598,12 @@ class LiturgyMixin:
         # Filter components based on conditions
         final_components = []
         is_afterfeast = context.get("is_afterfeast", False)
+        has_sunday_liturgy_saint = (
+            rank_numeric <= 3
+            or context.get("dolnytsky_rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]")
+            or any(isinstance(s, dict) and s.get("rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]") for s in saints)
+        )
+        suppress_sunday_saint_hymns = (day == 0 and is_real_calendar_context and not has_sunday_liturgy_saint)
         
         for comp in raw_order:
             # Check conditions if they exist
@@ -554,7 +613,12 @@ class LiturgyMixin:
                       continue
                  if "temple_type != 'theotokos'" in cond and temple_type == "theotokos":
                       continue
-            final_components.append(comp)
+            if suppress_sunday_saint_hymns and comp.get("source") == "menaion_saint":
+                continue
+            comp_copy = dict(comp)
+            if suppress_sunday_saint_hymns and comp_copy.get("type") == "kontakion" and comp_copy.get("source") == "resurrection_tone":
+                comp_copy["glory"] = True
+            final_components.append(comp_copy)
         
         return {
             "type": "hymn_stack",
@@ -562,7 +626,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.20.2")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.20,L1767-1774")
     def resolve_trisagion_type(self, context, rubrics=None):
         """
         Trisagion Type Selection for Liturgy.
@@ -755,7 +819,7 @@ class LiturgyMixin:
         return {"type": "text", "content": "".join(parts)}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:6.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:L11661-11720")
     def resolve_basil_megalynarion(self, context, rubrics=None):
         """
         Megalynarion for Liturgy of St. Basil.
@@ -801,7 +865,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5.3.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5,L1211-1216")
     def resolve_communion_hymn(self, context, rubrics=None):
         """
         Communion Hymn (Причастен/Koinonikon).
@@ -848,6 +912,7 @@ class LiturgyMixin:
                 "we_will_walk_in_light": "We will walk in the light of Your face, O Lord, and in Your name will we rejoice all the day.",
                 "the_lord_has_chosen_zion": "The Lord has chosen Zion; He has desired it for His habitation.",
                 "rejoice_in_the_lord": "Rejoice in the Lord, O ye righteous; praise is comely for the upright.",
+                "praise_the_lord_and_rejoice": "Praise the Lord from the heavens, praise Him in the highest. Rejoice in the Lord, O you righteous; praise is becoming to the upright.",
                 "be_exalted_o_god": "Be exalted, O God, above the heavens, and Your glory above all the earth.",
                 "crown_of_the_year": "Bless the crown of the year with Thy goodness, O Lord."
             }
@@ -895,7 +960,20 @@ class LiturgyMixin:
         if not overrides:
             overrides = context.get("variables", {}) or {}
 
-        if not is_eucharist_period:
+        is_no_reading_weekday_saint = (
+            1 <= day_of_week <= 6
+            and rank > 3
+            and context.get("dolnytsky_rank_code") in ("[4 TR]", "[4 NO]")
+            and not is_after_or_apodosis
+            and not context.get("is_forefeast")
+            and not context.get("is_fore_or_afterfeast")
+            and not any(
+                isinstance(s, dict) and s.get("rank_code") in ("[4 A+G]", "[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]")
+                for s in context.get("saints", [])
+            )
+        )
+
+        if not is_eucharist_period and not is_no_reading_weekday_saint:
             # 1. Check if nested inside liturgy_readings override
             l_readings = overrides.get("liturgy_readings")
             if l_readings and isinstance(l_readings, list) and len(l_readings) > 0:
@@ -915,13 +993,46 @@ class LiturgyMixin:
             c_h = overrides.get("communion_hymn")
             if c_h:
                 if isinstance(c_h, dict):
-                    return {
+                    res_h = {
                         "type": "communion_hymn",
                         "text": c_h.get("text", ""),
                         "ref_key": c_h.get("ref_key", "")
                     }
                 elif isinstance(c_h, (str, list)):
-                    return resolve_str_hymn(c_h)
+                    res_h = resolve_str_hymn(c_h)
+                else:
+                    res_h = None
+                if res_h:
+                    is_great_feast_lord = (
+                        rank == 1
+                        or paradigm == "p_feast_lord"
+                        or context.get("feast_level") == "lord"
+                        or context.get("dolnytsky_rank") == "LORD"
+                    )
+                    if day_of_week == 0 and not is_great_feast_lord and season != "pascha" and paradigm != "p_pascha":
+                        saints_list = context.get("saints", [])
+                        has_sunday_saint_comm = (
+                            rank <= 3
+                            or context.get("dolnytsky_rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]")
+                            or any(isinstance(s, dict) and s.get("rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]") for s in saints_list)
+                        )
+                        sunday_text = "Praise the Lord from the heavens, praise Him in the highest."
+                        if not has_sunday_saint_comm:
+                            return {
+                                "type": "communion_hymn",
+                                "text": sunday_text,
+                                "ref_key": "octoechos.communion_sunday"
+                            }
+                        if sunday_text.lower() not in res_h.get("text", "").lower():
+                            res_h["text"] = f"{sunday_text} And of the Saint: {res_h['text']}"
+                    elif 1 <= day_of_week <= 6 and is_after_or_apodosis:
+                        # Weekday afterfeast (Dolnytsky §2.16:1653, §3.3.3:2300):
+                        # Feast communion hymn prepends the Saint's hymn
+                        feast_comm = "I will take the cup of salvation, and I will call upon the name of the Lord."
+                        if feast_comm.lower() not in res_h.get("text", "").lower():
+                            res_h["text"] = f"{feast_comm} And of the Saint: {res_h['text']}"
+                            res_h["source"] = "feast_and_saint"
+                    return res_h
 
         # EUCHARIST PERIOD AFTERFEAST (pascha_offset between 60 and 67)
         pascha_offset = context.get("pascha_offset")
@@ -1003,25 +1114,93 @@ class LiturgyMixin:
                 "ref_key": f"menaion.{feast_id}.communion_hymn" if feast_id else "feast.communion_hymn"
             }
         
-        # SUNDAY: Always "Praise the Lord"
+        # SUNDAY: "Praise the Lord" + Saint Communion Hymn if [GT DOX], [POL], or [VIGIL]
         if day_of_week == 0:
+            sunday_text = "Praise the Lord from the heavens, praise Him in the highest."
+            saints = context.get("saints", [])
+            sunday_reading_saints = [
+                s for s in saints
+                if any(m in str(s.get("rank_code", "")) for m in ("GT DOX", "POL", "VIGIL"))
+            ]
+            if sunday_reading_saints:
+                s_obj = sunday_reading_saints[0]
+                s_title = str(s_obj.get("title", "")).lower()
+                if "apostle" in s_title or "evangelist" in s_title:
+                    s_hymn = "Their proclamation has gone out into all the earth, and their words to the ends of the universe."
+                elif "unmercenar" in s_title or "cosmas" in s_title or ("martyr" in s_title and len(s_obj.get("all_parsed_saints", [])) > 1):
+                    s_hymn = "Rejoice in the Lord, O you righteous; praise is becoming to the upright."
+                else:
+                    s_hymn = "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings."
+                return {
+                    "type": "communion_hymn",
+                    "text": f"{sunday_text} And of the Saint: {s_hymn}",
+                    "ref_key": "octoechos.communion_sunday"
+                }
             return {
                 "type": "communion_hymn",
-                "text": "Praise the Lord from the heavens, praise Him in the highest.",
+                "text": sunday_text,
                 "ref_key": "octoechos.communion_sunday"
             }
         
         # WEEKDAY PROPER
         weekday_hymns = {
-            1: {"text": "He maketh His angels spirits...", "ref_key": "horologion.communion_monday"},
-            2: {"text": "In everlasting remembrance shall the righteous be...", "ref_key": "horologion.communion_tuesday"},
-            3: {"text": "I will take the cup of salvation, and I will call upon the name of the Lord...", "ref_key": "horologion.communion_wednesday"},
-            4: {"text": "Their sound hath gone forth into all the earth...", "ref_key": "horologion.communion_thursday"},
-            5: {"text": "O Lord, save Thy people...", "ref_key": "horologion.communion_friday"},
-            6: {"text": "Blessed are they whom Thou hast chosen...", "ref_key": "horologion.communion_saturday"}
+            1: {"text": "He makes His angels spirits, and His ministers a flame of fire.", "ref_key": "horologion.communion_monday"},
+            2: {"text": "In everlasting remembrance shall the righteous be; he shall not fear evil tidings.", "ref_key": "horologion.communion_tuesday"},
+            3: {"text": "I will take the cup of salvation, and I will call upon the name of the Lord.", "ref_key": "horologion.communion_wednesday"},
+            4: {"text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.", "ref_key": "horologion.communion_thursday"},
+            5: {"text": "O Lord, save Your people, and bless Your inheritance.", "ref_key": "horologion.communion_friday"},
+            6: {"text": "Blessed are they whom You have chosen and taken, O Lord.", "ref_key": "horologion.communion_saturday"}
         }
         
         hymn_data = weekday_hymns.get(day_of_week, weekday_hymns[1])
+        saints = context.get("saints", [])
+        reading_saints = [
+            s for s in saints
+            if any(m in str(s.get("rank_code", "")) for m in ("A+G", "6 SM", "GT DOX", "POL", "VIGIL"))
+        ]
+        if reading_saints:
+            s_obj = reading_saints[0]
+            s_title = f"{s_obj.get('title', '')} {s_obj.get('name', '')} {s_obj.get('category', '')}".lower()
+            s_name_low = str(s_obj.get("name", "")).lower()
+            is_plural_martyrs = (
+                "martyr" in s_title
+                and (
+                    len(s_obj.get("all_parsed_saints", [])) > 1
+                    or "and those with" in s_name_low
+                    or "companions" in s_name_low
+                    or "martyrs" in s_title
+                )
+            )
+            if "apostle" in s_title:
+                s_hymn = "Their proclamation has gone out into all the earth, and their words to the ends of the universe."
+            elif "unmercenar" in s_title or "cosmas" in s_title or is_plural_martyrs:
+                s_hymn = "Rejoice in the Lord, O you righteous; praise is becoming to the upright."
+            else:
+                s_hymn = "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings."
+            is_polyeleos_or_vigil_saint = (
+                rank in (2, "rank_polyeleos", "rank_vigil")
+                or context.get("has_polyeleos") is True
+                or context.get("dolnytsky_rank_code") in ("[POL]", "[VIGIL]")
+                or any(m in str(s_obj.get("rank_code", "")) for m in ("POL", "VIGIL"))
+            )
+            if is_polyeleos_or_vigil_saint and not context.get("is_forefeast") and not is_after_or_apodosis:
+                return {
+                    "type": "communion_hymn",
+                    "text": s_hymn,
+                    "ref_key": "menaion.communion_saint"
+                }
+            day_clause = hymn_data["text"].split(";")[0].strip().rstrip(".").lower()
+            saint_clause = s_hymn.split(";")[0].strip().rstrip(".").lower()
+            if day_clause != saint_clause:
+                if day_of_week == 6:
+                    combined_text = f"{s_hymn} And of the Day: {hymn_data['text']}"
+                else:
+                    combined_text = f"{hymn_data['text']} And of the Saint: {s_hymn}"
+                return {
+                    "type": "communion_hymn",
+                    "text": combined_text,
+                    "ref_key": hymn_data["ref_key"]
+                }
         return {
             "type": "communion_hymn",
             "text": hymn_data["text"],
@@ -1029,7 +1208,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2.1.11")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2,L1053-1068")
     def resolve_post_communion_hymn(self, context, rubrics=None):
         """
         Post-Communion Hymn: "We Have Seen the True Light" replacement.
@@ -1122,7 +1301,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.6.3")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:3.4.6,L2759-2788")
     def resolve_vesperal_liturgy_readings(self, context, rubrics=None):
         """
         Phase 7: Resolve Vesperal Liturgy Readings
@@ -1185,7 +1364,58 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5.3.5")
+    def _get_weekday_lectionary_reading(self, weeks_after_pentecost, day_of_week):
+        """Return (epistle_ref, gospel_ref) for Weeks 1..36 after Pentecost, Mon..Sat (1..6)."""
+        if weeks_after_pentecost is None or day_of_week not in (1, 2, 3, 4, 5, 6):
+            return None
+        lectionary = getattr(self, "_WEEKDAY_LECTIONARY_36", None)
+        if lectionary is None:
+            lectionary = {
+                1: {1: ("Ephesians 5:9–19", "Matthew 18:10–20"), 2: ("Romans 1:1–7, 13–17", "Matthew 4:25–5:13"), 3: ("Romans 1:18–27", "Matthew 5:20–26"), 4: ("Romans 1:28–2:9", "Matthew 5:27–32"), 5: ("Romans 2:14–29", "Matthew 5:33–41"), 6: ("Romans 1:7–12", "Matthew 5:42–48")},
+                2: {1: ("Romans 2:28–3:18", "Matthew 6:31–34; 7:9–11"), 2: ("Romans 4:4–12", "Matthew 7:15–21"), 3: ("Romans 4:13–25", "Matthew 7:21–23"), 4: ("Romans 5:1–10", "Matthew 8:23–27"), 5: ("Romans 5:17–6:2", "Matthew 9:14–17"), 6: ("Romans 3:19–26", "Matthew 7:1–8")},
+                3: {1: ("Romans 7:1–13", "Matthew 9:36–10:8"), 2: ("Romans 7:14–8:2", "Matthew 10:9–15"), 3: ("Romans 8:2–13", "Matthew 10:16–22"), 4: ("Romans 8:22–27", "Matthew 10:23–31"), 5: ("Romans 9:6–19", "Matthew 10:32–36; 11:1"), 6: ("Romans 3:28–4:3", "Matthew 7:24–8:4")},
+                4: {1: ("Romans 9:18–33", "Matthew 11:2–15"), 2: ("Romans 10:11–11:2", "Matthew 11:16–20"), 3: ("Romans 11:2–12", "Matthew 11:20–26"), 4: ("Romans 11:13–24", "Matthew 11:27–30"), 5: ("Romans 11:25–36", "Matthew 12:1–8"), 6: ("Romans 6:11–17", "Matthew 8:14–23")},
+                5: {1: ("Romans 12:4–5, 15–21", "Matthew 12:9–13"), 2: ("Romans 14:9–18", "Matthew 12:14–16, 22–30"), 3: ("Romans 15:7–16", "Matthew 12:38–45"), 4: ("Romans 15:17–29", "Matthew 12:46–13:3"), 5: ("Romans 16:1–16", "Matthew 13:4–9"), 6: ("Romans 8:14–21", "Matthew 9:9–13")},
+                6: {1: ("Romans 16:17–24", "Matthew 13:10–23"), 2: ("1 Corinthians 1:1–9", "Matthew 13:24–30"), 3: ("1 Corinthians 2:9–3:8", "Matthew 13:31–36"), 4: ("1 Corinthians 3:18–23", "Matthew 13:36–43"), 5: ("1 Corinthians 4:5–8", "Matthew 13:44–54"), 6: ("Romans 9:1–5", "Matthew 9:18–26")},
+                7: {1: ("1 Corinthians 5:9–6:11", "Matthew 13:54–58"), 2: ("1 Corinthians 6:20–7:12", "Matthew 14:1–13"), 3: ("1 Corinthians 7:12–24", "Matthew 14:35–15:11"), 4: ("1 Corinthians 7:24–35", "Matthew 15:12–21"), 5: ("1 Corinthians 7:35–8:7", "Matthew 15:29–31"), 6: ("Romans 12:1–3", "Matthew 10:37–11:1")},
+                8: {1: ("1 Corinthians 9:13–18", "Matthew 16:1–6"), 2: ("1 Corinthians 10:5–12", "Matthew 16:6–12"), 3: ("1 Corinthians 10:12–22", "Matthew 16:20–24"), 4: ("1 Corinthians 10:28–11:7", "Matthew 16:24–28"), 5: ("1 Corinthians 11:8–22", "Matthew 17:10–18"), 6: ("Romans 13:1–10", "Matthew 12:30–37")},
+                9: {1: ("1 Corinthians 11:31–12:6", "Matthew 18:1–11"), 2: ("1 Corinthians 12:12–26", "Matthew 18:18–22; 19:1–2, 13–15"), 3: ("1 Corinthians 13:4–14:5", "Matthew 20:1–16"), 4: ("1 Corinthians 14:6–19", "Matthew 20:17–28"), 5: ("1 Corinthians 14:26–40", "Matthew 21:12–14, 17–20"), 6: ("Romans 14:6–9", "Matthew 15:32–39")},
+                10: {1: ("1 Corinthians 15:12–19", "Matthew 21:18–22"), 2: ("1 Corinthians 15:29–38", "Matthew 21:23–27"), 3: ("1 Corinthians 16:4–12", "Matthew 21:28–32"), 4: ("2 Corinthians 1:1–7", "Matthew 21:43–46"), 5: ("2 Corinthians 1:12–20", "Matthew 22:23–33"), 6: ("Romans 15:30–33", "Matthew 17:24–18:4")},
+                11: {1: ("2 Corinthians 2:4–15", "Matthew 23:13–22"), 2: ("2 Corinthians 2:14–3:3", "Matthew 23:23–28"), 3: ("2 Corinthians 3:4–11", "Matthew 23:29–39"), 4: ("2 Corinthians 4:1–6", "Matthew 24:13–28"), 5: ("2 Corinthians 4:13–18", "Matthew 24:27–33, 42–51"), 6: ("1 Corinthians 1:3–9", "Matthew 19:3–12")},
+                12: {1: ("2 Corinthians 5:10–15", "Mark 1:9–15"), 2: ("2 Corinthians 5:15–21", "Mark 1:16–22"), 3: ("2 Corinthians 6:11–16", "Mark 1:23–28"), 4: ("2 Corinthians 7:1–10", "Mark 1:29–35"), 5: ("2 Corinthians 7:10–16", "Mark 2:18–22"), 6: ("1 Corinthians 1:26–29", "Matthew 20:29–34")},
+                13: {1: ("2 Corinthians 8:7–15", "Mark 3:6–12"), 2: ("2 Corinthians 8:16–9:5", "Mark 3:13–19"), 3: ("2 Corinthians 9:12–10:7", "Mark 3:20–27"), 4: ("2 Corinthians 10:7–18", "Mark 3:28–35"), 5: ("2 Corinthians 11:5–21", "Mark 4:1–9"), 6: ("1 Corinthians 2:6–9", "Matthew 22:15–22")},
+                14: {1: ("2 Corinthians 12:10–19", "Mark 4:10–23"), 2: ("2 Corinthians 12:20–13:2", "Mark 4:24–34"), 3: ("2 Corinthians 13:3–13", "Mark 4:35–41"), 4: ("Galatians 1:1–10, 20–2:5", "Mark 5:1–20"), 5: ("Galatians 2:6–10", "Mark 5:22–24, 35–6:1"), 6: ("1 Corinthians 4:1–5", "Matthew 23:1–12")},
+                15: {1: ("Galatians 2:11–16", "Mark 5:24–34"), 2: ("Galatians 2:21–3:7", "Mark 6:1–7"), 3: ("Galatians 3:15–22", "Mark 6:7–13"), 4: ("Galatians 3:23–4:5", "Mark 6:30–45"), 5: ("Galatians 4:8–21", "Mark 6:45–53"), 6: ("1 Corinthians 4:17–5:5", "Matthew 24:1–13")},
+                16: {1: ("Galatians 4:28–5:10", "Mark 6:54–7:8"), 2: ("Galatians 5:11–21", "Mark 7:5–16"), 3: ("Galatians 6:2–10", "Mark 7:14–24"), 4: ("Ephesians 1:1–9", "Mark 7:24–30"), 5: ("Ephesians 1:7–17", "Mark 8:1–10"), 6: ("1 Corinthians 10:23–28", "Matthew 24:34–44")},
+                17: {1: ("Ephesians 1:22–2:3", "Mark 10:46–52"), 2: ("Ephesians 2:19–3:7", "Mark 11:11–23"), 3: ("Ephesians 3:8–21", "Mark 11:23–26"), 4: ("Ephesians 4:14–19", "Mark 11:27–33"), 5: ("Ephesians 4:17–25", "Mark 12:1–12"), 6: ("1 Corinthians 14:20–25", "Matthew 25:1–13")},
+                18: {1: ("Ephesians 4:25–32", "Luke 3:19–22"), 2: ("Ephesians 5:20–26", "Luke 3:23–4:1"), 3: ("Ephesians 5:25–33", "Luke 4:1–15"), 4: ("Ephesians 5:33–6:9", "Luke 4:16–22"), 5: ("Ephesians 6:18–24", "Luke 4:22–30"), 6: ("1 Corinthians 15:39–45", "Luke 4:31–36")},
+                19: {1: ("Philippians 1:1–7", "Luke 4:37–44"), 2: ("Philippians 1:8–14", "Luke 5:12–16"), 3: ("Philippians 1:12–20", "Luke 5:33–39"), 4: ("Philippians 1:20–27", "Luke 6:12–19"), 5: ("Philippians 1:27–2:4", "Luke 6:17–23"), 6: ("1 Corinthians 15:58–16:3", "Luke 5:17–26")},
+                20: {1: ("Philippians 2:12–16", "Luke 6:24–30"), 2: ("Philippians 2:17–23", "Luke 6:37–45"), 3: ("Philippians 2:24–30", "Luke 6:46–7:1"), 4: ("Philippians 3:1–8", "Luke 7:17–30"), 5: ("Philippians 3:8–19", "Luke 7:31–35"), 6: ("2 Corinthians 1:8–11", "Luke 5:27–32")},
+                21: {1: ("Philippians 4:10–23", "Luke 7:36–50"), 2: ("Colossians 1:1–2, 7–11", "Luke 8:1–3"), 3: ("Colossians 1:18–23", "Luke 8:22–25"), 4: ("Colossians 1:24–29", "Luke 9:7–11"), 5: ("Colossians 2:1–7", "Luke 9:12–18"), 6: ("2 Corinthians 3:12–18", "Luke 6:1–10")},
+                22: {1: ("Colossians 2:13–20", "Luke 9:18–22"), 2: ("Colossians 2:20–3:3", "Luke 9:23–27"), 3: ("Colossians 3:17–4:1", "Luke 9:44–50"), 4: ("Colossians 4:2–9", "Luke 9:49–56"), 5: ("Colossians 4:10–18", "Luke 10:1–15"), 6: ("2 Corinthians 5:1–10", "Luke 7:2–10")},
+                23: {1: ("1 Thessalonians 1:1–5", "Luke 10:22–24"), 2: ("1 Thessalonians 1:6–10", "Luke 11:1–10"), 3: ("1 Thessalonians 2:1–8", "Luke 11:9–13"), 4: ("1 Thessalonians 2:9–14", "Luke 11:14–23"), 5: ("1 Thessalonians 2:14–19", "Luke 11:23–26"), 6: ("2 Corinthians 8:1–5", "Luke 8:16–21")},
+                24: {1: ("1 Thessalonians 2:20–3:8", "Luke 11:29–33"), 2: ("1 Thessalonians 3:9–13", "Luke 11:34–41"), 3: ("1 Thessalonians 4:1–12", "Luke 11:42–46"), 4: ("1 Thessalonians 5:1–8", "Luke 11:47–12:1"), 5: ("1 Thessalonians 5:9–13, 24–28", "Luke 12:2–12"), 6: ("2 Corinthians 11:1–6", "Luke 9:1–6")},
+                25: {1: ("2 Thessalonians 1:1–10", "Luke 12:13–15, 22–31"), 2: ("2 Thessalonians 1:10–2:2", "Luke 12:42–48"), 3: ("2 Thessalonians 2:1–12", "Luke 12:48–59"), 4: ("2 Thessalonians 2:13–3:5", "Luke 13:1–9"), 5: ("2 Thessalonians 3:6–18", "Luke 13:31–35"), 6: ("Galatians 1:3–10", "Luke 9:37–43")},
+                26: {1: ("1 Timothy 1:1–7", "Luke 14:12–15"), 2: ("1 Timothy 1:8–14", "Luke 14:25–35"), 3: ("1 Timothy 1:18–20; 2:8–15", "Luke 15:1–10"), 4: ("1 Timothy 3:1–13", "Luke 16:1–9"), 5: ("1 Timothy 4:4–8, 16", "Luke 16:15–18; 17:1–4"), 6: ("Galatians 3:8–12", "Luke 9:57–62")},
+                27: {1: ("1 Timothy 5:1–10", "Luke 17:20–25"), 2: ("1 Timothy 5:11–21", "Luke 17:26–37"), 3: ("1 Timothy 5:22–6:11", "Luke 18:15–17, 26–30"), 4: ("1 Timothy 6:17–21", "Luke 18:31–34"), 5: ("2 Timothy 1:1–2, 8–18", "Luke 19:12–28"), 6: ("Galatians 5:22–6:2", "Luke 10:19–21")},
+                28: {1: ("2 Timothy 2:20–26", "Luke 19:37–44"), 2: ("2 Timothy 3:16–4:4", "Luke 19:45–48"), 3: ("2 Timothy 4:9–22", "Luke 20:1–8"), 4: ("Titus 1:5–2:1", "Luke 20:9–18"), 5: ("Titus 1:15–2:10", "Luke 20:19–26"), 6: ("Ephesians 1:16–23", "Luke 12:32–40")},
+                29: {1: ("Hebrews 3:5–11, 17–19", "Luke 20:27–44"), 2: ("Hebrews 4:1–13", "Luke 21:12–19"), 3: ("Hebrews 5:11–6:8", "Luke 21:5–7, 10–11, 20–24"), 4: ("Hebrews 7:1–6", "Luke 21:28–33"), 5: ("Hebrews 7:18–25", "Luke 21:37–22:8"), 6: ("Ephesians 2:11–13", "Luke 13:18–29")},
+                30: {1: ("Hebrews 8:7–13", "Mark 8:11–21"), 2: ("Hebrews 9:8–10, 15–23", "Mark 8:22–26"), 3: ("Hebrews 10:1–18", "Mark 8:30–34"), 4: ("Hebrews 10:35–11:7", "Mark 9:10–16"), 5: ("Hebrews 11:8, 11–16", "Mark 9:33–41"), 6: ("Ephesians 5:1–8", "Luke 14:1–11")},
+                31: {1: ("Hebrews 11:17–31", "Mark 9:42–10:1"), 2: ("Hebrews 12:14–27", "Mark 10:2–12"), 3: ("James 1:1–18", "Mark 10:11–16"), 4: ("James 1:19–27", "Mark 10:17–27"), 5: ("James 2:1–13", "Mark 10:23–32"), 6: ("Colossians 1:3–6", "Luke 16:10–15")},
+                32: {1: ("James 2:14–26", "Mark 10:46–52"), 2: ("James 3:1–10", "Mark 11:11–23"), 3: ("James 3:11–4:6", "Mark 11:23–26"), 4: ("James 4:7–5:9", "Mark 11:27–33"), 5: ("1 Peter 1:1–2, 10–12; 2:6–10", "Mark 12:1–12"), 6: ("1 Thessalonians 5:14–23", "Luke 17:3–10")},
+                33: {1: ("1 Peter 2:21–3:9", "Mark 12:13–17"), 2: ("1 Peter 3:10–22", "Mark 12:18–27"), 3: ("1 Peter 4:1–11", "Mark 12:28–37"), 4: ("1 Peter 4:12–5:5", "Mark 12:38–44"), 5: ("2 Peter 1:1–10", "Mark 13:1–8"), 6: ("2 Timothy 2:11–19", "Luke 18:2–8")},
+                34: {1: ("1 Peter 2:21–3:9", "Mark 12:13–17"), 2: ("1 Peter 3:10–22", "Mark 12:18–27"), 3: ("1 Peter 4:1–11", "Mark 12:28–37"), 4: ("1 Peter 4:12–5:5", "Mark 12:38–44"), 5: ("2 Peter 1:1–10", "Mark 13:1–8"), 6: ("2 Timothy 3:1–9", "Luke 20:46–21:4")},
+                35: {1: ("2 Peter 1:20–2:9", "Mark 13:9–13"), 2: ("2 Peter 2:9–22", "Mark 13:14–23"), 3: ("2 Peter 3:1–18", "Mark 13:24–31"), 4: ("1 John 1:8–2:6", "Mark 13:31–14:2"), 5: ("1 John 2:7–17", "Mark 14:3–9"), 6: ("1 Timothy 6:11–16", "Luke 20:46–21:4")},
+                36: {1: ("1 John 2:18–3:10", "Mark 11:1–11"), 2: ("1 John 3:11–20", "Mark 14:10–42"), 3: ("1 John 3:21–4:6", "Mark 14:43–15:1"), 4: ("1 John 4:20–5:21", "Mark 15:1–15"), 5: ("2 John 1:1–13", "Mark 15:22, 25, 33–41"), 6: ("2 Timothy 2:11–19", "Luke 20:46–21:4")},
+            }
+            self._WEEKDAY_LECTIONARY_36 = lectionary
+        if weeks_after_pentecost in lectionary and day_of_week in lectionary[weeks_after_pentecost]:
+            return lectionary[weeks_after_pentecost][day_of_week]
+        if isinstance(weeks_after_pentecost, int) and weeks_after_pentecost > 36:
+            return lectionary[36].get(day_of_week)
+        return None
+
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5,L1211-1216")
     def resolve_liturgy_readings(self, context, rubrics=None):
         """
         Unified Liturgy Readings Resolution.
@@ -1217,37 +1447,109 @@ class LiturgyMixin:
                         s_val = self._format_scripture_key(g["ref_key"])
                         if s_val and s_val.lower() not in ("gospel", "feast gospel"):
                             g["text"] = s_val
+                def _build_reading_combined_info(ref_k_val):
+                    s_name = (context.get("title") or "").lower()
+                    s_commem = (context.get("dolnytsky_commemoration") or "").lower()
+                    saints_list = [s for s in context.get("saints", []) if isinstance(s, dict)]
+                    if ref_k_val.startswith("menaion.") and saints_list:
+                        matched_s = next(
+                            (s for s in saints_list if s.get("rank_code") in ("[4 A+G]", "[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]")),
+                            saints_list[0],
+                        )
+                        for s in saints_list:
+                            sid = (s.get("id") or "").lower()
+                            snm = (s.get("name") or "").lower()
+                            if (sid and sid in ref_k_val) or (snm and snm in ref_k_val):
+                                matched_s = s
+                                break
+                        m_name_low = (matched_s.get("name") or "").lower()
+                        is_plural = (
+                            len(matched_s.get("all_parsed_saints", [])) > 1
+                            or "and those with" in m_name_low
+                            or "companions" in m_name_low
+                        )
+                        plural_tag = "plural_saints " if is_plural else ""
+                        return f"{ref_k_val} {plural_tag}{matched_s.get('name', '')} {matched_s.get('title', '')} {matched_s.get('category', '')}".lower()
+                    s_names = " ".join(s.get("name", "") for s in saints_list).lower()
+                    s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list).lower()
+                    return f"{ref_k_val} {s_name} {s_commem} {s_names} {s_titles}"
+
+                weekday_fb_ep = {
+                    1: "Ephesians 5:9–19",
+                    2: "Romans 1:1–7, 13–17",
+                    3: "Romans 1:18–27",
+                    4: "Romans 1:28–2:9",
+                    5: "Romans 2:14–29",
+                    6: "Romans 1:7–12",
+                }
+                weekday_fb_gosp = {
+                    1: "Matthew 18:10–20",
+                    2: "Matthew 4:25–5:13",
+                    3: "Matthew 5:20–26",
+                    4: "Matthew 5:27–32",
+                    5: "Matthew 5:33–41",
+                    6: "Matthew 5:42–48",
+                }
+                dow_val = context.get("day_of_week", 1)
+
+                sunday_pentecost_ep = {
+                    1: "Hebrews 11:33–12:2", 2: "Romans 2:10–16", 3: "Romans 5:1–10", 4: "Romans 6:18–23",
+                    5: "Romans 10:1–10", 6: "Romans 12:6–14", 7: "Romans 15:1–7", 8: "1 Corinthians 1:10–18",
+                    9: "1 Corinthians 3:9–17", 10: "1 Corinthians 4:9–16", 11: "1 Corinthians 9:2–12", 12: "1 Corinthians 15:1–11",
+                    13: "1 Corinthians 16:13–24", 14: "2 Corinthians 1:21–2:4", 15: "2 Corinthians 4:6–15", 16: "2 Corinthians 6:1–10",
+                    17: "2 Corinthians 6:16–7:1", 18: "2 Corinthians 9:6–11", 19: "2 Corinthians 11:31–12:9", 20: "Galatians 1:11–19",
+                    21: "Galatians 2:16–20", 22: "Galatians 6:11–18", 23: "Ephesians 2:4–10", 24: "Ephesians 2:14–22",
+                    25: "Ephesians 4:1–6", 26: "Ephesians 5:9–19", 27: "Ephesians 6:10–17", 28: "Colossians 1:12–18",
+                    29: "Colossians 3:4–11", 30: "Colossians 3:12–16", 31: "1 Timothy 1:15–17", 32: "1 Timothy 4:9–15",
+                }
+                sunday_pentecost_gosp = {
+                    1: "Matthew 10:32–33, 37–38; 19:27–30", 2: "Matthew 4:18–23", 3: "Matthew 6:22–33", 4: "Matthew 8:5–13",
+                    5: "Matthew 8:28–9:1", 6: "Matthew 9:1–8", 7: "Matthew 9:27–35", 8: "Matthew 14:14–22",
+                    9: "Matthew 14:22–34", 10: "Matthew 17:14–23", 11: "Matthew 18:23–35", 12: "Matthew 19:16–26",
+                    13: "Matthew 21:33–42", 14: "Matthew 22:1–14", 15: "Matthew 22:35–46", 16: "Matthew 25:14–30",
+                    17: "Matthew 15:21–28", 18: "Luke 5:1–11", 19: "Luke 6:31–36", 20: "Luke 7:11–16",
+                    21: "Luke 8:5–15", 22: "Luke 16:19–31", 23: "Luke 8:26–39", 24: "Luke 8:41–56",
+                    25: "Luke 10:25–37", 26: "Luke 12:16–21", 27: "Luke 13:10–17", 28: "Luke 14:16–24",
+                    29: "Luke 17:12–19", 30: "Luke 18:18–27", 31: "Luke 18:35–43", 32: "Luke 19:1–10",
+                }
+                wap = context.get("weeks_after_pentecost")
+
                 if "epistle" in r and isinstance(r["epistle"], dict):
                     ep = r["epistle"]
                     if not ep.get("text") and ep.get("ref_key"):
                         s_val = self._format_scripture_key(ep["ref_key"])
                         if s_val and s_val.lower() not in ("epistle", "feast epistle"):
                             ep["text"] = s_val
-                    # Fallback hydration from Common of Saints if epistle text still missing
+                    # Fallback hydration from weekday/Sunday lectionary or Common of Saints if epistle text still missing
                     if not ep.get("text"):
                         ref_k = (ep.get("ref_key") or "").lower()
-                        s_name = (context.get("title") or "").lower()
-                        s_commem = (context.get("dolnytsky_commemoration") or "").lower()
-                        saints_list = context.get("saints", [])
-                        s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
-                        s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list if isinstance(s, dict)).lower()
-                        combined_info = f"{ref_k} {s_name} {s_commem} {s_names} {s_titles}"
-                        if any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
-                            ep["text"] = "1 Corinthians 4:9–16"
-                        elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas"]):
-                            ep["text"] = "Hebrews 7:26–8:2"
-                        elif any(w in combined_info for w in ["venerable", "monk", "abbot", "chariton", "sabbas", "ven.", "ven "]):
-                            ep["text"] = "Galatians 5:22–6:2"
-                        elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr"]):
-                            ep["text"] = "2 Timothy 2:1–10"
-                        elif any(w in combined_info for w in ["theotokos", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
-                            ep["text"] = "Philippians 2:5–11"
-                        elif any(w in combined_info for w in ["forerunner", "baptist"]):
-                            ep["text"] = "Galatians 4:22–31"
-                        elif any(w in combined_info for w in ["prophet"]):
-                            ep["text"] = "James 5:10–20"
+                        if dow_val == 0 and (ep.get("source") == "apostol" or "sunday" in ref_k):
+                            ep["text"] = sunday_pentecost_ep.get(wap, "Galatians 1:11–19")
+                        elif (ep.get("source") == "apostol" or "weekday" in ref_k) and len(res_obj["readings"]) > 1:
+                            wk_pair = self._get_weekday_lectionary_reading(wap, dow_val)
+                            ep["text"] = wk_pair[0] if wk_pair else weekday_fb_ep.get(dow_val, "Romans 1:18–27")
                         else:
-                            ep["text"] = "Galatians 5:22–6:2"
+                            combined_info = _build_reading_combined_info(ref_k)
+                            if any(w in combined_info for w in ["fathers", "council", "councils"]):
+                                ep["text"] = "Hebrews 13:7–16"
+                            elif any(w in combined_info for w in ["unmercenar", "cosmas", "damian", "nov_01"]):
+                                ep["text"] = "1 Corinthians 12:27–13:8"
+                            elif any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
+                                ep["text"] = "1 Corinthians 4:9–16"
+                            elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas"]):
+                                ep["text"] = "Hebrews 7:26–8:2"
+                            elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr", "hieromartyr"]):
+                                ep["text"] = "2 Timothy 2:1–10"
+                            elif any(w in combined_info for w in ["venerable", "monk", "abbot", "chariton", "sabbas", "ven.", "ven "]):
+                                ep["text"] = "Galatians 5:22–6:2"
+                            elif any(w in combined_info for w in ["theotokos", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
+                                ep["text"] = "Philippians 2:5–11"
+                            elif any(w in combined_info for w in ["forerunner", "baptist"]):
+                                ep["text"] = "Galatians 4:22–31"
+                            elif any(w in combined_info for w in ["prophet"]):
+                                ep["text"] = "James 5:10–20"
+                            else:
+                                ep["text"] = "Galatians 5:22–6:2"
 
                 if "gospel" in r and isinstance(r["gospel"], dict):
                     g = r["gospel"]
@@ -1255,31 +1557,36 @@ class LiturgyMixin:
                         s_val = self._format_scripture_key(g["ref_key"])
                         if s_val and s_val.lower() not in ("gospel", "feast gospel"):
                             g["text"] = s_val
-                    # Fallback hydration from Common of Saints if gospel text still missing
+                    # Fallback hydration from weekday/Sunday lectionary or Common of Saints if gospel text still missing
                     if not g.get("text"):
                         ref_k = (g.get("ref_key") or "").lower()
-                        s_name = (context.get("title") or "").lower()
-                        s_commem = (context.get("dolnytsky_commemoration") or "").lower()
-                        saints_list = context.get("saints", [])
-                        s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
-                        s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list if isinstance(s, dict)).lower()
-                        combined_info = f"{ref_k} {s_name} {s_commem} {s_names} {s_titles}"
-                        if any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
-                            g["text"] = "Luke 10:16–21"
-                        elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas"]):
-                            g["text"] = "John 10:9–16"
-                        elif any(w in combined_info for w in ["venerable", "monk", "abbot", "chariton", "sabbas", "ven.", "ven "]):
-                            g["text"] = "Matthew 11:27–30"
-                        elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr"]):
-                            g["text"] = "John 15:17–16:2"
-                        elif any(w in combined_info for w in ["theotokos", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
-                            g["text"] = "Luke 10:38–42; 11:27–28"
-                        elif any(w in combined_info for w in ["forerunner", "baptist"]):
-                            g["text"] = "Luke 1:5–25"
-                        elif any(w in combined_info for w in ["prophet"]):
-                            g["text"] = "Luke 11:47–12:1"
+                        if dow_val == 0 and (g.get("source") == "evangelion" or "sunday" in ref_k):
+                            g["text"] = sunday_pentecost_gosp.get(wap, "Luke 7:11–16")
+                        elif (g.get("source") == "evangelion" or "weekday" in ref_k) and len(res_obj["readings"]) > 1:
+                            wk_pair = self._get_weekday_lectionary_reading(wap, dow_val)
+                            g["text"] = wk_pair[1] if wk_pair else weekday_fb_gosp.get(dow_val, "Matthew 5:20–26")
                         else:
-                            g["text"] = "Matthew 11:27–30"
+                            combined_info = _build_reading_combined_info(ref_k)
+                            if any(w in combined_info for w in ["fathers", "council", "councils"]):
+                                g["text"] = "John 17:1–13"
+                            elif any(w in combined_info for w in ["unmercenar", "cosmas", "damian", "nov_01"]):
+                                g["text"] = "Matthew 10:1, 5–8"
+                            elif any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
+                                g["text"] = "Luke 10:16–21"
+                            elif any(w in combined_info for w in ["hierarch", "bishop", "chrysostom", "basil", "nicholas"]):
+                                g["text"] = "John 10:9–16"
+                            elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr", "hieromartyr"]):
+                                g["text"] = "John 15:17–16:2"
+                            elif any(w in combined_info for w in ["venerable", "monk", "abbot", "chariton", "sabbas", "ven.", "ven "]):
+                                g["text"] = "Matthew 11:27–30"
+                            elif any(w in combined_info for w in ["theotokos", "dormition", "annunciation", "nativity_theotokos", "entry_theotokos", "protection"]):
+                                g["text"] = "Luke 10:38–42; 11:27–28"
+                            elif any(w in combined_info for w in ["forerunner", "baptist"]):
+                                g["text"] = "Luke 1:5–25"
+                            elif any(w in combined_info for w in ["prophet"]):
+                                g["text"] = "Luke 11:47–12:1"
+                            else:
+                                g["text"] = "Matthew 11:27–30"
 
                 if "prokeimenon" in r and isinstance(r["prokeimenon"], dict):
                     p = r["prokeimenon"]
@@ -1289,15 +1596,22 @@ class LiturgyMixin:
                             p["text"] = asset.get("content")
                             if asset.get("tone") and not p.get("tone"):
                                 p["tone"] = asset["tone"]
+                    # Split embedded "verse:" lines if present in p["text"]
+                    if isinstance(p.get("text"), str) and "verse:" in p["text"].lower():
+                        p_lines = [ln.strip() for ln in p["text"].splitlines() if ln.strip()]
+                        main_parts = []
+                        for ln in p_lines:
+                            if ln.lower().startswith("verse:"):
+                                v_val = re.sub(r'^verse:\s*', '', ln, flags=re.IGNORECASE).strip()
+                                if v_val and not p.get("verse"):
+                                    p["verse"] = v_val
+                            else:
+                                main_parts.append(ln)
+                        p["text"] = " ".join(main_parts).strip()
                     # Fallback hydration from Octoechos, Horologion, Feasts, and Common of Saints
+                    ref_k = p.get("ref_key", "").lower()
+                    combined_info = _build_reading_combined_info(ref_k)
                     if not p.get("text"):
-                        ref_k = p.get("ref_key", "").lower()
-                        s_name = (context.get("title") or "").lower()
-                        s_commem = (context.get("dolnytsky_commemoration") or "").lower()
-                        saints_list = context.get("saints", [])
-                        s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
-                        s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list if isinstance(s, dict)).lower()
-                        combined_info = f"{ref_k} {s_name} {s_commem} {s_names} {s_titles}"
 
                         # 1. Octoechos Sunday Resurrection Prokeimena
                         oct_prokeimena = {
@@ -1310,7 +1624,7 @@ class LiturgyMixin:
                             7: {"tone": 7, "text": "The Lord will give strength to His people; the Lord will bless His people with peace.", "verse": "Bring to the Lord, O you sons of God, bring to the Lord young rams."},
                             8: {"tone": 8, "text": "Make vows and pay them to the Lord our God.", "verse": "In Judah God is known; His name is great in Israel."}
                         }
-                        if "octoechos" in ref_k or (context.get("day_of_week") == 0 and "prokeimenon" in ref_k):
+                        if "octoechos" in ref_k or (context.get("day_of_week") == 0 and "prokeimenon" in ref_k and "menaion" not in ref_k):
                             m_t = re.search(r'tone_(\d+)', ref_k)
                             t_num = int(m_t.group(1)) if m_t else (p.get("tone") or context.get("tone") or 1)
                             if t_num in oct_prokeimena:
@@ -1340,7 +1654,15 @@ class LiturgyMixin:
 
                         # 3. Specific Feasts & Common of Saints
                         if not p.get("text"):
-                            if any(w in combined_info for w in ["nativity", "dec_25", "dec_31"]):
+                            if any(w in combined_info for w in ["archangel", "michael", "gabriel", "bodiless"]):
+                                p["tone"] = 4
+                                p["text"] = "He makes His angels spirits, and His ministers a flame of fire."
+                                p["verse"] = "Bless the Lord, O my soul; O Lord my God, You are very great."
+                            elif any(w in combined_info for w in ["fathers", "council", "councils"]):
+                                p["tone"] = 4
+                                p["text"] = "Blessed are You, O Lord, the God of our fathers, and praised and glorified is Your name forever."
+                                p["verse"] = "For You are righteous in all that You have done for us."
+                            elif any(w in combined_info for w in ["nativity", "dec_25", "dec_31"]):
                                 p["tone"] = p.get("tone") or 8
                                 p["text"] = "Let all the earth worship You and sing to You, let it sing to Your name, O Most High."
                                 p["verse"] = "Shout to God, all the earth; sing to the honor of His name, give glory to His praise."
@@ -1356,6 +1678,10 @@ class LiturgyMixin:
                                 p["tone"] = p.get("tone") or 8
                                 p["text"] = "Their proclamation has gone out into all the earth, and their words to the ends of the universe."
                                 p["verse"] = "The heavens declare the glory of God, and the firmament proclaims the work of His hands."
+                            elif any(w in combined_info for w in ["unmercenar", "cosmas", "damian", "nov_01"]) or ("plural_saints" in combined_info and any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr", "hieromartyr"])):
+                                p["tone"] = 4
+                                p["text"] = "To the saints that are in His earth, in them the Lord has magnified all His will."
+                                p["verse"] = "I foresaw the Lord always before me, for He is at my right hand, that I may not be shaken."
                             elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr"]):
                                 p["tone"] = p.get("tone") or 7
                                 p["text"] = "The righteous man shall rejoice in the Lord and shall hope in Him."
@@ -1383,6 +1709,20 @@ class LiturgyMixin:
                                     p["tone"] = oct_prokeimena[t_num]["tone"]
                                     p["text"] = oct_prokeimena[t_num]["text"]
                                     p["verse"] = oct_prokeimena[t_num]["verse"]
+                    if not p.get("tone"):
+                        p_txt_low = (p.get("text") or "").lower()
+                        if "angels spirits" in p_txt_low or any(w in combined_info for w in ["archangel", "michael", "gabriel", "bodiless"]):
+                            p["tone"] = 4
+                        elif "mouth shall speak wisdom" in p_txt_low:
+                            p["tone"] = 1
+                        elif "soul magnifies the lord" in p_txt_low:
+                            p["tone"] = 3
+                        elif "saints that are in his earth" in p_txt_low or "priest forever" in p_txt_low or "god of our fathers" in p_txt_low:
+                            p["tone"] = 4
+                        elif "proclamation has gone out" in p_txt_low or "be glad in the lord" in p_txt_low:
+                            p["tone"] = 8
+                        else:
+                            p["tone"] = 7
                 if "alleluia" in r and isinstance(r["alleluia"], dict):
                     a = r["alleluia"]
                     if not a.get("text") and a.get("ref_key"):
@@ -1397,15 +1737,27 @@ class LiturgyMixin:
                                     a["verses"] = raw_c["verses"]
                             if asset.get("tone") and not a.get("tone"):
                                 a["tone"] = asset["tone"]
+                    # Split embedded "verse:" lines if present in a["text"]
+                    if isinstance(a.get("text"), str) and "verse:" in a["text"].lower():
+                        extracted_v = []
+                        rem_lines = []
+                        for ln in a["text"].splitlines():
+                            ln_s = ln.strip()
+                            if not ln_s:
+                                continue
+                            if ln_s.lower().startswith("verse:"):
+                                v_val = re.sub(r'^verse:\s*', '', ln_s, flags=re.IGNORECASE).strip()
+                                if v_val:
+                                    extracted_v.append(v_val)
+                            else:
+                                rem_lines.append(ln_s)
+                        if extracted_v and not a.get("verses"):
+                            a["verses"] = extracted_v
+                        a["text"] = " ".join(rem_lines).strip() if rem_lines else None
                     # Fallback hydration from Octoechos, Horologion, Feasts, and Common of Saints
+                    ref_k = a.get("ref_key", "").lower()
+                    combined_info = _build_reading_combined_info(ref_k)
                     if not a.get("text") and not a.get("verses"):
-                        ref_k = a.get("ref_key", "").lower()
-                        s_name = (context.get("title") or "").lower()
-                        s_commem = (context.get("dolnytsky_commemoration") or "").lower()
-                        saints_list = context.get("saints", [])
-                        s_names = " ".join(s.get("name", "") for s in saints_list if isinstance(s, dict)).lower()
-                        s_titles = " ".join(f"{s.get('title', '')} {s.get('category', '')}" for s in saints_list if isinstance(s, dict)).lower()
-                        combined_info = f"{ref_k} {s_name} {s_commem} {s_names} {s_titles}"
 
                         # 1. Octoechos Sunday Resurrection Alleluias
                         oct_alleluias = {
@@ -1418,7 +1770,7 @@ class LiturgyMixin:
                             7: {"tone": 7, "verses": ["It is good to give thanks to the Lord, and to sing praises to Your name, O Most High.", "To proclaim Your mercy in the morning, and Your truth by night."]},
                             8: {"tone": 8, "verses": ["Come, let us rejoice in the Lord, let us shout with joy to God our Savior.", "Let us come before His face with thanksgiving, and shout with joy to Him with psalms."]}
                         }
-                        if "octoechos" in ref_k or (context.get("day_of_week") == 0 and "alleluia" in ref_k):
+                        if "octoechos" in ref_k or (context.get("day_of_week") == 0 and "alleluia" in ref_k and "menaion" not in ref_k):
                             m_t = re.search(r'tone_(\d+)', ref_k)
                             t_num = int(m_t.group(1)) if m_t else (a.get("tone") or context.get("tone") or 1)
                             if t_num in oct_alleluias:
@@ -1446,7 +1798,19 @@ class LiturgyMixin:
 
                         # 3. Specific Feasts & Common of Saints
                         if not a.get("verses") and not a.get("text"):
-                            if any(w in combined_info for w in ["nativity", "dec_25", "dec_31"]):
+                            if any(w in combined_info for w in ["archangel", "michael", "gabriel", "bodiless"]):
+                                a["tone"] = 5
+                                a["verses"] = [
+                                    "Praise the Lord from the heavens, praise Him in the heights.",
+                                    "Praise Him, all His angels; praise Him, all His hosts."
+                                ]
+                            elif any(w in combined_info for w in ["fathers", "council", "councils"]):
+                                a["tone"] = 1
+                                a["verses"] = [
+                                    "The God of gods, the Lord, has spoken, and called the earth from the rising of the sun to the going down thereof.",
+                                    "Gather His saints to Him, those who have made a covenant with Him by sacrifice."
+                                ]
+                            elif any(w in combined_info for w in ["nativity", "dec_25", "dec_31"]):
                                 a["tone"] = a.get("tone") or 1
                                 a["verses"] = [
                                     "The heavens declare the glory of God, and the firmament proclaims the work of His hands.",
@@ -1464,11 +1828,23 @@ class LiturgyMixin:
                                     "The righteous man shall flourish like a palm tree, and grow like a cedar in Lebanon.",
                                     "Planted in the house of the Lord, they shall flourish in the courts of our God."
                                 ]
+                            elif any(w in combined_info for w in ["unmercenar", "cosmas", "damian", "nov_01"]):
+                                a["tone"] = 2
+                                a["verses"] = [
+                                    "Behold now, what is so good or what is so pleasant as for brethren to dwell together in unity?",
+                                    "For there the Lord commanded the blessing, and life forevermore."
+                                ]
                             elif any(w in combined_info for w in ["apostle", "theologian", "evangelist", "peter", "paul", "john", "andrew", "james", "philip", "bartholomew", "thomas", "matthew", "luke", "mark"]):
                                 a["tone"] = a.get("tone") or 1
                                 a["verses"] = [
                                     "The heavens shall confess Your wonders, O Lord, and Your truth in the congregation of the saints.",
                                     "God is glorified in the council of the saints."
+                                ]
+                            elif "plural_saints" in combined_info and any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr", "hieromartyr"]):
+                                a["tone"] = 4
+                                a["verses"] = [
+                                    "The righteous cried, and the Lord heard them, and delivered them from all their afflictions.",
+                                    "Many are the afflictions of the righteous, but the Lord delivers them out of them all."
                                 ]
                             elif any(w in combined_info for w in ["martyr", "passion-bearer", "great-martyr"]):
                                 a["tone"] = a.get("tone") or 4
@@ -1506,6 +1882,20 @@ class LiturgyMixin:
                                 if t_num in oct_alleluias:
                                     a["tone"] = oct_alleluias[t_num]["tone"]
                                     a["verses"] = oct_alleluias[t_num]["verses"]
+                    if not a.get("tone"):
+                        a_v_low = " ".join(a.get("verses") or [a.get("text") or ""]).lower()
+                        if "praise the lord from the heavens" in a_v_low or any(w in combined_info for w in ["archangel", "michael", "gabriel", "bodiless"]):
+                            a["tone"] = 5
+                        elif "heavens shall confess" in a_v_low or "remember your congregation" in a_v_low or "god of gods" in a_v_low:
+                            a["tone"] = 1
+                        elif "mouth of the righteous" in a_v_low or "dwell together in unity" in a_v_low:
+                            a["tone"] = 2
+                        elif "blessed is the man who fears" in a_v_low:
+                            a["tone"] = 6
+                        elif "hear, o daughter" in a_v_low:
+                            a["tone"] = 8
+                        else:
+                            a["tone"] = 4
             return res_obj
 
         if context.get("_almanac_used"):
@@ -1702,10 +2092,29 @@ class LiturgyMixin:
             if pascha_off in bright_readings:
                 return _hydrate_all_readings({"type": "liturgy_readings", "readings": [bright_readings[pascha_off]]})
 
+        has_proper_saint_readings = (
+            rank <= 3
+            or context.get("dolnytsky_rank_code") in ("[4 A+G]", "[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]")
+            or any(isinstance(s, dict) and s.get("rank_code") in ("[4 A+G]", "[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]") for s in saints)
+        )
+        has_sunday_liturgy_saint = (
+            rank <= 3
+            or context.get("dolnytsky_rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]")
+            or any(isinstance(s, dict) and s.get("rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]") for s in saints)
+        )
+        is_fore_or_after = bool(
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis") or
+            context.get("is_fore_or_afterfeast")
+        )
+        if 1 <= day_of_week <= 6 and rank > 3 and context.get("dolnytsky_rank_code") in ("[4 TR]", "[4 NO]") and not has_proper_saint_readings and not is_fore_or_after:
+            normalized_readings = None
+
         # Dolnytsky §3.10.2: On weekdays or Saturdays with a Polyeleos or Vigil saint (rank 2 or 3),
         # Divine Liturgy combines the readings of the day with the saint's proper readings.
         if day_of_week != 0:
-            if rank > 3 and normalized_readings:
+            if rank > 3 and normalized_readings and not (1 <= day_of_week <= 5 and has_proper_saint_readings and len(normalized_readings) == 1):
                 return _hydrate_all_readings({"type": "liturgy_readings", "readings": normalized_readings})
             elif is_special_vigil_weekday:
                 # Suppress daily readings on weekdays, saint readings only
@@ -1737,7 +2146,7 @@ class LiturgyMixin:
                     })
                 return _hydrate_all_readings(result)
         else: # Sunday (day_of_week == 0)
-            if normalized_readings and rank > 3:
+            if normalized_readings and rank > 3 and len(normalized_readings) >= 2:
                 return _hydrate_all_readings({"type": "liturgy_readings", "readings": normalized_readings})
 
         result = {
@@ -1748,8 +2157,8 @@ class LiturgyMixin:
         # GREAT FEAST: Feast readings only
         is_great_feast = (
             rank == 1 or
-            context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS") or
-            context.get("feast_level") in ("lord", "theotokos") or
+            (context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS") and not is_fore_or_after) or
+            (context.get("feast_level") in ("lord", "theotokos") and not is_fore_or_after) or
             context.get("feast_id") in ("palm_sunday", "pascha", "pentecost") or
             paradigm in ["p_feast_lord", "p_feast_theotokos"]
         )
@@ -1776,7 +2185,7 @@ class LiturgyMixin:
             })
             return _hydrate_all_readings(result)
         
-        # SUNDAY: Resurrectional readings
+        # SUNDAY: Resurrectional readings + Saint readings if [GT DOX], [POL], or [VIGIL]
         if day_of_week == 0:
             # Primary: Octoechos readings
             result["readings"].append({
@@ -1800,29 +2209,32 @@ class LiturgyMixin:
                 }
             })
             
-            # Secondary: Saint of the day (if Polyeleos or higher, R <= 3)
-            if normalized_readings:
+            # Secondary: Saint of the day (if [GT DOX], [POL], [VIGIL]) or explicit normalized_readings
+            if has_sunday_liturgy_saint:
+                if normalized_readings:
+                    result["readings"].extend(normalized_readings)
+                elif saints:
+                    saint_id = saints[0].get("id", "saint")
+                    result["readings"].append({
+                        "prokeimenon": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.prokeimenon"
+                        },
+                        "epistle": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.epistle"
+                        },
+                        "alleluia": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.alleluia"
+                        },
+                        "gospel": {
+                            "source": "menaion",
+                            "ref_key": f"menaion.{saint_id}.gospel"
+                        }
+                    })
+            elif is_fore_or_after and normalized_readings:
                 result["readings"].extend(normalized_readings)
-            elif saints and rank <= 3:
-                saint_id = saints[0].get("id", "saint")
-                result["readings"].append({
-                    "prokeimenon": {
-                        "source": "menaion",
-                        "ref_key": f"menaion.{saint_id}.prokeimenon"
-                    },
-                    "epistle": {
-                        "source": "menaion",
-                        "ref_key": f"menaion.{saint_id}.epistle"
-                    },
-                    "alleluia": {
-                        "source": "menaion",
-                        "ref_key": f"menaion.{saint_id}.alleluia"
-                    },
-                    "gospel": {
-                        "source": "menaion",
-                        "ref_key": f"menaion.{saint_id}.gospel"
-                    }
-                })
             
             return _hydrate_all_readings(result)
         
@@ -1835,50 +2247,9 @@ class LiturgyMixin:
             ep_text, gosp_text = None, None
             weeks_after_pentecost = context.get("weeks_after_pentecost")
             if weeks_after_pentecost is not None:
-                lectionary = {
-                    1: {
-                        1: ("Ephesians 5:9-19", "Matthew 18:10-20"),
-                        2: ("Romans 1:1-7, 13-17", "Matthew 4:25-5:13"),
-                        3: ("Romans 1:18-27", "Matthew 5:20-26"),
-                        4: ("Romans 1:28-2:9", "Matthew 5:27-32"),
-                        5: ("Romans 2:14-29", "Matthew 5:33-41"),
-                        6: ("Romans 1:7-12", "Matthew 5:42-48"),
-                    },
-                    2: {
-                        1: ("Romans 2:28-3:18", "Matthew 6:31-34; 7:9-11"),
-                        2: ("Romans 4:4-12", "Matthew 7:15-21"),
-                        3: ("Romans 4:13-25", "Matthew 7:21-23"),
-                        4: ("Romans 5:1-10", "Matthew 8:23-27"),
-                        5: ("Romans 5:17-6:2", "Matthew 9:14-17"),
-                        6: ("Romans 3:19-26", "Matthew 7:1-8"),
-                    },
-                    3: {
-                        1: ("Romans 7:1-13", "Matthew 9:36-10:8"),
-                        2: ("Romans 7:14-8:2", "Matthew 10:9-15"),
-                        3: ("Romans 8:2-13", "Matthew 10:16-22"),
-                        4: ("Romans 8:22-27", "Matthew 10:23-31"),
-                        5: ("Romans 9:6-19", "Matthew 10:32-40; 11:1"),
-                        6: ("Romans 5:1-10", "Matthew 6:22-33"),
-                    },
-                    4: {
-                        1: ("Romans 9:18-33", "Matthew 11:2-15"),
-                        2: ("Romans 10:11-11:2", "Matthew 11:16-20"),
-                        3: ("Romans 11:2-12", "Matthew 11:20-26"),
-                        4: ("Romans 11:13-24", "Matthew 11:27-30"),
-                        5: ("Romans 11:25-36", "Matthew 12:1-8"),
-                        6: ("Romans 6:11-17", "Matthew 8:14-23"),
-                    },
-                    5: {
-                        1: ("Romans 12:4-15", "Matthew 12:9-13"),
-                        2: ("Romans 12:15-21", "Matthew 12:14-16, 22-30"),
-                        3: ("Romans 14:9-18", "Matthew 12:31-37"),
-                        4: ("Romans 15:1-7", "Matthew 12:38-45"),
-                        5: ("Romans 15:17-29", "Matthew 12:46-13:9"),
-                        6: ("Romans 8:14-21", "Matthew 9:9-13"),
-                    }
-                }
-                if weeks_after_pentecost in lectionary and day_of_week in lectionary[weeks_after_pentecost]:
-                    ep_text, gosp_text = lectionary[weeks_after_pentecost][day_of_week]
+                wk_pair = self._get_weekday_lectionary_reading(weeks_after_pentecost, day_of_week)
+                if wk_pair:
+                    ep_text, gosp_text = wk_pair
 
             # Eucharist Afterfeast/Apodosis check (pascha_offset 60 to 67)
             offset = context.get("pascha_offset")
@@ -1928,6 +2299,43 @@ class LiturgyMixin:
                 a_tone_val = p_tone
                 a_verses = None
 
+            is_apodosis_day = bool(
+                context.get("is_apodosis") or
+                context.get("period") == "apodosis" or
+                context.get("dolnytsky_rank") == "apodosis"
+            )
+            if is_apodosis_day and normalized_readings:
+                # Dolnytsky §2.20:1772 & §3.3.4:2340: Weekday Apodosis takes the Feast readings alone
+                ep_obj = normalized_readings[0].get("epistle", {})
+                gosp_obj = normalized_readings[0].get("gospel", {})
+                ep_k = ep_obj.get("ref_key", "") if isinstance(ep_obj, dict) else str(ep_obj)
+                gosp_k = gosp_obj.get("ref_key", "") if isinstance(gosp_obj, dict) else str(gosp_obj)
+                result["readings"].append({
+                    "prokeimenon": {
+                        "source": p_source,
+                        "ref_key": p_ref,
+                        "tone": p_tone_val,
+                        "text": p_text
+                    },
+                    "epistle": {
+                        "source": "feast",
+                        "ref_key": ep_k or "hebrews_9_1_7",
+                        "text": self._format_scripture_key(ep_k or "hebrews_9_1_7")
+                    },
+                    "alleluia": {
+                        "source": a_source,
+                        "ref_key": a_ref,
+                        "tone": a_tone_val,
+                        "verses": a_verses
+                    },
+                    "gospel": {
+                        "source": "feast",
+                        "ref_key": gosp_k or "luke_10_38_42_11_27_28",
+                        "text": self._format_scripture_key(gosp_k or "luke_10_38_42_11_27_28")
+                    }
+                })
+                return _hydrate_all_readings(result)
+
             result["readings"].append({
                 "prokeimenon": {
                     "source": p_source,
@@ -1953,11 +2361,20 @@ class LiturgyMixin:
                 }
             })
 
-            # Saint's readings second
+            # Saint's readings second (when rank <= 3 or Dolnytsky assigns [4 A+G], [6 SM], [GT DOX], [POL], [VIGIL])
+            has_proper_saint_readings = (
+                rank <= 3
+                or context.get("dolnytsky_rank_code") in ("[4 A+G]", "[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]")
+                or any(isinstance(s, dict) and s.get("rank_code") in ("[4 A+G]", "[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]") for s in saints)
+            )
             if normalized_readings:
                 result["readings"].extend(normalized_readings)
-            elif saints and rank <= 3:
-                saint_id = saints[0].get("id", "saint")
+            elif saints and has_proper_saint_readings:
+                reading_saint = next(
+                    (s for s in saints if isinstance(s, dict) and s.get("rank_code") in ("[4 A+G]", "[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]")),
+                    saints[0],
+                )
+                saint_id = reading_saint.get("id", "saint")
                 if saint_id == "jun_11.bartholomew_barnabas":
                     result["readings"].append({
                         "prokeimenon": {
@@ -2054,7 +2471,7 @@ class LiturgyMixin:
         return {"type": "koinonikon_stack", "components": stack}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1,L370-385")
     def resolve_reading_ot(self, context, rubrics):
         """
         Resolve Old Testament reading (paremia/prophecy).
@@ -2076,7 +2493,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1,L370-385")
     def resolve_reading_epistle(self, context, rubrics):
         """
         Resolve Epistle reading.
@@ -2104,7 +2521,7 @@ class LiturgyMixin:
         }
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1,L370-385")
     def resolve_reading_gospel(self, context, rubrics):
         """
         Resolve Gospel reading.
@@ -2134,7 +2551,7 @@ class LiturgyMixin:
     # PHASE 12: ALL-NIGHT VIGIL (EXTREME)
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2.3.8,L192")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2,L1053-1068")
     def resolve_beatitudes(self, context):
         """
         Gate: Beatitudes (Third Antiphon)
@@ -2162,7 +2579,7 @@ class LiturgyMixin:
                     "note": "Feast - 6"
                 }
 
-        beat_dist = context.get("beatitudes_distribution")
+        beat_dist = context.get("beatitudes_distribution") or context.get("variables", {}).get("beatitudes_distribution")
         if beat_dist:
             stichera = []
             for s in beat_dist.get("distribution", []):
@@ -2181,15 +2598,43 @@ class LiturgyMixin:
         rank = parse_rank_integer(context.get('rank', 5))
         
         if day_of_week == 0:
+            if (context.get("is_afterfeast") or context.get("is_apodosis")) and context.get("feast_level") != "lord" and context.get("dolnytsky_rank") != "LORD":
+                return {
+                    "type": "beatitudes",
+                    "stichera": [
+                        {"source": "octoechos", "count": 4},
+                        {"source": "feast", "count": 4},
+                    ],
+                    "note": "4 Octoechos + 4 Feast Ode 6",
+                }
+            has_poly_saint = rank <= 3 or any(
+                parse_rank_integer(s.get("rank", 5)) <= 3 for s in context.get("saints", [])
+            )
+            if (
+                has_poly_saint
+                and context.get("has_polyeleos") is not False
+                and context.get("variables", {}).get("has_polyeleos") is not False
+                and context.get("feast_level") != "lord"
+                and context.get("dolnytsky_rank") != "LORD"
+            ):
+                return {
+                    "type": "beatitudes",
+                    "stichera": [
+                        {"source": "octoechos", "count": 4},
+                        {"source": "menaion", "count": 4},
+                    ],
+                    "note": "Sunday and Saint Beatitudes",
+                }
             return {"type": "beatitudes", "stichera": [{"source": "octoechos", "count": 4}], "note": "Sunday Beatitudes"}
             
-        if rank <= 3:
-            return {"type": "beatitudes", "stichera": [{"source": "menaion", "count": 4}], "note": "Festal Beatitudes"}
+        has_poly = context.get("has_polyeleos") is not False and context.get("variables", {}).get("has_polyeleos") is not False
+        if rank <= 3 and (has_poly or rank <= 2):
+            return {"type": "beatitudes", "stichera": [{"source": "menaion", "count": 8}], "note": "Festal Beatitudes (4 from Ode III and 4 from Ode VI)"}
             
         return {"type": "third_antiphon", "note": "Usual Third Antiphon without stichera"}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5.3.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.5,L1211-1216")
     def resolve_liturgy_alleluia(self, context, rubrics=None):
         """
         Resolve Liturgy Alleluia tone and verses based on readings.

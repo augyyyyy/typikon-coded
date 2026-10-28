@@ -53,7 +53,7 @@
                 "qty": 8
               }
             ],
-            "glory": "archangel_doxastikon",
+            "glory": "doxastikon_of_the_archangel",
             "both_now": "theotokion"
           },
           "matins_canon_stacking": [
@@ -236,7 +236,7 @@
       },
       "15": {
         "title_key": "menaion.nov_15.begin_philip_fast",
-        "rank": "rank_simple_6",
+        "rank": "rank_simple_4",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.3",
         "base_template": "CASE_02",
         "system_flags": {
@@ -249,21 +249,27 @@
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
           "doxology_type": "daily_read",
-          "rank": "rank_simple_6",
+          "rank": "rank_simple_4",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
               {
+                "source": "octoechos",
+                "type": "current",
+                "qty": 3
+              },
+              {
                 "source": "menaion",
                 "type": "saint",
-                "qty": 6
+                "qty": 3
               }
             ],
             "glory": "saint_doxastikon",
             "both_now": "theotokion"
           },
           "matins_canon_stacking": [
-            "saint_canon_6"
+            "octoechos_4",
+            "saint_canon_4"
           ],
           "matins_katavasia": "irmos_last_canon",
           "liturgy_readings": [
@@ -342,6 +348,11 @@
             "ezekiel_43"
           ],
           "litiya_stichera": "entrance_litiya",
+          "matins_prokeimenon": {
+            "tone": 4,
+            "text": "Hear, O daughter, and see, and incline your ear; forget your people and your father's house",
+            "verse": "My heart overflows with a good theme; I address my verses to the king"
+          },
           "matins_gospel": "luke_1_39_49_56",
           "liturgy_antiphons": "typical_psalms_refrain_theotokos",
           "liturgy_entrance": "come_let_us_worship_sunday",
@@ -390,7 +401,17 @@
         "title_key": "menaion.nov_24.catherine_and_mercurius",
         "rank": "rank_polyeleos",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.3.3",
-        "base_template": "CASE_05",
+        "base_template": "CASE_16",
+        "variants": [
+          {
+            "condition": {
+              "day_of_week": [
+                0
+              ]
+            },
+            "base_template": "CASE_15"
+          }
+        ],
         "variables": {
           "vespers_type": "great_vespers_simple",
           "matins_type": "great_matins",
@@ -399,38 +420,44 @@
           "doxology_type": "great_doxology",
           "rank": "rank_polyeleos",
           "vespers_stichera_distribution": {
-            "total_count": 8,
+            "total_count": 6,
             "distribution": [
               {
                 "source": "menaion",
                 "type": "catherine",
-                "qty": 4
+                "qty": 3
               },
               {
                 "source": "menaion",
                 "type": "mercurius",
-                "qty": 4
+                "qty": 3
               }
             ],
             "glory": "catherine_doxastikon",
-            "both_now": "theotokion"
+            "both_now": "catherine_doxastikon"
           },
           "matins_canon_stacking": [
+            "feast_canon_6",
             "catherine_canon_4",
             "mercurius_canon_4"
           ],
           "matins_katavasia": "christ_is_born_canon",
           "praises_distribution": {
-            "total_count": 4,
+            "total_count": 6,
             "distribution": [
               {
                 "source": "menaion",
-                "type": "saint",
-                "qty": 4
+                "type": "feast",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "catherine",
+                "qty": 3
               }
             ],
             "glory": "catherine_praises_doxastikon",
-            "both_now": "theotokion"
+            "both_now": "feast_theotokion"
           },
           "matins_gospel": "matthew_25_1_13",
           "liturgy_readings": [
@@ -438,36 +465,117 @@
             "mark_5_24_34"
           ],
           "communion_hymn": "righteous_memory"
-        }
+        },
+        "period": "afterfeast",
+        "linked_feast_id": "11-21",
+        "multi_saint": true,
+        "ugcc_synodal_only": true
       },
       "25": {
-        "title_key": "menaion.nov_25.apodosis_entrance",
+        "title_key": "menaion.nov_25.apodosis_entrance_clement_peter",
         "rank": "rank_doxology",
         "period": "apodosis",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.3.4",
         "base_template": "CASE_20",
+        "saints": [
+          {
+            "id": "nov_25.clement",
+            "name": "Clement",
+            "title": "Hieromartyr",
+            "gender": "male",
+            "monastic": false,
+            "is_saint": true,
+            "rank": 5,
+            "rank_code": "[4 A+G]",
+            "category": "Hieromartyr",
+            "troparion_tone": 4,
+            "tone": 4
+          },
+          {
+            "id": "nov_25.peter_alexandria",
+            "name": "Peter of Alexandria",
+            "title": "Hieromartyr",
+            "gender": "male",
+            "monastic": false,
+            "is_saint": true,
+            "rank": 5,
+            "rank_code": "[4 A+G]",
+            "category": "Saints",
+            "troparion_tone": 4,
+            "tone": 4
+          }
+        ],
         "variables": {
+          "suppress_menaion_saint": false,
+          "suppress_octoechos": true,
           "vespers_type": "daily_vespers",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
           "doxology_type": "great_doxology",
           "rank": "rank_doxology",
+          "hours_kontakion": "feast",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
               {
                 "source": "menaion",
                 "type": "feast",
-                "qty": 6
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "clement",
+                "qty": 3
               }
             ],
-            "glory_both_now": "entrance_doxastikon"
+            "glory": "clement_doxastikon",
+            "both_now": "entrance_doxastikon"
           },
           "matins_canon_stacking": [
-            "entrance_canon_14"
+            "entrance_canon_6",
+            "clement_canon_4",
+            "peter_canon_4"
           ],
+          "matins_canon_distribution": {
+            "total_count": 14,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 6,
+                "irmos": true
+              },
+              {
+                "source": "menaion",
+                "type": "clement",
+                "qty": 4
+              },
+              {
+                "source": "menaion",
+                "type": "peter",
+                "qty": 4
+              }
+            ]
+          },
           "matins_katavasia": "christ_is_born_canon",
+          "praises_distribution": {
+            "total_count": 6,
+            "distribution": [
+              {
+                "source": "menaion",
+                "type": "feast",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "peter",
+                "qty": 3
+              }
+            ],
+            "glory": "peter_praises_doxastikon",
+            "both_now": "entrance_theotokion"
+          },
           "liturgy_readings": [
             "hebrews_9_1_7",
             "luke_10_38_42_11_27_28"

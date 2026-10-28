@@ -8,12 +8,17 @@ import os
 import sys
 import re
 from datetime import date, timedelta
+from pathlib import Path
 
 # Ensure project root is in path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.append(os.path.abspath("."))
 
 from ruthenian_engine import RuthenianEngine
 from digest import TypikonDigestGenerator
+
+DOLNYTSKY_MASTER_PATH = PROJECT_ROOT / "Data" / "Service Books" / "Typikon" / "Dolnytsky_Typikon_Master.md"
+_DOLNYTSKY_VERIFIED = DOLNYTSKY_MASTER_PATH.is_file() and ("PART II" in DOLNYTSKY_MASTER_PATH.read_text(encoding="utf-8", errors="replace"))
 
 def audit_day(date_obj, engine, generator):
     """
@@ -21,6 +26,8 @@ def audit_day(date_obj, engine, generator):
     Returns a list of violation strings.
     """
     violations = []
+    if not _DOLNYTSKY_VERIFIED:
+        violations.append("Primary source Dolnytsky_Typikon_Master.md failed SGC-02 verification.")
     ctx = engine.get_liturgical_context(date_obj)
     rub = engine.resolve_rubrics(ctx)
     digest_text = generator.generate_full_service(ctx, rub)

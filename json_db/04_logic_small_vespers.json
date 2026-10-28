@@ -37,8 +37,8 @@
         "both_now": "theotokion"
       },
       "troparia": {
-        "troparion": "saint",
-        "glory": "none",
+        "troparion": "sunday",
+        "glory": "saint",
         "both_now": "resurrection_theotokion"
       }
     },
@@ -53,7 +53,7 @@
             "qty": 4
           }
         ],
-        "glory": "none",
+        "glory": "saint_doxastikon",
         "both_now": "theotokion"
       },
       "aposticha": {
@@ -65,7 +65,7 @@
             "qty": 4
           }
         ],
-        "glory": "saint",
+        "glory": "saint_doxastikon",
         "both_now": "theotokion"
       },
       "troparia": {

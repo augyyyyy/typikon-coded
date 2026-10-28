@@ -84,35 +84,35 @@
       },
       "06": {
         "title_key": "menaion.sept_06.miracle_archangel_michael",
-        "rank": "rank_polyeleos",
+        "rank": "rank_simple_6",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1",
-        "base_template": "CASE_05",
+        "base_template": "CASE_02",
         "variables": {
-          "matins_gospel": "saint_archangel",
           "liturgy_readings": [
             "hebrews_2_2_10",
             "luke_10_16_21"
           ],
-          "vespers_type": "great_vespers_simple",
-          "matins_type": "great_matins",
+          "vespers_type": "daily_vespers",
+          "matins_type": "daily_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": true,
-          "doxology_type": "great_doxology",
-          "rank": "rank_polyeleos",
+          "has_polyeleos": false,
+          "doxology_type": "daily_read",
+          "rank": "rank_simple_6",
           "vespers_stichera_distribution": {
-            "total_count": 8,
+            "total_count": 6,
             "distribution": [
               {
                 "source": "menaion",
                 "type": "saint",
-                "qty": 8
+                "qty": 6
               }
             ],
-            "glory": "archangel_doxastikon",
+            "glory": "doxastikon_of_the_archangel",
             "both_now": "theotokion"
           },
           "matins_canon_stacking": [
-            "saint_archangel_8"
+            "octoechos_4",
+            "saint_archangel_6"
           ],
           "matins_katavasia": "cross_canon_september",
           "praises_distribution": {
@@ -128,7 +128,8 @@
             "both_now": "theotokion"
           },
           "communion_hymn": "he_makes_his_angels_winds"
-        }
+        },
+        "multi_saint": true
       },
       "07": {
         "title_key": "menaion.sept_07.forefeast_nativity",
@@ -243,18 +244,18 @@
       },
       "09": {
         "title_key": "menaion.sept_09.joachim_and_anna",
-        "rank": "rank_simple_6",
+        "rank": "rank_doxology",
         "period": "afterfeast",
         "linked_feast_id": "09-08",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.2.2.2",
         "base_template": "CASE_14",
         "variables": {
           "vespers_type": "daily_vespers",
-          "matins_type": "daily_matins",
+          "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
-          "doxology_type": "daily_read",
-          "rank": "rank_simple_6",
+          "doxology_type": "great_doxology",
+          "rank": "rank_doxology",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
@@ -291,7 +292,7 @@
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.2.2.2",
         "base_template": "CASE_20",
         "variables": {
-          "vespers_type": "great_vespers_simple",
+          "vespers_type": "daily_vespers",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
@@ -327,7 +328,7 @@
       },
       "13": {
         "title_key": "menaion.sept_13.forefeast_cross",
-        "rank": "rank_simple_6",
+        "rank": "rank_doxology",
         "period": "forefeast",
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.3",
         "base_template": "CASE_09",
@@ -347,11 +348,11 @@
             "day_current"
           ],
           "vespers_type": "daily_vespers",
-          "matins_type": "daily_matins",
+          "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
-          "doxology_type": "daily_read",
-          "rank": "rank_simple_6",
+          "doxology_type": "great_doxology",
+          "rank": "rank_doxology",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
@@ -374,7 +375,8 @@
             "saint_canon_4"
           ],
           "matins_katavasia": "cross_canon_september"
-        }
+        },
+        "multi_saint": true
       },
       "14": {
         "title_key": "menaion.sept_14.exaltation_cross",
@@ -497,7 +499,7 @@
         "source_ref": "Dolnytsky_Typikon_Master.md:3.1.8",
         "base_template": "CASE_02",
         "variables": {
-          "vespers_type": "great_vespers_simple",
+          "vespers_type": "daily_vespers",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,

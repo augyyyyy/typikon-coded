@@ -365,7 +365,7 @@
       },
       "priority": 80,
       "title": "Sunday of Orthodoxy",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.8.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.9",
       "variables": {
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
@@ -386,10 +386,56 @@
             },
             {
               "source": "triodion",
-              "type": "saint",
+              "type": "triodion",
               "qty": 4
             }
+          ],
+          "glory": "triodion.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "cross_res",
+              "qty": 2
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "triodion",
+              "type": "triodion",
+              "qty": 6
+            }
           ]
+        },
+        "praises_distribution": {
+          "total_count": 9,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 5
+            },
+            {
+              "source": "triodion",
+              "type": "triodion",
+              "qty": 4
+            }
+          ],
+          "glory": "triodion.doxasticon_repeat",
+          "both_now": "most_blessed_art_thou",
+          "post_dismissal_sticheron": "eothinon_gospel_sticheron"
         }
       }
     },
@@ -402,8 +448,8 @@
         ]
       },
       "priority": 50,
-      "title": "Memorial Saturday of Lent",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.9.2",
+      "title": "Saturday of the Great Fast",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12",
       "base_template": "soul_saturday_template",
       "system_flags": {
         "service_for_the_dead": true
@@ -414,16 +460,103 @@
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "daily_read",
-        "season": "lent"
+        "season": "lent",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "idiomelon",
+              "qty": 2
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "octoechos.nekrosimon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "odes_1_3_4_5": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "temple",
+              "type": "temple",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
+            }
+          ],
+          "odes_6_7_8_9": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "triodion",
+              "type": "tetraodion",
+              "qty": 8
+            }
+          ],
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "temple",
+              "type": "temple",
+              "qty": 4
+            },
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
+            }
+          ],
+          "katavasia": "irmos_of_last_canon"
+        },
+        "praises_distribution": {
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
+            }
+          ],
+          "glory": "octoechos.nekrosimon",
+          "both_now": "theotokion_of_glory"
+        }
       }
     },
-    "sunday_lent_2": {
+    "sunday_2_of_lent": {
       "triggers": {
         "pascha_offset": -35
       },
       "priority": 80,
-      "title": "2nd Sunday of Great Lent (St. Gregory Palamas)",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.9.3",
+      "title": "2nd Sunday of the Great Fast",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13",
       "variables": {
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
@@ -441,11 +574,53 @@
               "qty": 6
             },
             {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6,
+              "irmos": true
+            },
+            {
               "source": "triodion",
+              "type": "triodion",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
               "type": "saint",
               "qty": 4
             }
           ]
+        },
+        "praises_distribution": {
+          "total_count": 9,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 8
+            },
+            {
+              "source": "triodion",
+              "type": "idiomelon",
+              "qty": 1,
+              "verse": "Arise, O Lord my God, let Thy hand be lifted high; forget not Thy paupers to the end."
+            }
+          ],
+          "glory": "triodion.doxasticon_repeat",
+          "both_now": "most_blessed_art_thou",
+          "post_dismissal_sticheron": "eothinon_gospel_sticheron"
         }
       }
     },
@@ -455,7 +630,7 @@
       },
       "priority": 85,
       "title": "Sunday of the Veneration of the Cross",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.10",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.14",
       "variables": {
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
@@ -476,20 +651,61 @@
             },
             {
               "source": "triodion",
-              "type": "saint",
+              "type": "cross",
               "qty": 4
             }
+          ],
+          "glory": "triodion.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "triodion",
+              "type": "cross",
+              "qty": 8
+            }
           ]
+        },
+        "praises_distribution": {
+          "total_count": 9,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "triodion",
+              "type": "cross",
+              "qty": 5
+            }
+          ],
+          "glory": "triodion.doxasticon_repeat",
+          "both_now": "most_blessed_art_thou",
+          "post_dismissal_sticheron": "eothinon_gospel_sticheron"
         }
       }
     },
-    "sunday_lent_4": {
+    "sunday_4_of_lent": {
       "triggers": {
         "pascha_offset": -21
       },
       "priority": 80,
-      "title": "4th Sunday of Great Lent (St. John Climacus)",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.11.2",
+      "title": "4th Sunday of the Great Fast",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.16",
       "variables": {
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
@@ -507,11 +723,53 @@
               "qty": 6
             },
             {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6,
+              "irmos": true
+            },
+            {
               "source": "triodion",
+              "type": "triodion",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
               "type": "saint",
               "qty": 4
             }
           ]
+        },
+        "praises_distribution": {
+          "total_count": 9,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 8
+            },
+            {
+              "source": "triodion",
+              "type": "idiomelon",
+              "qty": 1,
+              "verse": "Arise, O Lord my God, let Thy hand be lifted high; forget not Thy paupers to the end."
+            }
+          ],
+          "glory": "triodion.doxasticon_repeat",
+          "both_now": "most_blessed_art_thou",
+          "post_dismissal_sticheron": "eothinon_gospel_sticheron"
         }
       }
     },
@@ -521,17 +779,78 @@
       },
       "priority": 60,
       "title": "Thursday of the Great Canon",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.17",
       "variables": {
         "vespers_type": "lenten_vespers_presanctified",
-        "matins_type": "great_canon_matins",
+        "matins_type": "lenten_matins_weekday",
         "hours_type": "lenten_hours",
         "typika_type": "lenten_typika",
         "liturgy_type": "liturgy_presanctified",
         "has_polyeleos": false,
         "doxology_type": "daily_read",
         "matins_canon": "great_canon_andrew_crete_full",
-        "text_key": "matins_with_prostrations"
+        "text_key": "matins_with_prostrations",
+        "vespers_stichera_distribution": {
+          "total_count": 29,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "idiomelon_repeated",
+              "qty": 2
+            },
+            {
+              "source": "triodion",
+              "type": "martyricon",
+              "qty": 1
+            },
+            {
+              "source": "triodion",
+              "type": "prosomoia",
+              "qty": 2
+            },
+            {
+              "source": "triodion",
+              "type": "great_canon_alphabetical",
+              "qty": 24
+            }
+          ],
+          "glory": "triodion.doxasticon",
+          "both_now": "triodion.theotokion"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "odes_4_8_9": [
+            {
+              "source": "triodion",
+              "type": "triodion_three_ode",
+              "qty": 10,
+              "irmos": true
+            },
+            {
+              "source": "triodion",
+              "type": "great_canon_andrew_crete_full",
+              "qty": 14,
+              "irmos": true
+            }
+          ],
+          "odes_other": [
+            {
+              "source": "triodion",
+              "type": "great_canon_andrew_crete_full",
+              "qty": 24,
+              "irmos": true
+            }
+          ],
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "great_canon_andrew_crete_full",
+              "qty": 14,
+              "irmos": true
+            }
+          ],
+          "katavasia": "irmos_of_last_canon_every_ode"
+        }
       }
     },
     "saturday_akathist": {
@@ -540,7 +859,7 @@
       },
       "priority": 60,
       "title": "Saturday of the Akathist",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.12.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.17",
       "variables": {
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
@@ -550,13 +869,13 @@
         "matins_insert_akathist_sections": true
       }
     },
-    "sunday_lent_5": {
+    "sunday_5_of_lent": {
       "triggers": {
         "pascha_offset": -14
       },
       "priority": 80,
-      "title": "5th Sunday of Great Lent (St. Mary of Egypt)",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.13",
+      "title": "5th Sunday of the Great Fast",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.18",
       "variables": {
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
@@ -574,11 +893,53 @@
               "qty": 6
             },
             {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6,
+              "irmos": true
+            },
+            {
               "source": "triodion",
+              "type": "triodion",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
               "type": "saint",
               "qty": 4
             }
           ]
+        },
+        "praises_distribution": {
+          "total_count": 9,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 8
+            },
+            {
+              "source": "triodion",
+              "type": "idiomelon",
+              "qty": 1,
+              "verse": "Arise, O Lord my God, let Thy hand be lifted high; forget not Thy paupers to the end."
+            }
+          ],
+          "glory": "triodion.doxasticon_repeat",
+          "both_now": "most_blessed_art_thou",
+          "post_dismissal_sticheron": "eothinon_gospel_sticheron"
         }
       }
     },
@@ -969,7 +1330,43 @@
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": true,
         "doxology_type": "great_doxology",
-        "matins_magnification": "thomas_magnification"
+        "matins_magnification": "thomas_magnification",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "thomas",
+              "qty": 10
+            }
+          ],
+          "glory": "pentecostarion.thomas.doxasticon",
+          "both_now": "pentecostarion.thomas.doxasticon"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "thomas",
+              "qty": 14,
+              "irmos": true
+            }
+          ],
+          "katavasia": "katavasia_pascha"
+        },
+        "praises_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "thomas",
+              "qty": 6
+            }
+          ],
+          "glory": "pentecostarion.thomas.doxasticon",
+          "both_now": "most_blessed_art_thou"
+        }
       }
     },
     "sunday_myrrhbearers": {
@@ -978,7 +1375,7 @@
       },
       "priority": 70,
       "title": "Sunday of the Myrrh-bearing Women",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.10.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.10",
       "variables": {
         "season": "pentecostarion",
         "vespers_type": "great_vespers_simple",
@@ -991,7 +1388,58 @@
           "when_thou_didst_descend",
           "myrrhbearers"
         ],
-        "note": "Troparion 'Noble Joseph' used throughout week"
+        "note": "Troparion 'Noble Joseph' used throughout week",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6
+            },
+            {
+              "source": "pentecostarion",
+              "type": "myrrhbearers",
+              "qty": 4
+            }
+          ],
+          "glory": "pentecostarion.myrrhbearers.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pascha",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "pentecostarion",
+              "type": "myrrhbearers",
+              "qty": 8
+            }
+          ],
+          "katavasia": "katavasia_pascha"
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 8
+            }
+          ],
+          "glory": "pentecostarion.myrrhbearers.doxasticon",
+          "both_now": "most_blessed_art_thou"
+        }
       }
     },
     "sunday_paralytic": {
@@ -1000,14 +1448,70 @@
       },
       "priority": 70,
       "title": "Sunday of the Paralytic",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.12.4",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.12",
       "variables": {
         "season": "pentecostarion",
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
-        "doxology_type": "great_doxology"
+        "doxology_type": "great_doxology",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 7
+            },
+            {
+              "source": "pentecostarion",
+              "type": "paralytic",
+              "qty": 3
+            }
+          ],
+          "glory": "pentecostarion.paralytic.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pascha",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "pentecostarion",
+              "type": "paralytic",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ],
+          "katavasia": "katavasia_pascha"
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 8
+            }
+          ],
+          "glory": "pentecostarion.paralytic.doxasticon",
+          "both_now": "most_blessed_art_thou"
+        }
       }
     },
     "sunday_samaritan": {
@@ -1016,14 +1520,75 @@
       },
       "priority": 70,
       "title": "Sunday of the Samaritan Woman",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.14.1",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.15",
       "variables": {
         "season": "pentecostarion",
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
-        "doxology_type": "great_doxology"
+        "doxology_type": "great_doxology",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6
+            },
+            {
+              "source": "pentecostarion",
+              "type": "mid_pentecost",
+              "qty": 1
+            },
+            {
+              "source": "pentecostarion",
+              "type": "samaritan",
+              "qty": 3
+            }
+          ],
+          "glory": "pentecostarion.samaritan.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pascha",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "pentecostarion",
+              "type": "mid_pentecost",
+              "qty": 4
+            },
+            {
+              "source": "pentecostarion",
+              "type": "samaritan",
+              "qty": 6
+            }
+          ],
+          "katavasia": "katavasia_pascha"
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 5
+            },
+            {
+              "source": "pentecostarion",
+              "type": "samaritan",
+              "qty": 3
+            }
+          ],
+          "glory": "pentecostarion.samaritan.doxasticon",
+          "both_now": "most_blessed_art_thou"
+        }
       }
     },
     "sunday_blind_man": {
@@ -1032,14 +1597,65 @@
       },
       "priority": 70,
       "title": "Sunday of the Blind Man",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.16.1",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.16",
       "variables": {
         "season": "pentecostarion",
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
-        "doxology_type": "great_doxology"
+        "doxology_type": "great_doxology",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 7
+            },
+            {
+              "source": "triodion",
+              "type": "blind_man",
+              "qty": 3
+            }
+          ],
+          "glory": "pentecostarion.blind_man.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "triodion",
+              "type": "blind_man",
+              "qty": 6
+            }
+          ],
+          "katavasia": "katavasia_pascha"
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 8
+            }
+          ],
+          "glory": "pentecostarion.blind_man.doxasticon",
+          "both_now": "most_blessed_art_thou"
+        }
       }
     },
     "pentecostarion_general_weekday": {
@@ -1076,7 +1692,47 @@
         "has_polyeleos": false,
         "doxology_type": "great_doxology",
         "liturgy_antiphons": "festal_mid_pentecost",
-        "post_liturgy_action": "blessing_water_small"
+        "post_liturgy_action": "blessing_water_small",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "mid_pentecost",
+              "qty": 6
+            }
+          ],
+          "glory": "pentecostarion.mid_pentecost.doxasticon",
+          "both_now": "pentecostarion.mid_pentecost.doxasticon"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "mid_pentecost_1",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "pentecostarion",
+              "type": "mid_pentecost_2",
+              "qty": 8
+            }
+          ]
+        },
+        "praises_distribution": {
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "mid_pentecost",
+              "qty": 4
+            }
+          ],
+          "glory": "pentecostarion.mid_pentecost.doxasticon",
+          "both_now": "pentecostarion.mid_pentecost.doxasticon"
+        }
       }
     },
     "apodosis_pascha": {
@@ -1085,7 +1741,7 @@
       },
       "priority": 85,
       "title": "Apodosis of Pascha (Resurrection)",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.16.2",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.16",
       "variables": {
         "season": "pentecostarion",
         "vespers_type": "daily_vespers",
@@ -1093,7 +1749,53 @@
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
         "doxology_type": "great_doxology",
-        "paschal_ending": true
+        "paschal_ending": true,
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pascha",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
+            }
+          ],
+          "glory": "saint_doxastikon_if_appointed",
+          "both_now": "pentecostarion.blind_man.doxasticon"
+        },
+        "matins_canon_distribution": {
+          "total_count": 12,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pascha",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "pentecostarion",
+              "type": "blind_man",
+              "qty": 4
+            }
+          ],
+          "katavasia": "katavasia_pascha"
+        },
+        "praises_distribution": {
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pascha",
+              "qty": 4
+            }
+          ],
+          "glory": "Paschal Stichera ('It is the day of Resurrection')",
+          "both_now": "Paschal Stichera ('Christ is risen' thrice)"
+        }
       }
     },
     "ascension": {
@@ -1114,7 +1816,47 @@
         "liturgy_readings": [
           "acts_1_1_12",
           "luke_24_36_53"
-        ]
+        ],
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "ascension",
+              "qty": 10
+            }
+          ],
+          "glory": "pentecostarion.ascension.doxasticon",
+          "both_now": "pentecostarion.ascension.doxasticon"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "ascension_1",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "pentecostarion",
+              "type": "ascension_2",
+              "qty": 6
+            }
+          ]
+        },
+        "praises_distribution": {
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "ascension",
+              "qty": 4
+            }
+          ],
+          "glory": "pentecostarion.ascension.doxasticon",
+          "both_now": "pentecostarion.ascension.doxasticon"
+        }
       }
     },
     "sunday_fathers_1st_council": {
@@ -1134,7 +1876,67 @@
         "liturgy_readings": [
           "acts_20_16_18_28_36",
           "john_17_1_13"
-        ]
+        ],
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "pentecostarion",
+              "type": "fathers",
+              "qty": 6
+            }
+          ],
+          "glory": "pentecostarion.fathers.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "pentecostarion",
+              "type": "ascension",
+              "qty": 4
+            },
+            {
+              "source": "pentecostarion",
+              "type": "fathers",
+              "qty": 4
+            }
+          ]
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "pentecostarion",
+              "type": "fathers",
+              "qty": 4
+            }
+          ],
+          "glory": "pentecostarion.fathers.doxasticon",
+          "both_now": "most_blessed_art_thou"
+        }
       }
     },
     "saturday_soul_pentecost": {
@@ -1143,7 +1945,7 @@
       },
       "priority": 70,
       "title": "Saturday of Souls (Pentecost)",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.22",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.19",
       "base_template": "soul_saturday_template",
       "variables": {
         "season": "pentecost_season",
@@ -1151,7 +1953,53 @@
         "matins_type": "matins_memorial",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
-        "doxology_type": "daily_read"
+        "doxology_type": "daily_read",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
+            }
+          ],
+          "glory": "octoechos.nekrosimon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 6,
+              "irmos": true
+            },
+            {
+              "source": "triodion",
+              "type": "departed",
+              "qty": 8
+            }
+          ],
+          "katavasia": "irmos_of_last_canon"
+        },
+        "praises_distribution": {
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "martyria",
+              "qty": 4
+            }
+          ],
+          "glory": "triodion.departed.doxasticon",
+          "both_now": "octoechos.theotokion"
+        }
       }
     },
     "pentecost": {
@@ -1160,7 +2008,7 @@
       },
       "priority": 100,
       "title": "Pentecost (Sunday of the Holy Trinity)",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.23",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.20",
       "variables": {
         "season": "pentecost",
         "suppress_octoechos": true,
@@ -1177,6 +2025,22 @@
         "matins_prokeimenon": {
           "tone": 4,
           "text": "Thy good Spirit shall lead me in the land of uprightness"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pentecost_1",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "pentecostarion",
+              "type": "pentecost_2",
+              "qty": 6
+            }
+          ]
         },
         "praises_distribution": {
           "total_count": 6,
@@ -1206,14 +2070,54 @@
       },
       "priority": 95,
       "title": "Monday of the Holy Spirit",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.24",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.21",
       "variables": {
         "season": "pentecost_week",
         "vespers_type": "great_vespers_vigil",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
-        "doxology_type": "great_doxology"
+        "doxology_type": "great_doxology",
+        "vespers_stichera_distribution": {
+          "total_count": 6,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pentecost",
+              "qty": 6
+            }
+          ],
+          "glory": "pentecostarion.pentecost.doxasticon",
+          "both_now": "pentecostarion.pentecost.doxasticon"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pentecost_1",
+              "qty": 8,
+              "irmos": true
+            },
+            {
+              "source": "pentecostarion",
+              "type": "pentecost_2",
+              "qty": 6
+            }
+          ]
+        },
+        "praises_distribution": {
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "pentecostarion",
+              "type": "pentecost",
+              "qty": 4
+            }
+          ],
+          "glory": "pentecostarion.pentecost.doxasticon",
+          "both_now": "pentecostarion.pentecost.doxasticon"
+        }
       }
     },
     "sunday_all_saints": {
@@ -1222,14 +2126,69 @@
       },
       "priority": 80,
       "title": "Sunday of All Saints",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.26",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.22",
       "variables": {
         "season": "all_saints",
         "vespers_type": "great_vespers_simple",
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": false,
-        "doxology_type": "great_doxology"
+        "doxology_type": "great_doxology",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 6
+            },
+            {
+              "source": "pentecostarion",
+              "type": "all_saints",
+              "qty": 4
+            }
+          ],
+          "glory": "pentecostarion.all_saints.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "cross_res",
+              "qty": 2
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "pentecostarion",
+              "type": "all_saints",
+              "qty": 6
+            }
+          ]
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 8
+            }
+          ],
+          "glory": "eothinon_gospel_sticheron",
+          "both_now": "most_blessed_art_thou"
+        }
       }
     },
     "feast_of_eucharist": {
@@ -1239,7 +2198,7 @@
       },
       "priority": 95,
       "title": "Feast of the Most Holy Eucharist (Corpus Christi)",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.1.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.23",
       "description": "Thursday after Trinity Sunday. Lviv Synod mandate.",
       "variables": {
         "season": "post_pentecost",
@@ -1254,7 +2213,127 @@
           "Mk 64",
           "Lk 108",
           "Jn 23"
-        ]
+        ],
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "eucharist",
+              "qty": 10
+            }
+          ],
+          "glory": "triodion.eucharist.doxasticon",
+          "both_now": "triodion.eucharist.doxasticon"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "eucharist",
+              "qty": 14,
+              "irmos": true
+            }
+          ]
+        },
+        "praises_distribution": {
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "eucharist",
+              "qty": 4
+            }
+          ],
+          "glory": "triodion.eucharist.doxasticon",
+          "both_now": "triodion.eucharist.doxasticon"
+        }
+      }
+    },
+    "sunday_octave_eucharist": {
+      "triggers": {
+        "pascha_offset": 63,
+        "day_of_week": 0
+      },
+      "priority": 85,
+      "title": "Sunday in the Octave of the Most Holy Eucharist",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.23",
+      "variables": {
+        "season": "post_pentecost",
+        "is_afterfeast": true,
+        "is_fore_or_afterfeast": true,
+        "feast_id": "eucharist",
+        "vespers_type": "great_vespers_simple",
+        "matins_type": "great_matins",
+        "liturgy_type": "liturgy_chrysostom",
+        "has_polyeleos": false,
+        "doxology_type": "great_doxology",
+        "vespers_stichera_distribution": {
+          "total_count": 10,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "triodion",
+              "type": "eucharist",
+              "qty": 3
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 3
+            }
+          ],
+          "glory": "triodion.eucharist.doxasticon",
+          "both_now": "dogmatikon_current_tone"
+        },
+        "matins_canon_distribution": {
+          "total_count": 14,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4,
+              "irmos": true
+            },
+            {
+              "source": "octoechos",
+              "type": "theotokos",
+              "qty": 2
+            },
+            {
+              "source": "triodion",
+              "type": "eucharist",
+              "qty": 4
+            },
+            {
+              "source": "menaion",
+              "type": "saint",
+              "qty": 4
+            }
+          ]
+        },
+        "praises_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "octoechos",
+              "type": "resurrection",
+              "qty": 4
+            },
+            {
+              "source": "triodion",
+              "type": "eucharist",
+              "qty": 4
+            }
+          ],
+          "glory": "eothinon_gospel_sticheron",
+          "both_now": "most_blessed_art_thou"
+        }
       }
     },
     "co_suffering_theotokos": {
@@ -1264,7 +2343,7 @@
       },
       "priority": 90,
       "title": "Friday of the Co-suffering of the Most Holy Theotokos",
-      "source_ref": "Dolnytsky_Typikon_Master.md:4.1.1.3",
+      "source_ref": "Dolnytsky_Typikon_Master.md:4.2.24",
       "description": "Friday after leavetaking of Feast of Eucharist",
       "base_template": "CASE_12",
       "variables": {
@@ -1275,7 +2354,42 @@
         "matins_type": "great_matins",
         "liturgy_type": "liturgy_chrysostom",
         "has_polyeleos": true,
-        "doxology_type": "great_doxology"
+        "doxology_type": "great_doxology",
+        "vespers_stichera_distribution": {
+          "total_count": 8,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "co_suffering",
+              "qty": 8
+            }
+          ],
+          "glory": "triodion.co_suffering.doxasticon",
+          "both_now": "triodion.co_suffering.doxasticon"
+        },
+        "matins_canon_distribution": {
+          "total_count": 12,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "theotokos_special",
+              "qty": 12,
+              "irmos": true
+            }
+          ]
+        },
+        "praises_distribution": {
+          "total_count": 4,
+          "distribution": [
+            {
+              "source": "triodion",
+              "type": "co_suffering",
+              "qty": 4
+            }
+          ],
+          "glory": "triodion.co_suffering.doxasticon",
+          "both_now": "triodion.co_suffering.doxasticon"
+        }
       }
     }
   },

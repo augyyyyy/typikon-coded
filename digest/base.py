@@ -4,6 +4,8 @@ import re
 import copy
 from datetime import datetime
 
+from engine.utils.type_utils import parse_rank_integer
+
 
 class DigestGeneratorBase:
     def __init__(self, engine, include_ceremonial=False):
@@ -92,14 +94,17 @@ class DigestGeneratorBase:
         if not name:
             return ""
         name = name.replace("**", "").strip().rstrip('.')
+        name = re.sub(r'\bAp\.\s+', 'Apostle ', name)
+        name = re.sub(r'\bap\.\s+', 'Apostle ', name)
         if "Cyril, Archbishop of Alexandria" in name or "Cyril of Alexandria" in name:
             return "St. Cyril"
         
-        titles = [
-            "hieromartyr", "protomartyr", "great martyr", "greatmartyr", "venerable", "martyr",
-            "apostle", "apostles", "ap.", "ap ", "archbishop", "bishop", "hierodeacon", "righteous",
-            "prophet", "confessor", "unmercenary", "unmercenaries", "passion-bearer", "passionbearer", "holy"
-        ]
+        title_pattern = re.compile(
+            r'\b(?:hieromartyr|protomartyr|great[\s-]+martyr|greatmartyr|venerable|ven\.?|rev\.?|martyrs?|'
+            r'apostles?|ap\.?|archbishop|bishop|hierodeacon|righteous|prophets?|confessor|unmercenary|'
+            r'unmercenaries|passion-bearer|passionbearer|holy|monk-martyr)\b',
+            re.IGNORECASE,
+        )
         feast_words = [
             "nativity", "synaxis", "translation", "return", "transfer", "finding", "recovery", "protection",
             "entry", "meeting", "annunciation", "dormition", "transfiguration", "theophany",
@@ -107,7 +112,8 @@ class DigestGeneratorBase:
             "beheading", "memory", "repose", "conception", "commemoration", "placing", "deposition",
             "veneration", "miracle", "wonder", "relics", "icon", "robe", "cincture", "belt",
             "mid-pentecost", "sunday", "saturday", "weekday", "vigil", "feast", "fast",
-            "beginning", "indiction", "new year", "praises", "stichera", "doxastikon", "troparion", "kontakion"
+            "beginning", "indiction", "new year", "praises", "stichera", "doxastikon", "troparion", "kontakion",
+            "fathers", "council", "councils"
         ]
         
         name_lower = name.lower()
@@ -116,14 +122,14 @@ class DigestGeneratorBase:
         if name_lower.startswith("st. ") or name_lower.startswith("st "):
             rest = name[4:].strip() if name_lower.startswith("st. ") else name[3:].strip()
             rest_lower = rest.lower()
-            if any(t in rest_lower for t in titles) or any(w in rest_lower for w in feast_words) or is_saint is False:
+            if title_pattern.search(rest_lower) or any(w in rest_lower for w in feast_words) or is_saint is False:
                 name = rest
                 name_lower = name.lower()
                 
         # Only prepend "St. " if no title is present, it doesn't already have it, it's not a feast/event/day, and is_saint is not False
-        has_title = any(t in name_lower for t in titles)
+        has_title = bool(title_pattern.search(name_lower))
         is_feast = any(w in name_lower for w in feast_words)
-        if not has_title and not name_lower.startswith("st.") and not name_lower.startswith("st ") and not is_feast and is_saint is not False:
+        if not has_title and not name_lower.startswith(("st.", "st ", "sts.", "sts ")) and not is_feast and is_saint is not False:
             name = "St. " + name
         return name
 
@@ -169,6 +175,14 @@ class DigestGeneratorBase:
             fid = "pascha"
         elif "mid_pentecost" in linked or "mid_pentecost" in season or "mid-pentecost" in d_title:
             fid = "mid_pentecost"
+        elif "protection" in linked or "protection" in season or "protection" in d_title or "protection" in r_title or (dt_str[5:7] == "10" and dt_str[8:10] == "01"):
+            fid = "protection"
+        elif "indiction" in linked or "indiction" in r_title or "new year" in d_title or "indiction" in d_title or (dt_str[5:7] == "09" and dt_str[8:10] == "01"):
+            fid = "indiction"
+        elif "circumcision" in linked or "circumcision" in d_title or "circumcision" in r_title or (dt_str[5:7] == "01" and dt_str[8:10] == "01"):
+            fid = "circumcision"
+        elif "co-suffering" in d_title or "co-suffering" in r_title or "sacred_heart" in linked or "sacred heart" in d_title or context.get("pascha_offset") == 68:
+            fid = "co_suffering"
             
         names = {
             "exaltation_cross": {
@@ -245,13 +259,39 @@ class DigestGeneratorBase:
                 "short": "Mid-Pentecost",
                 "full": "Mid-Pentecost",
                 "title": "MID-PENTECOST",
-            }
+            },
+            "protection": {
+                "short": "the Protection of the Theotokos",
+                "full": "the Protection of the Most Holy Theotokos",
+                "title": "PROTECTION OF THE THEOTOKOS",
+            },
+            "indiction": {
+                "short": "the Indiction",
+                "full": "the Beginning of the Indiction",
+                "title": "BEGINNING OF THE INDICTION",
+            },
+            "circumcision": {
+                "short": "the Circumcision",
+                "full": "the Circumcision of our Lord",
+                "title": "CIRCUMCISION OF THE LORD",
+            },
+            "co_suffering": {
+                "short": "the Co-suffering of the Most Holy Theotokos",
+                "full": "the Co-suffering of the Most Holy Theotokos",
+                "title": "CO-SUFFERING OF THE MOST HOLY THEOTOKOS",
+            },
         }
         
         if fid and fid in names:
             return names[fid].get(form, names[fid]["short"])
-            
-        if season and season != "octoechos":
+
+        if context.get("is_temple_feast") and context.get("temple_patron"):
+            patron = str(context["temple_patron"]).strip()
+            if form == "title":
+                return patron.upper()
+            return f"the {patron}" if not patron.lower().startswith("the ") else patron
+
+        if season and season not in ("octoechos", "ordinary", "normal"):
             s_clean = season.replace("_", " ").title()
             return f"the {s_clean}" if form != "title" else s_clean.upper()
             
@@ -267,24 +307,94 @@ class DigestGeneratorBase:
         if not saints or index >= len(saints):
             tp = context.get("triodion_period", "")
             triodion_saints = {
-                "sunday_mary_egypt": "St. Mary of Egypt",
-                "sunday_john_climacus": "St. John Climacus",
-                "sunday_gregory_palamas": "St. Gregory Palamas",
                 "sunday_publican_pharisee": "the Publican and the Pharisee",
                 "sunday_prodigal_son": "the Prodigal Son",
             }
+            if context.get("monastic_triodion_saints"):
+                triodion_saints["sunday_4_of_lent"] = "St. John of the Ladder"
+                triodion_saints["sunday_5_of_lent"] = "St. Mary of Egypt"
             if tp in triodion_saints:
                 return triodion_saints[tp]
             return "the Saint"
         s = saints[index]
+        all_ps = s.get("all_parsed_saints", [])
+        if isinstance(all_ps, list) and len(all_ps) > 1:
+            def _is_group_saint(ps):
+                nm = ps.get("name", "").strip()
+                if nm.lower().startswith(("those ", "his ", "her ", "their ")):
+                    return False
+                if ps.get("gender") == "group":
+                    return True
+                return bool(re.match(r"^(?:the\s+)?(?:two|three|four|five|six|seven|eight|nine|ten|twelve|twenty|thirty|forty|seventy|holy\s+fathers|holy\s+mothers|youths|maccabees|martyrs|infants)\b", nm, flags=re.IGNORECASE))
+
+            def _format_ps_full(ps):
+                nm = ps.get("name", "").strip()
+                if _is_group_saint(ps):
+                    return nm if nm.lower().startswith(("the ", "those ", "his ", "her ", "their ")) else f"the {nm}"
+                tl = ps.get("title", "").strip()
+                return f"{tl} {nm}".strip() if tl else nm
+
+            def _format_ps_short(ps):
+                nm = ps.get("name", "").strip()
+                if _is_group_saint(ps):
+                    return nm if nm.lower().startswith(("the ", "those ", "his ", "her ", "their ")) else f"the {nm}"
+                return nm
+
+            distinct_titles = [ps.get("title", "").strip() for ps in all_ps if ps.get("name", "").strip()]
+            any_group = any(_is_group_saint(ps) for ps in all_ps if ps.get("name", "").strip())
+            if form == "full" and (any_group or (len(set(distinct_titles)) > 1 and all(distinct_titles))):
+                titled_list = [_format_ps_full(ps) for ps in all_ps if ps.get("name", "").strip()]
+                if len(titled_list) == 2:
+                    return f"{titled_list[0]} and {titled_list[1]}"
+                elif len(titled_list) > 2:
+                    return ", ".join(titled_list[:-1]) + f", and {titled_list[-1]}"
+            if any_group:
+                short_list = []
+                for idx_ps, ps in enumerate(all_ps):
+                    if not ps.get("name", "").strip():
+                        continue
+                    if _is_group_saint(ps):
+                        short_list.append(_format_ps_short(ps))
+                    else:
+                        nm = ps.get("name", "").strip()
+                        short_list.append(nm if idx_ps > 0 else f"St. {nm}")
+                if len(short_list) == 2:
+                    return f"{short_list[0]} and {short_list[1]}"
+                elif len(short_list) > 2:
+                    return ", ".join(short_list[:-1]) + f", and {short_list[-1]}"
+            names_list = [ps.get("name", "").strip() for ps in all_ps if ps.get("name", "").strip()]
+            if len(names_list) == 2:
+                joined_names = f"{names_list[0]} and {names_list[1]}"
+            elif len(names_list) > 2:
+                joined_names = ", ".join(names_list[:-1]) + f", and {names_list[-1]}"
+            else:
+                joined_names = s.get("name", "").strip()
+            title = s.get("title", "").strip()
+            plural_titles = {
+                "Martyr": "Martyrs",
+                "Apostle": "Apostles",
+                "Venerable": "Venerable",
+                "Righteous": "Righteous",
+                "Venerable Martyr": "Venerable Martyrs",
+                "Hieromartyr": "Hieromartyrs",
+                "Prophet": "Prophets",
+                "Hierarch": "Hierarchs",
+                "Unmercenary": "Unmercenaries",
+                "Great Martyr": "Great Martyrs",
+            }
+            p_title = plural_titles.get(title, title + "s" if title and not title.endswith("s") else title)
+            if form == "full" and p_title:
+                return f"{p_title} {joined_names}"
+            return f"Sts. {joined_names}"
         name = s.get("name", "").strip()
         title = s.get("title", "").strip()
-        cleaned_name = self._clean_name(name, is_saint=s.get("is_saint", True))
-        if form == "full":
-            if title and title.lower() not in cleaned_name.lower():
-                return f"{title} {cleaned_name}".strip()
-            return cleaned_name
-        return cleaned_name
+        is_saint_flag = s.get("is_saint", True)
+        name_stripped = re.sub(r'^(?:ven\.|ap\.|rev\.)\s+', '', name, flags=re.IGNORECASE).strip() if title else name
+        clean = self._clean_name(name_stripped, is_saint=is_saint_flag)
+        if form == "full" and title and title.lower() not in clean.lower():
+            clean_no_st = re.sub(r'^St\.\s+', '', clean).strip()
+            return f"{title} {clean_no_st}"
+        return clean
 
 
     def humanize_key(self, key, context=None):
@@ -433,7 +543,8 @@ class DigestGeneratorBase:
                             if not filt:
                                 filt = words
                             suffix = "_".join(filt)
-                            if suffix in key.lower():
+                            key_tokens = set(re.split(r'[._]', key.lower()))
+                            if suffix in key.lower() or any(w in key_tokens for w in filt if len(w) > 2):
                                 matched_entry = entry
                                 matched_suffix = suffix
                                 break
@@ -449,7 +560,7 @@ class DigestGeneratorBase:
                         
                     if matched_entry:
                         raw_desc = matched_entry.get("description", "")
-                        fixed_saint_name = self._clean_name(raw_desc)
+                        fixed_saint_name = self._capitalize_name(self._clean_name(raw_desc))
                         # Check if this is the exact saint ID (the last part of key matches suffix)
                         if parts and matched_suffix and parts[-1].lower() == matched_suffix.lower():
                             is_exact_saint_id = True
@@ -484,6 +595,7 @@ class DigestGeneratorBase:
                         subject_map = {
                             "bartholomew_barnabas": "Apostles Bartholomew and Barnabas",
                             "eucharist": "the Holy Eucharist",
+                            "fathers_seventh_council": "the Holy Fathers of the Seventh Ecumenical Council",
                         }
                         subject_human = subject_map.get(subject.lower())
                     if not subject_human:
@@ -636,6 +748,8 @@ class DigestGeneratorBase:
             "kontakion_temple": "Kontakion of the Temple",
             "sessional_triodion_set_1": f"Sessional Hymns of {fname} from the Triodion",
             "sessional_triodion_set_2": f"Sessional Hymns of {fname} from the Triodion",
+            "prayer_holy_trinity_all_creating": "Prayer to the Most Holy Trinity",
+            "prayer_eustratius": "Prayer of St. Eustratius",
         }
         
         raw_lower = base.lower()
@@ -710,6 +824,31 @@ class DigestGeneratorBase:
                 return f'{h_name} of {fname}'
             return f'{h_name} of ' + subj.replace('_', ' ').title()
 
+        # Hymn prefix matching for keys starting with troparion_, kontakion_, exapostilarion_
+        m_hymn_prefix = re.search(r'^(troparion|kontakion|exapostilarion)_(.+)$', lower_base)
+        if m_hymn_prefix:
+            h_name = m_hymn_prefix.group(1).capitalize()
+            subj = m_hymn_prefix.group(2).split('.')[-1]
+            if ctx and ctx.get('saints'):
+                for s_idx, s_entry in enumerate(ctx.get('saints', [])):
+                    s_id = s_entry.get('id', '').lower()
+                    s_id_clean = s_id.split('.')[-1]
+                    s_name = s_entry.get('name', '').lower()
+                    if subj in (s_id, s_id_clean) or s_id_clean in subj or any(w in subj for w in s_name.split() if len(w) > 3):
+                        sname_match = self._get_saint_display_name(ctx, s_idx, form='full')
+                        return f'{h_name} of {sname_match}'
+                return f'{h_name} of {sname}'
+            if ctx and (ctx.get('feast_name') or ctx.get('title')):
+                return f'{h_name} of {fname}'
+            return f'{h_name} of ' + subj.replace('_', ' ').title()
+
+        if ctx and ctx.get('saints'):
+            for s_idx, s_entry in enumerate(ctx.get('saints', [])):
+                s_id = s_entry.get('id', '').lower()
+                s_id_clean = s_id.split('.')[-1]
+                if lower_base in (s_id, s_id_clean):
+                    return self._get_saint_display_name(ctx, s_idx, form='full')
+
         words = base.replace('_', ' ').split()
         capitalized_words = []
         for w in words:
@@ -782,6 +921,7 @@ class DigestGeneratorBase:
         text = text.replace("doxastikon of the Saint", "Doxastikon of the Saint")
         text = text.replace("dismissal Theotokion", "Dismissal Theotokion")
         text = text.replace("daily aposticha", "Daily Aposticha")
+        text = text.replace("StavroTheotokion", "Stavrotheotokion")
         text = text.replace("resurrectional sessional", "Resurrectional Sessional")
         text = text.replace("resurrectional stichera", "Resurrectional Stichera")
         text = text.replace("of the saint", "of the Saint")
@@ -829,8 +969,6 @@ class DigestGeneratorBase:
         text = re.sub(r'\bDoxastikon of ([A-Z][a-z]+)\b', lambda m: f"Doxastikon of the {m.group(1)}" if m.group(1) in ("Theologian", "Forerunner", "Baptist", "Cross", "Feast", "Saint") else m.group(0), text)
 
         # Standardize Over-concatenated troparion titles
-        text = re.sub(r'\bTroparion of Great Martyr ([A-Z][a-z]+)\b', r'Troparion of Great-Martyr St. \1', text)
-        text = re.sub(r'\bTroparion of Martyr ([A-Z][a-z]+)\b', r'Troparion of Martyr St. \1', text)
         text = re.sub(r'\bTroparion of Chief Apostles Peter\b', r'Troparion of the Chief Apostles Peter and Paul', text)
         text = re.sub(r'\bTroparion of Chief Apostle St\b', r'Troparion of the Chief Apostles', text)
         text = re.sub(r'\bTroparion of Andrew First Called\b', r'Troparion of Apostle St. Andrew the First-Called', text)
@@ -841,12 +979,16 @@ class DigestGeneratorBase:
         text = text.replace("Troparion of George Great Martyr", "Troparion of Great-Martyr St. George")
         text = text.replace("Troparion of Falling Asleep", "Troparion of the Falling Asleep")
         text = text.replace("Exapostilarion of Falling Asleep", "Exapostilarion of the Falling Asleep")
+        text = re.sub(r'\bSt\.\s+St\.', 'St.', text)
         
         return text
 
 
     def generate(self, context, rubrics, mode="full"):
         self.mode = mode
+        self._liturgy_readings_printed = False
+        self._matins_canon_printed = False
+        self._communion_hymn_printed = False
         if mode == "full":
             res = self.generate_full_service(context, rubrics)
         elif mode == "maximalist":
@@ -971,7 +1113,7 @@ class DigestGeneratorBase:
         elif "SAINT OF THE DAY" in raw_title.upper():
             saints = enriched.get("saints", [])
             if saints:
-                st_name = saints[0].get("name", "SAINT OF THE DAY")
+                st_name = "; ".join(self._get_saint_display_name(enriched, idx, form="full") for idx in range(len(saints)))
                 title = st_name.replace("**", "").strip().rstrip(".").strip().upper()
             else:
                 title = "SAINT OF THE DAY"
@@ -980,6 +1122,7 @@ class DigestGeneratorBase:
             
         import re
         title = re.sub(r'\s*\(\d+-\d+\)', '', title)
+        title = re.sub(r'\bAP\.\s+', 'APOSTLE ', title)
         title = title.rstrip('.')
         
         # Combine movable feast or calendar afterfeast title with the saint's title
@@ -991,7 +1134,12 @@ class DigestGeneratorBase:
             (d_title_clean and any(x in d_title_clean.lower() for x in ["apodosis", "feast", "afterfeast", "forefeast"]))
         )
         if is_after_or_fore:
-            p_type = "FOREFEAST" if enriched.get("is_forefeast") else "AFTERFEAST"
+            if enriched.get("is_apodosis") or "apodosis" in d_title_clean.lower() or "leave-taking" in d_title_clean.lower() or enriched.get("period") == "apodosis":
+                p_type = "APODOSIS"
+            elif enriched.get("is_forefeast") or enriched.get("period") == "forefeast":
+                p_type = "FOREFEAST"
+            else:
+                p_type = "AFTERFEAST"
             fest_title = self._get_feast_display_name(enriched, form="title")
             if fest_title and fest_title != "THE FEAST":
                 if fest_title in ("PENTECOST", "PASCHA", "MID-PENTECOST") or fest_title.startswith("THE "):
@@ -1045,7 +1193,7 @@ class DigestGeneratorBase:
         
         # 3. Saints List
         if "saints" in enriched:
-             saints_str = "; ".join(self._clean_name(s.get("name", s.get("id", "")), is_saint=s.get("is_saint")) for s in enriched["saints"])
+             saints_str = "; ".join(self._get_saint_display_name(enriched, idx, form="short") for idx in range(len(enriched["saints"])))
              if saints_str:
                  digest.append(saints_str)
                   
@@ -1054,12 +1202,20 @@ class DigestGeneratorBase:
             res = self.engine.resolve_service_combination_header(enriched, rubrics)
             if res and res.get("components"):
                 comps = []
+                saints_list = enriched.get("saints", [])
                 for c in res["components"]:
                     if c.lower().startswith("st. forefeast") or c.lower().startswith("st. afterfeast"):
                         continue
                     c_clean = c.replace(" from the Octoechos", "")
-                    # Capitalize Saint names
-                    if "service" not in c_clean.lower() and "triodion" not in c_clean.lower() and "forefeast" not in c_clean.lower() and "afterfeast" not in c_clean.lower():
+                    matched_synaxis = None
+                    for s_idx, s_obj in enumerate(saints_list):
+                        s_raw = s_obj.get("name", "").strip()
+                        if s_raw and len(s_obj.get("all_parsed_saints", [])) > 1 and s_raw.lower() in c_clean.lower():
+                            matched_synaxis = self._get_saint_display_name(enriched, s_idx, form="short")
+                            break
+                    if matched_synaxis:
+                        comps.append(matched_synaxis)
+                    elif "service" not in c_clean.lower() and "triodion" not in c_clean.lower() and "forefeast" not in c_clean.lower() and "afterfeast" not in c_clean.lower():
                         comps.append(self._capitalize_name(self._clean_name(c_clean)))
                     else:
                         comps.append(c_clean)
@@ -1077,7 +1233,7 @@ class DigestGeneratorBase:
                         if "saint" in header.lower() and s_name_clean.lower() not in header.lower():
                             import re
                             pattern = re.compile(r'\bsaint\b', re.IGNORECASE)
-                            clean_saint_name = self._clean_name(saints[0].get("name"), is_saint=saints[0].get("is_saint"))
+                            clean_saint_name = self._get_saint_display_name(enriched, 0, form="short")
                             header = pattern.sub(self._capitalize_name(clean_saint_name), header)
                         
                     header_str = ((header[0].upper() + header[1:]) if header else "").rstrip('.') + "."
@@ -1107,6 +1263,16 @@ class DigestGeneratorBase:
                 digest.append(f"Vestment colour: {tone_type} ({color}{alt}).")
         except Exception as e:
             digest.append(f"[ERROR: resolve_vestment_color failed - {e}]")
+
+        # 6c. Fasting Rule
+        try:
+            fast_res = self.engine.resolve_fasting_rule(enriched, rubrics)
+            if fast_res and fast_res.get("type") and fast_res.get("type") != "no_fast":
+                f_note = fast_res.get("note", "").strip()
+                if f_note:
+                    digest.append(f"Fasting Rule: {f_note}.")
+        except Exception as e:
+            digest.append(f"[ERROR: resolve_fasting_rule failed - {e}]")
             
         # 6b. Parish Customizer Metadata
         parish_prof = enriched.get("parish_profile", {})
@@ -1622,7 +1788,8 @@ class DigestGeneratorBase:
         day_of_week = context.get("day_of_week", 0)
         is_sunday = day_of_week == 0 or context.get("is_sunday_vigil")
         rank_str = str(rubrics.get("rank") or context.get("rank") or "").lower()
-        is_polyeleos = is_sunday or "polyeleos" in rank_str or "vigil" in rank_str or context.get("feast_level") in ("polyeleos", "vigil", "lord", "theotokos")
+        is_fore_after_k = bool(context.get("is_fore_or_afterfeast") or context.get("is_afterfeast") or context.get("is_forefeast") or context.get("period") in ("forefeast", "afterfeast", "apodosis"))
+        is_polyeleos = is_sunday or "polyeleos" in rank_str or "vigil" in rank_str or (context.get("feast_level") in ("polyeleos", "vigil", "lord", "theotokos") and not is_fore_after_k) or bool(context.get("has_polyeleos"))
         
         unique_sess = list(set(sessionals_resolved))
         if not unique_sess:
@@ -1633,7 +1800,10 @@ class DigestGeneratorBase:
                     parts = []
                     for idx, k_num in enumerate(kathismata_resolved):
                         k_idx = idx + 1
-                        parts.append(f"after the {self._ordinal(k_idx)} ({k_num}): Small Litany, then the {unique_sess[0]}")
+                        if is_sunday and str(k_num) == "17" and k_idx >= 3:
+                            parts.append(f"after the {self._ordinal(k_idx)} ({k_num}): Resurrectional Evlogitaria ('The angelic council was amazed') and Small Litany")
+                        else:
+                            parts.append(f"after the {self._ordinal(k_idx)} ({k_num}): Small Litany, then the {unique_sess[0]}")
                     sess_str = "  \n" + "  \n".join(f"  - {p[0].upper() + p[1:]}." for p in parts)
                 else:
                     sess_str = f"Small Litany, then we sing the {unique_sess[0]}."
@@ -1644,8 +1814,11 @@ class DigestGeneratorBase:
             for idx, k_num in enumerate(kathismata_resolved):
                 k_idx = idx + 1
                 if k_idx in sessional_map:
-                    lit_str = "Small Litany, then the " if is_polyeleos else "the "
-                    parts.append(f"after the {self._ordinal(k_idx)} ({k_num}): {lit_str}{sessional_map[k_idx]}")
+                    if is_sunday and str(k_num) == "17" and k_idx >= 3:
+                        parts.append(f"after the {self._ordinal(k_idx)} ({k_num}): Resurrectional Evlogitaria ('The angelic council was amazed') and Small Litany")
+                    else:
+                        lit_str = "Small Litany, then the " if is_polyeleos else "the "
+                        parts.append(f"after the {self._ordinal(k_idx)} ({k_num}): {lit_str}{sessional_map[k_idx]}")
             sess_str = "  \n" + "  \n".join(f"  - {p[0].upper() + p[1:]}." for p in parts)
             
         prefix_read = ""
@@ -1796,6 +1969,16 @@ class DigestGeneratorBase:
                     digest.append(f"Vestment colour: {tone_type} ({color}{alt}).")
         except Exception as e:
             digest.append(f"[RESOLVE ERROR: resolve_vestment_color: {e}]  ")
+
+        # 7. Fasting Rule
+        try:
+            fast_res = self.engine.resolve_fasting_rule(enriched, rubrics)
+            if fast_res and fast_res.get("type") and fast_res.get("type") != "no_fast":
+                f_note = fast_res.get("note", "").strip()
+                if f_note:
+                    digest.append(f"Fasting Rule: {f_note}.")
+        except Exception as e:
+            digest.append(f"[RESOLVE ERROR: resolve_fasting_rule: {e}]  ")
             
         digest.append("")
         
@@ -1906,6 +2089,18 @@ class DigestGeneratorBase:
                             digest.append(f"{formatted_prok}  ")
                 except Exception as e:
                     digest.append(f"[RESOLVE ERROR: resolve_vespers_prokeimenon: {e}]  ")
+
+                try:
+                    readings_res = self.engine.resolve_vespers_readings_logic(enriched)
+                    if readings_res:
+                        paremias = [r for r in readings_res if isinstance(r, dict) and r.get("type") == "reading"]
+                        if paremias:
+                            digest.append("**Old Testament Readings (Paremias):**  ")
+                            for idx, p in enumerate(paremias, 1):
+                                p_title = p.get("title", p.get("ref_key", ""))
+                                digest.append(f"  {idx}. **{p_title}**  ")
+                except Exception as e:
+                    digest.append(f"[RESOLVE ERROR: resolve_vespers_readings_logic: {e}]  ")
 
                     
                 try:
@@ -2050,6 +2245,9 @@ class DigestGeneratorBase:
                     if suppress_oct or is_after_or_fore:
                         if is_movable:
                             digest.append(f"**Sessional Hymns:** After each Kathisma, we sing the Sessional Hymns from the Triodion.")
+                        elif (enriched.get("has_polyeleos") or enriched.get("variables", {}).get("has_polyeleos") or "POL" in str(enriched.get("rank_code", "")) or enriched.get("rank") in (1, 2, 3, "rank_polyeleos", "rank_vigil")) and enriched.get("saints"):
+                            s_disp = self._get_saint_display_name(enriched, 0, form='short')
+                            digest.append(f"**Sessional Hymns:** After each Kathisma: Small Litany, then we sing the Sessional Hymns of {s_disp}; Glory, Both now: of the Feast.")
                         else:
                             digest.append(f"**Sessional Hymns:** After each Kathisma, we sing the Sessional Hymns of the Feast from the Menaion.")
                     else:
@@ -2062,6 +2260,9 @@ class DigestGeneratorBase:
                     if suppress_oct or is_after_or_fore:
                         if is_movable:
                             digest.append(f"**Sessional Hymns:** After each Kathisma: {lit_prefix}we sing the Sessional Hymns from the Triodion.")
+                        elif (is_polyeleos or enriched.get("has_polyeleos") or enriched.get("variables", {}).get("has_polyeleos") or "POL" in str(enriched.get("rank_code", ""))) and enriched.get("saints"):
+                            s_disp = self._get_saint_display_name(enriched, 0, form='short')
+                            digest.append(f"**Sessional Hymns:** After each Kathisma: {lit_prefix}we sing the Sessional Hymns of {s_disp}; Glory, Both now: of the Feast.")
                         else:
                             digest.append(f"**Sessional Hymns:** After each Kathisma: {lit_prefix}we sing the Sessional Hymns of the Feast from the Menaion.")
                     else:
@@ -2106,9 +2307,9 @@ class DigestGeneratorBase:
                 except Exception as e:
                     digest.append(f"[RESOLVE ERROR: resolve_post_gospel_stichera: {e}]  ")
                     
-                is_weekday = 0 < enriched.get("day_of_week", 0) <= 5
+                is_weekday = 0 < enriched.get("day_of_week", 0) <= 6
                 is_simple_6 = enriched.get("rank") == "rank_simple_6" or enriched.get("variables", {}).get("rank") == "rank_simple_6"
-                is_simple_4 = enriched.get("rank") == "rank_simple_4" or enriched.get("variables", {}).get("rank") == "rank_simple_4"
+                is_simple_4 = enriched.get("rank") in ("rank_simple_4", "rank_simple") or enriched.get("variables", {}).get("rank") in ("rank_simple_4", "rank_simple")
                 
                 try:
                     if is_weekday and (is_simple_6 or is_simple_4):
@@ -2118,22 +2319,34 @@ class DigestGeneratorBase:
                         except Exception:
                             pass
                         
+                        saints_list = enriched.get("saints", [])
+                        s_name_disp_1 = self._get_saint_display_name(enriched, 0, form="full") if saints_list else "the Saint"
+                        s_name_disp_2 = self._get_saint_display_name(enriched, 1, form="full") if len(saints_list) >= 2 else None
+                        s_name_disp_kat = s_name_disp_2 or s_name_disp_1
+                        
                         canon_parts = []
                         if canon_stack and canon_stack.get("distribution"):
                             saints = enriched.get("saints", [])
-                            s_name = saints[0].get("name", "the Saint") if saints else "the Saint"
-                            s_name_clean = self._clean_name(s_name)
-                            for d in canon_stack.get("distribution", []):
+                            for d_idx, d in enumerate(canon_stack.get("distribution", [])):
                                 src = d.get("source", "")
                                 typ = d.get("type", "")
                                 qty = d.get("qty", d.get("count", 4))
-                                irmos = "with the Heirmos " if d.get("irmos") else ""
+                                irmos = "with the Heirmos " if (d.get("irmos") or (d_idx == 0 and canon_stack.get("irmos_rule") == "first_canon_starts")) else ""
                                 if src == "menaion" and typ in ("feast", "forefeast", "afterfeast"):
                                     fname = self._get_feast_display_name(enriched, form="short")
                                     canon_parts.append(f"Canon of {fname} {irmos}on {qty}".strip())
+                                elif src == "temple/menaion":
+                                    if s_name_disp_2:
+                                        canon_parts.append(f"Canon of {s_name_disp_1} {irmos}on {qty}".strip())
+                                    else:
+                                        canon_parts.append(f"Canon of the Temple {irmos}on {qty}".strip())
                                 elif src == "menaion" and "saint" in typ:
-                                    s_name_disp = self._get_saint_display_name(enriched, 0, form="full")
-                                    canon_parts.append(f"Canon of {s_name_disp} on {qty}".strip())
+                                    if typ == "saint_current" and s_name_disp_2:
+                                        s_name_disp = s_name_disp_2
+                                    else:
+                                        s_idx = 1 if ("2" in typ and len(saints) >= 2) else 0
+                                        s_name_disp = self._get_saint_display_name(enriched, s_idx, form="full")
+                                    canon_parts.append(f"Canon of {s_name_disp} {irmos}on {qty}".strip())
                                 elif src == "octoechos":
                                     if typ == "resurrection":
                                         canon_parts.append(f"Canon of the Resurrection {irmos}on {qty}".strip())
@@ -2141,18 +2354,21 @@ class DigestGeneratorBase:
                                         canon_parts.append(f"Canon of the Cross and Resurrection on {qty}".strip())
                                     elif typ == "theotokos":
                                         canon_parts.append(f"Canon of the Theotokos on {qty}".strip())
+                                    elif typ == "martyria":
+                                        canon_parts.append(f"Canon of the Octoechos (Martyria and for the Departed) on {qty}".strip())
                                     else:
                                         canon_parts.append(f"Canon of the Octoechos {irmos}on {qty}".strip())
                                 else:
                                     canon_parts.append(f"Canon from the {src.title()} on {qty}".strip())
                         
-                        s_name_disp = self._get_saint_display_name(enriched, 0, form="full") if enriched.get("saints") else "the Saint"
                         if canon_parts:
                             canon_details = "; ".join(canon_parts) + "."
                         elif is_simple_6:
-                            canon_details = f"First Canon of the Octoechos with the Heirmos on 4; second Canon of the Octoechos on 4; Canon of {s_name_disp} on 6."
+                            canon_details = f"First Canon of the Octoechos with the Heirmos on 4; second Canon of the Octoechos on 4; Canon of {s_name_disp_1} on 6."
+                        elif s_name_disp_2:
+                            canon_details = f"Canon of the Octoechos with the Heirmos on 6; Canon of {s_name_disp_1} on 4; Canon of {s_name_disp_2} on 4."
                         else:
-                            canon_details = f"First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of {s_name_disp} on 4."
+                            canon_details = f"First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of {s_name_disp_1} on 4."
                         
                         kat_res = None
                         try:
@@ -2165,18 +2381,27 @@ class DigestGeneratorBase:
                             enriched.get("is_forefeast") or
                             enriched.get("is_apodosis")
                         )
-                        if is_after_or_fore and kat_res and kat_res.get("text") and kat_res.get("katavasia_id") != "irmos_last_canon":
+                        is_afterfeast_or_apodosis = bool(enriched.get("is_afterfeast") or enriched.get("is_apodosis"))
+                        if is_afterfeast_or_apodosis and kat_res and kat_res.get("text") and kat_res.get("katavasia_id") != "irmos_last_canon":
                             k_text = kat_res.get("text")
                             k_tone = kat_res.get("tone")
                             k_tone_str = f" in Tone {self._roman_tone(k_tone)}" if k_tone else ""
                             kat_str = f"Katavasia: Heirmos (*\"{k_text}\"*{k_tone_str}) after Odes 3, 6, 8, and 9."
+                        elif enriched.get("day_of_week") == 6 or (canon_stack and canon_stack.get("katavasia_rule") == "octoechos_irmos"):
+                            kat_str = "Katavasia: Heirmos of the Octoechos canon after Odes 3, 6, 8, and 9."
                         else:
-                            kat_str = f"Katavasia: Heirmos of the last canon (of {s_name_disp}) after Odes 3, 6, 8, and 9."
+                            kat_str = f"Katavasia: Heirmos of the last canon (of {s_name_disp_kat}) after Odes 3, 6, 8, and 9."
                         digest.append(f"**Canon:** Order of the Canon: {canon_details} {kat_str}  ")
                         digest.append("")
-                        digest.append("**After Ode III:** Sessional hymns; Glory... both now... Theotokion.  ")
-                        digest.append("")
-                        digest.append("**After Ode VI:** Kontakion and Ikos.  ")
+                        ode3_theo = "Stavrotheotokion from the Menaion" if (enriched.get("day_of_week") in (3, 5) and not is_after_or_fore) else "Theotokion from the Menaion"
+                        if s_name_disp_2:
+                            digest.append(f"**After Ode III:** Kontakion and Ikos of {s_name_disp_1}, Kontakion and Ikos of {s_name_disp_2}, and Sessional Hymn of {s_name_disp_1}; Glory... Sessional Hymn of {s_name_disp_2}; Both now... Sessional Hymn of {self._get_feast_display_name(enriched, form='short')}.  ") if is_after_or_fore else digest.append(f"**After Ode III:** Kontakion and Ikos of {s_name_disp_2}, and Sessional Hymn of {s_name_disp_1}; Glory... Sessional Hymn of {s_name_disp_2}; Both now... {ode3_theo}.  ")
+                            digest.append("")
+                            digest.append(f"**After Ode VI:** Kontakion and Ikos of {self._get_feast_display_name(enriched, form='short')}.  ") if is_after_or_fore else digest.append(f"**After Ode VI:** Kontakion and Ikos of {s_name_disp_1}.  ")
+                        else:
+                            digest.append(f"**After Ode III:** Kontakion, Ikos, and Sessional Hymn of {s_name_disp_1}; Glory... both now... Sessional Hymn of {self._get_feast_display_name(enriched, form='short')}.  ") if is_after_or_fore else digest.append(f"**After Ode III:** Sessional Hymn of {s_name_disp_1}; Glory... both now... {ode3_theo}.  ")
+                            digest.append("")
+                            digest.append(f"**After Ode VI:** Kontakion and Ikos of {self._get_feast_display_name(enriched, form='short')}.  ") if is_after_or_fore else digest.append(f"**After Ode VI:** Kontakion and Ikos of {s_name_disp_1}.  ")
                         digest.append("")
                         
                         try:
@@ -2303,26 +2528,37 @@ class DigestGeneratorBase:
                     except Exception as e:
                         digest.append(f"[RESOLVE ERROR: gospel_sticheron_formatting: {e}]  ")
                         
-                try:
-                    res = self.engine.resolve_aposticha_matins(enriched)
-                except AttributeError:
+                is_gt_dox_mat = (
+                    enriched.get("doxology_type") == "great_doxology"
+                    or enriched.get("variables", {}).get("doxology_type") == "great_doxology"
+                    or enriched.get("matins_type") == "great_matins"
+                    or enriched.get("variables", {}).get("matins_type") == "great_matins"
+                    or enriched.get("has_polyeleos")
+                    or enriched.get("variables", {}).get("has_polyeleos")
+                    or "POL" in str(enriched.get("rank_code", ""))
+                    or parse_rank_integer(enriched.get("rank", 5)) <= 3
+                )
+                if not is_gt_dox_mat:
                     try:
-                        res = self.engine.resolve_aposticha(enriched)
-                    except Exception:
-                        res = None
-                if res:
-                    formatted = self._format_resolve_aposticha(res, enriched)
-                    if formatted:
-                        if digest and digest[-1] != "":
-                            digest.append("")
-                        if not formatted.startswith("**At the Aposticha:**"):
-                            if formatted.startswith("At the Aposticha, we sing:"):
-                                formatted = "**At the Aposticha:** We sing" + formatted[len("At the Aposticha, we sing:"):]
-                            elif formatted.startswith("At the Aposticha"):
-                                formatted = "**At the Aposticha:**" + formatted[len("At the Aposticha"):]
-                            else:
-                                formatted = "**At the Aposticha:** " + formatted
-                        digest.append(f"{formatted}")
+                        res = self.engine.resolve_aposticha_matins(enriched)
+                    except AttributeError:
+                        try:
+                            res = self.engine.resolve_aposticha(enriched)
+                        except Exception:
+                            res = None
+                    if res:
+                        formatted = self._format_resolve_aposticha(res, enriched)
+                        if formatted:
+                            if digest and digest[-1] != "":
+                                digest.append("")
+                            if not formatted.startswith("**At the Aposticha:**"):
+                                if formatted.startswith("At the Aposticha, we sing:"):
+                                    formatted = "**At the Aposticha:** We sing" + formatted[len("At the Aposticha, we sing:"):]
+                                elif formatted.startswith("At the Aposticha"):
+                                    formatted = "**At the Aposticha:**" + formatted[len("At the Aposticha"):]
+                                else:
+                                    formatted = "**At the Aposticha:** " + formatted
+                            digest.append(f"{formatted}")
                 
                 try:
                     res_post = self.engine.resolve_post_doxology_event(context, rubrics)
@@ -2713,19 +2949,37 @@ class DigestGeneratorBase:
                             try:
                                 res = self.engine.resolve_liturgy_readings(enriched, rubrics)
                                 if res and res.get("readings"):
-                                    r = res["readings"][0]
+                                    readings_list = res["readings"]
+                                    r = readings_list[0]
+                                    r2 = readings_list[1] if len(readings_list) > 1 else None
                                     r_parts = []
                                     p = r.get("prokeimenon", {})
+                                    p2 = r2.get("prokeimenon", {}) if r2 else {}
+                                    tone = (p.get("tone") if p else None) or 7
+                                    tone_roman = self._roman_tone(tone)
+                                    text = (p.get("text") or p.get("content")) if p else None
+                                    if self._is_missing(text):
+                                        text = None
+                                    if not text:
+                                        text = "The righteous shall rejoice in the Lord..."
+                                    text_clean = text.strip('"').rstrip('.')
+                                    t2 = (p2.get("tone") if p2 else None) or 7
+                                    txt2 = (p2.get("text") or p2.get("content")) if p2 else None
+                                    txt2_clean = txt2.strip('"').rstrip('.') if (txt2 and not self._is_missing(txt2)) else None
+                                    norm_p1 = re.sub(r'[^a-z0-9]+', ' ', text_clean.lower()).strip()
+                                    norm_p2 = re.sub(r'[^a-z0-9]+', ' ', txt2_clean.lower()).strip() if txt2_clean else ""
+                                    has_distinct_p2 = bool(txt2_clean and (norm_p1 != norm_p2 or tone != t2))
                                     if p:
-                                        tone = p.get("tone") or 7
-                                        tone_roman = self._roman_tone(tone)
-                                        text = p.get("text") or p.get("content")
-                                        if self._is_missing(text):
-                                            text = None
-                                        if not text:
-                                            text = "The righteous shall rejoice in the Lord..."
-                                        text_clean = text.strip('"').rstrip('.')
-                                        r_parts.append(f"**Prokeimenon:**  \n> Tone {tone_roman}: \"{text_clean}\"")
+                                        p_lbl = "**Prokeimenon (Day):**" if has_distinct_p2 else "**Prokeimenon:**"
+                                        p_line = f"{p_lbl}  \n> Tone {tone_roman}: \"{text_clean}\""
+                                        if p.get("verse"):
+                                            v_clean = p["verse"].strip('"').rstrip('.')
+                                            p_line += f"\n> *Verse:* \"{v_clean}.\""
+                                        r_parts.append(p_line)
+                                    if has_distinct_p2:
+                                        t2_rom = self._roman_tone(t2)
+                                        p2_line = f"**Prokeimenon (Saint, without verse):**  \n> Tone {t2_rom}: \"{txt2_clean}\""
+                                        r_parts.append(p2_line)
                                     e = r.get("epistle", {})
                                     if e:
                                         text = e.get("text") or e.get("content")
@@ -2733,11 +2987,45 @@ class DigestGeneratorBase:
                                             text = None
                                         if not text:
                                             text = "Romans 7:14-8:2"
-                                        r_parts.append(f"**Epistle:**  \n> {text}")
+                                        if r2 and r2.get("epistle"):
+                                            e2 = r2["epistle"]
+                                            txt2 = e2.get("text") or e2.get("content")
+                                            if txt2 and not self._is_missing(txt2) and txt2 != text:
+                                                r_parts.append(f"**Epistle (Day):**  \n> {text}")
+                                                r_parts.append(f"**Epistle (Saint):**  \n> {txt2}")
+                                            else:
+                                                r_parts.append(f"**Epistle:**  \n> {text}")
+                                        else:
+                                            r_parts.append(f"**Epistle:**  \n> {text}")
                                     a = r.get("alleluia", {})
                                     if a:
                                         tone = a.get("tone") or (p.get("tone") if p else None) or 4
-                                        r_parts.append(f"**Alleluia:**  \n> Tone {self._roman_tone(tone) if isinstance(tone, int) else tone}, with verses of the day.")
+                                        t_rom = self._roman_tone(tone) if isinstance(tone, int) else tone
+                                        a_verses = a.get("verses") or []
+                                        a2 = r2.get("alleluia", {}) if r2 else {}
+                                        t2_a = (a2.get("tone") if a2 else None) or 4
+                                        a2_verses = (a2.get("verses") if a2 else None) or []
+                                        norm_a1 = re.sub(r'[^a-z0-9]+', ' ', a_verses[0].lower()).strip() if a_verses else ""
+                                        norm_a2 = re.sub(r'[^a-z0-9]+', ' ', a2_verses[0].lower()).strip() if a2_verses else ""
+                                        has_distinct_a2 = bool(a2 and (norm_a1 != norm_a2 or tone != t2_a))
+                                        if has_distinct_a2:
+                                            if a_verses:
+                                                v_day_str = "\n> ".join(f"*Verse:* \"{v.strip('\"').rstrip('.')}.\"" for v in a_verses)
+                                                r_parts.append(f"**Alleluia (Day):**  \n> Tone {t_rom}:\n> {v_day_str}")
+                                            else:
+                                                r_parts.append(f"**Alleluia (Day):**  \n> Tone {t_rom}, with verses of the day.")
+                                            t2_a_rom = self._roman_tone(t2_a) if isinstance(t2_a, int) else t2_a
+                                            if a2_verses:
+                                                v_str = "\n> ".join(f"*Verse:* \"{v.strip('\"').rstrip('.')}.\"" for v in a2_verses[:1])
+                                                r_parts.append(f"**Alleluia (Saint):**  \n> Tone {t2_a_rom}:\n> {v_str}")
+                                            else:
+                                                r_parts.append(f"**Alleluia (Saint):**  \n> Tone {t2_a_rom}, with verses of the Saint.")
+                                        else:
+                                            if a_verses:
+                                                v_day_str = "\n> ".join(f"*Verse:* \"{v.strip('\"').rstrip('.')}.\"" for v in a_verses)
+                                                r_parts.append(f"**Alleluia:**  \n> Tone {t_rom}:\n> {v_day_str}")
+                                            else:
+                                                r_parts.append(f"**Alleluia:**  \n> Tone {t_rom}, with verses of the day.")
                                     g = r.get("gospel", {})
                                     if g:
                                         text = g.get("text") or g.get("content")
@@ -2745,7 +3033,16 @@ class DigestGeneratorBase:
                                             text = None
                                         if not text:
                                             text = "Matthew 10:9-15"
-                                        r_parts.append(f"**Gospel:**  \n> {text}")
+                                        if r2 and r2.get("gospel"):
+                                            g2 = r2["gospel"]
+                                            txt2 = g2.get("text") or g2.get("content")
+                                            if txt2 and not self._is_missing(txt2) and txt2 != text:
+                                                r_parts.append(f"**Gospel (Day):**  \n> {text}")
+                                                r_parts.append(f"**Gospel (Saint):**  \n> {txt2}")
+                                            else:
+                                                r_parts.append(f"**Gospel:**  \n> {text}")
+                                        else:
+                                            r_parts.append(f"**Gospel:**  \n> {text}")
                                     
                                     # Communion hymn lookup
                                     c_text = "In everlasting remembrance shall the righteous be..."
@@ -2762,6 +3059,7 @@ class DigestGeneratorBase:
                                     
                                     digest.append("\n".join(r_parts))
                                     self._liturgy_readings_printed = True
+                                    self._communion_hymn_printed = True
                             except Exception as e_res:
                                 digest.append(f"[ERROR: Combined readings resolution failed - {e_res}]")
                         continue
@@ -2817,7 +3115,34 @@ class DigestGeneratorBase:
                                     return "*of the day*"
                                 return f"*{ref_clean}*"
 
-                            for idx, r in enumerate(res["readings"]):
+                            is_saturday_saint_combined = (
+                                enriched.get("day_of_week") == 6
+                                and len(res["readings"]) > 1
+                                and res["readings"][0].get("prokeimenon", {}).get("source") == "horologion"
+                            )
+                            is_polyeleos_or_vigil_weekday_sat = (
+                                1 <= enriched.get("day_of_week", 0) <= 6
+                                and len(res["readings"]) > 1
+                                and res["readings"][0].get("prokeimenon", {}).get("source") == "horologion"
+                                and (
+                                    enriched.get("rank") in (2, "rank_polyeleos", "rank_vigil")
+                                    or enriched.get("has_polyeleos") is True
+                                    or enriched.get("dolnytsky_rank_code") in ("[POL]", "[VIGIL]")
+                                )
+                                and not (
+                                    enriched.get("is_fore_or_afterfeast")
+                                    or enriched.get("is_afterfeast")
+                                    or enriched.get("is_forefeast")
+                                    or enriched.get("is_apodosis")
+                                )
+                            )
+                            if is_polyeleos_or_vigil_weekday_sat and slot_id in ("liturgy_prokeimenon", "liturgy_alleluia"):
+                                readings_iter = [(idx, r) for idx, r in enumerate(res["readings"]) if idx > 0]
+                            elif is_saturday_saint_combined and slot_id in ("liturgy_prokeimenon", "liturgy_alleluia"):
+                                readings_iter = list(reversed(list(enumerate(res["readings"]))))
+                            else:
+                                readings_iter = list(enumerate(res["readings"]))
+                            for order_pos, (idx, r) in enumerate(readings_iter):
                                 if slot_id == "liturgy_prokeimenon" and "prokeimenon" in r:
                                     p = r["prokeimenon"]
                                     text = p.get("text") or p.get("content")
@@ -2832,8 +3157,21 @@ class DigestGeneratorBase:
                                             if asset.get("tone") and not p.get("tone"):
                                                 p["tone"] = asset["tone"]
                                     tone_str = f" Tone {self._roman_tone(p.get('tone'))}" if p.get('tone') else ""
-                                    if len(res["readings"]) > 1:
-                                        label = "Prokeimenon (Feast - sung twice)" if idx == 0 else "Prokeimenon (Saint - sung once, without verse)"
+                                    if len(readings_iter) > 1:
+                                        if is_saturday_saint_combined:
+                                            if order_pos == 0:
+                                                label = "Prokeimenon (Saint)"
+                                            else:
+                                                label = "Prokeimenon (Day - sung once, without verse)"
+                                        elif idx == 0:
+                                            if p.get("source") == "feast":
+                                                label = "Prokeimenon (Feast - sung twice)"
+                                            elif enriched.get("day_of_week") == 0:
+                                                label = "Prokeimenon (Sunday)"
+                                            else:
+                                                label = "Prokeimenon (Day)"
+                                        else:
+                                            label = "Prokeimenon (Saint - sung once, without verse)"
                                     else:
                                         label = "Prokeimenon"
                                     if not text and p.get("ref_key"):
@@ -2850,7 +3188,7 @@ class DigestGeneratorBase:
                                         text_clean = text.strip('"').rstrip('.')
                                         p_body = f"{tone_str.strip()}: \"{text_clean}\"" if tone_str.strip() else f"\"{text_clean}\""
                                         p_verse = p.get("verse") or (p.get("verses")[0] if p.get("verses") else "")
-                                        if p_verse:
+                                        if p_verse and "without verse" not in label.lower():
                                             p_verse_clean = p_verse.strip('"').rstrip('.')
                                             p_body += f"\n> *Verse:* \"{p_verse_clean}\""
                                         digest.append(f"**{label}:**  \n> {p_body}")
@@ -2925,8 +3263,16 @@ class DigestGeneratorBase:
                                             tone = all_res.get("tone")
                                             tone_str = f"Tone {self._roman_tone(tone)}" if tone else ""
                                             verses = all_res.get("verses")
-                                            if len(res["readings"]) > 1:
-                                                label = "Alleluia (Feast)" if idx == 0 else "Alleluia (Saint)"
+                                            if len(readings_iter) > 1:
+                                                if idx == 0:
+                                                    if all_res.get("source") == "feast":
+                                                        label = "Alleluia (Feast)"
+                                                    elif enriched.get("day_of_week") == 0:
+                                                        label = "Alleluia (Sunday)"
+                                                    else:
+                                                        label = "Alleluia (Day)"
+                                                else:
+                                                    label = "Alleluia (Saint)"
                                             else:
                                                 label = "Alleluia"
                                             
@@ -3047,9 +3393,9 @@ class DigestGeneratorBase:
                         digest.append(f"[ERROR: Resolving hour kontakion failed - {e}]")
 
             elif slot_type in ("canon_ode", "canon_ode_range"):
-                is_weekday = 0 < enriched.get("day_of_week", 0) <= 5
+                is_weekday = 0 < enriched.get("day_of_week", 0) <= 6
                 is_simple_6 = enriched.get("rank") == "rank_simple_6" or enriched.get("variables", {}).get("rank") == "rank_simple_6"
-                is_simple_4 = enriched.get("rank") == "rank_simple_4" or enriched.get("variables", {}).get("rank") == "rank_simple_4"
+                is_simple_4 = enriched.get("rank") in ("rank_simple_4", "rank_simple") or enriched.get("variables", {}).get("rank") in ("rank_simple_4", "rank_simple")
                 if is_weekday and (is_simple_6 or is_simple_4):
                     if not getattr(self, "_matins_canon_printed", False):
                         canon_stack = None
@@ -3058,22 +3404,34 @@ class DigestGeneratorBase:
                         except Exception:
                             pass
                         
+                        saints_list = enriched.get("saints", [])
+                        s_name_disp_1 = self._get_saint_display_name(enriched, 0, form="full") if saints_list else "the Saint"
+                        s_name_disp_2 = self._get_saint_display_name(enriched, 1, form="full") if len(saints_list) >= 2 else None
+                        s_name_disp_kat = s_name_disp_2 or s_name_disp_1
+                        
                         canon_parts = []
                         if canon_stack and canon_stack.get("distribution"):
                             saints = enriched.get("saints", [])
-                            s_name = saints[0].get("name", "the Saint") if saints else "the Saint"
-                            s_name_clean = self._clean_name(s_name)
-                            for d in canon_stack.get("distribution", []):
+                            for d_idx, d in enumerate(canon_stack.get("distribution", [])):
                                 src = d.get("source", "")
                                 typ = d.get("type", "")
                                 qty = d.get("qty", d.get("count", 4))
-                                irmos = "with the Heirmos " if d.get("irmos") else ""
+                                irmos = "with the Heirmos " if (d.get("irmos") or (d_idx == 0 and canon_stack.get("irmos_rule") == "first_canon_starts")) else ""
                                 if src == "menaion" and typ in ("feast", "forefeast", "afterfeast"):
                                     fname = self._get_feast_display_name(enriched, form="short")
                                     canon_parts.append(f"Canon of {fname} {irmos}on {qty}".strip())
+                                elif src == "temple/menaion":
+                                    if s_name_disp_2:
+                                        canon_parts.append(f"Canon of {s_name_disp_1} {irmos}on {qty}".strip())
+                                    else:
+                                        canon_parts.append(f"Canon of the Temple {irmos}on {qty}".strip())
                                 elif src == "menaion" and "saint" in typ:
-                                    s_name_disp = self._get_saint_display_name(enriched, 0, form="full")
-                                    canon_parts.append(f"Canon of {s_name_disp} on {qty}".strip())
+                                    if typ == "saint_current" and s_name_disp_2:
+                                        s_name_disp = s_name_disp_2
+                                    else:
+                                        s_idx = 1 if ("2" in typ and len(saints) >= 2) else 0
+                                        s_name_disp = self._get_saint_display_name(enriched, s_idx, form="full")
+                                    canon_parts.append(f"Canon of {s_name_disp} {irmos}on {qty}".strip())
                                 elif src == "octoechos":
                                     if typ == "resurrection":
                                         canon_parts.append(f"Canon of the Resurrection {irmos}on {qty}".strip())
@@ -3081,18 +3439,21 @@ class DigestGeneratorBase:
                                         canon_parts.append(f"Canon of the Cross and Resurrection on {qty}".strip())
                                     elif typ == "theotokos":
                                         canon_parts.append(f"Canon of the Theotokos on {qty}".strip())
+                                    elif typ == "martyria":
+                                        canon_parts.append(f"Canon of the Octoechos (Martyria and for the Departed) on {qty}".strip())
                                     else:
                                         canon_parts.append(f"Canon of the Octoechos {irmos}on {qty}".strip())
                                 else:
                                     canon_parts.append(f"Canon from the {src.title()} on {qty}".strip())
                         
-                        s_name_disp = self._get_saint_display_name(enriched, 0, form="full") if enriched.get("saints") else "the Saint"
                         if canon_parts:
                             canon_details = "; ".join(canon_parts) + "."
                         elif is_simple_6:
-                            canon_details = f"First Canon of the Octoechos with the Heirmos on 4; second Canon of the Octoechos on 4; Canon of {s_name_disp} on 6."
+                            canon_details = f"First Canon of the Octoechos with the Heirmos on 4; second Canon of the Octoechos on 4; Canon of {s_name_disp_1} on 6."
+                        elif s_name_disp_2:
+                            canon_details = f"Canon of the Octoechos with the Heirmos on 6; Canon of {s_name_disp_1} on 4; Canon of {s_name_disp_2} on 4."
                         else:
-                            canon_details = f"First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of {s_name_disp} on 4."
+                            canon_details = f"First Canon of the Octoechos with the Heirmos on 6; second Canon of the Octoechos on 4; Canon of {s_name_disp_1} on 4."
                         
                         kat_res = None
                         try:
@@ -3105,14 +3466,33 @@ class DigestGeneratorBase:
                             enriched.get("is_forefeast") or
                             enriched.get("is_apodosis")
                         )
-                        if is_after_or_fore and kat_res and kat_res.get("text") and kat_res.get("katavasia_id") != "irmos_last_canon":
+                        is_afterfeast_or_apodosis = bool(enriched.get("is_afterfeast") or enriched.get("is_apodosis"))
+                        if is_afterfeast_or_apodosis and kat_res and kat_res.get("text") and kat_res.get("katavasia_id") != "irmos_last_canon":
                             k_text = kat_res.get("text")
                             k_tone = kat_res.get("tone")
                             k_tone_str = f" in Tone {self._roman_tone(k_tone)}" if k_tone else ""
                             kat_str = f"Katavasia: Heirmos (*\"{k_text}\"*{k_tone_str}) after Odes 3, 6, 8, and 9."
+                        elif enriched.get("day_of_week") == 6 or (canon_stack and canon_stack.get("katavasia_rule") == "octoechos_irmos"):
+                            kat_str = "Katavasia: Heirmos of the Octoechos canon after Odes 3, 6, 8, and 9."
                         else:
-                            kat_str = f"Katavasia: Heirmos of the last canon (of {s_name_disp}) after Odes 3, 6, 8, and 9."
+                            kat_str = f"Katavasia: Heirmos of the last canon (of {s_name_disp_kat}) after Odes 3, 6, 8, and 9."
                         digest.append(f"**Canon:** Order of the Canon: {canon_details} {kat_str}")
+                        digest.append("")
+                        ode3_theo = "Stavrotheotokion from the Menaion" if (enriched.get("day_of_week") in (3, 5) and not is_after_or_fore) else "Theotokion from the Menaion"
+                        has_poly_canon = bool(enriched.get("has_polyeleos") or enriched.get("variables", {}).get("has_polyeleos") or "POL" in str(enriched.get("rank_code", "")) or parse_rank_integer(enriched.get("rank", 5)) <= 3)
+                        if s_name_disp_2:
+                            if is_after_or_fore and has_poly_canon:
+                                digest.append(f"**After Ode III:** Kontakion and Ikos of {self._get_feast_display_name(enriched, form='short')}, Kontakion of {s_name_disp_2}, and Sessional Hymn of {s_name_disp_1}; Glory: Sessional Hymn of {s_name_disp_2}; Both now: Sessional Hymn of {self._get_feast_display_name(enriched, form='short')}.")
+                                digest.append(f"**After Ode VI:** Kontakion and Ikos of {s_name_disp_1}.")
+                            elif is_after_or_fore:
+                                digest.append(f"**After Ode III:** Kontakion and Ikos of {s_name_disp_1}, Kontakion and Ikos of {s_name_disp_2}, and Sessional Hymn of {s_name_disp_1}; Glory: Sessional Hymn of {s_name_disp_2}; Both now: Sessional Hymn of {self._get_feast_display_name(enriched, form='short')}.")
+                                digest.append(f"**After Ode VI:** Kontakion and Ikos of {self._get_feast_display_name(enriched, form='short')}.")
+                            else:
+                                digest.append(f"**After Ode III:** Kontakion and Ikos of {s_name_disp_2}, and Sessional Hymn of {s_name_disp_1}; Glory: Sessional Hymn of {s_name_disp_2}; Both now: {ode3_theo}.")
+                                digest.append(f"**After Ode VI:** Kontakion and Ikos of {s_name_disp_1}.")
+                        else:
+                            digest.append(f"**After Ode III:** Kontakion, Ikos, and Sessional Hymn of {s_name_disp_1}; Glory, Both now: Sessional Hymn of {self._get_feast_display_name(enriched, form='short')}.") if is_after_or_fore else digest.append(f"**After Ode III:** Sessional Hymn of {s_name_disp_1}; Glory, Both now: {ode3_theo}.")
+                            digest.append(f"**After Ode VI:** Kontakion and Ikos of {self._get_feast_display_name(enriched, form='short')}.") if is_after_or_fore else digest.append(f"**After Ode VI:** Kontakion and Ikos of {s_name_disp_1}.")
                         digest.append("")
                         digest.append("> **Note:** At the 9th Ode, the priest censes as at Great Matins.")
                         self._matins_canon_printed = True
@@ -3125,6 +3505,14 @@ class DigestGeneratorBase:
                         if formatted:
                             digest.append(formatted)
                             digest.append("")
+                            ode3_str = self._format_canon_interludes_ode_3(enriched)
+                            ode6_str = self._format_canon_interludes_ode_6(enriched)
+                            if ode3_str:
+                                digest.append(ode3_str.strip())
+                            if ode6_str:
+                                digest.append(ode6_str.strip())
+                            if ode3_str or ode6_str:
+                                digest.append("")
                     except Exception as e:
                         digest.append(f"[ERROR: resolve_canon_structure failed - {str(e)}]")
                     self._matins_canon_printed = True
@@ -3208,7 +3596,9 @@ class DigestGeneratorBase:
                     elif ref_key_lower.startswith("horologion.") or ref_key_lower.startswith("liturgikon."):
                         is_trivial = True
                     
-                    if not is_trivial:
+                    if ref_key_lower == "horologion.matins.praises_psalms":
+                        digest.append("**At the Praises:** The Psalms of Praise (Psalms 148–150) are read simply, without stichera; Small Doxology (read).")
+                    elif not is_trivial:
                         txt_res = self.engine.get_text(ref_key)
                         title = self.humanize_key(ref_key)
                         if ref_key_lower == "triodion.let_my_prayer_arise":
@@ -3440,7 +3830,7 @@ class DigestGeneratorBase:
 
 
     def _format_result(self, func_name, result, context):
-        if not result:
+        if not result and func_name != "resolve_exapostilarion":
             return ""
         formatter_name = f"_format_{func_name}"
         if hasattr(self, formatter_name):
@@ -3488,6 +3878,9 @@ class DigestGeneratorBase:
     def _clean_hymn_text(self, text):
         if not text:
             return ""
+        if " And of the Saint: " in text:
+            p1, p2 = text.split(" And of the Saint: ", 1)
+            return f"{self._clean_hymn_text(p1)} And of the Saint: {self._clean_hymn_text(p2)}"
         cleaned = text.strip().strip('"').strip("'").rstrip('.')
         if cleaned and not cleaned[-1] in ('.', '!', '?'):
             cleaned += "."

@@ -451,12 +451,12 @@ class CalendarMixin:
             "[LORD]": 1, "LORD": 1, "[MOG]": 1, "THEOTOKOS": 1,
             "[VIGIL]": 2, "VIGIL": 2, "[POL]": 3, "POLYELEOS": 3,
             "[GT DOX]": 4, "GT_DOX": 4, "[6 SM]": 5, "SIX": 5,
-            "[4 A+G]": 5, "[4 TR]": 5, "[4 NO]": 5, "SIMPLE": 5, "NO": 5
+            "[4 A+G]": 6, "[4 TR]": 7, "[4 NO]": 8, "SIMPLE": 6, "NO": 8
         }
         code_1 = context.get("dolnytsky_rank_code") or ""
         code_2 = context.get("fixed_rank_code") or ""
-        p1 = rank_priority.get(code_1, 5)
-        p2 = rank_priority.get(code_2, 5)
+        p1 = rank_priority.get(code_1, 8)
+        p2 = rank_priority.get(code_2, 8)
         rank_code = code_1 if p1 <= p2 else code_2
         if not rank_code:
             rank_code = code_1 or code_2
@@ -508,8 +508,8 @@ class CalendarMixin:
                     class_num = "V"
                     class_label = "Simple"
                 else:
-                    class_num = "IV"
-                    class_label = "Great Doxology"
+                    class_num = "V"
+                    class_label = "Six-Stichera"
             else:
                 class_num = "V"
                 class_label = "Simple"
@@ -517,6 +517,19 @@ class CalendarMixin:
         context["triodion_book"] = triodion_book
         context["menaion_book"] = "Festal" if is_festal else "General"
         context["menaion_class"] = f"Class {class_num} — {class_label}"
+        context["solemnity_class"] = "Simple" if class_label == "Simple" else f"Class {class_num} — {class_label}"
+        if rank_code in ["[LORD]", "LORD"] or (rank_val == 1 and context.get("feast_level") == "lord"):
+            context["ssjc_festal_class"] = "major_lord"
+        elif rank_code in ["[MOG]", "THEOTOKOS"] or (rank_val == 1 and context.get("feast_level") == "theotokos"):
+            context["ssjc_festal_class"] = "major_theotokos"
+        elif rank_code in ["[VIGIL]", "VIGIL"]:
+            context["ssjc_festal_class"] = "major_saint"
+        elif rank_code in ["[POL]", "POLYELEOS"]:
+            context["ssjc_festal_class"] = "minor_V"
+        elif rank_code in ["[GT DOX]", "GT_DOX"] or rank_val == 3:
+            context["ssjc_festal_class"] = "minor_VI"
+        else:
+            context["ssjc_festal_class"] = "simple"
         
         # 3. Determine Commemoration and Categories
         comm_val = context.get("dolnytsky_commemoration", "None") or "None"
@@ -636,6 +649,38 @@ class CalendarMixin:
                 "ALLELUIA": "[ALLELUIA]"
             }
             result["dolnytsky_rank_code"] = rank_code_map.get(rank, "")
+
+        # Wire json_db/calendar_movable.json (Dolnytsky Part V §5.4 Movable Calendar)
+        if not getattr(self, "dolnytsky_movable", None) and hasattr(self, "_load_json"):
+            self.dolnytsky_movable = self._load_json("json_db/calendar_movable.json")
+        if getattr(self, "dolnytsky_movable", None) and delta is not None:
+            movable_section_map = {
+                -70: "Sunday of the Publican and the Pharisee",
+                -63: "Sunday of the Prodigal Son",
+                -56: "Meatfare Sunday",
+                -49: "Cheesefare Sunday",
+                -42: "First Sunday of Lent",
+                -35: "Second Sunday of Lent",
+                -28: "Third Sunday of Lent",
+                -21: "Fourth Sunday of Lent",
+                -14: "Fifth Sunday of Lent",
+                -8: "Sixth Saturday of Lent – of Lazarus",
+                -7: "Sixth Sunday of Lent – Flower [Palm]",
+                0: "= PASCHA: RESURRECTION OF CHRIST",
+                7: "= SECOND SUNDAY AFTER PASCHA –",
+                14: "Third Sunday after Pascha – of the Myrrh-bearers",
+                21: "Fourth Sunday after Pascha – of the Paralytic",
+                28: "Fifth Sunday after Pascha – of the Samaritan Woman",
+                35: "Sixth Sunday after Pascha – of the Blind Man",
+                42: "Seventh Sunday after Pascha – of the Holy Fathers",
+                49: "SUNDAY OF PENTECOST.",
+                56: "First Sunday after the Descent of the Holy Spirit – of All Saints",
+                63: "Second Sunday after the Descent of the Holy Spirit.",
+            }
+            sec_key = movable_section_map.get(delta)
+            if sec_key and sec_key in self.dolnytsky_movable:
+                result["dolnytsky_movable_section"] = sec_key
+                result["dolnytsky_movable_note"] = self.dolnytsky_movable[sec_key].get("text_block", "")
             
         # Inject moveable feast metadata directly into result
         if delta is not None:
@@ -711,13 +756,23 @@ class CalendarMixin:
                 result["linked_feast"] = result["feast_id"]
         
         # ── 2. FIXED CALENDAR LOOKUP ──────────────────────────────────────
-        if delta is not None and -8 <= delta <= 6:
+        if delta is not None and (-8 <= delta <= 6 or (delta == 7 and (target_date.month, target_date.day) not in ((3, 25), (4, 23), (4, 25)))):
             return result
 
         key = f"{target_date.month}-{target_date.day}"
         if self.dolnytsky_fixed and key in self.dolnytsky_fixed:
             entry = self.dolnytsky_fixed[key]
             entries = entry.get("entries", [])
+            use_ugcc_synodal = getattr(self, "calendar_source", "ugcc_official") != "typikon"
+            if use_ugcc_synodal and "ugcc_synodal_override" in entry:
+                syn_ov = entry["ugcc_synodal_override"]
+                if "entries" in syn_ov:
+                    entries = syn_ov["entries"]
+                if "transfer_to_sunday" in syn_ov:
+                    result["transfer_to_sunday"] = syn_ov["transfer_to_sunday"]
+            elif "lviv_1899_transfer_to_sunday" in entry:
+                result["transfer_to_sunday"] = entry["lviv_1899_transfer_to_sunday"]
+
             if entries:
                 rank_priority = {
                     "[LORD]": 1, "[MOG]": 1,
@@ -775,7 +830,7 @@ class CalendarMixin:
                     result["dolnytsky_subtitle"] = description
                     result["dolnytsky_status"] = "collision"
                 
-                # Build saints list from entries for all days
+                # Build saints list from entries for all days (1 entry = 1 distinct Menaion service)
                 if len(entries) >= 1:
                     rank_numeric = {
                         "[LORD]": 1, "[MOG]": 1, "[VIGIL]": 2, "[POL]": 3,
@@ -783,22 +838,46 @@ class CalendarMixin:
                     }
                     saints = []
                     for entry_idx, e in enumerate(entries):
+                        desc_raw = e.get("description", "").replace("**", "").strip()
                         parsed = e.get("parsed_saints", [])
+                        # When multiple entries exist, skip pure Feast / Period-marker entries (Forefeast / Apodosis / Indiction / Circumcision / Procession of Cross)
+                        if len(entries) > 1 and re.match(
+                            r"^(?:Forefeast|Apodosis|Beginning of the New Year|Circumcision of the Lord|Procession of the Precious Cross|Dedication of the Temple\s*\[of the Resurrection\])\b",
+                            desc_raw,
+                            flags=re.IGNORECASE,
+                        ):
+                            if not any(ps.get("is_saint", True) for ps in parsed):
+                                continue
+
+                        trop_tone = e.get("default_troparion_tone", 4)
+                        has_transfer_note = bool(
+                            e.get("transfer_to_sunday_note")
+                            or (entry_idx == 0 and (entry.get("transfer_to_sunday_note") or entry.get("lviv_1899_transfer_to_sunday")))
+                        )
+
                         if parsed:
                             # Filter out non-saints first if saints are present
                             parsed_saints_only = [ps for ps in parsed if ps.get("is_saint", True)]
                             if not parsed_saints_only:
                                 parsed_saints_only = parsed
-                            
-                            # Only use the first saint to represent the structural core of the commemoration
+
                             ps = parsed_saints_only[0]
-                            name_clean = ps.get("name", "").strip()
-                            name_clean = name_clean.replace("**", "").strip()
-                            if name_clean.endswith("."):
-                                name_clean = name_clean[:-1].strip()
-                            
-                            # Generate ID
-                            cleaned = re.sub(r'[^a-z0-9\s]', '', name_clean.lower())
+                            primary_name = ps.get("name", "").replace("**", "").strip()
+                            if primary_name.endswith("."):
+                                primary_name = primary_name[:-1].strip()
+
+                            if len(parsed_saints_only) == 2:
+                                n1 = parsed_saints_only[0].get("name", "").strip().rstrip(".")
+                                n2 = parsed_saints_only[1].get("name", "").strip().rstrip(".")
+                                display_name = f"{n1} and {n2}" if (n1 and n2) else primary_name
+                            elif len(parsed_saints_only) > 2:
+                                n_list = [p.get("name", "").strip().rstrip(".") for p in parsed_saints_only if p.get("name", "").strip()]
+                                display_name = ", ".join(n_list[:-1]) + f" and {n_list[-1]}" if len(n_list) > 2 else primary_name
+                            else:
+                                display_name = primary_name
+
+                            # Generate ID from primary saint name
+                            cleaned = re.sub(r'[^a-z0-9\s]', '', primary_name.lower())
                             words = cleaned.split()
                             filtered_words = [w for w in words if w not in ["apostles", "apostle", "holy", "saint", "saints", "venerable", "venerables", "hieromartyr", "martyr", "martyrs", "prophet", "and", "of", "the"]]
                             if not filtered_words:
@@ -809,26 +888,38 @@ class CalendarMixin:
                                 7: "jul", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"
                             }.get(target_date.month, "unknown")
                             saint_id = f"{month_str}_{target_date.day:02d}.{saint_id_suffix}"
-                            
-                            saints.append({
+
+                            saint_obj = {
                                 "id": saint_id,
-                                "name": name_clean,
+                                "name": display_name,
                                 "title": ps.get("title", ""),
-                                "gender": ps.get("gender", "unknown"),
+                                "gender": "group" if len(parsed_saints_only) > 1 else ps.get("gender", "unknown"),
                                 "monastic": ps.get("monastic", False),
                                 "is_saint": ps.get("is_saint", True),
                                 "rank": rank_numeric.get(e.get("rank_code", ""), 5),
                                 "rank_code": e.get("rank_code", ""),
-                                "entry_index": entry_idx,
-                                "all_parsed_saints": parsed_saints_only
-                            })
+                                "category": e.get("category", get_liturgical_category(desc_raw)),
+                                "troparion_tone": trop_tone,
+                                "tone": trop_tone,
+                                "transfer_to_sunday_note": has_transfer_note,
+                                "entry_index": len(saints),
+                                "all_parsed_saints": parsed_saints_only,
+                            }
+                            if e.get("has_praises_stichera_small_doxology"):
+                                saint_obj["has_praises_stichera_small_doxology"] = True
+                            if e.get("has_matins_aposticha_doxastikon"):
+                                saint_obj["has_matins_aposticha_doxastikon"] = True
+                            if "has_vespers_aposticha_doxastikon" in e:
+                                saint_obj["has_vespers_aposticha_doxastikon"] = e["has_vespers_aposticha_doxastikon"]
+                            if "optional_elevations" in e:
+                                saint_obj["optional_elevations"] = e["optional_elevations"]
+                            saints.append(saint_obj)
                         else:
-                            name = e.get("description", "")
-                            name_clean = name.replace("**", "").strip()
+                            name_clean = desc_raw
                             if name_clean.endswith("."):
                                 name_clean = name_clean[:-1].strip()
                             
-                            cleaned = re.sub(r'[^a-z0-9\s]', '', name.lower())
+                            cleaned = re.sub(r'[^a-z0-9\s]', '', name_clean.lower())
                             words = cleaned.split()
                             filtered_words = [w for w in words if w not in ["apostles", "apostle", "holy", "saint", "saints", "venerable", "venerables", "hieromartyr", "martyr", "martyrs", "prophet", "and", "of", "the"]]
                             if not filtered_words:
@@ -848,11 +939,20 @@ class CalendarMixin:
                                 "monastic": False,
                                 "rank": rank_numeric.get(e.get("rank_code", ""), 5),
                                 "rank_code": e.get("rank_code", ""),
-                                "entry_index": entry_idx,
+                                "category": e.get("category", get_liturgical_category(desc_raw)),
+                                "troparion_tone": trop_tone,
+                                "tone": trop_tone,
+                                "transfer_to_sunday_note": has_transfer_note,
+                                "entry_index": len(saints),
                                 "all_parsed_saints": [{"name": name_clean, "title": "", "gender": "unknown", "monastic": False, "is_saint": True}]
                             })
                     result["saints"] = saints
                     result["calendar_saints"] = copy.deepcopy(saints)
+                    result["transfer_to_sunday_note"] = any(s.get("transfer_to_sunday_note") for s in saints) or bool(
+                        entry.get("transfer_to_sunday_note") or entry.get("lviv_1899_transfer_to_sunday")
+                    )
+                    if saints:
+                        result["saint_tone"] = saints[0]["troparion_tone"]
 
         # Check title/subtitle or explicit date ranges for forefeast, afterfeast, apodosis
         m, d = target_date.month, target_date.day
@@ -1015,7 +1115,7 @@ class CalendarMixin:
         if delta == 0: return "pascha"
         if 1 <= delta <= 6: return "bright_week"
         
-        # === PENTECOSTARION SUNDAYS ===
+        # === PENTECOSTARION SUNDAYS & POST-PENTECOST MOVABLE FEASTS ===
         if delta == 7: return "sunday_thomas"
         if delta == 14: return "sunday_myrrh_bearers"
         if delta == 21: return "sunday_paralytic"
@@ -1027,6 +1127,8 @@ class CalendarMixin:
         if delta == 49: return "pentecost"
         if delta == 50: return "monday_holy_spirit"
         if delta == 56: return "sunday_all_saints"
+        if delta == 60: return "feast_eucharist"
+        if delta == 68: return "compassion_theotokos"
         
         # === PENTECOSTARION WEEKDAYS (non-Sunday) ===
         if 8 <= delta <= 68:
@@ -1042,15 +1144,15 @@ class CalendarMixin:
         if delta == -2: return "holy_friday"
         if delta == -1: return "holy_saturday"
         
-        # === LENTEN SUNDAYS ===
+        # === LENTEN SUNDAYS (Dolnytsky Part V §5.4) ===
         # Clean Monday = -48, so 1st Sunday = -42
         if delta == -48: return "clean_monday"
         lenten_sundays = {
-            -42: "sunday_orthodoxy",       # 1st Sunday of Lent
-            -35: "sunday_gregory_palamas", # 2nd Sunday
-            -28: "sunday_veneration_cross", # 3rd Sunday (Cross)
-            -21: "sunday_john_climacus",   # 4th Sunday
-            -14: "sunday_mary_egypt",      # 5th Sunday
+            -42: "sunday_orthodoxy",        # 1st Sunday of Lent
+            -35: "sunday_2_of_lent",        # 2nd Sunday of Lent (Without name. Penitential)
+            -28: "sunday_veneration_cross", # 3rd Sunday (Veneration of the Cross)
+            -21: "sunday_4_of_lent",        # 4th Sunday of Lent (Without name. Penitential)
+            -14: "sunday_5_of_lent",        # 5th Sunday of Lent (Without name. Penitential)
         }
         if delta in lenten_sundays: return lenten_sundays[delta]
         

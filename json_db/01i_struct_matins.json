@@ -863,7 +863,7 @@
                     "content": {
                         "type": "variable_logic",
                         "logic": {
-                            "function": "resolve_aposticha"
+                            "function": "resolve_aposticha_matins"
                         }
                     }
                 },

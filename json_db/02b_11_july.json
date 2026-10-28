@@ -137,7 +137,8 @@
             "luke_6_17_23"
           ],
           "communion_hymn": "righteous_memory"
-        }
+        },
+        "ugcc_synodal_only": true
       },
       "10": {
         "title_key": "menaion.jul_10.anthony_caves",
@@ -239,7 +240,8 @@
             "luke_7_36_50"
           ],
           "communion_hymn": "righteous_memory"
-        }
+        },
+        "ugcc_synodal_only": true
       },
       "15": {
         "title_key": "menaion.jul_15.vladimir_great",

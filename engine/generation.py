@@ -37,14 +37,17 @@ class GenerationMixin:
         d_title = context.get("dolnytsky_title", "")
         full_text = f"{d_title}".lower()
         
-        # Forefeast/Afterfeast detection
+        # Forefeast/Afterfeast/Apodosis detection
         is_after_or_fore = bool(
             context.get("is_afterfeast") or
             context.get("is_forefeast") or
             context.get("is_fore_or_afterfeast") or
-            context.get("period") in ("afterfeast", "forefeast") or
+            context.get("is_apodosis") or
+            context.get("period") in ("afterfeast", "forefeast", "apodosis") or
             "afterfeast" in full_text or
-            "forefeast" in full_text
+            "forefeast" in full_text or
+            "apodosis" in full_text or
+            "leave-taking" in full_text
         )
         
         feast_period_name = ""
@@ -76,7 +79,12 @@ class GenerationMixin:
             season_words = ""
 
         if is_after_or_fore:
-            p_type = "Forefeast" if (context.get("is_forefeast") or "forefeast" in full_text) else "Afterfeast"
+            if context.get("is_apodosis") or "apodosis" in full_text or "leave-taking" in full_text or context.get("period") == "apodosis":
+                p_type = "Apodosis"
+            elif context.get("is_forefeast") or "forefeast" in full_text or context.get("period") == "forefeast":
+                p_type = "Forefeast"
+            else:
+                p_type = "Afterfeast"
             if season_words:
                 if season_words.lower().startswith("the "):
                     feast_period_name = f"the {p_type} of {season_words}"
@@ -195,7 +203,8 @@ class GenerationMixin:
                   if day == 5: return "Great Vespers" # Fri Eve
                   return "Lenten Vespers"
              
-             if rank <= 3 or context.get("is_vigil"): return "Great Vespers"
+             has_poly = context.get("has_polyeleos") is not False and context.get("variables", {}).get("has_polyeleos") is not False
+             if (rank <= 3 and (has_poly or rank <= 2)) or context.get("is_vigil"): return "Great Vespers"
              if day == 6: return "Great Vespers" # Sat Eve for Sun
              
              return "Daily Vespers"
@@ -227,11 +236,12 @@ class GenerationMixin:
              is_lent = context.get("season") == "lent"
              day = context.get("day_of_week")
              rank = parse_rank_integer(context.get("rank", 5))
+             has_poly = context.get("has_polyeleos") is not False and context.get("variables", {}).get("has_polyeleos") is not False
              
              if is_lent and day in [1,2,3,4,5] and rank > 3: 
                   return "Lenten Matins (Alleluia)"
              if day == 0: return "Sunday Matins"
-             if rank <= 3 or context.get("is_vigil"): return "Festal Matins"
+             if (rank <= 3 and (has_poly or rank <= 2)) or context.get("is_vigil"): return "Festal Matins"
              
              return "Daily Matins"
 
@@ -1200,6 +1210,11 @@ class GenerationMixin:
                             if enriched.get("saints"):
                                 s_id = enriched["saints"][0].get("id", "saint")
                             ref_key = f"menaion.{s_id}.matins.kontakion"
+                        elif source in ("saints_2", "saint_2"):
+                            s_id = "saint_2"
+                            if len(enriched.get("saints", [])) >= 2:
+                                s_id = enriched["saints"][1].get("id", "saint_2")
+                            ref_key = f"menaion.{s_id}.matins.kontakion"
                             
                         text_val = None
                         if ref_key:
@@ -1209,7 +1224,24 @@ class GenerationMixin:
                                 
                         if not text_val:
                             # generic text
-                            text_val = f"Kontakion of the {source.title()}"
+                            if source in ("saints_2", "saint_2"):
+                                if len(enriched.get("saints", [])) >= 2:
+                                    s_name = enriched["saints"][1].get("name", "Second Saint")
+                                    text_val = f"Kontakion of St. {s_name}"
+                                else:
+                                    text_val = "Kontakion of the Second Saint"
+                            elif source == "saints":
+                                if enriched.get("saints"):
+                                    s_name = enriched["saints"][0].get("name", "Saint")
+                                    text_val = f"Kontakion of St. {s_name}"
+                                else:
+                                    text_val = "Kontakion of the Saint"
+                            elif source == "day":
+                                text_val = "Kontakion of the Day"
+                            elif source == "temple":
+                                text_val = "Kontakion of the Temple"
+                            else:
+                                text_val = f"Kontakion of the {source.title()}"
                             
                         output_lines.append(f'<p><strong>Kontakion</strong>: {text_val}</p>')
                 except Exception as e:
@@ -1343,20 +1375,33 @@ class GenerationMixin:
                 else:
                     flat_items.append(item)
                     
-            for idx, ref_key in enumerate(flat_items):
+            # Pre-calculate titles and determine which titles have multiple items
+            item_data = []
+            title_counts = {}
+            for ref_key in flat_items:
                 if not ref_key:
                     continue
-                    
                 text_item = self.get_text(ref_key, context=context)
                 if text_item and not text_item.get("is_missing"):
-                    content = text_item.get("content", "")
                     h_title = text_item.get("title") or self._get_humanized_title(text_item, ref_key)
-                    item_label = f"{h_title} {idx+1}" if len(flat_items) > 1 else h_title
+                else:
+                    h_title = self._get_humanized_title(text_item, ref_key)
+                title_counts[h_title] = title_counts.get(h_title, 0) + 1
+                item_data.append((ref_key, text_item, h_title))
+
+            seen_titles = {}
+            for ref_key, text_item, h_title in item_data:
+                if title_counts[h_title] > 1:
+                    seen_titles[h_title] = seen_titles.get(h_title, 0) + 1
+                    item_label = f"{h_title} ({seen_titles[h_title]})"
+                else:
+                    item_label = h_title
+
+                if text_item and not text_item.get("is_missing"):
+                    content = text_item.get("content", "")
                     html_prefix = f"<strong>{item_label}</strong>: "
                     output.extend(self._split_and_wrap(html_prefix, content))
                 else:
-                    h_title = self._get_humanized_title(text_item, ref_key)
-                    item_label = f"{h_title} {idx+1}" if len(flat_items) > 1 else h_title
                     content = text_item.get("content", "") if text_item else f"[{h_title} (Missing text)]"
                     output.append(f'<p><strong>{item_label}</strong>: {content}</p>')
                     

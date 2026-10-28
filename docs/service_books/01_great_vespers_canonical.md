@@ -59,7 +59,7 @@ The Priest stands before the closed Royal Doors, makes three reverences, and exc
 ### STATION 2: PSALM 103 (PROEMIAL PSALM) & PRAYERS OF LIGHT
 *(Ordo §31, §55–§56; Dolnytsky Part I §1)*
 
-*(From Pascha Sunday until the Leave-taking of Pascha, "Come, let us worship..." is completely omitted, and the Clergy and Choir sing the Paschal Troparion):*
+*(From Pascha Sunday until the Apodosis of Pascha, "Come, let us worship..." is completely omitted, and the Clergy and Choir sing the Paschal Troparion):*
 > **CLERGY & CHOIR**: **Christ is risen from the dead, trampling down death by death, and to those in the tombs bestowing life!** *(three times)*.
 
 *(Throughout the rest of the year outside of Paschaltide):*
@@ -165,7 +165,7 @@ The Choir sings the Lucernarium Psalms (Psalms 140, 141, 129, 116) in the Tone o
 The verses are sung, and the variable stichera are inserted:
 * **On 10**: **Always on Saturday evenings** (Sunday Vespers, regardless of the saint's rank; 7+3, 4+3+3, 6+4, or 3+7), and on Class I Great Feasts of the Lord (*Ordo §33; Dolnytsky Part I §4*).
 * **On 8**: On weekday Class II Vigils and weekday Class III Polyeleos feasts (*Dolnytsky Part I §4 & Part II*).
-* **On 6**: On weekday Class IV Great Doxology feasts (when celebrated with Great Vespers and an Entrance), and during certain weekday afterfeasts (*Dolnytsky Part I §4*).
+* **On 6**: On weekday Class IV Great Doxology feasts (when celebrated with Great Vespers and an Entrance), and during certain weekday Afterfeast days (*Dolnytsky Part I §4*).
 
 **At the Conclusion of the Stichera:**
 > **CANTOR**: Glory be to the Father, and to the Son, and to the Holy Spirit.  
@@ -354,12 +354,12 @@ The Choir sings the Dismissal Troparia according to the appointed rank:
 > **PRIEST**: ✠ Most Holy Theotokos, save us!  
 *(Throughout the year outside of Paschaltide):*
 > **CHOIR**: More honorable than the cherubim, and beyond compare more glorious than the seraphim, who without corruption gave birth to God the Word, you the true Theotokos, we magnify!  
-*(From Pascha until the Leave-taking of Pascha, the Paschal Megalynarion is sung instead):*
+*(From Pascha until the Apodosis of Pascha, the Paschal Megalynarion is sung instead):*
 > **CHOIR**: **Shine, shine, O new Jerusalem, for the glory of the Lord has risen upon you! Exult now and be glad, O Zion, and you, O pure Theotokos, rejoice in the resurrection of Him to Whom you gave birth!**  
 > **PRIEST**: ✠ Glory be to You, O Christ God, our hope, glory be to You!  
 *(Throughout the year outside of Paschaltide):*
 > **CHOIR**: Glory be to the Father, and to the Son, and to the Holy Spirit, now and ever, and for ever and ever. Amen. Lord, have mercy *(three times)*. Give the blessing!  
-*(From Pascha until the Leave-taking of Pascha, the Paschal Troparion is sung instead):*
+*(From Pascha until the Apodosis of Pascha, the Paschal Troparion is sung instead):*
 > **CHOIR**: **Christ is risen from the dead, trampling down death by death, and to those in the tombs bestowing life!**  
 > **PRIEST** *(The Great Dismissal with the Hand Cross)*: ✠ May Christ our true God,  
 > *(On Sundays)*: risen from the dead...  
@@ -372,7 +372,7 @@ The Choir sings the Dismissal Troparia according to the appointed rank:
 > and of all the saints: have mercy on us and save us, for He is good and loves mankind.  
 > **CHOIR**: Amen.
 
-*Rubric: During Paschaltide (from Pascha until the Leave-taking of Pascha), after the Dismissal exclamation, the Priest raises the Hand Cross and greets the faithful three times:*
+*Rubric: During Paschaltide (from Pascha until the Apodosis of Pascha), after the Dismissal exclamation, the Priest raises the Hand Cross and greets the faithful three times:*
 
 > **PRIEST**: ✠ Christ is risen!  
 > **PEOPLE**: Indeed He is risen!  

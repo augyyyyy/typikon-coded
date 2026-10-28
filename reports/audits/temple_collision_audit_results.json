@@ -4,7 +4,7 @@
     "archetypes_per_case": 4,
     "total_scenarios": 136,
     "total_violations": 0,
-    "elapsed_seconds": 46.5
+    "elapsed_seconds": 53.75
   },
   "cases": {
     "case_1a": {
@@ -128,7 +128,7 @@
           "patron": "St. Nicholas the Wonderworker",
           "type": "saint",
           "date": "2026-01-01",
-          "calculated_rank": 1,
+          "calculated_rank": 2,
           "resolved_case_id": null,
           "status": "PASS",
           "violations": []
@@ -138,7 +138,7 @@
           "patron": "St. Eulampius and St. Eulampia",
           "type": "saint",
           "date": "2026-01-01",
-          "calculated_rank": 1,
+          "calculated_rank": 2,
           "resolved_case_id": null,
           "status": "PASS",
           "violations": []

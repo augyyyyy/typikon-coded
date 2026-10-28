@@ -35,7 +35,7 @@ def get_deepseek_key():
     if key and key != "your_deepseek_api_key_here":
         return key
 
-    global_env = Path("C:/Users/augus/OneDrive/Documents/Google Antigravity/Projects/.env")
+    global_env = PROJECT_ROOT.parent / ".env"
     if global_env.exists():
         try:
             with open(global_env, "r", encoding="utf-8") as f:
@@ -74,6 +74,40 @@ class ServiceDayMultiAuditor:
         
         # State tracking for sliding context (continuity)
         self.sliding_state = {}
+        self._menologion_cache = None
+
+    def extract_service_body_only(self, digest_text: str, service_name: str) -> str:
+        """Extract ONLY the service body without the top page preamble or inline footnote callouts."""
+        kw_map = {
+            "Vespers": ["VESPERS"],
+            "Compline": ["COMPLINE"],
+            "Midnight Office": ["MIDNIGHT"],
+            "Matins": ["MATINS", "LAMENTATIONS"],
+            "First Hour": ["FIRST HOUR", "HOURS"],
+            "Third Hour": ["THIRD HOUR", "HOURS"],
+            "Sixth Hour": ["SIXTH HOUR", "HOURS"],
+            "Ninth Hour": ["NINTH HOUR", "HOURS"],
+            "Hours": ["HOURS"],
+            "Liturgy": ["LITURGY", "TYPIKA"],
+            "Footnotes": ["SYNODAL FOOTNOTES", "NOTES & FOOTNOTES"],
+        }
+        keywords = kw_map.get(service_name, [service_name.upper()])
+        started = False
+        service_lines = []
+        for line in digest_text.splitlines():
+            upper_line = line.strip().upper()
+            is_any_header = upper_line.startswith("## ") or upper_line.startswith("=== ")
+            is_target_header = is_any_header and any(kw in upper_line for kw in keywords)
+            if is_target_header:
+                started = True
+                service_lines.append(line)
+                continue
+            if started:
+                if is_any_header:
+                    break
+                if not line.strip().startswith("> 💡 **Dolnytsky Note"):
+                    service_lines.append(line)
+        return "\n".join(service_lines).strip()
 
     def extract_service_digest_section(self, digest_text: str, service_name: str) -> str:
         """Extract the specific service section from the generated digest."""
@@ -248,13 +282,22 @@ class ServiceDayMultiAuditor:
         # Double Saint Prefixes
         double_prefixes = [
             (r"\bSt\.\s+(Nativity|Translation|Return|Transfer|Finding|Recovery|Deposition|Conception|Protection|Synaxis|Annunciation|Dormition|Theophany|Elevation)\b", "Invalid saint prefix before feast title"),
-            (r"\bSt\.\s+St\.\b", "Double St. St. prefix"),
+            (r"\bSt\.\s+St\.", "Double St. St. prefix"),
             (r"\bSaint\s+Saint\b", "Double Saint Saint prefix")
         ]
         for pattern, desc in double_prefixes:
             match = re.search(pattern, content, re.IGNORECASE)
             if match:
                 errors.append(f"{desc}: '{match.group(0)}'")
+
+        # Duplicate Communion Hymn / Kinonikon headers in the same service section
+        if "**Communion Hymn:**" in content and "**Kinonikon (Communion Verse):**" in content:
+            errors.append("Duplicate Communion Hymn and Kinonikon headers rendered in the same Liturgy section")
+
+        # Duplicate identical Saint Canon in Matins Canon stack (e.g., Canon of X on 4; Canon of X on 4)
+        dup_canon = re.search(r"Canon of ([^;]+?) on (\d+);\s*Canon of \1 on \2", content)
+        if dup_canon and "Octoechos" not in dup_canon.group(1):
+            errors.append(f"Duplicate identical Saint Canon in Canon stack: '{dup_canon.group(0)}'")
 
         # Ungrammatical raw key humanization leaks in liturgical texts
         grammar_leak_patterns = [
@@ -264,6 +307,14 @@ class ServiceDayMultiAuditor:
             (r"\b(Aposticha|Stichera)\s+Saint\b", "Ungrammatical key-humanization leak: 'Aposticha Saint' or 'Stichera Saint'"),
             (r"\b(Doxastikon|Theotokion|Troparion|Kontakion)\s+(Feast|Saint)\b", "Ungrammatical key-humanization leak: Hymn + Subject"),
             (r"\bGlory,?\s*[Bb]oth\s*now:?\s*Theotokion\b(?!\s+(?:in\s+Tone|for|of|from))", "Ungrounded bare Theotokion without tone or source"),
+            (r"\bWe read None\b", "Formatter leak: 'We read None.'"),
+            (r"\bKontakion of Temple\b", "Missing article in 'Kontakion of Temple'"),
+            (r"\bPsalm 50 and Post-Gospel Stichera:\s*Glory Apostles\b", "Raw key humanization leak at Psalm 50"),
+            (r"\bPrayer Holy Trinity All Creating\b", "Raw key humanization leak in Midnight Office Prayer"),
+            (r"\bPrayer Eustratius\b", "Raw key humanization leak in Saturday Midnight Office Prayer"),
+            (r"\bTroparion of Fathers Seventh Council\b", "Raw key humanization leak for Fathers of the Seventh Council"),
+            (r"\bStichera of Daily\b", "Ungrammatical Aposticha label: 'Stichera of Daily'"),
+            (r"\bPrayer (?:First|Second)\b", "Raw key humanization leak in Midnight Office Prayer"),
         ]
         for pattern, desc in grammar_leak_patterns:
             match = re.search(pattern, content, re.IGNORECASE)
@@ -461,8 +512,9 @@ class ServiceDayMultiAuditor:
             is_bright_week = pascha_off is not None and 0 <= pascha_off <= 6
             
             if not is_vigil and not is_lent and not is_bright_week and 1 <= dow <= 5:
-                # Friday evening (dow==5) has no kathisma at Vespers outside Lent, but Mon-Thu (dow 1..4) must have a Kathisma
-                if 1 <= dow <= 4:
+                # Monday Vespers (dow==1, celebrated Sunday evening) has NO kathisma outside Lent (Dolnytsky §2.2:1005).
+                # Tuesday-Friday (dow 2..5) must have a Kathisma at Vespers.
+                if 2 <= dow <= 5:
                     kath_res = self.engine.resolve_daily_kathisma(enriched)
                     kath_num = kath_res.get("number", 0) if isinstance(kath_res, dict) else 0
                     if not kath_res or kath_num == 0 or kath_res.get("type") == "none":
@@ -523,7 +575,7 @@ class ServiceDayMultiAuditor:
                 errors.append(f"Liturgy Megalynarion on Afterfeast {dt.isoformat()} resolved to '{meg.get('ref_key')}' instead of festal/paschal zadostoinyk.")
 
             comm = self.engine.resolve_communion_hymn(enriched, rubrics)
-            if isinstance(comm, dict) and comm.get("source") != "feast":
+            if isinstance(comm, dict) and "feast" not in str(comm.get("source", "")).lower():
                 errors.append(f"Liturgy Communion Hymn on Afterfeast {dt.isoformat()} resolved to '{comm.get('ref_key')}' instead of Feast communion hymn.")
         return errors
 
@@ -869,9 +921,9 @@ class ServiceDayMultiAuditor:
         # 4. Saturday Evening (Sunday Vespers) Kathisma 1 Invariant
         if service_name == "Vespers" and dow == 6:
             # Normal Saturday evening Vespers requires Kathisma 1 (Blessed is the man)
-            is_great_feast_lord = d_rank == "LORD" or feast_id in ("nativity", "theophany", "transfiguration")
+            is_great_feast = d_rank in ("LORD", "MOG", "THEOTOKOS") or context.get("feast_level") in ("lord", "theotokos") or context.get("rank") == 1 or feast_id in ("nativity", "theophany", "transfiguration", "dormition")
             v_type = rubrics.get("overrides", {}).get("vespers_type") or rubrics.get("variables", {}).get("vespers_type") or context.get("vespers_type")
-            if not is_great_feast_lord and pascha_off not in (-8, -1, 0, 6) and v_type != "lenten_vespers_presanctified": # Exclude Lazarus Saturday (Palm Sunday eve), Holy Saturday, Pascha, Bright Saturday, and Presanctified eve
+            if not is_great_feast and pascha_off not in (-8, -1, 0, 6) and v_type != "lenten_vespers_presanctified": # Exclude Lazarus Saturday (Palm Sunday eve), Holy Saturday, Pascha, Bright Saturday, and Presanctified eve
                 if "Kathisma 1" not in content and "Kathisma I" not in content and "First Kathisma" not in content and "Blessed is the man" not in content:
                     errors.append(f"Theological/Rubrical Error in {service_name} on {dt_str} (Saturday Evening): Saturday evening Vespers must prescribe Kathisma 1 ('Blessed is the man').")
 
@@ -1026,23 +1078,38 @@ class ServiceDayMultiAuditor:
         
         if service_name in ("Vespers", "Daily Vespers", "Great Vespers") or "## DAILY VESPERS" in content or "## GREAT VESPERS" in content:
             if not is_lent and not is_bright_week:
-                # In Summer schedule (before Sep 22):
-                if "0601" <= mmdd <= "0921":
-                    if ctx_dow == 4: # Thursday evening (for Friday)
+                # 1. Sunday (Sat Eve) Great Vespers must appoint Kathisma 1 ("Blessed is the man")
+                if ctx_dow == 0:
+                    if "Kathisma 1" not in content and "Blessed is the man" not in content:
+                        errors.append(f"Psalter Matrix Error on {dt_str} (Dolnytsky §2.1:897): Sunday Great Vespers must appoint Kathisma 1 ('Blessed is the man').")
+                # 2. Monday (Sun Eve) Daily Vespers has no Kathisma unless Polyeleos/Vigil (Dolnytsky §2.5:1180)
+                elif ctx_dow == 1:
+                    has_poly = bool(
+                        context.get("has_polyeleos")
+                        or "POL" in str(context.get("dolnytsky_rank_code", ""))
+                        or "VIGIL" in str(context.get("dolnytsky_rank_code", ""))
+                    )
+                    if not has_poly and ("Kathisma 18 is read" in content or "Kathisma 1 is read" in content or "Blessed is the man" in content):
+                        errors.append(f"Psalter Matrix Error on {dt_str} (Dolnytsky §2.2:1005): Monday Vespers (Sunday evening) without Polyeleos has no Kathisma.")
+                # 3. Saturday (Fri Eve) Daily Vespers has Kathisma 18 (Dolnytsky §2.3:1076)
+                elif ctx_dow == 6:
+                    has_poly = bool(context.get("has_polyeleos") or "POL" in str(context.get("dolnytsky_rank_code", "")))
+                    if not has_poly and "Kathisma 18 is read" not in content:
+                        errors.append(f"Psalter Matrix Error on {dt_str} (Dolnytsky §2.3:1076): Saturday Vespers (Friday evening) without Polyeleos must read Kathisma 18.")
+                # 4. Summer schedule weekday distributions (Tue-Fri, eve_day 1-4)
+                elif "0601" <= mmdd <= "0921":
+                    if ctx_dow == 5: # Friday (Thu eve)
                         if "Kathisma 18 is read" in content:
-                            errors.append(f"Psalter Matrix Error on {dt_str}: Thursday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 15).")
-                    elif ctx_dow == 3: # Wednesday evening (for Thursday)
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Friday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 15).")
+                    elif ctx_dow == 4: # Thursday (Wed eve)
                         if "Kathisma 18 is read" in content:
-                            errors.append(f"Psalter Matrix Error on {dt_str}: Wednesday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 12).")
-                    elif ctx_dow == 2: # Tuesday evening (for Wednesday)
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Thursday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 12).")
+                    elif ctx_dow == 3: # Wednesday (Tue eve)
                         if "Kathisma 18 is read" in content:
-                            errors.append(f"Psalter Matrix Error on {dt_str}: Tuesday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 9).")
-                    elif ctx_dow == 1: # Monday evening (for Tuesday)
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Wednesday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 9).")
+                    elif ctx_dow == 2: # Tuesday (Mon eve)
                         if "Kathisma 18 is read" in content:
-                            errors.append(f"Psalter Matrix Error on {dt_str}: Monday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 6).")
-                    elif ctx_dow == 0: # Sunday evening (for Monday)
-                        if "Kathisma 18 is read" in content or "Kathisma 1 is read" in content:
-                            errors.append(f"Psalter Matrix Error on {dt_str}: Sunday evening Vespers has no Kathisma.")
+                            errors.append(f"Psalter Matrix Error on {dt_str}: Tuesday Summer Vespers cannot read Kathisma 18 (appointed: Kathisma 6).")
         return errors
 
     def gate18_weekday_theotokia_cycle(self, dt: date, service_name: str, context: dict, rubrics: dict, content: str) -> list:
@@ -1332,7 +1399,7 @@ class ServiceDayMultiAuditor:
 
         # 2. Octoechos Canon Leaked on Vigil/Polyeleos (Bug 2)
         if "Matins" in service_name or "## FESTAL MATINS" in content or "## SUNDAY MATINS" in content or "## MATINS" in content:
-            if (is_vigil or is_polyeleos) and context.get("day_of_week") != 0:
+            if (is_vigil or is_polyeleos) and context.get("day_of_week") != 0 and not (context.get("is_temple_feast") and context.get("pascha_offset") in (-36, -29, -22)):
                 for line in content.splitlines():
                     if "Canon:" in line or "**Canon:**" in line or "Order of the Canon:" in line:
                         has_octoechos = (
@@ -1345,13 +1412,20 @@ class ServiceDayMultiAuditor:
                             errors.append(f"Matins Canon Error on {dt_str}: Octoechos canon leaked on Vigil/Polyeleos feast: '{line.strip()}'.")
 
             # 3. Katavasia Generic Fallback (Bug 3)
+            # Note: On Weekday Forefeasts and Afterfeasts without Polyeleos (CASE_08, CASE_09, CASE_14, Dolnytsky §2.8:1278, §2.14:1550, 1554),
+            # Katavasia IS canonically the Heirmos of the last canon after Odes 3, 6, 8, and 9.
+            is_weekday_fore_or_afterfeast_simple = bool(
+                (context.get("is_forefeast") or context.get("is_afterfeast") or context.get("is_apodosis"))
+                and context.get("day_of_week") != 0
+                and not is_major
+            )
             is_festal_or_sunday = (
-                context.get("day_of_week") == 0 or
-                is_major or
-                context.get("is_afterfeast") or
-                context.get("is_forefeast") or
-                context.get("is_apodosis") or
-                context.get("feast_level") in ("lord", "theotokos")
+                not is_weekday_fore_or_afterfeast_simple
+                and (
+                    context.get("day_of_week") == 0 or
+                    is_major or
+                    context.get("feast_level") in ("lord", "theotokos")
+                )
             )
             for line in content.splitlines():
                 if "Katavasia:" in line or "**Katavasia:**" in line:
@@ -1363,12 +1437,12 @@ class ServiceDayMultiAuditor:
                 praises_match = re.search(r"(?:At the Praises|## Praises|Praises:).*?(?=(?:Doxology|Dismissal Troparia|##|$))", content, re.DOTALL)
                 if praises_match:
                     p_text = praises_match.group(0)
-                    if "stichera" in p_text.lower() and "glory" not in p_text.lower() and "both now" not in p_text.lower():
+                    if "stichera" in p_text.lower() and "without stichera" not in p_text.lower() and "glory" not in p_text.lower() and "both now" not in p_text.lower():
                         errors.append(f"Praises Error on {dt_str}: Praises Doxastikon swallowed on Vigil/Polyeleos.")
 
         # 5. Vespers Kathisma on Vigil Eve (Bug 5)
         if "Vespers" in service_name or "## GREAT VESPERS" in content:
-            if is_vigil and "Kathisma 1 ('Blessed is the man') is read" in content:
+            if is_vigil and context.get("day_of_week") != 0 and "Kathisma 1 ('Blessed is the man') is read" in content:
                 errors.append(f"Vespers Kathisma Error on {dt_str}: Great Vespers prescribed full Kathisma 1 read instead of 1st Antiphon ('Blessed is the man') on Vigil eve.")
 
         # 6. Lectionary Dual Readings (Bug 6)
@@ -1407,6 +1481,852 @@ class ServiceDayMultiAuditor:
             for line in content.splitlines():
                 if re.search(pat, line):
                     errors.append(f"Crude Token Leak on {dt_str}: Found {desc} in '{line.strip()}'.")
+
+        return errors
+
+    def _get_menologion_entry(self, dt: date) -> dict:
+        """Lazily parse and cache Dolnytsky_Typikon_Master.md §5.3 Menologion entries."""
+        if self._menologion_cache is None:
+            self._menologion_cache = {}
+            master_path = PROJECT_ROOT / "Data" / "Service Books" / "Typikon" / "Dolnytsky_Typikon_Master.md"
+            month_map = {
+                "5.3.1 September": 9,
+                "5.3.2 October": 10,
+                "5.3.3 November": 11,
+                "5.3.4 December": 12,
+                "5.3.5 January": 1,
+                "5.3.6 February": 2,
+                "5.3.7 March": 3,
+                "5.3.8 April": 4,
+                "5.3.9 May": 5,
+                "5.3.10 June": 6,
+                "5.3.11 July": 7,
+                "5.3.12 August": 8,
+            }
+            if master_path.exists():
+                cur_month = None
+                day_pat = re.compile(r"^\*\s+\*\*(\d+)\*\*(?:\s|$)")
+                for line in master_path.read_text(encoding="utf-8").splitlines():
+                    s_line = line.strip()
+                    if s_line.startswith("### 5.3."):
+                        cur_month = None
+                        for m_hdr, m_num in month_map.items():
+                            if m_hdr in s_line:
+                                cur_month = m_num
+                                break
+                        continue
+                    if cur_month is not None:
+                        if s_line.startswith("## "):
+                            cur_month = None
+                            continue
+                        m_day = day_pat.search(s_line)
+                        if m_day:
+                            d_num = int(m_day.group(1))
+                            self._menologion_cache[(cur_month, d_num)] = {
+                                "raw_line": s_line,
+                                "rank_markers": re.findall(r"\*\*\[([^\]]+)\]\*\*", s_line),
+                                "footnote_ids": re.findall(r"\[\^(\d+)\]", s_line),
+                            }
+        return self._menologion_cache.get((dt.month, dt.day), {"raw_line": "", "rank_markers": [], "footnote_ids": []})
+
+    def gate36_resolver_formatter_fidelity(self, dt: date, service_name: str, context: dict, rubrics: dict, full_day_digest: str) -> list:
+        """
+        Gate 36: White-Box Resolver -> Digest Formatter Fidelity Gate (Format 04 2-Saint Parity, Interludes, Tone Parity).
+        Citation: Dolnytsky Part II §2.2 ("Order on an Ordinary Weekday — If two saints occur").
+        """
+        from engine.utils.type_utils import parse_rank_integer
+        errors = []
+        dt_str = dt.isoformat()
+        day_of_week = context.get("day_of_week", 0)
+        pascha_offset = context.get("pascha_offset")
+        is_weekday = 0 < day_of_week <= 6
+        is_lenten_or_paschal = pascha_offset is not None and (-48 <= pascha_offset <= 6)
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("is_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_apodosis") or
+            context.get("triodion_period") in ("forefeast", "afterfeast", "apodosis") or
+            context.get("dolnytsky_rank") in ("forefeast", "afterfeast", "apodosis") or
+            (pascha_offset is not None and 61 <= pascha_offset <= 67)
+        )
+        rank_val = rubrics.get("variables", {}).get("rank")
+        is_simple = rank_val in ("rank_simple_6", "rank_simple_4", 4, 5) and not is_fore_after and not is_lenten_or_paschal
+
+        saints = context.get("saints", [])
+        actual_saints = [
+            s for s in saints
+            if not any(w in s.get("name", "").lower() for w in ("forefeast", "afterfeast", "apodosis", "dedication"))
+        ]
+
+        if is_weekday and is_simple and len(actual_saints) >= 2:
+            s2 = actual_saints[1]
+            s2_name = s2.get("name", "")
+            s2_is_no_trop = s2.get("rank_code") == "[4 NO]" or context.get("dolnytsky_rank_code") == "[4 NO]"
+            s2_tokens = [
+                t.strip(".,;()")
+                for t in s2_name.replace("St.", "").replace("Ven.", "").split()
+                if len(t.strip(".,;()")) > 3
+            ]
+
+            if s2_tokens and not s2_is_no_trop:
+                if service_name == "Vespers":
+                    vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                    for line in vesp_body.splitlines():
+                        if "**At the Dismissal Troparia:**" in line:
+                            if not any(tok.lower() in line.lower() for tok in s2_tokens):
+                                errors.append(
+                                    f"[Gate 36: 2-Saint Vespers Dismissal Drop] On {dt_str} (Dolnytsky §2.2.1.5), "
+                                    f"2nd Saint ({s2_name}) is missing from Vespers Dismissal Troparia: '{line.strip()}'"
+                                )
+
+                elif service_name == "Matins":
+                    mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                    for line in mat_body.splitlines():
+                        if "**God is the Lord:**" in line:
+                            if not any(tok.lower() in line.lower() for tok in s2_tokens):
+                                errors.append(
+                                    f"[Gate 36: 2-Saint Matins God is the Lord Drop] On {dt_str} (Dolnytsky §2.2.4.1), "
+                                    f"2nd Saint ({s2_name}) is missing from God is the Lord: '{line.strip()}'"
+                                )
+                        elif "**Canon:**" in line:
+                            if not any(tok.lower() in line.lower() for tok in s2_tokens):
+                                errors.append(
+                                    f"[Gate 36: 2-Saint Matins Canon Drop] On {dt_str} (Dolnytsky §2.2.4.3), "
+                                    f"2nd Saint ({s2_name}) is missing from Matins Canon stack: '{line.strip()}'"
+                                )
+                        elif "**At the Dismissal Troparia:**" in line:
+                            if not any(tok.lower() in line.lower() for tok in s2_tokens):
+                                errors.append(
+                                    f"[Gate 36: 2-Saint Matins Dismissal Drop] On {dt_str} (Dolnytsky §2.2.4.6), "
+                                    f"2nd Saint ({s2_name}) is missing from Matins Dismissal Troparia: '{line.strip()}'"
+                                )
+
+                elif service_name == "First Hour":
+                    hours_body = self.extract_service_body_only(full_day_digest, "Hours")
+                    if hours_body and not any(tok.lower() in hours_body.lower() for tok in s2_tokens):
+                        errors.append(
+                            f"[Gate 36: 2-Saint Hours Drop] On {dt_str} (Dolnytsky §2.2.5.1), "
+                            f"2nd Saint ({s2_name}) is missing from the 9th Hour Troparion/Kontakion!"
+                        )
+
+                elif service_name == "Liturgy":
+                    lit_body = self.extract_service_body_only(full_day_digest, "Liturgy")
+                    if lit_body and not any(tok.lower() in lit_body.lower() for tok in s2_tokens):
+                        errors.append(
+                            f"[Gate 36: 2-Saint Liturgy Drop] On {dt_str} (Dolnytsky §2.2.6.2), "
+                            f"2nd Saint ({s2_name}) is missing from Divine Liturgy Troparia/Kontakia!"
+                        )
+
+        # Check Canon Interludes, Exapostilarion, and Small Doxology on ordinary weekdays/Saturdays at Matins
+        if is_weekday and is_simple and service_name == "Matins":
+            mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+            if "**Canon:**" in mat_body:
+                if "**After Ode III:**" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Matins Canon Interlude Missing] On {dt_str} (Dolnytsky §2.1.4.3 / §2.2.4.3), "
+                        f"'**After Ode III:**' Sessional/Kontakion interlude is missing from Daily Matins."
+                    )
+                if "**After Ode VI:**" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Matins Canon Interlude Missing] On {dt_str} (Dolnytsky §2.1.4.3 / §2.2.4.3), "
+                        f"'**After Ode VI:**' Kontakion/Ikos interlude is missing from Daily Matins."
+                    )
+            if mat_body and "**Exapostilarion:**" not in mat_body:
+                errors.append(
+                    f"[Gate 36: Matins Exapostilarion Missing] On {dt_str} (Dolnytsky §2.1.4.4), "
+                    f"'**Exapostilarion:**' slot is missing from Daily Matins."
+                )
+            if mat_body and "Small Doxology" not in mat_body:
+                errors.append(
+                    f"[Gate 36: Matins Small Doxology Missing] On {dt_str} (Dolnytsky §2.1.4.5), "
+                    f"'Small Doxology' rubric is missing from Daily Matins Praises."
+                )
+            if mat_body and "in the tone of the Saint's troparion and of the day of the week" in mat_body:
+                errors.append(
+                    f"[Gate 36: Unresolved God is the Lord Dismissal Tone] On {dt_str}, "
+                    f"God is the Lord rendered generic 'in the tone of the Saint's troparion' instead of explicit Roman numeral tone."
+                )
+            if re.search(r"\bVenerables\b", full_day_digest):
+                errors.append(
+                    f"[Gate 36: Ungrammatical Plural 'Venerables'] On {dt_str}, digest rendered 'Venerables' instead of 'Venerable'."
+                )
+            if "[ERROR:" in full_day_digest:
+                errors.append(
+                    f"[Gate 36: Formatter Error Leak] On {dt_str}, digest rendered an internal '[ERROR:' exception block."
+                )
+            if re.search(r"\b(?:Great-)?Martyr St\.", full_day_digest):
+                errors.append(
+                    f"[Gate 36: Double Saint Title Prefix] On {dt_str}, digest rendered 'Martyr St.' / 'Great-Martyr St.' double prefix."
+                )
+            if "**Canon:** Departed from the Octoechos." in full_day_digest:
+                errors.append(
+                    f"[Gate 36: Unqualified Compline Departed Canon] On {dt_str}, Small Compline rendered '**Canon:** Departed from the Octoechos.'"
+                )
+            if "of the Day Theme" in full_day_digest:
+                errors.append(
+                    f"[Gate 36: Raw Day Theme Token] On {dt_str}, digest rendered raw 'of the Day Theme' instead of resolved day proper."
+                )
+            if "Temple/menaion" in full_day_digest:
+                errors.append(
+                    f"[Gate 36: Raw Canon Source Leak] On {dt_str}, digest rendered raw 'Temple/menaion' instead of resolved Canon order."
+                )
+            if day_of_week == 6:
+                comp_body = self.extract_service_body_only(full_day_digest, "Compline")
+                if "Resurrectional Troparion" in comp_body:
+                    errors.append(
+                        f"[Gate 36: Saturday Compline Resurrectional Troparion] On {dt_str}, Small Compline rendered 'Resurrectional Troparion' on Saturday."
+                    )
+
+        # Check Daily Vespers Prokeimenon Eve Tone parity on weekdays (Monday=Sun Eve Tone VIII, Tue=Mon Eve Tone IV, etc.)
+        if service_name == "Vespers" and 1 <= day_of_week <= 6 and not is_lenten_or_paschal:
+            vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+            m_prok = re.search(r"\*\*Prokeimenon of the day \(Tone ([IVX]+)\):\*\*", vesp_body)
+            expected_eve_tones = {1: "VIII", 2: "IV", 3: "I", 4: "V", 5: "VI", 6: "VII"}
+            exp_roman = expected_eve_tones.get(day_of_week)
+            if m_prok and exp_roman and m_prok.group(1) != exp_roman:
+                errors.append(
+                    f"[Gate 36: Vespers Prokeimenon Eve Tone Mismatch] On {dt_str} (day_of_week={day_of_week}), "
+                    f"Vespers Prokeimenon rendered Tone {m_prok.group(1)}, expected liturgical eve Tone {exp_roman}."
+                )
+
+        # Check Matins Aposticha presence and proper sticheron fidelity (Dolnytsky §2.2:1038, Note 2:1044)
+        if service_name == "Matins" and is_weekday and is_simple:
+            mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+            if mat_body and "**At the Aposticha:**" not in mat_body:
+                errors.append(
+                    f"[Gate 36: Matins Aposticha Omitted] On {dt_str} (Dolnytsky §2.2:1038), "
+                    f"Matins Aposticha was completely omitted from Daily Matins digest."
+                )
+            has_mat_dox = context.get("has_matins_aposticha_doxastikon") or any(
+                isinstance(s, dict) and s.get("has_matins_aposticha_doxastikon")
+                for s in context.get("saints", [])
+            )
+            if has_mat_dox and mat_body and "**At the Aposticha:**" in mat_body:
+                apo_part = mat_body.split("**At the Aposticha:**")[1].split("\n\n")[0]
+                if "proper Sticheron" not in apo_part and "with its refrain" not in apo_part:
+                    errors.append(
+                        f"[Gate 36: Matins Aposticha Proper Sticheron Missing] On {dt_str} (Dolnytsky §2.2 Note 2:1044), "
+                        f"saint has Matins Aposticha Doxastikon but proper sticheron with refrain was omitted from Matins Aposticha: '{apo_part.strip()}'"
+                    )
+
+        # Check Vespers Lord, I Call Theotokion source fidelity (Dolnytsky §2.2:1009)
+        if service_name == "Vespers" and is_weekday and is_simple:
+            vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+            if vesp_body and "**At Lord, I Call:**" in vesp_body:
+                lic_part = vesp_body.split("**At Lord, I Call:**")[1].split("\n\n")[0]
+                if "Both now: Theotokion from the Menaion" in lic_part and rank_val in ("rank_simple_6", "rank_simple_4", 4, 5):
+                    errors.append(
+                        f"[Gate 36: Vespers Menaion Theotokion Intrusion] On {dt_str} (Dolnytsky §2.2:1009), "
+                        f"simple weekday 'Lord, I Call' rendered 'Theotokion from the Menaion' instead of Horologion/Octoechos: '{lic_part.strip()}'"
+                    )
+
+        # Check Liturgy Beatitudes non-fabrication on simple weekdays (Dolnytsky §2.2:1055 fn 66)
+        if service_name == "Liturgy" and is_weekday and is_simple:
+            lit_body = self.extract_service_body_only(full_day_digest, "Liturgy")
+            if rank_val in ("rank_simple_6", "rank_simple_4", 4, 5) and lit_body and "**Typika & Beatitudes:**" in lit_body:
+                typika_part = lit_body.split("**Typika & Beatitudes:**")[1].split("\n")[0]
+                if "Ode III" in typika_part:
+                    errors.append(
+                        f"[Gate 36: Fabricated Weekday Beatitudes Ode III] On {dt_str} (Dolnytsky §2.2:1055 fn 66), "
+                        f"simple weekday Liturgy rendered Ode III Beatitudes instead of weekday antiphons / Octoechos on 6: '{typika_part.strip()}'"
+                    )
+
+        # Check Great Feast of the Theotokos Matins Prokeimenon and Gospel (Dolnytsky §2.10:1390, §3.2.1:2322)
+        is_theotokos_great_feast = (
+            context.get("feast_level") == "theotokos"
+            or context.get("dolnytsky_rank") in ("THEOTOKOS", "MOG")
+        ) and not context.get("is_forefeast") and not context.get("is_afterfeast")
+        if service_name == "Matins" and is_theotokos_great_feast:
+            mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+            if "The Lord shall reign forever" in mat_body:
+                errors.append(
+                    f"[Gate 36: Theotokos Feast Matins Prokeimenon Fallback] On {dt_str} (Dolnytsky §2.10:1390), "
+                    f"Feast of the Theotokos rendered Sunday Tone VIII Prokeimenon instead of Festal Tone IV 'Hear, O daughter'."
+                )
+            if "Matins Gospel: Gospel of the Feast." in mat_body:
+                errors.append(
+                    f"[Gate 36: Missing Matins Gospel Citation] On {dt_str} (Dolnytsky §2.10:1390), "
+                    f"Festal Matins omitted Scripture citation for Gospel of the Feast."
+                )
+
+        # Check Sunday Afterfeast Matins Prokeimenon & Exapostilarion (Dolnytsky §2.13:1499, 1508)
+        if day_of_week == 0 and is_fore_after:
+            if service_name == "Matins":
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "Hear, O daughter" in mat_body:
+                    errors.append(
+                        f"[Gate 36: Sunday Afterfeast Marian Prokeimenon Intrusion] On {dt_str} (Dolnytsky §2.13:1499), "
+                        f"Sunday Matins rendered Marian festal prokeimenon instead of Sunday Resurrection Prokeimenon."
+                    )
+                if saints and "**Exapostilarion:**" in mat_body:
+                    exap_part = mat_body.split("**Exapostilarion:**")[1].split("\n\n")[0]
+                    if "Glory:" not in exap_part:
+                        errors.append(
+                            f"[Gate 36: Sunday Afterfeast Saint Exapostilarion Omitted] On {dt_str} (Dolnytsky §2.13:1508), "
+                            f"Sunday Matins Exapostilarion omitted the Saint's Exapostilarion at 'Glory:'."
+                        )
+            elif service_name == "Midnight Office":
+                mo_body = self.extract_service_body_only(full_day_digest, "Midnight Office")
+                if "Hypakoe of the Feast" in mo_body:
+                    errors.append(
+                        f"[Gate 36: Sunday Midnight Office Festal Hypakoe] On {dt_str} (Dolnytsky §2.13:1497), "
+                        f"Sunday Midnight Office rendered spurious 'Hypakoe of the Feast' instead of Sunday Hypakoe."
+                    )
+
+        # Check Weekday Afterfeast Katavasia (Dolnytsky §2.14:1550, 1554)
+        if service_name == "Matins" and is_fore_after and day_of_week != 0 and parse_rank_integer(rank_val) > 3:
+            mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+            if 'Katavasia: Heirmos (*"Christ is born"*' in mat_body or 'Katavasia: Heirmos (*"I will open my mouth"*' in mat_body:
+                errors.append(
+                    f"[Gate 36: Weekday Afterfeast Seasonal Katavasia Intrusion] On {dt_str} (Dolnytsky §2.14:1550, 1554), "
+                    f"weekday afterfeast with simple saint rendered Seasonal Katavasia instead of Heirmos of the last canon."
+                )
+
+        # Check Weekday Afterfeast with Polyeleos Saint (Dolnytsky §2.16, §3.3.3)
+        has_poly_ratchet = bool(
+            context.get("has_polyeleos")
+            or rubrics.get("variables", {}).get("has_polyeleos")
+            or "POL" in str(context.get("rank_code", ""))
+            or parse_rank_integer(rank_val) <= 3
+        )
+        if is_weekday and is_fore_after and has_poly_ratchet and not (context.get("feast_level") == "lord" or context.get("rank") == 1):
+            if service_name == "Vespers":
+                vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                if "No kathisma is appointed" in vesp_body:
+                    errors.append(
+                        f"[Gate 36: Weekday Polyeleos Afterfeast Kathisma Omission] On {dt_str} (Dolnytsky §2.16:1618, §3.3.3:2262), "
+                        f"Vespers Kathisma 1 ('Blessed is the man', 1st antiphon) was omitted."
+                    )
+            elif service_name == "Matins":
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "**At the Aposticha:**" in mat_body:
+                    errors.append(
+                        f"[Gate 36: Great Matins Spurious Aposticha] On {dt_str} (Dolnytsky §1.5.1:670-745, §2.16:1642, §3.3.3:2288-2290), "
+                        f"Great Matins with Great Doxology rendered spurious Aposticha section."
+                    )
+
+        # Check Nativity Fast Fasting Rule Enforcement (Dolnytsky §3.3.1:2240-2250 & Appendix)
+        if (dt.month == 11 and dt.day >= 15) or (dt.month == 12 and dt.day <= 24):
+            if "Fasting Rule: No fasting restrictions." in full_day_digest:
+                errors.append(
+                    f"[Gate 36: Nativity Fast Blindspot] On {dt_str} (Dolnytsky §3.3.1:2240-2250), "
+                    f"digest declared 'No fasting restrictions' during the Nativity Fast."
+                )
+
+        # Check Weekday Apodosis Sequential Kathisma & Matins Kathisma Count (Dolnytsky §2.20:1744, 1759, §3.3.4:2336)
+        is_apodosis_ratchet = bool(
+            context.get("is_apodosis")
+            or context.get("period") == "apodosis"
+            or context.get("dolnytsky_rank") == "apodosis"
+        )
+        if is_weekday and is_apodosis_ratchet and not has_poly_ratchet:
+            if service_name == "Vespers":
+                vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                if "Blessed is the man" in vesp_body:
+                    errors.append(
+                        f"[Gate 36: Weekday Apodosis Kathisma 1 Hallucination] On {dt_str} (Dolnytsky §2.20:1744, §2.14:1529), "
+                        f"Vespers prescribed Kathisma 1 ('Blessed is the man') on a simple weekday Apodosis."
+                    )
+            elif service_name == "Matins":
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                m_k_nums = re.findall(r"Kathismata\s+([0-9,\sand]+?)\s+are read", mat_body)
+                if m_k_nums:
+                    k_tokens = [x.strip() for x in re.split(r'[,and\s]+', m_k_nums[0]) if x.strip().isdigit()]
+                    if len(k_tokens) > 2:
+                        errors.append(
+                            f"[Gate 36: Weekday Matins Kathismata Inflation] On {dt_str} (Dolnytsky §2.20:1759, §2.14:1547), "
+                            f"weekday Matins prescribed {len(k_tokens)} Kathismata ({m_k_nums[0]}) instead of 2."
+                        )
+            elif service_name == "Hours":
+                for hr in (1, 3, 6, 9):
+                    hr_k = engine.resolve_hours_kontakion({**context, "hour": hr}, rubrics)
+                    if hr_k and hr_k.get("source") != "feast":
+                        errors.append(
+                            f"[Gate 36: Apodosis Hours Kontakion Mismatch] On {dt_str} (Dolnytsky §3.3.4:2336), "
+                            f"Hour {hr} Kontakion source was '{hr_k.get('source')}' instead of 'feast'."
+                        )
+                        break
+
+        # Check Eothinon Gospel vs post-dismissal Gospel Sticheron Roman numeral parity on Sundays at Matins
+        if day_of_week == 0 and service_name == "Matins":
+            mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+            m_gosp = re.search(r"Matins Gospel ([IVX]+):", mat_body)
+            m_stich = re.search(r"Gospel Sticheron ([IVX]+)", mat_body)
+            if m_gosp and m_stich and m_gosp.group(1) != m_stich.group(1):
+                errors.append(
+                    f"[Gate 36: Eothinon Mismatch] On {dt_str}, Matins Gospel is {m_gosp.group(1)} "
+                    f"but post-dismissal Gospel Sticheron is {m_stich.group(1)}."
+                )
+
+        # Check Liturgy 'without verse' contradiction and Sunday Epistle weekday fallback
+        if service_name == "Liturgy":
+            lit_body = self.extract_service_body_only(full_day_digest, "Liturgy")
+            if re.search(r"without verse\):\*\*\s*\n>[^\n]+\n>\s*\*Verse:\*", lit_body):
+                errors.append(
+                    f"[Gate 36: Prokeimenon Verse Contradiction] On {dt_str} (Dolnytsky §1.2.5.4), "
+                    f"2nd Prokeimenon is labeled '(without verse)' but renders a '*Verse:*' line."
+                )
+            if day_of_week == 0 and "**Epistle (Sunday):**" in lit_body and "Romans 1:18–27" in lit_body:
+                errors.append(
+                    f"[Gate 36: Sunday Epistle Fallback] On {dt_str}, Sunday Epistle fell back to "
+                    f"Weekday 1 Wednesday reading 'Romans 1:18–27'."
+                )
+            if re.search(r"\b(?:Ap|AP)\.\s+[A-Z]", full_day_digest):
+                errors.append(
+                    f"[Gate 36: Unexpanded 'Ap.' Abbreviation] On {dt_str}, digest rendered 'Ap.' instead of 'Apostle'."
+                )
+            has_poly = bool(context.get("has_polyeleos") or rubrics.get("variables", {}).get("has_polyeleos"))
+            is_lord_feast = context.get("feast_level") == "lord" or context.get("dolnytsky_rank") == "LORD" or (context.get("is_temple_feast") and context.get("temple_type") in ("lord", "theotokos"))
+            is_poly_saint = context.get("dolnytsky_rank_code") in ("[POL]", "[VIGIL]") or any(s.get("rank_code") in ("[POL]", "[VIGIL]") or s.get("rank", 5) <= 3 for s in context.get("saints", []))
+            if day_of_week == 0 and has_poly and is_poly_saint and not is_lord_feast and context.get("saints"):
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "After the 3rd (17)" in mat_body and "We sing the Polyeleos" in mat_body:
+                    errors.append(
+                        f"[Gate 36: Sunday Polyeleos Kathisma 17 Conflict] On {dt_str}, Sunday Matins printed both Kathisma 17 and Polyeleos."
+                    )
+                if "Beatitudes on 8:" not in lit_body:
+                    errors.append(
+                        f"[Gate 36: Sunday Polyeleos Beatitudes] On {dt_str}, Sunday + Polyeleos Saint Liturgy must prescribe Beatitudes on 8."
+                    )
+                if "And of the Saint:" not in lit_body:
+                    errors.append(
+                        f"[Gate 36: Sunday Polyeleos Dual Koinonikon] On {dt_str}, Sunday + Polyeleos Saint Liturgy must include both Sunday and Saint Communion Hymns."
+                    )
+            g_case = context.get("general_case_id") or rubrics.get("overrides", {}).get("general_case_id") or ""
+            if day_of_week == 0 and g_case == "case_01_sunday_simple" and not has_poly and not is_lord_feast:
+                vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                compl_body = self.extract_service_body_only(full_day_digest, "Small Compline")
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "Readings (3 Paremias)" in vesp_body:
+                    errors.append(
+                        f"[Gate 36: Spurious Sunday Vespers Paremias] On {dt_str} (CASE_01 Sunday without Polyeleos), Great Vespers must not include 3 Paremias."
+                    )
+                if compl_body and ("Sunday Hypakoe" not in compl_body or "O God of our fathers" in compl_body):
+                    errors.append(
+                        f"[Gate 36: Sunday Small Compline Troparia] On {dt_str} (CASE_01 Sunday, Dolnytsky §1.3.1 & §2.1), Small Compline must prescribe only the Sunday Hypakoe."
+                    )
+                if "After the 3rd (17)" in mat_body and "Resurrectional Evlogitaria" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Sunday Kathisma 17 Evlogitaria] On {dt_str} (CASE_01 Sunday), after Kathisma 17 Matins must prescribe Resurrectional Evlogitaria instead of sessional hymns."
+                    )
+            for m_apo in re.finditer(r"^\*\s*\*\*Aposticha:?\*\*[^\n]+", full_day_digest, re.MULTILINE):
+                apo_line = m_apo.group(0)
+                if "in the tone of the Doxastikon" in apo_line and "Glory" not in apo_line:
+                    errors.append(
+                        f"[Gate 36: Aposticha Tone of Missing Doxastikon] On {dt_str}, Aposticha line references 'in the tone of the Doxastikon' when no Doxastikon ('Glory...') is sung."
+                    )
+            wap = context.get("weeks_after_pentecost")
+            if 1 <= day_of_week <= 6 and wap not in (None, 2):
+                if "Romans 4:4–12" in lit_body or "Matthew 7:15–21" in lit_body:
+                    errors.append(
+                        f"[Gate 36: Weekday Lectionary Modulo-5 Fallback] On {dt_str} (weeks_after_pentecost={wap}), "
+                        f"Liturgy rendered Week 2 Tuesday fallback ('Romans 4:4–12' / 'Matthew 7:15–21')."
+                    )
+            m_prok_dup = re.search(
+                r"\*\*Prokeimenon \(Day, Tone ([IVX]+)\):\*\*\s*\n>\s*([^\n]+).*?\*\*Prokeimenon \(Saint, without verse, Tone \1\):\*\*\s*\n>\s*\2",
+                lit_body,
+                re.DOTALL,
+            )
+            if m_prok_dup:
+                errors.append(
+                    f"[Gate 36: Duplicate Day & Saint Prokeimenon] On {dt_str}, Day and Saint share identical Prokeimenon (Tone {m_prok_dup.group(1)}) and must be consolidated."
+                )
+            m_koin_dup = re.search(
+                r"\*\*Communion Hymn[^\n]*\n>\s*([^.\n]+).*?\n>\s*And of the Saint:\s*\1",
+                lit_body,
+                re.DOTALL,
+            )
+            if m_koin_dup:
+                errors.append(
+                    f"[Gate 36: Duplicate Day & Saint Communion Hymn] On {dt_str}, Day and Saint share identical Communion Hymn ('{m_koin_dup.group(1)}') and must be consolidated."
+                )
+            m_group_title = re.search(
+                r"\b(?:Martyr|Hierarch|Venerable|Apostle|Prophet)\s+(?:Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten|Twelve|Twenty|Thirty|Forty|Seventy)\b",
+                full_day_digest,
+            )
+            if m_group_title:
+                errors.append(
+                    f"[Gate 36: Singular Title on Group Saint] On {dt_str}, digest prepended singular title to group saint ('{m_group_title.group(0)}')."
+                )
+            if "seven youths" in full_day_digest:
+                errors.append(
+                    f"[Gate 36: Uncapitalized Group Saint] On {dt_str}, digest rendered lowercase 'seven youths' instead of 'Seven Youths'."
+                )
+            if "____" in full_day_digest:
+                errors.append(
+                    f"[Gate 36: Raw Underscore Artifact] On {dt_str}, digest rendered raw '____' separator artifact."
+                )
+            is_gt_dox_weekday = (
+                1 <= day_of_week <= 5
+                and (rank_val == "rank_doxology" or context.get("dolnytsky_rank_code") == "[GT DOX]")
+                and not is_fore_after
+                and not is_lenten_or_paschal
+                and (dt.month, dt.day) != (9, 1)
+            )
+            if is_gt_dox_weekday:
+                vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "## GREAT VESPERS" in vesp_body or "**At the Entrance:**" in vesp_body:
+                    errors.append(
+                        f"[Gate 36: GT DOX Weekday Vespers] On {dt_str}, [GT DOX] weekday rendered Great Vespers / Entrance instead of Daily Vespers."
+                    )
+                if "We sing the Polyeleos" in mat_body:
+                    errors.append(
+                        f"[Gate 36: GT DOX Weekday Polyeleos] On {dt_str}, [GT DOX] weekday rendered Polyeleos at Matins."
+                    )
+                if "**Exapostilarion:**" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: GT DOX Weekday Exapostilarion] On {dt_str}, [GT DOX] weekday omitted Exapostilarion at Matins."
+                    )
+                if "Troparion of the Cross" in lit_body or "Beatitudes on 4:" in lit_body or "**Prokeimenon (Feast" in lit_body or "**Alleluia (Feast" in lit_body:
+                    errors.append(
+                        f"[Gate 36: GT DOX Weekday Liturgy] On {dt_str}, [GT DOX] weekday Liturgy rendered Cross Troparion, Beatitudes on 4, or (Feast) Prokeimenon/Alleluia label."
+                    )
+
+            if day_of_week == 0 and context.get("feast_level") != "lord" and context.get("dolnytsky_rank") != "LORD" and pascha_offset != 0:
+                if "## DAILY VESPERS" in full_day_digest:
+                    errors.append(
+                        f"[Gate 36: Sunday Service Bleed (Daily Vespers)] On {dt_str}, Sunday digest rendered '## DAILY VESPERS' instead of Great Vespers."
+                    )
+                if "## DAILY MATINS" in full_day_digest or "Doxology: Daily (Read)" in full_day_digest:
+                    errors.append(
+                        f"[Gate 36: Sunday Service Bleed (Daily Matins)] On {dt_str}, Sunday digest rendered '## DAILY MATINS' or 'Doxology: Daily (Read)'."
+                    )
+
+            if any(bad_phrase in full_day_digest.lower() for bad_phrase in ("the those ", "the his ", "the her ", "the their ")):
+                errors.append(
+                    f"[Gate 36: Double Determiner Saint Name] On {dt_str}, digest rendered ungrammatical determiner phrase ('the those/his/her/their')."
+                )
+
+            is_poly_or_vigil_weekday_sat = (
+                1 <= day_of_week <= 6
+                and (
+                    rank_val in ("rank_vigil", "rank_polyeleos")
+                    or context.get("dolnytsky_rank_code") in ("[POL]", "[VIGIL]")
+                )
+                and not is_fore_after
+                and not is_lenten_or_paschal
+                and context.get("feast_level") not in ("lord", "theotokos")
+                and "theotokos" not in str(context.get("dolnytsky_title", "")).lower()
+                and (dt.month, dt.day) != (9, 1)
+            )
+            if is_poly_or_vigil_weekday_sat:
+                vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                comp_body = self.extract_service_body_only(full_day_digest, "Compline")
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "of the Ordinary" in full_day_digest:
+                    errors.append(
+                        f"[Gate 36: Polyeleos/Vigil Ordinary Leak] On {dt_str}, Polyeleos/Vigil rendered 'of the Ordinary' instead of Saint's name."
+                    )
+                if "Dogmatikon (1st Theotokion)" not in vesp_body:
+                    errors.append(
+                        f"[Gate 36: Polyeleos/Vigil Dogmatikon] On {dt_str}, Polyeleos/Vigil Great Vespers missing 'Dogmatikon (1st Theotokion)'."
+                    )
+                if day_of_week == 6 and "Canon to the Departed" in comp_body:
+                    errors.append(
+                        f"[Gate 36: Saturday Polyeleos/Vigil Compline] On {dt_str}, Saturday Polyeleos/Vigil Compline rendered 'Canon to the Departed' against Dolnytsky §2.5:1189 & [^696]."
+                    )
+                if "Resurrectional (Sunday) Theotokion in Tone" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Polyeleos/Vigil God is the Lord Theotokion] On {dt_str}, Polyeleos/Vigil Matins God is the Lord missing 'Resurrectional (Sunday) Theotokion in Tone' (Dolnytsky §2.5:1191)."
+                    )
+                if "Glory, Both now: Dismissal Theotokion" not in mat_body and "Both now: Dismissal Theotokion" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Polyeleos/Vigil Matins Dismissal Theotokion] On {dt_str}, Polyeleos/Vigil Matins Dismissal missing 'Glory, Both now: Dismissal Theotokion' (Dolnytsky §2.5:1204)."
+                    )
+                if "**Prokeimenon (Day" in lit_body or "**Alleluia (Day" in lit_body or "And of the Saint:" in lit_body or "And of the Day:" in lit_body:
+                    errors.append(
+                        f"[Gate 36: Polyeleos/Vigil Liturgy Day Prokeimenon/Alleluia/Communion] On {dt_str}, Polyeleos/Vigil Liturgy included Day Prokeimenon/Alleluia/Communion against Dolnytsky §2.5:1213 & [^91]."
+                    )
+                s0 = (context.get("saints") or [{}])[0]
+                if isinstance(s0, dict) and s0.get("category") == "Hierarch" and "1 Peter" in vesp_body:
+                    errors.append(
+                        f"[Gate 36: Hierarch Vespers Paremias] On {dt_str}, Hierarch Polyeleos/Vigil rendered Apostle Paremias ('1 Peter') instead of Proverbs/Wisdom."
+                    )
+
+            # [6 SM] Weekday/Saturday Small Doxology (Read) vs. [GT DOX] Great Doxology (Sung)
+            if (
+                1 <= day_of_week <= 6
+                and context.get("dolnytsky_rank_code") == "[6 SM]"
+                and not is_fore_after
+                and not is_lenten_or_paschal
+                and context.get("feast_level") not in ("lord", "theotokos")
+            ):
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "Great Doxology (Sung)" in mat_body:
+                    errors.append(
+                        f"[Gate 36: [6 SM] Doxology Intrusion] On {dt_str}, [6 SM] weekday/Saturday rendered 'Great Doxology (Sung)' instead of Small Doxology (Read)."
+                    )
+
+            # Great Fast Sundays 2, 4, 5 (-35, -21, -14): 0 references to Gregory Palamas; 6 Res + 4 Saint at Vespers; 6 Res + 4 Triodion + 4 Saint at Matins Canons; 8 Res + 1 Triodion = 9 at Praises
+            if pascha_offset in (-35, -21, -14) and not context.get("is_temple_feast"):
+                vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "Gregory Palamas" in full_day_digest:
+                    errors.append(
+                        f"[Gate 36: Gregory Palamas Intrusion] On {dt_str}, digest references 'Gregory Palamas' against 2010 Lviv Typikon §4.1.13."
+                    )
+                if ("6 Resurrectional Stichera from the Octoechos" not in vesp_body and "4 Resurrectional Stichera from the Octoechos" not in vesp_body) or "from the Menaion" not in vesp_body:
+                    errors.append(
+                        f"[Gate 36: Lenten Sunday 2/4/5 Vespers Stichera] On {dt_str} (pascha_offset={pascha_offset}), Vespers must prescribe Octoechos + Menaion stichera (Dolnytsky §4.1.13:7741)."
+                    )
+                if "Octoechos - 6 (including the Heirmos), Triodion - 4, Menaion - 4" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Lenten Sunday 2/4/5 Matins Canon] On {dt_str} (pascha_offset={pascha_offset}), Matins Canon must prescribe 6 Octoechos + 4 Triodion + 4 Menaion (Dolnytsky §4.1.13:7751)."
+                    )
+                if "9 Stichera: 8 from the Octoechos, and 1 from the Triodion" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Lenten Sunday 2/4/5 Praises] On {dt_str} (pascha_offset={pascha_offset}), Matins Praises must prescribe 9 Stichera: 8 from the Octoechos, and 1 from the Triodion (Dolnytsky §4.1.13:7755)."
+                    )
+
+            # Great Fast Saturdays 2, 3, 4 (-36, -29, -22): 2 Triodion + 4 Octoechos + 4 Menaion at Vespers; Odes 1,3,4,5 (6+4+4) and Odes 6,7,8,9 (6+8) at Matins
+            if pascha_offset in (-36, -29, -22) and context.get("feast_level") not in ("lord", "theotokos") and (dt.month, dt.day) != (3, 9):
+                vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "2 Idiomelon Stichera from the Triodion, 4 Martyria Stichera from the Octoechos, and 4 Stichera of" not in vesp_body or "from the Menaion" not in vesp_body:
+                    errors.append(
+                        f"[Gate 36: Lenten Saturday 2/3/4 Vespers Stichera] On {dt_str}, Vespers must prescribe 2 Triodion + 4 Octoechos + 4 Menaion (Dolnytsky §4.1.12:7688)."
+                    )
+                if "In Odes 1, 3, 4, and 5:" not in mat_body or "in Odes 6, 7, 8, and 9: Menaion - 6 (including the Heirmos), Triodion Tetraodion - 8" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Lenten Saturday 2/3/4 Matins Canon] On {dt_str}, Matins Canon must specify Odes 1, 3, 4, 5 (6+4+4) and Odes 6, 7, 8, 9 (6+8) (Dolnytsky §4.1.12:7714)."
+                    )
+
+            # Thursday of the 5th Week (-17): 29 Vespers Stichera (24 + 3 + 2), Odes 4, 8, and 9 Three-Ode Canon - 10 + Great Canon
+            if pascha_offset == -17 and context.get("feast_level") not in ("lord", "theotokos"):
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "29 Stichera" not in full_day_digest:
+                    errors.append(
+                        f"[Gate 36: Great Canon Thursday Vespers Stichera] On {dt_str}, Vespers/Presanctified must prescribe 29 Stichera (24 Great Canon + 3 Triodion + 2 Mary of Egypt, Dolnytsky §4.1.17:7902)."
+                    )
+                if "In Odes 4, 8, and 9: Three-Ode Canon of the Triodion - 10" not in mat_body:
+                    errors.append(
+                        f"[Gate 36: Great Canon Thursday Matins Canon] On {dt_str}, Matins Canon must prescribe Three-Ode Canon - 10 + Great Canon in Odes 4, 8, and 9 (Dolnytsky §4.1.17:7883)."
+                    )
+
+        # CASE_12: Great Feast of the Theotokos on a Weekday (Dolnytsky §2.12)
+        if service_name == "Liturgy":
+            day_of_week = context.get("day_of_week", 0)
+            is_fore_after = bool(context.get("is_forefeast") or context.get("is_afterfeast") or context.get("is_fore_or_afterfeast") or context.get("period") in ("forefeast", "afterfeast", "apodosis") or context.get("is_apodosis"))
+            is_theotokos_feast = not is_fore_after and (context.get("feast_level") == "theotokos" or context.get("dolnytsky_rank") in ("THEOTOKOS", "MOG"))
+            if is_theotokos_feast:
+                lit_body = self.extract_service_body_only(full_day_digest, "Liturgy")
+                if "Festal Antiphons" in lit_body:
+                    errors.append(
+                        f"[Gate 36: CASE_12 Liturgy Antiphons] On {dt_str}, Great Feasts of the Theotokos use Daily Antiphons / Typical Psalms & Beatitudes, never Festal Antiphons (Dolnytsky §2.12:1465)."
+                    )
+                if day_of_week != 0 and "**Entrance Hymn (Isodikon):**" in lit_body and "Through the prayers of the Theotokos" not in lit_body:
+                    errors.append(
+                        f"[Gate 36: CASE_12 Isodikon] On {dt_str}, Weekday Great Feast of the Theotokos must use 'Through the prayers of the Theotokos' Isodikon refrain (Dolnytsky §2.12:1466)."
+                    )
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "Great Feast of the Lord (Sung)" in mat_body:
+                    errors.append(
+                        f"[Gate 36: CASE_12 Matins Doxology] On {dt_str}, Feast of the Theotokos must not label Doxology 'Great Feast of the Lord (Sung)'."
+                    )
+
+            # CASE_13 / CASE_08: Sunday in Forefeast/Afterfeast (Dolnytsky §2.8 / §2.13)
+            if day_of_week == 0 and (context.get("is_forefeast") or context.get("is_afterfeast")) and (pascha_offset is None or not (-70 <= pascha_offset <= 68)):
+                mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+                if "Theotokos - 2, Menaion - 4, Menaion - 4" in mat_body:
+                    errors.append(
+                        f"[Gate 36: CASE_08/13 Canon Label] On {dt_str}, Sunday Forefeast/Afterfeast Matins Canon must distinguish 'Feast - 4' / 'Forefeast - 4' from 'Menaion - 4'."
+                    )
+                if "Exapostilarion Theotokion" in mat_body:
+                    errors.append(
+                        f"[Gate 36: CASE_08/13 Exapostilarion] On {dt_str}, Sunday Forefeast/Afterfeast Exapostilarion concludes with 'Both now: Exapostilarion of <Feast>', not Eothinon Exapostilarion Theotokion (Dolnytsky §2.8:1311, §2.13:1508)."
+                    )
+
+        return errors
+
+    def gate37_dolnytsky_menologion_parity(self, dt: date, service_name: str, context: dict, rubrics: dict, full_day_digest: str) -> list:
+        """
+        Gate 37: Dolnytsky Part V (§5.3 Menologion) Source-of-Truth Parity Gate.
+        Checks:
+        1. [4 A+G] / [6 SM] / [GT DOX] / [POL] / [VIGIL] dual readings at Weekday Liturgy.
+        2. Menologion [^NNN] footnote anchor alignment with Dolnytsky_Typikon_Master.md §5.3.
+        """
+        errors = []
+        if service_name != "Liturgy":
+            return errors
+
+        dt_str = dt.isoformat()
+        meno = self._get_menologion_entry(dt)
+        if not meno.get("raw_line"):
+            return errors
+
+        pascha_offset = context.get("pascha_offset")
+        day_of_week = context.get("day_of_week", 0)
+        is_weekday = 0 < day_of_week <= 5
+        is_lenten_or_paschal = pascha_offset is not None and (-48 <= pascha_offset <= 6)
+        is_lord_feast = (
+            context.get("feast_level") == "lord"
+            or context.get("dolnytsky_rank") == "LORD"
+            or context.get("rank") == 1
+            or pascha_offset in (24, 31, 38, 39, 49, 50, 56, 60, 68)
+        )
+        # Dolnytsky §3.10.2: June 24, June 29, Aug 29 suppress weekday reading on ordinary weekdays
+        is_special_vigil_weekday = (dt.month, dt.day) in ((6, 24), (6, 29), (8, 29))
+        has_context_saints = len(context.get("saints", [])) > 0
+
+        # 1. Dual Readings Check for [4 A+G] on ordinary weekdays
+        rank_markers_str = " ".join(meno.get("rank_markers", []))
+        saint_rank_codes = " ".join(str(s.get("rank_code", "")) for s in context.get("saints", []))
+        active_has_readings_rank = (
+            any(m in saint_rank_codes for m in ("A+G", "6 SM", "GT DOX", "POL", "VIGIL"))
+            or (isinstance(context.get("rank"), int) and context.get("rank") <= 4)
+        )
+        is_apodosis_check = bool(
+            context.get("is_apodosis")
+            or context.get("period") == "apodosis"
+            or context.get("dolnytsky_rank") == "apodosis"
+        )
+        has_poly = (
+            context.get("has_polyeleos")
+            or "POL" in saint_rank_codes
+            or "VIGIL" in saint_rank_codes
+        )
+        if is_weekday and not is_lenten_or_paschal and not is_lord_feast and not is_special_vigil_weekday and has_context_saints and not (is_apodosis_check and not has_poly):
+            if any(m in rank_markers_str for m in ("A+G", "6 SM", "GT DOX", "POL", "VIGIL")) and active_has_readings_rank:
+                lit_body = self.extract_service_body_only(full_day_digest, "Liturgy")
+                epistle_count = len(re.findall(r"\*\*Epistle", lit_body))
+                gospel_count = len(re.findall(r"\*\*Gospel|\*\*Holy Gospel", lit_body))
+                has_dual_epistle = epistle_count >= 2 and gospel_count >= 2
+                if lit_body and "## DIVINE LITURGY" in lit_body and not has_dual_epistle:
+                    errors.append(
+                        f"[Gate 37: Menologion Readings Drop] On {dt_str}, Dolnytsky §5.3 marks this day as "
+                        f"[{rank_markers_str}] ({meno['raw_line']}), requiring Saint Apostle & Gospel readings "
+                        f"alongside the weekday readings at Liturgy, but only {epistle_count} Epistle and {gospel_count} Gospel block(s) were rendered."
+                    )
+                saints_list = [s for s in context.get("saints", []) if isinstance(s, dict)]
+                if len(saints_list) >= 2 and saints_list[0].get("rank_code") in ("[4 TR]", "[4 NO]"):
+                    reading_s = next(
+                        (s for s in saints_list[1:] if s.get("rank_code") in ("[4 A+G]", "[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]")),
+                        None,
+                    )
+                    if reading_s:
+                        lit_r = self.engine.resolve_liturgy_readings(context, rubrics)
+                        r_list = lit_r.get("readings", []) if isinstance(lit_r, dict) else []
+                        if len(r_list) >= 2:
+                            s_ref = str(r_list[1].get("epistle", {}).get("ref_key", ""))
+                            if saints_list[0].get("id") and saints_list[0]["id"] in s_ref:
+                                errors.append(
+                                    f"[Gate 37: Wrong Saint Selected for Liturgy Readings] On {dt_str}, saints[0] ({saints_list[0].get('name')}) is {saints_list[0].get('rank_code')} "
+                                    f"while {reading_s.get('name')} is {reading_s.get('rank_code')}, but resolve_liturgy_readings used {s_ref}!"
+                                )
+            elif (
+                not any(m in rank_markers_str for m in ("A+G", "6 SM", "GT DOX", "POL", "VIGIL", "LORD", "MOG", "THEOTOKOS"))
+                and not active_has_readings_rank
+                and not context.get("is_fore_or_afterfeast")
+                and not context.get("is_afterfeast")
+                and not context.get("is_forefeast")
+                and not context.get("is_apodosis")
+            ):
+                # [4 TR] / [4 NO] weekday without feast: must not suppress weekday readings or use righteous_memory on non-Tuesday
+                lit_body = self.extract_service_body_only(full_day_digest, "Liturgy")
+                if lit_body and "## DIVINE LITURGY" in lit_body and day_of_week != 2:
+                    if "In everlasting remembrance shall the righteous be" in lit_body and "And of the Saint:" not in lit_body:
+                        errors.append(
+                            f"[Gate 37: Spurious Saint Readings/Communion on [4 TR]/[4 NO] Weekday] On {dt_str} ({meno['raw_line']}), "
+                            f"Dolnytsky §5.3 assigns no Saint readings, but Liturgy rendered the Saint's 'In everlasting remembrance' Communion Hymn instead of the weekday Communion Hymn!"
+                        )
+        if (
+            1 <= day_of_week <= 6
+            and not is_lenten_or_paschal
+            and not is_lord_feast
+            and not is_special_vigil_weekday
+            and has_context_saints
+        ):
+            if (
+                day_of_week == 6
+                and not any(m in rank_markers_str for m in ("A+G", "6 SM", "GT DOX", "POL", "VIGIL", "LORD", "MOG", "THEOTOKOS"))
+                and not active_has_readings_rank
+                and not context.get("is_fore_or_afterfeast")
+                and not context.get("is_afterfeast")
+                and not context.get("is_forefeast")
+                and not context.get("is_apodosis")
+            ):
+                lit_body = self.extract_service_body_only(full_day_digest, "Liturgy")
+                if lit_body and "## DIVINE LITURGY" in lit_body and "In everlasting remembrance shall the righteous be" in lit_body:
+                    errors.append(
+                        f"[Gate 37: Spurious Saint Readings/Communion on [4 TR]/[4 NO] Saturday] On {dt_str} ({meno['raw_line']}), "
+                        f"Dolnytsky §5.3 assigns no Saint readings, but Liturgy rendered the Saint's 'In everlasting remembrance' Communion Hymn instead of the Saturday Communion Hymn!"
+                    )
+            if (
+                len(context.get("saints", [])) >= 2
+                and context.get("dolnytsky_rank_code") in ("[4 TR]", "[4 A+G]", "[4 NO]")
+                and not context.get("is_fore_or_afterfeast")
+                and not context.get("is_afterfeast")
+                and not context.get("is_forefeast")
+                and not context.get("is_apodosis")
+            ):
+                vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+                s2_raw = context["saints"][1].get("name", "")
+                s2_tokens = [
+                    t.strip(".,;()")
+                    for t in s2_raw.replace("St.", "").replace("Ven.", "").split()
+                    if len(t.strip(".,;()")) > 3
+                ]
+                if vesp_body and s2_tokens and not any(tok.lower() in vesp_body.lower() for tok in s2_tokens):
+                    errors.append(
+                        f"[Gate 37: 2nd Saint Dropped in Weekday/Saturday Vespers] On {dt_str}, context has 2 saints "
+                        f"({context['saints'][0].get('name')} & {s2_raw}), but Vespers omitted the 2nd Saint!"
+                    )
+
+        # 2. Sunday + [6 SM] Anti-Intrusion Check (Dolnytsky II:927, 972, 974, 991 vs. Russian/OCA Typikon)
+        is_ordinary_sunday_six_sm = (
+            day_of_week == 0
+            and context.get("dolnytsky_rank_code") == "[6 SM]"
+            and not context.get("is_temple_feast")
+            and not is_lenten_or_paschal
+            and not is_lord_feast
+            and not context.get("is_fore_or_afterfeast")
+            and not context.get("is_afterfeast")
+            and not context.get("is_forefeast")
+            and not context.get("is_apodosis")
+            and (pascha_offset is None or pascha_offset < -70 or pascha_offset > 56)
+        )
+        if is_ordinary_sunday_six_sm:
+            vesp_body = self.extract_service_body_only(full_day_digest, "Vespers")
+            mat_body = self.extract_service_body_only(full_day_digest, "Matins")
+            lit_body = self.extract_service_body_only(full_day_digest, "Liturgy")
+            if "4 from the Octoechos, and 6 from the Menaion" in vesp_body:
+                errors.append(
+                    f"[Gate 37: Russian Typikon Intrusion at Sunday [6 SM] Vespers] On {dt_str}, Vespers rendered 4+6 instead of Dolnytsky II:927 (6 Octoechos + 4 Menaion)."
+                )
+            if "4 from the Octoechos, and 4 from the Menaion" in mat_body:
+                errors.append(
+                    f"[Gate 37: Russian Typikon Intrusion at Sunday [6 SM] Praises] On {dt_str}, Matins Praises rendered 4+4 instead of Dolnytsky II:974 (8 Octoechos)."
+                )
+            ep_cnt = len(re.findall(r"\*\*Epistle", lit_body))
+            if ep_cnt > 1:
+                errors.append(
+                    f"[Gate 37: Russian Typikon Intrusion at Sunday [6 SM] Liturgy] On {dt_str}, Liturgy rendered {ep_cnt} Epistle sets instead of 1 Sunday reading set per Dolnytsky II:991-994."
+                )
+
+        # 3. Menologion Footnote Anchor Check (Footnotes 699..744 belong to §5.3 Menologion dates, except 727)
+        fn_db = self.engine._ensure_footnotes_loaded()
+        canonical_fns = {
+            fn for fn in meno.get("footnote_ids", [])
+            if fn != "727" and fn_db.get(fn, {}).get("category") != "historical_apparatus"
+        }
+        rendered_fns = set(re.findall(r"\[\^(\d+)\]", full_day_digest))
+        rendered_menologion_fns = {
+            fn for fn in rendered_fns
+            if fn.isdigit() and 699 <= int(fn) <= 744 and fn != "727"
+        }
+        spurious_menologion_fns = rendered_menologion_fns - canonical_fns
+        if spurious_menologion_fns:
+            errors.append(
+                f"[Gate 37: Spurious Menologion Footnote] On {dt_str}, digest rendered Menologion footnote(s) "
+                f"{sorted(spurious_menologion_fns)}, but Dolnytsky §5.3 for {dt.strftime('%B %d')} anchors {sorted(canonical_fns) or 'none'}!"
+            )
+        if canonical_fns and not canonical_fns.issubset(rendered_fns):
+            errors.append(
+                f"[Gate 37: Missing Canonical Menologion Footnote] On {dt_str}, Dolnytsky §5.3 anchors footnote(s) "
+                f"{sorted(canonical_fns)} ({meno['raw_line']}), but digest rendered {sorted(rendered_fns)}!"
+            )
 
         return errors
 
@@ -1484,7 +2404,7 @@ Suggest how to remediate these failures in the python engine (under engine/) or 
 
     def audit_single_day(self, current_date: date, engine=None) -> list:
         """
-        Audits all services for a single liturgical day across all 34 gates.
+        Audits all services for a single liturgical day across all 37 gates.
         Returns a list of failed service reports: [{"service": service_name, "errors": service_errors, "booklet": booklet, "context": context, "rubrics": rubrics}]
         """
         target_engine = engine or self.engine
@@ -1572,6 +2492,8 @@ Suggest how to remediate these failures in the python engine (under engine/) or 
                 service_errors.extend(self.gate33_paradigm_invariants(current_date, service_name, context, rubrics, target_content))
                 service_errors.extend(self.gate34_katavasia_seasonal_matrix(current_date, service_name, context, rubrics, target_content))
                 service_errors.extend(self.gate35_systemic_invariants(current_date, service_name, context, rubrics, target_content))
+                service_errors.extend(self.gate36_resolver_formatter_fidelity(current_date, service_name, context, rubrics, full_day_digest))
+                service_errors.extend(self.gate37_dolnytsky_menologion_parity(current_date, service_name, context, rubrics, full_day_digest))
 
             if service_errors:
                 day_failures.append({

@@ -26,7 +26,7 @@ def test_prokeimenon_eothinon():
         result = engine.resolve_prokeimenon(context)
         print(f"\nEothinon {eothinon}:")
         print(f"  Tone: {result['tone']}")
-        print(f"  Psalm: {result['psalm']}")
+        print(f"  Psalm: {result.get('psalm', 'N/A')}")
         print(f"  Text: {result['text']}")
         print(f"  ID: {result['prokeimenon_id']}")
     

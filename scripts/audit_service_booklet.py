@@ -221,7 +221,8 @@ class CanonicalBookletAuditor:
             "layer_1_stations": self._audit_layer_1(content, json_data),
             "layer_2_pointers": self._audit_layer_2(content, json_data),
             "layer_3_appendix": self._audit_layer_3(content, json_data),
-            "layer_4_compliance": self._audit_layer_4(content, json_data)
+            "layer_4_compliance": self._audit_layer_4(content, json_data),
+            "layer_5_primary_sources": self._audit_layer_5_primary_sources(content),
         }
 
         # Calculate score
@@ -230,19 +231,22 @@ class CanonicalBookletAuditor:
         l2_status = report["layer_2_pointers"]["overall_status"]
         l3_status = report["layer_3_appendix"]["overall_status"]
         l4_status = report["layer_4_compliance"]["overall_status"]
+        l5_status = report["layer_5_primary_sources"]["overall_status"]
 
         passed_layers = (
             (l1_pass == l1_total) +
             (l2_status == "PASS") +
             (l3_status == "PASS") +
-            (l4_status == "PASS")
+            (l4_status == "PASS") +
+            (l5_status == "PASS")
         )
         report["summary"] = {
             "stations_passed": f"{l1_pass}/{l1_total}",
             "pointer_integrity": l2_status,
             "appendix_validation": l3_status,
             "choreography_terminology": l4_status,
-            "overall_status": "PASS" if passed_layers == 4 else "FAIL"
+            "primary_source_grounding": l5_status,
+            "overall_status": "PASS" if passed_layers == 5 else "FAIL"
         }
         return report
 
@@ -490,6 +494,72 @@ class CanonicalBookletAuditor:
             "violations": violations
         }
 
+    def _audit_layer_5_primary_sources(self, text: str) -> Dict[str, Any]:
+        """Layer 5 (SGC-02): Runtime verification against Ordo Celebrationis, Dolnytsky Typikon, and Horologion."""
+        ordo_path = PROJECT_ROOT / "Data" / "Service Books" / "Typikon" / "Ordo" / "Ordo_Celebrationis_1996_CLEAN.md"
+        dolnytsky_path = PROJECT_ROOT / "Data" / "Service Books" / "Typikon" / "Dolnytsky_Typikon_Master.md"
+        horologion_path = PROJECT_ROOT / "Data" / "Service Books" / "Recensions" / "Stamford Divine Office" / "JSON" / "assets" / "text_horologion.json"
+
+        errors = []
+        ordo_paragraphs_verified = 0
+        dolnytsky_sections_verified = 0
+        horologion_keys_verified = 0
+
+        if not ordo_path.exists():
+            errors.append(f"Missing primary source: {ordo_path}")
+        if not dolnytsky_path.exists():
+            errors.append(f"Missing primary source: {dolnytsky_path}")
+        if not horologion_path.exists():
+            errors.append(f"Missing primary source: {horologion_path}")
+
+        if not errors:
+            with open(ordo_path, "r", encoding="utf-8") as f:
+                ordo_text = f.read()
+            with open(dolnytsky_path, "r", encoding="utf-8") as f:
+                dolnytsky_text = f.read()
+            with open(horologion_path, "r", encoding="utf-8") as f:
+                horologion_db = json.load(f)
+
+            # Verify every Ordo paragraph number cited in the booklet (§29..§73) exists in Ordo_Celebrationis_1996_CLEAN.md
+            cited_ordo_paras = {int(m) for m in re.findall(r"Ordo\s+§(\d+)", text)}
+            for p_num in sorted(cited_ordo_paras):
+                if re.search(rf"^#####\s+{p_num}\.\s+", ordo_text, re.MULTILINE):
+                    ordo_paragraphs_verified += 1
+                else:
+                    errors.append(f"Ordo §{p_num} cited in booklet not found in Ordo_Celebrationis_1996_CLEAN.md")
+
+            # Verify Dolnytsky Part I & Part II sections exist in Dolnytsky_Typikon_Master.md
+            for req_marker in [
+                "### 1.2.1 Order of Great Vespers with All-Night Vigil",
+                "PART II: GENERAL RUBRICS FOR VARIOUS SERVICES OF THE OCTOECHOS AND MENAION",
+            ]:
+                if req_marker in dolnytsky_text:
+                    dolnytsky_sections_verified += 1
+                else:
+                    errors.append(f"Dolnytsky section '{req_marker}' missing in Dolnytsky_Typikon_Master.md")
+
+            # Verify core Horologion keys exist in Stamford text_horologion.json
+            for h_key in [
+                "horologion.vespers.psalm_103",
+                "horologion.vespers.great_litany",
+                "horologion.vespers.psalm_140",
+                "horologion.vespers.psalm_116",
+                "horologion.vespers.fervent_litany",
+                "horologion.vespers.supplication_litany",
+            ]:
+                if h_key in horologion_db and str(horologion_db[h_key].get("content", "")).strip():
+                    horologion_keys_verified += 1
+                else:
+                    errors.append(f"Horologion key '{h_key}' missing or empty in text_horologion.json")
+
+        return {
+            "overall_status": "FAIL" if (errors or ordo_paragraphs_verified == 0) else "PASS",
+            "ordo_paragraphs_verified": ordo_paragraphs_verified,
+            "dolnytsky_sections_verified": dolnytsky_sections_verified,
+            "horologion_keys_verified": horologion_keys_verified,
+            "errors": errors,
+        }
+
     def print_report(self, report: Dict[str, Any]):
         """Print human-readable summary report to terminal."""
         print("\n" + "=" * 78)
@@ -502,6 +572,7 @@ class CanonicalBookletAuditor:
         print(f"Layer 2 (Pointer Integrity):    {summary.get('pointer_integrity')}")
         print(f"Layer 3 (Appendix Paradigms):   {summary.get('appendix_validation')}")
         print(f"Layer 4 (Choreography/Terms):   {summary.get('choreography_terminology')}")
+        print(f"Layer 5 (Primary Sources):      {summary.get('primary_source_grounding')}")
         print("-" * 78)
         print(f"OVERALL AUDIT VERDICT:          {summary.get('overall_status')}")
         print("=" * 78)
@@ -537,6 +608,18 @@ class CanonicalBookletAuditor:
                 print(f"  [FAIL] {v['rule']}: {v['description']}")
         else:
             print("  [PASS] Zero choreography errors, zero raw key leaks, zero banned terminology.")
+
+        # Print Layer 5 details
+        l5 = report.get("layer_5_primary_sources", {})
+        print("\n[LAYER 5: PRIMARY SOURCE GROUNDING (SGC-02)]")
+        print(f"  Ordo Paragraphs Verified:   {l5.get('ordo_paragraphs_verified')}")
+        print(f"  Dolnytsky Sections Verified:{l5.get('dolnytsky_sections_verified')}")
+        print(f"  Horologion Keys Verified:   {l5.get('horologion_keys_verified')}")
+        if l5.get("errors"):
+            for err in l5["errors"]:
+                print(f"  [FAIL] {err}")
+        else:
+            print("  [PASS] All cited primary source paragraphs, sections, and keys verified.")
         print("=" * 78 + "\n")
 
 def main():

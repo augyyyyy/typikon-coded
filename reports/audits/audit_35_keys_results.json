@@ -6,10 +6,10 @@
     ],
     "include_common": true,
     "include_leap": true,
-    "total_sweeps": 136,
-    "total_days": 49704,
+    "total_sweeps": 140,
+    "total_days": 51170,
     "total_violations": 0,
-    "elapsed_seconds": 816.18
+    "elapsed_seconds": 751.43
   },
   "sweeps": {
     "gregorian_common_03-22_1693": {
@@ -21,7 +21,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.84
+      "elapsed_sec": 5.29
     },
     "gregorian_common_03-23_1845": {
       "key": "03-23",
@@ -32,7 +32,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.79
+      "elapsed_sec": 5.21
     },
     "gregorian_common_03-24_1799": {
       "key": "03-24",
@@ -43,7 +43,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.93
+      "elapsed_sec": 5.21
     },
     "gregorian_common_03-25_1663": {
       "key": "03-25",
@@ -54,7 +54,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.82
+      "elapsed_sec": 5.26
     },
     "gregorian_common_03-26_1606": {
       "key": "03-26",
@@ -65,7 +65,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.81
+      "elapsed_sec": 6.13
     },
     "gregorian_common_03-27_1622": {
       "key": "03-27",
@@ -76,7 +76,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.01
+      "elapsed_sec": 6.19
     },
     "gregorian_common_03-28_1655": {
       "key": "03-28",
@@ -87,7 +87,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.04
+      "elapsed_sec": 6.38
     },
     "gregorian_common_03-29_1671": {
       "key": "03-29",
@@ -98,7 +98,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.0
+      "elapsed_sec": 6.57
     },
     "gregorian_common_03-30_1603": {
       "key": "03-30",
@@ -109,7 +109,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.93
+      "elapsed_sec": 6.51
     },
     "gregorian_common_03-31_1619": {
       "key": "03-31",
@@ -120,7 +120,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.92
+      "elapsed_sec": 6.42
     },
     "gregorian_common_04-01_1646": {
       "key": "04-01",
@@ -131,7 +131,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.0
+      "elapsed_sec": 6.6
     },
     "gregorian_common_04-02_1673": {
       "key": "04-02",
@@ -142,7 +142,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.99
+      "elapsed_sec": 6.43
     },
     "gregorian_common_04-03_1611": {
       "key": "04-03",
@@ -153,7 +153,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.89
+      "elapsed_sec": 5.69
     },
     "gregorian_common_04-04_1627": {
       "key": "04-04",
@@ -164,7 +164,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.86
+      "elapsed_sec": 5.17
     },
     "gregorian_common_04-05_1643": {
       "key": "04-05",
@@ -175,7 +175,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.79
+      "elapsed_sec": 5.15
     },
     "gregorian_common_04-06_1670": {
       "key": "04-06",
@@ -186,7 +186,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.8
+      "elapsed_sec": 5.16
     },
     "gregorian_common_04-07_1602": {
       "key": "04-07",
@@ -197,7 +197,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 8.52
+      "elapsed_sec": 5.21
     },
     "gregorian_common_04-08_1635": {
       "key": "04-08",
@@ -208,7 +208,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 7.58
+      "elapsed_sec": 5.19
     },
     "gregorian_common_04-09_1651": {
       "key": "04-09",
@@ -219,7 +219,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.95
+      "elapsed_sec": 5.19
     },
     "gregorian_common_04-10_1605": {
       "key": "04-10",
@@ -230,7 +230,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.89
+      "elapsed_sec": 5.17
     },
     "gregorian_common_04-11_1610": {
       "key": "04-11",
@@ -241,7 +241,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.82
+      "elapsed_sec": 5.18
     },
     "gregorian_common_04-12_1626": {
       "key": "04-12",
@@ -252,7 +252,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.9
+      "elapsed_sec": 5.2
     },
     "gregorian_common_04-13_1653": {
       "key": "04-13",
@@ -263,7 +263,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.94
+      "elapsed_sec": 5.19
     },
     "gregorian_common_04-14_1675": {
       "key": "04-14",
@@ -274,7 +274,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.95
+      "elapsed_sec": 5.17
     },
     "gregorian_common_04-15_1607": {
       "key": "04-15",
@@ -285,7 +285,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.87
+      "elapsed_sec": 5.17
     },
     "gregorian_common_04-16_1623": {
       "key": "04-16",
@@ -296,7 +296,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.93
+      "elapsed_sec": 5.17
     },
     "gregorian_common_04-17_1650": {
       "key": "04-17",
@@ -307,7 +307,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.97
+      "elapsed_sec": 5.12
     },
     "gregorian_common_04-18_1677": {
       "key": "04-18",
@@ -318,7 +318,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.99
+      "elapsed_sec": 5.22
     },
     "gregorian_common_04-19_1609": {
       "key": "04-19",
@@ -329,7 +329,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.9
+      "elapsed_sec": 5.14
     },
     "gregorian_common_04-20_1631": {
       "key": "04-20",
@@ -340,7 +340,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.94
+      "elapsed_sec": 5.2
     },
     "gregorian_common_04-21_1647": {
       "key": "04-21",
@@ -351,7 +351,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.04
+      "elapsed_sec": 5.31
     },
     "gregorian_common_04-22_1601": {
       "key": "04-22",
@@ -362,7 +362,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.95
+      "elapsed_sec": 5.14
     },
     "gregorian_common_04-23_1905": {
       "key": "04-23",
@@ -373,7 +373,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.08
+      "elapsed_sec": 5.19
     },
     "gregorian_common_04-24_1639": {
       "key": "04-24",
@@ -384,7 +384,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.99
+      "elapsed_sec": 5.24
     },
     "gregorian_common_04-25_1666": {
       "key": "04-25",
@@ -395,7 +395,18 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.06
+      "elapsed_sec": 5.3
+    },
+    "gregorian_leap_03-22_2972": {
+      "key": "03-22",
+      "year": 2972,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "2972-03-22",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.17
     },
     "gregorian_leap_03-23_1636": {
       "key": "03-23",
@@ -406,7 +417,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.0
+      "elapsed_sec": 5.19
     },
     "gregorian_leap_03-24_1940": {
       "key": "03-24",
@@ -417,7 +428,18 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.01
+      "elapsed_sec": 5.19
+    },
+    "gregorian_leap_03-25_3792": {
+      "key": "03-25",
+      "year": 3792,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "3792-03-25",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 5.19
     },
     "gregorian_leap_03-26_1780": {
       "key": "03-26",
@@ -428,7 +450,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.04
+      "elapsed_sec": 5.25
     },
     "gregorian_leap_03-27_1644": {
       "key": "03-27",
@@ -439,7 +461,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.14
+      "elapsed_sec": 5.2
     },
     "gregorian_leap_03-28_1660": {
       "key": "03-28",
@@ -450,7 +472,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.93
+      "elapsed_sec": 5.19
     },
     "gregorian_leap_03-29_1812": {
       "key": "03-29",
@@ -461,7 +483,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.96
+      "elapsed_sec": 5.26
     },
     "gregorian_leap_03-30_2092": {
       "key": "03-30",
@@ -472,7 +494,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.31
+      "elapsed_sec": 5.19
     },
     "gregorian_leap_03-31_1652": {
       "key": "03-31",
@@ -483,7 +505,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.3
+      "elapsed_sec": 5.19
     },
     "gregorian_leap_04-01_1668": {
       "key": "04-01",
@@ -494,7 +516,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.14
+      "elapsed_sec": 5.24
     },
     "gregorian_leap_04-02_1600": {
       "key": "04-02",
@@ -505,7 +527,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.17
+      "elapsed_sec": 5.24
     },
     "gregorian_leap_04-03_1616": {
       "key": "04-03",
@@ -516,7 +538,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.15
+      "elapsed_sec": 5.3
     },
     "gregorian_leap_04-04_1920": {
       "key": "04-04",
@@ -527,7 +549,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.24
+      "elapsed_sec": 5.54
     },
     "gregorian_leap_04-05_1676": {
       "key": "04-05",
@@ -538,7 +560,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.13
+      "elapsed_sec": 5.17
     },
     "gregorian_leap_04-06_1608": {
       "key": "04-06",
@@ -549,7 +571,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.17
+      "elapsed_sec": 5.25
     },
     "gregorian_leap_04-07_1624": {
       "key": "04-07",
@@ -560,7 +582,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.17
+      "elapsed_sec": 5.17
     },
     "gregorian_leap_04-08_1640": {
       "key": "04-08",
@@ -571,7 +593,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.08
+      "elapsed_sec": 5.16
     },
     "gregorian_leap_04-09_1944": {
       "key": "04-09",
@@ -582,7 +604,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.07
+      "elapsed_sec": 5.39
     },
     "gregorian_leap_04-10_2072": {
       "key": "04-10",
@@ -593,7 +615,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.99
+      "elapsed_sec": 5.19
     },
     "gregorian_leap_04-11_1632": {
       "key": "04-11",
@@ -604,7 +626,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.97
+      "elapsed_sec": 5.16
     },
     "gregorian_leap_04-12_1648": {
       "key": "04-12",
@@ -615,7 +637,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.99
+      "elapsed_sec": 5.2
     },
     "gregorian_leap_04-13_1664": {
       "key": "04-13",
@@ -626,7 +648,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.95
+      "elapsed_sec": 5.21
     },
     "gregorian_leap_04-14_1748": {
       "key": "04-14",
@@ -637,7 +659,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.23
+      "elapsed_sec": 5.19
     },
     "gregorian_leap_04-15_2096": {
       "key": "04-15",
@@ -648,7 +670,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.02
+      "elapsed_sec": 5.21
     },
     "gregorian_leap_04-16_1656": {
       "key": "04-16",
@@ -659,7 +681,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.01
+      "elapsed_sec": 5.19
     },
     "gregorian_leap_04-17_1672": {
       "key": "04-17",
@@ -670,7 +692,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.98
+      "elapsed_sec": 5.21
     },
     "gregorian_leap_04-18_1604": {
       "key": "04-18",
@@ -681,7 +703,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.02
+      "elapsed_sec": 5.21
     },
     "gregorian_leap_04-19_1620": {
       "key": "04-19",
@@ -692,7 +714,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.02
+      "elapsed_sec": 5.29
     },
     "gregorian_leap_04-20_1924": {
       "key": "04-20",
@@ -703,7 +725,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.12
+      "elapsed_sec": 5.54
     },
     "gregorian_leap_04-21_1680": {
       "key": "04-21",
@@ -714,7 +736,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.05
+      "elapsed_sec": 6.26
     },
     "gregorian_leap_04-22_1612": {
       "key": "04-22",
@@ -725,7 +747,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.08
+      "elapsed_sec": 6.41
     },
     "gregorian_leap_04-23_1628": {
       "key": "04-23",
@@ -736,7 +758,29 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.03
+      "elapsed_sec": 6.16
+    },
+    "gregorian_leap_04-24_4292": {
+      "key": "04-24",
+      "year": 4292,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "4292-04-24",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 6.6
+    },
+    "gregorian_leap_04-25_3784": {
+      "key": "04-25",
+      "year": 3784,
+      "paschalion": "gregorian",
+      "is_leap": true,
+      "pascha": "3784-04-25",
+      "days_audited": 366,
+      "violations_count": 0,
+      "violations": [],
+      "elapsed_sec": 6.18
     },
     "julian_common_04-04_1915": {
       "key": "04-04",
@@ -747,7 +791,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.12
+      "elapsed_sec": 6.41
     },
     "julian_common_04-05_1942": {
       "key": "04-05",
@@ -758,18 +802,18 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.13
+      "elapsed_sec": 6.21
     },
-    "julian_common_04-06_2143": {
+    "julian_common_04-06_2949": {
       "key": "04-06",
-      "year": 2143,
+      "year": 2949,
       "paschalion": "julian",
       "is_leap": false,
-      "pascha": "2143-04-06",
+      "pascha": "2949-04-06",
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.05
+      "elapsed_sec": 6.24
     },
     "julian_common_04-07_1991": {
       "key": "04-07",
@@ -780,7 +824,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.99
+      "elapsed_sec": 5.57
     },
     "julian_common_04-08_1923": {
       "key": "04-08",
@@ -791,7 +835,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.98
+      "elapsed_sec": 5.28
     },
     "julian_common_04-09_1939": {
       "key": "04-09",
@@ -802,7 +846,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.91
+      "elapsed_sec": 5.26
     },
     "julian_common_04-10_1966": {
       "key": "04-10",
@@ -813,7 +857,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.91
+      "elapsed_sec": 5.19
     },
     "julian_common_04-11_1909": {
       "key": "04-11",
@@ -824,7 +868,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.91
+      "elapsed_sec": 5.28
     },
     "julian_common_04-12_1931": {
       "key": "04-12",
@@ -835,7 +879,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.86
+      "elapsed_sec": 5.15
     },
     "julian_common_04-13_1947": {
       "key": "04-13",
@@ -846,7 +890,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.84
+      "elapsed_sec": 5.17
     },
     "julian_common_04-14_1901": {
       "key": "04-14",
@@ -857,7 +901,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.87
+      "elapsed_sec": 5.2
     },
     "julian_common_04-15_1906": {
       "key": "04-15",
@@ -868,7 +912,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.83
+      "elapsed_sec": 5.19
     },
     "julian_common_04-16_1922": {
       "key": "04-16",
@@ -879,7 +923,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.84
+      "elapsed_sec": 5.21
     },
     "julian_common_04-17_1955": {
       "key": "04-17",
@@ -890,7 +934,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.8
+      "elapsed_sec": 5.24
     },
     "julian_common_04-18_1971": {
       "key": "04-18",
@@ -901,7 +945,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.9
+      "elapsed_sec": 5.2
     },
     "julian_common_04-19_1903": {
       "key": "04-19",
@@ -912,7 +956,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.97
+      "elapsed_sec": 5.19
     },
     "julian_common_04-20_1919": {
       "key": "04-20",
@@ -923,7 +967,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.9
+      "elapsed_sec": 5.17
     },
     "julian_common_04-21_1946": {
       "key": "04-21",
@@ -934,7 +978,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.94
+      "elapsed_sec": 5.16
     },
     "julian_common_04-22_1979": {
       "key": "04-22",
@@ -945,7 +989,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.85
+      "elapsed_sec": 5.18
     },
     "julian_common_04-23_1911": {
       "key": "04-23",
@@ -956,7 +1000,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.0
+      "elapsed_sec": 5.32
     },
     "julian_common_04-24_1927": {
       "key": "04-24",
@@ -967,7 +1011,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.02
+      "elapsed_sec": 5.37
     },
     "julian_common_04-25_1943": {
       "key": "04-25",
@@ -978,7 +1022,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.93
+      "elapsed_sec": 5.32
     },
     "julian_common_04-26_1970": {
       "key": "04-26",
@@ -989,7 +1033,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.1
+      "elapsed_sec": 5.19
     },
     "julian_common_04-27_1902": {
       "key": "04-27",
@@ -1000,7 +1044,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.01
+      "elapsed_sec": 5.21
     },
     "julian_common_04-28_1935": {
       "key": "04-28",
@@ -1011,7 +1055,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.84
+      "elapsed_sec": 5.24
     },
     "julian_common_04-29_1951": {
       "key": "04-29",
@@ -1022,7 +1066,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.85
+      "elapsed_sec": 5.24
     },
     "julian_common_04-30_1905": {
       "key": "04-30",
@@ -1033,7 +1077,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.9
+      "elapsed_sec": 5.25
     },
     "julian_common_05-01_1910": {
       "key": "05-01",
@@ -1044,7 +1088,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.8
+      "elapsed_sec": 5.3
     },
     "julian_common_05-02_1926": {
       "key": "05-02",
@@ -1055,7 +1099,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.75
+      "elapsed_sec": 5.21
     },
     "julian_common_05-03_1959": {
       "key": "05-03",
@@ -1066,7 +1110,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.76
+      "elapsed_sec": 5.17
     },
     "julian_common_05-04_1975": {
       "key": "05-04",
@@ -1077,7 +1121,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.74
+      "elapsed_sec": 5.21
     },
     "julian_common_05-05_1907": {
       "key": "05-05",
@@ -1088,7 +1132,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.87
+      "elapsed_sec": 5.22
     },
     "julian_common_05-06_1945": {
       "key": "05-06",
@@ -1099,7 +1143,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.84
+      "elapsed_sec": 5.19
     },
     "julian_common_05-07_2051": {
       "key": "05-07",
@@ -1110,7 +1154,7 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.85
+      "elapsed_sec": 5.22
     },
     "julian_common_05-08_1983": {
       "key": "05-08",
@@ -1121,18 +1165,18 @@
       "days_audited": 365,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.85
+      "elapsed_sec": 5.17
     },
-    "julian_leap_04-04_2200": {
+    "julian_leap_04-04_4860": {
       "key": "04-04",
-      "year": 2200,
+      "year": 4860,
       "paschalion": "julian",
       "is_leap": true,
-      "pascha": "2200-04-04",
-      "days_audited": 365,
+      "pascha": "4860-04-04",
+      "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.87
+      "elapsed_sec": 5.21
     },
     "julian_leap_04-05_2048": {
       "key": "04-05",
@@ -1143,7 +1187,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.91
+      "elapsed_sec": 5.27
     },
     "julian_leap_04-06_1980": {
       "key": "04-06",
@@ -1154,7 +1198,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.84
+      "elapsed_sec": 5.22
     },
     "julian_leap_04-07_1912": {
       "key": "04-07",
@@ -1165,18 +1209,18 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.87
+      "elapsed_sec": 5.29
     },
-    "julian_leap_04-08_2124": {
+    "julian_leap_04-08_2908": {
       "key": "04-08",
-      "year": 2124,
+      "year": 2908,
       "paschalion": "julian",
       "is_leap": true,
-      "pascha": "2124-04-08",
+      "pascha": "2908-04-08",
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.9
+      "elapsed_sec": 5.24
     },
     "julian_leap_04-09_1972": {
       "key": "04-09",
@@ -1187,7 +1231,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.89
+      "elapsed_sec": 5.24
     },
     "julian_leap_04-10_1904": {
       "key": "04-10",
@@ -1198,7 +1242,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.9
+      "elapsed_sec": 5.23
     },
     "julian_leap_04-11_1920": {
       "key": "04-11",
@@ -1209,7 +1253,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.82
+      "elapsed_sec": 5.29
     },
     "julian_leap_04-12_1936": {
       "key": "04-12",
@@ -1220,7 +1264,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.85
+      "elapsed_sec": 5.32
     },
     "julian_leap_04-13_2064": {
       "key": "04-13",
@@ -1231,7 +1275,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.85
+      "elapsed_sec": 5.25
     },
     "julian_leap_04-14_1996": {
       "key": "04-14",
@@ -1242,7 +1286,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.95
+      "elapsed_sec": 5.27
     },
     "julian_leap_04-15_1928": {
       "key": "04-15",
@@ -1253,7 +1297,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.95
+      "elapsed_sec": 5.23
     },
     "julian_leap_04-16_1944": {
       "key": "04-16",
@@ -1264,7 +1308,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.96
+      "elapsed_sec": 5.31
     },
     "julian_leap_04-17_1960": {
       "key": "04-17",
@@ -1275,7 +1319,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.27
+      "elapsed_sec": 5.19
     },
     "julian_leap_04-18_2088": {
       "key": "04-18",
@@ -1286,7 +1330,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.25
+      "elapsed_sec": 5.34
     },
     "julian_leap_04-19_2020": {
       "key": "04-19",
@@ -1297,7 +1341,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.16
+      "elapsed_sec": 5.27
     },
     "julian_leap_04-20_1952": {
       "key": "04-20",
@@ -1308,7 +1352,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.02
+      "elapsed_sec": 5.29
     },
     "julian_leap_04-21_1968": {
       "key": "04-21",
@@ -1319,18 +1363,18 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.04
+      "elapsed_sec": 5.27
     },
-    "julian_leap_04-22_1900": {
+    "julian_leap_04-22_1984": {
       "key": "04-22",
-      "year": 1900,
+      "year": 1984,
       "paschalion": "julian",
       "is_leap": true,
-      "pascha": "1900-04-22",
-      "days_audited": 365,
+      "pascha": "1984-04-22",
+      "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.01
+      "elapsed_sec": 5.26
     },
     "julian_leap_04-23_1916": {
       "key": "04-23",
@@ -1341,7 +1385,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.04
+      "elapsed_sec": 5.27
     },
     "julian_leap_04-24_2044": {
       "key": "04-24",
@@ -1352,7 +1396,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.03
+      "elapsed_sec": 5.18
     },
     "julian_leap_04-25_1976": {
       "key": "04-25",
@@ -1363,7 +1407,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.96
+      "elapsed_sec": 5.2
     },
     "julian_leap_04-26_1908": {
       "key": "04-26",
@@ -1374,7 +1418,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.96
+      "elapsed_sec": 5.2
     },
     "julian_leap_04-27_1924": {
       "key": "04-27",
@@ -1385,7 +1429,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.11
+      "elapsed_sec": 5.21
     },
     "julian_leap_04-28_1940": {
       "key": "04-28",
@@ -1396,7 +1440,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.11
+      "elapsed_sec": 5.32
     },
     "julian_leap_04-29_2068": {
       "key": "04-29",
@@ -1407,7 +1451,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.06
+      "elapsed_sec": 5.2
     },
     "julian_leap_04-30_2000": {
       "key": "04-30",
@@ -1418,7 +1462,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.01
+      "elapsed_sec": 5.25
     },
     "julian_leap_05-01_1932": {
       "key": "05-01",
@@ -1429,7 +1473,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.93
+      "elapsed_sec": 5.83
     },
     "julian_leap_05-02_1948": {
       "key": "05-02",
@@ -1440,7 +1484,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.9
+      "elapsed_sec": 5.16
     },
     "julian_leap_05-03_1964": {
       "key": "05-03",
@@ -1451,18 +1495,18 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.89
+      "elapsed_sec": 5.26
     },
-    "julian_leap_05-04_2176": {
+    "julian_leap_05-04_3856": {
       "key": "05-04",
-      "year": 2176,
+      "year": 3856,
       "paschalion": "julian",
       "is_leap": true,
-      "pascha": "2176-05-04",
+      "pascha": "3856-05-04",
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.94
+      "elapsed_sec": 5.23
     },
     "julian_leap_05-05_2024": {
       "key": "05-05",
@@ -1473,7 +1517,7 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 6.03
+      "elapsed_sec": 5.23
     },
     "julian_leap_05-06_1956": {
       "key": "05-06",
@@ -1484,29 +1528,29 @@
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.95
+      "elapsed_sec": 5.2
     },
-    "julian_leap_05-07_2336": {
+    "julian_leap_05-07_2952": {
       "key": "05-07",
-      "year": 2336,
+      "year": 2952,
       "paschalion": "julian",
       "is_leap": true,
-      "pascha": "2336-05-07",
+      "pascha": "2952-05-07",
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.95
+      "elapsed_sec": 5.18
     },
-    "julian_leap_05-08_2268": {
+    "julian_leap_05-08_3864": {
       "key": "05-08",
-      "year": 2268,
+      "year": 3864,
       "paschalion": "julian",
       "is_leap": true,
-      "pascha": "2268-05-08",
+      "pascha": "3864-05-08",
       "days_audited": 366,
       "violations_count": 0,
       "violations": [],
-      "elapsed_sec": 5.84
+      "elapsed_sec": 5.17
     }
   }
 }

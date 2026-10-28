@@ -82,6 +82,7 @@ def test_365_days_semantic_consistency(version):
             is_great_feast_or_equivalent = (
                 menaion_class == "Class I — Great Feast" or 
                 context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS") or
+                context.get("feast_level") in ("lord", "theotokos") or
                 is_festal_period or
                 "doxology" in menaion_class.lower()  # Apodosis days are Great Doxology rank in calendar
             )

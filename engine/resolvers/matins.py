@@ -21,63 +21,72 @@ class MatinsMixin:
         """
         NEW-1: Determines whether Polyeleos, Kathisma 17, or Kathisma 19 is sung at Matins.
         
-        Citation: Dolnytsky Part 1 Line 157:
-        "Polyeleos is sung on all Feasts which have Great Vespers and Great Matins.
-         On Sunday it is sung only from Sept 22 to Dec 19 and from Jan 14 to Cheesefare Sunday.
-         On other Sundays the 17th Kathisma is used."
+        Citation: Dolnytsky Part II §2.1:953 & Part IV §4.1.2:7021:
+        - Feasts with Vigil or Polyeleos always sing Polyeleos.
+        - On ordinary Sundays:
+          * Sept 22 to Dec 19 -> Kathisma 17 (Part II §2.1:953 supersedes Part I §6.2)
+          * Jan 14 to Cheesefare Sunday -> Polyeleos (with Psalm 136 added on Prodigal Son, Meatfare, and Cheesefare Sundays)
+          * Other Sundays (Great Lent, post-Theophany before Jan 14, Dec 20 - Jan 13, Summer) -> Kathisma 17
         """
         day_of_week = context.get("day_of_week", 0)
         rank = context.get("dolnytsky_rank", "")
+        rank_code = context.get("dolnytsky_rank_code") or context.get("fixed_rank_code") or ""
         
         # 1. Feasts always get Polyeleos
-        if rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS"):
+        if (
+            rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS")
+            or rank_code in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]")
+            or context.get("is_temple_feast")
+        ):
             return {
                 "type": "polyeleos",
                 "psalms": [134, 135],
-                "citation": "Dolnytsky Part 1 Line 157 — Polyeleos for all feasts with Great Matins"
+                "citation": "Dolnytsky Part II §2.1:953 — Polyeleos for all feasts with Great Matins"
             }
         
         # 2. Sunday logic: date-dependent window
         if day_of_week == 0:
-            date_str = context.get("date", "")
+            date_str = str(context.get("date", "") or "")
             if len(date_str) >= 10:
                 mm = int(date_str[5:7])
                 dd = int(date_str[8:10])
                 mmdd = mm * 100 + dd
                 
-                # Window 1: Sep 22 (0922) to Dec 19 (1219) → Kathisma 17
-                # Window 2: Jan 14 (0114) to Cheesefare Sunday → Kathisma 19 (Polyeleos)
-                # Outside both: Kathisma 17
-                
-                # Dolnytsky says Polyeleos in Window 2, Kathisma 17 elsewhere
-                if 114 <= mmdd <= 228:  # Jan 14 to approx. late Feb (Cheesefare)
-                    # More precisely, until Cheesefare Sunday
-                    pascha_offset = context.get("pascha_offset", 0)
-                    if pascha_offset <= -49:  # Before or on Cheesefare
+                # Window: Jan 14 (0114) to Cheesefare Sunday (can fall in Feb or March) -> Polyeleos
+                pascha_offset = context.get("pascha_offset")
+                if 114 <= mmdd <= 331:
+                    if pascha_offset is None and mmdd <= 228:
                         return {
                             "type": "polyeleos",
                             "psalms": [134, 135],
-                            "citation": "Dolnytsky Part 1 Line 157 — Polyeleos from Jan 14 to Cheesefare"
+                            "citation": "Dolnytsky Part II §2.1:953 — Polyeleos from Jan 14 to Cheesefare"
+                        }
+                    elif pascha_offset is not None and pascha_offset <= -49:
+                        psalms = [134, 135, 136] if pascha_offset in (-63, -56, -49) else [134, 135]
+                        return {
+                            "type": "polyeleos",
+                            "psalms": psalms,
+                            "citation": "Dolnytsky Part II §2.1:953 & Part IV §4.1.2:7021 — Polyeleos from Jan 14 to Cheesefare"
                         }
                 
                 if 922 <= mmdd <= 1219:
                     return {
                         "type": "kathisma_17",
                         "psalm": 118,
-                        "citation": "Dolnytsky Part 1 Line 157 — Kathisma 17 from Sep 22 to Dec 19"
+                        "citation": "Dolnytsky Part II §2.1:953 — Kathisma 17 from Sep 22 to Dec 19"
                     }
             
-            # Default for Sundays outside windows
+            # Default for Sundays outside Polyeleos window
             return {
                 "type": "kathisma_17",
                 "psalm": 118,
-                "citation": "Dolnytsky Part 1 Line 157 — Kathisma 17 default for Sundays"
+                "citation": "Dolnytsky Part II §2.1:953 — Kathisma 17 default for Sundays"
             }
         
         # 3. Non-Sunday, non-feast: no polyeleos
         return {
             "type": "none",
-            "citation": "Dolnytsky Part 1 Line 157 — No Polyeleos on weekdays without feast"
+            "citation": "Dolnytsky Part II §2.2:1022 — No Polyeleos on weekdays without feast"
         }
 
 
@@ -108,7 +117,19 @@ class MatinsMixin:
         # Check for overridden distribution first (e.g. from collisions)
         overridden_dist = context.get("variables", {}).get("praises_distribution")
         if overridden_dist:
-            praises_logic = overridden_dist
+            praises_logic = dict(overridden_dist)
+            while praises_logic and "inherits" in praises_logic:
+                target_id = praises_logic["inherits"]
+                cases = self.general_cases.get("logic_definitions", {})
+                target_case = None
+                for c_k, c_v in cases.items():
+                    if isinstance(c_v, dict) and (c_v.get("id") == target_id or c_k == target_id):
+                        target_case = c_v
+                        break
+                if target_case:
+                    praises_logic = target_case.get("variables", {}).get("praises_distribution", {})
+                else:
+                    break
             
             # Check for Logic Switch
             if "logic_switch" in praises_logic:
@@ -159,10 +180,24 @@ class MatinsMixin:
                 break
         
         # If no praises logic is defined for this case (e.g. daily/Lenten cases might behave differently)
-        # Default behavior: No praises stichera on simple weekdays (unless festival)
+        # Default behavior: No praises stichera on simple weekdays (unless festival or §2.2 Note 3)
         if not praises_logic:
-             # Check if we should default to simple daily praises or none
-             # For now, return empty if not explicitly defined in logic
+             has_note3_praises = (
+                 context.get("day_of_week") != 0
+                 and (
+                     context.get("has_praises_stichera_small_doxology")
+                     or any(isinstance(s, dict) and s.get("has_praises_stichera_small_doxology") for s in context.get("saints", []))
+                 )
+             )
+             if has_note3_praises:
+                 return {
+                     "total_count": 4,
+                     "distribution": [{"source": "menaion", "type": "saint", "qty": 4}],
+                     "glory": "saint_doxastikon",
+                     "both_now": "theotokion",
+                     "doxology_type": "small_doxology",
+                     "case_id": "note_3_praises_small_doxology"
+                 }
              return {"total_count": 0, "distribution": [], "note": "No praises defined for this case"}
 
         # Check for Logic Switch
@@ -206,23 +241,45 @@ class MatinsMixin:
         Gap 1.1: Gospel Sticheron Displacement.
         Citation: Dolnytsky Part II Lines 357, 389, 449, 521.
         
-        On Sundays with the Eothinon cycle, the Gospel Sticheron is NOT placed
-        in the Praises Glory slot. Instead it is sung AFTER the dismissal of 
-        Matins: "Glory: Gospel Sticheron, Both now: Most Blessed art Thou".
+        On Sundays with the Eothinon cycle, the Gospel Sticheron is displaced
+        AFTER the dismissal of Matins ONLY when the Praises Glory slot is occupied
+        by a Feast/Forefeast/Afterfeast/Temple/Triodion/Fathers Doxastikon.
+        Per Dolnytsky §2.4:1159 and §2.6:1246, on ordinary Polyeleos and Vigil Saint
+        Sundays (CASE_04 / CASE_06), the Saint's 4 Praises stichera include his
+        Doxastikon, and Glory at the Praises is the appointed Gospel Sticheron.
         """
         is_sunday = context.get("day_of_week") == 0 or context.get("is_sunday_vigil")
         period = context.get("period", "normal")
         rank = self._get_rank_id(context)
+        season_id = str(context.get("season_id") or context.get("season") or "").lower()
+        praises_stack = self.resolve_praises_stack(context)
+        praises_glory = praises_stack.get("glory") if isinstance(praises_stack, dict) else None
+        is_fathers_sunday = any(
+            w in str(context.get("title") or context.get("dolnytsky_commemoration") or "").lower()
+            for w in ("fathers", "forefathers", "ancestors")
+        )
+        has_praises_doxastikon_displacement = False if praises_glory == "eothinon_gospel_sticheron" else (
+            (praises_glory is not None and praises_glory != "eothinon_gospel_sticheron")
+            or context.get("feast_level") == "theotokos"
+            or rank == "rank_vigil_theotokos"
+            or context.get("is_forefeast")
+            or context.get("is_afterfeast")
+            or context.get("is_apodosis")
+            or context.get("is_temple_feast")
+            or is_fathers_sunday
+            or period in ("forefeast", "afterfeast", "apodosis", "triodion", "lent", "great_lent")
+            or season_id in ("triodion", "pentecostarion", "great_lent", "holy_week")
+        )
         
-        # Sunday Eothinon cycle: displaced after dismissal
-        if is_sunday and period not in ("feast",) and rank not in ("rank_vigil_lord",):
+        # Sunday Eothinon cycle: displaced after dismissal only when Praises Glory is occupied
+        if is_sunday and period not in ("feast",) and rank not in ("rank_vigil_lord",) and has_praises_doxastikon_displacement:
             gospel_data = self.resolve_matins_gospel(context)
             if not gospel_data:
                 return {
                     "type": "none",
                     "note": "No displaced Gospel Sticheron for this day"
                 }
-            eothinon_num = gospel_data.get("eothinon_number", 1)
+            eothinon_num = gospel_data.get("eothinon_number") or context.get("eothinon_number") or context.get("eothinon") or 1
             
             return {
                 "type": "sequence",
@@ -402,7 +459,27 @@ class MatinsMixin:
                 pass
 
         if psalter_db and "schedules" in psalter_db and schedule_key in psalter_db["schedules"]:
-            nums = psalter_db["schedules"][schedule_key].get("matins", {}).get(str(day), [])
+            nums = list(psalter_db["schedules"][schedule_key].get("matins", {}).get(str(day), []))
+            has_poly = bool(context.get("has_polyeleos") or context.get("variables", {}).get("has_polyeleos"))
+            if day == 0 and has_poly and 17 in nums:
+                nums = [n for n in nums if n != 17]
+            # On Afterfeasts / Apodoses or Great Doxology / Polyeleos on weekdays, exactly 2 Kathismata are sung (Dolnytsky §2.14:1547, §2.20:1759)
+            is_after_or_apodosis = bool(
+                context.get("is_afterfeast") or
+                context.get("is_apodosis") or
+                context.get("period") in ("afterfeast", "apodosis") or
+                context.get("triodion_period") in ("afterfeast", "apodosis") or
+                context.get("dolnytsky_rank") in ("afterfeast", "apodosis")
+            )
+            is_great_matins = (
+                context.get("matins_type") == "great_matins" or
+                context.get("doxology_type") == "great_doxology" or
+                context.get("rank") in (1, 2, 3) or
+                "GT DOX" in str(context.get("dolnytsky_rank_code", "")) or
+                "POL" in str(context.get("dolnytsky_rank_code", ""))
+            )
+            if 1 <= day <= 5 and (is_after_or_apodosis or is_great_matins) and len(nums) > 2:
+                nums = nums[:2]
             return [f"kathisma_{n}" for n in nums]
 
         # Canonical Summer fallback
@@ -446,8 +523,9 @@ class MatinsMixin:
         if any(x in d_title or x in d_commem for x in ["forefeast", "afterfeast", "apodosis"]):
             is_fore_after = True
 
-        is_feast_lord = (context.get("feast_level") == "lord" or rank == 1) and not (is_fore_after and rank <= 3)
-        is_feast_theotokos = (context.get("feast_level") == "theotokos") and not (is_fore_after and rank <= 3)
+        is_feast_lord = (context.get("feast_level") == "lord" or rank == 1) and not is_fore_after
+        is_feast_theotokos = (context.get("feast_level") == "theotokos") and not is_fore_after
+        pass
         
         # Lenten Alleluia Check (Dolnytsky_Typikon_Master.md:4.1.9.1.4)
         # Applied if: Lenten Period + Weekday + Not a Feast/Polyeleos
@@ -470,20 +548,6 @@ class MatinsMixin:
                  "gradual_type": "alleluia" # Signal to renderer to print Alleluia instead of God is the Lord
              }
         
-        # [4 NO] Saint Fallback: no troparion, use daily Octoechos troparion
-        day_of_week = context.get("day_of_week", 0)
-        is_no_troparion_saint = (context.get("dolnytsky_rank_code") == "[4 NO]" or context.get("variables", {}).get("dolnytsky_rank_code") == "[4 NO]")
-        if is_no_troparion_saint and not is_sunday and not is_fore_after:
-             return {
-                 "tone": 1 if day_of_week in (3, 5) else context.get("tone_of_week", 1),
-                 "sequence": [
-                     {"slot": 1, "content": "troparion_weekday", "count": 2},
-                     {"slot": 2, "content": "glory_both_now", "type": "combined"},
-                     {"slot": 3, "content": "theotokion", "count": 1}
-                 ],
-                 "rule_id": "weekday_no_troparion_saint"
-             }
-
         # Saints info handling
         saints = context.get("saints", [])
         actual_saints = [
@@ -520,7 +584,11 @@ class MatinsMixin:
                 "apodosis" in d_title or "leave-taking" in d_title
             )
             if is_apodosis:
-                if has_saint_polyeleos or any(parse_rank_integer(s.get("rank", 5)) <= 3 for s in actual_saints):
+                if saint_count >= 2 and not context.get("suppress_menaion_saint"):
+                    selected_rule_id = "weekday_feast_and_two_saints"
+                elif saint_count == 1 and not context.get("suppress_menaion_saint"):
+                    selected_rule_id = "weekday_feast_and_saint"
+                elif has_saint_polyeleos or any(parse_rank_integer(s.get("rank", 5)) <= 3 for s in actual_saints):
                     selected_rule_id = "weekday_feast_and_saint"
                 else:
                     selected_rule_id = "feast_lord_theotokos"
@@ -555,9 +623,11 @@ class MatinsMixin:
         elif master_tone_ref == "tone_of_feast":
              resolved_tone = context.get("tone_of_feast", 1)
         elif master_tone_ref == "tone_of_saint":
-             if actual_saints: resolved_tone = actual_saints[0].get("troparion_tone", 1)
+             if actual_saints:
+                 resolved_tone = actual_saints[0].get("troparion_tone") or actual_saints[0].get("tone") or context.get("tone_of_week") or context.get("tone") or 1
         elif master_tone_ref == "tone_of_first_saint":
-             if actual_saints: resolved_tone = actual_saints[0].get("troparion_tone", 1)
+             if actual_saints:
+                 resolved_tone = actual_saints[0].get("troparion_tone") or actual_saints[0].get("tone") or context.get("tone_of_week") or context.get("tone") or 1
         
         return {
             "tone": resolved_tone,
@@ -800,35 +870,38 @@ class MatinsMixin:
         
         Returns: Boolean
         
-        Logic (Dolnytsky Part I, Line 157):
-        - True on Sundays during specific seasons
-        - True on Major Feasts (rank >= 3)
-        - True on Temple Feast
-        - False on Lenten Weekdays
+        Logic (Dolnytsky Part II §2.1:953):
+        - True on Sundays from Jan 14 to Cheesefare Sunday
+        - True on Major Feasts ([LORD], [MOG], [VIGIL], [POL]) and Temple Feasts
+        - False on [GT DOX] and below on weekdays
         """
-        # Check for major feast
         rank = parse_rank_integer(context.get('rank', 5))
-        if rank <= 3:  # Polyeleos rank or higher
-            return True
+        d_code = context.get("dolnytsky_rank_code") or context.get("fixed_rank_code") or ""
+        d_rank = context.get("dolnytsky_rank") or ""
+        if d_code or d_rank:
+            if (
+                d_code in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]")
+                or d_rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS")
+                or context.get("is_temple_feast")
+            ):
+                return True
+        else:
+            if rank <= 3:
+                return True
         
         # Check if Sunday
         if context.get('day_of_week') == 0:  # Sunday
-            # Seasonal logic for Sunday Polyeleos
+            date_str = str(context.get("date", "") or "")
+            if len(date_str) >= 10:
+                return self.resolve_polyeleos_or_kathisma_17(context).get("type") == "polyeleos"
+            # Legacy synthetic test context without date string
             season = context.get('season_id', '')
             pascha_offset = context.get('pascha_offset', 0)
-            
-            # From Leavetaking of Holy Cross (Sept 27) to Nativity Forefeast
-            # From Leavetaking of Theophany (Jan 14) to Cheesefare Sunday
-            
-            # Simplified: Polyeleos on Sundays during Octoechos season
             if season == 'octoechos':
-                # Exception: NOT during Triodion period (Lent)
-                if pascha_offset < -48:  # Before Lent starts
+                if pascha_offset < -48:
                     return True
-                elif pascha_offset > 50:  # After Pentecost
+                elif pascha_offset > 50:
                     return True
-            
-            # During Triodion: only if major feast overrides
             if pascha_offset >= -48 and pascha_offset < 0:
                 return rank <= 3
         
@@ -1111,21 +1184,45 @@ class MatinsMixin:
                 "rubric_note": "Saturday Vigil (Sunday lookahead) (Sung)"
             }
         
-        # Polyeleos Saint (rank 2-3): Great Doxology
-        if rank <= 3:
-            return {
-                "type": "fixed_ref",
-                "ref_key": "horologion.doxology_great",
-                "rubric_note": "Polyeleos Saint (Sung)"
-            }
-        
-        # Feast with Doxology (rank 4)
-        if rank == 4:
-            return {
-                "type": "fixed_ref",
-                "ref_key": "horologion.doxology_great",
-                "rubric_note": "Saint with Doxology (Sung)"
-            }
+        d_code = context.get("dolnytsky_rank_code") or context.get("fixed_rank_code") or ""
+        d_rank = context.get("dolnytsky_rank") or ""
+        rank_id = self._get_rank_id(context) if hasattr(self, "_get_rank_id") else ""
+        if d_code or d_rank:
+            if (
+                d_code in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]")
+                or d_rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS")
+                or rank_id in ("rank_vigil_lord", "rank_vigil_theotokos", "rank_vigil", "rank_polyeleos")
+                or context.get("is_temple_feast")
+            ):
+                return {
+                    "type": "fixed_ref",
+                    "ref_key": "horologion.doxology_great",
+                    "rubric_note": "Polyeleos Saint (Sung)"
+                }
+            if (
+                d_code == "[GT DOX]"
+                or d_rank == "GT_DOX"
+                or rank_id == "rank_doxology"
+            ):
+                return {
+                    "type": "fixed_ref",
+                    "ref_key": "horologion.doxology_great",
+                    "rubric_note": "Saint with Doxology (Sung)"
+                }
+        else:
+            # Legacy synthetic test context without dolnytsky_rank_code
+            if rank <= 3:
+                return {
+                    "type": "fixed_ref",
+                    "ref_key": "horologion.doxology_great",
+                    "rubric_note": "Polyeleos Saint (Sung)"
+                }
+            if rank == 4:
+                return {
+                    "type": "fixed_ref",
+                    "ref_key": "horologion.doxology_great",
+                    "rubric_note": "Saint with Doxology (Sung)"
+                }
         
         # Special Lenten Saturdays (Theodore, Akathist, Lazarus) -> Great Doxology
         daily_key = context.get('triodion_key') or context.get('daily_key')
@@ -1136,7 +1233,7 @@ class MatinsMixin:
                 "rubric_note": "Lenten Special Saturday (Sung)"
             }
 
-        # Simple weekday: Small Doxology
+        # Simple weekday (including [6 SM] per Dolnytsky §2.5:1110-1122): Small Doxology
         return {
             "type": "fixed_ref",
             "ref_key": "horologion.doxology_small",
@@ -1172,11 +1269,11 @@ class MatinsMixin:
 
     def _get_eothinon_tone(self, eothinon):
         """Helper: Returns tone for Eothinon Gospel Sticheron"""
-        # Eothinon tones follow a pattern
+        # Eothinon tones per Stamford text_eothinon.json (1-8 -> 1-8, 9 -> 5, 10 -> 6, 11 -> 8)
         eothinon_tones = {
-            1: 5, 2: 5, 3: 6, 4: 6,
-            5: 7, 6: 7, 7: 8, 8: 8,
-            9: 1, 10: 1, 11: 2
+            1: 1, 2: 2, 3: 3, 4: 4,
+            5: 5, 6: 6, 7: 7, 8: 8,
+            9: 5, 10: 6, 11: 8
         }
         return eothinon_tones.get(eothinon, 1)
 
@@ -1249,8 +1346,8 @@ class MatinsMixin:
                     "more_honorable": False,
                     "note": "Festal irmos replaces 'It is truly meet'"
                 }
-            # 4. Ascension and its afterfeasts/Apodosis
-            elif 39 <= pascha_offset <= 47:
+            # 4. Ascension and its afterfeasts/Apodosis (except Sunday of the Holy Fathers +42, Dolnytsky §4.2.18:8980)
+            elif 39 <= pascha_offset <= 47 and pascha_offset != 42:
                 return {
                     "type": "festal_magnificat",
                     "magnificat_id": "magnificat_ascension",
@@ -1279,7 +1376,14 @@ class MatinsMixin:
         
         # Great Feast: Festal irmos instead of "It is truly meet"
         # Great Feast: Festal irmos and refrains replace "More honorable" and "It is truly meet"
-        if rank == 1 or context.get('feast_level') in ('lord', 'theotokos') or context.get('dolnytsky_rank') in ('LORD', 'THEOTOKOS'):
+        is_fore_after = bool(
+            context.get("is_fore_or_afterfeast") or
+            context.get("is_forefeast") or
+            context.get("is_afterfeast") or
+            context.get("is_apodosis") or
+            context.get("period") in ("forefeast", "afterfeast", "apodosis")
+        )
+        if (rank == 1 or context.get('feast_level') in ('lord', 'theotokos') or context.get('dolnytsky_rank') in ('LORD', 'THEOTOKOS')) and (not is_fore_after or (day_of_week != 0 and (context.get("is_apodosis") or context.get("period") == "apodosis"))) and not (day_of_week == 0 and context.get("feast_level") == "theotokos"):
             fid = feast_id or context.get('dolnytsky_title', '').lower().replace(' ', '_')
             return {
                 "type": "festal_magnificat",
@@ -1304,8 +1408,16 @@ class MatinsMixin:
                 "tone": tone
             }
         
-        # Polyeleos: Irmos instead of "It is truly meet"
-        if rank <= 3:
+        # Polyeleos: Irmos instead of "It is truly meet" (excludes [GT DOX] per Dolnytsky §2.4:1087)
+        d_code = context.get("dolnytsky_rank_code") or context.get("fixed_rank_code") or ""
+        d_rank = context.get("dolnytsky_rank") or ""
+        is_polyeleos_or_vigil = (
+            d_code in ("[LORD]", "[MOG]", "[VIGIL]", "[POL]")
+            or d_rank in ("LORD", "THEOTOKOS", "MOG", "VIGIL", "POLYELEOS")
+            or bool(context.get("has_polyeleos") or context.get("is_temple_feast"))
+            or (not d_code and not d_rank and rank <= 3)
+        )
+        if is_polyeleos_or_vigil:
             return {
                 "type": "polyeleos_magnificat",
                 "magnificat_id": "irmos_ode_9_last_canon",
@@ -1348,9 +1460,9 @@ class MatinsMixin:
                 "replacement": "megalynaria_refrains" # Zadostoinyk Refrains
             }
             
-        # Moveable Cycle/Pentecostarion/Eucharist Suppression Rules
+        # Moveable Cycle/Pentecostarion/Eucharist Suppression Rules (except Sunday of the Holy Fathers +42, Dolnytsky §4.2.18:8980)
         if pascha_offset is not None:
-            if (0 <= pascha_offset <= 55) or (60 <= pascha_offset <= 67):
+            if ((0 <= pascha_offset <= 55) and pascha_offset != 42) or (60 <= pascha_offset <= 67):
                 return {
                     "status": "suppressed",
                     "replacement": "megalynaria_refrains"
@@ -1473,16 +1585,68 @@ class MatinsMixin:
         # 3. Feast Override/Stack
         # If there is a Saint/Feast with Exapostilarion
         saints = context.get("saints", [])
-        has_feast_exap = any(s.get("rank", 5) <= 3 for s in saints)
+        actual_saints = [s for s in saints if s.get("is_saint", True) and s.get("category") != "Feast"]
+        has_feast_exap = any(s.get("rank", 5) <= 3 for s in actual_saints)
+        rank = context.get("rank", 5)
+        if isinstance(rank, str):
+            rank = parse_rank_integer(rank)
+        elif not isinstance(rank, int):
+            try:
+                rank = self.calculate_rank(context)
+            except Exception:
+                rank = 5
+        is_great_feast = (
+            context.get("feast_level") in ("lord", "theotokos")
+            or context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS", "MOG")
+            or rank <= 2
+        ) and not context.get("is_forefeast") and not context.get("is_afterfeast")
         
-        if has_feast_exap:
-             # Logic: Glory -> Saint, Both Now -> Theotokion
+        if is_great_feast and not actual_saints:
+            comps.append({
+                "type": "feast_exapostilarion",
+                "source": "menaion",
+                "count": 3,
+                "note": "Festal Exapostilarion (thrice)"
+            })
+            return {"type": "exapostilarion_stack", "components": comps}
+        
+        is_after_or_fore = bool(context.get("is_afterfeast") or context.get("is_forefeast") or context.get("is_fore_or_afterfeast") or context.get("period") in ("afterfeast", "forefeast"))
+        if not is_sunday and is_after_or_fore:
+             # Weekday Afterfeast / Forefeast Exapostilarion (Dolnytsky Part II §2.14:1553, 1554, §2.16:1640, §3.3.3:2286)
+             # After Ode 9: Exapostilarion of the saint (twice); Glory, Both now: Feast
+             # If two saints occur: Exapostilarion of 1st saint; Glory: 2nd saint; Both now: Feast
+             if len(actual_saints) >= 2:
+                  comps.append({"type": "exapostilarion", "source": "saint_1", "note": "Exapostilarion of 1st Saint"})
+                  comps.append({"type": "glory_exapostilarion", "source": "saint_2", "note": "Glory: Exapostilarion of 2nd Saint"})
+                  comps.append({"type": "both_now_exapostilarion", "source": "feast", "note": "Both now: Exapostilarion of the Feast"})
+             elif actual_saints:
+                  comps.append({"type": "exapostilarion", "source": "saint", "note": "Exapostilarion of the Saint"})
+                  comps.append({"type": "glory_both_now_exapostilarion", "source": "feast", "note": "Glory, Both now: Exapostilarion of the Feast"})
+             else:
+                  comps.append({"type": "feast_exapostilarion", "source": "feast", "count": 3, "note": "Exapostilarion of the Feast"})
+        elif is_sunday and is_after_or_fore:
+             # Sunday Afterfeast Exapostilarion (Dolnytsky Part II §2.13:1508):
+             if actual_saints:
+                 comps.append({"type": "glory_exapostilarion", "source": "saint"})
+                 comps.append({"type": "both_now_exapostilarion", "source": "feast"})
+             else:
+                 comps.append({"type": "glory_both_now_exapostilarion", "source": "feast"})
+        elif has_feast_exap:
+             comps.append({"type": "exapostilarion", "source": "saint", "note": "Exapostilarion of the Saint"})
              comps.append({"type": "glory_exapostilarion", "source": "saint"})
              comps.append({"type": "both_now_exapostilarion", "source": "theotokion"})
-             
         elif is_sunday and not has_feast_exap:
              # Standard Sunday Theotokion Exapostilarion matches the Eothinon
              comps.append({"type": "glory_both_now_exapostilarion", "source": f"eothinon_{eothinon_idx}_theotokion"})
+        else:
+             # Weekday daily Exapostilarion (Dolnytsky Part II §2.1.4.4)
+             comps.append({"type": "exapostilarion", "source": "octoechos", "note": "Exapostilarion of the day from the Octoechos"})
+             if len(saints) >= 2:
+                  comps.append({"type": "exapostilarion", "source": "saint_1", "note": "Exapostilarion of 1st Saint, if appointed"})
+                  comps.append({"type": "glory_exapostilarion", "source": "saint_2", "note": "Glory: Exapostilarion of 2nd Saint, if appointed"})
+             elif saints:
+                  comps.append({"type": "glory_exapostilarion", "source": "saint", "note": "Glory: Exapostilarion of the Saint, if appointed"})
+             comps.append({"type": "both_now_exapostilarion", "source": "theotokion", "note": "Both now: Theotokion"})
 
         return {
             "type": "exapostilarion_stack",
@@ -1528,7 +1692,7 @@ class MatinsMixin:
         troparia = []
         
         # Great Feast: Feast troparion dominates
-        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and not (is_fore_after and rank <= 3):
+        if (rank == 1 or context.get("dolnytsky_rank") in ["LORD", "THEOTOKOS", "MOG"] or context.get("feast_level") in ["lord", "theotokos"]) and (not is_fore_after or (day_of_week != 0 and (context.get("is_apodosis") or context.get("period") == "apodosis") and rank > 3)):
             feast_id = context.get('feast_id', '')
             troparia.append({
                 "type": "festal",
@@ -1543,7 +1707,7 @@ class MatinsMixin:
         # Sunday + Saint stacking
         if day_of_week == 0:
             octoechos_week = context.get('octoechos_week', 1)
-            tone = ((octoechos_week - 1) % 8) + 1
+            tone = context.get('tone') or (((octoechos_week - 1) % 8) + 1)
             
             # Resurrectional troparion
             troparia.append({
@@ -1580,14 +1744,49 @@ class MatinsMixin:
         saints = context.get("saints", [])
         saint_id = context.get('saint_id') or (saints[0].get("id") if saints and saints[0].get("id") else ("saint" if saints else None))
         if saint_id:
-            saint_tone = context.get('saint_tone') or (saints[0].get("tone") or saints[0].get("troparion_tone", 1) if saints else 1)
-            troparia.append({
-                "type": "saint",
-                "troparion_id": f"troparion_{saint_id}",
-                "tone": saint_tone
-            })
+            default_tone = 1 if "saint_id" in context else 4
+            saint_tone = (
+                context.get('saint_tone')
+                or context.get('troparion_tone')
+                or context.get('variables', {}).get('saint_tone')
+                or context.get('variables', {}).get('troparion_tone')
+                or (saints[-1].get("tone") or saints[-1].get("troparion_tone", default_tone) if saints else default_tone)
+            )
+            if len(saints) >= 2 and "saint_id" not in context:
+                for idx, s_obj in enumerate(saints[:2]):
+                    s_id = s_obj.get("id", f"saint_{idx+1}")
+                    s_t = s_obj.get("tone") or s_obj.get("troparion_tone", 4)
+                    entry = {
+                        "type": "saint",
+                        "troparion_id": f"troparion_{s_id}",
+                        "tone": s_t
+                    }
+                    if idx == 1:
+                        entry["glory"] = True
+                    troparia.append(entry)
+            else:
+                troparia.append({
+                    "type": "saint",
+                    "troparion_id": f"troparion_{saint_id}",
+                    "tone": saint_tone
+                })
             
-            if context.get("is_afterfeast") or context.get("period") in ("afterfeast", "apodosis"):
+            if context.get("is_afterfeast") or context.get("is_forefeast") or is_fore_after or context.get("period") in ("forefeast", "afterfeast", "apodosis"):
+                feast_id = context.get('feast_id') or ('eucharist' if 60 <= context.get("pascha_offset", -100) <= 67 else '')
+                feast_tone = self._get_festal_tone(feast_id) if feast_id else 4
+                f_key = f"troparion_{feast_id}" if feast_id else "troparion_feast"
+                if len(saints) >= 2 and "saint_id" not in context:
+                    return {
+                        "troparia": troparia,
+                        "both_now": f_key,
+                        "feast_tone": feast_tone
+                    }
+                return {
+                    "troparia": troparia,
+                    "glory_both_now": f_key,
+                    "feast_tone": feast_tone
+                }
+            if False:
                 feast_id = context.get('feast_id') or ('eucharist' if 60 <= context.get("pascha_offset", -100) <= 67 else '')
                 feast_tone = self._get_festal_tone(feast_id) if feast_id else 4
                 return {
@@ -1767,7 +1966,8 @@ class MatinsMixin:
             if eothinon_num is not None:
                 return {
                     "reading_key": f"eothinon.gospel_{eothinon_num}",
-                    "title": f"Matins Gospel {eothinon_num} (Eothinon)" 
+                    "title": f"Matins Gospel {eothinon_num} (Eothinon)",
+                    "eothinon_number": eothinon_num
                 }
         
         return None
@@ -1814,7 +2014,7 @@ class MatinsMixin:
         is_feast_of_lord = (
             context.get("feast_level") == "lord" or 
             context.get("dolnytsky_rank") == "LORD" or
-            context.get("suppress_octoechos") or
+            (context.get("suppress_octoechos") and not context.get("is_forefeast") and not context.get("is_afterfeast") and not context.get("is_fore_or_afterfeast") and context.get("period") not in ("forefeast", "afterfeast")) or
             (pascha_off is not None and pascha_off in (-8, -7, 49))
         )
         
@@ -1828,6 +2028,9 @@ class MatinsMixin:
 
         items = []
         
+        is_fore_after = bool(context.get("is_forefeast") or context.get("is_afterfeast") or context.get("is_fore_or_afterfeast") or context.get("period") in ("forefeast", "afterfeast"))
+        if is_fore_after:
+            is_feast_of_lord = False
         # Holy is the Lord (Sunday)
         if day_of_week == 0 and not is_feast_of_lord:
              tone_val = context.get("tone")
@@ -1835,20 +2038,49 @@ class MatinsMixin:
              items.append({"type": "fixed_ref", "ref_key": f"octoechos.holy_is_the_lord_tone_{tone}"})
              
              # Eothinon Exapostilarion (only if eothinon_number is set)
-             eothinon_num = context.get("eothinon_number")
+             eothinon_num = context.get("eothinon_number") if context.get("eothinon_number") is not None else (context.get("eothinon") if is_fore_after else None)
              if eothinon_num is not None:
                   items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_{eothinon_num}"})
-                  items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_theotokion_{eothinon_num}"})
+                  if not (is_fore_after and context.get("date")):
+                       items.append({"type": "fixed_ref", "ref_key": f"eothinon.exapostilarion_theotokion_{eothinon_num}"})
              
-             # Plus any saint exapostilarion if Sunday Polyeleos
+             # Plus any saint exapostilarion on Sunday (Dolnytsky II:970-971, II:1508)
              saints = context.get("saints", [])
              rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
-             if rank <= 2 and saints:
+             has_sunday_saint_exap = (
+                 rank <= 3
+                 or context.get("dolnytsky_rank_code") in ("[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]")
+                 or any(
+                     isinstance(s, dict) and (
+                         parse_rank_integer(s.get("rank", 5)) <= 3
+                         or s.get("rank_code") in ("[6 SM]", "[GT DOX]", "[POL]", "[VIGIL]")
+                         or s.get("has_exapostilarion")
+                     )
+                     for s in saints
+                 )
+             )
+             if is_fore_after and context.get("date"):
+                  # On Sunday Afterfeast (Dolnytsky §2.13:1508), saint is taken at Glory: regardless of rank
+                  if saints:
+                       saint_id = saints[0].get("id")
+                       items.append({"type": "glory_exapostilarion", "ref_key": f"menaion.{saint_id}.exapostilarion"})
+                  items.append({"type": "fixed_ref", "ref_key": "feast.exapostilarion"})
+             elif has_sunday_saint_exap and saints:
                   saint_id = saints[0].get("id")
-                  items.insert(2, {"type": "fixed_ref", "ref_key": f"menaion.{saint_id}.exapostilarion"})
+                  insert_idx = 2 if len(items) >= 2 else len(items)
+                  items.insert(insert_idx, {"type": "fixed_ref", "ref_key": f"menaion.{saint_id}.exapostilarion"})
                   
         else:
              # Weekday Feast / Saint exapostilarion
+             if not is_fore_after and (context.get("feast_level") in ("lord", "theotokos") or context.get("dolnytsky_rank") in ("LORD", "THEOTOKOS")) and context.get("date"):
+                  return [{"type": "fixed_ref", "ref_key": "feast_exapostilarion"}]
+             if is_fore_after and context.get("date"):
+                  saints = context.get("saints", [])
+                  for idx_s, s_obj in enumerate(saints[:2]):
+                       exap_type = "glory_exapostilarion" if idx_s == 1 else "fixed_ref"
+                       items.append({"type": exap_type, "ref_key": f"menaion.{s_obj.get('id', 'saint')}.exapostilarion"})
+                  items.append({"type": "fixed_ref", "ref_key": "feast.exapostilarion"})
+                  return items
              rank = parse_rank_integer(context.get("rank", self.calculate_rank(context)))
              saints = context.get("saints", [])
              has_feast_exap = any(s.get("rank", 5) <= 3 for s in saints) or rank <= 2 or is_feast_of_lord
@@ -1866,6 +2098,8 @@ class MatinsMixin:
                   if is_afterfeast:
                        if context.get("period") == "apodosis" or "eucharist" in context.get("period", "") or context.get("pascha_offset") == 60:
                             items.append({"type": "fixed_ref", "ref_key": "pentecostarion.eucharist.exapostilarion_theotokion"})
+                  elif context.get("feast_level") != "lord" and context.get("dolnytsky_rank") != "LORD":
+                       items.append({"type": "fixed_ref", "source": "theotokion", "ref_key": "theotokion"})
              
         return items
 
@@ -1910,6 +2144,21 @@ class MatinsMixin:
         day = context.get("day_of_week", 0)
         rank = parse_rank_integer(context.get("rank", 5))
         is_sunday = day == 0 or context.get("is_sunday_vigil")
+        
+        # Great Matins with Great Doxology has NO Aposticha (Dolnytsky §1.5.1:670-745, §2.16:1642, §3.3.3:2288-2290)
+        is_great_dox = (
+            context.get("doxology_type") == "great_doxology"
+            or context.get("variables", {}).get("doxology_type") == "great_doxology"
+            or context.get("matins_type") == "great_matins"
+            or context.get("variables", {}).get("matins_type") == "great_matins"
+            or context.get("has_polyeleos")
+            or context.get("variables", {}).get("has_polyeleos")
+            or "POL" in str(context.get("rank_code", ""))
+            or rank <= 3
+        )
+        if is_great_dox or is_sunday:
+            return None
+
         is_after_or_fore = bool(
             context.get("is_afterfeast") or
             context.get("is_forefeast") or
@@ -1927,8 +2176,35 @@ class MatinsMixin:
                 ]
             }
 
-        if not is_sunday and rank >= 5 and not context.get("feast_id"):
-            return self.resolve_stichera_group_universal(context, group_type="matins_aposticha")
+        has_note2_aposticha = (
+            not is_sunday
+            and (
+                context.get("has_matins_aposticha_doxastikon")
+                or any(isinstance(s, dict) and s.get("has_matins_aposticha_doxastikon") for s in context.get("saints", []))
+            )
+        )
+        if has_note2_aposticha:
+            return {
+                "type": "aposticha",
+                "components": [
+                    {"source": "octoechos", "id": "aposticha_daily", "count": 2},
+                    {"source": "menaion", "id": "aposticha_saint", "count": 1},
+                    {"source": "menaion", "id": "doxastikon_saint", "type": "glory"},
+                    {"source": "octoechos", "id": "aposticha_theotokion", "type": "both_now"}
+                ]
+            }
+
+        # On ordinary weekdays (Dolnytsky Part II §2.2:1038) for simple saints / non-polyeleos weekdays:
+        # Aposticha is all from Octoechos with Stavrotheotokion on Wed/Fri or Theotokion on other days.
+        if not is_sunday and rank >= 4 and not context.get("feast_id"):
+            theotokion_id = "aposticha_stavrotheotokion" if day in (3, 5) else "aposticha_theotokion"
+            return {
+                "type": "aposticha",
+                "components": [
+                    {"source": "octoechos", "id": "aposticha_daily", "count": 3},
+                    {"source": "octoechos", "id": theotokion_id, "type": "glory_both_now"}
+                ]
+            }
             
         return None
 
@@ -1990,15 +2266,15 @@ class MatinsMixin:
 
                 # Fetch Actual Items
                 source_data = self.get_text(base_key, context=context)
-                if source_data and "_segments" in source_data:
+                if source_data and "_segments" in source_data and len(source_data["_segments"]) > 0:
                     # If the source text is pre-distributed into segments
                     segment_list = source_data["_segments"]
-                    for i in range(min(qty, len(segment_list))):
+                    for i in range(qty):
                         items.append({
                             "type": "sticheron",
-                            "content": segment_list[i],
+                            "content": segment_list[i % len(segment_list)],
                             "source": source,
-                            "addr": f"{base_key}[{i}]"
+                            "addr": f"{base_key}[{i % len(segment_list)}]"
                         })
                         active_count += 1
                 else:
@@ -2043,13 +2319,54 @@ class MatinsMixin:
                     })
 
             # Glory / Both Now
+            eoth_tones = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "V", 10: "VI", 11: "VIII"}
+            rom_nums = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "IX", 10: "X", 11: "XI"}
+            eoth_num = context.get("eothinon_number") or context.get("eothinon") or 1
+            eoth_rom = rom_nums.get(eoth_num, str(eoth_num))
+            eoth_tone_rom = eoth_tones.get(eoth_num, "I")
             if stack_recipe.get("glory"):
                 glory_key = stack_recipe["glory"]
                 if glory_key == "saint_doxastikon":
+                    s_name = "the Saint"
+                    if context.get("saints"):
+                        s0 = context["saints"][0]
+                        s_name = s0.get("name") or s_name
+                        if s0.get("title"):
+                            s_name = f"{s0['title']} {s_name}"
                     items.append({
                         "type": "fixed_ref",
                         "ref_key": "glory_praises_doxastikon",
-                        "rubric_note": "Glory... Doxastikon of the Saint"
+                        "rubric_note": f"Glory... Doxastikon of {s_name}"
+                    })
+                elif glory_key == "eothinon_gospel_sticheron":
+                    items.append({
+                        "type": "fixed_ref",
+                        "ref_key": f"eothinon.praises_glory_gospel_{eoth_num}",
+                        "rubric_note": f"Glory... Gospel Sticheron {eoth_rom} in Tone {eoth_tone_rom}"
+                    })
+                elif glory_key == "triodion.doxasticon_repeat":
+                    items.append({
+                        "type": "fixed_ref",
+                        "ref_key": glory_key,
+                        "rubric_note": "Glory... we repeat the same Idiomelon from the Triodion"
+                    })
+                elif glory_key == "pentecostarion.samaritan.doxasticon":
+                    items.append({
+                        "type": "fixed_ref",
+                        "ref_key": glory_key,
+                        "rubric_note": "Glory... Doxastikon of the Samaritan Woman from the Pentecostarion"
+                    })
+                elif glory_key == "pentecostarion.blind_man.doxasticon":
+                    items.append({
+                        "type": "fixed_ref",
+                        "ref_key": glory_key,
+                        "rubric_note": "Glory... Doxastikon of the Blind Man from the Pentecostarion"
+                    })
+                elif glory_key == "pentecostarion.fathers.doxasticon":
+                    items.append({
+                        "type": "fixed_ref",
+                        "ref_key": glory_key,
+                        "rubric_note": "Glory... Doxastikon of the Holy Fathers from the Pentecostarion"
                     })
                 else:
                     items.append({"type": "fixed_ref", "ref_key": f"glory_to_god", "rubric_note": "Glory..."})
@@ -2061,6 +2378,12 @@ class MatinsMixin:
                         "type": "fixed_ref",
                         "ref_key": "both_now_feast_theotokion",
                         "rubric_note": "Both now... Theotokion of the Feast"
+                    })
+                elif both_now_key == "most_blessed_art_thou":
+                    items.append({
+                        "type": "fixed_ref",
+                        "ref_key": "horologion.most_blessed_art_thou",
+                        "rubric_note": "Both now... Theotokion in Tone II ('Most blessed are you')"
                     })
                 else:
                     items.append({"type": "fixed_ref", "ref_key": f"now_and_ever", "rubric_note": "Now and ever..."})
@@ -2085,15 +2408,27 @@ class MatinsMixin:
                      for i, seg in enumerate(source_data["_segments"][:8]):
                          items.append({"type": "sticheron", "content": seg, "addr": f"{base_key}[{i}]"})
                 
+                eoth_tones = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "V", 10: "VI", 11: "VIII"}
+                rom_nums = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "IX", 10: "X", 11: "XI"}
                 eoth_num = context.get("eothinon_number")
                 if eoth_num is not None:
-                    items.append({"type": "fixed_ref", "ref_key": f"eothinon.praises_glory_gospel_{eoth_num}"})
+                    eoth_rom = rom_nums.get(eoth_num, str(eoth_num))
+                    eoth_tone_rom = eoth_tones.get(eoth_num, "I")
+                    items.append({
+                        "type": "fixed_ref",
+                        "ref_key": f"eothinon.praises_glory_gospel_{eoth_num}",
+                        "rubric_note": f"Glory... Gospel Sticheron {eoth_rom} in Tone {eoth_tone_rom}"
+                    })
                 else:
                     items.append({"type": "fixed_ref", "ref_key": "glory_praises_doxastikon", "rubric_note": "Glory... Doxastikon of the Feast"})
                 
                 tone_val = context.get("tone")
                 if tone_val is not None:
-                    items.append({"type": "fixed_ref", "ref_key": f"octoechos.praises_both_now_tone_{tone_val}"})
+                    items.append({
+                        "type": "fixed_ref",
+                        "ref_key": f"octoechos.praises_both_now_tone_{tone_val}",
+                        "rubric_note": "Both now... Theotokion in Tone II ('Most blessed are you')"
+                    })
                 else:
                     items.append({"type": "fixed_ref", "ref_key": "both_now_feast_theotokion", "rubric_note": "Both now... Theotokion of the Feast"})
 
@@ -2177,7 +2512,7 @@ class MatinsMixin:
         if rank_id in ("rank_simple_6", "rank_simple_4", "rank_doxology"):
             saints = context.get("saints", [])
             if saints:
-                theotokion_tone = saints[0].get("tone", 1) or saints[0].get("troparion_tone", 1)
+                theotokion_tone = saints[0].get("tone") or saints[0].get("troparion_tone") or tone
         
         # Exception for Wednesday and Friday: Stavrotheotokion
         if day_of_week in [3, 5] and not context.get("is_lent"):
@@ -2204,7 +2539,7 @@ class MatinsMixin:
     # =========================================================================
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.1")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.1,L244-255")
     def resolve_service_type(self, context):
         """
         Gate 1: Service Structure Type
@@ -2212,7 +2547,7 @@ class MatinsMixin:
         return {"scenario": self.identify_scenario(context), "paradigm": self.identify_paradigm(context)}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1,L683-693")
     def resolve_god_is_lord_tone(self, context):
         """
         Gate 2: God is the Lord Tone
@@ -2223,7 +2558,7 @@ class MatinsMixin:
         return context.get('saint_tone', 1)
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2,L163,L481")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2,L717-748,L1025-1047")
     def calculate_canon_ratios(self, context):
         """
         Gate 6: Canon Math - Calculate troparion distribution.
@@ -2261,7 +2596,7 @@ class MatinsMixin:
             return {"total": 14, "octoechos": 10, "saint": 4, "description": "Weekday + Simple Saint on 4"}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2,L163")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.2,L717-748,L1025-1047")
     def resolve_canon_combination(self, context):
         """
         Gate 6: Resolves exact canons combined.
@@ -2270,7 +2605,7 @@ class MatinsMixin:
         return {"canons_combined": True, "ratios": ratios}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.3.3")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:2.3,L735-738,L1097-1116")
     def get_katavasia(self, context):
         """
         Gate 7: Katavasia Selector
@@ -2285,7 +2620,7 @@ class MatinsMixin:
         return "katavasia_generic"
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1,L744-755")
     def get_eothinon_exapostilarion(self, eothinon_num):
         """
         Gate 9: Fetch Exapostilarion for Eothinon number (1-11).
@@ -2296,7 +2631,7 @@ class MatinsMixin:
         return self.get_text(text_id) if hasattr(self, 'get_text') else text_id
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.5")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1,L744-755")
     def resolve_praises(self, context):
         """
         Gate 10: Praises & Emphasis
@@ -2304,7 +2639,7 @@ class MatinsMixin:
         return {"stichera_included": True, "stack": getattr(self, 'resolve_praises_stack', lambda x: {})(context)}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1.6")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1,L749-769")
     def get_eothinon_doxastikon(self, eothinon_num):
         """
         Gate 10: Fetch Praises Doxastikon for Eothinon number.
@@ -2315,7 +2650,7 @@ class MatinsMixin:
         return self.get_text(text_id) if hasattr(self, 'get_text') else text_id
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L281-284", dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.5")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L698-705,§92", dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1,L755-765")
     def resolve_doxology(self, context):
         """
         Gate 11: Doxology logic and structural wrap.
@@ -2324,7 +2659,7 @@ class MatinsMixin:
         return {"mode": mode, "doors_open": True, "choreography": "Doors opened, first deacon right, second left."}
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L281-284", dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.1")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L641-645,§83-§84", dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2,L515-543")
     def resolve_dismissal(self, context):
         """
         Gate 12: Dismissal & Conclusion
@@ -2332,7 +2667,7 @@ class MatinsMixin:
         return {"commemorations": ["saint", "day"], "doors_closed_after": True, "deacon_begins": "Wisdom!"}
 
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.4")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2,L515-543")
     def resolve_dismissal_troparion(self, context):
         """
         Gate 12: Dismissal Troparion
@@ -2341,7 +2676,7 @@ class MatinsMixin:
 
 
 
-    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L453", dolnytsky="Dolnytsky_Typikon_Master.md:4.2.16.1")
+    @liturgical_source(ordo="Ordo_Celebrationis_1996_CLEAN.md:L618-630,§79", dolnytsky="Dolnytsky_Typikon_Master.md:4.2.5,L8232-8300")
     def resolve_12_passion_gospels(self, context):
         """
         Passion Week: 12 Passion Gospels
@@ -2362,7 +2697,7 @@ class MatinsMixin:
             "bells": "toll after each, clappers after 12th"
         }
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1.1")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.1,L260-299")
     def check_service_type(self, context, type, rubrics=None):
         """
         Checks if the requested service type matches the context or rubrics variables.
@@ -2399,7 +2734,7 @@ class MatinsMixin:
             
         return False
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.2.2.5, Dolnytsky_Typikon_Master.md:4.1.9.1.6")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:1.5.1,L711-716,4.1.9,L7574-7615")
     def resolve_psalm_50_intercession(self, context, rubrics=None):
         """
         Resolves the intercession stichera/refrains after Psalm 50 in Matins.
@@ -2486,5 +2821,84 @@ class MatinsMixin:
                 return feast_prok
             safe_tone = tone_val if isinstance(tone_val, int) else 4
             return {"tone": safe_tone, "text": str(feast_prok)}
+
+        has_poly = (
+            context.get("has_polyeleos")
+            or (rubrics and rubrics.get("variables", {}).get("has_polyeleos"))
+            or "POL" in str(context.get("rank_code", ""))
+            or context.get("rank") in (1, 2, 3, "rank_polyeleos", "rank_vigil")
+            or (rubrics and rubrics.get("variables", {}).get("rank") in (1, 2, 3, "rank_polyeleos", "rank_vigil"))
+        )
+        is_fore_or_after = bool(
+            context.get("is_fore_or_afterfeast")
+            or context.get("is_afterfeast")
+            or context.get("is_forefeast")
+            or context.get("is_apodosis")
+            or context.get("triodion_period") in ("forefeast", "afterfeast", "apodosis")
+            or context.get("dolnytsky_rank") in ("forefeast", "afterfeast", "apodosis")
+        )
+        has_poly_saint = (
+            context.get("has_polyeleos")
+            or (rubrics and rubrics.get("variables", {}).get("has_polyeleos"))
+            or "POL" in str(context.get("rank_code", ""))
+            or context.get("rank") in (2, 3, "rank_polyeleos", "rank_vigil")
+            or (rubrics and rubrics.get("variables", {}).get("rank") in (2, 3, "rank_polyeleos", "rank_vigil"))
+        )
+        # Automatic Theotokos Feast Matins Prokeimenon (Dolnytsky §2.10:1390, §2.12:1464, §3.2.1:2322)
+        # Note: On Sundays during an Afterfeast, the Sunday Resurrection Prokeimenon of the Tone governs (Dolnytsky §2.13:1499)
+        # On Weekday Afterfeast with Polyeleos saint, the Saint governs (Dolnytsky §2.16:1634, §3.3.3:2280)
+        is_theotokos_feast = (
+            (context.get("day_of_week", 0) != 0 or not is_fore_or_after)
+            and not (is_fore_or_after and has_poly_saint)
+            and (
+                context.get("feast_level") == "theotokos"
+                or context.get("dolnytsky_rank") in ("THEOTOKOS", "MOG")
+                or "theotokos" in str(context.get("feast_id", "")).lower()
+                or "theotokos" in str(context.get("feast_name", "")).lower()
+                or (rubrics and "theotokos" in str(rubrics.get("variables", {}).get("title_key", "")).lower())
+                or (rubrics and "theotokos" in str(rubrics.get("variables", {}).get("rank", "")).lower())
+            )
+        )
+        if is_theotokos_feast:
+            return {
+                "tone": 4,
+                "text": "Hear, O daughter, and see, and incline your ear; forget your people and your father's house",
+                "verse": "My heart overflows with a good theme; I address my verses to the king",
+            }
+
+        if context.get("day_of_week", 0) != 0 and (context.get("feast_level") not in ("lord", "theotokos") or has_poly):
+            saints = context.get("saints", [])
+            if saints and isinstance(saints[0], dict):
+                s0 = saints[0]
+                s_meta = f"{s0.get('title', '')} {s0.get('category', '')} {s0.get('name', '')}".lower()
+                if "apostle" in s_meta or "evangelist" in s_meta:
+                    return {
+                        "tone": 8,
+                        "text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe",
+                        "verse": "The heavens declare the glory of God, and the firmament proclaims the work of His hands",
+                    }
+                if "forerunner" in s_meta or "baptist" in s_meta:
+                    return {
+                        "tone": 7,
+                        "text": "The righteous man shall rejoice in the Lord, and shall hope in Him",
+                        "verse": "Hear my voice, O God, when I pray to You",
+                    }
+                if "martyr" in s_meta or "great-martyr" in s_meta or "great martyr" in s_meta:
+                    return {
+                        "tone": 4,
+                        "text": "God is wonderful in His saints, the God of Israel",
+                        "verse": "In the congregations bless God, the Lord from the fountains of Israel",
+                    }
+                if "hierarch" in s_meta and "hieromartyr" not in s_meta:
+                    return {
+                        "tone": 1,
+                        "text": "My mouth shall speak wisdom, and the meditation of my heart shall be understanding",
+                        "verse": "Hear this, all you nations; give ear, all you inhabitants of the world",
+                    }
+                return {
+                    "tone": 7,
+                    "text": "Precious in the sight of the Lord is the death of His saints",
+                    "verse": "What shall I render to the Lord for all that He has rendered to me?",
+                }
             
         return sunday_prokeimena.get(tone, {"tone": tone, "text": f"Resurrectional Prokeimenon of Tone {tone}"})

@@ -10,8 +10,20 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from ruthenian_engine import RuthenianEngine
 
+DOLNYTSKY_PATH = PROJECT_ROOT / "Data" / "Service Books" / "Typikon" / "Dolnytsky_Typikon_Master.md"
+
+
+def _verify_primary_source_anchor() -> bool:
+    if not DOLNYTSKY_PATH.is_file():
+        return False
+    text = DOLNYTSKY_PATH.read_text(encoding="utf-8", errors="replace")
+    return "PART II" in text
+
+
 def run_heuristics_for_date(engine: RuthenianEngine, target_date: date, check_booklet=False):
     errors = []
+    if not _verify_primary_source_anchor():
+        errors.append("Primary source Dolnytsky_Typikon_Master.md missing or unverified.")
     
     try:
         context = engine.get_liturgical_context(target_date)

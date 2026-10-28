@@ -10,10 +10,16 @@ Saves output to json_db/stamford/text_octoechos.json.
 import os
 import json
 import re
+import shutil
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+INBOX_TONE2 = os.path.join(BASE_DIR, "Data", "Inbox", "OCTOECHOS_Tone2.txt")
 SOURCE_DIR = os.path.join(BASE_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "TXT", "Cleaned_TXT")
 OUTPUT_PATH = os.path.join(BASE_DIR, "json_db", "stamford", "text_octoechos.json")
+MIRROR_OUTPUT_PATHS = [
+    os.path.join(BASE_DIR, "Data", "databases", "json_db", "stamford", "text_octoechos.json"),
+    os.path.join(BASE_DIR, "Data", "Service Books", "Recensions", "Stamford Divine Office", "JSON", "assets", "text_octoechos.json"),
+]
 
 def is_rubric(text):
     """Identifies and filters out non-chanted rubrics or directions."""
@@ -46,8 +52,10 @@ def classify_paragraph(p):
     else:
         return "sticheron"
 
-def clean_paragraph_prefix(text):
+def clean_paragraph_prefix(text, classification="sticheron"):
     """Strips the Glory/Both now metadata prefix from the spoken chant text."""
+    if classification == "sticheron":
+        return text.strip().lstrip("*").strip() if text.strip().startswith("*(") else text.strip()
     cleaned = re.sub(
         r'^\s*\*?(Glory be:\s*)?(Now and\s+(?:for\s+)?ever:\s*)?(\([^\)]+\):\s*)?\*?\s*',
         '',
@@ -60,27 +68,37 @@ def parse_octoechos():
     print("=" * 60)
     print("RUNNING MODERN OCTOECHOS PARSER")
     print("=" * 60)
-    
-    # 1. Preserve existing resurrection troparia from database if present
+
+    # 0. Consume Data/Inbox/OCTOECHOS_Tone2.txt handoff payload if present
+    live_tone2 = os.path.join(SOURCE_DIR, "OCTOECHOS_Tone2.txt")
+    if os.path.exists(INBOX_TONE2) and os.path.exists(SOURCE_DIR):
+        shutil.copyfile(INBOX_TONE2, live_tone2)
+        print(f"Consumed Inbox handoff payload: {INBOX_TONE2} -> {live_tone2}")
+
+    # 1. Preserve existing keys and file_metadata from database if present
     preserved_keys = {}
+    old_db = {}
+    preserved_metadata = {
+        "source": "Stamford Divine Office (Authoritative Print Recension)",
+        "generator": "parse_stamford_octoechos_procedural.py",
+        "version": "3.0 (Lossless Procedural Engine)"
+    }
     if os.path.exists(OUTPUT_PATH):
         try:
             with open(OUTPUT_PATH, 'r', encoding='utf-8') as f:
                 old_db = json.load(f)
+            if "file_metadata" in old_db:
+                preserved_metadata = old_db["file_metadata"]
             for k, v in old_db.items():
-                if k.endswith(".troparion.resurrection"):
+                if k.endswith(".troparion.resurrection") or k.endswith(".sun_matins.doxastichon_praises") or k.endswith(".sun_matins.theotokion_praises"):
                     preserved_keys[k] = v
-            print(f"Loaded {len(preserved_keys)} preserved resurrection troparia keys.")
+            print(f"Loaded {len(preserved_keys)} preserved keys.")
         except Exception as e:
             print(f"Warning: Could not read existing text_octoechos.json: {e}")
 
     # 2. Main DB structure
     db = {
-        "file_metadata": {
-            "source": "Stamford Divine Office OCR",
-            "generator": "parse_octoechos.py",
-            "version": "2.0 (High Granularity)"
-        }
+        "file_metadata": preserved_metadata
     }
 
     # 3. Iterate Tones 1 through 8
@@ -172,7 +190,7 @@ def parse_octoechos():
                             continue
                             
                         classification = classify_paragraph(p)
-                        cleaned_p = clean_paragraph_prefix(p)
+                        cleaned_p = clean_paragraph_prefix(p, classification)
                         
                         if not cleaned_p:
                             continue
@@ -234,27 +252,32 @@ def parse_octoechos():
                         "source": "Stamford"
                     }
 
-    # 4. Re-inject and map preserved troparia
+    # 4. Re-inject and map preserved troparia and praises doxasticha/theotokia
     if preserved_keys:
-        print("Re-injecting preserved resurrection troparia and adding flat aliases...")
+        print("Re-injecting preserved keys and adding flat aliases...")
         for k, v in preserved_keys.items():
             db[k] = v
-            # Add flat mapping key: octoechos.troparion.tone_X
-            try:
-                tone_val = k.split('.')[0].split('_')[1]
-                flat_key = f"octoechos.troparion.tone_{tone_val}"
-                db[flat_key] = {
-                    "content": v["content"],
-                    "tone": f"Tone {tone_val}",
-                    "source": "Stamford"
-                }
-            except Exception as e:
-                print(f"Error mapping flat troparion key for {k}: {e}")
+            if k.endswith(".troparion.resurrection"):
+                # Add flat mapping key: octoechos.troparion.tone_X
+                try:
+                    tone_val = k.split('.')[0].split('_')[1]
+                    flat_key = f"octoechos.troparion.tone_{tone_val}"
+                    db[flat_key] = {
+                        "content": v["content"],
+                        "tone": f"Tone {tone_val}",
+                        "source": "Stamford"
+                    }
+                except Exception as e:
+                    print(f"Error mapping flat troparion key for {k}: {e}")
 
     # 5. Output JSON Database
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, 'w', encoding='utf-8') as f:
         json.dump(db, f, indent=4, ensure_ascii=False)
+    for mirror_path in MIRROR_OUTPUT_PATHS:
+        if os.path.exists(os.path.dirname(mirror_path)):
+            with open(mirror_path, 'w', encoding='utf-8') as mf:
+                json.dump(db, mf, indent=4, ensure_ascii=False)
         
     print("=" * 60)
     print(f"Completed! Saved {len(db)-1} Octoechos keys to {OUTPUT_PATH}")

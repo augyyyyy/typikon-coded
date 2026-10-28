@@ -95,6 +95,11 @@ def main():
     print("================================================================================")
     print("TEMPLE FEAST COLLISION AUDITOR (DOLNYTSKY PART V: ALL 34 CASES x 4 ARCHETYPES)")
     print("================================================================================")
+
+    from pathlib import Path
+    dolnytsky_path = Path(__file__).resolve().parent.parent / "Data" / "Service Books" / "Typikon" / "Dolnytsky_Typikon_Master.md"
+    if not dolnytsky_path.is_file() or "PART V" not in dolnytsky_path.read_text(encoding="utf-8", errors="replace"):
+        raise RuntimeError("SGC-02 violation: Dolnytsky_Typikon_Master.md Part V missing.")
     
     pascha_2026 = date(2026, 4, 5)
     total_audits = 0
@@ -192,10 +197,10 @@ def main():
         "cases": results_by_case
     }
     
-    with open("temple_collision_audit_results.json", "w", encoding="utf-8") as f:
+    with open("reports/audits/temple_collision_audit_results.json", "w", encoding="utf-8") as f:
         json.dump(out_payload, f, indent=2, ensure_ascii=False)
         
-    print("Results saved to temple_collision_audit_results.json")
+    print("Results saved to reports/audits/temple_collision_audit_results.json")
     if total_violations > 0:
         sys.exit(1)
     else:

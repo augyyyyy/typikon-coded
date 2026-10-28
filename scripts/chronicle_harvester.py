@@ -155,21 +155,23 @@ def harvest_markdown_chats(conv_history_dir):
     return md_chats
 
 def main():
-    project_root = r"c:\Users\augus\OneDrive\Documents\Google Antigravity\Projects\Typikon Coded"
-    ai_studio_dir = r"C:\Users\augus\OneDrive\Documents\Google Antigravity\Projects\Pre-Update & AI Studio Chats\Google AI Studio"
-    antigravity_1_dir = r"C:\Users\augus\OneDrive\Documents\Google Antigravity\Projects\Pre-Update & AI Studio Chats\Antigravity 1.0"
-    conv_history_dir = r"C:\Users\augus\OneDrive\Documents\Google Antigravity\Projects\Pre-Update & AI Studio Chats\Conversation_History"
-    modern_brain_dir = r"C:\Users\augus\.gemini\antigravity\brain"
+    project_root = Path(__file__).resolve().parent.parent
+    projects_dir = project_root.parent
+    legacy_chats_root = projects_dir / "Pre-Update & AI Studio Chats"
+    ai_studio_dir = str(legacy_chats_root / "Google AI Studio")
+    antigravity_1_dir = str(legacy_chats_root / "Antigravity 1.0")
+    conv_history_dir = str(legacy_chats_root / "Conversation_History")
+    modern_brain_dir = str(Path.home() / ".gemini" / "antigravity" / "brain")
     
     print("=== STARTING DETERMINISTIC BRUTE-FORCE HARVEST ===")
     
-    git_commits = parse_git_history(project_root)
+    git_commits = parse_git_history(str(project_root))
     ai_studio_files = harvest_ai_studio(ai_studio_dir)
     antigravity_1_sessions = harvest_antigravity_transcripts(antigravity_1_dir, label="antigravity_1.0")
     conv_history_md = harvest_markdown_chats(conv_history_dir)
     modern_sessions = harvest_antigravity_transcripts(modern_brain_dir, label="antigravity_2.0_modern")
     
-    output_data = {
+    chronicle_payload = {
         "metadata": {
             "harvest_timestamp": datetime.now().isoformat(),
             "total_git_commits": len(git_commits),
@@ -190,12 +192,14 @@ def main():
         }
     }
     
-    output_file = os.path.join(project_root, "chronicle_index.json")
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(output_data, f, indent=2, ensure_ascii=False)
+    db_dir = project_root / "Data" / "databases"
+    db_dir.mkdir(parents=True, exist_ok=True)
+    index_path = db_dir / "chronicle_index.json"
+    with open(index_path, "w", encoding="utf-8") as f:
+        json.dump(chronicle_payload, f, indent=2, ensure_ascii=False)
         
-    print(f"\n=== HARVEST COMPLETE: Saved to {output_file} ===")
-    print(f"Summary:")
+    print(f"\n=== HARVEST COMPLETE: Saved to {index_path} ===")
+    print("Summary:")
     print(f"  - Git Commits: {len(git_commits)}")
     print(f"  - AI Studio Files: {len(ai_studio_files)}")
     print(f"  - Antigravity 1.0 Sessions: {len(antigravity_1_sessions)}")
@@ -205,3 +209,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

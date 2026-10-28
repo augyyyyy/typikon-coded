@@ -24,7 +24,6 @@
         "source_ref": "Dolnytsky_Typikon_Master.md:3.2.2",
         "variables": {
           "vespers_stichera_distribution": "fathers_councils_logic",
-          "matins_gospel": "matthew_28_16_20",
           "liturgy_readings": [
             "hebrews_13_7_16",
             "john_17_1_13"
@@ -32,15 +31,29 @@
           "vespers_type": "great_vespers_simple",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": true,
+          "has_polyeleos": false,
           "doxology_type": "great_doxology",
           "rank": "rank_polyeleos",
+          "menaion_rank": "rank_polyeleos",
           "matins_canon_stacking": [
             "octoechos_4",
             "fathers_canon_8"
           ],
           "matins_katavasia": "theotokos_canon_october",
-          "communion_hymn": "praise_the_lord_and_rejoice"
+          "communion_hymn": "praise_the_lord_and_rejoice",
+          "beatitudes_distribution": {
+            "distribution": [
+              {
+                "source": "octoechos",
+                "count": 4
+              },
+              {
+                "source": "menaion",
+                "count": 4
+              }
+            ],
+            "note": "4 from the Octoechos, 4 from Ode III and VI of the Holy Fathers"
+          }
         }
       }
     },
@@ -261,7 +274,7 @@
         "source_ref": "Dolnytsky_Typikon_Master.md:3.2",
         "base_template": "CASE_02",
         "variables": {
-          "vespers_type": "great_vespers_simple",
+          "vespers_type": "daily_vespers",
           "matins_type": "great_matins",
           "liturgy_type": "liturgy_chrysostom",
           "has_polyeleos": false,
@@ -277,10 +290,11 @@
               }
             ],
             "glory": "saint_doxastikon",
-            "both_now": "theotokion"
+            "both_now": "dogmatikon"
           },
           "matins_canon_stacking": [
-            "saint_canon_8"
+            "octoechos_6",
+            "saint_canon_6"
           ],
           "matins_katavasia": "theotokos_canon_october",
           "praises_distribution": {
@@ -337,6 +351,8 @@
           "has_polyeleos": true,
           "doxology_type": "great_doxology",
           "rank": "rank_vigil_saint",
+          "saint_tone": 3,
+          "troparion_tone": 3,
           "vespers_stichera_distribution": {
             "total_count": 8,
             "distribution": [
@@ -379,70 +395,34 @@
           "has_polyeleos": false,
           "doxology_type": "daily_read",
           "rank": "rank_simple_4",
-          "vespers_stichera_distribution": {
-            "total_count": 6,
-            "distribution": [
-              {
-                "source": "menaion",
-                "type": "saint",
-                "qty": 6
-              }
-            ],
-            "glory": "saint_doxastikon",
-            "both_now": "theotokion"
-          },
-          "matins_canon_stacking": [
-            "saint_canon_4"
-          ],
           "matins_katavasia": "theotokos_canon_october",
-          "liturgy_readings": [
-            "2_corinthians_6_1_10",
-            "luke_7_36_50"
-          ],
-          "communion_hymn": "righteous_memory"
-        }
-      },
-      "31": {
-        "title_key": "menaion.oct_31.st_josaphat",
-        "rank": "rank_simple",
-        "source_ref": "Dolnytsky_Typikon_Master.md:3.2.4",
-        "base_template": "CASE_02",
-        "variables": {
-          "vespers_readings": [
-            "wisdom_5_15_6_3",
-            "wisdom_3_1_9",
-            "wisdom_4_7_15"
-          ],
-          "litiya_stichera": "st_josaphat_litiya",
-          "matins_gospel": "john_10_9_16",
-          "liturgy_readings": [
-            "hebrews_4_14_5_6",
-            "john_10_9_16"
-          ],
-          "communion_hymn": "righteous_memory",
-          "vespers_type": "daily_vespers",
-          "matins_type": "daily_matins",
-          "liturgy_type": "liturgy_chrysostom",
-          "has_polyeleos": false,
-          "doxology_type": "daily_read",
-          "rank": "rank_simple",
           "vespers_stichera_distribution": {
             "total_count": 6,
             "distribution": [
               {
                 "source": "menaion",
-                "type": "saint",
-                "qty": 6
+                "type": "terence_neonilla",
+                "qty": 3
+              },
+              {
+                "source": "menaion",
+                "type": "paraskeva",
+                "qty": 3
               }
             ],
-            "glory": "saint_doxastikon",
+            "glory": "theotokion",
             "both_now": "theotokion"
           },
           "matins_canon_stacking": [
-            "saint_canon_6"
+            "octoechos_4",
+            "terence_canon_4",
+            "paraskeva_canon_4"
           ],
-          "matins_katavasia": "irmos_last_canon"
-        }
+          "liturgy_readings": [
+            "day_current"
+          ]
+        },
+        "multi_saint": true
       }
     }
   }

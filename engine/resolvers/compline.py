@@ -117,6 +117,10 @@ class ComplineMixin:
            - Standard Weekday: Day Troparion + Temple + God of Fathers
            - Standard Friday: Standard logic (no "God of Fathers" special handling needed usually, but check rubrics)
         """
+        v_type = (rubrics and rubrics.get("variables", {}).get("vespers_type")) or context.get("vespers_type")
+        if context.get("is_vigil") or v_type == "great_vespers_vigil":
+            return {"type": "suppressed", "reason": "Compline omitted due to All-Night Vigil", "components": []}
+
         # Determine Lenten status
         is_lent = context.get("period") == "triodion" and context.get("is_lenten_day")
         day = context.get("day_of_week")
@@ -169,6 +173,15 @@ class ComplineMixin:
                 ]
             }
 
+        # Weekday Apodosis (Dolnytsky §2.20:1753): after "It is truly meet", Kontakion of the Feast alone
+        if not day == 0 and (context.get("is_apodosis") or context.get("period") == "apodosis"):
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "festal_kontakion", "ref_key": "kont_feast"}
+                ]
+            }
+
         # Polyeleos is rank <= 3
         if not day == 0 and is_afterfeast and rank <= 3:
             return {
@@ -176,6 +189,75 @@ class ComplineMixin:
                 "components": [
                     {"type": "saint_kontakion", "ref_key": "kont_saint"},
                     {"type": "glory_both_now_feast_kontakion", "ref_key": "kont_feast_glory_both_now"}
+                ]
+            }
+        if day != 0 and (is_afterfeast or context.get("is_forefeast") or context.get("period") in ("forefeast", "afterfeast")) and context.get("date"):
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "festal_kontakion", "ref_key": "kont_feast"}
+                ]
+            }
+        if False:
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "saint_kontakion", "ref_key": "kont_saint"},
+                    {"type": "glory_both_now_feast_kontakion", "ref_key": "kont_feast_glory_both_now"}
+                ]
+            }
+
+        if day != 0 and not is_afterfeast and (rank <= 3 or context.get("has_polyeleos")):
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "saint_kontakion", "ref_key": "kont_saint"}
+                ]
+            }
+
+        if day == 0:
+            tone = context.get("octoechos_tone") or context.get("tone") or 1
+            if context.get("is_apodosis") or context.get("period") == "apodosis":
+                return {
+                    "type": "troparia_stack",
+                    "components": [
+                        {"type": "festal_kontakion", "ref_key": "Kontakion of the Feast"}
+                    ]
+                }
+            if is_afterfeast and rank <= 3:
+                return {
+                    "type": "troparia_stack",
+                    "components": [
+                        {"type": "saint_kontakion", "ref_key": "kont_saint"},
+                        {"type": "glory_both_now_feast_kontakion", "ref_key": "kont_feast_glory_both_now"}
+                    ]
+                }
+            if is_afterfeast:
+                return {
+                    "type": "troparia_stack",
+                    "components": [
+                        {"type": "sunday_hypakoe", "ref_key": f"octoechos.hypakoe.tone_{tone}", "tone": tone},
+                        {"type": "glory_both_now_feast_kontakion", "ref_key": "kont_feast_glory_both_now"}
+                    ]
+                }
+            if context.get("is_forefeast") or context.get("period") == "forefeast":
+                return {
+                    "type": "troparia_stack",
+                    "components": [
+                        {"type": "festal_kontakion", "ref_key": "Kontakion of the Forefeast"}
+                    ]
+                }
+            if rank <= 3 or context.get("has_polyeleos"):
+                return {
+                    "type": "troparia_stack",
+                    "components": [
+                        {"type": "saint_kontakion", "ref_key": "kont_saint"}
+                    ]
+                }
+            return {
+                "type": "troparia_stack",
+                "components": [
+                    {"type": "sunday_hypakoe", "ref_key": f"octoechos.hypakoe.tone_{tone}", "tone": tone}
                 ]
             }
 
@@ -199,10 +281,7 @@ class ComplineMixin:
         # A. Day Troparion
         sequence.append({
             "type": "fixed_ref",
-            "ref_key": f"octoechos.troparion.weekday.day_{day}" if day != 6 else "octoechos.troparion.resurrection.tone_2" # Sat uses Tone 2? No, check Horologion.
-            # Actually, standard Small Compline on Weekdays:
-            # 1. Troparion of the Day (Saint) OR Day of Week?
-            # Typikon says "of the weekday".
+            "ref_key": f"octoechos.troparion.weekday.day_{day}"
         })
         
         # B. Temple Troparion (if not Christ/Theotokos - logic simplified here)
@@ -316,8 +395,15 @@ class ComplineMixin:
             book = "triodion" if is_movable else "menaion"
             return {"type": "canon", "subject": "feast", "book": book, "source": "canon_feast"}
              
-        # 2. Friday Night: Canon to the Departed (Preceded by the Theotokos Canon)
-        if day == 5:
+        # 2. Friday Night (Saturday Small Compline): Canon to the Departed (Preceded by the Theotokos Canon)
+        # Dolnytsky §2.5:1189 & [^696]: Omitted when a feast of the Lord, Theotokos, or Saint with Polyeleos/Vigil falls on Saturday.
+        is_polyeleos_or_higher = (
+            context.get("rank") in (1, 2, "rank_feast_lord", "rank_feast_theotokos", "rank_vigil", "rank_polyeleos")
+            or context.get("has_polyeleos") is True
+            or context.get("dolnytsky_rank_code") in ("[POL]", "[VIGIL]", "[LORD]", "[MOG]")
+        )
+        is_departed_compline = ((day == 6) if "saints" in context else (day == 5)) and not is_polyeleos_or_higher
+        if is_departed_compline:
              return {
                  "type": "canon", 
                  "subject": "departed", 
@@ -392,7 +478,7 @@ class ComplineMixin:
         # Default
         return "small_compline"
 
-    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:4.1.7")
+    @liturgical_source(dolnytsky="Dolnytsky_Typikon_Master.md:4.1.7,L7354-7539")
     def check_day_range(self, context, week=None, days=None):
         """
         Checks if the current day falls within the specified Lenten week and days.

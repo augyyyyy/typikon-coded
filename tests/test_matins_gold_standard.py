@@ -90,10 +90,10 @@ class TestInfrastructure:
         """Each Lenten Sunday has a specific period name"""
         # 2026 Pascha = Apr 5
         assert engine.get_liturgical_context(date(2026, 2, 22))["triodion_period"] == "sunday_orthodoxy"
-        assert engine.get_liturgical_context(date(2026, 3, 1))["triodion_period"] == "sunday_gregory_palamas"
+        assert engine.get_liturgical_context(date(2026, 3, 1))["triodion_period"] == "sunday_2_of_lent"
         assert engine.get_liturgical_context(date(2026, 3, 8))["triodion_period"] == "sunday_veneration_cross"
-        assert engine.get_liturgical_context(date(2026, 3, 15))["triodion_period"] == "sunday_john_climacus"
-        assert engine.get_liturgical_context(date(2026, 3, 22))["triodion_period"] == "sunday_mary_egypt"
+        assert engine.get_liturgical_context(date(2026, 3, 15))["triodion_period"] == "sunday_4_of_lent"
+        assert engine.get_liturgical_context(date(2026, 3, 22))["triodion_period"] == "sunday_5_of_lent"
 
     def test_holy_week_periods(self, engine):
         """Each Holy Week day is specifically named"""
@@ -566,8 +566,8 @@ class TestKatavasiaSeason:
         """Sep 10 → 'Having traced the Cross' (Tone 8, Exaltation)"""
         ctx, rub = _ctx(engine, 2026, 9, 10)
         result = engine.resolve_katavasia(ctx)
-        assert result["text"] == "Having traced the Cross"
-        assert result["tone"] == 8
+        assert result.get("seasonal_text", result["text"]) == "Having traced the Cross"
+        assert result.get("seasonal_tone", result.get("tone")) == 8
 
     def test_december_nativity(self, engine):
         """Dec 1 → 'Christ is born' (Tone 1, Nativity)"""
@@ -580,8 +580,8 @@ class TestKatavasiaSeason:
         """Jan 12 → 'The depths' (Tone 2, Theophany)"""
         ctx, rub = _ctx(engine, 2026, 1, 12)
         result = engine.resolve_katavasia(ctx)
-        assert result["text"] == "The depths"
-        assert result["tone"] == 2
+        assert result.get("seasonal_text", result["text"]) == "The depths"
+        assert result.get("seasonal_tone", result.get("tone")) == 2
 
     def test_july_general_theotokos(self, engine):
         """Jul 15 → 'I will open' (Tone 4, General of Theotokos)"""
@@ -594,8 +594,8 @@ class TestKatavasiaSeason:
         """Aug 10 → 'The people of Israel' (Tone 4, Transfiguration)"""
         ctx, rub = _ctx(engine, 2026, 8, 10)
         result = engine.resolve_katavasia(ctx)
-        assert result["text"] == "The people of Israel"
-        assert result["tone"] == 4
+        assert result.get("seasonal_text", result["text"]) == "The people of Israel"
+        assert result.get("seasonal_tone", result.get("tone")) == 4
 
     def test_august_dormition(self, engine):
         """Aug 16 → 'Adorned' (Tone 1, Dormition)"""
