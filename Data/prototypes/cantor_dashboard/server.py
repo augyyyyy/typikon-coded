@@ -141,7 +141,7 @@ def load_databases():
 
     if os.path.exists(royal_doors_dir):
         for fname in sorted(os.listdir(royal_doors_dir)):
-            if fname.startswith("text_") and fname.endswith(".json"):
+            if (fname.startswith("text_") or fname == "liturgikon_ordinaries.json") and fname.endswith(".json"):
                 filepath = os.path.join(royal_doors_dir, fname)
                 try:
                     with open(filepath, "r", encoding="utf-8") as f:
@@ -151,7 +151,7 @@ def load_databases():
                                 if k == "file_metadata":
                                     continue
                                 standardized_db[k] = v
-                                key_to_file[k] = fname
+                                key_to_file[k] = "text_liturgikon.json" if fname == "liturgikon_ordinaries.json" else fname
                 except Exception as e:
                     print(f"Error loading {filepath}: {e}")
 
@@ -187,8 +187,15 @@ def normalize_text_val(val, key=""):
     if isinstance(val, dict):
         if "content" not in val and any(isinstance(v, dict) for v in val.values()):
             return _flatten_nested_triodion_day(key, val)
+        raw_content = val.get("content", "")
+        if isinstance(raw_content, dict):
+            if "text" in raw_content:
+                inner = raw_content["text"]
+                raw_content = (inner.get("en") or next(iter(inner.values()), "")) if isinstance(inner, dict) else str(inner)
+            else:
+                raw_content = raw_content.get("en") or next(iter(raw_content.values()), "")
         return {
-            "content": val.get("content", ""),
+            "content": str(raw_content or ""),
             "title": val.get("title", ""),
             "verse": val.get("verse", ""),
             "source": val.get("source", ""),
@@ -457,6 +464,15 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     try:
                         with open(filepath, "r", encoding="utf-8") as f:
                             data = json.load(f)
+                        if fname == "text_liturgikon.json":
+                            ord_path = os.path.join(target_dir, "liturgikon_ordinaries.json")
+                            if os.path.exists(ord_path):
+                                with open(ord_path, "r", encoding="utf-8") as of:
+                                    ord_data = json.load(of)
+                                if isinstance(data, dict) and isinstance(ord_data, dict):
+                                    merged = dict(data)
+                                    merged.update(ord_data)
+                                    data = merged
                         keys_list = []
                         if isinstance(data, dict):
                             for k, v in sorted(data.items()):
@@ -466,11 +482,18 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                                 title = ""
                                 if isinstance(v, dict):
                                     content = v.get("content", "")
+                                    if isinstance(content, dict):
+                                        if "text" in content:
+                                            inner = content["text"]
+                                            content = (inner.get("en") or next(iter(inner.values()), "")) if isinstance(inner, dict) else str(inner)
+                                        else:
+                                            content = content.get("en") or next(iter(content.values()), "")
                                     title = v.get("title", "")
                                     if not content:
                                         content = _extract_nested_preview(v)
                                 elif isinstance(v, str):
                                     content = v
+                                content = str(content or "")
                                 preview = content[:100] + "..." if len(content) > 100 else content
                                 keys_list.append({
                                     "key": k,
@@ -605,6 +628,13 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
 
         paschalion = query.get("paschalion", ["gregorian"])[0]
         version = query.get("version", ["stamford_2014"])[0]
+        ordinaries_recension = query.get("ordinaries_recension", [None])[0]
+        propers_recension = query.get("propers_recension", [None])[0]
+        strict_corpus_val = query.get("strict_corpus_mode", ["false"])[0]
+        strict_corpus_mode = str(strict_corpus_val).lower() in ("true", "1", "yes")
+        booklet_only_val = query.get("booklet_only", ["false"])[0]
+        booklet_only = str(booklet_only_val).lower() in ("true", "1", "yes")
+
         calendar_source = query.get("calendar_source", [None])[0]
         temple_feast = query.get("temple_feast", [None])[0]
         temple_patron = query.get("temple_patron", [None])[0]
@@ -649,31 +679,106 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     pass
 
         try:
-            # Instantiate engine
-            engine = RuthenianEngine(
-                base_dir=REPO_DIR,
-                version=version,
-                paschalion=paschalion,
-                temple_feast_date=temple_feast_date,
-                temple_patron=temple_patron,
-                temple_type=temple_type,
-                parish_profile=parish_profile,
-                calendar_source=calendar_source,
+            # O(1) Cached Engine Instance + Per-Request Single-Resolver Memoization
+            cache_map = getattr(self.__class__, "_engine_cache", None)
+            if cache_map is None:
+                cache_map = {}
+                setattr(self.__class__, "_engine_cache", cache_map)
+            engine_key = (
+                version,
+                ordinaries_recension or "",
+                propers_recension or "",
+                strict_corpus_mode,
+                paschalion,
+                calendar_source,
             )
+            engine = cache_map.get(engine_key)
+            if engine is None:
+                engine = RuthenianEngine(
+                    base_dir=REPO_DIR,
+                    version=version,
+                    paschalion=paschalion,
+                    temple_feast_date=temple_feast_date,
+                    temple_patron=temple_patron,
+                    temple_type=temple_type,
+                    parish_profile=parish_profile,
+                    calendar_source=calendar_source,
+                    ordinaries_recension=ordinaries_recension,
+                    propers_recension=propers_recension,
+                    strict_corpus_mode=strict_corpus_mode,
+                )
+                cache_map[engine_key] = engine
+            else:
+                engine.temple_feast_date = temple_feast_date
+                engine.temple_patron = temple_patron
+                engine.temple_type = temple_type
+                engine.parish_profile = parish_profile or {}
+                raw_ord = ordinaries_recension or version
+                raw_prop = propers_recension or version
+                engine.ordinaries_recension = engine.version_map.get(raw_ord, raw_ord) if hasattr(engine, "version_map") else raw_ord
+                engine.propers_recension = engine.version_map.get(raw_prop, raw_prop) if hasattr(engine, "version_map") else raw_prop
+                engine.strict_corpus_mode = strict_corpus_mode
+                engine.trace_log = []
 
-            # Resolve
+            # Resolve day context & rubrics once (O(1)), then project across all 3 panels (O(n))
             context = engine.get_liturgical_context(target_date)
-
             rubrics = engine.resolve_rubrics(context)
-            booklet = engine.generate_full_booklet(context, rubrics, include_ceremonial=include_ceremonial)
-            digest = engine.generate_typikon_digest(context, rubrics, mode=digest_mode)
-            fasting = engine.resolve_fasting_rule(context)
 
-            # Resolve daily ceremonial context
-            vestment = engine.resolve_vestment_color(context, rubrics)
-            prostrations_info = engine.resolve_prostrations_rule(context)
-            clergy_variant = engine.resolve_clergy_variant(context, service="liturgy")
-            katavasia = engine.resolve_katavasia(context)
+            memo_Popup = {}
+            orig_fns = {}
+            for m_name in dir(engine):
+                if not m_name.startswith("resolve_") or m_name in ("resolve_rubrics", "resolve_service_title"):
+                    continue
+                orig_fn = getattr(engine, m_name, None)
+                if callable(orig_fn):
+                    orig_fns[m_name] = orig_fn
+
+                    def _make_memo(name, fn):
+                        def _wrapped(ctx_arg, *a, **kw):
+                            k = (
+                                name,
+                                ctx_arg.get("is_small_vespers") if isinstance(ctx_arg, dict) else None,
+                                repr(a),
+                                repr(sorted(kw.items())),
+                            )
+                            if k not in memo_Popup:
+                                memo_Popup[k] = fn(ctx_arg, *a, **kw)
+                            import copy
+                            return copy.deepcopy(memo_Popup[k])
+                        import functools
+                        return functools.wraps(fn)(_wrapped)
+
+                    setattr(engine, m_name, _make_memo(m_name, orig_fn))
+
+            try:
+                booklet = engine.generate_full_booklet(context, rubrics, include_ceremonial=include_ceremonial)
+                if booklet_only:
+                    recension_meta = {
+                        "version": engine.version,
+                        "ordinaries_recension": engine.ordinaries_recension,
+                        "propers_recension": engine.propers_recension,
+                        "strict_corpus_mode": engine.strict_corpus_mode,
+                        "split_recensions": bool(
+                            ordinaries_recension and propers_recension and ordinaries_recension != propers_recension
+                        ),
+                    }
+                    self.send_json_response({
+                        "booklet": booklet,
+                        "recension_meta": recension_meta,
+                    })
+                    return
+
+                digest = engine.generate_typikon_digest(context, rubrics, mode=digest_mode)
+                fasting = engine.resolve_fasting_rule(context)
+
+                # Resolve daily ceremonial context
+                vestment = engine.resolve_vestment_color(context, rubrics)
+                prostrations_info = engine.resolve_prostrations_rule(context)
+                clergy_variant = engine.resolve_clergy_variant(context, service="liturgy")
+                katavasia = engine.resolve_katavasia(context)
+            finally:
+                for m_name, orig_fn in orig_fns.items():
+                    setattr(engine, m_name, orig_fn)
             seasonal_repertoire = resolve_seasonal_repertoire(target_date, context)
 
             # Make context JSON serializable
@@ -709,6 +814,15 @@ class CantorDashboardHandler(http.server.SimpleHTTPRequestHandler):
                     "vestment": vestment,
                     "prostrations": prostrations_info,
                     "clergy_variant": clergy_variant,
+                },
+                "recension_meta": {
+                    "version": engine.version,
+                    "ordinaries_recension": engine.ordinaries_recension,
+                    "propers_recension": engine.propers_recension,
+                    "strict_corpus_mode": engine.strict_corpus_mode,
+                    "split_recensions": bool(
+                        ordinaries_recension and propers_recension and ordinaries_recension != propers_recension
+                    ),
                 },
                 "seasonal_repertoire": seasonal_repertoire,
                 "rubrics": {

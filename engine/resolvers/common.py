@@ -1373,8 +1373,13 @@ class CommonResolverMixin:
                  "type": "festal_katavasia",
                  "katavasia_id": "katavasia_eucharist",
                  "id": "katavasia_eucharist",
+                 "seasonal_katavasia_id": "katavasia_eucharist",
+                 "seasonal_text": "The bread of heaven He gave them",
+                 "seasonal_tone": 5,
                  "text": "The bread of heaven He gave them",
                  "tone": 5,
+                 "season_label": "Solemnity of the Most Holy Eucharist",
+                 "citation": "Dolnytsky Typikon Part IV §2.23 & Part V p. 273",
                  "frequency": "after_each_ode",
                  "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9]
              }
@@ -1388,9 +1393,16 @@ class CommonResolverMixin:
                   if kat_id != "seasonal_katavasia":
                       tone = 4
                       text = "Seasonal Katavasia"
-                      if "cheesefare" in kat_id:
+                      seas_text = None
+                      seas_tone = None
+                      freq = "after_each_ode"
+                      odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                      if "cheesefare" in kat_id or "triodion" in kat_id:
                            tone = 6
                            text = "When Israel passed on foot"
+                      elif "meatfare" in kat_id:
+                           tone = 6
+                           text = "He is my helper and protector"
                       elif "orthodoxy" in kat_id:
                            tone = 4
                            text = "Israel of old crossed the depth"
@@ -1400,18 +1412,39 @@ class CommonResolverMixin:
                       elif "lazarus" in kat_id:
                            tone = 8
                            text = "Having crossed the water"
-                      elif "theotokos" in kat_id:
+                      elif "meeting" in kat_id or "encounter" in kat_id:
+                           tone = 3
+                           text = "The dry land"
+                      elif "pascha" in kat_id:
+                           tone = 1
+                           text = "The Resurrection Day"
+                      elif "ascension" in kat_id:
+                           tone = 4
+                           text = "Covered by the divine cloud"
+                      elif "theotokos" in kat_id or "annunciation" in kat_id:
                            tone = 4
                            text = "I will open my mouth"
+                      elif kat_id == "irmos_last_canon":
+                           text = "Irmos of the last canon"
+                           seas_text = "The dry land"
+                           seas_tone = 3
+                           tone = 3
+                           freq = "limited_odes"
+                           odes = [3, 6, 8, 9]
                       
                       return {
                           "type": "triodion_katavasia",
                           "katavasia_id": kat_id,
                           "id": kat_id,
+                          "seasonal_katavasia_id": kat_id,
+                          "seasonal_text": seas_text or text,
+                          "seasonal_tone": seas_tone if seas_tone is not None else tone,
                           "text": text,
                           "tone": tone,
-                          "frequency": "after_each_ode",
-                          "after_odes": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                          "season_label": "Triodion / Festal Collision Override",
+                          "citation": "Dolnytsky Typikon Part V",
+                          "frequency": freq,
+                          "after_odes": odes
                       }
         
         from engine.utils.type_utils import parse_rank_integer
@@ -1458,10 +1491,22 @@ class CommonResolverMixin:
             seas_id = "i_will_open_my_mouth"
             seas_text = "I will open my mouth"
             seas_tone = 4
+            season_label = "General of the Theotokos"
             if is_meeting_window:
                 seas_id = "katavasia_meeting"
                 seas_text = "The dry land"
                 seas_tone = 3
+                season_label = "Encounter of the Lord (Jan 15 – Feb 9)"
+            elif self.katavasia_seasons and pascha_offset is not None and 0 <= pascha_offset <= 59:
+                for rule in self.katavasia_seasons.get("movable", []):
+                    if rule["offset_start"] <= pascha_offset <= rule["offset_end"]:
+                        seas_id = rule.get("katavasia_id") or f"katavasia_{rule['feast'].lower().replace(' ', '_').replace('-', '_').replace('.', '')}"
+                        if rule['feast'] in ["General of Theotokos", "General"]:
+                            seas_id = "i_will_open_my_mouth"
+                        seas_text = rule["katavasia"]
+                        seas_tone = rule["tone"]
+                        season_label = f"{rule['feast']} ({rule.get('note', 'Movable Cycle')})"
+                        break
             elif self.katavasia_seasons and m is not None and d is not None:
                 for rule in self.katavasia_seasons.get("immovable", []):
                     sm, sd = rule["start_month"], rule["start_day"]
@@ -1472,6 +1517,7 @@ class CommonResolverMixin:
                             seas_id = "i_will_open_my_mouth"
                         seas_text = rule["katavasia"]
                         seas_tone = rule["tone"]
+                        season_label = f"{rule['feast']} ({sm}/{sd} – {em}/{ed})"
                         break
             # Dolnytsky §2.14:1550, 1554: On afterfeast weekdays with a saint without Polyeleos,
             # Katavasia is after Odes 3, 6, 8, 9 (Heirmos of the saint / last canon).
@@ -1483,6 +1529,8 @@ class CommonResolverMixin:
                 "seasonal_text": seas_text,
                 "seasonal_tone": seas_tone,
                 "text": "Heirmos of the last canon",
+                "season_label": season_label,
+                "citation": "Dolnytsky Typikon Part I §11, Part II §2.14 & Part V",
                 "frequency": "limited_odes",
                 "after_odes": [3, 6, 8, 9]
             }
@@ -1530,6 +1578,7 @@ class CommonResolverMixin:
         kat_id = "i_will_open_my_mouth"
         text = "I will open my mouth"
         tone = 4
+        season_label = "General of the Theotokos"
         found = False
 
         # Check Meeting overlap exception first:
@@ -1541,6 +1590,7 @@ class CommonResolverMixin:
                 kat_type = "triodion_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "Meatfare Sunday (Triodion Override)"
                 found = True
             elif season == 'meeting_season' or day_of_week == 0 or rank <= 3 or is_afterfeast or is_feast:
                 kat_id = "katavasia_meeting"
@@ -1549,6 +1599,7 @@ class CommonResolverMixin:
                 kat_type = "festal_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "Encounter of the Lord (Jan 15 – Feb 9)"
                 found = True
 
         # Check Triodion Movable Katavasiae (if not handled by Meeting exception)
@@ -1560,6 +1611,7 @@ class CommonResolverMixin:
                 kat_type = "triodion_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "Meatfare Sunday"
                 found = True
             elif pascha_offset == -63:
                 kat_id = "katavasia_prodigal_son"
@@ -1568,6 +1620,7 @@ class CommonResolverMixin:
                 kat_type = "triodion_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "Sunday of the Prodigal Son"
                 found = True
             elif pascha_offset == -49:
                 kat_id = "katavasia_cheesefare"
@@ -1576,6 +1629,7 @@ class CommonResolverMixin:
                 kat_type = "triodion_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "Cheesefare Sunday"
                 found = True
             elif pascha_offset == -42:
                 kat_id = "katavasia_orthodoxy"
@@ -1584,6 +1638,7 @@ class CommonResolverMixin:
                 kat_type = "triodion_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "1st Sunday of Lent (Sunday of Orthodoxy)"
                 found = True
             elif pascha_offset == -28:
                 kat_id = "katavasia_cross"
@@ -1592,6 +1647,7 @@ class CommonResolverMixin:
                 kat_type = "triodion_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "3rd Sunday of Lent (Veneration of the Cross)"
                 found = True
             elif pascha_offset == -8:
                 kat_id = "katavasia_lazarus"
@@ -1600,6 +1656,7 @@ class CommonResolverMixin:
                 kat_type = "triodion_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "Lazarus Saturday"
                 found = True
             elif pascha_offset == -7:
                 kat_id = "katavasia_palm_sunday"
@@ -1608,6 +1665,7 @@ class CommonResolverMixin:
                 kat_type = "festal_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "Palm Sunday"
                 found = True
             elif -6 <= pascha_offset <= -1:
                 kat_id = "katavasia_passion_week"
@@ -1616,6 +1674,7 @@ class CommonResolverMixin:
                 kat_type = "triodion_katavasia"
                 frequency = "after_each_ode"
                 after_odes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                season_label = "Great and Holy Week"
                 found = True
 
         # Check Pentecostarion and Movables from JSON
@@ -1627,6 +1686,7 @@ class CommonResolverMixin:
                         kat_id = "i_will_open_my_mouth"
                     text = rule["katavasia"]
                     tone = rule["tone"]
+                    season_label = f"{rule['feast']} ({rule.get('note', 'Movable Cycle')})"
                     found = True
                     break
 
@@ -1642,8 +1702,18 @@ class CommonResolverMixin:
                         kat_id = "i_will_open_my_mouth"
                     text = rule["katavasia"]
                     tone = rule["tone"]
+                    season_label = f"{rule['feast']} ({sm}/{sd} – {em}/{ed})"
                     found = True
                     break
+
+        if kat_type == 'paschal_katavasia' and not found:
+             kat_id = "katavasia_pascha"
+             text = "The Resurrection Day"
+             tone = 1
+        elif season == 'meeting_season' and not found:
+             kat_id = "katavasia_meeting"
+             text = "The dry land"
+             tone = 3
 
         seasonal_kat_id = kat_id
         seasonal_text = text
@@ -1653,14 +1723,6 @@ class CommonResolverMixin:
         if kat_type == 'lenten_katavasia':
              kat_id = "irmos_last_canon"
              text = "Irmos of the last canon"
-        elif kat_type == 'paschal_katavasia' and not found:
-             kat_id = "katavasia_pascha"
-             text = "The Resurrection Day"
-             tone = 1
-        elif season == 'meeting_season' and not found:
-             kat_id = "katavasia_meeting"
-             text = "The dry land"
-             tone = 3
 
         return {
             "type": kat_type,
@@ -1671,6 +1733,8 @@ class CommonResolverMixin:
             "seasonal_tone": seasonal_tone,
             "text": text,
             "tone": tone,
+            "season_label": season_label,
+            "citation": "Dolnytsky Typikon Part I §11 & Parts IV–V",
             "frequency": frequency,
             "after_odes": after_odes
         }

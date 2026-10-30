@@ -52,25 +52,6 @@ class VespersFormatterMixin:
         ]
         return "\n\n".join(l for l in lines if l.strip())
 
-    def _format_resolve_passion_vespers_readings(self, res, context):
-        if not res:
-            return ""
-        parts = []
-        if "prokeimenon" in res:
-            parts.append(f"Prokeimenon: {res['prokeimenon']['text']}")
-        for i in (1, 2, 3):
-            k = f"paremia_{i}"
-            if k in res:
-                parts.append(f"Paremia {i}: {res[k]['book']} {res[k]['chapter']}")
-        if "epistle" in res:
-            parts.append(f"Epistle: {res['epistle']['book']} {res['epistle']['chapter']}")
-        if "alleluia" in res:
-            parts.append(f"Alleluia: {res['alleluia']['text']}")
-        if "gospel" in res:
-            parts.append(f"Gospel: {res['gospel']['content']} ({', '.join(res['gospel']['sources'])})")
-        return "\n".join(parts)
-
-
     def _format_resolve_small_vespers_prokeimenon(self, res, context):
         if not res:
             return ""

@@ -987,6 +987,7 @@ class DigestGeneratorBase:
     def generate(self, context, rubrics, mode="full"):
         self.mode = mode
         self._liturgy_readings_printed = False
+        self._cached_liturgy_readings = None
         self._matins_canon_printed = False
         self._communion_hymn_printed = False
         if mode == "full":
@@ -1062,6 +1063,7 @@ class DigestGeneratorBase:
         self._seen_katavasias = set()
         self._matins_canon_printed = False
         self._liturgy_readings_printed = False
+        self._cached_liturgy_readings = None
         digest = []
 
         # Resolve general case variables first and merge them
@@ -1483,24 +1485,6 @@ class DigestGeneratorBase:
                     root_id = matins_override
 
             struct_file = service["file"]
-            if "hours_type" in service["type_key"]:
-                var_hours = rubrics.get("variables", {}).get("hours_type", "")
-                is_royal = "royal" in var_hours or (hasattr(self.engine, "check_royal_hours_trigger") and self.engine.check_royal_hours_trigger(context))
-                if is_royal:
-                    root_id = "structure_royal"
-                    struct_file = "json_db/01k_struct_royal_hours.json"
-                    
-                    hour_map = {
-                        "First Hour": 1,
-                        "Third Hour": 3,
-                        "Sixth Hour": 6,
-                        "Ninth Hour": 9
-                    }
-                    context["hour"] = hour_map.get(service_name, 1)
-                elif "lenten" in var_hours:
-                    root_id = "structure_lenten"
-                elif "paschal" in var_hours:
-                    root_id = "structure_paschal"
 
             if service_name == "Midnight Office":
                 pascha_off = context.get("pascha_offset")
@@ -2947,7 +2931,9 @@ class DigestGeneratorBase:
                     if is_weekday and is_simple:
                         if not getattr(self, "_liturgy_readings_printed", False):
                             try:
-                                res = self.engine.resolve_liturgy_readings(enriched, rubrics)
+                                if getattr(self, "_cached_liturgy_readings", None) is None:
+                                    self._cached_liturgy_readings = self.engine.resolve_liturgy_readings(enriched, rubrics)
+                                res = copy.deepcopy(self._cached_liturgy_readings)
                                 if res and res.get("readings"):
                                     readings_list = res["readings"]
                                     r = readings_list[0]
@@ -3067,7 +3053,9 @@ class DigestGeneratorBase:
                         continue
                         
                     try:
-                        res = self.engine.resolve_liturgy_readings(enriched, rubrics)
+                        if getattr(self, "_cached_liturgy_readings", None) is None:
+                            self._cached_liturgy_readings = self.engine.resolve_liturgy_readings(enriched, rubrics)
+                        res = copy.deepcopy(self._cached_liturgy_readings)
                         if res and res.get("readings"):
                             def get_ref_label_local(ref_key, fallback_default):
                                 if not ref_key or ref_key.strip().lower() in ("", "gospel", "epistle", "prokeimenon", "alleluia", "apostol", "evangelion", "weekday", "sunday", "day"):
@@ -3731,6 +3719,9 @@ class DigestGeneratorBase:
                 digest.append(f"[ERROR: Logic resolver {actual_func_name} is not permitted in structure {active_structure}]")
                 return
         
+        if actual_func_name == "resolve_katavasia":
+            return
+
         if not hasattr(self.engine, actual_func_name):
             # Known internal checking hooks that do not yield instructions
             if actual_func_name in ("check_service_type", "check_gospel_service", "resolve_canon_ode_troparion"):

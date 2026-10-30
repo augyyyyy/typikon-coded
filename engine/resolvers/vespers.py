@@ -1898,7 +1898,13 @@ class VespersMixin:
             rank_val in (1, 2) or
             rank_id in ("rank_vigil", "rank_vigil_lord", "rank_vigil_theotokos", "rank_polyeleos") or
             context.get("is_temple_feast") or
-            context.get("menaion_class") in ("Class I — Great Feast", "Class II — Vigil")
+            (
+                context.get("menaion_class") in ("Class I — Great Feast", "Class II — Vigil")
+                and not (
+                    pascha_offset == 7
+                    and (not context.get("saints") or context.get("dolnytsky_title") == "Antipascha: Sunday of St. Thomas")
+                )
+            )
         )
         is_great_feast_day = (
             context.get("feast_level") in ("lord", "theotokos") and

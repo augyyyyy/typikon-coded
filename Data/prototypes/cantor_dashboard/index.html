@@ -40,7 +40,7 @@
                 <button id="theme-toggle-btn" class="theme-toggle">
                     <span class="toggle-icon">🌙</span> Dark Mode
                 </button>
-                <div class="recension-badge">Stamford Recension</div>
+                <div class="recension-badge" id="sidebar-recension-badge">Stamford Recension</div>
             </div>
         </aside>
 
@@ -93,11 +93,12 @@
                             </div>
                         </div>
                         <div class="settings-group">
-                            <label for="opt-version" class="settings-label">Recension Source Assets:</label>
+                            <label for="opt-version" class="settings-label">Recension Source Assets (2010 Lviv Typikon Rubrics):</label>
                             <select id="opt-version" class="select-input">
                                 <option value="stamford_2014" selected>Stamford Divine Office (2014)</option>
-                                <option value="lviv">Lviv Typikon (2010)</option>
+                                <option value="royal_doors">Royal Doors (UGCC Standardized)</option>
                                 <option value="st_sergius">St. Sergius Recension</option>
+                                <option value="sheptytsky_2021">Sheptytsky Institute (2021)</option>
                             </select>
                         </div>
                         <div class="settings-group">
@@ -246,6 +247,45 @@
                                                 <option value="Hours">Hours</option>
                                                 <option value="Divine Liturgy">Divine Liturgy</option>
                                             </select>
+
+                                            <!-- Center Panel Modular Recension Hot-Swap Controls -->
+                                            <div class="booklet-recension-toolbar" id="booklet-recension-toolbar">
+                                                <label for="booklet-recension-select" class="recension-toolbar-label" id="lbl-booklet-recension">Recension:</label>
+                                                <select id="booklet-recension-select" class="select-input recension-select-sm" title="Hot-swap Cantor Service Booklet text recension in place (2010 Lviv Typikon rubrics locked)">
+                                                    <option value="stamford_2014" selected>Stamford 2014</option>
+                                                    <option value="royal_doors">Royal Doors</option>
+                                                    <option value="st_sergius">St. Sergius</option>
+                                                    <option value="sheptytsky_2021">Sheptytsky 2021</option>
+                                                </select>
+
+                                                <label class="recension-toggle-pill" title="Independently select Ordinaries (Horologion/Liturgikon) and Propers (Octoechos/Menaion/Triodion/Pentecostarion) recensions">
+                                                    <input type="checkbox" id="chk-split-recension">
+                                                    <span>Split Ord/Prop</span>
+                                                </label>
+
+                                                <div class="split-recension-controls hidden" id="split-recension-controls">
+                                                    <label for="booklet-ordinaries-select" class="recension-sub-label">Ord:</label>
+                                                    <select id="booklet-ordinaries-select" class="select-input recension-select-sm" title="Ordinaries Recension (Horologion & Liturgikon)">
+                                                        <option value="stamford_2014" selected>Stamford 2014</option>
+                                                        <option value="royal_doors">Royal Doors</option>
+                                                        <option value="st_sergius">St. Sergius</option>
+                                                        <option value="sheptytsky_2021">Sheptytsky 2021</option>
+                                                    </select>
+                                                    <label for="booklet-propers-select" class="recension-sub-label">Prop:</label>
+                                                    <select id="booklet-propers-select" class="select-input recension-select-sm" title="Propers Recension (Octoechos, Menaion, Triodion, Pentecostarion)">
+                                                        <option value="stamford_2014" selected>Stamford 2014</option>
+                                                        <option value="royal_doors">Royal Doors</option>
+                                                        <option value="st_sergius">St. Sergius</option>
+                                                        <option value="sheptytsky_2021">Sheptytsky 2021</option>
+                                                    </select>
+                                                </div>
+
+                                                <label class="recension-toggle-pill" title="Disable cross-recension fallback to audit gaps in the selected corpus">
+                                                    <input type="checkbox" id="chk-strict-corpus">
+                                                    <span>Strict Corpus</span>
+                                                </label>
+                                            </div>
+
                                             <div class="font-zoom-controls" title="Text Zoom Controls">
                                                 <button class="btn btn-secondary btn-sm font-btn" id="btn-font-dec" title="Decrease Text Size">A−</button>
                                                 <button class="btn btn-secondary btn-sm font-btn font-reset-btn" id="btn-font-reset" title="Reset Text Size">100%</button>
@@ -286,6 +326,7 @@
                                                     <option value="Matins">Matins</option>
                                                     <option value="Hours">Hours</option>
                                                     <option value="Divine Liturgy">Divine Liturgy</option>
+                                                    <option value="Synodal Footnotes">Synodal Footnotes &amp; Notes</option>
                                                 </select>
                                                 <button class="btn btn-secondary btn-sm copy-btn" id="btn-copy-digest" data-clipboard-source="service-digest-content" style="margin-left: auto;">Copy Rubrics</button>
                                             </div>

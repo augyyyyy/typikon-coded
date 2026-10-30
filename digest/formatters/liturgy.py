@@ -48,30 +48,6 @@ class LiturgyFormatterMixin:
         return "\n".join(lines)
 
 
-    def _format_resolve_beatitudes(self, res, context):
-        if not res:
-            return ""
-        note = res.get("note", "Beatitudes")
-        stichera_parts = []
-        for s in res.get("stichera", []):
-            stichera_parts.append(f"{s.get('count')} from {self.humanize_key(s.get('source'))}")
-        if stichera_parts:
-            return f"Beatitudes: {note} ({', '.join(stichera_parts)})"
-        return f"Beatitudes: {note}"
-
-
-    def _format_resolve_basil_megalynarion(self, res, context):
-        if not res:
-            return ""
-        rubric = res.get("rubric")
-        if rubric:
-            return f"Basil Megalynarion: {rubric} ({self.humanize_key(res.get('ref_key'))})"
-        text = res.get("text")
-        if text:
-            return f"Basil Megalynarion: {text}"
-        return f"Basil Megalynarion: {self.humanize_key(res.get('ref_key'))}"
-
-
     def _format_resolve_presanctified_readings(self, res, context):
         if not res:
             return ""
@@ -752,16 +728,6 @@ class LiturgyFormatterMixin:
                     return ""
                 return f"**Trisagion:** *{self.humanize_key(ref_key)}*."
         return ""
-
-
-    def _format_resolve_royal_readings(self, res, context):
-        if not res: return ""
-        components = res.get("components", [])
-        parts = []
-        for c in components:
-            ref = c.get("ref_key", "")
-            parts.append(self.humanize_key(ref))
-        return f"Royal Readings: {'; '.join(parts)}."
 
 
     def _format_resolve_cherubic_hymn(self, res, context):

@@ -84,6 +84,50 @@ LEGACY_KEY_ALIASES = {
     "horologion.trisagion_block": "horologion.common.trisagion_block",
 }
 
+EXTENDED_KEY_ALIASES = {
+    "components.prothesis_rite": "liturgikon.prothesis_rite",
+    "components.great_entrance_rite": "liturgikon.great_entrance_rite",
+    "components.communion_rite": "liturgikon.communion_rite",
+    "prothesis_rite": "liturgikon.prothesis_rite",
+    "great_entrance_rite": "liturgikon.great_entrance_rite",
+    "communion_rite": "liturgikon.communion_rite",
+    "typical_psalms": "liturgikon.antiphons.typical_psalms",
+    "weekday_antiphons": "liturgikon.antiphons.weekday_antiphons",
+    "festal_antiphons": "liturgikon.antiphons.festal_antiphons",
+    "horologion.only_begotten": "horologion.common.only_begotten",
+    "only_begotten": "horologion.common.only_begotten",
+    "trisagion_standard": "liturgikon.trisagion_standard",
+    "horologion.trisagion": "liturgikon.trisagion_standard",
+    "as_many_as_baptized": "liturgikon.as_many_as_baptized",
+    "as_many_baptized": "liturgikon.as_many_as_baptized",
+    "before_thy_cross": "liturgikon.before_thy_cross",
+    "cherubic_hymn_standard": "liturgikon.cherubic_hymn_standard",
+    "cherubic_hymn_holy_thursday": "liturgikon.cherubic_hymn_holy_thursday",
+    "cherubic_hymn_holy_saturday": "liturgikon.cherubic_hymn_holy_saturday",
+    "cherubic_hymn_presanctified": "liturgikon.cherubic_hymn_presanctified",
+    "anaphora_chrysostom": "liturgikon.anaphora_chrysostom",
+    "anaphora_basil": "liturgikon.anaphora_basil",
+    "ambo_prayer": "liturgikon.ambo_prayer",
+    "blessing_kingdom": "liturgikon.blessing_kingdom",
+    "litanies_catechumens": "liturgikon.litanies_catechumens",
+    "in_thee_rejoiceth": "liturgikon.in_thee_rejoiceth",
+    "horologion.in_thee_rejoiceth": "liturgikon.in_thee_rejoiceth",
+    "paschal_zadostoinyk": "liturgikon.paschal_zadostoinyk",
+    "we_have_seen_true_light": "liturgikon.we_have_seen_true_light",
+    "horologion.psalm_50": "horologion.matins.psalm_50",
+    "horologion.magnificat": "horologion.matins.magnificat",
+    "horologion.dismissal_full": "horologion.common.dismissal_full",
+    "horologion.dismissal_great": "horologion.common.dismissal_great",
+    "horologion.dismissal_small": "horologion.common.dismissal_small",
+    "triodion.presanctified.opening": "liturgikon.blessing_kingdom",
+    "triodion.let_my_prayer_arise": "liturgikon.let_my_prayer_arise",
+    "triodion.now_the_powers": "liturgikon.cherubic_hymn_presanctified",
+    "triodion.communion_presanctified": "liturgikon.communion.presanctified",
+    "triodion.dismissal_presanctified": "liturgikon.dismissal_presanctified",
+    "liturgikon.litanies_catechumens_presanctified": "liturgikon.litanies_catechumens",
+    "horologion.litany_before_communion": "liturgikon.litany_before_communion",
+}
+
 ATOMIC_CORPUS_HUB_ALIASES = {
     "horologion.common.creed": "ORD.PRIM.CREED",
     "horologion.common.axion_estin": "ORD.PRIM.MORE_HONORABLE",
@@ -108,11 +152,43 @@ ATOMIC_CORPUS_HUB_ALIASES = {
     "horologion.dismissal_full": "ORD.PRIM.DAILY_MAJOR_DISMISSAL",
     "horologion.dismissal_great": "ORD.PRIM.DAILY_MAJOR_DISMISSAL",
     "horologion.dismissal_small": "ORD.PRIM.MINOR_DISMISSAL",
+    "horologion.common.dismissal_full": "ORD.PRIM.DAILY_MAJOR_DISMISSAL",
+    "horologion.common.dismissal_great": "ORD.PRIM.DAILY_MAJOR_DISMISSAL",
+    "horologion.common.dismissal_small": "ORD.PRIM.MINOR_DISMISSAL",
     "horologion.only_begotten": "LIT.PRIM.O_MONOGENES",
+    "horologion.common.only_begotten": "LIT.PRIM.O_MONOGENES",
+    "only_begotten": "LIT.PRIM.O_MONOGENES",
     "horologion.protection_christians": "ORD.PRIM.STEADFAST_PROTECTRESS",
     "liturgikon.ambo_prayer": "LIT.PRIM.AMBO_PRAYER",
     "liturgikon.blessing_kingdom": "LIT.PRIM.KINGDOM_BLESSING",
     "liturgikon.litanies_catechumens": "LIT.PRIM.LITANY_OF_CATECHUMENS",
+    "triodion.presanctified.opening": "LIT.PRIM.KINGDOM_BLESSING",
+    "liturgikon.litanies_catechumens_presanctified": "LIT.PRIM.LITANY_OF_CATECHUMENS",
+    "triodion.now_the_powers": "PROP.TRIOD.CHERUBIC_PRESANCTIFIED",
+    "liturgikon.cherubic_hymn_presanctified": "PROP.TRIOD.CHERUBIC_PRESANCTIFIED",
+    "cherubic_hymn_presanctified": "PROP.TRIOD.CHERUBIC_PRESANCTIFIED",
+    "menaion.0908.troparion": "MEN.0908.TROPARION.APOLYTIKION",
+    "menaion.09_08.troparion": "MEN.0908.TROPARION.APOLYTIKION",
+    "menaion.0908.liturgy.troparion": "MEN.0908.TROPARION.APOLYTIKION",
+    "octoechos.dogmatikon_tone_2": "OCT.T2.SAT_VESP.LIC.DOGMATIKON",
+    "tone_2.sat_vespers.dogmatikon": "OCT.T2.SAT_VESP.LIC.DOGMATIKON",
+    "tone_2.sat_vespers.stichera_resurrection_1": "OCT.T2.SAT_VESP.LIC.STICHERON_1",
+    "tone_3.sat_vespers.stichera_resurrection_1": "OCT.T3.SAT_VESP.LIC.STICHERON_1",
+}
+
+_JSON_FILE_CACHE = {}
+_ASSETS_DIR_CACHE = {}
+_ATOMIC_CORPUS_CACHE = {}
+
+RECENSION_DISPLAY_LABELS = {
+    "royal_doors": "Royal Doors",
+    "royal_doors_web": "Royal Doors",
+    "stamford_2014": "Stamford 2014",
+    "stamford": "Stamford 2014",
+    "st_sergius": "St. Sergius",
+    "sheptytsky_2021": "Sheptytsky 2021",
+    "sheptytsky_printed": "Sheptytsky 2021",
+    "lviv": "Lviv",
 }
 
 
@@ -156,8 +232,16 @@ class TextDBMixin:
                 
             if not os.path.exists(abs_path):
                  return {}
-            with open(abs_path, 'r', encoding='utf-8') as f:
-                return json.load(f)
+            stat = os.stat(abs_path)
+            cache_key = (abs_path, stat.st_mtime)
+            if cache_key not in _JSON_FILE_CACHE:
+                with open(abs_path, 'r', encoding='utf-8') as f:
+                    _JSON_FILE_CACHE[cache_key] = json.load(f)
+            cached = _JSON_FILE_CACHE[cache_key]
+            # Deep-copy small mutable logic files (< 256 KB); shallow-copy large asset dictionaries
+            if stat.st_size < 262144:
+                return copy.deepcopy(cached)
+            return dict(cached) if isinstance(cached, dict) else list(cached)
         except Exception as e:
             print(f"ERROR loading JSON {path_to_json}: {e}")
             return {}
@@ -168,11 +252,60 @@ class TextDBMixin:
         path = os.path.join(self.json_db, self.content_folder, filename)
         if not os.path.exists(path):
              return {}
-        try:
-            with open(path, 'r', encoding='utf-8') as f: return json.load(f)
-        except Exception as e:
-            print(f"ERROR loading {filename}: {e}")
-            return {}
+        return self._load_json(path)
+
+
+    def _load_recension_book_shards(self, rec_dir, combined_db, ordinaries_db, propers_db, recension_key):
+        """
+        Loads modular per-book JSON shards from a recension assets directory (`rec_dir`).
+        Preserves canonical load order first (so supplements overlay base files), then auto-discovers
+        any additional `text_*.json` shards in the directory, classifying each shard into
+        `ordinaries` (Horologion / Liturgikon) vs. `propers` (Octoechos / Menaion / Triodion / Pentecostarion).
+        """
+        abs_dir = os.path.abspath(os.path.join(self.base_dir, rec_dir))
+        if not os.path.exists(abs_dir):
+            return
+        canonical_order = [
+            "text_horologion.json",
+            "text_horologion_supplement.json",
+            "text_liturgikon.json",
+            "text_menaion.json",
+            "text_eothinon.json",
+            "text_octoechos.json",
+            "text_pentecostarion.json",
+            "text_triodion.json",
+            "text_lenten_triodion.json",
+            "text_floral_triodion.json",
+            "text_weekdays.json",
+            "text_theotokia.json",
+        ]
+        existing_files = [
+            f for f in sorted(os.listdir(abs_dir))
+            if f.endswith(".json") and f != "text_general_menaion.json"
+        ]
+        ordered_files = [f for f in canonical_order if f in existing_files] + [
+            f for f in existing_files if f not in canonical_order
+        ]
+        shard_registry = self.recension_book_shards.setdefault(recension_key, {})
+        for fname in ordered_files:
+            rel_path = f"{rec_dir}/{fname}"
+            data = self._load_json(rel_path)
+            if not isinstance(data, dict):
+                continue
+            combined_db.update(data)
+            lower_name = fname.lower()
+            is_ordinary = ("horologion" in lower_name) or ("liturgikon" in lower_name)
+            domain = "ordinaries" if is_ordinary else "propers"
+            if is_ordinary:
+                ordinaries_db.update(data)
+            else:
+                propers_db.update(data)
+            book_key = fname.replace("text_", "").replace(".json", "")
+            shard_registry[book_key] = {
+                "domain": domain,
+                "file": fname,
+                "count": len(data),
+            }
 
 
     def _load_external_assets(self, asset_path, label="External"):
@@ -218,41 +351,31 @@ class TextDBMixin:
 
         if specific_path:
              # Direct load mode
-             if os.path.isabs(specific_path):
-                 abs_path = specific_path
-             else:
-                 abs_path = os.path.abspath(os.path.join(self.base_dir, specific_path))
-                 
-             if os.path.exists(abs_path):
-                 try:
-                     with open(abs_path, 'r', encoding='utf-8') as f:
-                         data = json.load(f)
-                         
-                     if isinstance(data, dict):
-                         target_db.update(data)
-                         # print(f"Engine: Loaded {len(data)} items from {specific_path}")
-                 except Exception as e:
-                     print(f"Engine: Error loading {specific_path}: {e}")
-             else:
-                 pass
-                 # print(f"Warning: File not found {specific_path}")
+             data = self._load_json(specific_path)
+             if isinstance(data, dict):
+                 target_db.update(data)
              return
 
+        assets_base = os.path.abspath(os.path.join(self.base_dir, "assets", self.content_folder))
+        if not os.path.exists(assets_base):
+            print(f"Warning: Assets directory not found: {assets_base}")
+            return
+
+        if assets_base in _ASSETS_DIR_CACHE:
+            cached_assets = _ASSETS_DIR_CACHE[assets_base]
+            target_db.update(cached_assets)
+            print(f"Engine: Loaded {len(cached_assets)} assets from {assets_base}")
+            return
+
         # Load ID map first
-        id_map_path = os.path.join(self.base_dir, "assets", self.content_folder, "_id_map.json")
+        id_map_path = os.path.join(assets_base, "_id_map.json")
         id_map = {}
         if os.path.exists(id_map_path):
             with open(id_map_path, 'r', encoding='utf-8') as f:
                 id_map = json.load(f)
         
-        # Scan assets directory
-        assets_base = os.path.join(self.base_dir, "assets", self.content_folder)
-        
-        if not os.path.exists(assets_base):
-            print(f"Warning: Assets directory not found: {assets_base}")
-            return
-        
         # Recursively load all JSON assets
+        loaded_assets = {}
         count = 0
         for root, dirs, files in os.walk(assets_base):
             for file in files:
@@ -270,11 +393,12 @@ class TextDBMixin:
                             file_hash = os.path.splitext(file)[0]
                             asset_id = id_map.get(file_hash, file_hash)
                         
-                        target_db[asset_id] = asset_data
+                        loaded_assets[asset_id] = asset_data
                         count += 1
                     except Exception as e:
                         print(f"Error loading {asset_path}: {e}")
-        
+        _ASSETS_DIR_CACHE[assets_base] = loaded_assets
+        target_db.update(loaded_assets)
         print(f"Engine: Loaded {count} assets from {assets_base}")
 
 
@@ -292,6 +416,14 @@ class TextDBMixin:
         if not os.path.exists(corpus_path):
             return
         try:
+            stat = os.stat(corpus_path)
+            cache_key = (corpus_path, stat.st_mtime)
+            if cache_key in _ATOMIC_CORPUS_CACHE:
+                cached_db, cached_aliases = _ATOMIC_CORPUS_CACHE[cache_key]
+                self.atomic_corpus_db = dict(cached_db)
+                self.atomic_corpus_aliases = dict(cached_aliases)
+                return
+
             with open(corpus_path, "r", encoding="utf-8") as f:
                 master_data = json.load(f)
             entries = master_data.get("entries", {})
@@ -322,12 +454,27 @@ class TextDBMixin:
             for legacy_key, new_key in LEGACY_KEY_ALIASES.items():
                 if new_key in self.atomic_corpus_aliases:
                     self.atomic_corpus_aliases.setdefault(legacy_key, self.atomic_corpus_aliases[new_key])
+            for ext_key, new_key in EXTENDED_KEY_ALIASES.items():
+                if new_key in self.atomic_corpus_aliases:
+                    self.atomic_corpus_aliases.setdefault(ext_key, self.atomic_corpus_aliases[new_key])
+            for skip_alias in (
+                "horologion.litany_great",
+                "horologion.vespers.great_litany",
+                "horologion.litany_fervent",
+                "horologion.vespers.fervent_litany",
+                "menaion.0914.troparion",
+                "menaion.09_14.troparion",
+                "menaion.0914.liturgy.troparion",
+                "menaion.0914.vespers.troparion",
+            ):
+                self.atomic_corpus_aliases.pop(skip_alias, None)
+            _ATOMIC_CORPUS_CACHE[cache_key] = (dict(self.atomic_corpus_db), dict(self.atomic_corpus_aliases))
         except Exception as e:
             print(f"Warning: Failed to load Shared Atomic Corpus at {corpus_path}: {e}")
 
     @staticmethod
     def _is_stub_record(val) -> bool:
-        """Returns True if a text database entry contains an unhydrated '[STUB]' placeholder."""
+        """Returns True if a text database entry contains an unhydrated '[STUB]' placeholder or '[GAP' marker."""
         if not val:
             return False
         if isinstance(val, dict):
@@ -337,7 +484,23 @@ class TextDBMixin:
             raw_str = str(raw)
         else:
             raw_str = str(val)
-        return bool(re.search(r'(\[STUB\]|\bSTUB:)', raw_str, re.IGNORECASE))
+        return bool(re.search(r'(\[STUB\]|\bSTUB:|\[GAP_|\[UNPOPULATED)', raw_str, re.IGNORECASE))
+
+    @staticmethod
+    def _is_unpopulated_gap(val) -> bool:
+        """Returns True only if a record is empty or an unpopulated '[GAP_...]' marker without text."""
+        if not val:
+            return True
+        if isinstance(val, dict):
+            raw = val.get("content", val.get("text", ""))
+            if isinstance(raw, dict):
+                raw = raw.get("text", raw.get("en", ""))
+            raw_str = str(raw).strip()
+        else:
+            raw_str = str(val).strip()
+        if not raw_str:
+            return True
+        return bool(re.search(r'(\[GAP_|\[UNPOPULATED)', raw_str, re.IGNORECASE))
 
     @staticmethod
     def _normalize_ugcc_text(text: str) -> str:
@@ -375,32 +538,525 @@ class TextDBMixin:
         text = re.sub(r'\banabathmoi\b', _repl_anab, text, flags=re.IGNORECASE)
         return text.strip() if text.startswith(" ") else text
 
+    def _classify_key_domain(self, text_id: str) -> str:
+        """
+        Classifies a liturgical key into 'ordinaries' (Horologion / Liturgikon / Ordinarium)
+        vs. 'propers' (Octoechos / Menaion / Triodion / Pentecostarion / General Menaion),
+        consulting the loaded per-book domain shard dictionaries first.
+        """
+        if not text_id:
+            return "propers"
+        raw_tid = str(text_id).strip()
+        tid = raw_tid
+        if tid in LEGACY_KEY_ALIASES:
+            tid = LEGACY_KEY_ALIASES[tid]
+        if tid in EXTENDED_KEY_ALIASES:
+            tid = EXTENDED_KEY_ALIASES[tid]
+
+        ord_dbs = (
+            getattr(self, "royal_doors_ordinaries_db", None),
+            getattr(self, "stamford_ordinaries_db", None),
+            getattr(self, "st_sergius_ordinaries_db", None),
+            getattr(self, "sheptytsky_ordinaries_db", None),
+        )
+        prop_dbs = (
+            getattr(self, "royal_doors_propers_db", None),
+            getattr(self, "stamford_propers_db", None),
+            getattr(self, "st_sergius_propers_db", None),
+            getattr(self, "sheptytsky_propers_db", None),
+        )
+        in_ord = any(isinstance(d, dict) and (tid in d or raw_tid in d) for d in ord_dbs if d)
+        in_prop = any(isinstance(d, dict) and (tid in d or raw_tid in d) for d in prop_dbs if d)
+        if in_ord:
+            return "ordinaries"
+        if in_prop:
+            return "propers"
+
+        if tid.startswith(("horologion.", "liturgikon.", "ORD.", "HOR.", "LIT.", "components.")):
+            return "ordinaries"
+        return "propers"
+
+    def _resolve_from_atomic_corpus(self, text_id: str, target_rec: str):
+        """
+        Resolves a differentiated recension witness from the 4-Shard Shared Atomic Corpus
+        (`self.atomic_corpus_db`) if present and non-stubbed for `target_rec`.
+        """
+        if not hasattr(self, "atomic_corpus_db") or not self.atomic_corpus_db:
+            return None
+        canon_id = LEGACY_KEY_ALIASES.get(text_id, EXTENDED_KEY_ALIASES.get(text_id, text_id))
+        sid = None
+        is_direct_sid = False
+        if text_id in self.atomic_corpus_db:
+            sid = text_id
+            is_direct_sid = True
+        elif canon_id in self.atomic_corpus_db:
+            sid = canon_id
+            is_direct_sid = True
+        elif hasattr(self, "atomic_corpus_aliases"):
+            sid = self.atomic_corpus_aliases.get(text_id) or self.atomic_corpus_aliases.get(canon_id)
+        if not sid:
+            return None
+        entry_rec = self.atomic_corpus_db.get(sid)
+        if not entry_rec:
+            return None
+
+        witnesses = entry_rec.get("recension_witnesses") or {}
+        norm_rec = (target_rec or "royal_doors").lower()
+        is_explicit_hub_alias = (text_id in ATOMIC_CORPUS_HUB_ALIASES) or (canon_id in ATOMIC_CORPUS_HUB_ALIASES)
+
+        if is_direct_sid or entry_rec.get("gap_marker") or norm_rec in ("royal_doors", "lviv", "atomic_corpus"):
+            raw_text = entry_rec.get("content")
+            if raw_text and (entry_rec.get("gap_marker") or not self._is_stub_record(raw_text)):
+                out = copy.deepcopy(entry_rec)
+                out["id"] = text_id
+                out["content"] = raw_text
+                out["recension_resolved"] = "royal_doors" if norm_rec not in ("lviv", "stamford_2014", "stamford") else ("lviv" if norm_rec == "lviv" else "stamford_2014")
+                return out
+            return None
+
+        if norm_rec in ("stamford_2014", "stamford"):
+            if is_explicit_hub_alias:
+                raw_text = entry_rec.get("content")
+                if raw_text and not self._is_stub_record(raw_text):
+                    out = copy.deepcopy(entry_rec)
+                    out["id"] = text_id
+                    out["content"] = raw_text
+                    out["recension_resolved"] = "stamford_2014"
+                    return out
+            for w_key in ("stamford_2014", "stamford_or_1988_source"):
+                w_obj = witnesses.get(w_key)
+                if isinstance(w_obj, dict) and w_obj.get("text") and not self._is_stub_record(w_obj.get("text")):
+                    out = copy.deepcopy(entry_rec)
+                    out["id"] = text_id
+                    out["content"] = w_obj["text"]
+                    w_src = w_obj.get("source") or "Stamford 2014"
+                    out["source"] = w_src if "Shared Atomic Corpus" in w_src else f"{w_src} (Shared Atomic Corpus)"
+                    out["recension_resolved"] = "stamford_2014"
+                    return out
+            return None
+
+        if norm_rec == "st_sergius":
+            w_obj = witnesses.get("st_sergius")
+            if isinstance(w_obj, dict) and w_obj.get("text") and not self._is_stub_record(w_obj.get("text")):
+                out = copy.deepcopy(entry_rec)
+                out["id"] = text_id
+                out["content"] = w_obj["text"]
+                w_src = w_obj.get("source") or "St. Sergius"
+                out["source"] = w_src if "Shared Atomic Corpus" in w_src else f"{w_src} (Shared Atomic Corpus)"
+                out["recension_resolved"] = "st_sergius"
+                return out
+            return None
+
+        if norm_rec in ("sheptytsky_2021", "sheptytsky", "sheptytsky_printed"):
+            w_obj = witnesses.get("sheptytsky_2021")
+            if isinstance(w_obj, dict) and w_obj.get("text") and not self._is_stub_record(w_obj.get("text")):
+                out = copy.deepcopy(entry_rec)
+                out["id"] = text_id
+                out["content"] = w_obj["text"]
+                out["source"] = w_obj.get("source") or "Sheptytsky Institute Academic Translation"
+                out["recension_resolved"] = "sheptytsky_2021"
+                return out
+            return None
+
+        return None
+
+    def _expand_st_sergius_candidate_keys(self, text_id: str) -> list:
+        """
+        Maps standard engine keys (`tone_1.sat_vespers.stichera_resurrection`,
+        `octoechos.tone_1.saturday_vespers.stichera_resurrection_1`,
+        `menaion.09_08.vespers.stichera_lord_i_call`, etc.) to St. Sergius corpus key conventions.
+        """
+        cands = [text_id]
+        canon = LEGACY_KEY_ALIASES.get(text_id, EXTENDED_KEY_ALIASES.get(text_id, text_id))
+        if canon not in cands:
+            cands.append(canon)
+
+        # Tone mapping: support both 3-part and 4-part tone keys
+        m_tone = re.match(
+            r"^(?:octoechos\.)?tone_(\d+)\.(?:sunday\.)?([a-z0-9_]+)\.([a-z0-9_]+)$",
+            text_id,
+        )
+        if m_tone:
+            t_num, svc, slot = m_tone.groups()
+            svc_map = {
+                "sat_vespers": "vespers",
+                "saturday_vespers": "vespers",
+                "vespers": "vespers",
+                "sun_matins": "matins",
+                "sunday_matins": "matins",
+                "matins": "matins",
+                "liturgy": "liturgy",
+            }
+            s_norm = svc_map.get(svc, svc)
+
+            # Check for numbered resurrection stichera (1..7)
+            m_stich_num = re.match(r"^(?:stichera_resurrection|stichera_lord_i_call)_v?(\d+)$", slot)
+            if m_stich_num:
+                n = int(m_stich_num.group(1))
+                if n <= 3:
+                    cands.append(f"tone_{t_num}.sat_vespers_great.stichera_lord_i_call_{n}")
+                elif n == 4:
+                    cands.append(f"tone_{t_num}.sat_vespers_great.stichera_lord_i_call_anatolius")
+                else:
+                    cands.append(f"tone_{t_num}.sat_vespers_great.stichera_lord_i_call_anatolius_{n - 3}")
+
+            slot_variants = [slot]
+            if slot in ("stichera_resurrection", "stichera_lord_i_call"):
+                slot_variants = ["stichera_lord_i_call_1", "stichera_lord_i_call", "stichera_resurrection"]
+            elif slot in ("stichera_aposticha", "aposticha_resurrection", "aposticha"):
+                slot_variants = ["stichera_aposticha_1", "aposticha", "stichera_aposticha"]
+            elif slot in ("troparia", "troparion_resurrection", "troparion"):
+                slot_variants = ["troparion_1", "troparion", "troparia"]
+            elif slot in ("theotokion", "dogmatikon"):
+                slot_variants = ["stichera_lord_i_call_dogmatic", "dogmatikon", "theotokion"]
+            for sv in slot_variants:
+                cands.append(f"tone_{t_num}.sat_vespers_great.{sv}")
+                cands.append(f"octoechos.tone_{t_num}.{s_norm}.{sv}")
+                cands.append(f"tone_{t_num}.{svc}.{sv}")
+
+        # Menaion mapping: menaion.0908.* <-> menaion.09_08.*
+        m_men = re.match(r"^menaion\.(\d{2})_?(\d{2})\.(.+)$", text_id)
+        if m_men:
+            mm, dd, rest = m_men.groups()
+            cands.append(f"menaion.{mm}_{dd}.{rest}")
+            cands.append(f"menaion.{mm}{dd}.{rest}")
+            if rest in ("vespers.stichera_lord_i_call", "stichera_lord_i_call"):
+                cands.append(f"menaion.{mm}_{dd}.sat_vespers_great.stichera_lord_i_call_1")
+                cands.append(f"menaion.{mm}_{dd}.vespers.stichera_lord_i_call_1")
+            if "." not in rest:
+                cands.append(f"menaion.{mm}_{dd}.vespers.{rest}")
+                cands.append(f"menaion.{mm}_{dd}.sat_vespers_great.{rest}_1")
+                cands.append(f"menaion.{mm}_{dd}.liturgy.{rest}")
+                cands.append(f"menaion.{mm}_{dd}.matins.{rest}")
+
+        seen = set()
+        dedup = []
+        for k in cands:
+            if k not in seen:
+                seen.add(k)
+                dedup.append(k)
+        return dedup
+
+    def _expand_symbolic_slot_key(self, text_id: str, context: dict) -> list:
+        """
+        Expands symbolic resolver slot keys (e.g., `troparion_resurrection`, `theotokion_resurrection`,
+        `troparion_day_of_week`, `theotokion_daily`, `troparion_feast`, `kontakion_feast`)
+        into concrete corpus keys using `context`.
+        """
+        if not context or not text_id:
+            return []
+        tone = context.get("tone") or 1
+        dow = context.get("day_of_week")
+        day_names = {0: "sunday", 1: "monday", 2: "tuesday", 3: "wednesday", 4: "thursday", 5: "friday", 6: "saturday"}
+        day_name = day_names.get(dow, "monday")
+
+        dt = context.get("date")
+        mm_dd = None
+        mmdd = None
+        if dt:
+            if hasattr(dt, "month") and hasattr(dt, "day"):
+                mm_dd = f"{dt.month:02d}_{dt.day:02d}"
+                mmdd = f"{dt.month:02d}{dt.day:02d}"
+            elif isinstance(dt, str) and len(dt) >= 10:
+                parts = dt.split("-")
+                if len(parts) >= 3:
+                    try:
+                        mm_dd = f"{int(parts[1]):02d}_{int(parts[2]):02d}"
+                        mmdd = f"{int(parts[1]):02d}{int(parts[2]):02d}"
+                    except Exception:
+                        pass
+
+        expanded = []
+        if text_id in ("troparion_resurrection", "resurrection_troparion"):
+            expanded.extend([
+                f"tone_{tone}.sat_vespers.troparia",
+                f"octoechos.tone_{tone}.vespers.troparion",
+                f"octoechos.troparion_tone_{tone}",
+            ])
+        elif text_id in (
+            "theotokion_resurrection",
+            "theotokion_dismissal_resurrection",
+            "theotokion_sunday_by_tone",
+            "theotokion_aposticha_sunday_in_tone_of_doxastikon",
+            "theotokion_aposticha_sunday_in_tone_of_doxastikon_else_current_tone",
+            "theotokion_after_doxastikon",
+            "theotokion_horologion_or_octoechos",
+        ):
+            expanded.extend([
+                f"theotokia.dismissal_sunday_tone_{tone}",
+                f"tone_{tone}.sat_vespers.theotokion",
+                f"octoechos.dogmatikon_tone_{tone}",
+            ])
+        elif text_id in ("theotokion_daily", "theotokion_weekday"):
+            expanded.extend([
+                f"theotokia.dismissal_weekday_{day_name}",
+                f"tone_{tone}.sat_vespers.theotokion",
+            ])
+        elif text_id == "troparion_day_of_week":
+            expanded.append(f"weekdays.{day_name}.troparion")
+        elif text_id == "kontakion_day_of_week":
+            expanded.append(f"weekdays.{day_name}.kontakion")
+        elif text_id in ("troparion_feast", "trop_feast", "troparion_saint", "trop_saint", "troparion_saint_if_any", "troparion_forefeast", "trop_forefeast"):
+            if mm_dd:
+                expanded.extend([
+                    f"menaion.{mm_dd}.troparion",
+                    f"menaion.{mmdd}.troparion",
+                    f"menaion.{mmdd}.liturgy.troparion",
+                    f"menaion.{mm_dd}.vespers.troparion",
+                ])
+        elif text_id in ("kontakion_feast", "kont_feast", "kontakion_saint", "kont_saint", "kontakion_saint_if_any", "kontakion_forefeast", "kont_forefeast"):
+            if mm_dd:
+                expanded.extend([
+                    f"menaion.{mm_dd}.kontakion",
+                    f"menaion.{mmdd}.kontakion",
+                    f"menaion.{mmdd}.liturgy.kontakion",
+                    f"menaion.{mm_dd}.matins.kontakion",
+                ])
+        elif text_id in ("stichera_feast", "stichera_saint", "stichera_forefeast", "stichera_afterfeast"):
+            if mm_dd:
+                expanded.extend([
+                    f"menaion.{mm_dd}.vespers.stichera_lord_i_call",
+                    f"menaion.{mm_dd}.stichera_vespers",
+                    f"menaion.{mmdd}.vespers.stichera_vespers",
+                ])
+        elif text_id in ("doxastikon_feast", "feast_doxastikon", "doxastikon_saint", "saint_doxastikon", "doxastikon_forefeast"):
+            if mm_dd:
+                expanded.extend([
+                    f"menaion.{mm_dd}.vespers.stichera_lord_i_call_glory",
+                    f"menaion.{mm_dd}.vespers.doxastikon",
+                    f"menaion.{mmdd}.vespers.doxastikon",
+                ])
+        elif text_id in ("aposticha_feast", "aposticha_saint", "aposticha_forefeast", "aposticha_afterfeast"):
+            if mm_dd:
+                expanded.extend([
+                    f"menaion.{mm_dd}.vespers.aposticha",
+                    f"menaion.{mmdd}.vespers.aposticha",
+                ])
+        return expanded
+
+    @staticmethod
+    def _resolve_cantorial_directive(text_id: str, context: dict = None):
+        """
+        Distinguishes Psalter Kathisma references (`horologion.kathisma_1..20`, `kathisma_1..20`)
+        and Biblical Lectionary pericope citations (`wisdom_3_1_9`, `isaiah_*`, `proverbs_*`, etc.)
+        from true unpopulated hymn/prayer corpus gaps, returning a clean cantorial rubric directive.
+        """
+        if not text_id:
+            return None
+        tid = str(text_id).strip().lower()
+        tail = tid.split(".")[-1]
+
+        # 1. Psalter Kathisma Directives
+        m_kath = re.match(r"^(?:horologion\.)?kathisma_(\d+)$", tid)
+        if m_kath:
+            k_num = int(m_kath.group(1))
+            psalm_ranges = {
+                1: "Psalms 1–8", 2: "Psalms 9–16", 3: "Psalms 17–23", 4: "Psalms 24–31",
+                5: "Psalms 32–36", 6: "Psalms 37–45", 7: "Psalms 46–54", 8: "Psalms 55–63",
+                9: "Psalms 64–69", 10: "Psalms 70–76", 11: "Psalms 77–84", 12: "Psalms 85–90",
+                13: "Psalms 91–100", 14: "Psalms 101–104", 15: "Psalms 105–108", 16: "Psalms 109–117",
+                17: "Psalm 118", 18: "Psalms 119–133 (Songs of Ascent)", 19: "Psalms 134–142", 20: "Psalms 143–150",
+            }
+            p_range = psalm_ranges.get(k_num, f"Kathisma {k_num}")
+            return {
+                "id": text_id,
+                "title": f"Kathisma {k_num} ({p_range})",
+                "rubric": f"Cantorial Directive — Psalter Kathisma {k_num} ({p_range})",
+                "content": f"Read Kathisma {k_num} ({p_range}) from the Psalter (3 Stases with Small Litanies as prescribed by the Typikon).",
+                "source": "Psalter Rubric Directive",
+                "is_cantorial_directive": True,
+                "is_missing": False,
+            }
+        if tail == "kathisma_psalm":
+            return {
+                "id": text_id,
+                "title": "Appointed Kathisma of the Psalter",
+                "rubric": "Cantorial Directive — Psalter Kathisma",
+                "content": "Read the appointed Kathisma from the Psalter according to the day of the week and season.",
+                "source": "Psalter Rubric Directive",
+                "is_cantorial_directive": True,
+                "is_missing": False,
+            }
+
+        # 2. Biblical Pericope / Prophetologion / Lectionary References
+        biblical_books = {
+            "genesis": "Genesis",
+            "exodus": "Exodus",
+            "leviticus": "Leviticus",
+            "numbers": "Numbers",
+            "deuteronomy": "Deuteronomy",
+            "joshua": "Joshua",
+            "judges": "Judges",
+            "1_kings": "1 Kings (3 Kingdoms)",
+            "2_kings": "2 Kings (4 Kingdoms)",
+            "1_chronicles": "1 Chronicles",
+            "2_chronicles": "2 Chronicles",
+            "job": "Job",
+            "proverbs": "Proverbs",
+            "wisdom": "Wisdom of Solomon",
+            "isaiah": "the Prophecy of Isaiah",
+            "jeremiah": "the Prophecy of Jeremiah",
+            "ezekiel": "the Prophecy of Ezekiel",
+            "daniel": "the Prophecy of Daniel",
+            "joel": "the Prophecy of Joel",
+            "jonah": "the Prophecy of Jonah",
+            "micah": "the Prophecy of Micah",
+            "zephaniah": "the Prophecy of Zephaniah",
+            "zechariah": "the Prophecy of Zechariah",
+            "malachi": "the Prophecy of Malachi",
+            "acts": "the Acts of the Apostles",
+            "romans": "St. Paul's Epistle to the Romans",
+            "1_corinthians": "St. Paul's First Epistle to the Corinthians",
+            "2_corinthians": "St. Paul's Second Epistle to the Corinthians",
+            "galatians": "St. Paul's Epistle to the Galatians",
+            "ephesians": "St. Paul's Epistle to the Ephesians",
+            "philippians": "St. Paul's Epistle to the Philippians",
+            "colossians": "St. Paul's Epistle to the Colossians",
+            "1_thessalonians": "St. Paul's First Epistle to the Thessalonians",
+            "2_thessalonians": "St. Paul's Second Epistle to the Thessalonians",
+            "1_timothy": "St. Paul's First Epistle to Timothy",
+            "2_timothy": "St. Paul's Second Epistle to Timothy",
+            "titus": "St. Paul's Epistle to Titus",
+            "hebrews": "the Epistle to the Hebrews",
+            "james": "the Universal Epistle of St. James",
+            "1_peter": "the First Universal Epistle of St. Peter",
+            "2_peter": "the Second Universal Epistle of St. Peter",
+            "1_john": "the First Universal Epistle of St. John",
+            "jude": "the Universal Epistle of St. Jude",
+            "matthew": "the Holy Gospel according to St. Matthew",
+            "mark": "the Holy Gospel according to St. Mark",
+            "luke": "the Holy Gospel according to St. Luke",
+            "john": "the Holy Gospel according to St. John",
+        }
+        for prefix, book_title in biblical_books.items():
+            if tail == prefix or tail.startswith(f"{prefix}_"):
+                rest = tail[len(prefix):].strip("_")
+                nums = [p for p in rest.split("_") if p.isdigit()]
+                if len(nums) == 3:
+                    ref_cite = f" ({nums[0]}:{nums[1]}–{nums[2]})"
+                elif len(nums) == 4:
+                    ref_cite = f" ({nums[0]}:{nums[1]}–{nums[2]}:{nums[3]})"
+                elif len(nums) == 2:
+                    ref_cite = f" ({nums[0]}:{nums[1]})"
+                elif len(nums) == 1:
+                    ref_cite = f" {nums[0]}"
+                elif rest:
+                    ref_cite = f" ({rest.replace('_', ' ').title()})"
+                else:
+                    ref_cite = ""
+                return {
+                    "id": text_id,
+                    "title": f"Reading from {book_title}{ref_cite}",
+                    "rubric": f"Lectionary Directive — {book_title}{ref_cite}",
+                    "content": f"Reading from {book_title}{ref_cite} from the Lectionary / Prophetologion.",
+                    "source": "Lectionary Rubric Directive",
+                    "is_cantorial_directive": True,
+                    "is_missing": False,
+                }
+
+        # 3. Lenten Triodion / Prophetologion Lectionary Keys (e.g., triodion.genesis.week_1.day_3, menaion.*.readings_1)
+        m_lenten_lec = re.match(
+            r"^triodion\.(genesis|exodus|job|proverbs|isaiah|wisdom|ezekiel|jeremiah)\.week_(\d+)\.day_(\d+)$",
+            tid,
+        )
+        if m_lenten_lec:
+            b_key, wk, dy = m_lenten_lec.groups()
+            book_title = biblical_books.get(b_key, b_key.title())
+            day_names = {
+                "0": "Sunday", "1": "Monday", "2": "Tuesday", "3": "Wednesday",
+                "4": "Thursday", "5": "Friday", "6": "Saturday", "7": "Sunday",
+            }
+            day_label = day_names.get(dy, f"Day {dy}")
+            ref_cite = f" (Week {wk} of Great Lent, {day_label})"
+            return {
+                "id": text_id,
+                "title": f"Reading from {book_title}{ref_cite}",
+                "rubric": f"Prophetologion Directive — {book_title}{ref_cite}",
+                "content": f"Reading from {book_title}{ref_cite} from the Lenten Prophetologion.",
+                "source": "Lectionary Rubric Directive",
+                "is_cantorial_directive": True,
+                "is_missing": False,
+            }
+
+        m_paremia = re.match(r"^(?:([a-z0-9_]+)_)?(?:readings|paremia)_(\d+)$", tail)
+        if m_paremia:
+            prefix_label, num_str = m_paremia.groups()
+            ord_label = f"Paremia Reading {num_str}"
+            if prefix_label:
+                clean_prefix = prefix_label.replace("_", " ").title()
+                ord_label = f"{clean_prefix} Readings {num_str} ({ord_label})"
+            return {
+                "id": text_id,
+                "title": ord_label,
+                "rubric": f"Lectionary Directive — {ord_label}",
+                "content": f"Read {ord_label} appointed for the Feast/Saint from the Lectionary / Prophetologion.",
+                "source": "Lectionary Rubric Directive",
+                "is_cantorial_directive": True,
+                "is_missing": False,
+            }
+
+        return None
+
 
     def get_text(self, text_id, logic_requirement=None, context=None):
         """
         Public accessor for text_db.
-        Implements hierarchical fallback:
-          0. Shared Atomic Key-Value Liturgical Corpus (self.atomic_corpus_db)
-          1. Selected Recension DB (e.g. st_sergius_db, lviv_db if present)
-          2. Stamford base recension (self.text_db)
-          3. General Menaion fallback (self.general_menaion_db)
-          4. Humanized missing placeholder
+        Implements domain-aware recension resolution ('ordinaries' vs. 'propers') and deterministic fallback:
+          0. Custom in-memory overlay (`context['custom_overlay']`)
+          1. Selected Active Recension for domain (via Shared Atomic Corpus witness + modular recension DB)
+          2. Deterministic Fallback Chain (unless `strict_corpus_mode` is True):
+             Selected Recension -> Royal Doors -> Stamford 2014 -> General Menaion (for minor saints)
+          3. Psalter / Biblical Lectionary Cantorial Directive handler
+          4. Structured Unresolved Canonical Gap (`is_missing=True`, `canonical_gap_badge`)
         """
         item = None
-        recension = context.get("recension") if context else None
+        explicit_recension = context.get("recension") if context else None
+        strict_mode = bool(
+            (context and context.get("strict_corpus_mode"))
+            or getattr(self, "strict_corpus_mode", False)
+        )
+        domain = self._classify_key_domain(text_id)
+
+        # Determine active target recension for this key's domain (Ordinaries vs. Propers)
+        if context and domain == "ordinaries" and context.get("ordinaries_recension"):
+            active_rec = self.version_map.get(context["ordinaries_recension"], context["ordinaries_recension"])
+        elif context and domain == "propers" and context.get("propers_recension"):
+            active_rec = self.version_map.get(context["propers_recension"], context["propers_recension"])
+        elif explicit_recension:
+            # If split recensions are configured on the engine and context.recension is just the default version_id,
+            # respect the engine's domain split
+            ord_eng = getattr(self, "ordinaries_recension", getattr(self, "version_id", "royal_doors"))
+            prop_eng = getattr(self, "propers_recension", getattr(self, "version_id", "royal_doors"))
+            if ord_eng != prop_eng and explicit_recension == getattr(self, "version_id", None):
+                active_rec = ord_eng if domain == "ordinaries" else prop_eng
+            else:
+                active_rec = self.version_map.get(explicit_recension, explicit_recension) if hasattr(self, "version_map") else explicit_recension
+        else:
+            if domain == "ordinaries":
+                active_rec = getattr(self, "ordinaries_recension", getattr(self, "version_id", "royal_doors"))
+            else:
+                active_rec = getattr(self, "propers_recension", getattr(self, "version_id", "royal_doors"))
 
         def db_get(db, key):
             if not db:
                 return None
             val = db.get(key)
+            if not val and key in LEGACY_KEY_ALIASES:
+                val = db.get(LEGACY_KEY_ALIASES[key])
+            if not val and key in EXTENDED_KEY_ALIASES:
+                val = db.get(EXTENDED_KEY_ALIASES[key])
             if not val:
                 for legacy, new_alias in LEGACY_KEY_ALIASES.items():
                     if new_alias == key:
                         val = db.get(legacy)
                         if val:
                             break
-            if not val and key in LEGACY_KEY_ALIASES:
-                val = db.get(LEGACY_KEY_ALIASES[key])
+            if not val:
+                for ext_k, new_alias in EXTENDED_KEY_ALIASES.items():
+                    if new_alias == key:
+                        val = db.get(ext_k)
+                        if val:
+                            break
             return val
 
         language = context.get("language", "en") if context else "en"
@@ -440,6 +1096,8 @@ class TextDBMixin:
                 verses = []
                 for it in indexed_items:
                     part = it.get("content", "")
+                    if isinstance(part, dict):
+                        part = part.get("en") or part.get("text") or ""
                     if "verse" in it:
                         v = it['verse']
                         part = f"Verse: {v}\n{part}"
@@ -458,28 +1116,184 @@ class TextDBMixin:
                 }
             return None
 
-        # Helper: Look up key in specified recension database
-        def lookup_recension(target_rec):
-            # Enforce language boundaries to prevent language collision bug
+        # Helper: Look up key in a specific recension tier (Atomic Corpus Witness + Modular Shards)
+        def lookup_in_recension_tier(target_rec, candidate_key):
+            # Enforce language boundaries to prevent language collision bug on legacy comparison DBs
             if language == "en" and target_rec in ["stamford_printed", "stamford_web_2026"]:
                 return None
             if language == "uk" and target_rec in ["sheptytsky_printed", "royal_doors_web"]:
                 return None
 
+            # 1. Legacy web/printed comparison DBs (when explicitly requested)
+            if target_rec in ("sheptytsky_printed", "stamford_printed", "royal_doors_web", "stamford_web_2026"):
+                if target_rec == "royal_doors_web" and language == "en" and year and hasattr(self, "royal_doors_drift_db") and self.royal_doors_drift_db:
+                    dt = context.get("date") if context else None
+                    mm_dd = None
+                    if dt:
+                        if hasattr(dt, "month") and hasattr(dt, "day"):
+                            mm_dd = f"{dt.month:02d}_{dt.day:02d}"
+                        elif isinstance(dt, str) and len(dt) >= 10:
+                            parts = dt.split("-")
+                            if len(parts) >= 3:
+                                try:
+                                    mm_dd = f"{int(parts[1]):02d}_{int(parts[2]):02d}"
+                                except Exception:
+                                    pass
+                    if mm_dd:
+                        parts = candidate_key.split(".")
+                        if len(parts) >= 3:
+                            element_key = ".".join(parts[2:])
+                            pairs = self.royal_doors_drift_db.get((mm_dd, element_key))
+                            if pairs:
+                                for pair in pairs:
+                                    if year in pair.get("years1", []):
+                                        return {
+                                            "id": candidate_key,
+                                            "content": pair.get("text1", ""),
+                                            "source": f"Royal Doors Web Drift ({year})"
+                                        }
+                                    elif year in pair.get("years2", []):
+                                        return {
+                                            "id": candidate_key,
+                                            "content": pair.get("text2", ""),
+                                            "source": f"Royal Doors Web Drift ({year})"
+                                        }
+                db_attr = f"{target_rec}_db"
+                db = getattr(self, db_attr, None)
+                if db:
+                    res = db_get(db, candidate_key)
+                    if res and not self._is_stub_record(res):
+                        return copy.deepcopy(res)
+                    seq = compile_sequential_text(db, candidate_key, target_rec.replace("_", " ").title())
+                    if seq:
+                        return seq
+                return None
+
+            # 2. Primary Modular Recensions: royal_doors, stamford_2014, st_sergius, sheptytsky_2021, lviv
+            if target_rec == "royal_doors":
+                canon_k = LEGACY_KEY_ALIASES.get(candidate_key, EXTENDED_KEY_ALIASES.get(candidate_key, candidate_key))
+                is_hub_alias = (candidate_key in ATOMIC_CORPUS_HUB_ALIASES) or (canon_k in ATOMIC_CORPUS_HUB_ALIASES) or (hasattr(self, "atomic_corpus_aliases") and (candidate_key in self.atomic_corpus_aliases or canon_k in self.atomic_corpus_aliases))
+                rd_domain_db = getattr(self, f"royal_doors_{domain}_db", None)
+                rd_direct = (db_get(self.royal_doors_db, candidate_key) if hasattr(self, "royal_doors_db") else None) or (db_get(rd_domain_db, candidate_key) if rd_domain_db else None)
+                if rd_direct and not self._is_stub_record(rd_direct) and not is_hub_alias:
+                    return copy.deepcopy(rd_direct)
+                atom_res = self._resolve_from_atomic_corpus(candidate_key, "royal_doors")
+                if atom_res:
+                    return atom_res
+                if rd_direct and not self._is_unpopulated_gap(rd_direct):
+                    return copy.deepcopy(rd_direct)
+                if hasattr(self, "royal_doors_db") and self.royal_doors_db:
+                    seq = compile_sequential_text(self.royal_doors_db, candidate_key, "Royal Doors")
+                    if seq:
+                        return seq
+                if rd_domain_db:
+                    seq_dom = compile_sequential_text(rd_domain_db, candidate_key, "Royal Doors")
+                    if seq_dom:
+                        return seq_dom
+                if hasattr(self, "royal_doors_web_db") and self.royal_doors_web_db and language == "en":
+                    web_res = db_get(self.royal_doors_web_db, candidate_key)
+                    if web_res and not self._is_unpopulated_gap(web_res):
+                        return copy.deepcopy(web_res)
+                return None
+
+            if target_rec in ("stamford_2014", "stamford"):
+                canon_k = LEGACY_KEY_ALIASES.get(candidate_key, EXTENDED_KEY_ALIASES.get(candidate_key, candidate_key))
+                is_hub_alias = (candidate_key in ATOMIC_CORPUS_HUB_ALIASES) or (canon_k in ATOMIC_CORPUS_HUB_ALIASES) or (hasattr(self, "atomic_corpus_aliases") and (candidate_key in self.atomic_corpus_aliases or canon_k in self.atomic_corpus_aliases))
+                st_domain_db = getattr(self, f"stamford_{domain}_db", None)
+                st_direct = (db_get(self.stamford_db, candidate_key) if hasattr(self, "stamford_db") else None) or (db_get(st_domain_db, candidate_key) if st_domain_db else None)
+                if st_direct and not self._is_stub_record(st_direct) and not is_hub_alias:
+                    return copy.deepcopy(st_direct)
+                atom_res = self._resolve_from_atomic_corpus(candidate_key, "stamford_2014")
+                if atom_res:
+                    return atom_res
+                if st_direct and not self._is_unpopulated_gap(st_direct):
+                    return copy.deepcopy(st_direct)
+                if hasattr(self, "stamford_db") and self.stamford_db:
+                    seq = compile_sequential_text(self.stamford_db, candidate_key, "Stamford 2014")
+                    if seq:
+                        return seq
+                if st_domain_db:
+                    seq_dom = compile_sequential_text(st_domain_db, candidate_key, "Stamford 2014")
+                    if seq_dom:
+                        return seq_dom
+                if hasattr(self, "text_db") and self.text_db:
+                    t_res = db_get(self.text_db, candidate_key)
+                    if t_res and not self._is_unpopulated_gap(t_res):
+                        return copy.deepcopy(t_res)
+                    seq_t = compile_sequential_text(self.text_db, candidate_key, "Stamford 2014")
+                    if seq_t:
+                        return seq_t
+                return None
+
+            if target_rec == "st_sergius":
+                if hasattr(self, "st_sergius_db") and self.st_sergius_db:
+                    direct_ss = db_get(self.st_sergius_db, candidate_key)
+                    if direct_ss and not self._is_unpopulated_gap(direct_ss):
+                        return copy.deepcopy(direct_ss)
+                ss_domain_db = getattr(self, f"st_sergius_{domain}_db", None)
+                if ss_domain_db:
+                    direct_dom = db_get(ss_domain_db, candidate_key)
+                    if direct_dom and not self._is_unpopulated_gap(direct_dom):
+                        return copy.deepcopy(direct_dom)
+                atom_res = self._resolve_from_atomic_corpus(candidate_key, "st_sergius")
+                if atom_res:
+                    return atom_res
+                if hasattr(self, "st_sergius_db") and self.st_sergius_db:
+                    for ss_key in self._expand_st_sergius_candidate_keys(candidate_key):
+                        cand = db_get(self.st_sergius_db, ss_key)
+                        if cand and not self._is_unpopulated_gap(cand):
+                            return copy.deepcopy(cand)
+                        seq = compile_sequential_text(self.st_sergius_db, ss_key, "St. Sergius Unabridged")
+                        if seq:
+                            return seq
+                return None
+
+            if target_rec == "sheptytsky_2021":
+                sh_domain_db = getattr(self, f"sheptytsky_{domain}_db", None)
+                if sh_domain_db:
+                    direct_sh = db_get(sh_domain_db, candidate_key)
+                    if direct_sh and not self._is_unpopulated_gap(direct_sh):
+                        return copy.deepcopy(direct_sh)
+                atom_res = self._resolve_from_atomic_corpus(candidate_key, "sheptytsky_2021")
+                if atom_res:
+                    return atom_res
+                if hasattr(self, "sheptytsky_printed_db") and self.sheptytsky_printed_db and language == "en":
+                    sh_res = db_get(self.sheptytsky_printed_db, candidate_key)
+                    if sh_res and not self._is_unpopulated_gap(sh_res):
+                        return copy.deepcopy(sh_res)
+                    m_men = re.match(r"^menaion\.(\d{2})_?(\d{2})\.(?:.*?\.)?([a-z0-9_]+)$", candidate_key)
+                    if m_men:
+                        mm, dd, elem = m_men.groups()
+                        for sh_k in (
+                            f"menaion.{mm}{dd}.liturgy.{elem}",
+                            f"menaion.{mm}{dd}.vespers.{elem}",
+                            f"menaion.{mm}{dd}.matins.{elem}",
+                            f"menaion.{mm}{dd}.{elem}",
+                        ):
+                            sh_res = db_get(self.sheptytsky_printed_db, sh_k)
+                            if sh_res and not self._is_unpopulated_gap(sh_res):
+                                return copy.deepcopy(sh_res)
+                return None
+
+            if target_rec in ("lviv", "atomic_corpus"):
+                if hasattr(self, "text_db") and self.text_db:
+                    t_res = db_get(self.text_db, candidate_key)
+                    if t_res and not self._is_unpopulated_gap(t_res):
+                        return copy.deepcopy(t_res)
+                atom_res = self._resolve_from_atomic_corpus(candidate_key, target_rec)
+                if atom_res:
+                    return atom_res
+                return None
+
+            # Generic custom `<target_rec>_db` attribute lookup
             db_attr = f"{target_rec}_db"
-            if not hasattr(self, db_attr):
-                return None
-            db = getattr(self, db_attr)
-            if not db:
-                return None
-            
-            res = db_get(db, text_id)
-            if res:
-                return copy.deepcopy(res)
-            
-            # Suffix/Sequential compilation lookup
-            src_name = target_rec.replace("_", " ").title()
-            return compile_sequential_text(db, text_id, src_name)
+            db = getattr(self, db_attr, None)
+            if db:
+                res = db_get(db, candidate_key)
+                if res and not self._is_unpopulated_gap(res):
+                    return copy.deepcopy(res)
+                return compile_sequential_text(db, candidate_key, target_rec.replace("_", " ").title())
+            return None
 
         # -1. Explicit Custom In-Memory Overlay Lookup (Highest Priority)
         if context and not item:
@@ -494,140 +1308,99 @@ class TextDBMixin:
                 if not item:
                     item = compile_sequential_text(custom_overlay, text_id, "Custom Overlay")
 
-        # -0.5. Shared Atomic Key-Value Liturgical Corpus Lookup (self.atomic_corpus_db)
-        if not item and hasattr(self, "atomic_corpus_db") and self.atomic_corpus_db:
-            canon_id = LEGACY_KEY_ALIASES.get(text_id, text_id)
-            if text_id in self.atomic_corpus_db:
-                item = copy.deepcopy(self.atomic_corpus_db[text_id])
-            elif hasattr(self, "atomic_corpus_aliases") and (text_id in self.atomic_corpus_aliases or canon_id in self.atomic_corpus_aliases):
-                sid = self.atomic_corpus_aliases.get(text_id) or self.atomic_corpus_aliases.get(canon_id)
-                entry_rec = self.atomic_corpus_db.get(sid)
-                if entry_rec:
-                    witnesses = entry_rec.get("recension_witnesses", {})
-                    prefer_atomic = bool(context and context.get("prefer_atomic_corpus")) or recension == "atomic_corpus"
-                    is_hub_alias = (text_id in ATOMIC_CORPUS_HUB_ALIASES) or (canon_id in ATOMIC_CORPUS_HUB_ALIASES)
-                    p_cand = db_get(self.primary_db, text_id) if (hasattr(self, "primary_db") and self.primary_db) else None
-                    b_cand = db_get(self.backup_db, text_id) if (hasattr(self, "backup_db") and self.backup_db) else None
-                    t_cand = db_get(self.text_db, text_id) if (hasattr(self, "text_db") and self.text_db) else None
-                    has_stub = self._is_stub_record(p_cand) or self._is_stub_record(b_cand) or self._is_stub_record(t_cand)
-                    in_primary = bool(
-                        not is_hub_alias
-                        and not has_stub
-                        and (p_cand or b_cand or t_cand)
-                    )
-                    if prefer_atomic or (recension and recension in witnesses) or not in_primary:
-                        item = copy.deepcopy(entry_rec)
-                        item["id"] = text_id
+        # 0. Primary Active Recension Lookup (including symbolic key expansion if needed)
+        candidate_keys = [text_id] + self._expand_symbolic_slot_key(text_id, context)
+        resolved_recension = None
 
-        # 0. Recension Database Lookup
-        if not item and recension:
-            # 0.1 Daily Office Translation Drift Lookup for royal_doors_web
-            if recension == "royal_doors_web" and language == "en" and year and hasattr(self, "royal_doors_drift_db") and self.royal_doors_drift_db:
-                dt = context.get("date")
-                mm_dd = None
-                if dt:
-                    if hasattr(dt, "month") and hasattr(dt, "day"):
-                        mm_dd = f"{dt.month:02d}_{dt.day:02d}"
-                    elif isinstance(dt, str) and len(dt) >= 10:
-                        parts = dt.split("-")
-                        if len(parts) >= 3:
-                            try:
-                                mm_dd = f"{int(parts[1]):02d}_{int(parts[2]):02d}"
-                            except Exception:
-                                pass
-                
-                if mm_dd:
-                    parts = text_id.split(".")
-                    if len(parts) >= 3:
-                        element_key = ".".join(parts[2:])
-                        pairs = self.royal_doors_drift_db.get((mm_dd, element_key))
-                        if pairs:
-                            for pair in pairs:
-                                if year in pair.get("years1", []):
-                                    item = {
-                                        "id": text_id,
-                                        "content": pair.get("text1", ""),
-                                        "source": f"Royal Doors Web Drift ({year})"
-                                    }
-                                    break
-                                elif year in pair.get("years2", []):
-                                    item = {
-                                        "id": text_id,
-                                        "content": pair.get("text2", ""),
-                                        "source": f"Royal Doors Web Drift ({year})"
-                                    }
-                                    break
+        if not item:
+            for c_key in candidate_keys:
+                item = lookup_in_recension_tier(active_rec, c_key)
+                if item:
+                    resolved_recension = active_rec
+                    break
 
-            # 0.2 Primary Recension Lookup
-            if not item:
-                item = lookup_recension(recension)
-
-            # 0.3 Language-Safe Fallback Chain resolution
-            if not item:
+        # 1. Deterministic Fallback Chain (disabled when strict_corpus_mode is True)
+        if not item and not strict_mode:
+            if active_rec in ("stamford_printed", "stamford_web_2026", "sheptytsky_printed", "royal_doors_web"):
                 if language == "en":
                     fallback_chain = {
                         "stamford_printed": ["sheptytsky_printed", "royal_doors_web"],
                         "stamford_web_2026": ["sheptytsky_printed", "royal_doors_web"],
                         "sheptytsky_printed": ["royal_doors_web"],
                         "royal_doors_web": []
-                    }.get(recension, [])
+                    }.get(active_rec, [])
                 else:
                     fallback_chain = {
                         "sheptytsky_printed": ["stamford_printed", "stamford_web_2026"],
                         "royal_doors_web": ["stamford_printed", "stamford_web_2026"],
                         "stamford_printed": ["stamford_web_2026"],
                         "stamford_web_2026": []
-                    }.get(recension, [])
+                    }.get(active_rec, [])
 
                 for fb_rec in fallback_chain:
-                    item = lookup_recension(fb_rec)
+                    for c_key in candidate_keys:
+                        item = lookup_in_recension_tier(fb_rec, c_key)
+                        if item:
+                            resolved_recension = fb_rec
+                            warn_msg = f"WARNING: Key '{text_id}' missing in '{active_rec}' for language '{language}'. Falling back to '{fb_rec}'."
+                            if hasattr(self, "log"):
+                                self.log(warn_msg)
+                            elif hasattr(self, "trace_log"):
+                                self.trace_log.append(warn_msg)
+                            else:
+                                print(warn_msg)
+                            break
                     if item:
-                        warn_msg = f"WARNING: Key '{text_id}' missing in '{recension}' for language '{language}'. Falling back to '{fb_rec}'."
-                        if hasattr(self, "log"):
-                            self.log(warn_msg)
-                        elif hasattr(self, "trace_log"):
-                            self.trace_log.append(warn_msg)
-                        else:
-                            print(warn_msg)
                         break
 
-            # 0.4 Special historical St. Sergius lookup (fallback compat)
-            if not item and recension == "st_sergius" and hasattr(self, "st_sergius_db") and self.st_sergius_db:
-                item = compile_sequential_text(self.st_sergius_db, text_id, "St. Sergius Unabridged (consolidated)")
-        
-        # 1. Primary selected recension lookup
-        if not item and hasattr(self, "primary_db") and self.primary_db is not None:
-            item = db_get(self.primary_db, text_id)
-
-        # 1.1 Backup recension lookup (if different from primary)
-        if not item and hasattr(self, "backup_db") and self.backup_db:
-            item = db_get(self.backup_db, text_id)
-
-        # 1.2 Legacy/direct text_db lookup
-        if not item:
-            item = db_get(self.text_db, text_id)
-
-        # 1.3 Festal Propers DB Lookup
-        if not item and hasattr(self, "propers_web_db") and self.propers_web_db:
-            item = db_get(self.propers_web_db, text_id)
+            # Standard Fallback Chain: Selected Recension -> Royal Doors -> Stamford 2014
             if not item:
-                m = re.match(r'menaion\.([a-z]{3})_(\d{2})\.(?:.*?\.)?([a-z_]+)$', text_id)
-                if m:
-                    months = {'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'}
-                    mo_str, day_str, elem = m.groups()
-                    mo_num = months.get(mo_str)
-                    if mo_num:
-                        for cand_k in [
-                            f'menaion.{mo_num}{day_str}.liturgy.{elem}_{language}',
-                            f'menaion.{mo_num}{day_str}.vespers.{elem}_{language}',
-                            f'menaion.{mo_num}{day_str}.matins.{elem}_{language}',
-                            f'menaion.{mo_num}{day_str}.{elem}_{language}',
-                            f'menaion.{mo_num}{day_str}.liturgy.{elem}_en',
-                            f'menaion.{mo_num}{day_str}.{elem}_en'
-                        ]:
-                            item = db_get(self.propers_web_db, cand_k)
-                            if item:
-                                break
+                std_fallbacks = []
+                for fb_cand in ("royal_doors", "stamford_2014"):
+                    if fb_cand != active_rec:
+                        std_fallbacks.append(fb_cand)
+                for fb_rec in std_fallbacks:
+                    for c_key in candidate_keys:
+                        item = lookup_in_recension_tier(fb_rec, c_key)
+                        if item:
+                            resolved_recension = fb_rec
+                            break
+                    if item:
+                        break
+
+            # Legacy/direct text_db & propers_web_db fallback
+            if not item and hasattr(self, "text_db") and self.text_db:
+                for c_key in candidate_keys:
+                    item = db_get(self.text_db, c_key)
+                    if item and not self._is_unpopulated_gap(item):
+                        resolved_recension = "stamford_2014"
+                        break
+                    item = None
+
+            if not item and hasattr(self, "propers_web_db") and self.propers_web_db:
+                for c_key in candidate_keys:
+                    item = db_get(self.propers_web_db, c_key)
+                    if not item:
+                        m = re.match(r'menaion\.([a-z]{3})_(\d{2})\.(?:.*?\.)?([a-z_]+)$', c_key)
+                        if m:
+                            months = {'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'}
+                            mo_str, day_str, elem = m.groups()
+                            mo_num = months.get(mo_str)
+                            if mo_num:
+                                for cand_k in [
+                                    f'menaion.{mo_num}{day_str}.liturgy.{elem}_{language}',
+                                    f'menaion.{mo_num}{day_str}.vespers.{elem}_{language}',
+                                    f'menaion.{mo_num}{day_str}.matins.{elem}_{language}',
+                                    f'menaion.{mo_num}{day_str}.{elem}_{language}',
+                                    f'menaion.{mo_num}{day_str}.liturgy.{elem}_en',
+                                    f'menaion.{mo_num}{day_str}.{elem}_en'
+                                ]:
+                                    item = db_get(self.propers_web_db, cand_k)
+                                    if item:
+                                        resolved_recension = "royal_doors"
+                                        break
+                    if item:
+                        break
 
         # 1.5 Dynamic Variable Resolution
         if not item and context:
@@ -644,6 +1417,22 @@ class TextDBMixin:
             if isinstance(item, str):
                 item = {"id": text_id, "content": item, "source": "System Logic"}
             
+            # Attach fallback provenance pill when resolved from a fallback recension
+            if (
+                resolved_recension
+                and active_rec
+                and resolved_recension != active_rec
+                and active_rec not in ("lviv", "royal_doors_web", "sheptytsky_printed", "stamford_printed", "stamford_web_2026")
+            ):
+                fb_label = RECENSION_DISPLAY_LABELS.get(resolved_recension, resolved_recension.replace("_", " ").title())
+                item["is_fallback"] = True
+                item["requested_recension"] = active_rec
+                item["recension_resolved"] = resolved_recension
+                item["provenance_pill"] = f"[Fallback: {fb_label}]"
+            elif resolved_recension:
+                item.setdefault("recension_resolved", resolved_recension)
+                item.setdefault("is_fallback", False)
+
             # 1.1 Content Processing
             if isinstance(item, dict) and "content" in item:
                 raw_text = item["content"]
@@ -680,46 +1469,70 @@ class TextDBMixin:
                 
             return item
         
-        # 2. General Menaion Fallback
-        if context and "saint_class" in context and self.general_menaion_db:
-            # Map standard key to generic key, e.g., "menaion.01_22.troparion" -> "general.apostle.troparion"
-            # Helper to extract the suffix (e.g. 'troparion', 'kontakion', 'stichera_vespers')
-            key_parts = text_id.split(".")
-            suffix = key_parts[-1]
-            if len(key_parts) > 2 and "stichera" in key_parts[-2]:
-                 suffix = f"{key_parts[-2]}.{suffix}" # e.g. "stichera_vespers.lord_i_call"
+        # 2. General Menaion Fallback (when not in strict_corpus_mode)
+        if not strict_mode and self.general_menaion_db:
+            saint_class_str = ""
+            st_name = "Saint"
+            if context:
+                saint_class_str = context.get("saint_class", "") or ""
+                st_name = context.get("st_name") or context.get("feast_title") or "Saint"
+                if not saint_class_str and isinstance(context.get("dolnytsky_data"), dict):
+                    dd = context["dolnytsky_data"]
+                    saint_class_str = dd.get("category") or dd.get("saint_class") or ""
+                    st_name = dd.get("title") or st_name
 
-            saint_classes = context.get("saint_class", "").split(",")
-            for st_class in saint_classes:
-                st_class = st_class.strip().lower()
-                generic_id = f"general.{st_class}.{suffix}"
-                
-                fallback_item = self.general_menaion_db.get(generic_id)
-                if fallback_item:
-                    # Deep Copy to avoid mutating the master DB
-                    rendered_item = copy.deepcopy(fallback_item)
-                    
-                    # Template Rendering
-                    st_name = context.get("st_name", "Saint")
-                    if "content" in rendered_item and isinstance(rendered_item["content"], str):
-                        rendered_item["content"] = rendered_item["content"].replace("{{name}}", st_name)
-                    
-                    # Add Metadata about Fallback source
-                    rendered_item["_source"] = f"General Menaion ({st_class})"
-                    return rendered_item
+            if saint_class_str:
+                key_parts = text_id.split(".")
+                suffix = key_parts[-1]
+                if suffix in ("troparion_saint", "trop_saint", "troparion_feast", "trop_feast", "troparion_saint_if_any"):
+                    suffix = "troparion"
+                elif suffix in ("kontakion_saint", "kont_saint", "kontakion_feast", "kont_feast", "kontakion_saint_if_any"):
+                    suffix = "kontakion"
+                elif len(key_parts) > 2 and "stichera" in key_parts[-2]:
+                    suffix = f"{key_parts[-2]}.{suffix}"
 
-        # 3. Missing Handler (Human-readable clean placeholder)
+                saint_classes = saint_class_str.split(",")
+                for st_class in saint_classes:
+                    st_class = st_class.strip().lower()
+                    if not st_class:
+                        continue
+                    generic_id = f"general.{st_class}.{suffix}"
+                    
+                    fallback_item = self.general_menaion_db.get(generic_id)
+                    if fallback_item:
+                        rendered_item = copy.deepcopy(fallback_item)
+                        if "content" in rendered_item and isinstance(rendered_item["content"], str):
+                            rendered_item["content"] = rendered_item["content"].replace("{{name}}", st_name)
+                        cat_label = st_class.replace("_", " ").title()
+                        rendered_item["_source"] = f"General Menaion ({st_class})"
+                        rendered_item["is_fallback"] = True
+                        rendered_item["provenance_pill"] = f"[General Menaion: {cat_label}]"
+                        return rendered_item
+
+        # 3. Psalter Kathisma & Biblical Lectionary Cantorial Directive Handler
+        directive_item = self._resolve_cantorial_directive(text_id, context)
+        if directive_item:
+            return directive_item
+
+        # 4. Missing Handler (Human-readable clean placeholder + structured SGC-04 gap metadata)
         humanized = self.canonical_humanize_key(text_id)
         req_str = f" | Required by: {logic_requirement}" if logic_requirement else ""
-        if recension:
-            rec_name = recension.replace("_", " ").title()
+        if explicit_recension and not (
+            getattr(self, "ordinaries_recension", None) != getattr(self, "propers_recension", None)
+            and explicit_recension == getattr(self, "version_id", None)
+        ):
+            rec_name = explicit_recension.replace("_", " ").title()
+        elif active_rec:
+            rec_name = RECENSION_DISPLAY_LABELS.get(active_rec, active_rec.replace("_", " ").title())
         else:
             rec_name = getattr(self, "version_id", "royal_doors").replace("_", " ").title()
         return {
             "title": humanized,
             "content": f"[{humanized} (Missing in {rec_name}{req_str})]",
             "source": "System Logic",
-            "is_missing": True
+            "is_missing": True,
+            "canonical_gap_key": text_id,
+            "canonical_gap_badge": f"[UNRESOLVED_CANONICAL_GAP: {text_id}]"
         }
 
     @staticmethod
@@ -727,6 +1540,11 @@ class TextDBMixin:
         """Canonically humanizes internal chant keys and identifiers to standard liturgical English."""
         if not key:
             return ""
+        m_wk_dy = re.match(r"^([a-z0-9_]+)\.([a-z0-9_]+)\.week_(\d+)\.day_(\d+)$", key.lower())
+        if m_wk_dy:
+            book_part, item_part, wk, dy = m_wk_dy.groups()
+            return f"{book_part.replace('_', ' ').title()} {item_part.replace('_', ' ').title()} (Week {wk}, Day {dy})"
+
         raw_base = key.split(".")[-1].lower()
         base = re.sub(r'_\d+$', '', raw_base)
         

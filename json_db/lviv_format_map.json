@@ -38,9 +38,12 @@
     "sunday_lent_1": 23,
     "saturday_lent_2_3_4": 22,
     "sunday_lent_2": 23,
+    "sunday_2_of_lent": 23,
     "sunday_lent_3": 23,
     "sunday_lent_4": 23,
+    "sunday_4_of_lent": 23,
     "sunday_lent_5": 23,
+    "sunday_5_of_lent": 23,
     "thursday_great_canon": 21,
     "saturday_akathist": 22,
     "saturday_lazarus": 22,
@@ -68,6 +71,7 @@
     "monday_holy_spirit": 12,
     "sunday_all_saints": 1,
     "feast_of_eucharist": 12,
+    "sunday_octave_eucharist": 25,
     "co_suffering_theotokos": 14
   }
 }

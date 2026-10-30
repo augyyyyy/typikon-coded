@@ -19,7 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
         currentCleanKeyData: null,
         // Overrides settings state
         paschalion: localStorage.getItem("cantor-opt-paschalion") || "gregorian",
-        version: localStorage.getItem("cantor-opt-version") || "stamford_2014",
+        version: (() => {
+            const v = localStorage.getItem("cantor-opt-version") || "stamford_2014";
+            return v === "lviv" ? "stamford_2014" : v;
+        })(),
+        splitRecensions: localStorage.getItem("cantor-opt-split-recension") === "true",
+        ordinariesRecension: localStorage.getItem("cantor-opt-ordinaries-recension") || "stamford_2014",
+        propersRecension: localStorage.getItem("cantor-opt-propers-recension") || "stamford_2014",
+        strictCorpusMode: localStorage.getItem("cantor-opt-strict-corpus") === "true",
         calendarSource: localStorage.getItem("cantor-opt-calendar-source") || "default",
         templeFeast: localStorage.getItem("cantor-opt-temple-feast") || "",
         digestMode: localStorage.getItem("cantor-opt-digest-mode") || "full",
@@ -66,6 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
         docPanels: document.querySelectorAll(".doc-panel"),
         bookletContent: document.getElementById("booklet-content"),
         bookletServiceSelect: document.getElementById("booklet-service-select"),
+        bookletRecensionSelect: document.getElementById("booklet-recension-select"),
+        chkSplitRecension: document.getElementById("chk-split-recension"),
+        splitRecensionControls: document.getElementById("split-recension-controls"),
+        bookletOrdinariesSelect: document.getElementById("booklet-ordinaries-select"),
+        bookletPropersSelect: document.getElementById("booklet-propers-select"),
+        chkStrictCorpus: document.getElementById("chk-strict-corpus"),
         cardFocusModal: document.getElementById("card-focus-modal"),
         focusModalTitle: document.getElementById("focus-modal-title"),
         focusModalIcon: document.getElementById("focus-modal-icon"),
@@ -280,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             Object.entries(state.parsedServices).forEach(([key, text]) => {
                                 const genericName = getGenericServiceName(key);
                                 let matches = false;
-                                if (genericName === selectedService ||
+                                if (genericName === selectedService || (selectedService === "Hours" && genericName.includes("Hour")) ||
                                     (selectedService === "Vespers" && genericName === "Vesperal Liturgy") ||
                                     (selectedService === "Divine Liturgy" && genericName === "Vesperal Liturgy")) {
                                     matches = true;
@@ -360,8 +373,88 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ==========================================================================
-       DATE RESOLVER PANEL
+       DATE RESOLVER PANEL & CENTER PANEL RECENSION HOT-SWAP
        ========================================================================== */
+    function buildParishProfilePayload() {
+        return {
+            profile_id: state.activeProfile,
+            name: state.activeProfile,
+            temple: {
+                name: state.templeName || "St. Nicholas",
+                type: state.templeType || "saint",
+                feast_month: (state.templeFeast && state.templeFeast.length === 5) ? parseInt(state.templeFeast.split("-")[0], 10) : null,
+                feast_day: (state.templeFeast && state.templeFeast.length === 5) ? parseInt(state.templeFeast.split("-")[1], 10) : null
+            },
+            hierarchy: {
+                pope_name: state.popeName || "Francis",
+                pope_sede_vacante: state.popeSedeVacante === true,
+                patriarch_title: "Major Archbishop",
+                patriarch_name: state.patriarchName || "Sviatoslav",
+                patriarch_sede_vacante: state.patriarchSedeVacante === true,
+                metropolitan_name: state.metropolitanName || "",
+                metropolitan_sede_vacante: state.metropolitanSedeVacante === true,
+                bishop_name: state.bishopName || "",
+                bishop_sede_vacante: state.bishopSedeVacante === true
+            }
+        };
+    }
+
+    async function hotSwapBookletRecension() {
+        const dateStr = state.selectedDate || el.liturgicalDateInput.value;
+        if (!dateStr) return;
+
+        if (el.bookletContent) {
+            el.bookletContent.classList.add("booklet-hotswapping");
+        }
+
+        try {
+            const profilePayload = buildParishProfilePayload();
+            const paramsObj = {
+                date: dateStr,
+                paschalion: state.paschalion,
+                version: state.version,
+                strict_corpus_mode: String(state.strictCorpusMode === true),
+                booklet_only: "true",
+                calendar_source: state.calendarSource,
+                temple_feast: state.templeFeast,
+                temple_patron: state.templeName || "St. Nicholas",
+                temple_type: state.templeType || "saint",
+                include_ceremonial: state.includeCeremonial,
+                parish_profile: JSON.stringify(profilePayload)
+            };
+            if (state.splitRecensions) {
+                paramsObj.ordinaries_recension = state.ordinariesRecension || state.version;
+                paramsObj.propers_recension = state.propersRecension || state.version;
+            }
+            const params = new URLSearchParams(paramsObj);
+            const response = await fetch(`${API_BASE}/api/resolve?${params.toString()}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.error) {
+                showToast(`Recension error: ${data.error}`);
+                return;
+            }
+
+            // Update ONLY the Center Panel booklet in place (preserving active Office filter & leaving Left/Right panels untouched)
+            state.currentBookletText = data.booklet;
+            renderBookletGrid();
+
+            // If Focus Modal is open, refresh its content in place too
+            if (el.cardFocusModal && !el.cardFocusModal.classList.contains("hidden") && state.currentFocusService) {
+                openServiceFocusModal(state.currentFocusService);
+            }
+        } catch (err) {
+            console.error("Error hot-swapping booklet recension: ", err);
+            showToast("Failed to hot-swap booklet recension.");
+        } finally {
+            if (el.bookletContent) {
+                el.bookletContent.classList.remove("booklet-hotswapping");
+            }
+        }
+    }
+
     async function resolveDate(dateStr) {
         state.selectedDate = dateStr;
         el.liturgicalDateInput.value = dateStr;
@@ -376,32 +469,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         try {
-            const profilePayload = {
-                profile_id: state.activeProfile,
-                name: state.activeProfile,
-                temple: {
-                    name: state.templeName || "St. Nicholas",
-                    type: state.templeType || "saint",
-                    feast_month: (state.templeFeast && state.templeFeast.length === 5) ? parseInt(state.templeFeast.split("-")[0], 10) : null,
-                    feast_day: (state.templeFeast && state.templeFeast.length === 5) ? parseInt(state.templeFeast.split("-")[1], 10) : null
-                },
-                hierarchy: {
-                    pope_name: state.popeName || "Francis",
-                    pope_sede_vacante: state.popeSedeVacante === true,
-                    patriarch_title: "Major Archbishop",
-                    patriarch_name: state.patriarchName || "Sviatoslav",
-                    patriarch_sede_vacante: state.patriarchSedeVacante === true,
-                    metropolitan_name: state.metropolitanName || "",
-                    metropolitan_sede_vacante: state.metropolitanSedeVacante === true,
-                    bishop_name: state.bishopName || "",
-                    bishop_sede_vacante: state.bishopSedeVacante === true
-                }
-            };
-
-            const params = new URLSearchParams({
+            const profilePayload = buildParishProfilePayload();
+            const paramsObj = {
                 date: dateStr,
                 paschalion: state.paschalion,
                 version: state.version,
+                strict_corpus_mode: String(state.strictCorpusMode === true),
                 calendar_source: state.calendarSource,
                 temple_feast: state.templeFeast,
                 temple_patron: state.templeName || "St. Nicholas",
@@ -409,7 +482,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 digest_mode: state.digestMode,
                 include_ceremonial: state.includeCeremonial,
                 parish_profile: JSON.stringify(profilePayload)
-            });
+            };
+            if (state.splitRecensions) {
+                paramsObj.ordinaries_recension = state.ordinariesRecension || state.version;
+                paramsObj.propers_recension = state.propersRecension || state.version;
+            }
+            const params = new URLSearchParams(paramsObj);
             const response = await fetch(`${API_BASE}/api/resolve?${params.toString()}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -483,7 +561,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${dayName}, ${monthName} ${day}, ${year}`;
     }
 
-    function translateParadigmId(id) {
+    function translateParadigmId(id, ctx) {
+        if (ctx && ctx.paradigm_title) return ctx.paradigm_title;
         if (!id) return "Unknown Case";
         const map = {
             "CASE_01": "Case 1 — Sunday with Simple Saint",
@@ -507,9 +586,59 @@ document.addEventListener("DOMContentLoaded", () => {
             "CASE_19": "Case 19 — Sunday of Apodosis",
             "CASE_20": "Case 20 — Weekday of Apodosis",
             "CASE_21": "Case 21 — Sunday of Forefathers/Ancestors",
-            "CASE_22": "Case 22 — Saturday of Forefathers/Ancestors"
+            "CASE_22": "Case 22 — Saturday of Forefathers/Ancestors",
+            "SPECIAL_VIGIL_OVERRIDE": "Case 7 — Special Vigil Override (Dolnytsky §3.10.2)",
+            "sunday_publican_pharisee": "Format 23 — Sunday of the Publican and the Pharisee",
+            "sunday_prodigal_son": "Format 23 — Sunday of the Prodigal Son",
+            "saturday_meatfare": "Format 22 — Saturday of Souls (Meatfare)",
+            "sunday_meatfare": "Format 23 — Sunday of Meatfare (Last Judgment)",
+            "cheesefare_week_general": "Format 2 — Cheesefare Week",
+            "sunday_cheesefare": "Format 23 — Sunday of Cheesefare (Forgiveness)",
+            "great_lent_clean_week": "Format 21 — Clean Week",
+            "lent_general_weekday": "Format 21 — Lenten Weekday",
+            "lent_wednesday_friday_presanctified": "Format 21 — Lenten Presanctified Day",
+            "saturday_lent_1": "Format 22 — Saturday of St. Theodore the Recruit",
+            "sunday_lent_1": "Format 23 — Sunday of Orthodoxy",
+            "saturday_lent_2_3_4": "Format 22 — Saturday of the Great Fast",
+            "sunday_lent_2": "Format 23 — 2nd Sunday of the Great Fast",
+            "sunday_2_of_lent": "Format 23 — 2nd Sunday of the Great Fast",
+            "sunday_lent_3": "Format 23 — Sunday of the Veneration of the Cross",
+            "sunday_lent_4": "Format 23 — 4th Sunday of the Great Fast",
+            "sunday_4_of_lent": "Format 23 — 4th Sunday of the Great Fast",
+            "thursday_great_canon": "Format 21 — Thursday of the Great Canon",
+            "saturday_akathist": "Format 22 — Saturday of the Akathist",
+            "sunday_lent_5": "Format 23 — 5th Sunday of the Great Fast",
+            "sunday_5_of_lent": "Format 23 — 5th Sunday of the Great Fast",
+            "saturday_lazarus": "Format 22 — Saturday of Lazarus",
+            "sunday_palm": "Format 11 — Palm Sunday",
+            "holy_monday_tuesday_wednesday": "Format 21 — Holy Monday, Tuesday, Wednesday",
+            "holy_thursday": "Format 12 — Great and Holy Thursday",
+            "holy_friday": "Format 21 — Great and Holy Friday",
+            "holy_saturday": "Format 22 — Great and Holy Saturday",
+            "pascha": "Format 25 — The Resurrection of Our Lord (Pascha)",
+            "bright_week": "Format 24 — Bright Week",
+            "sunday_thomas": "Format 25 — Sunday of St. Thomas",
+            "sunday_myrrhbearers": "Format 25 — Sunday of the Myrrh-bearing Women",
+            "sunday_paralytic": "Format 25 — Sunday of the Paralytic",
+            "sunday_samaritan": "Format 25 — Sunday of the Samaritan Woman",
+            "sunday_blind_man": "Format 25 — Sunday of the Blind Man",
+            "pentecostarion_general_weekday": "Format 24 — Pentecostarion Weekday",
+            "pentecostarion_polyeleos_weekday": "Format 26 — Pentecostarion Polyeleos Weekday",
+            "pentecostarion_vigil_weekday": "Format 26 — Pentecostarion Vigil Weekday",
+            "mid_pentecost": "Format 12 — Mid-Pentecost",
+            "apodosis_pascha": "Format 24 — Apodosis of Pascha (Resurrection)",
+            "ascension": "Format 12 — Ascension of Our Lord",
+            "sunday_fathers_1st_council": "Format 25 — Sunday of the Holy Fathers of the 1st Council",
+            "saturday_soul_pentecost": "Format 17 — Saturday of Souls (Pentecost)",
+            "pentecost": "Format 11 — Pentecost (Sunday of the Holy Trinity)",
+            "monday_holy_spirit": "Format 12 — Monday of the Holy Spirit",
+            "sunday_all_saints": "Format 1 — Sunday of All Saints",
+            "feast_of_eucharist": "Format 12 — Feast of the Most Holy Eucharist (Corpus Christi)",
+            "sunday_octave_eucharist": "Format 25 — Sunday in the Octave of the Most Holy Eucharist",
+            "co_suffering_theotokos": "Format 14 — Friday of the Co-suffering of the Most Holy Theotokos"
         };
-        return map[id] || id;
+        if (map[id]) return map[id];
+        return String(id).replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
     }
 
     function translateRankCode(code) {
@@ -522,6 +651,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "[POL]": "Class III — Polyeleos",
             "[GT DOX]": "Class IV — Great Doxology",
             "[6 SM]": "Class V — Six-Stichera",
+            "[ALLELUIA]": "All-Souls / Lenten Saturday (Alleluia)",
             "[4 A+G]": "Simple (Apostle & Gospel)",
             "[4 TR]": "Simple (with Troparion)",
             "[4 NO]": "Simple (Without Sign — General Menaion Troparion)"
@@ -607,8 +737,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getLiturgicalCombination(rubrics) {
-        const vars = rubrics.variables || {};
-        const overs = rubrics.overrides || {};
+        const vars = (rubrics && rubrics.variables) || {};
+        const overs = (rubrics && rubrics.overrides) || {};
         
         const vType = overs.vespers_type || vars.vespers_type || "daily_vespers";
         const mType = overs.matins_type || vars.matins_type || "daily_matins";
@@ -618,15 +748,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const vespersMap = {
             "daily_vespers": "Daily Vespers",
             "great_vespers": "Great Vespers",
+            "great_vespers_simple": "Great Vespers",
             "great_vespers_vigil": "Great Vespers (Vigil)",
             "lenten_vespers": "Lenten Vespers",
+            "lenten_vespers_presanctified": "Lenten Vespers (Presanctified)",
             "presanctified_vespers": "Presanctified Vespers",
-            "vespers_with_vigil": "Great Vespers (Vigil)"
+            "vespers_with_vigil": "Great Vespers (Vigil)",
+            "paschal_vespers": "Paschal Vespers",
+            "kneeling_vespers": "Kneeling Vespers",
+            "structure_suppressed": "Vespers (Merged)"
         };
         
         const matinsMap = {
             "daily_matins": "Daily Matins",
             "great_matins": "Great Matins",
+            "great_matins_simple": "Great Matins",
             "great_matins_vigil": "Great Matins (Vigil)",
             "lenten_matins": "Lenten Matins",
             "lenten_matins_weekday": "Lenten Matins",
@@ -639,15 +775,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const liturgyMap = {
             "liturgy_chrysostom": "St. John Chrysostom",
             "liturgy_basil": "St. Basil the Great",
+            "liturgy_presanctified": "Presanctified Liturgy",
             "presanctified_liturgy": "Presanctified Liturgy",
             "presanctified": "Presanctified Liturgy",
+            "vesperal_merge_logic": "Vesperal Divine Liturgy",
+            "structure_suppressed": "Aliturgical (No Liturgy)",
             "aliturgical": "Aliturgical (No Liturgy)"
         };
         
         const hoursMap = {
             "structure_standard": "Standard Hours",
             "structure_lenten": "Lenten Hours",
+            "lenten_hours": "Lenten Hours",
             "structure_royal": "Royal Hours",
+            "royal_hours": "Royal Hours",
             "structure_paschal": "Paschal Hours"
         };
         
@@ -673,67 +814,31 @@ document.addEventListener("DOMContentLoaded", () => {
         let text = "";
         let id = "";
         let toneStr = "";
+        let seasonWindow = "Appointed Seasonal Katavasia";
+        let citation = "Dolnytsky Typikon Part I §11 & Parts IV–V";
+        let afterfeastNote = "";
         
         if (typeof katavasia === "string") {
             id = katavasia.toLowerCase();
             text = katavasia;
         } else if (typeof katavasia === "object") {
-            text = katavasia.text || katavasia.content || "";
+            text = katavasia.seasonal_text || katavasia.text || katavasia.content || "";
             id = (katavasia.id || katavasia.katavasia_id || "").toLowerCase();
-            const tone = katavasia.tone;
-            toneStr = tone ? ` (Tone ${tone})` : "";
-        }
-        
-        // Determine Seasonal Window & Canonical Citation (Dolnytsky Part I §11 & Parts IV–V)
-        let seasonName = "Ordinary";
-        let seasonWindow = "Ordinary Sundays / Feasts";
-        let incipit = text ? `"${text}"${toneStr}` : "Seasonal Katavasia";
-        
-        const m = ctx.month;
-        const d = ctx.day;
-        const p = ctx.pascha_offset;
-        
-        if (id.includes("cross") || (m === 8 && d >= 24) || (m === 9 && d <= 21)) {
-            seasonName = "Cross";
-            seasonWindow = "Exaltation of the Holy Cross (August 24 – September 21)";
-            incipit = '"A cross did Moses trace" (Tone VIII)';
-        } else if (id.includes("nativity") || (m === 11 && d >= 21) || (m === 12 && d <= 31)) {
-            seasonName = "Nativity";
-            seasonWindow = "Nativity Fast & Feasts (November 21 – December 31)";
-            incipit = '"Christ is born, glorify Him" (Tone I)';
-        } else if (id.includes("theophany") || (m === 1 && d <= 14)) {
-            seasonName = "Theophany";
-            seasonWindow = "Theophany Season (January 1 – January 14)";
-            incipit = '"The Lord mighty in battle" (Tone II)';
-        } else if (id.includes("meeting") || id.includes("encounter") || (m === 1 && d >= 15) || (m === 2 && d <= 9)) {
-            seasonName = "Encounter";
-            seasonWindow = "Encounter of the Lord (January 15 – February 9)";
-            incipit = '"The sun once shone" (Tone III)';
-        } else if (id.includes("dormition") || (m === 8 && d <= 14)) {
-            seasonName = "Dormition";
-            seasonWindow = "Dormition Fast (August 1 – August 14)";
-            incipit = '"The Israel of old" (Tone IV)';
-        } else if (p !== undefined && p !== null) {
-            if (p >= 0 && p <= 38) {
-                seasonName = "Pascha";
-                seasonWindow = "Paschal Season (Pascha to Ascension Eve)";
-                incipit = '"This is the day of Resurrection" (Tone I)';
-            } else if (p >= 39 && p <= 48) {
-                seasonName = "Ascension";
-                seasonWindow = "Ascension Season (Ascension to Pentecost Eve)";
-                incipit = '"He who covered the deep" (Tone IV)';
-            } else if (p >= 49 && p <= 55) {
-                seasonName = "Pentecost";
-                seasonWindow = "Pentecost Season (Pentecost to All Saints Eve)";
-                incipit = '"Covered with divine cloud" (Tone IV/VII)';
-            } else if (p === -28) {
-                seasonName = "Lenten Cross";
-                seasonWindow = "3rd Sunday of Lent (Veneration of the Cross)";
-                incipit = '"The divine and holy cross" (Tone I)';
+            const tone = (katavasia.seasonal_tone !== undefined && katavasia.seasonal_tone !== null) ? katavasia.seasonal_tone : katavasia.tone;
+            toneStr = (tone !== undefined && tone !== null && tone !== 0) ? ` (Tone ${tone})` : "";
+            if (katavasia.season_label) {
+                seasonWindow = katavasia.season_label;
+            }
+            if (katavasia.citation) {
+                citation = katavasia.citation;
+            }
+            if (id === "irmos_last_canon") {
+                afterfeastNote = "\nNote: Simple weekday in Afterfeast — Irmos of the last canon sung after Odes 3, 6, 8, and 9.";
             }
         }
         
-        const titleTooltip = `Dolnytsky Typikon Part I §11 & Parts IV–V:\nSeason: ${seasonWindow}\nIncipit: ${incipit}`;
+        const incipit = text ? `"${text}"${toneStr}` : "Seasonal Katavasia";
+        const titleTooltip = `${citation}:\nSeason: ${seasonWindow}\nIncipit: ${incipit}${afterfeastNote}`.replace(/"/g, '&quot;');
         
         return `<span class="badge-katavasia" style="cursor: help;" title="${titleTooltip}">${incipit}</span>`;
     }
@@ -751,7 +856,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Seasonal Katavasia Row (Conditional Line Item: Only on Sundays and Class III+ / Festal days)
         const isSunday = ctx.day_of_week === 0;
-        const rankCode = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
+        const rankCode = ctx.rank_code || ctx.dolnytsky_rank_code || ctx.fixed_rank_code || "";
         const isMajorRank = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]"].includes(rankCode);
         const isAfterfeastOrFeast = ctx.is_afterfeast || ctx.is_fore_or_afterfeast || ctx.period === "afterfeast" || ctx.period === "feast";
         const hasAppointedKatavasia = isSunday || isMajorRank || isAfterfeastOrFeast;
@@ -783,11 +888,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Rank & Commemoration
         html += `<div class="context-section-header">Commemoration & Class</div>`;
-        const code = ctx.fixed_rank_code || ctx.dolnytsky_rank_code || "";
+        const code = ctx.rank_code || ctx.dolnytsky_rank_code || ctx.fixed_rank_code || "";
         html += `<div class="context-row" title="Dolnytsky Typik Part III: The canonical rank code indicating the liturgical solemnity of the saint (e.g. [4 TR] = simple weekday with troparion)."><span class="context-label">Rank Code</span><span class="context-val">${translateRankCode(code)}</span></div>`;
         html += `<div class="context-row" title="UGCC Liturgical Directory: The solemnity class (Class I-V) governing the structure of Vespers, Matins, and Liturgy."><span class="context-label">Class</span><span class="context-val">${bookInfo.menaionDetail}</span></div>`;
         
-        const caseLabel = translateParadigmId(ctx.paradigm_id);
+        const caseLabel = translateParadigmId(ctx.paradigm_id, ctx);
         html += `<div class="context-row" title="The resolved collision paradigm from Dolnytsky Part V, governing how the Octoechos and Menaion parts are combined on this specific day."><span class="context-label">Rubrics Case</span><span class="context-val">${caseLabel}</span></div>`;
         
         const commVal = cleanLiturgicalText(ctx.dolnytsky_commemoration || "None");
@@ -798,10 +903,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (commVal === "None") {
             html += `<div class="context-row" title="Menaion Fixed Cycle: The list of saints commemorated today."><span class="context-label">Commemorations</span><span class="context-val" style="color: var(--text-muted);">None</span></div>`;
         } else {
-            const parts = commVal.replace(/\.$/, "")
-                .split(/;|(?<!\bSt)(?<!\bSts)(?<!\bVen)(?<!\bBp)(?<!\bAp)(?<!\bAps)(?<!\bMetr)(?<!\bArchbp)(?<!\bPatr)(?<!\bMart)(?<!\bProp)\.\s+/i)
-                .map(p => p.trim())
-                .filter(p => p.length > 0);
+            const parts = (ctx.commemoration_parts && ctx.commemoration_parts.length > 0)
+                ? ctx.commemoration_parts
+                : commVal.replace(/\.$/, "")
+                    .split(/;|(?<!\bSt)(?<!\bSts)(?<!\bVen)(?<!\bBp)(?<!\bAp)(?<!\bAps)(?<!\bMetr)(?<!\bArchbp)(?<!\bPatr)(?<!\bMart)(?<!\bProp)\.\s+/i)
+                    .map(p => p.trim())
+                    .filter(p => p.length > 0);
             
             const count = parts.length;
             const label = count > 1 ? "Commemorations" : "Commemoration";
@@ -860,7 +967,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Rubrics Resolution Outputs
         html += `<div class="context-section-header">Rubrics Outcomes</div>`;
-        const outlinesVal = formatOutlines(rubrics.overrides.outlines || rubrics.variables.outlines || "Default");
+        const outlinesVal = formatOutlines(rubrics.overrides.outlines || rubrics.variables.outlines || getLiturgicalCombination(rubrics));
         html += `<div class="context-row" title="Engine Resolvers: The structural outlines chosen by the rubric engine to generate this service booklet."><span class="context-label">Selected Outlines</span><span class="context-val" style="font-family: var(--font-mono); font-size: 0.8rem;">${outlinesVal}</span></div>`;
         
         el.contextContent.innerHTML = html;
@@ -941,7 +1048,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const trimmed = line.trim();
             if (trimmed.startsWith("---") && trimmed.endsWith("---")) {
                 const header = trimmed.replace(/^-+\s*/, "").replace(/\s*-+$/, "").toUpperCase();
-                if (header.includes("VESPERS") || header.includes("VESPERAL")) {
+                if (header.startsWith("LITURGY") || header.includes("DIVINE LITURGY")) {
+                    currentService = "Divine Liturgy";
+                } else if (header.includes("VESPERS") || header.includes("VESPERAL")) {
                     currentService = "Vespers";
                 } else if (header.includes("COMPLINE")) {
                     currentService = "Compline";
@@ -980,6 +1089,14 @@ document.addEventListener("DOMContentLoaded", () => {
         paragraphs.forEach((p) => {
             p = p.trim();
             if (!p) return;
+
+            const leadingHeaderMatch = p.match(/^---\s*(.+?)\s*---\r?\n([\s\S]+)$/);
+            if (leadingHeaderMatch) {
+                html += `<div class="title-large">${escapeHtml(leadingHeaderMatch[1].trim())}</div>`;
+                isFirstParagraph = true;
+                p = leadingHeaderMatch[2].trim();
+                if (!p) return;
+            }
 
             if (p.startsWith("<")) {
                 if (p.includes('class="title-large"')) {
@@ -1220,6 +1337,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getGenericServiceName(title) {
         const t = title.toUpperCase();
+        if (t.includes("FOOTNOTE") || t.includes("SYNODAL") || t.includes("NOTES")) return "Synodal Footnotes";
         if (t.includes("VESPERAL LITURGY")) return "Vesperal Liturgy";
         if (t.includes("VESPERS") || t.includes("VESPERAL")) return "Vespers";
         if (t.includes("COMPLINE")) return "Compline";
@@ -1250,6 +1368,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "Hours",
             "Divine Liturgy"
         ];
+        order.push("Synodal Footnotes");
         const index = order.indexOf(generic);
         return index !== -1 ? index : 99;
     }
@@ -1356,6 +1475,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         
                         if (genericName === selected) {
                             matches = true;
+                        } else if (selected === "Hours" && genericName.includes("Hour")) {
+                            matches = true;
                         } else if (selected === "Vespers" && genericName === "Vesperal Liturgy") {
                             matches = true;
                         } else if (selected === "Divine Liturgy" && genericName === "Vesperal Liturgy") {
@@ -1389,7 +1510,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             if (!found) {
-                el.serviceDigestContent.innerHTML = `<p class="placeholder-text" style="font-family: var(--font-heading); color: var(--text-secondary); text-align: center; margin-top: 40px; font-size: 1.1rem;">${selected} is not served on this day.</p>`;
+                const emptyMsg = selected === "Synodal Footnotes" ? "No Synodal footnotes or collision notes are appointed on this day." : `${selected} is not served on this day.`;
+                el.serviceDigestContent.innerHTML = `<p class="placeholder-text" style="font-family: var(--font-heading); color: var(--text-secondary); text-align: center; margin-top: 40px; font-size: 1.1rem;">${emptyMsg}</p>`;
                 return;
             }
             
@@ -1980,22 +2102,48 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateRecensionBadge() {
         const badge = document.querySelector(".recension-badge");
         if (!badge) return;
-        
-        let recensionText = "Stamford Recension";
-        if (state.version === "lviv") {
-            recensionText = "Lviv Recension";
-        } else if (state.version === "st_sergius") {
-            recensionText = "St. Sergius Recension";
+        const labelMap = {
+            "stamford_2014": "Stamford 2014",
+            "royal_doors": "Royal Doors",
+            "st_sergius": "St. Sergius",
+            "sheptytsky_2021": "Sheptytsky 2021"
+        };
+        if (state.splitRecensions) {
+            const ordLbl = labelMap[state.ordinariesRecension] || state.ordinariesRecension;
+            const propLbl = labelMap[state.propersRecension] || state.propersRecension;
+            badge.textContent = `${ordLbl} / ${propLbl}`;
+        } else {
+            const recLbl = labelMap[state.version] || "Stamford 2014";
+            badge.textContent = `${recLbl} Recension`;
         }
-        badge.textContent = recensionText;
+    }
+
+    function syncRecensionToolbarControls() {
+        const optVersion = document.getElementById("opt-version");
+        const lblBookletRecension = document.getElementById("lbl-booklet-recension");
+        if (optVersion) optVersion.value = state.version;
+        if (el.bookletRecensionSelect) {
+            el.bookletRecensionSelect.value = state.version;
+            el.bookletRecensionSelect.classList.toggle("hidden", state.splitRecensions);
+        }
+        if (lblBookletRecension) {
+            lblBookletRecension.classList.toggle("hidden", state.splitRecensions);
+        }
+        if (el.chkSplitRecension) el.chkSplitRecension.checked = state.splitRecensions;
+        if (el.splitRecensionControls) {
+            el.splitRecensionControls.classList.toggle("hidden", !state.splitRecensions);
+        }
+        if (el.bookletOrdinariesSelect) el.bookletOrdinariesSelect.value = state.ordinariesRecension || state.version;
+        if (el.bookletPropersSelect) el.bookletPropersSelect.value = state.propersRecension || state.version;
+        if (el.chkStrictCorpus) el.chkStrictCorpus.checked = state.strictCorpusMode;
+        updateRecensionBadge();
     }
 
     /* ==========================================================================
        LITURGICAL PARAMETERS SYSTEM
        ========================================================================== */
     function initSettings() {
-        // Update badge initially
-        updateRecensionBadge();
+        syncRecensionToolbarControls();
         const optPaschalionGreg = document.getElementById("opt-paschalion-gregorian");
         const optPaschalionJul = document.getElementById("opt-paschalion-julian");
         const optVersion = document.getElementById("opt-version");
@@ -2050,11 +2198,68 @@ document.addEventListener("DOMContentLoaded", () => {
             optVersion.addEventListener("change", (e) => {
                 state.version = e.target.value;
                 localStorage.setItem("cantor-opt-version", e.target.value);
-                // Dynamically update recension badge
-                updateRecensionBadge();
-                if (state.selectedDate) {
-                    resolveDate(state.selectedDate);
+                if (!state.splitRecensions) {
+                    state.ordinariesRecension = e.target.value;
+                    state.propersRecension = e.target.value;
+                    localStorage.setItem("cantor-opt-ordinaries-recension", e.target.value);
+                    localStorage.setItem("cantor-opt-propers-recension", e.target.value);
                 }
+                syncRecensionToolbarControls();
+                hotSwapBookletRecension();
+            });
+        }
+
+        // Center Panel Toolbar Recension Hot-Swap Bindings
+        if (el.bookletRecensionSelect) {
+            el.bookletRecensionSelect.addEventListener("change", (e) => {
+                state.version = e.target.value;
+                state.ordinariesRecension = e.target.value;
+                state.propersRecension = e.target.value;
+                localStorage.setItem("cantor-opt-version", e.target.value);
+                localStorage.setItem("cantor-opt-ordinaries-recension", e.target.value);
+                localStorage.setItem("cantor-opt-propers-recension", e.target.value);
+                syncRecensionToolbarControls();
+                hotSwapBookletRecension();
+            });
+        }
+
+        if (el.chkSplitRecension) {
+            el.chkSplitRecension.addEventListener("change", (e) => {
+                state.splitRecensions = e.target.checked;
+                localStorage.setItem("cantor-opt-split-recension", String(e.target.checked));
+                if (!state.splitRecensions) {
+                    state.ordinariesRecension = state.version;
+                    state.propersRecension = state.version;
+                }
+                syncRecensionToolbarControls();
+                hotSwapBookletRecension();
+            });
+        }
+
+        if (el.bookletOrdinariesSelect) {
+            el.bookletOrdinariesSelect.addEventListener("change", (e) => {
+                state.ordinariesRecension = e.target.value;
+                localStorage.setItem("cantor-opt-ordinaries-recension", e.target.value);
+                syncRecensionToolbarControls();
+                hotSwapBookletRecension();
+            });
+        }
+
+        if (el.bookletPropersSelect) {
+            el.bookletPropersSelect.addEventListener("change", (e) => {
+                state.propersRecension = e.target.value;
+                localStorage.setItem("cantor-opt-propers-recension", e.target.value);
+                syncRecensionToolbarControls();
+                hotSwapBookletRecension();
+            });
+        }
+
+        if (el.chkStrictCorpus) {
+            el.chkStrictCorpus.addEventListener("change", (e) => {
+                state.strictCorpusMode = e.target.checked;
+                localStorage.setItem("cantor-opt-strict-corpus", String(e.target.checked));
+                syncRecensionToolbarControls();
+                hotSwapBookletRecension();
             });
         }
 
@@ -2807,6 +3012,10 @@ document.addEventListener("DOMContentLoaded", () => {
             state.profiles[cleanName] = {
                 paschalion: state.paschalion,
                 version: state.version,
+                splitRecensions: state.splitRecensions,
+                ordinariesRecension: state.ordinariesRecension,
+                propersRecension: state.propersRecension,
+                strictCorpusMode: state.strictCorpusMode,
                 calendarSource: state.calendarSource,
                 templeFeast: state.templeFeast,
                 templeName: state.templeName,
@@ -2865,7 +3074,11 @@ document.addEventListener("DOMContentLoaded", () => {
         function applyProfileSettings(pName) {
             let config = {
                 paschalion: "gregorian",
-                version: "stamford_2014",
+                version: "royal_doors",
+                splitRecensions: false,
+                ordinariesRecension: "royal_doors",
+                propersRecension: "royal_doors",
+                strictCorpusMode: false,
                 calendarSource: "default",
                 templeFeast: "",
                 templeName: "St. Nicholas",
@@ -2887,9 +3100,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 config = Object.assign({}, config, state.profiles[pName]);
             }
 
+            if (config.version === "lviv") {
+                config.version = "royal_doors";
+            }
+
             // Sync state
             state.paschalion = config.paschalion;
             state.version = config.version;
+            state.splitRecensions = config.splitRecensions === true;
+            state.ordinariesRecension = state.splitRecensions ? (config.ordinariesRecension || config.version) : config.version;
+            state.propersRecension = state.splitRecensions ? (config.propersRecension || config.version) : config.version;
+            state.strictCorpusMode = config.strictCorpusMode === true;
             state.calendarSource = config.calendarSource || "default";
             state.templeFeast = config.templeFeast || "";
             state.templeName = config.templeName || "St. Nicholas";
@@ -2909,6 +3130,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // Sync storage
             localStorage.setItem("cantor-opt-paschalion", config.paschalion);
             localStorage.setItem("cantor-opt-version", config.version);
+            localStorage.setItem("cantor-split-recensions", String(state.splitRecensions));
+            localStorage.setItem("cantor-ordinaries-recension", state.ordinariesRecension);
+            localStorage.setItem("cantor-propers-recension", state.propersRecension);
+            localStorage.setItem("cantor-strict-corpus-mode", String(state.strictCorpusMode));
             localStorage.setItem("cantor-opt-calendar-source", state.calendarSource);
             localStorage.setItem("cantor-opt-temple-feast", state.templeFeast);
             localStorage.setItem("cantor-opt-temple-name", state.templeName);
@@ -2972,7 +3197,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 optIncludeCeremonial.checked = state.includeCeremonial;
             }
 
-            // Update recension badge dynamically
+            // Sync Center Panel recension controls & badge
+            syncRecensionToolbarControls();
             updateRecensionBadge();
 
             // Trigger resolve Date if date picked

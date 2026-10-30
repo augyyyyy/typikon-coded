@@ -36,7 +36,7 @@ class EngineCore:
     """Mixin providing core methods for RuthenianEngine."""
 
 
-    def __init__(self, base_dir=".", temple_feast_date=None, temple_patron=None, temple_type="saint", parish_profile=None, hierarchy=None, version="royal_doors", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None, calendar_source=None, use_almanac_cache=False):
+    def __init__(self, base_dir=".", temple_feast_date=None, temple_patron=None, temple_type="saint", parish_profile=None, hierarchy=None, version="stamford_2014", paschalion="gregorian", fixed_recension_path=None, variable_recension_path=None, external_assets_dir=None, calendar_source=None, use_almanac_cache=False, ordinaries_recension=None, propers_recension=None, strict_corpus_mode=False):
         self.base_dir = base_dir
         self.use_almanac_cache = use_almanac_cache
         self.json_db = os.path.join(base_dir, "json_db")
@@ -61,20 +61,28 @@ class EngineCore:
             "royal_doors": "royal_doors",
             "lviv": "lviv",
             "lviv_2010": "lviv",
-            "st_sergius": "st_sergius"
+            "st_sergius": "st_sergius",
+            "sheptytsky": "sheptytsky_2021",
+            "sheptytsky_2021": "sheptytsky_2021",
+            "sheptytsky_printed": "sheptytsky_2021"
         }
         self.folder_map = {
              "stamford_2014": "stamford",
              "royal_doors": "stamford",
              "lviv": "lviv",
-             "st_sergius": "st_sergius"
+             "st_sergius": "st_sergius",
+             "sheptytsky_2021": "stamford"
         }
         
         self.version_id = self.version_map.get(version, version)
+        self.version = self.version_id
+        self.ordinaries_recension = self.version_map.get(ordinaries_recension, ordinaries_recension) if ordinaries_recension else self.version_id
+        self.propers_recension = self.version_map.get(propers_recension, propers_recension) if propers_recension else self.version_id
+        self.strict_corpus_mode = bool(strict_corpus_mode)
         # Default internal folder if no external path provided
         self.content_folder = self.folder_map.get(self.version_id, "stamford")
         
-        print(f"Engine Init: Logic=[{self.version_id}] | Internal Content=[json_db/{self.content_folder}]")
+        print(f"Engine Init: Logic=[{self.version_id}] | Ordinaries=[{self.ordinaries_recension}] | Propers=[{self.propers_recension}] | Strict=[{self.strict_corpus_mode}] | Internal Content=[json_db/{self.content_folder}]")
 
         self.temple_feast_date = temple_feast_date
         self.temple_patron = temple_patron
@@ -122,10 +130,24 @@ class EngineCore:
         self.general_cases = self._load_json("json_db/02a_logic_general.json")
         self.collision_db = self._load_json("json_db/02k_logic_collisions.json")
         
-        # Load Text Databases (Multi-Layer Strategy)
+        # Load Text Databases (Multi-Layer Modular Per-Book Strategy)
         self.royal_doors_db = {}
+        self.royal_doors_ordinaries_db = {}
+        self.royal_doors_propers_db = {}
         self.stamford_db = {}
-        self.text_db = {} 
+        self.stamford_ordinaries_db = {}
+        self.stamford_propers_db = {}
+        self.st_sergius_ordinaries_db = {}
+        self.st_sergius_propers_db = {}
+        self.sheptytsky_ordinaries_db = {}
+        self.sheptytsky_propers_db = {}
+        self.text_db = {}
+        self.recension_book_shards = {
+            "royal_doors": {},
+            "stamford_2014": {},
+            "st_sergius": {},
+            "sheptytsky_2021": {},
+        }
         
         # Set primary and backup database references
         if self.version_id == "royal_doors":
@@ -133,37 +155,29 @@ class EngineCore:
             self.backup_db = self.stamford_db
         elif self.version_id == "stamford_2014":
             self.primary_db = self.stamford_db
-            self.backup_db = {}
+            self.backup_db = {} if self.strict_corpus_mode else self.royal_doors_db
         else:
-            # Custom version selection (fallback to empty backup, direct loaded text_db primary)
+            # Custom version selection (fallback to Royal Doors & Stamford unless strict_corpus_mode)
             self.primary_db = self.text_db
-            self.backup_db = self.stamford_db
+            self.backup_db = {} if self.strict_corpus_mode else self.stamford_db
 
-        # 1. Load Royal Doors (Primary) Recension
+        # 1. Load Modular Per-Book Shards across all Recensions (Auto-discovered + canonical order)
         rd_dir = "Data/Service Books/Recensions/Royal Doors/JSON/assets"
-        self._load_versioned_texts(f"{rd_dir}/text_horologion.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_horologion_supplement.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_menaion.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_eothinon.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_octoechos.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_pentecostarion.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_triodion.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_weekdays.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_theotokia.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts(f"{rd_dir}/text_liturgikon.json", target_db=self.royal_doors_db)
-        
-        # 2. Load Stamford (Backup) Recension
         stam_dir = "Data/Service Books/Recensions/Stamford Divine Office/JSON/assets"
-        self._load_versioned_texts(f"{stam_dir}/text_horologion.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_horologion_supplement.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_menaion.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_eothinon.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_octoechos.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_pentecostarion.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_triodion.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_weekdays.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_theotokia.json", target_db=self.stamford_db)
-        self._load_versioned_texts(f"{stam_dir}/text_liturgikon.json", target_db=self.stamford_db)
+        self._load_recension_book_shards(
+            rd_dir,
+            combined_db=self.royal_doors_db,
+            ordinaries_db=self.royal_doors_ordinaries_db,
+            propers_db=self.royal_doors_propers_db,
+            recension_key="royal_doors"
+        )
+        self._load_recension_book_shards(
+            stam_dir,
+            combined_db=self.stamford_db,
+            ordinaries_db=self.stamford_ordinaries_db,
+            propers_db=self.stamford_propers_db,
+            recension_key="stamford_2014"
+        )
 
         # 3. Load other common/shared texts
         self._load_versioned_texts("json_db/text_pentecostarion_pascha.json")
@@ -188,12 +202,7 @@ class EngineCore:
         elif self.external_assets_dir and os.path.exists(self.external_assets_dir):
             # Legacy single-path fallback
             self._load_external_assets(self.external_assets_dir, "Legacy")
-            
-        # Load Triodion Parsed Data
-        self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/assets/text_lenten_triodion.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts("Data/Service Books/Recensions/Royal Doors/JSON/assets/text_floral_triodion.json", target_db=self.royal_doors_db)
-        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/assets/text_lenten_triodion.json", target_db=self.stamford_db)
-        self._load_versioned_texts("Data/Service Books/Recensions/Stamford Divine Office/JSON/assets/text_floral_triodion.json", target_db=self.stamford_db)
+
         # Primary Source: Unified Calendar Data (Fixed & Movable)
         calendar_file = "json_db/calendar_typikon.json"
         if calendar_source:
@@ -213,9 +222,14 @@ class EngineCore:
         if not self.katavasia_seasons:
              print("WARNING: Failed to load 'katavasia_seasons.json'. Katavasia lookup disabled.")
         
-        # Load St. Sergius Unabridged Data (Refined)
-        self.st_sergius_db = self._load_json("json_db/st_sergius/octoechos_tone_1_refined.json")
-        # Extend to other tones if/when they exist
+        # Load St. Sergius Unabridged Data (Full Corpus + Tone 1 Refined)
+        self.st_sergius_db = {}
+        st_serg_full = self._load_json("json_db/st_sergius/text_st_sergius.json")
+        if isinstance(st_serg_full, dict):
+            self.st_sergius_db.update(st_serg_full)
+        st_serg_t1 = self._load_json("json_db/st_sergius/octoechos_tone_1_refined.json")
+        if isinstance(st_serg_t1, dict):
+            self.st_sergius_db.update(st_serg_t1)
 
         # Load Multi-Recension Comparisons (English-First Focus)
         self.pure_typikon_db = self._load_json("json_db/propers_comparisons/festal_propers_pure_typikon_database.json") or {}
@@ -232,6 +246,30 @@ class EngineCore:
 
         # Populate dynamic recension attribute databases
         self.sheptytsky_printed_db = {k[:-3]: v for k, v in self.pure_typikon_db.items() if k.endswith("_en")}
+        for ss_dir in (
+            "Data/Service Books/Recensions/St Sergius/JSON/assets",
+            "Data/Service Books/Recensions/St. Sergius/JSON/assets",
+        ):
+            self._load_recension_book_shards(
+                ss_dir,
+                combined_db=self.st_sergius_db,
+                ordinaries_db=self.st_sergius_ordinaries_db,
+                propers_db=self.st_sergius_propers_db,
+                recension_key="st_sergius"
+            )
+        for sh_dir in (
+            "Data/Service Books/Recensions/Sheptytsky 2021/JSON/assets",
+            "Data/Service Books/Recensions/Sheptytsky/JSON/assets",
+        ):
+            self._load_recension_book_shards(
+                sh_dir,
+                combined_db=self.sheptytsky_printed_db,
+                ordinaries_db=self.sheptytsky_ordinaries_db,
+                propers_db=self.sheptytsky_propers_db,
+                recension_key="sheptytsky_2021"
+            )
+        self.sheptytsky_2021_db = dict(self.sheptytsky_printed_db)
+        self.stamford_2014_db = self.stamford_db
         self.stamford_printed_db = {k[:-3]: v for k, v in self.pure_typikon_db.items() if k.endswith("_uk")}
         self.royal_doors_web_db = {k[:-3]: v for k, v in self.propers_web_db.items() if k.endswith("_en")}
         self.stamford_web_2026_db = {k[:-3]: v for k, v in self.propers_web_db.items() if k.endswith("_uk")}

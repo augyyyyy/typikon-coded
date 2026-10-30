@@ -459,7 +459,12 @@ class RubricsMixin:
         elif rank_code:
              code_clean = str(rank_code).strip()
              if code_clean in ("[LORD]", "[MOG]"): ranks.append(1)
-             elif code_clean == "[VIGIL]": ranks.append(2)
+             elif code_clean == "[VIGIL]":
+                 if not (
+                     context.get("pascha_offset") == 7
+                     and (not context.get("saints") or context.get("dolnytsky_title") == "Antipascha: Sunday of St. Thomas")
+                 ):
+                     ranks.append(2)
              elif code_clean == "[POL]": ranks.append(2)
              elif code_clean == "[GT DOX]": ranks.append(3)
              elif code_clean == "[6 SM]": ranks.append(4)
@@ -790,10 +795,12 @@ class RubricsMixin:
                         merged_case["variables"] = {}
                     merged_case["variables"].update(child_vars)
                     
-                    # Keep Child Attributes (ID, Triggers, Source)
+                    # Keep Child Attributes (ID, Triggers, Source, Title)
                     merged_case["id"] = c_def.get("id")
                     merged_case["triggers"] = c_def.get("triggers")
                     merged_case["source_ref"] = c_def.get("source_ref")
+                    if "title" in c_def:
+                        merged_case["title"] = c_def["title"]
                     if "base_template" in merged_case:
                         del merged_case["base_template"]
                     return merged_case
@@ -896,8 +903,10 @@ class RubricsMixin:
             return lviv_num
             
         # 2. Check general case mapping
-        gc = self.resolve_general_case(context)
-        paradigm_id = gc.get("id") if gc else None
+        paradigm_id = context.get("paradigm_id")
+        if not paradigm_id:
+            gc = self.resolve_general_case(context)
+            paradigm_id = gc.get("id") if gc else None
         
         # Load map if not cached
         if not hasattr(self, "_lviv_format_map") or self._lviv_format_map is None:
@@ -1473,7 +1482,11 @@ class RubricsMixin:
                         ):
                             context["saints"][0].setdefault("calendar_id", context["saints"][0].get("id"))
                             context["saints"][0]["id"] = saint_id
-                    else:
+                    elif not (
+                        context.get("pascha_offset") == 7
+                        and context.get("dolnytsky_title") == "Antipascha: Sunday of St. Thomas"
+                        and menaion_day.get("rank") in ("rank_simple", "rank_simple_4", "rank_simple_6")
+                    ):
                         context["saints"] = [{"id": saint_id, "name": menaion_day.get("st_name", ""), "rank": 2}]
                 
                 # Base template inheritance: inherit default variables if not overridden
@@ -1799,6 +1812,8 @@ class RubricsMixin:
         general_case = self.resolve_general_case(context)
         if general_case:
             context["paradigm_id"] = general_case.get("id")
+            if general_case.get("title"):
+                context["raw_paradigm_title"] = general_case.get("title")
             rubrics["_trace"].append(f"General Case: Matched case '{general_case.get('id')}'.")
             gc_vars = general_case.get("variables", {})
             is_after_or_fore = bool(
@@ -1903,6 +1918,16 @@ class RubricsMixin:
                 last_part = parts[-1]
                 humanized = last_part.replace("_", " ").title()
                 rubrics["title"] = humanized
+
+        if hasattr(self, "_enrich_classification_fields") and "date" in context:
+            self._enrich_classification_fields(context)
+
+        fmt_num = self.resolve_canonical_format_number(context)
+        context["lviv_paradigm_number"] = fmt_num
+        p_id = context.get("paradigm_id") or ""
+        raw_title = context.get("raw_paradigm_title")
+        if p_id and not p_id.startswith("CASE_") and raw_title and isinstance(fmt_num, int):
+            context["paradigm_title"] = f"Format {fmt_num} — {raw_title}"
 
         return rubrics
 

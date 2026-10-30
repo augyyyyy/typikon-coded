@@ -451,6 +451,7 @@ class CalendarMixin:
             "[LORD]": 1, "LORD": 1, "[MOG]": 1, "THEOTOKOS": 1,
             "[VIGIL]": 2, "VIGIL": 2, "[POL]": 3, "POLYELEOS": 3,
             "[GT DOX]": 4, "GT_DOX": 4, "[6 SM]": 5, "SIX": 5,
+            "[ALLELUIA]": 6, "ALLELUIA": 6,
             "[4 A+G]": 6, "[4 TR]": 7, "[4 NO]": 8, "SIMPLE": 6, "NO": 8
         }
         code_1 = context.get("dolnytsky_rank_code") or ""
@@ -460,6 +461,7 @@ class CalendarMixin:
         rank_code = code_1 if p1 <= p2 else code_2
         if not rank_code:
             rank_code = code_1 or code_2
+        context["rank_code"] = rank_code
             
         rank_val = self.calculate_rank(context)
         if context.get("day_of_week") == 0 and rank_val > 4:
@@ -492,7 +494,7 @@ class CalendarMixin:
         elif rank_code in ["[6 SM]", "SIX"]:
             class_num = "V"
             class_label = "Six-Stichera"
-        elif rank_code in ["[4 A+G]", "[4 NO]", "[4 TR]", "SIMPLE", "NO"]:
+        elif rank_code in ["[4 A+G]", "[4 NO]", "[4 TR]", "[ALLELUIA]", "ALLELUIA", "SIMPLE", "NO"]:
             class_num = "V"
             class_label = "Simple"
         # 3. If no match in rank_code, check other rank_val cases
@@ -542,6 +544,7 @@ class CalendarMixin:
                 flags=re.IGNORECASE
             ) if p.strip()]
             
+        context["commemoration_parts"] = parts
         context["saint_categories"] = [get_liturgical_category(p) for p in parts]
 
         # 4. Canonical Status Flags (Enriched to prevent title substring matching downstream)
@@ -621,6 +624,12 @@ class CalendarMixin:
             -1: ("Great and Holy Saturday", "LORD"),
              # Paschal Cycle
               0: ("Pascha: RESURRECTION OF CHRIST", "LORD"),
+              1: ("Bright Monday", "LORD"),
+              2: ("Bright Tuesday", "LORD"),
+              3: ("Bright Wednesday", "LORD"),
+              4: ("Bright Thursday", "LORD"),
+              5: ("Bright Friday", "LORD"),
+              6: ("Bright Saturday", "LORD"),
              39: ("Ascension of Our Lord", "LORD"),
              49: ("Pentecost: Sunday of the Holy Trinity", "LORD"),
              50: ("Monday of the Holy Spirit", "LORD"),
@@ -757,6 +766,9 @@ class CalendarMixin:
         
         # ── 2. FIXED CALENDAR LOOKUP ──────────────────────────────────────
         if delta is not None and (-8 <= delta <= 6 or (delta == 7 and (target_date.month, target_date.day) not in ((3, 25), (4, 23), (4, 25)))):
+            if delta == 7:
+                result["dolnytsky_title"] = "Antipascha: Sunday of St. Thomas"
+                result["dolnytsky_rank_code"] = "[VIGIL]"
             return result
 
         key = f"{target_date.month}-{target_date.day}"
@@ -1336,8 +1348,8 @@ class CalendarMixin:
         if 0 <= offset <= 6:
             return None
 
-        # Pentecost Sunday (offset 49): Lord's Feast, festal gospel replaces Eothinon
-        if offset == 49:
+        # Palm Sunday (offset -7) & Pentecost Sunday (offset 49): Lord's Feast, festal gospel replaces Eothinon
+        if offset in (-7, 49):
             return None
 
         # Post-Pentecost: Eothinon sequence starts at All Saints (offset 56) with Eothinon 1.

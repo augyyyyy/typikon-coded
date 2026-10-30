@@ -96,3 +96,56 @@ def test_synodal_footnotes_sanitized_and_bijective(engine):
     ]
     assert len(service_book_matches) == 0, f"Footnotes contain un-glossed service book: {service_book_matches}"
 
+
+def test_cantor_dashboard_synodal_footnotes_filter_contract():
+    import ast
+    import glob
+    from pathlib import Path
+
+    root = Path(".")
+    index_html = (root / "Data/prototypes/cantor_dashboard/index.html").read_text(encoding="utf-8")
+    main_js = (root / "Data/prototypes/cantor_dashboard/main.js").read_text(encoding="utf-8")
+
+    # 1. Verify View Office dropdown contains "Synodal Footnotes" option
+    assert '<option value="Synodal Footnotes">Synodal Footnotes &amp; Notes</option>' in index_html
+
+    # 2. Verify getGenericServiceName and getServiceOrderWeight in main.js map FOOTNOTE / SYNODAL / NOTES -> "Synodal Footnotes"
+    assert 'return "Synodal Footnotes";' in main_js
+    assert 'order.push("Synodal Footnotes");' in main_js
+    assert 'No Synodal footnotes or collision notes are appointed on this day.' in main_js
+
+    # 3. Verify 0 duplicate method definitions across all digest/**/*.py files via AST
+    duplicates = []
+    for py_path in sorted(glob.glob("digest/**/*.py", recursive=True)):
+        source = Path(py_path).read_text(encoding="utf-8")
+        tree = ast.parse(source, filename=py_path)
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                seen = {}
+                for item in node.body:
+                    if isinstance(item, ast.FunctionDef):
+                        if item.name in seen:
+                            duplicates.append((py_path, node.name, item.name, seen[item.name], item.lineno))
+                        seen[item.name] = item.lineno
+    assert duplicates == [], f"Found duplicate method definitions in digest/: {duplicates}"
+
+def test_cantor_dashboard_server_single_resolver_memoization():
+    from pathlib import Path
+    from unittest.mock import patch
+
+    server_py = Path("Data/prototypes/cantor_dashboard/server.py").read_text(encoding="utf-8")
+    assert "_engine_cache" in server_py
+    assert "_make_memo" in server_py
+
+    eng = RuthenianEngine(base_dir=".")
+    gen = TypikonDigestGenerator(eng)
+
+    for test_date in (date(2026, 10, 25), date(2026, 10, 29)):
+        ctx = eng.get_liturgical_context(test_date)
+        rub = eng.resolve_rubrics(ctx)
+        with patch.object(eng, "resolve_liturgy_readings", wraps=eng.resolve_liturgy_readings) as spy_readings, \
+             patch.object(eng, "resolve_katavasia", wraps=eng.resolve_katavasia) as spy_katavasia:
+            md = gen.generate(ctx, rub, mode="full")
+            assert len(md) > 500
+            assert spy_readings.call_count <= 1, f"Expected <= 1 resolve_liturgy_readings call on {test_date}, got {spy_readings.call_count}"
+            assert spy_katavasia.call_count <= 1, f"Expected <= 1 resolve_katavasia call on {test_date}, got {spy_katavasia.call_count}"

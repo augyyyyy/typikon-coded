@@ -1,0 +1,28 @@
+# Task Checklist — Right Side Panel (`Service Rubrics Digest`) & $O(1 + n)$ Single-Resolver Remediation
+
+- [x] **Pre-Flight Checklist (Rule 11)**
+  - [x] Read `.agents/AGENTS.md`, `.agents/references/project_facts.md`, `.agents/references/learnings.md`, and `.agents/references/anti_patterns.md`
+  - [x] Run `pytest tests/test_session_compliance.py --verbose` (`1 passed`)
+- [x] **Workstream 1: Frontend Right-Panel (`Service Rubrics Digest`) UI Filter & Copy Parity**
+  - [x] Add `<option value="Synodal Footnotes">Synodal Footnotes &amp; Notes</option>` in `Data/prototypes/cantor_dashboard/index.html`
+  - [x] Map `FOOTNOTE`/`SYNODAL`/`NOTES` headers to `"Synodal Footnotes"` in `getGenericServiceName()` and `getServiceOrderWeight()` in `Data/prototypes/cantor_dashboard/main.js`
+  - [x] Add clean empty-state notice (`"No Synodal footnotes or collision notes are appointed on this day."`) when `"Synodal Footnotes"` is selected on a day with 0 notes
+  - [x] Add `(selectedService === "Hours" && genericName.includes("Hour"))` parity across both `renderServiceDigestContent()` and the `#copy-digest-btn` handler in `main.js`
+- [x] **Workstream 2: Backend $O(1 + n)$ Single-Resolver Architecture & Memoization**
+  - [x] Cache `RuthenianEngine` instances on `CantorDashboardHandler._engine_cache` keyed by `(version, paschalion, calendar_source)` in `Data/prototypes/cantor_dashboard/server.py`
+  - [x] Wrap shared day-level resolvers (`resolve_fasting_rule`, `resolve_vestment_color`, `resolve_katavasia`, `resolve_liturgy_readings`, `resolve_liturgy_hymns`, `resolve_god_is_the_lord_troparia`, `resolve_praises_stichera`) with per-request deep-copied memoization in `server.py`
+  - [x] Memoize `self._cached_liturgy_readings` in `digest/base.py` (`_process_skeleton`) and skip redundant `resolve_katavasia` execution in `_format_logic_hook`
+  - [x] Remove unreachable `if "hours_type" in service["type_key"]:` dead-code block in `digest/base.py`
+- [x] **Workstream 3: Purge 36 Shadowed Duplicate Formatter Methods in `digest/formatters/`**
+  - [x] Remove 14 shadowed/duplicate `_format_resolve_*` methods in `digest/formatters/common.py`
+  - [x] Remove 12 shadowed `_format_resolve_*` methods in `digest/formatters/matins.py`
+  - [x] Remove 6 shadowed `_format_resolve_*` methods in `digest/formatters/lenten.py`
+  - [x] Remove 3 shadowed/duplicate `_format_resolve_*` methods in `digest/formatters/liturgy.py`
+  - [x] Remove 1 shadowed `_format_resolve_*` method in `digest/formatters/vespers.py`
+- [x] **Workstream 4: Contract & AST Regression Tests (`tests/test_synodal_footnotes.py`)**
+  - [x] Add `test_cantor_dashboard_synodal_footnotes_filter_contract()` and `test_cantor_dashboard_server_single_resolver_memoization()` (`7 passed`)
+- [x] **Post-Flight Verification & Handoff (Rule 12)**
+  - [x] Run `scripts/service_day_multi_auditor.py --year 2026` (`365/365` days, `3,285` services PASS)
+  - [x] Run `scripts/audit_day_cards.py --all-year` (`365/365` days, `2,555` cards PASS)
+  - [x] Run `git --no-pager diff --stat HEAD`, `test_session_compliance.py`, `verify_ecosystem_integrity.py`, and full non-UI `pytest` suite (`1454 passed, 3 skipped`)
+  - [x] Generate digest verification sample and archive `implementation_plan.md`, `task.md`, and `walkthrough.md` to `.agents/brain/session_history/2026-10-29/`

@@ -428,23 +428,51 @@ class CeremonialMixin:
                 return "Royal Hours of Nativity"
             else:
                 return "Royal Hours of Great Friday"
-        elif lType == "presanctified_liturgy" or lType == "presanctified":
+        elif lType in ("presanctified_liturgy", "presanctified", "liturgy_presanctified"):
             return "Liturgy of the Presanctified Gifts"
         
-        rankVal = context.get("rank", 5)
-        code = context.get("fixed_rank_code") or context.get("dolnytsky_rank_code") or ""
+        from engine.utils.type_utils import parse_rank_integer
+        rankVal = parse_rank_integer(context.get("rank", 5))
+        code = context.get("rank_code") or context.get("dolnytsky_rank_code") or context.get("fixed_rank_code") or ""
         isLordOrTheotokosFeast = code in ["[LORD]", "[MOG]", "LORD", "THEOTOKOS"]
         
-        # Cleaned title from commemoration details
-        title_text = cleanLiturgicalText(context.get("dolnytsky_title") or "")
+        # Cleaned title from commemoration details or movable paradigm title
+        title_text = cleanLiturgicalText(context.get("dolnytsky_title") or context.get("raw_paradigm_title") or "")
+        p_id = context.get("paradigm_id") or ""
+        sms = context.get("specific_menaion_sunday")
+        sms_id = sms.get("id") if isinstance(sms, dict) else None
+        sms_name = sms.get("name") if isinstance(sms, dict) else None
+
+        if context.get("day_of_week") == 0 and sms_id in (
+            "sunday_fathers_six_councils",
+            "sunday_fathers_seventh_council",
+            "sunday_forefathers",
+            "sunday_before_nativity",
+        ):
+            if sms_id == "sunday_fathers_seventh_council" and title_text:
+                return title_text
+            if code in ("[VIGIL]", "VIGIL", "[POL]", "POLYELEOS", "[GT DOX]", "GT_DOX") and title_text and sms_name.lower() not in title_text.lower():
+                return f"{sms_name}; {title_text}"
+            return sms_name or title_text or "Standard Sunday Services"
         
         if isLordOrTheotokosFeast or rankVal == 1:
             return title_text or "Great Feast"
-        elif code in ("[VIGIL]", "VIGIL") or rankVal == 2:
-            return title_text or "Vigil Service"
+        elif code in ("[VIGIL]", "VIGIL", "[POL]", "POLYELEOS") or rankVal == 2:
+            if context.get("day_of_week") == 0 and p_id and not p_id.startswith("CASE_"):
+                return cleanLiturgicalText(context.get("raw_paradigm_title") or title_text) or "Vigil Service"
+            return title_text or cleanLiturgicalText(context.get("dolnytsky_commemoration") or "") or "Vigil Service"
+        elif code in ("[GT DOX]", "GT_DOX", "[ALLELUIA]", "ALLELUIA") or rankVal == 3:
+            if title_text:
+                return title_text
         elif context.get("day_of_week") == 0:
+            if p_id and not p_id.startswith("CASE_"):
+                return cleanLiturgicalText(context.get("raw_paradigm_title") or title_text) or "Standard Sunday Services"
+            if p_id in ("CASE_21", "CASE_22") and title_text:
+                return title_text
             return "Standard Sunday Services"
         
+        if context.get("day_of_week") == 0:
+            return "Standard Sunday Services"
         return "Standard Daily Services"
 
 

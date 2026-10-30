@@ -70,6 +70,40 @@ class LiturgyMixin:
         else:
             return "antiphons_daily"
 
+    def _resolve_liturgy_asset_text(self, ref_key, context, default_text=""):
+        """Resolve a Liturgikon / Horologion text key dynamically for the active recension."""
+        if not ref_key or not hasattr(self, "get_text"):
+            return default_text
+        try:
+            asset = self.get_text(ref_key, context=context)
+            if isinstance(asset, dict) and not asset.get("is_missing") and asset.get("content"):
+                content = asset["content"]
+                if isinstance(content, dict):
+                    content = content.get("en") or content.get("text") or ""
+                if isinstance(content, str) and content.strip() and not content.strip().startswith("[STUB]"):
+                    return content.strip()
+        except Exception:
+            pass
+        return default_text
+
+    def _resolve_isodikon_entry(self, ref_key, context, default_verse, default_refrain):
+        raw_text = self._resolve_liturgy_asset_text(ref_key, context, "")
+        verse = default_verse
+        refrain = default_refrain
+        if raw_text:
+            for ln in raw_text.splitlines():
+                ln_s = ln.strip()
+                if ln_s.lower().startswith("verse:"):
+                    verse = ln_s.split(":", 1)[1].strip()
+                elif ln_s.lower().startswith("refrain:"):
+                    refrain = ln_s.split(":", 1)[1].strip()
+        return {
+            "type": "isodikon",
+            "verse": verse,
+            "refrain": refrain,
+            "ref_key": ref_key,
+            "text": f"Verse: {verse}\nRefrain: {refrain}"
+        }
 
     def resolve_isodikon(self, context):
         """
@@ -90,12 +124,14 @@ class LiturgyMixin:
             or "exaltation" in title
             or feast_id in ("exaltation_cross", "exaltation")
         ):
-            return {
-                "type": "isodikon",
-                "verse": "Exalt the Lord our God, and bow down at His footstool, for it is holy.",
-                "refrain": "Save us, O Son of God, crucified in the flesh, who sing to You: Alleluia.",
-                "ref_key": "menaion.exaltation_cross.entrance_verse"
-            }
+            res = self._resolve_isodikon_entry(
+                "liturgikon.isodikon.exaltation_cross",
+                context,
+                "Exalt the Lord our God, and bow down at His footstool, for it is holy.",
+                "Save us, O Son of God, crucified in the flesh, who sing to You: Alleluia.",
+            )
+            res["ref_key"] = "menaion.exaltation_cross.entrance_verse"
+            return res
 
         day_of_week = context.get("day_of_week", 0)
         from engine.utils.type_utils import parse_rank_integer
@@ -104,29 +140,37 @@ class LiturgyMixin:
 
         # Sunday (Resurrection takes precedence unless Rank 1 Great Feast of the Lord)
         if day_of_week == 0 and not (rank == 1 and dolnytsky_rank == "LORD"):
-            return {
-                "verse": "Come, let us worship and bow down before Christ.",
-                "refrain": "O Son of God, risen from the dead, save us who sing to You: Alleluia."
-            }
+            return self._resolve_isodikon_entry(
+                "liturgikon.isodikon.sunday",
+                context,
+                "Come, let us worship and bow down before Christ.",
+                "O Son of God, risen from the dead, save us who sing to You: Alleluia.",
+            )
 
         if paradigm == "p_feast_lord":
-            return {
-                "verse": "Blessed is He who comes in the name of the Lord. God is the Lord and has appeared to us.",
-                "refrain": "O Son of God, baptized in the Jordan, save us who sing to You: Alleluia."
-            }
+            return self._resolve_isodikon_entry(
+                "liturgikon.isodikon.feast_lord",
+                context,
+                "Blessed is He who comes in the name of the Lord. God is the Lord and has appeared to us.",
+                "O Son of God, baptized in the Jordan, save us who sing to You: Alleluia.",
+            )
 
         is_forefeast_cur = bool(context.get("is_forefeast") or context.get("period") == "forefeast")
         if not is_forefeast_cur and (dolnytsky_rank in ("THEOTOKOS", "MOG") or context.get("feast_level") == "theotokos"):
-            return {
-                "verse": "Come, let us worship and bow down before Christ.",
-                "refrain": "Through the prayers of the Theotokos, save us who sing to You: Alleluia."
-            }
+            return self._resolve_isodikon_entry(
+                "liturgikon.isodikon.theotokos",
+                context,
+                "Come, let us worship and bow down before Christ.",
+                "Through the prayers of the Theotokos, save us who sing to You: Alleluia.",
+            )
             
         # General Saint/Weekday -> "Wondrous in the saints"
-        return {
-            "verse": "Come, let us worship and bow down before Christ.",
-            "refrain": "O Son of God, wondrous in the saints, save us who sing to You: Alleluia."
-        }
+        return self._resolve_isodikon_entry(
+            "liturgikon.isodikon.weekday_saints",
+            context,
+            "Come, let us worship and bow down before Christ.",
+            "O Son of God, wondrous in the saints, save us who sing to You: Alleluia.",
+        )
 
 
     def resolve_liturgy_extensions(self, context):
@@ -598,10 +642,12 @@ class LiturgyMixin:
         # Filter components based on conditions
         final_components = []
         is_afterfeast = context.get("is_afterfeast", False)
-        has_sunday_liturgy_saint = (
-            rank_numeric <= 3
-            or context.get("dolnytsky_rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]")
-            or any(isinstance(s, dict) and s.get("rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]") for s in saints)
+        has_sunday_liturgy_saint = bool(
+            actual_saints and (
+                rank_numeric <= 3
+                or context.get("dolnytsky_rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]")
+                or any(isinstance(s, dict) and s.get("rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]") for s in saints)
+            )
         )
         suppress_sunday_saint_hymns = (day == 0 and is_real_calendar_context and not has_sunday_liturgy_saint)
         
@@ -650,8 +696,17 @@ class LiturgyMixin:
         date = context.get("date", "")
         
         menaion_key = context.get("menaion_key", "")
+        baptismal_text = self._resolve_liturgy_asset_text(
+            "liturgikon.as_many_as_baptized",
+            context,
+            "As many as have been baptized into Christ have put on Christ. Alleluia.",
+        )
+        cross_text = self._resolve_liturgy_asset_text(
+            "liturgikon.before_thy_cross",
+            context,
+            "Before Thy Cross we bow down in worship, O Master, and Thy holy Resurrection we glorify.",
+        )
         
-        # BAPTISMAL HYMN: "As many as have been baptized into Christ"
         # BAPTISMAL HYMN: "As many as have been baptized into Christ"
         # Nativity of the Lord (Feast Day only: Dec 25)
         if feast_id == "nativity" or (menaion_key == "menaion.1225" and not context.get("is_afterfeast") and not context.get("is_forefeast")) or (context.get("primary_feast_id") == "nativity" and not context.get("is_afterfeast") and not context.get("is_forefeast")):
@@ -659,7 +714,7 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "as_many_baptized",
                 "ref_key": "liturgikon.as_many_as_baptized",
-                "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
+                "text": baptismal_text
             }
         
         # Theophany of the Lord (Feast Day only: Jan 6)
@@ -668,7 +723,7 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "as_many_baptized",
                 "ref_key": "liturgikon.as_many_as_baptized",
-                "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
+                "text": baptismal_text
             }
         
         # Lazarus Saturday
@@ -677,7 +732,7 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "as_many_baptized",
                 "ref_key": "liturgikon.as_many_as_baptized",
-                "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
+                "text": baptismal_text
             }
         
         # Holy Saturday
@@ -686,7 +741,7 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "as_many_baptized",
                 "ref_key": "liturgikon.as_many_as_baptized",
-                "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
+                "text": baptismal_text
             }
         
         # Pascha through Bright Week (offset 0-6)
@@ -695,7 +750,7 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "as_many_baptized",
                 "ref_key": "liturgikon.as_many_as_baptized",
-                "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
+                "text": baptismal_text
             }
         
         # Pentecost (Pentecost Sunday only, offset 49)
@@ -704,7 +759,7 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "as_many_baptized",
                 "ref_key": "liturgikon.as_many_as_baptized",
-                "text": "As many as have been baptized into Christ have put on Christ. Alleluia."
+                "text": baptismal_text
             }
         
         # CROSS HYMN: "Before Thy Cross we bow down"
@@ -714,7 +769,7 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "before_thy_cross",
                 "ref_key": "liturgikon.before_thy_cross",
-                "text": "Before Thy Cross we bow down in worship, O Master, and Thy holy Resurrection we glorify."
+                "text": cross_text
             }
         
         # Third Sunday of Lent (Veneration of the Cross) - offset exactly -28
@@ -723,7 +778,7 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "before_thy_cross",
                 "ref_key": "liturgikon.before_thy_cross",
-                "text": "Before Thy Cross we bow down in worship, O Master, and Thy holy Resurrection we glorify."
+                "text": cross_text
             }
         
         # Procession of Cross (Aug 1)
@@ -732,14 +787,19 @@ class LiturgyMixin:
                 "type": "replacement",
                 "replacement": "before_thy_cross",
                 "ref_key": "liturgikon.before_thy_cross",
-                "text": "Before Thy Cross we bow down in worship, O Master, and Thy holy Resurrection we glorify."
+                "text": cross_text
             }
         
         # DEFAULT: Standard Trisagion
+        std_trisagion = self._resolve_liturgy_asset_text(
+            "liturgikon.trisagion_standard",
+            context,
+            "Holy God, Holy Mighty, Holy Immortal, have mercy on us.",
+        )
         return {
             "type": "standard",
             "ref_key": "horologion.trisagion",
-            "text": "Holy God, Holy Mighty, Holy Immortal, have mercy on us."
+            "text": std_trisagion
         }
 
 
@@ -755,20 +815,30 @@ class LiturgyMixin:
     def resolve_liturgy_megalynarion(self, context, rubrics):
         pascha_off = context.get("pascha_offset")
         if pascha_off is not None and 0 <= pascha_off <= 38:
+            paschal_zad = self._resolve_liturgy_asset_text(
+                "liturgikon.paschal_zadostoinyk",
+                context,
+                "The angel cried to the Lady Full of Grace: Rejoice, O Pure Virgin! And again I say: Rejoice! Thy Son is risen from His three days in the tomb, and has raised all the dead: O you people, be glad! Shine, shine, O New Jerusalem, for the glory of the Lord has shone upon thee. Exult now and be glad, O Zion, and thou, O pure Mother of God, rejoice in the resurrection of Thy Son.",
+            )
             return {
                 "type": "variable",
                 "ref_key": "paschal_zadostoinyk",
-                "text": "The angel cried to the Lady Full of Grace: Rejoice, O Pure Virgin! And again I say: Rejoice! Thy Son is risen from His three days in the tomb, and has raised all the dead: O you people, be glad! Shine, shine, O New Jerusalem, for the glory of the Lord has shone upon thee. Exult now and be glad, O Zion, and thou, O pure Mother of God, rejoice in the resurrection of Thy Son.",
+                "text": paschal_zad,
                 "note": "Zadostoinyk (The Angel Cried / Shine, shine, O New Jerusalem)"
             }
         lit_type = str(context.get("liturgy_type") or (rubrics.get("overrides", {}).get("liturgy_type") if rubrics else "") or (rubrics.get("variables", {}).get("liturgy_type") if rubrics else "")).lower()
         if "basil" in lit_type:
             if pascha_off in (-3, -1):
                 return {"type": "variable", "ref_key": "festal_zadostoinyk", "note": "Use 9th Ode Heirmos"}
+            in_thee_text = self._resolve_liturgy_asset_text(
+                "liturgikon.in_thee_rejoiceth",
+                context,
+                "In you, O Woman Full of Grace, all creation rejoices, the choirs of angels and the race of men: O sanctified temple and spiritual paradise, the glory of virgins, from whom God was incarnate and became a Child, He Who is our God before the ages; for He made your womb a throne, and your body He made more spacious than the heavens. In you, O Woman Full of Grace, all creation rejoices: glory be to you!",
+            )
             return {
                 "type": "fixed_ref",
                 "ref_key": "horologion.in_thee_rejoiceth",
-                "text": "In you, O Woman Full of Grace, all creation rejoices...",
+                "text": in_thee_text,
                 "note": "In you, O Woman Full of Grace"
             }
 
@@ -857,11 +927,16 @@ class LiturgyMixin:
             }
         
         # DEFAULT: "In you, O Woman Full of Grace"
+        in_thee_text = self._resolve_liturgy_asset_text(
+            "liturgikon.in_thee_rejoiceth",
+            context,
+            "In you, O Woman Full of Grace, all creation rejoices, the choirs of angels and the race of men: O sanctified temple and spiritual paradise, the glory of virgins, from whom God was incarnate and became a Child, He Who is our God before the ages; for He made your womb a throne, and your body He made more spacious than the heavens. In you, O Woman Full of Grace, all creation rejoices: glory be to you!",
+        )
         return {
             "type": "megalynarion",
             "source": "basil",
             "ref_key": "horologion.in_thee_rejoiceth",
-            "text": "In you, O Woman Full of Grace, all creation rejoices..."
+            "text": in_thee_text
         }
 
 
@@ -876,6 +951,14 @@ class LiturgyMixin:
         Great Feast: Proper of feast
         Weekday: Tone-appropriate or proper of day
         """
+        has_recension_override = bool(
+            context.get("recension") or context.get("ordinaries_recension") or context.get("propers_recension")
+        )
+        def _comm_text(short_key, default_str):
+            if has_recension_override:
+                return self._resolve_liturgy_asset_text(f"liturgikon.communion.{short_key}", context, default_str)
+            return default_str
+
         def resolve_str_hymn(key, source="feast"):
             if isinstance(key, list):
                 items = [resolve_str_hymn(k, source) for k in key if k]
@@ -901,26 +984,26 @@ class LiturgyMixin:
                     "source": source
                 }
             known_hymns = {
-                "praise_the_lord": "Praise the Lord from the heavens; praise Him in the highest.",
-                "righteous_memory": "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings.",
-                "cup_of_salvation": "I will take the cup of salvation, and I will call upon the name of the Lord.",
-                "making_angels_spirits": "Who maketh His angels spirits, and His ministers a flame of fire.",
-                "light_of_your_countenance": "The light of Thy countenance, O Lord, is signed upon us.",
-                "their_sound_has_gone_forth": "Their sound hath gone forth into all the earth, and their words unto the ends of the world.",
-                "the_lord_sent_redemption": "The Lord has sent redemption to His people.",
-                "grace_of_god_has_appeared": "The grace of God has appeared, bringing salvation to all men.",
-                "we_will_walk_in_light": "We will walk in the light of Your face, O Lord, and in Your name will we rejoice all the day.",
-                "the_lord_has_chosen_zion": "The Lord has chosen Zion; He has desired it for His habitation.",
-                "rejoice_in_the_lord": "Rejoice in the Lord, O ye righteous; praise is comely for the upright.",
-                "praise_the_lord_and_rejoice": "Praise the Lord from the heavens, praise Him in the highest. Rejoice in the Lord, O you righteous; praise is becoming to the upright.",
-                "be_exalted_o_god": "Be exalted, O God, above the heavens, and Your glory above all the earth.",
-                "crown_of_the_year": "Bless the crown of the year with Thy goodness, O Lord."
+                "praise_the_lord": _comm_text("praise_the_lord", "Praise the Lord from the heavens; praise Him in the highest."),
+                "righteous_memory": _comm_text("righteous_memory", "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings."),
+                "cup_of_salvation": _comm_text("cup_of_salvation", "I will take the cup of salvation, and I will call upon the name of the Lord."),
+                "making_angels_spirits": _comm_text("making_angels_spirits", "Who maketh His angels spirits, and His ministers a flame of fire."),
+                "light_of_your_countenance": _comm_text("light_of_your_countenance", "The light of Thy countenance, O Lord, is signed upon us."),
+                "their_sound_has_gone_forth": _comm_text("their_sound_has_gone_forth", "Their sound hath gone forth into all the earth, and their words unto the ends of the world."),
+                "the_lord_sent_redemption": _comm_text("the_lord_sent_redemption", "The Lord has sent redemption to His people."),
+                "grace_of_god_has_appeared": _comm_text("grace_of_god_has_appeared", "The grace of God has appeared, bringing salvation to all men."),
+                "we_will_walk_in_light": _comm_text("we_will_walk_in_light", "We will walk in the light of Your face, O Lord, and in Your name will we rejoice all the day."),
+                "the_lord_has_chosen_zion": _comm_text("the_lord_has_chosen_zion", "The Lord has chosen Zion; He has desired it for His habitation."),
+                "rejoice_in_the_lord": _comm_text("rejoice_in_the_lord", "Rejoice in the Lord, O ye righteous; praise is comely for the upright."),
+                "praise_the_lord_and_rejoice": _comm_text("praise_the_lord_and_rejoice", "Praise the Lord from the heavens, praise Him in the highest. Rejoice in the Lord, O you righteous; praise is becoming to the upright."),
+                "be_exalted_o_god": _comm_text("be_exalted_o_god", "Be exalted, O God, above the heavens, and Your glory above all the earth."),
+                "crown_of_the_year": _comm_text("crown_of_the_year", "Bless the crown of the year with Thy goodness, O Lord.")
             }
             if key in known_hymns:
                 return {
                     "type": "communion_hymn",
                     "text": known_hymns[key],
-                    "ref_key": key,
+                    "ref_key": f"liturgikon.communion.{key}" if has_recension_override else key,
                     "source": source
                 }
             try:
@@ -1016,7 +1099,7 @@ class LiturgyMixin:
                             or context.get("dolnytsky_rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]")
                             or any(isinstance(s, dict) and s.get("rank_code") in ("[GT DOX]", "[POL]", "[VIGIL]") for s in saints_list)
                         )
-                        sunday_text = "Praise the Lord from the heavens, praise Him in the highest."
+                        sunday_text = _comm_text("praise_the_lord", "Praise the Lord from the heavens, praise Him in the highest.")
                         if not has_sunday_saint_comm:
                             return {
                                 "type": "communion_hymn",
@@ -1028,7 +1111,7 @@ class LiturgyMixin:
                     elif 1 <= day_of_week <= 6 and is_after_or_apodosis:
                         # Weekday afterfeast (Dolnytsky §2.16:1653, §3.3.3:2300):
                         # Feast communion hymn prepends the Saint's hymn
-                        feast_comm = "I will take the cup of salvation, and I will call upon the name of the Lord."
+                        feast_comm = _comm_text("cup_of_salvation", "I will take the cup of salvation, and I will call upon the name of the Lord.")
                         if feast_comm.lower() not in res_h.get("text", "").lower():
                             res_h["text"] = f"{feast_comm} And of the Saint: {res_h['text']}"
                             res_h["source"] = "feast_and_saint"
@@ -1041,14 +1124,14 @@ class LiturgyMixin:
             if rank <= 3 and saints:
                 return {
                     "type": "communion_hymn",
-                    "text": "Receive the Body of Christ; taste the fountain of immortality. And of the Saint: Their sound hath gone forth into all the earth, and their words unto the ends of the world.",
+                    "text": _comm_text("eucharist_combined", "Receive the Body of Christ; taste the fountain of immortality. And of the Saint: Their sound hath gone forth into all the earth, and their words unto the ends of the world."),
                     "source": "feast",
                     "ref_key": "pentecostarion.eucharist.communion_combined"
                 }
             else:
                 return {
                     "type": "communion_hymn",
-                    "text": "Receive the Body of Christ; taste the fountain of immortality.",
+                    "text": _comm_text("eucharist", "Receive the Body of Christ; taste the fountain of immortality."),
                     "source": "feast",
                     "ref_key": "pentecostarion.eucharist.communion"
                 }
@@ -1057,7 +1140,7 @@ class LiturgyMixin:
         if liturgy_type == "presanctified":
             return {
                 "type": "communion_hymn",
-                "text": "Taste and see that the Lord is good.",
+                "text": _comm_text("presanctified", "Taste and see that the Lord is good."),
                 "ref_key": "triodion.communion_presanctified"
             }
         
@@ -1065,7 +1148,7 @@ class LiturgyMixin:
         if season == "pascha" or paradigm == "p_pascha":
             return {
                 "type": "communion_hymn",
-                "text": "Receive the Body of Christ; taste the Fountain of Immortality.",
+                "text": _comm_text("paschal", "Receive the Body of Christ; taste the Fountain of Immortality."),
                 "ref_key": "pentecostarion.communion_paschal"
             }
         
@@ -1076,7 +1159,7 @@ class LiturgyMixin:
             if feast_level == "theotokos":
                 return {
                     "type": "communion_hymn",
-                    "text": "I will take the cup of salvation, and I will call upon the name of the Lord.",
+                    "text": _comm_text("cup_of_salvation", "I will take the cup of salvation, and I will call upon the name of the Lord."),
                     "source": "feast",
                     "ref_key": f"menaion.{feast_id}.communion_hymn" if feast_id else "theotokos.communion_hymn"
                 }
@@ -1088,7 +1171,7 @@ class LiturgyMixin:
                     return resolve_str_hymn(c_h_key)
                 return {
                     "type": "communion_hymn",
-                    "text": "The light of Thy countenance, O Lord, is signed upon us.",
+                    "text": _comm_text("light_of_your_countenance", "The light of Thy countenance, O Lord, is signed upon us."),
                     "source": "feast",
                     "ref_key": f"menaion.{feast_id}.communion_hymn" if feast_id else "feast.communion_hymn"
                 }
@@ -1098,7 +1181,7 @@ class LiturgyMixin:
             if feast_level == "theotokos":
                 return {
                     "type": "communion_hymn",
-                    "text": "I will take the cup of salvation, and I will call upon the name of the Lord.",
+                    "text": _comm_text("cup_of_salvation", "I will take the cup of salvation, and I will call upon the name of the Lord."),
                     "source": "feast",
                     "ref_key": f"menaion.{feast_id}.communion_hymn" if feast_id else "theotokos.communion_hymn"
                 }
@@ -1109,14 +1192,14 @@ class LiturgyMixin:
                 return resolve_str_hymn(c_h_key)
             return {
                 "type": "communion_hymn",
-                "text": "The light of Thy countenance, O Lord, is signed upon us.",
+                "text": _comm_text("light_of_your_countenance", "The light of Thy countenance, O Lord, is signed upon us."),
                 "source": "feast",
                 "ref_key": f"menaion.{feast_id}.communion_hymn" if feast_id else "feast.communion_hymn"
             }
         
         # SUNDAY: "Praise the Lord" + Saint Communion Hymn if [GT DOX], [POL], or [VIGIL]
         if day_of_week == 0:
-            sunday_text = "Praise the Lord from the heavens, praise Him in the highest."
+            sunday_text = _comm_text("praise_the_lord", "Praise the Lord from the heavens, praise Him in the highest.")
             saints = context.get("saints", [])
             sunday_reading_saints = [
                 s for s in saints
@@ -1126,11 +1209,11 @@ class LiturgyMixin:
                 s_obj = sunday_reading_saints[0]
                 s_title = str(s_obj.get("title", "")).lower()
                 if "apostle" in s_title or "evangelist" in s_title:
-                    s_hymn = "Their proclamation has gone out into all the earth, and their words to the ends of the universe."
+                    s_hymn = _comm_text("their_sound_has_gone_forth", "Their proclamation has gone out into all the earth, and their words to the ends of the universe.")
                 elif "unmercenar" in s_title or "cosmas" in s_title or ("martyr" in s_title and len(s_obj.get("all_parsed_saints", [])) > 1):
-                    s_hymn = "Rejoice in the Lord, O you righteous; praise is becoming to the upright."
+                    s_hymn = _comm_text("rejoice_in_the_lord", "Rejoice in the Lord, O you righteous; praise is becoming to the upright.")
                 else:
-                    s_hymn = "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings."
+                    s_hymn = _comm_text("righteous_memory", "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings.")
                 return {
                     "type": "communion_hymn",
                     "text": f"{sunday_text} And of the Saint: {s_hymn}",
@@ -1144,12 +1227,12 @@ class LiturgyMixin:
         
         # WEEKDAY PROPER
         weekday_hymns = {
-            1: {"text": "He makes His angels spirits, and His ministers a flame of fire.", "ref_key": "horologion.communion_monday"},
-            2: {"text": "In everlasting remembrance shall the righteous be; he shall not fear evil tidings.", "ref_key": "horologion.communion_tuesday"},
-            3: {"text": "I will take the cup of salvation, and I will call upon the name of the Lord.", "ref_key": "horologion.communion_wednesday"},
-            4: {"text": "Their proclamation has gone out into all the earth, and their words to the ends of the universe.", "ref_key": "horologion.communion_thursday"},
-            5: {"text": "O Lord, save Your people, and bless Your inheritance.", "ref_key": "horologion.communion_friday"},
-            6: {"text": "Blessed are they whom You have chosen and taken, O Lord.", "ref_key": "horologion.communion_saturday"}
+            1: {"text": _comm_text("making_angels_spirits", "He makes His angels spirits, and His ministers a flame of fire."), "ref_key": "horologion.communion_monday"},
+            2: {"text": _comm_text("righteous_memory", "In everlasting remembrance shall the righteous be; he shall not fear evil tidings."), "ref_key": "horologion.communion_tuesday"},
+            3: {"text": _comm_text("cup_of_salvation", "I will take the cup of salvation, and I will call upon the name of the Lord."), "ref_key": "horologion.communion_wednesday"},
+            4: {"text": _comm_text("their_sound_has_gone_forth", "Their proclamation has gone out into all the earth, and their words to the ends of the universe."), "ref_key": "horologion.communion_thursday"},
+            5: {"text": _comm_text("friday", "O Lord, save Your people, and bless Your inheritance."), "ref_key": "horologion.communion_friday"},
+            6: {"text": _comm_text("saturday", "Blessed are they whom You have chosen and taken, O Lord."), "ref_key": "horologion.communion_saturday"}
         }
         
         hymn_data = weekday_hymns.get(day_of_week, weekday_hymns[1])
@@ -1172,11 +1255,11 @@ class LiturgyMixin:
                 )
             )
             if "apostle" in s_title:
-                s_hymn = "Their proclamation has gone out into all the earth, and their words to the ends of the universe."
+                s_hymn = _comm_text("their_sound_has_gone_forth", "Their proclamation has gone out into all the earth, and their words to the ends of the universe.")
             elif "unmercenar" in s_title or "cosmas" in s_title or is_plural_martyrs:
-                s_hymn = "Rejoice in the Lord, O you righteous; praise is becoming to the upright."
+                s_hymn = _comm_text("rejoice_in_the_lord", "Rejoice in the Lord, O you righteous; praise is becoming to the upright.")
             else:
-                s_hymn = "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings."
+                s_hymn = _comm_text("righteous_memory", "In everlasting remembrance shall the righteous be; he shall not be afraid of evil tidings.")
             is_polyeleos_or_vigil_saint = (
                 rank in (2, "rank_polyeleos", "rank_vigil")
                 or context.get("has_polyeleos") is True
@@ -1230,7 +1313,11 @@ class LiturgyMixin:
         if season == "pascha" or paradigm == "p_pascha" or (0 <= pascha_offset < 39):
             return {
                 "type": "post_communion",
-                "hymn": "Christ is risen from the dead, trampling down death by death, and to those in the tombs giving life.",
+                "hymn": self._resolve_liturgy_asset_text(
+                    "liturgikon.post_communion.paschal",
+                    context,
+                    "Christ is risen from the dead, trampling down death by death, and to those in the tombs giving life.",
+                ),
                 "repeat": 3,
                 "ref_key": "pentecostarion.post_communion_paschal"
             }
@@ -1239,7 +1326,11 @@ class LiturgyMixin:
         if 40 <= pascha_offset <= 48 or feast_id in ("ascension", "ascension_afterfeast", "ascension_apodosis"):
             return {
                 "type": "post_communion",
-                "hymn": "Be exalted, O God, above the heavens, and let Your glory be over all the earth.",
+                "hymn": self._resolve_liturgy_asset_text(
+                    "liturgikon.post_communion.ascension",
+                    context,
+                    "Be exalted, O God, above the heavens, and let Your glory be over all the earth.",
+                ),
                 "ref_key": "pentecostarion.post_communion_ascension"
             }
         
@@ -1248,7 +1339,11 @@ class LiturgyMixin:
         if not is_forefeast and (season == "Exaltation_Cross" or feast_id in ("exaltation_cross", "exaltation") or context.get("primary_feast_id") == "exaltation_cross"):
             return {
                 "type": "post_communion",
-                "hymn": "Save, O Lord, Your people, and bless Your inheritance, granting victory to our nation over its enemies, and by Your Cross preserving Your community.",
+                "hymn": self._resolve_liturgy_asset_text(
+                    "liturgikon.post_communion.exaltation_cross",
+                    context,
+                    "Save, O Lord, Your people, and bless Your inheritance, granting victory to our nation over its enemies, and by Your Cross preserving Your community.",
+                ),
                 "ref_key": "menaion.exaltation_cross.troparion"
             }
 
@@ -1256,7 +1351,11 @@ class LiturgyMixin:
         if not is_forefeast and (feast_id == "nativity" or context.get("primary_feast_id") == "nativity"):
             return {
                 "type": "post_communion",
-                "hymn": "Your Nativity, O Christ our God, has shone upon the world the light of knowledge...",
+                "hymn": self._resolve_liturgy_asset_text(
+                    "liturgikon.post_communion.nativity",
+                    context,
+                    "Your Nativity, O Christ our God, has shone upon the world the light of knowledge, for by it those who worshiped the stars were taught by a star to adore You, the Sun of Righteousness, and to know You, the Dayspring from on high. O Lord, glory be to You!",
+                ),
                 "ref_key": "menaion.nativity.troparion"
             }
         
@@ -1264,7 +1363,11 @@ class LiturgyMixin:
         if feast_id == "theophany" or context.get("primary_feast_id") == "theophany":
             return {
                 "type": "post_communion",
-                "hymn": "When You, O Lord, were baptized in the Jordan, the worship of the Trinity was made manifest...",
+                "hymn": self._resolve_liturgy_asset_text(
+                    "liturgikon.post_communion.theophany",
+                    context,
+                    "When You, O Lord, were baptized in the Jordan, the worship of the Trinity was made manifest; for the voice of the Father bore witness to You, calling You His beloved Son, and the Spirit in the form of a dove confirmed the truthfulness of His word. O Christ our God, Who have appeared and enlightened the world, glory be to You!",
+                ),
                 "ref_key": "menaion.theophany.troparion"
             }
         
@@ -1272,7 +1375,11 @@ class LiturgyMixin:
         if pascha_offset == -3 or feast_id == "holy_thursday":
             return {
                 "type": "post_communion",
-                "hymn": "Receive me today, O Son of God, as a partaker of Your Mystical Supper...",
+                "hymn": self._resolve_liturgy_asset_text(
+                    "liturgikon.post_communion.holy_thursday",
+                    context,
+                    "Receive me today, O Son of God, as a partaker of Your Mystical Supper; for I will not speak of Your Mystery to Your enemies, nor like Judas will I give You a kiss, but like the thief will I confess You: Remember me, O Lord, in Your kingdom.",
+                ),
                 "ref_key": "triodion.of_thy_mystical_supper"
             }
 
@@ -1280,7 +1387,11 @@ class LiturgyMixin:
         if pascha_offset == -1 or feast_id == "holy_saturday":
             return {
                 "type": "post_communion",
-                "hymn": "The post-communion hymn is omitted; we proceed directly to the Thanksgiving Litany ('Let our mouths be filled...').",
+                "hymn": self._resolve_liturgy_asset_text(
+                    "liturgikon.post_communion.holy_saturday",
+                    context,
+                    "The post-communion hymn is omitted; we proceed directly to the Thanksgiving Litany ('Let our mouths be filled...').",
+                ),
                 "ref_key": "triodion.holy_saturday_post_communion"
             }
 
@@ -1296,7 +1407,11 @@ class LiturgyMixin:
         # DEFAULT: "We have seen the true light"
         return {
             "type": "post_communion",
-            "hymn": "We have seen the true light, we have received the heavenly Spirit...",
+            "hymn": self._resolve_liturgy_asset_text(
+                "liturgikon.we_have_seen_true_light",
+                context,
+                "We have seen the true light, we have received the heavenly Spirit, we have found the true faith, worshiping the undivided Trinity, for He has saved us.",
+            ),
             "ref_key": "horologion.we_have_seen_true_light"
         }
 

@@ -78,9 +78,9 @@ class LiturgicalContextAuditor:
         if day_of_week != 0 and eoth is not None:
             discrepancies.append(f"Eothinon Gospel ({eoth}) present on non-Sunday (Day {day_of_week})")
         elif day_of_week == 0 and eoth is None:
-            # Check if Pascha or Pentecost Sunday where standard Eothinon cycle gives way to festal Gospel
+            # Check if Palm Sunday, Pascha, or Pentecost Sunday where standard Eothinon cycle gives way to festal Gospel
             p_offset = ctx.get("pascha_offset")
-            if p_offset not in (0, 49):
+            if p_offset not in (-7, 0, 49):
                 discrepancies.append("Missing Eothinon Gospel on Sunday")
 
         # Tone Invariant: Tone required on Octoechos days (None on Holy Week / Bright Week)
@@ -159,10 +159,15 @@ class LiturgicalContextAuditor:
             elif paradigm in saturday_only_cases:
                 discrepancies.append(f"Paradigm Misalignment: Saturday-only paradigm ({paradigm}) resolved on Weekday")
 
+        if not paradigm or ("_" in paradigm and not paradigm.startswith("CASE_") and not ctx.get("paradigm_title")):
+            discrepancies.append(f"Unmapped or raw snake_case paradigm: '{paradigm}'")
+
         # 3. Rank Code Invariant
-        code = ctx.get("fixed_rank_code") or ctx.get("dolnytsky_rank_code") or ""
-        valid_codes = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]", "[GT DOX]", "[6 SM]", "[4 A+G]", "[4 NO]", "[4 TR]"]
-        if code and code not in valid_codes:
+        code = ctx.get("rank_code") or ctx.get("dolnytsky_rank_code") or ctx.get("fixed_rank_code") or ""
+        valid_codes = ["[LORD]", "[MOG]", "[VIGIL]", "[POL]", "[GT DOX]", "[6 SM]", "[4 A+G]", "[4 NO]", "[4 TR]", "[ALLELUIA]"]
+        if not code:
+            discrepancies.append("Missing rank code")
+        elif code not in valid_codes:
             discrepancies.append(f"Invalid rank code format: '{code}'")
 
         return {
@@ -221,11 +226,12 @@ class LiturgicalContextAuditor:
                 failed.append(res)
             curr += timedelta(days=1)
 
+        total_days = passed + len(failed)
         return {
-            "total_days": 365,
+            "total_days": total_days,
             "passed_count": passed,
             "failed_count": len(failed),
-            "pass_rate_pct": (passed / 365.0) * 100.0,
+            "pass_rate_pct": (passed / float(total_days)) * 100.0 if total_days else 0.0,
             "failures": failed
         }
 

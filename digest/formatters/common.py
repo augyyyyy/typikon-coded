@@ -6,97 +6,6 @@ class CommonFormatterMixin:
         return ""
 
 
-    def _format_resolve_alleluia_vs_god_is_lord(self, res, context):
-        if not res:
-            return ""
-        if res.get("type") == "god_is_the_lord":
-            return self._format_resolve_god_is_the_lord_troparia(res, context)
-        parts = []
-        for comp in res.get("components", []):
-            if comp.get("type") == "hymn":
-                parts.append(f"Trinity Hymn: {self.humanize_key(comp.get('ref_key'))}")
-        return "\n".join(parts)
-
-
-    def _format_resolve_trinity_hymns(self, res, context):
-        if not res:
-            return ""
-        return f"Trinity Hymns: {res.get('rubric_note', '')}"
-
-
-    def _format_resolve_vigil_troparion(self, res, context):
-        if not res:
-            return ""
-        return f"Troparion: {self.humanize_key(res.get('ref_key'))}"
-
-
-    def _format_resolve_vigil_kontakion(self, res, context):
-        if not res:
-            return ""
-        return f"Kontakion: {self.humanize_key(res.get('ref_key'))}"
-
-
-    def _format_resolve_vigil_opening(self, res, context):
-        if not res:
-            return ""
-        if isinstance(res, dict) and res.get("type") == "fixed_ref":
-            temp = []
-            self._format_fixed_ref(res.get("ref_key"), temp)
-            return "\n".join(temp)
-        return str(res)
-
-
-
-
-    def _format_resolve_prophecy_reading(self, res, context):
-        if not res or res.get("type") == "none":
-            return ""
-        return f"Prophecy Reading (Hour 6): Reading {res.get('reading_id')} (from {res.get('book')})"
-
-
-    def _format_resolve_prophecy_prok_1(self, res, context):
-        if not res:
-            return ""
-        return f"First Prokeimenon (Hour 6): {self.humanize_key(res.get('prokeimenon_id'))}"
-
-
-    def _format_resolve_prophecy_prok_2(self, res, context):
-        if not res:
-            return ""
-        return f"Second Prokeimenon (Hour 6): {self.humanize_key(res.get('prokeimenon_id'))}"
-
-
-    def _format_resolve_psalm_50_intercession(self, res, context):
-        if not res:
-            return ""
-        parts = []
-        if "glory" in res:
-            parts.append(f"Glory: {res['glory']['text']}")
-        if "both_now" in res:
-            parts.append(f"Both Now: {res['both_now']['text']}")
-        if "sticheron" in res:
-            parts.append(f"Sticheron: {res['sticheron']['text']}")
-        return "\n".join(parts)
-
-
-    def _format_resolve_fasting_rule(self, res, context):
-        if not res:
-            return ""
-        return f"Fasting Rule: {res.get('rule')} ({res.get('note', '')})"
-
-
-    def _format_resolve_prostration_annotation(self, res, context):
-        if not res:
-            return ""
-        return f"Prostrations: {res.get('annotation') or res.get('note')}"
-
-
-    def _format_resolve_clergy_variant(self, res, context):
-        if not res:
-            return ""
-        return f"Clergy Variant: {res.get('variant')} ({res.get('note')})"
-
-
     def _format_resolve_photizomenoi_litany(self, res, context):
         if not res or not res.get("components"):
             return ""
@@ -816,27 +725,6 @@ class CommonFormatterMixin:
         if ref == "horologion.prayer_eustratius":
             return "**Prayer:** Prayer of St. Eustratius (*\"I magnify You, O Lord...\"*)."
         return f"**Prayer:** {self.humanize_key(ref)}."
-
-
-    def _format_resolve_royal_psalms(self, res, context):
-        if not res: return ""
-        meta = res.get("source_metadata", {})
-        hour = meta.get("hour", 1)
-        feast = self.humanize_key(meta.get("feast", ""))
-        psalms = [self.humanize_key(p) for p in res.get('ref_keys', [])]
-        return f"Royal Psalms for {feast} Hour {hour}: {', '.join(psalms)}."
-
-
-    def _format_resolve_royal_stichera(self, res, context):
-        if not res: return ""
-        meta = res.get("source_metadata", {})
-        hour = meta.get("hour", 1)
-        components = res.get("components", [])
-        parts = []
-        for c in components:
-            ref = c.get("ref_key", "")
-            parts.append(self.humanize_key(ref))
-        return f"Royal Stichera for Hour {hour}: {'; '.join(parts)}."
 
 
     def _format_resolve_royal_kontakion(self, res, context):

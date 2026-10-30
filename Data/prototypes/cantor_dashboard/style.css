@@ -3995,3 +3995,117 @@ body.dark-theme .repertoire-item-card {
     color: var(--gold-accent);
     margin-bottom: 4px;
 }
+
+/* ==========================================================================
+   CENTER PANEL MODULAR RECENSION HOT-SWAP & PROVENANCE BADGES
+   ========================================================================== */
+.booklet-recension-toolbar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    border-left: 1px solid var(--card-border);
+    border-right: 1px solid var(--card-border);
+    margin: 0 4px;
+    flex-wrap: wrap;
+}
+
+.recension-toolbar-label,
+.recension-sub-label {
+    font-family: var(--font-heading);
+    color: var(--gold-accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.recension-select-sm {
+    width: auto !important;
+    padding: 3px 8px !important;
+    font-size: 0.8rem !important;
+    border-radius: 5px;
+}
+
+.split-recension-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.split-recension-controls.hidden,
+.recension-select-sm.hidden,
+.recension-toolbar-label.hidden {
+    display: none !important;
+}
+
+.recension-toggle-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    background: rgba(197, 160, 89, 0.08);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: 0.74rem;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+.recension-toggle-pill:hover {
+    border-color: var(--gold-accent);
+    background: rgba(197, 160, 89, 0.16);
+}
+
+.recension-toggle-pill input[type="checkbox"] {
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--gold-accent);
+}
+
+.booklet-hotswapping {
+    opacity: 0.65;
+    transition: opacity 0.15s ease;
+}
+
+.provenance-pill {
+    display: inline-block;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 1px 6px;
+    margin-left: 5px;
+    border-radius: 4px;
+    background: rgba(197, 160, 89, 0.14);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    color: var(--gold-accent);
+    vertical-align: middle;
+}
+
+.canonical-gap-badge {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 1px 6px;
+    margin-left: 6px;
+    border-radius: 4px;
+    background: rgba(185, 28, 28, 0.12);
+    border: 1px solid rgba(185, 28, 28, 0.45);
+    color: var(--rubric-color);
+    vertical-align: middle;
+}
+
+p.cantorial-directive {
+    border-left: 3px solid var(--gold-accent);
+    padding-left: 10px;
+    background: rgba(197, 160, 89, 0.05);
+    border-radius: 0 4px 4px 0;
+}
+

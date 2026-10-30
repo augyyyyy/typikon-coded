@@ -482,8 +482,9 @@ class CanonicalBookletAuditor:
                     "status": "FAIL"
                 })
 
-        # 3. Raw database key leak checks
-        raw_key_matches = RAW_KEY_LEAK_REGEX.findall(text)
+        # 3. Raw database key leak checks (excluding explicit SGC-04 [UNRESOLVED_CANONICAL_GAP: <key>] markers)
+        text_without_gap_badges = re.sub(r"\[UNRESOLVED_CANONICAL_GAP:\s*[^\]]+\]", "", text)
+        raw_key_matches = RAW_KEY_LEAK_REGEX.findall(text_without_gap_badges)
         if raw_key_matches:
             violations.append({
                 "rule": "Anti-Pattern 3 (Raw Internal Keys Leaked to UI)",

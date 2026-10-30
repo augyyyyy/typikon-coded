@@ -295,7 +295,21 @@ class GenerationMixin:
         """
         Recursively resolves the sequence of a structure, handling inheritance and overrides.
         """
-        structure_def = struct_data.get("structures", {}).get(root_id)
+        structures = struct_data.get("structures", {})
+        structure_def = structures.get(root_id)
+        if not structure_def:
+            root_alias_map = {
+                "great_vespers": "great_vespers_simple",
+                "great_matins_simple": "sunday_matins",
+                "festal_matins": "sunday_matins",
+                "holy_thursday_matins": "passion_matins",
+                "holy_friday_matins": "tomb_matins",
+                "lenten_vespers": "daily_vespers",
+                "presanctified_vespers": "daily_vespers",
+            }
+            mapped_id = root_alias_map.get(root_id)
+            if mapped_id:
+                structure_def = structures.get(mapped_id)
         if not structure_def:
             return None
 
@@ -370,7 +384,7 @@ class GenerationMixin:
                 if service_name == "Vespers" and "vesperal_merge_logic" in rubrics.get("overrides", {}).get(
                         "liturgy_type", ""):
                     booklet.append(
-                        f"\n--- {service_name.upper()} ---\nNOTE: Vespers is combined with the Divine Liturgy below.")
+                        f"\n--- {service_name.upper()} ---\n\nNOTE: Vespers is combined with the Divine Liturgy below.")
                     continue
 
                 # Get base root_id
@@ -403,7 +417,7 @@ class GenerationMixin:
 
                 if root_id == "structure_suppressed":
                     booklet.append(
-                        f"\n--- {service_name.upper()} ---\nNOTE: {service_name} is combined with the Liturgy of the Presanctified Gifts below."
+                        f"\n--- {service_name.upper()} ---\n\nNOTE: {service_name} is combined with the Liturgy of the Presanctified Gifts below."
                     )
                     continue
 
@@ -477,7 +491,7 @@ class GenerationMixin:
 
                 process_sequence(skeleton)
 
-            full_str = "\n".join(booklet)
+            full_str = "\n\n".join(booklet)
             if hasattr(self, "_normalize_ugcc_text"):
                 full_str = self._normalize_ugcc_text(full_str)
             return full_str
@@ -935,6 +949,16 @@ class GenerationMixin:
                 title = last_part.replace("_", " ").strip().title()
         return title
 
+    def _format_booklet_item_badges(self, item):
+        if not isinstance(item, dict):
+            return ""
+        badges = []
+        if item.get("provenance_pill"):
+            badges.append(f' <span class="provenance-pill">{item["provenance_pill"]}</span>')
+        if item.get("is_missing") and item.get("canonical_gap_badge"):
+            badges.append(f' <span class="canonical-gap-badge">{item["canonical_gap_badge"]}</span>')
+        return "".join(badges)
+
     def _resolve_slot(self, slot, rubrics, context=None):
         # Check ceremonial filtering
         include_ceremonial = False
@@ -998,7 +1022,7 @@ class GenerationMixin:
                 output_lines.append(f'<span class="rubric">{r}</span>')
                  
         # 2. Resolve and Hydrate Content
-        if slot_type == "fixed_ref":
+        if slot_type in ("fixed_ref", "component_ref"):
             ref_key = content.get("ref_key")
             item = self.get_text(ref_key, context=context)
             if item:
@@ -1007,11 +1031,13 @@ class GenerationMixin:
                 cit_html = ""
                 if "source" in item:
                     cit_html = f' <sup class="citation-sup" title="Source: {item["source"]}">{item["source"]}</sup>'
-                output_lines.append(f'<div class="title-medium">{title}{cit_html}</div>')
+                badges_html = self._format_booklet_item_badges(item)
+                output_lines.append(f'<div class="title-medium">{title}{cit_html}{badges_html}</div>')
+                p_cls = ' class="rubric cantorial-directive"' if item.get("is_cantorial_directive") else ""
                 for p_text in text_val.split("\n"):
                     p_text = p_text.strip()
                     if p_text:
-                        output_lines.append(f'<p>{p_text}</p>')
+                        output_lines.append(f'<p{p_cls}>{p_text}</p>')
             else:
                 humanized = ref_key.split(".")[-1].replace("_", " ").title()
                 output_lines.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
@@ -1025,11 +1051,13 @@ class GenerationMixin:
                     cit_html = ""
                     if "source" in item:
                         cit_html = f' <sup class="citation-sup" title="Source: {item["source"]}">{item["source"]}</sup>'
-                    output_lines.append(f'<div class="title-medium">{title}{cit_html}</div>')
+                    badges_html = self._format_booklet_item_badges(item)
+                    output_lines.append(f'<div class="title-medium">{title}{cit_html}{badges_html}</div>')
+                    p_cls = ' class="rubric cantorial-directive"' if item.get("is_cantorial_directive") else ""
                     for p_text in text_val.split("\n"):
                         p_text = p_text.strip()
                         if p_text:
-                            output_lines.append(f'<p>{p_text}</p>')
+                            output_lines.append(f'<p{p_cls}>{p_text}</p>')
                 else:
                     humanized = ref_key.split(".")[-1].replace("_", " ").title()
                     output_lines.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
@@ -1164,6 +1192,7 @@ class GenerationMixin:
                                 ref_key = pk.get("ref_key", "")
                                 text_val = pk.get("text") or pk.get("content") or ""
                                 tone = pk.get("tone")
+                                text_item = None
                                 
                                 # Check if text_val is a placeholder or empty, and fetch from text_db
                                 if ref_key and (not text_val or "[missing" in str(text_val).lower() or "[stub" in str(text_val).lower()):
@@ -1175,21 +1204,23 @@ class GenerationMixin:
                                             
                                 # If text_val is still empty and ref_key is present, use humanized key as fallback
                                 if not text_val and ref_key:
-                                    text_val = f"[{ref_key.split('.')[-1].replace('_', ' ').title()} (Missing)]"
+                                    text_val = f"[{self.canonical_humanize_key(ref_key)} (Missing)]"
                                 
                                 # Format output
                                 part_title = part_key.title()
                                 tone_str = f" (Tone {tone})" if tone else ""
+                                badges_html = self._format_booklet_item_badges(text_item) if text_item else ""
+                                p_cls = ' class="rubric cantorial-directive"' if (text_item and text_item.get("is_cantorial_directive")) else ""
                                 clean_val = re.sub(r'\s*\n+\s*', ' ', str(text_val)).strip()
                                 
                                 if part_key == "prokeimenon":
-                                    output_lines.append(f'<p><strong>Prokeimenon</strong>{tone_str}: {clean_val}</p>')
+                                    output_lines.append(f'<p{p_cls}><strong>Prokeimenon</strong>{tone_str}{badges_html}: {clean_val}</p>')
                                 elif part_key == "alleluia":
-                                    output_lines.append(f'<p><strong>Alleluia</strong>{tone_str}: {clean_val}</p>')
+                                    output_lines.append(f'<p{p_cls}><strong>Alleluia</strong>{tone_str}{badges_html}: {clean_val}</p>')
                                 else:
                                     # Epistle or Gospel
-                                    clean_title = ref_key.split(".")[-1].replace("_", " ").title() if ref_key else part_title
-                                    output_lines.append(f'<p><strong>{part_title}</strong> ({clean_title}): {clean_val}</p>')
+                                    clean_title = self._get_humanized_title(text_item, ref_key) if ref_key else part_title
+                                    output_lines.append(f'<p{p_cls}><strong>{part_title}</strong> ({clean_title}){badges_html}: {clean_val}</p>')
                 except Exception as e:
                     output_lines.append(f'<p class="rubric">[Logic Error: resolve_liturgy_readings - {e}]</p>')
                     
@@ -1406,28 +1437,32 @@ class GenerationMixin:
                 else:
                     item_label = h_title
 
+                badges_html = self._format_booklet_item_badges(text_item)
                 if text_item and not text_item.get("is_missing"):
                     content = text_item.get("content", "")
-                    html_prefix = f"<strong>{item_label}</strong>: "
+                    html_prefix = f"<strong>{item_label}</strong>{badges_html}: "
                     output.extend(self._split_and_wrap(html_prefix, content))
                 else:
                     content = text_item.get("content", "") if text_item else f"[{h_title} (Missing text)]"
-                    output.append(f'<p><strong>{item_label}</strong>: {content}</p>')
+                    output.append(f'<p><strong>{item_label}</strong>{badges_html}: {content}</p>')
                     
             # Handle Glory / Both Now
             if glory_both_now_entry and str(glory_both_now_entry).lower() not in ("none", "", "null"):
                 text_item = self.get_text(glory_both_now_entry, context=context)
                 content = text_item.get("content", "") if text_item else ""
-                output.append(f'<p><strong>Glory, Both now</strong>: {content}</p>')
+                badges_html = self._format_booklet_item_badges(text_item)
+                output.append(f'<p><strong>Glory, Both now</strong>{badges_html}: {content}</p>')
             else:
                 if glory_entry and str(glory_entry).lower() not in ("none", "", "null", "(no saint doxastikon)", "(no_saint_doxastikon)"):
                     text_item = self.get_text(glory_entry, context=context)
                     content = text_item.get("content", "") if text_item else ""
-                    output.append(f'<p><strong>Glory</strong>: {content}</p>')
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    output.append(f'<p><strong>Glory</strong>{badges_html}: {content}</p>')
                 if both_now_entry and str(both_now_entry).lower() not in ("none", "", "null"):
                     text_item = self.get_text(both_now_entry, context=context)
                     content = text_item.get("content", "") if text_item else ""
-                    output.append(f'<p><strong>Both now</strong>: {content}</p>')
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    output.append(f'<p><strong>Both now</strong>{badges_html}: {content}</p>')
                     
             return "\n\n".join(output)
             
@@ -1438,12 +1473,13 @@ class GenerationMixin:
                     ref_key = res_item.get("ref_key", "")
                     content_val = res_item.get("content", "")
                     title = res_item.get("title")
+                    text_item = None
                     
                     if res_item.get("type") == "stichera_block":
                         title = f"Stichera Block ({res_item.get('source', '').capitalize()})"
                         content_val = res_item.get("note", "")
                     
-                    if ref_key and (not content_val or not title):
+                    if ref_key:
                         text_item = self.get_text(ref_key, context=context)
                         if text_item:
                             if not content_val:
@@ -1453,18 +1489,16 @@ class GenerationMixin:
                                 
                     title = title or res_item.get("type", "Item").title()
                     
-                    source_name = ""
-                    if ref_key:
-                        text_item = self.get_text(ref_key, context=context)
-                        if text_item and text_item.get("source"):
-                            source_name = text_item["source"]
+                    source_name = text_item.get("source", "") if text_item else ""
                     cit_str = f' <sup class="citation-sup" title="Source: {source_name}">{source_name}</sup>' if source_name else ""
+                    badges_html = self._format_booklet_item_badges(text_item)
                     
-                    output.append(f'<div class="title-medium">{title}{cit_str}</div>')
+                    output.append(f'<div class="title-medium">{title}{cit_str}{badges_html}</div>')
+                    p_cls = ' class="rubric cantorial-directive"' if (text_item and text_item.get("is_cantorial_directive")) else ""
                     for p_text in content_val.split("\n"):
                         p_text = p_text.strip()
                         if p_text:
-                            output.append(f'<p>{p_text}</p>')
+                            output.append(f'<p{p_cls}>{p_text}</p>')
                 else:
                     output.append(f'<p>{str(res_item)}</p>')
             return "\n\n".join(output)
@@ -1481,7 +1515,8 @@ class GenerationMixin:
                         if ref_key:
                             text_item = self.get_text(ref_key, context=context)
                             if text_item:
-                                html_prefix = f'<strong>Prokeimenon</strong> (Tone {text_item.get("tone", pk.get("tone", "?"))}): '
+                                badges_html = self._format_booklet_item_badges(text_item)
+                                html_prefix = f'<strong>Prokeimenon</strong> (Tone {text_item.get("tone", pk.get("tone", "?"))}){badges_html}: '
                                 output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                             else:
                                 output.append(f'<p class="rubric">[Missing Prokeimenon: {ref_key}]</p>')
@@ -1494,7 +1529,8 @@ class GenerationMixin:
                             text_item = self.get_text(ref_key, context=context)
                             if text_item:
                                 title = text_item.get("title") or ref_key.split(".")[-1].replace("_", " ").title()
-                                html_prefix = f'<strong>Epistle</strong> ({title}): '
+                                badges_html = self._format_booklet_item_badges(text_item)
+                                html_prefix = f'<strong>Epistle</strong> ({title}){badges_html}: '
                                 output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                             else:
                                 output.append(f'<p class="rubric">[Missing Epistle: {ref_key}]</p>')
@@ -1506,7 +1542,8 @@ class GenerationMixin:
                         if ref_key:
                             text_item = self.get_text(ref_key, context=context)
                             if text_item:
-                                html_prefix = f'<strong>Alleluia</strong> (Tone {text_item.get("tone", al.get("tone", "?"))}): '
+                                badges_html = self._format_booklet_item_badges(text_item)
+                                html_prefix = f'<strong>Alleluia</strong> (Tone {text_item.get("tone", al.get("tone", "?"))}){badges_html}: '
                                 output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                             else:
                                 output.append(f'<p class="rubric">[Missing Alleluia: {ref_key}]</p>')
@@ -1519,7 +1556,8 @@ class GenerationMixin:
                             text_item = self.get_text(ref_key, context=context)
                             if text_item:
                                 title = text_item.get("title") or ref_key.split(".")[-1].replace("_", " ").title()
-                                html_prefix = f'<strong>Gospel</strong> ({title}): '
+                                badges_html = self._format_booklet_item_badges(text_item)
+                                html_prefix = f'<strong>Gospel</strong> ({title}){badges_html}: '
                                 output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                             else:
                                 output.append(f'<p class="rubric">[Missing Gospel: {ref_key}]</p>')
@@ -1535,21 +1573,28 @@ class GenerationMixin:
                 ref_key = r_item.get("ref_key", "")
                 if r_type == "prokeimenon":
                     text_item = self.get_text(ref_key, context=context) if ref_key else None
+                    human_title = self._get_humanized_title(text_item, ref_key)
+                    badges_html = self._format_booklet_item_badges(text_item) if text_item else ""
                     content = (text_item.get("content", "") if isinstance(text_item, dict) else "") or r_item.get("text", "")
-                    output.extend(self._split_and_wrap(f'<strong>Prokeimenon</strong> ({ref_key}): ', content or ref_key))
+                    output.extend(self._split_and_wrap(f'<strong>Prokeimenon</strong> ({human_title}){badges_html}: ', content or human_title))
                 elif r_type == "exclamation":
                     excl_text = r_item.get("text", "The Light of Christ illumines all!")
                     output.append(f'<p><strong>Exclamation</strong>: {excl_text}</p>')
                 elif r_type in ("paremia", "reading"):
-                    book = r_item.get("book") or r_item.get("title") or ref_key
+                    book = r_item.get("book") or r_item.get("title") or ""
                     text_item = self.get_text(ref_key, context=context) if ref_key else None
+                    human_ref = self._get_humanized_title(text_item, ref_key)
+                    badges_html = self._format_booklet_item_badges(text_item) if text_item else ""
                     content = (
                         r_item.get("content")
                         or (text_item.get("content", "") if isinstance(text_item, dict) else "")
                         or r_item.get("text", "")
                     )
-                    label = f"{book} ({ref_key})" if ref_key and ref_key not in str(book) else str(book or ref_key)
-                    output.extend(self._split_and_wrap(f'<strong>Paremia — {label}</strong>: ', content or label))
+                    if book and human_ref and human_ref.lower() not in str(book).lower():
+                        label = f"{book} ({human_ref})"
+                    else:
+                        label = str(book or human_ref)
+                    output.extend(self._split_and_wrap(f'<strong>Paremia — {label}</strong>{badges_html}: ', content or label))
 
             if result.get("has_feast_readings"):
                 fr = result.get("feast_readings", {})
@@ -1557,17 +1602,19 @@ class GenerationMixin:
                 ep = fr.get("epistle", {})
                 if ep:
                     ep_ref = ep.get("ref_key", "")
-                    ep_label = ep.get("text") or ep_ref
                     ep_item = self.get_text(ep_ref, context=context) if ep_ref else None
+                    ep_label = ep.get("text") or self._get_humanized_title(ep_item, ep_ref)
+                    ep_badges = self._format_booklet_item_badges(ep_item) if ep_item else ""
                     ep_body = (ep_item.get("content", "") if isinstance(ep_item, dict) else "") or ep_label
-                    output.extend(self._split_and_wrap(f'<strong>Epistle ({ep_label} / {ep_ref})</strong>: ', ep_body))
+                    output.extend(self._split_and_wrap(f'<strong>Epistle ({ep_label})</strong>{ep_badges}: ', ep_body))
                 gs = fr.get("gospel", {})
                 if gs:
                     gs_ref = gs.get("ref_key", "")
-                    gs_label = gs.get("text") or gs_ref
                     gs_item = self.get_text(gs_ref, context=context) if gs_ref else None
+                    gs_label = gs.get("text") or self._get_humanized_title(gs_item, gs_ref)
+                    gs_badges = self._format_booklet_item_badges(gs_item) if gs_item else ""
                     gs_body = (gs_item.get("content", "") if isinstance(gs_item, dict) else "") or gs_label
-                    output.extend(self._split_and_wrap(f'<strong>Gospel ({gs_label} / {gs_ref})</strong>: ', gs_body))
+                    output.extend(self._split_and_wrap(f'<strong>Gospel ({gs_label})</strong>{gs_badges}: ', gs_body))
             return "\n\n".join(output)
             
         # Case 4: Result has 'sequence' or 'troparia_sequence' (like troparia/kontakia stacking)
@@ -1588,7 +1635,8 @@ class GenerationMixin:
                     text_item = self.get_text(content_str, context=context)
                     if text_item:
                         title = text_item.get('title') or content_str.split(".")[-1].replace("_", " ").title()
-                        html_prefix = f'<strong>{title}</strong>: '
+                        badges_html = self._format_booklet_item_badges(text_item)
+                        html_prefix = f'<strong>{title}</strong>{badges_html}: '
                         output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                     else:
                         humanized = content_str.split(".")[-1].replace("_", " ").title()
@@ -1598,7 +1646,8 @@ class GenerationMixin:
                 text_item = self.get_text(kontakion_winner, context=context)
                 if text_item:
                     title = text_item.get('title') or kontakion_winner.split(".")[-1].replace("_", " ").title()
-                    html_prefix = f'<strong>{title}</strong>: '
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    html_prefix = f'<strong>{title}</strong>{badges_html}: '
                     output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                 else:
                     humanized = kontakion_winner.split(".")[-1].replace("_", " ").title()
@@ -1617,7 +1666,8 @@ class GenerationMixin:
                 
                 text_item = self.get_text(target_key, context=context)
                 if text_item:
-                    html_prefix = "<strong>Litiya Stichera</strong>: "
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    html_prefix = f"<strong>Litiya Stichera</strong>{badges_html}: "
                     output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                 else:
                     output.append(f'<p class="rubric">[Missing Litiya Stichera: {target_key}]</p>')
@@ -1634,7 +1684,8 @@ class GenerationMixin:
                 
                 text_item = self.get_text(glory_key, context=context)
                 if text_item:
-                    html_prefix = "<strong>Glory</strong>: "
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    html_prefix = f"<strong>Glory</strong>{badges_html}: "
                     output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
             
             if both_now:
@@ -1646,7 +1697,8 @@ class GenerationMixin:
                 
                 text_item = self.get_text(both_now_key, context=context)
                 if text_item:
-                    html_prefix = "<strong>Both now</strong>: "
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    html_prefix = f"<strong>Both now</strong>{badges_html}: "
                     output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
             
             # Format Litiya Prayer
@@ -1654,7 +1706,8 @@ class GenerationMixin:
             text_item = self.get_text(prayer_key, context=context)
             if text_item:
                 title = text_item.get("title", "Litiya Prayers")
-                output.append(f'<div class="title-medium">{title}</div>')
+                badges_html = self._format_booklet_item_badges(text_item)
+                output.append(f'<div class="title-medium">{title}{badges_html}</div>')
                 output.extend(self._split_and_wrap("", text_item.get("content", "")))
             else:
                 output.append(f'<p class="rubric">[Missing Litiya Prayers: {prayer_key}]</p>')
@@ -1685,7 +1738,8 @@ class GenerationMixin:
                 text_item = self.get_text(ref, context=context)
                 if text_item:
                     title = text_item.get("title") or ref.split(".")[-1].replace("_", " ").title()
-                    html_prefix = f"<strong>{title} (x{count})</strong>: "
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    html_prefix = f"<strong>{title} (x{count})</strong>{badges_html}: "
                     output.extend(self._split_and_wrap(html_prefix, text_item.get('content', '')))
                 else:
                     title = ref.split(".")[-1].replace("_", " ").title()
@@ -1698,7 +1752,8 @@ class GenerationMixin:
                 text_item = self.get_text(ref, context=context)
                 if text_item:
                     title = text_item.get("title") or ref.split(".")[-1].replace("_", " ").title()
-                    html_prefix = f"<strong>{title} (x{count})</strong>: "
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    html_prefix = f"<strong>{title} (x{count})</strong>{badges_html}: "
                     output.extend(self._split_and_wrap(html_prefix, text_item.get('content', '')))
             
             # Artoklasia Prayer
@@ -1706,7 +1761,8 @@ class GenerationMixin:
             text_item = self.get_text(prayer_key, context=context)
             if text_item:
                 title = text_item.get("title", "Artoklasia Prayer")
-                output.append(f'<div class="title-medium">{title}</div>')
+                badges_html = self._format_booklet_item_badges(text_item)
+                output.append(f'<div class="title-medium">{title}{badges_html}</div>')
                 output.extend(self._split_and_wrap("", text_item.get("content", "")))
             else:
                 output.append(f'<p class="rubric">[Missing Artoklasia Prayer: {prayer_key}]</p>')
@@ -1723,18 +1779,26 @@ class GenerationMixin:
             
             text_item = self.get_text(k_id, context=context) or self.get_text(f"horologion.{k_id}", context=context)
             content_val = ""
+            is_directive = False
+            badges_html = ""
             if text_item and not text_item.get("is_missing"):
                 title = text_item.get("title") or title
                 content_val = text_item.get("content", "")
+                is_directive = bool(text_item.get("is_cantorial_directive"))
+                badges_html = self._format_booklet_item_badges(text_item)
             else:
                 content_val = f"[Read Kathisma {k_num} from the Psalter]" if k_num else f"[Read {k_id.replace('_', ' ').title()} from the Psalter]"
+                is_directive = True
                 
-            output.append(f'<div class="title-medium">{title}</div>')
+            output.append(f'<div class="title-medium">{title}{badges_html}</div>')
             if content_val:
                 for p_text in content_val.split("\n"):
                     p_text = p_text.strip()
                     if p_text:
-                        output.append(f'<p>{p_text}</p>')
+                        if is_directive:
+                            output.append(f'<p class="rubric cantorial-directive">{p_text}</p>')
+                        else:
+                            output.append(f'<p>{p_text}</p>')
             return "\n\n".join(output)
 
         # Case 4.4: Result is a Sessional Hymn / group
@@ -1744,14 +1808,18 @@ class GenerationMixin:
             
             text_item = self.get_text(s_id, context=context) or self.get_text(f"horologion.{s_id}", context=context)
             content_val = ""
+            badges_html = ""
             if text_item and not text_item.get("is_missing"):
                 title = text_item.get("title") or title
                 content_val = text_item.get("content", "")
+                badges_html = self._format_booklet_item_badges(text_item)
             else:
                 humanized = s_id.replace("_", " ").title()
                 content_val = f"[Sessional Hymns: {humanized}]"
+                if text_item:
+                    badges_html = self._format_booklet_item_badges(text_item)
                 
-            output.append(f'<div class="title-medium">{title}</div>')
+            output.append(f'<div class="title-medium">{title}{badges_html}</div>')
             if content_val:
                 for p_text in content_val.split("\n"):
                     p_text = p_text.strip()
@@ -1764,12 +1832,15 @@ class GenerationMixin:
             ref_key = result.get("ref_key", "")
             title = result.get("title") or "Megalynarion"
             text_val = result.get("text") or result.get("content") or ""
-            if not text_val and ref_key:
+            badges_html = ""
+            if ref_key:
                 item = self.get_text(ref_key, context=context)
                 if item:
-                    text_val = item.get("content", "")
+                    if not text_val:
+                        text_val = item.get("content", "")
                     title = item.get("title") or title
-            output.append(f'<div class="title-medium">{title}</div>')
+                    badges_html = self._format_booklet_item_badges(item)
+            output.append(f'<div class="title-medium">{title}{badges_html}</div>')
             if text_val:
                 for p_text in text_val.split("\n"):
                     p_text = p_text.strip()
@@ -1787,11 +1858,15 @@ class GenerationMixin:
                 cit_html = ""
                 if "source" in item:
                     cit_html = f' <sup class="citation-sup" title="Source: {item["source"]}">{item["source"]}</sup>'
-                output.append(f'<div class="title-medium">{title}{cit_html}</div>')
+                badges_html = self._format_booklet_item_badges(item)
+                output.append(f'<div class="title-medium">{title}{cit_html}{badges_html}</div>')
                 for p_text in text_val.split("\n"):
                     p_text = p_text.strip()
                     if p_text:
-                        output.append(f'<p>{p_text}</p>')
+                        if item.get("is_cantorial_directive"):
+                            output.append(f'<p class="rubric cantorial-directive">{p_text}</p>')
+                        else:
+                            output.append(f'<p>{p_text}</p>')
             else:
                 humanized = ref_key.split(".")[-1].replace("_", " ").title()
                 output.append(f'<p class="rubric">[Missing text: {humanized} ({ref_key})]</p>')
@@ -1804,7 +1879,8 @@ class GenerationMixin:
             if item:
                 title = self._get_humanized_title(item, ref_key)
                 text_val = item.get("content", "")
-                output.append(f'<div class="title-medium">{title}</div>')
+                badges_html = self._format_booklet_item_badges(item)
+                output.append(f'<div class="title-medium">{title}{badges_html}</div>')
                 for p_text in text_val.split("\n"):
                     p_text = p_text.strip()
                     if p_text:
@@ -1839,7 +1915,8 @@ class GenerationMixin:
             if item:
                 title = item.get("title") or "Theotokion"
                 text_val = item.get("content", "")
-                output.append(f'<div class="title-medium">{title}</div>')
+                badges_html = self._format_booklet_item_badges(item)
+                output.append(f'<div class="title-medium">{title}{badges_html}</div>')
                 for p_text in text_val.split("\n"):
                     p_text = p_text.strip()
                     if p_text:
@@ -1854,7 +1931,12 @@ class GenerationMixin:
             ref_key = result.get("ref_key", "")
             text = result.get("text", "")
             title = result.get("title", ref_key.split(".")[-1].replace("_", " ").title() if ref_key else "Prayer")
-            output.append(f'<div class="title-medium">{title}</div>')
+            badges_html = ""
+            if ref_key:
+                item = self.get_text(ref_key, context=context)
+                if item:
+                    badges_html = self._format_booklet_item_badges(item)
+            output.append(f'<div class="title-medium">{title}{badges_html}</div>')
             for p_text in text.split("\n"):
                 p_text = p_text.strip()
                 if p_text:
@@ -1866,11 +1948,14 @@ class GenerationMixin:
             ref_key = result.get("ref_key", "")
             title = result.get("title") or "Lord of Hosts"
             text_val = result.get("text") or ""
-            if not text_val and ref_key:
+            badges_html = ""
+            if ref_key:
                 item = self.get_text(ref_key, context=context)
                 if item:
-                    text_val = item.get("content", "")
-            output.append(f'<div class="title-medium">{title}</div>')
+                    if not text_val:
+                        text_val = item.get("content", "")
+                    badges_html = self._format_booklet_item_badges(item)
+            output.append(f'<div class="title-medium">{title}{badges_html}</div>')
             if text_val:
                 output.extend(self._split_and_wrap("", text_val))
             return "\n\n".join(output)
@@ -1887,7 +1972,8 @@ class GenerationMixin:
                 text_item = self.get_text(strategy, context=context)
                 if text_item:
                     title = text_item.get("title") or strategy.replace("_", " ").title()
-                    output.append(f'<div class="title-medium">{title}</div>')
+                    badges_html = self._format_booklet_item_badges(text_item)
+                    output.append(f'<div class="title-medium">{title}{badges_html}</div>')
                     output.extend(self._split_and_wrap("", text_item.get("content", "")))
                 else:
                     humanized = strategy.replace("_", " ").title()
@@ -1910,7 +1996,8 @@ class GenerationMixin:
                     text_item = self.get_text(t_id, context=context)
                     if text_item:
                         title = text_item.get("title") or t_id.split(".")[-1].replace("_", " ").title()
-                        html_prefix = f'<strong>{title}{tone_str}</strong>: '
+                        badges_html = self._format_booklet_item_badges(text_item)
+                        html_prefix = f'<strong>{title}{tone_str}</strong>{badges_html}: '
                         output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                     else:
                         humanized = t_id.split(".")[-1].replace("_", " ").title()
@@ -1925,7 +2012,8 @@ class GenerationMixin:
                     text_item = self.get_text(k_id, context=context)
                     if text_item:
                         title = text_item.get("title") or k_id.split(".")[-1].replace("_", " ").title()
-                        html_prefix = f'<strong>{title}{tone_str}</strong>: '
+                        badges_html = self._format_booklet_item_badges(text_item)
+                        html_prefix = f'<strong>{title}{tone_str}</strong>{badges_html}: '
                         output.extend(self._split_and_wrap(html_prefix, text_item.get("content", "")))
                     else:
                         humanized = k_id.split(".")[-1].replace("_", " ").title()
@@ -1937,12 +2025,15 @@ class GenerationMixin:
             text = result.get("text") or ""
             ref_key = result.get("ref_key")
             source_name = ""
+            badges_html = ""
             if ref_key:
                 text_item = self.get_text(ref_key, context=context)
-                if text_item and text_item.get("source"):
-                    source_name = text_item["source"]
+                if text_item:
+                    if text_item.get("source"):
+                        source_name = text_item["source"]
+                    badges_html = self._format_booklet_item_badges(text_item)
             cit_str = f' <sup class="citation-sup" title="Source: {source_name}">{source_name}</sup>' if source_name else ""
-            html_prefix = f"<strong>Communion Hymn</strong>{cit_str}: "
+            html_prefix = f"<strong>Communion Hymn</strong>{cit_str}{badges_html}: "
             output.extend(self._split_and_wrap(html_prefix, text))
             return "\n\n".join(output)
 
@@ -1951,12 +2042,15 @@ class GenerationMixin:
             hymn = result.get("hymn") or ""
             ref_key = result.get("ref_key")
             source_name = ""
+            badges_html = ""
             if ref_key:
                 text_item = self.get_text(ref_key, context=context)
-                if text_item and text_item.get("source"):
-                    source_name = text_item["source"]
+                if text_item:
+                    if text_item.get("source"):
+                        source_name = text_item["source"]
+                    badges_html = self._format_booklet_item_badges(text_item)
             cit_str = f' <sup class="citation-sup" title="Source: {source_name}">{source_name}</sup>' if source_name else ""
-            html_prefix = f"<strong>Post-Communion Hymn</strong>{cit_str}: "
+            html_prefix = f"<strong>Post-Communion Hymn</strong>{cit_str}{badges_html}: "
             output.extend(self._split_and_wrap(html_prefix, hymn))
             return "\n\n".join(output)
 
@@ -1964,9 +2058,31 @@ class GenerationMixin:
         elif isinstance(result, dict) and result.get("type") == "replacement":
             text = result.get("text") or ""
             ref_key = result.get("ref_key")
+            badges_html = ""
+            if ref_key:
+                text_item = self.get_text(ref_key, context=context)
+                if text_item:
+                    badges_html = self._format_booklet_item_badges(text_item)
             title = result.get("replacement", "Replacement").replace("_", " ").title()
-            output.append(f'<div class="title-medium">{title}</div>')
+            output.append(f'<div class="title-medium">{title}{badges_html}</div>')
             output.extend(self._split_and_wrap("", text))
+            return "\n\n".join(output)
+
+        # Case 4.155: Result is an Entrance Hymn (Isodikon) block
+        elif isinstance(result, dict) and result.get("type") == "isodikon":
+            ref_key = result.get("ref_key", "")
+            verse = result.get("verse", "")
+            refrain = result.get("refrain", "")
+            badges_html = ""
+            if ref_key:
+                text_item = self.get_text(ref_key, context=context)
+                if text_item:
+                    badges_html = self._format_booklet_item_badges(text_item)
+            output.append(f'<div class="title-medium">Entrance Hymn (Isodikon){badges_html}</div>')
+            if verse:
+                output.extend(self._split_and_wrap("<strong>Verse</strong>: ", verse))
+            if refrain:
+                output.extend(self._split_and_wrap("<strong>Refrain</strong>: ", refrain))
             return "\n\n".join(output)
 
         # Case 5: Result has 'vestments' (ceremonial vesting set)
@@ -1981,7 +2097,8 @@ class GenerationMixin:
             
         # Case 6: Standard dictionary with 'content' (like fasting rule)
         elif isinstance(result, dict) and "content" in result:
-            output.append(f'<p>{result["content"]}</p>')
+            badges_html = self._format_booklet_item_badges(result)
+            output.append(f'<p>{result["content"]}{badges_html}</p>')
             return "\n\n".join(output)
             
         # Case 7.1: Result is a hymn or hymn group
@@ -1990,11 +2107,13 @@ class GenerationMixin:
             text_item = self.get_text(h_id, context=context) or self.get_text(f"horologion.{h_id}", context=context)
             if text_item and not text_item.get("is_missing"):
                 title = text_item.get("title") or self._get_humanized_title(text_item, h_id)
-                output.append(f'<div class="title-medium">{title}</div>')
+                badges_html = self._format_booklet_item_badges(text_item)
+                output.append(f'<div class="title-medium">{title}{badges_html}</div>')
                 output.extend(self._split_and_wrap("", text_item.get("content", "")))
             else:
                 humanized = self._get_humanized_title({}, h_id) if h_id else "Hymn"
-                output.append(f'<p class="rubric">[{humanized}]</p>')
+                badges_html = self._format_booklet_item_badges(text_item) if text_item else ""
+                output.append(f'<p class="rubric">[{humanized}]{badges_html}</p>')
             return "\n\n".join(output)
 
         # Case 7.2: Result is a Lenten aposticha block
@@ -2006,9 +2125,11 @@ class GenerationMixin:
                 if ref:
                     text_item = self.get_text(ref, context=context)
                     if text_item and not text_item.get("is_missing"):
-                        output.append(f'<p>{text_item.get("content", "")}</p>')
+                        badges_html = self._format_booklet_item_badges(text_item)
+                        output.append(f'<p>{text_item.get("content", "")}{badges_html}</p>')
                     else:
-                        output.append(f'<p class="rubric">[{self.humanize_key(ref)}]</p>')
+                        badges_html = self._format_booklet_item_badges(text_item) if text_item else ""
+                        output.append(f'<p class="rubric">[{self.humanize_key(ref)}]{badges_html}</p>')
             return "\n\n".join(output)
 
         # Case 8: Simple string or fallback
